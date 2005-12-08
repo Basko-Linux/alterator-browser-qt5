@@ -21,6 +21,8 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 	else if ("checkbox" == type) new alCheckBox(id,parent);
 	else if ("listbox" == type) new alListBox(id,parent);
 	else if ("combobox" == type) new alComboBox(id,parent);
+	else if ("tabbox" == type) new alTabBox(id,parent);
+	else if ("tab-page" == type) new alTabPage(id,parent);
 }
 
 void deleteRequest(const QString& id)
@@ -126,6 +128,25 @@ int main(int argc,char **argv)
 
 	return 0;
 }
+
+#if 0
+	QDialog d;
+	d.resize(200,200);
+
+	QTabWidget tabs(&d);
+	tabs.resize(100,100);
+	QPushButton b1(0);
+	QPushButton b2(0);
+	b1.setText("a");
+	b2.setText("b");
+	
+	tabs.addTab(&b1,"aaa");
+	tabs.addTab(&b2,"aaa");
+
+
+	d.exec();
+#endif
+
 
 #if 0
 	QDialog d;

@@ -4,21 +4,35 @@
 
 QString imagePath = "/usr/share/alterator/images/";
 
-Qt::Alignment convertAlign(const QString& value)
+namespace
 {
-	if ("left" == value) return  Qt::AlignLeft;
-	else if ("right" == value) return Qt::AlignRight;
-	else if ("center" == value) return Qt::AlignCenter;
-	return Qt::AlignCenter;
-}
+	Qt::Alignment convertAlign(const QString& value)
+	{
+		if ("left" == value) return  Qt::AlignLeft;
+		else if ("right" == value) return Qt::AlignRight;
+		else if ("center" == value) return Qt::AlignCenter;
+		return Qt::AlignCenter;
+	}
 
-QLineEdit::EchoMode convertEchoMode(const QString& value)
-{
-	if ("no" == value) return QLineEdit::NoEcho;
-	else if ("stars" == value) return QLineEdit::Password;
-	return QLineEdit::Normal; //default yes
+	QLineEdit::EchoMode convertEchoMode(const QString& value)
+	{
+		if ("no" == value) return QLineEdit::NoEcho;
+		else if ("stars" == value) return QLineEdit::Password;
+		return QLineEdit::Normal; //default yes
+	}
+	
+	alWidget *findWidget(const QString& name)
+	{
+		QMapIterator<QString,alWidget*> it(elements);
+		while(it.hasNext())
+		{
+			it.next();
+			if ( it.value()->getWidget()->objectName() == name )
+				return it.value();
+		}
+		return 0;
+	}
 }
-
 ////////////////////////////////////////////
 
 //all current elements on viewer
@@ -275,6 +289,36 @@ QString alComboBox::postData() const
 {
 	return QString(" (current . ") + QString::number(wnd_->currentIndex()) +" )";
 }
+
+void alTabPage::setAttr(const QString& name,const QString& value)
+{
+	if ("text" == name)
+		static_cast<QTabWidget*>(tabbox_->getWidget())->setTabText(idx_,value);
+	else if ("widget-name" == name)
+	{
+		if (tabbox_ && tabbox_->current_ == value)
+		{
+			static_cast<QTabWidget*>(tabbox_->getWidget())->setCurrentIndex(idx_);
+		}
+	}
+	else
+		alWidget::setAttr(name,value);
+}
+
+void alTabBox::setAttr(const QString& name,const QString& value)
+{
+	if ("current" == name)
+	{ //find current in elements or save value
+		alWidget *w = findWidget(value);
+		if (w)
+			wnd_->setCurrentWidget(w->getWidget());
+		else
+			current_ = value;
+	}
+	else
+		alWidget::setAttr(name,value);
+}
+
 
 void alDialog::setAttr(const QString& name,const QString& value)
 {

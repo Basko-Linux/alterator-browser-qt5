@@ -19,6 +19,7 @@
 #include <QCheckBox>
 #include <QListWidget>
 #include <QComboBox>
+#include <QTabWidget>
 
 #include "connection.hh"
 
@@ -188,6 +189,40 @@ public:
 	QString postData() const ;
 };
 
+class alTabBox: public alWidgetPre<QTabWidget>
+{
+public:
+	QString current_;
+	alTabBox(const QString& id,const QString& parent):
+		alWidgetPre<QTabWidget>(id,parent)
+	{}
+	void setAttr(const QString& name,const QString& value);
+};
+
+
+class alTabPage: public alWidgetPre<QFrame>
+{
+	alTabBox  *tabbox_;
+	int idx_;
+public:
+	alTabPage(const QString& id,const QString& parent):
+		alWidgetPre<QFrame>(id,""),
+		tabbox_(getParent(parent)),
+		idx_(tabbox_?static_cast<QTabWidget*>(tabbox_->getWidget())->addTab(wnd_,""):-1)
+	{
+		new MyVBoxLayout(wnd_);
+	}
+	void setAttr(const QString& name,const QString& value);
+private:
+	static
+	alTabBox *getParent(const QString& parent)
+	{
+		if (!elements.contains(parent)) return 0;
+		return dynamic_cast<alTabBox*>(elements[parent]);
+	}
+};
+
+
 class alDialog: public alWidgetPre<QDialog>
 {
 public:
@@ -201,11 +236,11 @@ public:
 	void stop()  { wnd_->done(0); }
 };
 
-class alBox: public alWidgetPre<QLabel>
+class alBox: public alWidgetPre<QFrame>
 {
 public:
 	alBox(const QString& id,const QString& parent,MyBoxLayout::Direction direction):
-		alWidgetPre<QLabel>(id,parent)
+		alWidgetPre<QFrame>(id,parent)
 	{
 		new MyBoxLayout(wnd_,direction);
 	}
