@@ -35,9 +35,9 @@ MyBoxLayout *getLayout(const QString& parent)
 void alWidget::setAttr(const QString& name,const QString& value)
 {
 	if ("visibility" == name)
-		(value == "yes")?getWidget()->show():getWidget()->hide();
+		("true" == value)?getWidget()->show():getWidget()->hide();
 	else if ("activity" == name)
-		getWidget()->setEnabled("yes" == value);
+		getWidget()->setEnabled("true" == value);
 	else if ("widget-name" == name)
 		getWidget()->setObjectName(value);
 	else if ("layout-policy" == name)
@@ -93,7 +93,7 @@ void alEdit::setAttr(const QString& name,const QString& value)
 	else if ("echo" == name) 
 		wnd_->setEchoMode(convertEchoMode(value));
 	else if ("alterability" == name)
-		wnd_->setReadOnly(value == "no");
+		wnd_->setReadOnly("false" == value);
 	else
 		alWidget::setAttr(name,value);
 }
@@ -118,7 +118,7 @@ void alTextBox::setAttr(const QString& name,const QString& value)
 	if ("text-append" == name)
 		wnd_->append(value);
 	else if ("alterability" == name)
-		wnd_->setReadOnly(value == "no");
+		wnd_->setReadOnly("false" == value);
 	else
 		alWidget::setAttr(name,value);
 }
@@ -132,6 +132,26 @@ void alTextBox::registerEvent(const QString& name)
 QString alTextBox::postData() const
 {
 	return " (text . \""+simpleQuote(wnd_->toPlainText())+"\" )";
+}
+
+void alGroupBox::setAttr(const QString& name,const QString& value)
+{
+	if ("title" == name)
+		wnd_->setTitle(value);
+	if ("alterability" == name)
+	{
+		wnd_->setCheckable("true" == value);
+	}
+	else if ("state" == name)
+		wnd_->setChecked("true" ==  value);
+	else
+		alWidget::setAttr(name,value);
+}
+
+void alGroupBox::registerEvent(const QString& name)
+{
+	if ("on-toggle" == name)
+		connect(wnd_,SIGNAL( toggled(bool) ),SLOT(onToggle(bool)));
 }
 
 void alDialog::setAttr(const QString& name,const QString& value)

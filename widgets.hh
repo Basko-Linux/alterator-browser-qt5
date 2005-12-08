@@ -15,6 +15,7 @@
 #include <QDialog>
 #include <QLineEdit>
 #include <QTextEdit>
+#include <QGroupBox>
 
 #include "connection.hh"
 
@@ -135,6 +136,18 @@ public:
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const ;
+};
+
+class alGroupBox: public alWidgetPre<QGroupBox>
+{
+public:
+	alGroupBox(const QString& id,const QString& parent):
+		alWidgetPre<QGroupBox>(id,parent)
+	{
+		new MyVBoxLayout(wnd_);
+	}
+	void setAttr(const QString& name,const QString& value);
+	void registerEvent(const QString&);
 };
 
 class alDialog: public alWidgetPre<QDialog>

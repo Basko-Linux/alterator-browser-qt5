@@ -17,6 +17,7 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 	else if ("label" == type) new alLabel(id,parent);
 	else if ("edit" == type) new alEdit(id,parent);
 	else if ("textbox" == type) new alTextBox(id,parent);
+	else if ("groupbox" == type) new alGroupBox(id,parent);
 }
 
 void deleteRequest(const QString& id)
@@ -103,15 +104,36 @@ void emitEvent(const QString& id,const QString& type)
 	getDocument(getDocParser,request);
 }
 
+
 int main(int argc,char **argv)
 {
         QApplication app(argc, argv);
 
+#if 1
 	initConnection();
 	getDocument(getDocParser);
+#endif
+
+
 
 	return 0;
 }
+
+#if 0
+	QDialog d;
+	d.resize(200,200);
+	
+	QGroupBox group(&d);
+	MyVBoxLayout vbox(&group);
+	group.setTitle("zzz");
+	group.resize(100,100);
+//	group.setLayout(&vbox);
+	QPushButton b("uuu",&group);
+//	vbox.addWidget(&b);
+	vbox.addWidget(&b);
+	
+	d.exec();
+#endif	
 
 
 #if 0
