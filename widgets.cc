@@ -281,15 +281,9 @@ void alDialog::setAttr(const QString& name,const QString& value)
 	if ("caption" == name)
 		wnd_->setWindowTitle(value);
 	else if ("width" == name)
-	{
-		QRect g = wnd_->geometry();
-		wnd_->setGeometry(g.x(),g.y(),value.toInt(),g.height());
-	}
+		wnd_->resize(value.toInt(),wnd_->height());
 	else if ("height" == name)
-	{
-		QRect g = wnd_->geometry();
-		wnd_->setGeometry(g.x(),g.y(),g.width(),value.toInt());
-	}
+		wnd_->resize(wnd_->width(),value.toInt());
 	else
 		alWidget::setAttr(name,value);
 }

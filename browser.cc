@@ -26,7 +26,7 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 void deleteRequest(const QString& id)
 {
 	if (!elements.contains(id)) return;
-	else elements[id]->deleteLater();
+	else elements.take(id)->deleteLater();
 }
 
 void setRequest(const QString& id,const QString& attr,const QString& value)
@@ -107,7 +107,7 @@ void emitEvent(const QString& id,const QString& type)
 	}
 	
 	request += "))"; //close message
-	
+
 	getDocument(getDocParser,request);
 	dlg->setAccessibleName("unlocked");
 }
