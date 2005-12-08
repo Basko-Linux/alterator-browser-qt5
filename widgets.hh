@@ -18,6 +18,7 @@
 #include <QGroupBox>
 #include <QCheckBox>
 #include <QListWidget>
+#include <QComboBox>
 
 #include "connection.hh"
 
@@ -170,6 +171,17 @@ class alListBox: public alWidgetPre<QListWidget>
 public:
 	alListBox(const QString& id,const QString& parent):
 		alWidgetPre<QListWidget>(id,parent)
+	{}
+	void setAttr(const QString& name,const QString& value);
+	void registerEvent(const QString&);
+	QString postData() const ;
+};
+
+class alComboBox: public alWidgetPre<QComboBox>
+{
+public:
+	alComboBox(const QString& id,const QString& parent):
+		alWidgetPre<QComboBox>(id,parent)
 	{}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);

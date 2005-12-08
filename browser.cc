@@ -20,6 +20,7 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 	else if ("groupbox" == type) new alGroupBox(id,parent);
 	else if ("checkbox" == type) new alCheckBox(id,parent);
 	else if ("listbox" == type) new alListBox(id,parent);
+	else if ("combobox" == type) new alComboBox(id,parent);
 }
 
 void deleteRequest(const QString& id)

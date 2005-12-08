@@ -232,6 +232,50 @@ QString alListBox::postData() const
 	return QString(" (current . ") + QString::number(wnd_->currentRow()) +" )";
 }
 
+void alComboBox::setAttr(const QString& name,const QString& value)
+{
+	if ("append-item" == name)
+	{
+		QStringList data = value.split(";");
+		if (data[1].isEmpty())
+			wnd_->addItem(data[0]);
+		else
+			wnd_->addItem(QIcon(imagePath+data[1]),data[0]);
+	}
+	else if ("current" == name)
+		wnd_->setCurrentIndex(value.toInt());
+	else if ("remove-item" == name)
+	{
+		if ("all" == value)
+			wnd_->clear();
+		else
+			wnd_->removeItem(value.toInt());
+	}
+	else if ("item-text" == name)
+	{
+		QStringList data = value.split(";");
+		wnd_->setItemText(data[1].toInt(),data[0]);
+	}
+	else if ("item-pixmap" == name)
+	{
+		QStringList data = value.split(";");
+		wnd_->setItemIcon(data[1].toInt(),QIcon(imagePath+data[0]));
+	}
+	else
+		alWidget::setAttr(name,value);
+}
+
+void alComboBox::registerEvent(const QString& name)
+{
+	if ("on-select" == name)
+		connect(wnd_,SIGNAL( activated(int) ),SLOT(onSelect(int)));
+}
+
+QString alComboBox::postData() const
+{
+	return QString(" (current . ") + QString::number(wnd_->currentIndex()) +" )";
+}
+
 void alDialog::setAttr(const QString& name,const QString& value)
 {
 	if ("caption" == name)
