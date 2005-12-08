@@ -18,6 +18,12 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 	else if ("edit" == type) new alEdit(id,parent);
 }
 
+void deleteRequest(const QString& id)
+{
+	if (!elements.contains(id)) return;
+	else elements[id]->deleteLater();
+}
+
 void setRequest(const QString& id,const QString& attr,const QString& value)
 {
 	if (!elements.contains(id)) return;
@@ -55,6 +61,8 @@ void getDocParser(const QDomElement& e)
 		newRequest(e.attribute("widget-id"),
 		           e.attribute("type"),
 			   e.attribute("parent"));
+	else if ("delete" == action)
+		deleteRequest(e.attribute("widget-id"));
 	else if ("set" == action)
 		setRequest(e.attribute("widget-id"),
 			   e.attribute("attr"),
@@ -62,6 +70,8 @@ void getDocParser(const QDomElement& e)
 	else if ("create-event" == action)
 		eventRequest(e.attribute("widget-id"),
 			     e.attribute("value"));
+	else if ("start" == action)
+		startRequest(e.attribute("widget-id"));
 	else if ("start" == action)
 		startRequest(e.attribute("widget-id"));
 	else if ("stop" == action)
