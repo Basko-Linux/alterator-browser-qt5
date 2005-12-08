@@ -18,6 +18,7 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 	else if ("edit" == type) new alEdit(id,parent);
 	else if ("textbox" == type) new alTextBox(id,parent);
 	else if ("groupbox" == type) new alGroupBox(id,parent);
+	else if ("checkbox" == type) new alCheckBox(id,parent);
 }
 
 void deleteRequest(const QString& id)

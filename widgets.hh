@@ -16,6 +16,7 @@
 #include <QLineEdit>
 #include <QTextEdit>
 #include <QGroupBox>
+#include <QCheckBox>
 
 #include "connection.hh"
 
@@ -53,7 +54,7 @@ public slots:
 	void onSelect() { emitEvent(id_,"on-select"); }
 	void onDoubleClick() { emitEvent(id_,"on-double-click"); }
 	void onToggle(bool) { emitEvent(id_,"on-toggle"); }
-	void onToggle() { emitEvent(id_,"on-toggle"); }
+	void onToggle(int) { emitEvent(id_,"on-toggle"); }
 
 //delayed versions
 	void delayedOnSelect()
@@ -148,6 +149,18 @@ public:
 	}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
+	QString postData() const ;
+};
+
+class alCheckBox: public alWidgetPre<QCheckBox>
+{
+public:
+	alCheckBox(const QString& id,const QString& parent):
+		alWidgetPre<QCheckBox>(id,parent)
+	{}
+	void setAttr(const QString& name,const QString& value);
+	void registerEvent(const QString&);
+	QString postData() const ;
 };
 
 class alDialog: public alWidgetPre<QDialog>
