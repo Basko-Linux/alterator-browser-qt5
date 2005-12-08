@@ -16,6 +16,7 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 	else if ("button" == type) new alButton(id,parent);
 	else if ("label" == type) new alLabel(id,parent);
 	else if ("edit" == type) new alEdit(id,parent);
+	else if ("textbox" == type) new alTextBox(id,parent);
 }
 
 void deleteRequest(const QString& id)

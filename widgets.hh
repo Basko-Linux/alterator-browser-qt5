@@ -14,6 +14,7 @@
 #include <QPushButton>
 #include <QDialog>
 #include <QLineEdit>
+#include <QTextEdit>
 
 #include "connection.hh"
 
@@ -121,6 +122,16 @@ class alEdit: public alWidgetPre<QLineEdit>
 public:
 	alEdit(const QString& id,const QString& parent):
 		alWidgetPre<QLineEdit>(id,parent) {}
+	void setAttr(const QString& name,const QString& value);
+	void registerEvent(const QString&);
+	QString postData() const ;
+};
+
+class alTextBox: public alWidgetPre<QTextEdit>
+{
+public:
+	alTextBox(const QString& id,const QString& parent):
+		alWidgetPre<QTextEdit>(id,parent) {}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const ;

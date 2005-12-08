@@ -110,10 +110,44 @@ QString alEdit::postData() const
 	return " (text . \""+simpleQuote(wnd_->text())+"\" )";
 }
 
+
+void alTextBox::setAttr(const QString& name,const QString& value)
+{
+	if ("text" == name)
+		wnd_->setPlainText(value);
+	if ("text-append" == name)
+		wnd_->append(value);
+	else if ("alterability" == name)
+		wnd_->setReadOnly(value == "no");
+	else
+		alWidget::setAttr(name,value);
+}
+
+void alTextBox::registerEvent(const QString& name)
+{
+	if ("on-change" == name)
+		connect(wnd_,SIGNAL( textChanged(const QString&) ),SLOT(onChange(const QString&)));
+}
+
+QString alTextBox::postData() const
+{
+	return " (text . \""+simpleQuote(wnd_->toPlainText())+"\" )";
+}
+
 void alDialog::setAttr(const QString& name,const QString& value)
 {
 	if ("caption" == name)
 		wnd_->setWindowTitle(value);
+	else if ("width" == name)
+	{
+		QRect g = wnd_->geometry();
+		wnd_->setGeometry(g.x(),g.y(),value.toInt(),g.height());
+	}
+	else if ("height" == name)
+	{
+		QRect g = wnd_->geometry();
+		wnd_->setGeometry(g.x(),g.y(),g.width(),value.toInt());
+	}
 	else
 		alWidget::setAttr(name,value);
 }
