@@ -10,7 +10,6 @@
 
 QString sessionId;
 
-
 //Qt suxx to made such work well, so I use STL here
 std::string readChunk()
 {

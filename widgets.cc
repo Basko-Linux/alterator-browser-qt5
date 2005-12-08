@@ -2,6 +2,8 @@
 
 ////////////////////////////////////////////
 
+QString imagePath = "/usr/share/alterator/images/";
+
 Qt::Alignment convertAlign(const QString& value)
 {
 	if ("left" == value) return  Qt::AlignLeft;
@@ -21,8 +23,6 @@ QLineEdit::EchoMode convertEchoMode(const QString& value)
 
 //all current elements on viewer
 QMap<QString,alWidget*> elements;
-
-#include <iostream>
 
 MyBoxLayout *getLayout(const QString& parent)
 {
@@ -63,7 +63,7 @@ void alLabel::setAttr(const QString& name,const QString& value)
 	if ("text" == name)
 		wnd_->setText(value);
 	else if ("pixmap" == name)
-		wnd_->setPixmap(QPixmap(value));
+		wnd_->setPixmap(QPixmap(imagePath+value));
 	else
 		alWidget::setAttr(name,value);
 }
@@ -73,7 +73,7 @@ void alButton::setAttr(const QString& name,const QString& value)
 	if ("text" == name)
 		wnd_->setText(value);
 	else if ("pixmap" == name)
-		wnd_->setIcon(QIcon(value));
+		wnd_->setIcon(QIcon(imagePath+value));
 	else
 		alWidget::setAttr(name,value);
 }
@@ -183,6 +183,53 @@ void alCheckBox::registerEvent(const QString& name)
 QString alCheckBox::postData() const
 {
 	return QString(" (state . ") + (wnd_->isChecked()?"#t":"#f")+" )";
+}
+
+
+void alListBox::setAttr(const QString& name,const QString& value)
+{
+	if ("append-item" == name)
+	{
+		QStringList data = value.split(";");
+		QListWidgetItem *item(new QListWidgetItem);
+		if (!data[0].isEmpty())
+			item->setText(data[0]);
+		if (!data[1].isEmpty())
+			item->setIcon(QIcon(imagePath+data[1]));
+		wnd_->addItem(item);
+	}
+	else if ("current" == name)
+		wnd_->setCurrentRow(value.toInt());
+	else if ("remove-item" == name)
+	{
+		if ("all" == value)
+			wnd_->clear();
+		else
+			delete wnd_->takeItem(value.toInt());
+	}
+	else if ("item-text" == name)
+	{
+		QStringList data = value.split(";");
+		wnd_->item(data[1].toInt())->setText(data[0]);
+	}
+	else if ("item-pixmap" == name)
+	{
+		QStringList data = value.split(";");
+		wnd_->item(data[1].toInt())->setIcon(QIcon(imagePath+data[0]));
+	}
+	else
+		alWidget::setAttr(name,value);
+}
+
+void alListBox::registerEvent(const QString& name)
+{
+	if ("on-select" == name)
+		connect(wnd_,SIGNAL( currentRowChanged(int) ),SLOT(onSelect(int)));
+}
+
+QString alListBox::postData() const
+{
+	return QString(" (current . ") + QString::number(wnd_->currentRow()) +" )";
 }
 
 void alDialog::setAttr(const QString& name,const QString& value)

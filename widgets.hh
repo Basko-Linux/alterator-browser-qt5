@@ -17,6 +17,7 @@
 #include <QTextEdit>
 #include <QGroupBox>
 #include <QCheckBox>
+#include <QListWidget>
 
 #include "connection.hh"
 
@@ -52,6 +53,7 @@ public slots:
 	void onChange(QWidget*) { emitEvent(id_,"on-change"); }
 	void onReturn() { emitEvent(id_,"on-return"); }
 	void onSelect() { emitEvent(id_,"on-select"); }
+	void onSelect(int) { emitEvent(id_,"on-select"); }
 	void onDoubleClick() { emitEvent(id_,"on-double-click"); }
 	void onToggle(bool) { emitEvent(id_,"on-toggle"); }
 	void onToggle(int) { emitEvent(id_,"on-toggle"); }
@@ -157,6 +159,17 @@ class alCheckBox: public alWidgetPre<QCheckBox>
 public:
 	alCheckBox(const QString& id,const QString& parent):
 		alWidgetPre<QCheckBox>(id,parent)
+	{}
+	void setAttr(const QString& name,const QString& value);
+	void registerEvent(const QString&);
+	QString postData() const ;
+};
+
+class alListBox: public alWidgetPre<QListWidget>
+{
+public:
+	alListBox(const QString& id,const QString& parent):
+		alWidgetPre<QListWidget>(id,parent)
 	{}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);

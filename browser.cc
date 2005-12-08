@@ -19,6 +19,7 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 	else if ("textbox" == type) new alTextBox(id,parent);
 	else if ("groupbox" == type) new alGroupBox(id,parent);
 	else if ("checkbox" == type) new alCheckBox(id,parent);
+	else if ("listbox" == type) new alListBox(id,parent);
 }
 
 void deleteRequest(const QString& id)
@@ -85,6 +86,10 @@ void getDocParser(const QDomElement& e)
 
 void emitEvent(const QString& id,const QString& type)
 {
+	QWidget *dlg = QApplication::activeModalWidget();
+	if (dlg->accessibleName() == "locked") return;
+	dlg->setAccessibleName("locked");
+
 	QString request = "(alterator-request action \"event\"";
 	request += "name \""+type+"\"";//append type
 	request += "widget-id \""+id+"\"";//append id
@@ -103,6 +108,7 @@ void emitEvent(const QString& id,const QString& type)
 	request += "))"; //close message
 	
 	getDocument(getDocParser,request);
+	dlg->setAccessibleName("unlocked");
 }
 
 
