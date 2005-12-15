@@ -89,6 +89,7 @@ void getDocParser(const QDomElement& e)
 
 void emitEvent(const QString& id,const QString& type)
 {
+	std::cerr<<"emitEvent:"<<std::endl;
 	QWidget *dlg = QApplication::activeModalWidget();
 	if (dlg->accessibleName() == "locked") return;
 	dlg->setAccessibleName("locked");
@@ -110,7 +111,9 @@ void emitEvent(const QString& id,const QString& type)
 	
 	request += "))"; //close message
 
+	std::cerr<<"request start ..."<<std::endl;
 	getDocument(getDocParser,request);
+	std::cerr<<"request end ..."<<std::endl;
 	dlg->setAccessibleName("unlocked");
 }
 
