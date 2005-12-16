@@ -73,10 +73,12 @@ void getDocParser(const QDomElement& e)
 	else if ("set" == action)
 		setRequest(e.attribute("widget-id"),
 			   e.attribute("attr"),
-			   e.attribute("value"));
+//			   e.attribute("value"));
+			   e.text());
 	else if ("create-event" == action)
 		eventRequest(e.attribute("widget-id"),
-			     e.attribute("value"));
+//			     e.attribute("value"));
+			     e.text());
 	else if ("start" == action)
 		startRequest(e.attribute("widget-id"));
 	else if ("start" == action)
