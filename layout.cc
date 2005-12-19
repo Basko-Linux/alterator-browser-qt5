@@ -78,9 +78,10 @@ void MyBoxLayout::setGeometry(const QRect& rect)
 	int xpos = rect.x(); //start point
 	int ypos = rect.y(); //start point
 
+	
 	//size per one item
 	int width = rect.width(); //total available width
-	int height = rect.height() - (count-1)*spacing() ; //total available height
+	int height = rect.height(); //total available height
 	QSize min = minimumSize();
 
 	if (direction_ == horizontal)
@@ -88,7 +89,9 @@ void MyBoxLayout::setGeometry(const QRect& rect)
 		std::swap(width,height);
 		min.transpose();
 	}
-
+	
+	height -=  (count-1)*spacing(); //minus spaces
+	
 	bool height_enough = (height > min.height());
 
         for(int i=0;i<count;++i)
@@ -121,7 +124,7 @@ void MyBoxLayout::setGeometry(const QRect& rect)
 			w = (width * wanted.width() ) / 100;
 		else
 			w = hint.width();
-			
+
 		int x = xpos;
 		//aligment for width
 		

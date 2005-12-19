@@ -149,7 +149,7 @@ public:
 	alGroupBox(const QString& id,const QString& parent):
 		alWidgetPre<QGroupBox>(id,parent)
 	{
-		new MyVBoxLayout(wnd_);
+		(new MyVBoxLayout(wnd_))->setSpacing(0);
 	}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
@@ -242,7 +242,7 @@ public:
 	alBox(const QString& id,const QString& parent,MyBoxLayout::Direction direction):
 		alWidgetPre<QFrame>(id,parent)
 	{
-		new MyBoxLayout(wnd_,direction);
+		(new MyBoxLayout(wnd_,direction))->setSpacing(0);
 	}
 	void setAttr(const QString& name,const QString& value);
 };
