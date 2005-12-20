@@ -122,10 +122,8 @@ int main(int argc,char **argv)
         QApplication app(argc, argv);
 
 #if 1
-	initConnection();
-	getDocument(getDocParser);
+	initConnection(getDocParser);
 #endif
-
 
 
 	return 0;

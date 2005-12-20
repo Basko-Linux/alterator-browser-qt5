@@ -3,7 +3,7 @@
 
 #include <QDomDocument>
 
-void initConnection();
+void initConnection(void (parser)(const QDomElement&));
 void getDocument(void (parser)(const QDomElement&) ,
 		 const QString& content = "(alterator-request action \"get\")");
 
