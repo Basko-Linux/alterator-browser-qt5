@@ -2,8 +2,12 @@
 
 #include "widgets.hh"
 #include "connection.hh"
+#include "browser.hh"
 
 #include <iostream>
+
+
+Updater *updater;//slot for updates
 
 
 ///////////////////////////////
@@ -58,6 +62,12 @@ void eventRequest(const QString& id,const QString& value)
 	else elements[id]->registerEvent(value);
 }
 
+void timerRequest(const QString& action)
+{
+	if ("add" == action) updater->start();
+	else if ("remove" == action) updater->stop();
+}
+
 ////////////////////////////////////////////////
 
 void getDocParser(const QDomElement& e)
@@ -73,12 +83,12 @@ void getDocParser(const QDomElement& e)
 	else if ("set" == action)
 		setRequest(e.attribute("widget-id"),
 			   e.attribute("attr"),
-//			   e.attribute("value"));
 			   e.text());
 	else if ("create-event" == action)
 		eventRequest(e.attribute("widget-id"),
-//			     e.attribute("value"));
 			     e.text());
+	else if ("timer" == action)
+		timerRequest(e.text());
 	else if ("start" == action)
 		startRequest(e.attribute("widget-id"));
 	else if ("start" == action)
@@ -116,11 +126,35 @@ void emitEvent(const QString& id,const QString& type)
 	dlg->setAccessibleName("unlocked");
 }
 
+/////////////////////////////////////////////////
+Updater::Updater():
+	QObject(),
+	timer_(new QTimer(this))
+{
+	timer_->setInterval(500);
+	connect(timer_,SIGNAL(timeout()),this,SLOT(doUpdate()));
+}
+
+void Updater::start()
+{
+	timer_->start();
+}
+
+void Updater::stop()
+{
+	timer_->stop();
+}
+
+void Updater::doUpdate()
+{
+	getDocument(getDocParser,"(alterator-request action \"re-get\")");
+}
 
 int main(int argc,char **argv)
 {
         QApplication app(argc, argv);
 
+	updater = new Updater();
 #if 1
 	initConnection(getDocParser);
 #endif
