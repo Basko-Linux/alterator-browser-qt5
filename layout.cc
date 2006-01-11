@@ -94,11 +94,16 @@ void MyBoxLayout::setGeometry(const QRect& rect)
 	
 	bool height_enough = (height > min.height());
 
-        for(int i=0;i<count;++i)
+	int rest = height; //value for spacers
+	int rcount = 0; //number of spacers
+	QVector<QSize> heights(count);//calculated sizes
+
+	//calculate all heights and rest value for spacers
+	//calculate rest value for spacers
+	for(int i=0;i<count;++i)
 	{
 		MyLayoutItem *o = list_.at(i);
-		
-		if (o->item_->isEmpty())  continue;
+		if (o->item_->isEmpty())  continue;//skip invisible items
 
 		QSize hint = o->item_->sizeHint();
 		QSize min = o->item_->minimumSize();
@@ -110,25 +115,45 @@ void MyBoxLayout::setGeometry(const QRect& rect)
 			min.transpose();
 			wanted.transpose();
 		}
-		
-		int h;
+
+		//calculate height,count restes
+		int h = 0;
 		if (!height_enough)
 			h = min.height();
 		else if (wanted.height() >= 0)
 			h = qMax( (height * wanted.height() ) / 100 , min.height() );
-		else
+		else if (wanted.height() == -1) //default size
 			h = hint.height();
-			
+		else if (wanted.height() == -2) //spacer size
+			++rcount;
+		rest -= h;
+
+		//calculate width
 		int w;
 		if (wanted.width() >= 0)
 			w = (width * wanted.width() ) / 100;
 		else
 			w = hint.width();
 
-		int x = xpos;
-		//aligment for width
 		
-		int align = (o->alignment_ < 0)?alignment_:o->alignment_;
+		heights[i]=QSize(w,(wanted.height() == -2)?-1:h);//height "-1" means spacer
+	}
+	
+	if (rcount) rest = rest/rcount;//divide rest space between spacers
+
+	//now place widgets on layouts
+        for(int i=0;i<count;++i)
+	{
+		MyLayoutItem *o = list_.at(i);
+		
+		if (o->item_->isEmpty())  continue;
+
+		int w = heights[i].width();
+		int h = heights[i].height();
+		if (h<0) h=rest;//apply rest space if needed
+			
+		int x = xpos;
+		int align = (o->alignment_ < 0)?alignment_:o->alignment_;//aligment for width
 		
 		switch (align)
 		{
