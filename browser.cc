@@ -18,6 +18,7 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 	else if ("hbox" == type) new alHBox(id,parent);
 	else if ("dialog" == type) new alDialog(id,parent);
 	else if ("button" == type) new alButton(id,parent);
+	else if ("radio" == type) new alRadio(id,parent);
 	else if ("label" == type) new alLabel(id,parent);
 	else if ("edit" == type) new alEdit(id,parent);
 	else if ("textbox" == type) new alTextBox(id,parent);

@@ -12,6 +12,7 @@
 //widgets
 #include <QLabel>
 #include <QPushButton>
+#include <QRadioButton>
 #include <QDialog>
 #include <QLineEdit>
 #include <QTextEdit>
@@ -121,6 +122,16 @@ public:
 		alWidgetPre<QPushButton>(id,parent) {}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
+};
+
+class alRadio: public alWidgetPre<QRadioButton>
+{
+public:
+	alRadio(const QString& id,const QString& parent):
+		alWidgetPre<QRadioButton>(id,parent) {}
+	void setAttr(const QString& name,const QString& value);
+	void registerEvent(const QString&);
+	QString postData() const ;
 };
 
 class alEdit: public alWidgetPre<QLineEdit>
