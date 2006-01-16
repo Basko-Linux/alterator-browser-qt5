@@ -18,7 +18,8 @@
 #include <QTextEdit>
 #include <QGroupBox>
 #include <QCheckBox>
-#include <QListWidget>
+#include <QTreeWidget>
+#include <QHeaderView>
 #include <QComboBox>
 #include <QTabWidget>
 
@@ -178,12 +179,17 @@ public:
 	QString postData() const ;
 };
 
-class alListBox: public alWidgetPre<QListWidget>
+class alListBox: public alWidgetPre<QTreeWidget>
 {
 public:
 	alListBox(const QString& id,const QString& parent):
-		alWidgetPre<QListWidget>(id,parent)
-	{}
+		alWidgetPre<QTreeWidget>(id,parent)
+	{
+		//setings to be compatible with QListView
+		wnd_->setColumnCount(1);
+		wnd_->header()->hide();
+		wnd_->setSelectionBehavior(QAbstractItemView::SelectRows);
+	}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const ;

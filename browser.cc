@@ -160,9 +160,26 @@ int main(int argc,char **argv)
 	initConnection(getDocParser);
 #endif
 
-
 	return 0;
 }
+
+
+#if 0
+	QTreeWidget tree;
+	tree.setColumnCount(1);
+	tree.header()->hide();
+
+	for(int i=0;i<3;++i)
+	{
+		std::cerr<<"add:"<<i<<std::endl;
+		QTreeWidgetItem *item = new QTreeWidgetItem(&tree);
+		item->setText(0,"item");
+	}
+
+	tree.show();
+	app.exec();
+#endif
+
 
 #if 0
 	QDialog d;

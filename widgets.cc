@@ -225,33 +225,32 @@ QString alCheckBox::postData() const
 void alListBox::setAttr(const QString& name,const QString& value)
 {
 	if ("append-item" == name)
-	{
+	{//TODO:will be support for multiple columns here
 		QStringList data = value.split(";");
-		QListWidgetItem *item(new QListWidgetItem);
+		QTreeWidgetItem *item(new QTreeWidgetItem(wnd_));
 		if (!data[0].isEmpty())
-			item->setText(data[0]);
+			item->setText(0,data[0]);
 		if (!data[1].isEmpty())
-			item->setIcon(QIcon(imagePath+data[1]));
-		wnd_->addItem(item);
+			item->setIcon(0,QIcon(imagePath+data[1]));
 	}
 	else if ("current" == name)
-		wnd_->setCurrentRow(value.toInt());
+		wnd_->setCurrentItem(wnd_->topLevelItem(value.toInt()));
 	else if ("remove-item" == name)
 	{
 		if ("all" == value)
 			wnd_->clear();
 		else
-			delete wnd_->takeItem(value.toInt());
+			delete wnd_->takeTopLevelItem(value.toInt());
 	}
 	else if ("item-text" == name)
-	{
+	{//TODO: will be support for multiple columns here
 		QStringList data = value.split(";");
-		wnd_->item(data[1].toInt())->setText(data[0]);
+		wnd_->topLevelItem(data[1].toInt())->setText(0,data[0]);
 	}
 	else if ("item-pixmap" == name)
-	{
+	{//TODO: will be support for multiple columns here
 		QStringList data = value.split(";");
-		wnd_->item(data[1].toInt())->setIcon(QIcon(imagePath+data[0]));
+		wnd_->topLevelItem(data[1].toInt())->setIcon(0,QIcon(imagePath+data[0]));
 	}
 	else
 		alWidget::setAttr(name,value);
@@ -260,12 +259,12 @@ void alListBox::setAttr(const QString& name,const QString& value)
 void alListBox::registerEvent(const QString& name)
 {
 	if ("on-select" == name)
-		connect(wnd_,SIGNAL( currentRowChanged(int) ),SLOT(onSelect(int)));
+		connect(wnd_,SIGNAL( itemSelectionChanged() ),SLOT(onSelect()));
 }
 
 QString alListBox::postData() const
 {
-	return QString(" (current . ") + QString::number(wnd_->currentRow()) +" )";
+	return QString(" (current . ") + QString::number(wnd_->indexOfTopLevelItem(wnd_->currentItem())) +" )";
 }
 
 void alComboBox::setAttr(const QString& name,const QString& value)
