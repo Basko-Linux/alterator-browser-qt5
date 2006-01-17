@@ -108,7 +108,7 @@ void MyBoxLayout::setGeometry(const QRect& rect)
 		QSize hint = o->item_->sizeHint();
 		QSize min = o->item_->minimumSize();
 		QSize wanted = o->size_;
-		
+
 		if (direction_ == horizontal)
 		{
 			hint.transpose();
@@ -118,14 +118,16 @@ void MyBoxLayout::setGeometry(const QRect& rect)
 
 		//calculate height,count restes
 		int h = 0;
+		int a = 0;//spacer detector
 		if (!height_enough)
 			h = min.height();
 		else if (wanted.height() >= 0)
 			h = qMax( (height * wanted.height() ) / 100 , min.height() );
 		else if (wanted.height() == -1) //default size
 			h = hint.height();
-		else if (wanted.height() == -2) //spacer size
-			++rcount;
+		else if (wanted.height() == -2)  //spacer size
+			a = 1;
+
 		rest -= h;
 
 		//calculate width
@@ -136,9 +138,10 @@ void MyBoxLayout::setGeometry(const QRect& rect)
 			w = hint.width();
 
 		
-		heights[i]=QSize(w,(wanted.height() == -2)?-1:h);//height "-1" means spacer
+		heights[i]=QSize(w,a?-1:h);//height "-1" means spacer
+		rcount += a;
 	}
-	
+
 	if (rcount) rest = rest/rcount;//divide rest space between spacers
 
 	//now place widgets on layouts
