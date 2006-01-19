@@ -9,14 +9,14 @@ QSize MyBoxLayout::sizeHint() const
 {
 	if (dirty_) calcGeometry();
 
-	int n = list_.count();
+	int n = list_.size();
 	return hint_+((n?(n-1):n)*QSize(spacing(),spacing()));
 }
 
 QSize MyBoxLayout::minimumSize() const
 {
 	if (dirty_) calcGeometry();
-	int n = list_.count();
+	int n = list_.size();
 	return minsize_+((n?(n-1):n)*QSize(spacing(),spacing()));
 }
 
@@ -106,7 +106,7 @@ void MyBoxLayout::setGeometry(const QRect& rect)
 {
 	QLayout::setGeometry(rect);
 	
-	int count = int(list_.count());
+	int count = int(list_.size());
 
 	int xpos = rect.x(); //start point
 	int ypos = rect.y(); //start point
@@ -227,12 +227,12 @@ void MyBoxLayout::deleteAllItems()
 
 QLayoutItem *MyBoxLayout::itemAt(int index) const
 {
-	return index >= 0 && index < list_.count() ? list_.at(index)->item_ : 0;
+	return index >= 0 && index < list_.size() ? list_.at(index)->item_ : 0;
 }
 
 QLayoutItem *MyBoxLayout::takeAt(int index)
 {
-	if (index >= list_.count()) return 0;
+	if (index >= list_.size()) return 0;
     	MyLayoutItem *b = list_.takeAt(index);
     	QLayoutItem *item = b->item_;
     	b->item_ = 0;
@@ -244,7 +244,7 @@ QLayoutItem *MyBoxLayout::takeAt(int index)
 
 int MyBoxLayout::count() const
 {
-	return list_.count();
+	return list_.size();
 }
 
 #if 0
