@@ -179,11 +179,11 @@ void MyBoxLayout::setGeometry(const QRect& rect)
 	if (rcount) rest = rest/rcount;//divide rest space between spacers
 
 	//now place widgets on layouts
-	QListIterator<MyLayoutItem*> it2(list_);
+	it.toFront();
 	QListIterator<QSize> it_sz(sizes);
-	while(it2.hasNext() && it_sz.hasNext())
+	while(it.hasNext() && it_sz.hasNext())
 	{
-	        MyLayoutItem *o = it2.next();
+	        MyLayoutItem *o = it.next();
 		QSize size = it_sz.next();
 		
 		if (o->item_->isEmpty())  continue;
