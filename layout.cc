@@ -129,13 +129,14 @@ void MyBoxLayout::setGeometry(const QRect& rect)
 
 	int rest = height; //value for spacers
 	int rcount = 0; //number of spacers
-	QVector<QSize> heights(count);//calculated sizes
+	QList<QSize> sizes;//calculated sizes
 
 	//calculate all heights and rest value for spacers
 	//calculate rest value for spacers
-	for(int i=0;i<count;++i)
+	QListIterator<MyLayoutItem*> it(list_);
+	while(it.hasNext())
 	{
-		MyLayoutItem *o = list_.at(i);
+	        MyLayoutItem *o = it.next();
 		if (o->item_->isEmpty())  continue;//skip invisible items
 
 		QSize hint = o->item_->sizeHint();
@@ -171,21 +172,24 @@ void MyBoxLayout::setGeometry(const QRect& rect)
 			w = hint.width();
 
 		
-		heights[i]=QSize(w,a?-1:h);//height "-1" means spacer
+		sizes.append( QSize(w,a?-1:h) );//height "-1" means spacer
 		rcount += a;
 	}
 
 	if (rcount) rest = rest/rcount;//divide rest space between spacers
 
 	//now place widgets on layouts
-        for(int i=0;i<count;++i)
+	QListIterator<MyLayoutItem*> it2(list_);
+	QListIterator<QSize> it_sz(sizes);
+	while(it2.hasNext() && it_sz.hasNext())
 	{
-		MyLayoutItem *o = list_.at(i);
+	        MyLayoutItem *o = it2.next();
+		QSize size = it_sz.next();
 		
 		if (o->item_->isEmpty())  continue;
 
-		int w = heights[i].width();
-		int h = heights[i].height();
+		int w = size.width();
+		int h = size.height();
 		if (h<0) h=rest;//apply rest space if needed
 			
 		int x = xpos;
