@@ -106,7 +106,7 @@ void MyBoxLayout::setGeometry(const QRect& rect)
 {
 	QLayout::setGeometry(rect);
 	
-	int count = int(list_.size());
+	int count = list_.size();
 
 	int xpos = rect.x(); //start point
 	int ypos = rect.y(); //start point
