@@ -49,7 +49,15 @@ void MyBoxLayout::addWidget( QWidget *widget, const QSize& size, int alignment )
 
 int MyBoxLayout::findWidget( QWidget* w )
 {
-    return list_.indexOf(w);
+    int i = 0;
+    QListIterator<MyLayoutItem*> it(list_);
+    while(it.hasNext())
+    {
+       if ( it.next()->item_->widget() == w )
+         return i;
+       i++;
+    }
+    return -1;
 }
 
 void MyBoxLayout::invalidate()
@@ -63,10 +71,11 @@ void MyBoxLayout::calcGeometry() const
 {
 	int minw_hint = 0,minw_size = 0;
 	int minh_hint = 0,minh_size = 0;
-	int n = list_.count();
 
-        for( int i = 0; i<n ;++i ) {
-               const MyLayoutItem *o = list_.at(i);
+	QListIterator<MyLayoutItem*> it(list_);
+	while(it.hasNext())
+	{
+	       MyLayoutItem *o = it.next();
 
 	       if (o->item_->isEmpty()) continue;
 
