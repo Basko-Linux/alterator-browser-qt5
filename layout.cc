@@ -49,12 +49,7 @@ void MyBoxLayout::addWidget( QWidget *widget, const QSize& size, int alignment )
 
 int MyBoxLayout::findWidget( QWidget* w )
 {
-    const int count = list_.count();
-    for ( int i = 0; i < count; ++i ) {
-       if ( list_.at(i)->item_->widget() == w )
-       return i;
-    }
-    return -1;
+    return list_.indexOf(w);
 }
 
 void MyBoxLayout::invalidate()
