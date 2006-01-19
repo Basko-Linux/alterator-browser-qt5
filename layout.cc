@@ -5,35 +5,19 @@
 
 #include <layout.hh>
 
-QSize MyBoxLayout::summarize(QSize (QLayoutItem::*mf)() const) const
-{
-	int minw = 0;
-	int minh = 0;
-	int n = list_.count();
-        for( int i = 0; i<n;++i ) {
-               const MyLayoutItem *o = list_.at(i);
-
-	       if (o->item_->isEmpty()) continue;
-
-		QSize min = (o->item_->*mf)();
-		if (direction_ == horizontal) min.transpose();
-
-		minh += min.height();
-		minw = qMax(minw,min.width());
-	}
-	return ((direction_ == vertical)? QSize(minw,minh) : QSize(minh,minw))+
-		((n?(n-1):n)*QSize(spacing(),spacing()));
-}
-
-
 QSize MyBoxLayout::sizeHint() const
 {
-	return summarize(&QLayoutItem::sizeHint);
+	if (dirty_) calcGeometry();
+
+	int n = list_.count();
+	return hint_+((n?(n-1):n)*QSize(spacing(),spacing()));
 }
 
 QSize MyBoxLayout::minimumSize() const
 {
-	return summarize(&QLayoutItem::minimumSize);
+	if (dirty_) calcGeometry();
+	int n = list_.count();
+	return minsize_+((n?(n-1):n)*QSize(spacing(),spacing()));
 }
 
 void MyBoxLayout::setChildrenAlign(int align)
@@ -46,6 +30,7 @@ void MyBoxLayout::addItem( QLayoutItem *item )
 	if (findWidget(item->widget()) >= 0) return;
 
 	list_.append(new MyLayoutItem(item));
+	invalidate();
 }
 
 void MyBoxLayout::addWidget( QWidget *widget, const QSize& size, int alignment )
@@ -58,6 +43,7 @@ void MyBoxLayout::addWidget( QWidget *widget, const QSize& size, int alignment )
 	}
 	else
 		list_.append(new MyLayoutItem(widget,size,alignment));
+	invalidate();
 }
 
 
@@ -71,8 +57,51 @@ int MyBoxLayout::findWidget( QWidget* w )
     return -1;
 }
 
+void MyBoxLayout::invalidate()
+{
+	QLayout::invalidate(); dirty_ = true;
+}
+
+
+//recalculate both minimumHint and minimumSize
+void MyBoxLayout::calcGeometry() const
+{
+	int minw_hint = 0,minw_size = 0;
+	int minh_hint = 0,minh_size = 0;
+	int n = list_.count();
+
+        for( int i = 0; i<n ;++i ) {
+               const MyLayoutItem *o = list_.at(i);
+
+	       if (o->item_->isEmpty()) continue;
+
+		QSize min_hint = o->item_->sizeHint();
+		QSize min_size = o->item_->minimumSize();
+		
+		if (direction_ == horizontal)
+		{
+			min_hint.transpose();
+			min_size.transpose();
+		}
+
+		minh_hint += min_hint.height();
+		minh_size += min_size.height();
+		
+		minw_hint = qMax(minw_hint,min_hint.width());
+		minw_size = qMax(minw_size,min_size.width());
+	}
+	
+	hint_ = (direction_ == vertical)? QSize(minw_hint,minh_hint) : QSize(minh_hint,minw_hint);
+	minsize_ = (direction_ == vertical)? QSize(minw_size,minh_size) : QSize(minh_size,minw_size);
+	dirty_ = false;
+}
+
+
+
 void MyBoxLayout::setGeometry(const QRect& rect)
 {
+	QLayout::setGeometry(rect);
+	
 	int count = int(list_.count());
 
 	int xpos = rect.x(); //start point
@@ -185,6 +214,7 @@ void MyBoxLayout::deleteAllItems()
       list_.clear();
 //    QLayoutItem *l;
 //    while ((l = takeAt(0))) delete l;
+      invalidate();
 }
 
 QLayoutItem *MyBoxLayout::itemAt(int index) const
@@ -199,6 +229,8 @@ QLayoutItem *MyBoxLayout::takeAt(int index)
     	QLayoutItem *item = b->item_;
     	b->item_ = 0;
     	delete b;
+
+	invalidate();
     	return item;
 }
 

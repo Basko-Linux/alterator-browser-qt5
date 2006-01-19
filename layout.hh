@@ -33,8 +33,11 @@ class MyBoxLayout: public QLayout
 		MyBoxLayout(QWidget *parent,Direction dir = vertical):
 			QLayout(parent),
 			direction_(dir),
-			alignment_(-1)
+			alignment_(-1),
+			dirty_(true)
 		{}
+	
+		void invalidate();
 		
 		//common overloaded methods
 		void addItem( QLayoutItem *item );
@@ -52,10 +55,15 @@ class MyBoxLayout: public QLayout
 
 	private:
 		 int findWidget(QWidget *w);
-		 QSize summarize(QSize (QLayoutItem::*mf)() const) const;
 		 QList<MyLayoutItem*> list_;
 		 Direction direction_;
 		 int	alignment_;
+		 
+		 void calcGeometry() const;
+		 //data caching
+		 mutable bool	dirty_;
+		 mutable QSize	hint_;
+		 mutable QSize	minsize_;
 };
 
 class MyVBoxLayout: public MyBoxLayout
