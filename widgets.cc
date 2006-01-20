@@ -1,5 +1,6 @@
 #include "widgets.hh"
 
+
 ////////////////////////////////////////////
 
 QString imagePath = "/usr/share/alterator/images/";
@@ -311,20 +312,22 @@ QString alComboBox::postData() const
 	return QString(" (current . ") + QString::number(wnd_->currentIndex()) +" )";
 }
 
+
+
 void alTabPage::setAttr(const QString& name,const QString& value)
 {
 	if ("text" == name)
 		static_cast<QTabWidget*>(tabbox_->getWidget())->setTabText(idx_,value);
-	else if ("widget-name" == name)
+	else 
 	{
-		if (tabbox_ && tabbox_->current_ == value)
-		{
-			static_cast<QTabWidget*>(tabbox_->getWidget())->setCurrentIndex(idx_);
-		}
-	}
-	else
+		if (("widget-name" == name) &&
+		    (tabbox_ && tabbox_->current_ == value))
+		   static_cast<QTabWidget*>(tabbox_->getWidget())->setCurrentIndex(idx_);
+
 		alWidget::setAttr(name,value);
+	}
 }
+
 
 void alTabBox::setAttr(const QString& name,const QString& value)
 {
