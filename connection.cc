@@ -54,7 +54,7 @@ void initConnection(void (parser)(alCommand*))
 	std::auto_ptr<alRequest> dom(readRequest());
 	
 	sessionId = dom->attrs_.value("session-id");
-	std::cerr<<"session-id="<<sessionId.toLatin1().data()<<std::endl;
+//	std::cerr<<"session-id="<<sessionId.toLatin1().data()<<std::endl;
 	
 	parseAnswer(dom.get(),parser);
 }
