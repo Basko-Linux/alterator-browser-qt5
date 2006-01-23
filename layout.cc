@@ -9,14 +9,14 @@ QSize MyBoxLayout::sizeHint() const
 {
 	if (dirty_) calcGeometry();
 
-	int n = list_.size();
+	int n = list_.count();
 	return hint_+((n?(n-1):n)*QSize(spacing(),spacing()));
 }
 
 QSize MyBoxLayout::minimumSize() const
 {
 	if (dirty_) calcGeometry();
-	int n = list_.size();
+	int n = list_.count();
 	return minsize_+((n?(n-1):n)*QSize(spacing(),spacing()));
 }
 
@@ -49,13 +49,10 @@ void MyBoxLayout::addWidget( QWidget *widget, const QSize& size, int alignment )
 
 int MyBoxLayout::findWidget( QWidget* w )
 {
-    int i = 0;
-    QListIterator<MyLayoutItem*> it(list_);
-    while(it.hasNext())
-    {
-       if ( it.next()->item_->widget() == w )
-         return i;
-       i++;
+    const int count = list_.count();
+    for ( int i = 0; i < count; ++i ) {
+       if ( list_.at(i)->item_->widget() == w )
+       return i;
     }
     return -1;
 }
@@ -71,11 +68,10 @@ void MyBoxLayout::calcGeometry() const
 {
 	int minw_hint = 0,minw_size = 0;
 	int minh_hint = 0,minh_size = 0;
+	int n = list_.count();
 
-	QListIterator<MyLayoutItem*> it(list_);
-	while(it.hasNext())
-	{
-	       MyLayoutItem *o = it.next();
+        for( int i = 0; i<n ;++i ) {
+               const MyLayoutItem *o = list_.at(i);
 
 	       if (o->item_->isEmpty()) continue;
 
@@ -106,7 +102,7 @@ void MyBoxLayout::setGeometry(const QRect& rect)
 {
 	QLayout::setGeometry(rect);
 	
-	int count = list_.size();
+	int count = int(list_.count());
 
 	int xpos = rect.x(); //start point
 	int ypos = rect.y(); //start point
@@ -129,14 +125,13 @@ void MyBoxLayout::setGeometry(const QRect& rect)
 
 	int rest = height; //value for spacers
 	int rcount = 0; //number of spacers
-	QList<QSize> sizes;//calculated sizes
+	QVector<QSize> heights(count);//calculated sizes
 
 	//calculate all heights and rest value for spacers
 	//calculate rest value for spacers
-	QListIterator<MyLayoutItem*> it(list_);
-	while(it.hasNext())
+	for(int i=0;i<count;++i)
 	{
-	        MyLayoutItem *o = it.next();
+		MyLayoutItem *o = list_.at(i);
 		if (o->item_->isEmpty())  continue;//skip invisible items
 
 		QSize hint = o->item_->sizeHint();
@@ -172,24 +167,21 @@ void MyBoxLayout::setGeometry(const QRect& rect)
 			w = hint.width();
 
 		
-		sizes.append( QSize(w,a?-1:h) );//height "-1" means spacer
+		heights[i]=QSize(w,a?-1:h);//height "-1" means spacer
 		rcount += a;
 	}
 
 	if (rcount) rest = rest/rcount;//divide rest space between spacers
 
 	//now place widgets on layouts
-	it.toFront();
-	QListIterator<QSize> it_sz(sizes);
-	while(it.hasNext() && it_sz.hasNext())
+        for(int i=0;i<count;++i)
 	{
-	        MyLayoutItem *o = it.next();
-		QSize size = it_sz.next();
+		MyLayoutItem *o = list_.at(i);
 		
 		if (o->item_->isEmpty())  continue;
 
-		int w = size.width();
-		int h = size.height();
+		int w = heights[i].width();
+		int h = heights[i].height();
 		if (h<0) h=rest;//apply rest space if needed
 			
 		int x = xpos;
@@ -227,12 +219,12 @@ void MyBoxLayout::deleteAllItems()
 
 QLayoutItem *MyBoxLayout::itemAt(int index) const
 {
-	return index >= 0 && index < list_.size() ? list_.at(index)->item_ : 0;
+	return index >= 0 && index < list_.count() ? list_.at(index)->item_ : 0;
 }
 
 QLayoutItem *MyBoxLayout::takeAt(int index)
 {
-	if (index >= list_.size()) return 0;
+	if (index >= list_.count()) return 0;
     	MyLayoutItem *b = list_.takeAt(index);
     	QLayoutItem *item = b->item_;
     	b->item_ = 0;
@@ -244,7 +236,7 @@ QLayoutItem *MyBoxLayout::takeAt(int index)
 
 int MyBoxLayout::count() const
 {
-	return list_.size();
+	return list_.count();
 }
 
 #if 0

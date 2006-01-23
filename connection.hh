@@ -3,8 +3,10 @@
 
 #include <QDomDocument>
 
-void initConnection(void (parser)(const QDomElement&));
-void getDocument(void (parser)(const QDomElement&) ,
+#include "sax.hh"
+
+void initConnection(void (parser)(alCommand*));
+void getDocument(void (parser)(alCommand*) ,
 		 const QString& content = "(alterator-request action \"get\")");
 
 #endif

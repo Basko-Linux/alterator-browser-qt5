@@ -1,10 +1,10 @@
+#include <iostream>
+
 #include <QApplication>
 
 #include "widgets.hh"
 #include "connection.hh"
 #include "browser.hh"
-
-#include <iostream>
 
 
 Updater *updater;//slot for updates
@@ -14,6 +14,11 @@ Updater *updater;//slot for updates
 
 void newRequest(const QString& id, const QString& type, const QString& parent)
 {
+//	std::cerr<<"NEW:id:"<<id.toUtf8().data()
+//	<<",type:"<<type.toUtf8().data()
+//	<<",parent:"<<parent.toUtf8().data()
+//	<<std::endl;
+
 	if ("vbox" == type) new alVBox(id,parent);
 	else if ("hbox" == type) new alHBox(id,parent);
 	else if ("dialog" == type) new alDialog(id,parent);
@@ -38,6 +43,11 @@ void deleteRequest(const QString& id)
 
 void setRequest(const QString& id,const QString& attr,const QString& value)
 {
+//	std::cerr<<"SET:id:"<<id.toUtf8().data()
+//	<<",attr:"<<attr.toUtf8().data()
+//	<<",value:"<<value.toUtf8().data()
+//	<<std::endl;
+
 	if (!elements.contains(id)) return;
 	else elements[id]->setAttr(attr,value);
 }
@@ -71,31 +81,32 @@ void timerRequest(const QString& action)
 
 ////////////////////////////////////////////////
 
-void getDocParser(const QDomElement& e)
+void getDocParser(alCommand *cmd)
 {
-	QString action = e.attribute("action");
+	QXmlAttributes e = cmd->attrs_;
+	QString action = e.value("action");
 
 	if ("new" == action)
-		newRequest(e.attribute("widget-id"),
-		           e.attribute("type"),
-			   e.attribute("parent"));
+		newRequest(e.value("widget-id"),
+		           e.value("type"),
+			   e.value("parent"));
 	else if ("delete" == action)
-		deleteRequest(e.attribute("widget-id"));
+		deleteRequest(e.value("widget-id"));
 	else if ("set" == action)
-		setRequest(e.attribute("widget-id"),
-			   e.attribute("attr"),
-			   e.text());
+		setRequest(e.value("widget-id"),
+			   e.value("attr"),
+			   cmd->value_);
 	else if ("create-event" == action)
-		eventRequest(e.attribute("widget-id"),
-			     e.text());
+		eventRequest(e.value("widget-id"),
+			     cmd->value_);
 	else if ("timer" == action)
-		timerRequest(e.text());
+		timerRequest(cmd->value_);
 	else if ("start" == action)
-		startRequest(e.attribute("widget-id"));
+		startRequest(e.value("widget-id"));
 	else if ("start" == action)
-		startRequest(e.attribute("widget-id"));
+		startRequest(e.value("widget-id"));
 	else if ("stop" == action)
-		stopRequest(e.attribute("widget-id"));
+		stopRequest(e.value("widget-id"));
 }
 
 ////////////////////////////////////////////////
