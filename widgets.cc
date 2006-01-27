@@ -55,6 +55,11 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		getWidget()->setEnabled("true" == value);
 	else if ("widget-name" == name)
 		getWidget()->setObjectName(value);
+	else if ("tooltip" == name)
+	{
+		QStringList args = value.split(";");
+		getWidget()->setToolTip(args[0]);
+	}
 	else if ("layout-policy" == name)
 	{
 		QStringList policies = value.split(";");
