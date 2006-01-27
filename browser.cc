@@ -1,6 +1,9 @@
 #include <iostream>
 
 #include <QApplication>
+#include <QSplashScreen>
+#include <QPointer>
+#include <QPainter>
 
 #include "widgets.hh"
 #include "connection.hh"
@@ -8,6 +11,36 @@
 
 
 Updater *updater;//slot for updates
+QPointer<QSplashScreen> splash;//single splash screen
+
+void splashStart(void)
+{
+	if (splash) return;
+
+	QPixmap px(250,50);
+	px.fill(QApplication::palette().color(QPalette::Background));
+
+	QPainter painter(&px);
+	painter.drawLine(1, 2, 1, px.height()-2);
+	painter.drawLine(2, 1, px.width()-2,1);
+	painter.drawLine(px.width()-1, 2, px.width()-1, px.height()-2);
+	painter.drawLine(2, px.height()-1, px.width()-2, px.height()-1);
+
+	splash = new QSplashScreen(px,Qt::WindowStaysOnTopHint);
+
+	splash->show();
+}
+
+void splashMessage(const QString& msg)
+{
+	if (msg.isEmpty())
+		delete splash;
+	else
+	{
+		if (!splash) splashStart();
+		splash->showMessage(msg);
+	}
+}
 
 
 ///////////////////////////////
@@ -101,12 +134,16 @@ void getDocParser(alCommand *cmd)
 			     cmd->value_);
 	else if ("timer" == action)
 		timerRequest(cmd->value_);
+	else if ("splash" == action)
+		splashMessage(cmd->value_);
 	else if ("start" == action)
 		startRequest(e.value("widget-id"));
 	else if ("start" == action)
 		startRequest(e.value("widget-id"));
 	else if ("stop" == action)
 		stopRequest(e.value("widget-id"));
+	else if ("retry" == action)
+		QTimer::singleShot(50,updater,SLOT(doRetry()));
 }
 
 ////////////////////////////////////////////////
@@ -162,6 +199,12 @@ void Updater::doUpdate()
 	getDocument(getDocParser,"(alterator-request action \"re-get\")");
 }
 
+
+void Updater::doRetry()
+{
+	getDocument(getDocParser);
+}
+
 int main(int argc,char **argv)
 {
         QApplication app(argc, argv);
@@ -173,6 +216,28 @@ int main(int argc,char **argv)
 
 	return 0;
 }
+
+
+#if 0
+	QPixmap px(250,50);
+	px.fill(QApplication::palette().color(QPalette::Background));
+
+	QPainter painter(&px);
+	painter.drawLine(1, 2, 1, px.height()-2);
+	painter.drawLine(2, 1, px.width()-2,1);
+	painter.drawLine(px.width()-1, 2, px.width()-1, px.height()-2);
+	painter.drawLine(2, px.height()-1, px.width()-2, px.height()-1);
+
+	QSplashScreen *splash = new QSplashScreen(px);
+
+	splash->show();
+	splash->showMessage("ZZZZ");
+	sleep(2);
+	splash->showMessage("DDDD");
+	sleep(3);
+
+	delete splash;
+#endif
 
 
 #if 0

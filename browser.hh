@@ -10,6 +10,7 @@ Q_OBJECT
 		Updater();
 	public slots:
 		void doUpdate();
+		void doRetry();
 		void start();
 		void stop();
 	private:
