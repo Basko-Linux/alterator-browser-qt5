@@ -11,7 +11,11 @@ QSize MyBoxLayout::sizeHint() const
 
 	int n = list_.count();
 	int m = margin();
-	return hint_+((n?(n-1):n)*QSize(spacing(),spacing())) + QSize(2*m,2*m);
+	int s = spacing();
+	return hint_
+		    +((n?(n-1):n)*QSize((direction_ == horizontal)?s:0,
+		                        (direction_ == vertical)?s:0))
+		    + QSize(2*m,2*m);
 }
 
 QSize MyBoxLayout::minimumSize() const
@@ -19,7 +23,11 @@ QSize MyBoxLayout::minimumSize() const
 	if (dirty_) calcGeometry();
 	int n = list_.count();
 	int m = margin();
-	return minsize_+((n?(n-1):n)*QSize(spacing(),spacing())) + QSize(2*m,2*m);
+	int s = spacing();
+	return minsize_
+		    +((n?(n-1):n)*QSize((direction_ == horizontal)?s:0,
+		                        (direction_ == vertical)?s:0))
+		    + QSize(2*m,2*m);
 }
 
 void MyBoxLayout::setChildrenAlign(int align)

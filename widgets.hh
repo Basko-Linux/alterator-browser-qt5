@@ -114,9 +114,7 @@ class alLabel: public alWidgetPre<QLabel>
 public:
 	alLabel(const QString& id,const QString& parent):
 		alWidgetPre<QLabel>(id,parent)
-		{
-			wnd_->setScaledContents(true);
-		}
+		{}
 	void setAttr(const QString& name,const QString& value);
 };
 
@@ -257,11 +255,11 @@ public:
 	void stop()  { wnd_->done(0); }
 };
 
-class alBox: public alWidgetPre<QFrame>
+class alBox: public alWidgetPre<QFrame2>
 {
 public:
 	alBox(const QString& id,const QString& parent,MyBoxLayout::Direction direction):
-		alWidgetPre<QFrame>(id,parent)
+		alWidgetPre<QFrame2>(id,parent)
 	{
 		new MyBoxLayout(wnd_,direction);
 	}

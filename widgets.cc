@@ -21,7 +21,7 @@ namespace
 		else if ("stars" == value) return QLineEdit::Password;
 		return QLineEdit::Normal; //default yes
 	}
-	
+
 	alWidget *findWidget(const QString& name)
 	{
 		QMapIterator<QString,alWidget*> it(elements);
@@ -33,6 +33,7 @@ namespace
 		}
 		return 0;
 	}
+	
 }
 ////////////////////////////////////////////
 
@@ -51,13 +52,6 @@ void alWidget::setAttr(const QString& name,const QString& value)
 {
 	if ("visibility" == name)
 		("true" == value)?getWidget()->show():getWidget()->hide();
-	else if ("full-screen" == name)
-	{
-		if ("true" == value)
-			getWidget()->setWindowState(getWidget()->windowState() | Qt::WindowFullScreen);
-		else
-			getWidget()->setWindowState(getWidget()->windowState() & (~Qt::WindowFullScreen));
-	}
 	else if ("activity" == name)
 		getWidget()->setEnabled("true" == value);
 	else if ("widget-name" == name)
@@ -360,6 +354,13 @@ void alDialog::setAttr(const QString& name,const QString& value)
 {
 	if ("caption" == name)
 		wnd_->setWindowTitle(value);
+	else if ("full-screen" == name)
+	{
+		if ("true" == value)
+			wnd_->setWindowState(wnd_->windowState() | Qt::WindowFullScreen);
+		else
+			wnd_->setWindowState(wnd_->windowState() & (~Qt::WindowFullScreen));
+	}
 	else if ("width" == name)
 		wnd_->resize(value.toInt(),wnd_->height());
 	else if ("height" == name)
@@ -376,6 +377,8 @@ void alBox::setAttr(const QString& name,const QString& value)
 		wnd_->layout()->setSpacing(value.toInt());
 	else if("clear-layout" == name)
 		((MyBoxLayout*)(wnd_->layout()))->deleteAllItems();
+	else if ("background-color" == name)
+		wnd_->setBrush(QBrush(QColor(value)));
 	else if ("children-align" == name)
 		((MyBoxLayout*)(wnd_->layout()))->setChildrenAlign(convertAlign(value));
 	else alWidget::setAttr(name,value);

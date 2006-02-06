@@ -205,6 +205,7 @@ void Updater::doRetry()
 	getDocument(getDocParser);
 }
 
+
 int main(int argc,char **argv)
 {
         QApplication app(argc, argv);
@@ -214,8 +215,21 @@ int main(int argc,char **argv)
 	initConnection(getDocParser);
 #endif
 
+
 	return 0;
 }
+
+
+#if 0
+	QDialog d;
+	d.resize(200,200);
+
+	QFrame2 b1(&d);
+	b1.resize(100,100);
+	
+	d.exec();
+#endif
+
 
 
 #if 0
