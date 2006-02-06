@@ -35,7 +35,10 @@ class MyBoxLayout: public QLayout
 			direction_(dir),
 			alignment_(-1),
 			dirty_(true)
-		{}
+		{
+			setSpacing(0);
+			setMargin(0);
+		}
 	
 		void invalidate();
 		

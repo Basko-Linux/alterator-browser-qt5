@@ -113,7 +113,10 @@ class alLabel: public alWidgetPre<QLabel>
 {
 public:
 	alLabel(const QString& id,const QString& parent):
-		alWidgetPre<QLabel>(id,parent) {}
+		alWidgetPre<QLabel>(id,parent)
+		{
+			wnd_->setScaledContents(true);
+		}
 	void setAttr(const QString& name,const QString& value);
 };
 
@@ -162,7 +165,7 @@ public:
 	alGroupBox(const QString& id,const QString& parent):
 		alWidgetPre<QGroupBox>(id,parent)
 	{
-		(new MyVBoxLayout(wnd_))->setSpacing(0);
+		new MyVBoxLayout(wnd_);
 	}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
@@ -260,7 +263,7 @@ public:
 	alBox(const QString& id,const QString& parent,MyBoxLayout::Direction direction):
 		alWidgetPre<QFrame>(id,parent)
 	{
-		(new MyBoxLayout(wnd_,direction))->setSpacing(0);
+		new MyBoxLayout(wnd_,direction);
 	}
 	void setAttr(const QString& name,const QString& value);
 };

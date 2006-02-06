@@ -10,14 +10,16 @@ QSize MyBoxLayout::sizeHint() const
 	if (dirty_) calcGeometry();
 
 	int n = list_.count();
-	return hint_+((n?(n-1):n)*QSize(spacing(),spacing()));
+	int m = margin();
+	return hint_+((n?(n-1):n)*QSize(spacing(),spacing())) + QSize(2*m,2*m);
 }
 
 QSize MyBoxLayout::minimumSize() const
 {
 	if (dirty_) calcGeometry();
 	int n = list_.count();
-	return minsize_+((n?(n-1):n)*QSize(spacing(),spacing()));
+	int m = margin();
+	return minsize_+((n?(n-1):n)*QSize(spacing(),spacing())) + QSize(2*m,2*m);
 }
 
 void MyBoxLayout::setChildrenAlign(int align)
@@ -103,9 +105,10 @@ void MyBoxLayout::setGeometry(const QRect& rect)
 	QLayout::setGeometry(rect);
 	
 	int count = int(list_.count());
+	int m = margin();
 
-	int xpos = rect.x(); //start point
-	int ypos = rect.y(); //start point
+	int xpos = rect.x() + m; //start point
+	int ypos = rect.y() + m; //start point
 
 	
 	//size per one item
@@ -119,7 +122,7 @@ void MyBoxLayout::setGeometry(const QRect& rect)
 		min.transpose();
 	}
 	
-	height -=  (count-1)*spacing(); //minus spaces
+	height -=  (count-1)*spacing() + 2*m; //minus spaces
 	
 	bool height_enough = (height > min.height());
 
