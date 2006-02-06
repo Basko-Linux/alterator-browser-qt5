@@ -2,6 +2,7 @@
 #define QTBROWSER_WIDGETS_HH
 
 #include "layout.hh"
+#include "hacks.hh"
 
 #include <QObject>
 #include <QString>
@@ -240,11 +241,11 @@ private:
 };
 
 
-class alDialog: public alWidgetPre<QDialog>
+class alDialog: public alWidgetPre<QDialog2>
 {
 public:
 	alDialog(const QString& id,const QString& parent):
-		alWidgetPre<QDialog>(id,parent)
+		alWidgetPre<QDialog2>(id,parent)
 	{
 		new MyVBoxLayout(wnd_);
 	}

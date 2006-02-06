@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.6
-Release: alt1
+Release: alt7.1
 
 Source:%name-%version.tar.bz2
 
@@ -38,6 +38,43 @@ X11 Qt interface driver for alterator
 %_bindir/*
 
 %changelog
+* Fri Jan 27 2006 Stanislav Ievlev <inger@altlinux.org> 2.6-alt7.1
+- added support for tooltips
+
+* Mon Jan 23 2006 Stanislav Ievlev <inger@altlinux.org> 2.6-alt7
+- change DOM parser to SAX
+
+* Fri Jan 20 2006 Stanislav Ievlev <inger@altlinux.org> 2.6-alt6.4
+- tabbox current property fix
+
+* Thu Jan 19 2006 Stanislav Ievlev <inger@altlinux.org> 2.6-alt6.3
+- performance fix
+
+* Wed Jan 18 2006 Stanislav Ievlev <inger@altlinux.org> 2.6-alt6.2
+- layout bugfix
+
+* Mon Jan 16 2006 Stanislav Ievlev <inger@altlinux.org> 2.6-alt6.1
+- replace QListWidget with QTreeWidget
+
+* Wed Jan 11 2006 Stanislav Ievlev <inger@altlinux.org> 2.6-alt6
+- added support for radio-buttons and spacers
+
+* Thu Dec 22 2005 Stanislav Ievlev <inger@altlinux.org> 2.6-alt5
+- added support for timers
+
+* Tue Dec 20 2005 Stanislav Ievlev <inger@altlinux.org> 2.6-alt4
+- improve initial connection
+- ressurect locale support
+
+* Mon Dec 19 2005 Stanislav Ievlev <inger@altlinux.org> 2.6-alt3
+- fixed layout
+
+* Fri Dec 16 2005 Stanislav Ievlev <inger@altlinux.org> 2.6-alt2
+- fixed xml support
+
+* Thu Dec 15 2005 Stanislav Ievlev <inger@altlinux.org> 2.6-alt1.1
+- fixed provides
+
 * Thu Dec 08 2005 Stanislav Ievlev <inger@altlinux.org> 2.6-alt1
 - now as qtbrowser
 

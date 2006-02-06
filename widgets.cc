@@ -51,6 +51,13 @@ void alWidget::setAttr(const QString& name,const QString& value)
 {
 	if ("visibility" == name)
 		("true" == value)?getWidget()->show():getWidget()->hide();
+	else if ("full-screen" == name)
+	{
+		if ("true" == value)
+			getWidget()->setWindowState(getWidget()->windowState() | Qt::WindowFullScreen);
+		else
+			getWidget()->setWindowState(getWidget()->windowState() & (~Qt::WindowFullScreen));
+	}
 	else if ("activity" == name)
 		getWidget()->setEnabled("true" == value);
 	else if ("widget-name" == name)
