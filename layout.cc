@@ -21,6 +21,7 @@ QSize MyBoxLayout::sizeHint() const
 QSize MyBoxLayout::minimumSize() const
 {
 	if (dirty_) calcGeometry();
+
 	int n = list_.count();
 	int m = margin();
 	int s = spacing();
@@ -131,7 +132,8 @@ void MyBoxLayout::setGeometry(const QRect& rect)
 	}
 	
 	height -=  (count-1)*spacing() + 2*m; //minus spaces
-	
+	width -= 2*m;//minus margins
+
 	bool height_enough = (height > min.height());
 
 	int rest = height; //value for spacers
