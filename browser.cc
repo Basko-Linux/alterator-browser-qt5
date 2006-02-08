@@ -216,8 +216,32 @@ int main(int argc,char **argv)
 #endif
 
 
+
+
 	return 0;
 }
+
+
+#if 0
+	QTreeWidget tree;
+	tree.setColumnCount(1);
+	tree.header()->hide();
+	tree.setIndentation(0);
+
+	for(int i=0;i<100;++i)
+	{
+		QTreeWidgetItem *item = new QTreeWidgetItem(&tree);
+		item->setText(0,"item");
+	}
+
+	QTreeWidgetItem *i = tree.topLevelItem(80);
+	tree.setCurrentItem(i);
+
+	tree.show();
+	tree.scrollTo(tree.currentIndex());
+
+	app.exec();
+#endif
 
 
 #if 0
@@ -254,21 +278,6 @@ int main(int argc,char **argv)
 #endif
 
 
-#if 0
-	QTreeWidget tree;
-	tree.setColumnCount(1);
-	tree.header()->hide();
-
-	for(int i=0;i<3;++i)
-	{
-		std::cerr<<"add:"<<i<<std::endl;
-		QTreeWidgetItem *item = new QTreeWidgetItem(&tree);
-		item->setText(0,"item");
-	}
-
-	tree.show();
-	app.exec();
-#endif
 
 
 #if 0

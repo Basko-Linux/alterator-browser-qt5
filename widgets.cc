@@ -228,7 +228,6 @@ QString alCheckBox::postData() const
 	return QString(" (state . ") + (wnd_->isChecked()?"#t":"#f")+" )";
 }
 
-
 void alListBox::setAttr(const QString& name,const QString& value)
 {
 	if ("append-item" == name)
@@ -241,7 +240,11 @@ void alListBox::setAttr(const QString& name,const QString& value)
 			item->setIcon(0,QIcon(imagePath+data[1]));
 	}
 	else if ("current" == name)
-		wnd_->setCurrentItem(wnd_->topLevelItem(value.toInt()));
+	{
+		QTreeWidgetItem *i = wnd_->topLevelItem(value.toInt());
+		wnd_->scrollToItem(i);
+		wnd_->setCurrentItem(i);
+	}
 	else if ("remove-item" == name)
 	{
 		if ("all" == value)
@@ -261,6 +264,7 @@ void alListBox::setAttr(const QString& name,const QString& value)
 	}
 	else
 		alWidget::setAttr(name,value);
+
 }
 
 void alListBox::registerEvent(const QString& name)

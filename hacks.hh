@@ -2,6 +2,7 @@
 #define QTBROWSER_HACKS_HH
 
 #include <QDialog>
+#include <QTreeWidget>
 
 #include <QKeyEvent>
 #include <QPaintEvent>
@@ -12,6 +13,22 @@
 #include <QApplication>
 
 void widget_corners_round(QWidget*);
+
+//QTreeWidget unable to scroll to active widget until it invisible
+class QTreeWidget2: public QTreeWidget
+{
+public:
+	QTreeWidget2(QWidget *parent=0):
+		QTreeWidget(parent)
+	{}
+protected:
+	void showEvent(QShowEvent *e)
+	{
+		QTreeWidget::showEvent(e);
+		scrollTo(currentIndex());
+	}
+};
+
 
 //hack for painting
 class QFrame2: public QFrame
@@ -27,9 +44,7 @@ protected:
 	void paintEvent(QPaintEvent* e)
 	{
 		QPainter p(this);
-//		p.setBrush(brush_);
 		p.fillRect(e->rect(),brush_);
-//		p.drawRect(this->geometry());
 	}
 };
 
@@ -64,7 +79,7 @@ protected:
 //	}
 	void paintEvent(QPaintEvent* e)
 	{
-//		QDialog::paintEvent(e);
+		QDialog::paintEvent(e);
     		widget_corners_round(this);
 	}
 };
