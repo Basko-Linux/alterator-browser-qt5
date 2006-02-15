@@ -185,6 +185,7 @@ public:
 	alListBox(const QString& id,const QString& parent):
 		alWidgetPre<QTreeWidget2>(id,parent)
 	{
+		wnd_->setAlternatingRowColors(true);
 		//setings to be compatible with QListView
 		wnd_->setColumnCount(1);
 		wnd_->header()->hide();
