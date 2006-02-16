@@ -265,7 +265,7 @@ public:
 	}
 	void setAttr(const QString& name,const QString& value);
 	void start() { wnd_->show(); QApplication::exec(); }
-	void stop()  { QApplication::quit(); }
+	void stop()  { QApplication::closeAllWindows(); }
 };
 
 class alBox: public alWidgetPre<QFrame2>
