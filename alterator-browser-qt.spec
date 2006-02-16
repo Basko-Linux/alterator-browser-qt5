@@ -25,9 +25,11 @@ X11 Qt interface driver for alterator
 
 %prep
 %setup -q
+%_qt4dir/bin/qmake -spec default
+sed -i "s|^\s*CFLAGS\s*=.*$|CFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Makefile
+sed -i "s|^\s*CXXFLAGS\s*=.*$|CXXFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Makefile
 
 %build
-%_libdir/qt4/bin/qmake
 %make_build
 
 
