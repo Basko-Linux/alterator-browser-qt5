@@ -373,6 +373,25 @@ void alDialog::setAttr(const QString& name,const QString& value)
 		alWidget::setAttr(name,value);
 }
 
+void alMainWidget::setAttr(const QString& name,const QString& value)
+{
+	if ("caption" == name)
+		wnd_->setWindowTitle(value);
+	else if ("full-screen" == name)
+	{
+		if ("true" == value)
+			wnd_->setWindowState(wnd_->windowState() | Qt::WindowFullScreen);
+		else
+			wnd_->setWindowState(wnd_->windowState() & (~Qt::WindowFullScreen));
+	}
+	else if ("width" == name)
+		wnd_->resize(value.toInt(),wnd_->height());
+	else if ("height" == name)
+		wnd_->resize(wnd_->width(),value.toInt());
+	else
+		alWidget::setAttr(name,value);
+}
+
 void alBox::setAttr(const QString& name,const QString& value)
 {
 	if ("margin" == name)

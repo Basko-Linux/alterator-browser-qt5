@@ -49,6 +49,7 @@ public:
 	virtual QString postData() const { return ""; }
 
 	virtual QWidget *getWidget(void) = 0;
+	virtual QString getParent(void) { return parent_; };
 public slots:
 	void onClick(bool) { emitEvent(id_,"on-click"); }
 	void onChange(void) { emitEvent(id_,"on-change"); }
@@ -241,7 +242,6 @@ private:
 	}
 };
 
-
 class alDialog: public alWidgetPre<QDialog2>
 {
 public:
@@ -253,6 +253,19 @@ public:
 	void setAttr(const QString& name,const QString& value);
 	void start() { wnd_->exec(); }
 	void stop()  { wnd_->done(0); }
+};
+
+class alMainWidget: public alWidgetPre<QWidget>
+{
+public:
+	alMainWidget(const QString& id,const QString& parent):
+		alWidgetPre<QWidget>(id, parent)
+	{
+		new MyVBoxLayout(wnd_);
+	}
+	void setAttr(const QString& name,const QString& value);
+	void start() { wnd_->show(); QApplication::exec(); }
+	void stop()  { QApplication::quit(); }
 };
 
 class alBox: public alWidgetPre<QFrame2>

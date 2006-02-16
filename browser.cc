@@ -52,9 +52,19 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 //	<<",parent:"<<parent.toUtf8().data()
 //	<<std::endl;
 
-	if ("vbox" == type) new alVBox(id,parent);
+	if ("dialog" == type)
+	{
+	    if(parent.isEmpty())
+	    {
+		new alMainWidget(id,parent);
+	    }
+	    else
+	    {
+		new alDialog(id,parent);
+	    }
+	}
+	else if ("vbox" == type) new alVBox(id,parent);
 	else if ("hbox" == type) new alHBox(id,parent);
-	else if ("dialog" == type) new alDialog(id,parent);
 	else if ("button" == type) new alButton(id,parent);
 	else if ("radio" == type) new alRadio(id,parent);
 	else if ("label" == type) new alLabel(id,parent);
@@ -88,15 +98,35 @@ void setRequest(const QString& id,const QString& attr,const QString& value)
 void startRequest(const QString& id)
 {
 	if (!elements.contains(id)) return;
-	alDialog *d = dynamic_cast<alDialog*>(elements[id]);
-	if (d) d->start();
+	alWidget *aw = elements[id];
+	if( aw )
+	    if( aw->getParent().isEmpty() )
+	    {
+		alMainWidget *m = qobject_cast<alMainWidget*>(aw);
+		if(m) m->start();
+	    }
+	    else
+	    {
+		alDialog *d = qobject_cast<alDialog*>(elements[id]);
+		if(d) d->start();
+	    }
 }
 
 void stopRequest(const QString& id)
 {
 	if (!elements.contains(id)) return;
-	alDialog *d = dynamic_cast<alDialog*>(elements[id]);
-	if (d) d->stop();
+	alWidget *aw = elements[id];
+	if( aw )
+	    if( aw->getParent().isEmpty() )
+	    {
+		alMainWidget *m = qobject_cast<alMainWidget*>(aw);
+		if(m) m->stop();
+	    }
+	    else
+	    {
+		alDialog *d = qobject_cast<alDialog*>(elements[id]);
+		if(d) d->stop();
+	    }
 }
 
 
@@ -150,9 +180,9 @@ void getDocParser(alCommand *cmd)
 
 void emitEvent(const QString& id,const QString& type)
 {
-	QWidget *dlg = QApplication::activeModalWidget();
-	if (dlg->accessibleName() == "locked") return;
-	dlg->setAccessibleName("locked");
+//	QWidget *dlg = QApplication::activeModalWidget();
+//	if (dlg->accessibleName() == "locked") return;
+//	dlg->setAccessibleName("locked");
 
 	QString request = "(alterator-request action \"event\"";
 	request += "name \""+type+"\"";//append type
@@ -172,7 +202,7 @@ void emitEvent(const QString& id,const QString& type)
 	request += "))"; //close message
 
 	getDocument(getDocParser,request);
-	dlg->setAccessibleName("unlocked");
+//	dlg->setAccessibleName("unlocked");
 }
 
 /////////////////////////////////////////////////
