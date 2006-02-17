@@ -8,10 +8,12 @@
 #include "widgets.hh"
 #include "connection.hh"
 #include "browser.hh"
+#include "main_window.hh"
 
 
-Updater *updater;//slot for updates
+Updater *updater = 0;//slot for updates
 QPointer<QSplashScreen> splash;//single splash screen
+MainWindow *main_window = 0;
 
 void splashStart(void)
 {
@@ -239,16 +241,13 @@ void Updater::doRetry()
 int main(int argc,char **argv)
 {
         QApplication app(argc, argv);
+	MainWindow mw;
+	main_window = &mw;
+//	mw.show();
+	int ret = app.exec();
+	main_window = 0;
 
-	updater = new Updater();
-#if 1
-	initConnection(getDocParser);
-#endif
-
-
-
-
-	return 0;
+	return ret;
 }
 
 

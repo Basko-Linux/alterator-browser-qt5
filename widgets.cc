@@ -45,7 +45,7 @@ MyBoxLayout *getLayout(const QString& parent)
 	if (!elements.contains(parent)) return 0;
 
 	QLayout *l=elements[parent]->getWidget()->layout();
-	return l?static_cast<MyBoxLayout*>(l):0;
+	return l?qobject_cast<MyBoxLayout*>(l):0;
 }
 
 void alWidget::setAttr(const QString& name,const QString& value)

@@ -106,6 +106,26 @@ public:
 	QWidget *getWidget() { return wnd_; }	
 };
 
+template <typename Widget>
+class alMainWidgetPre: public alWidget
+{
+protected:
+	Widget *wnd_;
+public:
+	alMainWidgetPre(const QString& id,const QString& parent):
+		alWidget(id,parent),
+		wnd_(createWidget<Widget>(parent))
+	{
+		elements[id] = this;
+		//MyBoxLayout *playout = getLayout(parent);
+		//if (playout) playout->addWidget(wnd_);
+	}
+
+//	~alMainWidgetPre() { wnd_->deleteLater(); }
+	~alMainWidgetPre() {}
+	QWidget *getWidget() { return wnd_; }	
+};
+
 
 //widgets
 class alLabel: public alWidgetPre<QLabel>
@@ -264,7 +284,8 @@ public:
 		new MyVBoxLayout(wnd_);
 	}
 	void setAttr(const QString& name,const QString& value);
-	void start() { wnd_->show(); QApplication::exec(); }
+//	void start() { wnd_->show(); QApplication::exec(); }
+	void start() { wnd_->show(); }
 	void stop()  { QApplication::closeAllWindows(); }
 };
 

@@ -3,6 +3,8 @@
 
 #include <QTimer>
 
+#include "sax.hh"
+
 class Updater: public QObject
 {
 Q_OBJECT
@@ -17,5 +19,6 @@ Q_OBJECT
 		QTimer *timer_;
 };
 
+void getDocParser(alCommand *cmd);
 
 #endif
