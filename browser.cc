@@ -107,7 +107,7 @@ void startRequest(const QString& id)
 	    }
 	    else
 	    {
-		alDialog *d = qobject_cast<alDialog*>(elements[id]);
+		alDialog *d = qobject_cast<alDialog*>(aw);
 		if(d) d->start();
 	    }
 }
@@ -124,7 +124,7 @@ void stopRequest(const QString& id)
 	    }
 	    else
 	    {
-		alDialog *d = qobject_cast<alDialog*>(elements[id]);
+		alDialog *d = qobject_cast<alDialog*>(aw);
 		if(d) d->stop();
 	    }
 }
