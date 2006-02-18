@@ -11,7 +11,9 @@ extern Updater *updater;
 MainWindow::MainWindow():
     MainWindow_t()
 {
-    new QGridLayout(this);
+    setObjectName("main_window");
+    new MainWindowLayout_t(this);
+//    resize(600,400);
     QTimer::singleShot(0, this, SLOT(start()));
 }
 
@@ -30,5 +32,4 @@ void MainWindow::start()
 #if 1
 	initConnection(getDocParser);
 #endif
-
 }

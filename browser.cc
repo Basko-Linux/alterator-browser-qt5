@@ -58,7 +58,7 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 	{
 	    if(parent.isEmpty())
 	    {
-		new alMainWidget(id,parent);
+		new alMainWidget(id,"");
 	    }
 	    else
 	    {
@@ -102,7 +102,7 @@ void startRequest(const QString& id)
 	if (!elements.contains(id)) return;
 	alWidget *aw = elements[id];
 	if( aw )
-	    if( aw->getParent().isEmpty() )
+	    if( aw->stringParent().isEmpty() )
 	    {
 		alMainWidget *m = qobject_cast<alMainWidget*>(aw);
 		if(m) m->start();
@@ -119,7 +119,7 @@ void stopRequest(const QString& id)
 	if (!elements.contains(id)) return;
 	alWidget *aw = elements[id];
 	if( aw )
-	    if( aw->getParent().isEmpty() )
+	    if( aw->stringParent().isEmpty() )
 	    {
 		alMainWidget *m = qobject_cast<alMainWidget*>(aw);
 		if(m) m->stop();
@@ -243,7 +243,7 @@ int main(int argc,char **argv)
         QApplication app(argc, argv);
 	MainWindow mw;
 	main_window = &mw;
-//	mw.show();
+	mw.show();
 	int ret = app.exec();
 	main_window = 0;
 

@@ -21,11 +21,18 @@
 #include <QHeaderView>
 #include <QComboBox>
 #include <QTabWidget>
+#include <QDesktopWidget>
 
 #include "connection.hh"
+#include "main_window.hh"
+
+#define MainWidget_t QFrame
+
+extern MainWindow *main_window;
 
 void emitEvent(const QString& id,const QString& type);
-MyBoxLayout *getLayout(const QString& parent);
+MyBoxLayout *getLayout(const QString& id);
+QWidget* getQWidget(const QString& id);
 
 #define simpleQuote(s) s.replace("\\","\\\\").replace("\"","\\\"")
 
@@ -49,7 +56,7 @@ public:
 	virtual QString postData() const { return ""; }
 
 	virtual QWidget *getWidget(void) = 0;
-	virtual QString getParent(void) { return parent_; };
+	virtual QString stringParent(void) { return parent_; };
 public slots:
 	void onClick(bool) { emitEvent(id_,"on-click"); }
 	void onChange(void) { emitEvent(id_,"on-change"); }
@@ -86,7 +93,6 @@ Widget *createWidget(const QString& parent)
 	return new Widget(elements.contains(parent)?elements[parent]->getWidget():0);
 }
 
-
 template <typename Widget>
 class alWidgetPre: public alWidget
 {
@@ -98,8 +104,12 @@ public:
 		wnd_(createWidget<Widget>(parent))
 	{
 		elements[id] = this;
-		MyBoxLayout *playout = getLayout(parent);
-		if (playout) playout->addWidget(wnd_);
+		QWidget *pwidget = getQWidget(parent);
+		if( pwidget )
+		{
+		    QLayout *playout = pwidget->layout();
+		    if( playout ) playout->addWidget(wnd_);
+		}
 	}
 
 	~alWidgetPre() { wnd_->deleteLater(); }
@@ -113,16 +123,18 @@ protected:
 	Widget *wnd_;
 public:
 	alMainWidgetPre(const QString& id,const QString& parent):
-		alWidget(id,parent),
-		wnd_(createWidget<Widget>(parent))
+		alWidget(id,parent)
 	{
+		//qDebug("%s parent<%s>", __FUNCTION__, parent.toLatin1().data());
 		elements[id] = this;
-		//MyBoxLayout *playout = getLayout(parent);
-		//if (playout) playout->addWidget(wnd_);
+		wnd_ = new Widget(main_window);
+		wnd_->setObjectName("main_widget");
+		wnd_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+		//wnd_->setFrameStyle(QFrame::Box|QFrame::Raised);
+		main_window->layout()->addWidget(wnd_);
 	}
 
-//	~alMainWidgetPre() { wnd_->deleteLater(); }
-	~alMainWidgetPre() {}
+	~alMainWidgetPre() { wnd_->deleteLater(); }
 	QWidget *getWidget() { return wnd_; }	
 };
 
@@ -247,7 +259,7 @@ class alTabPage: public alWidgetPre<QFrame>
 public:
 	alTabPage(const QString& id,const QString& parent):
 		alWidgetPre<QFrame>(id,""),
-		tabbox_(getParent(parent)),
+		tabbox_(getParentTabBox(parent)),
 		idx_(tabbox_?static_cast<QTabWidget*>(tabbox_->getWidget())->addTab(wnd_,""):-1)
 	{
 		new MyVBoxLayout(wnd_);
@@ -255,7 +267,7 @@ public:
 	void setAttr(const QString& name,const QString& value);
 private:
 	static
-	alTabBox *getParent(const QString& parent)
+	alTabBox *getParentTabBox(const QString& parent)
 	{
 		if (!elements.contains(parent)) return 0;
 		return dynamic_cast<alTabBox*>(elements[parent]);
@@ -275,18 +287,49 @@ public:
 	void stop()  { wnd_->done(0); }
 };
 
-class alMainWidget: public alWidgetPre<QWidget>
+class alMainWidget: public alMainWidgetPre<MainWidget_t>
 {
+    Q_OBJECT;
 public:
 	alMainWidget(const QString& id,const QString& parent):
-		alWidgetPre<QWidget>(id, parent)
+		alMainWidgetPre<MainWidget_t>(id, parent)
 	{
-		new MyVBoxLayout(wnd_);
+	    layout_ = new MyVBoxLayout(wnd_);
+	    QTimer::singleShot(0, this, SLOT(init()));
 	}
 	void setAttr(const QString& name,const QString& value);
-//	void start() { wnd_->show(); QApplication::exec(); }
 	void start() { wnd_->show(); }
 	void stop()  { QApplication::closeAllWindows(); }
+	
+private:
+	MyBoxLayout *layout_;
+	bool eventFilter(QObject *obj, QEvent *event)
+	{
+	    if( obj == wnd_ && event->type() == QEvent::Resize )
+	    {
+		QResizeEvent *sizeEvent = static_cast<QResizeEvent*>(event);
+		QSize sz = sizeEvent->size();
+		if( sz != sizeEvent->oldSize() )
+		{
+		    QRect desktop_geom = QApplication::desktop()->geometry();
+		    qDebug("set new geometry");
+		    QRect new_geom = wnd_->geometry();
+		    new_geom.setWidth(  (desktop_geom.width() *sz.width()) /100 ); 
+		    new_geom.setHeight( (desktop_geom.height()*sz.height())/100 ); 
+		    layout_->setGeometry(new_geom);
+		}
+		return true;
+	    } else {
+		return QObject::eventFilter(obj, event);
+	    }						
+	}
+
+private slots:
+	void init()
+	{
+		
+//	    wnd_->installEventFilter(this);
+	}
 };
 
 class alBox: public alWidgetPre<QFrame2>

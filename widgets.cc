@@ -40,12 +40,29 @@ namespace
 //all current elements on viewer
 QMap<QString,alWidget*> elements;
 
-MyBoxLayout *getLayout(const QString& parent)
+MyBoxLayout *getLayout(const QString& id)
 {
-	if (!elements.contains(parent)) return 0;
+	if (!elements.contains(id)) return 0;
 
-	QLayout *l=elements[parent]->getWidget()->layout();
-	return l?qobject_cast<MyBoxLayout*>(l):0;
+	alWidget * aw = elements[id];
+	QWidget *w = aw->getWidget();
+	QLayout *l= w->layout();
+//	if( l && w->objectName() != "main_widget" )
+	if( l )
+	    if( MyBoxLayout *ml = qobject_cast<MyBoxLayout*>(l) )
+	    {
+		return ml;
+	    }
+	return 0;
+}
+
+QWidget* getQWidget(const QString& id)
+{
+	if (!elements.contains(id)) return 0;
+
+	QWidget *w = elements[id]->getWidget();
+	if( w )	return w;
+	return 0;
 }
 
 void alWidget::setAttr(const QString& name,const QString& value)
@@ -66,15 +83,21 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		QStringList policies = value.split(";");
 		if (policies.count() < 2)
 		{
-			qDebug("wrong number of arguments to layout-policy attribute");
-			exit(1);
+		    qDebug("wrong number of arguments to layout-policy attribute");
+		    exit(1);
 		}
 		int w = policies.at(0).toInt();
 		int h = policies.at(1).toInt();
 		int d = -1;
 		if (policies.count() > 2) d = convertAlign(policies.at(2));
+
 		MyBoxLayout *playout = getLayout(parent_);
-		if (playout) playout->addWidget(getWidget(),QSize(w,h),d);
+		if (playout)
+		{
+		    playout->addWidget(getWidget(),QSize(w,h),d);
+		}
+		else
+		    qDebug("don't set layout-policy");
 	}
 }
 
@@ -384,10 +407,20 @@ void alMainWidget::setAttr(const QString& name,const QString& value)
 		else
 			wnd_->setWindowState(wnd_->windowState() & (~Qt::WindowFullScreen));
 	}
+	else if ("layout-policy" == name)
+	{
+		qDebug("don't do layout policy for main widget");
+	}
 	else if ("width" == name)
-		wnd_->resize(value.toInt(),wnd_->height());
+	{
+		qDebug("don't do width for main widget");
+		//wnd_->resize(value.toInt(),wnd_->height());
+	}
 	else if ("height" == name)
-		wnd_->resize(wnd_->width(),value.toInt());
+	{
+		qDebug("don't do height for main widget");
+		//wnd_->resize(wnd_->width(),value.toInt());
+	}
 	else
 		alWidget::setAttr(name,value);
 }
