@@ -294,42 +294,11 @@ public:
 	alMainWidget(const QString& id,const QString& parent):
 		alMainWidgetPre<MainWidget_t>(id, parent)
 	{
-	    layout_ = new MyVBoxLayout(wnd_);
-	    QTimer::singleShot(0, this, SLOT(init()));
+	    new MyVBoxLayout(wnd_);
 	}
 	void setAttr(const QString& name,const QString& value);
 	void start() { wnd_->show(); }
 	void stop()  { QApplication::closeAllWindows(); }
-	
-private:
-	MyBoxLayout *layout_;
-	bool eventFilter(QObject *obj, QEvent *event)
-	{
-	    if( obj == wnd_ && event->type() == QEvent::Resize )
-	    {
-		QResizeEvent *sizeEvent = static_cast<QResizeEvent*>(event);
-		QSize sz = sizeEvent->size();
-		if( sz != sizeEvent->oldSize() )
-		{
-		    QRect desktop_geom = QApplication::desktop()->geometry();
-		    qDebug("set new geometry");
-		    QRect new_geom = wnd_->geometry();
-		    new_geom.setWidth(  (desktop_geom.width() *sz.width()) /100 ); 
-		    new_geom.setHeight( (desktop_geom.height()*sz.height())/100 ); 
-		    layout_->setGeometry(new_geom);
-		}
-		return true;
-	    } else {
-		return QObject::eventFilter(obj, event);
-	    }						
-	}
-
-private slots:
-	void init()
-	{
-		
-//	    wnd_->installEventFilter(this);
-	}
 };
 
 class alBox: public alWidgetPre<QFrame2>
