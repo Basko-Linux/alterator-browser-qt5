@@ -131,8 +131,8 @@ public:
 		wnd_->setObjectName("main_widget");
 		wnd_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 		//wnd_->setFrameStyle(QFrame::Box|QFrame::Raised);
-		wnd_->show();
 		main_window->layout()->addWidget(wnd_);
+		wnd_->show();
 	}
 
 	~alMainWidgetPre() { wnd_->deleteLater(); }
