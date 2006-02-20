@@ -15,6 +15,10 @@ public:
     MainWindow();
     ~MainWindow();
 
+private:
+    bool started;
+    void showEvent(QShowEvent*);
+
 private slots:
     void start();
 };
