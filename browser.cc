@@ -182,9 +182,12 @@ void getDocParser(alCommand *cmd)
 
 void emitEvent(const QString& id,const QString& type)
 {
-//	QWidget *dlg = QApplication::activeModalWidget();
-//	if (dlg->accessibleName() == "locked") return;
-//	dlg->setAccessibleName("locked");
+	QWidget *dlg = QApplication::activeModalWidget();
+	if( dlg )
+	{
+	    if( dlg->accessibleName() == "locked") return;
+	    dlg->setAccessibleName("locked");
+	}
 
 	QString request = "(alterator-request action \"event\"";
 	request += "name \""+type+"\"";//append type
@@ -204,7 +207,8 @@ void emitEvent(const QString& id,const QString& type)
 	request += "))"; //close message
 
 	getDocument(getDocParser,request);
-//	dlg->setAccessibleName("unlocked");
+	if( dlg )
+	    dlg->setAccessibleName("unlocked");
 }
 
 /////////////////////////////////////////////////
