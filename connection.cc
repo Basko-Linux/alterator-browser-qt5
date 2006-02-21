@@ -25,7 +25,7 @@ QStringList languageList(const char *env)
 	while(it.hasNext())
 	{
 		QString item = it.next();
-		if (!item.isEmpty()) out += item.left(2);
+		if (!item.isEmpty()) out += item.replace(QRegExp("\\..*"),"");
 	}
 	return out;
 }
@@ -37,11 +37,11 @@ QString createLangList()
 	const char *env = getenv("LANGUAGE");
 	if (env && *env) lst += languageList(env);
 	env = getenv("LC_ALL");
-	if (env && *env) lst += QString(env).left(2);
+	if (env && *env) lst += QString(env).replace(QRegExp("\\..*"),"");
 	env = getenv("LC_MESSAGES");
-	if (env && *env) lst += QString(env).left(2);
+	if (env && *env) lst += QString(env).replace(QRegExp("\\..*"),"");
 	env = getenv("LANG");
-	if (env && *env) lst += QString(env).left(2);
+	if (env && *env) lst += QString(env).replace(QRegExp("\\..*"),"");
 	return lst.join(";");
 }
 
