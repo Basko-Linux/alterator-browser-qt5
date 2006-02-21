@@ -83,7 +83,12 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 void deleteRequest(const QString& id)
 {
 	if (!elements.contains(id)) return;
-	else elements.take(id)->deleteLater();
+	else
+	{
+	    alWidget *aw = elements.take(id);
+	    aw->getWidget()->hide();
+	    aw->deleteLater();
+	}
 }
 
 void setRequest(const QString& id,const QString& attr,const QString& value)
@@ -183,11 +188,10 @@ void getDocParser(alCommand *cmd)
 void emitEvent(const QString& id,const QString& type)
 {
 	QWidget *dlg = QApplication::activeModalWidget();
-	if( dlg )
-	{
-	    if( dlg->accessibleName() == "locked") return;
-	    dlg->setAccessibleName("locked");
-	}
+	if( !dlg )
+	    dlg = main_window;
+	if( dlg->accessibleName() == "locked") return;
+	dlg->setAccessibleName("locked");
 
 	QString request = "(alterator-request action \"event\"";
 	request += "name \""+type+"\"";//append type
@@ -207,8 +211,7 @@ void emitEvent(const QString& id,const QString& type)
 	request += "))"; //close message
 
 	getDocument(getDocParser,request);
-	if( dlg )
-	    dlg->setAccessibleName("unlocked");
+	dlg->setAccessibleName("unlocked");
 }
 
 /////////////////////////////////////////////////
