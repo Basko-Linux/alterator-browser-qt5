@@ -291,7 +291,6 @@ public:
 
 class alMainWidget: public alMainWidgetPre<MainWidget_t>
 {
-    Q_OBJECT;
 public:
 	alMainWidget(const QString& id,const QString& parent):
 		alMainWidgetPre<MainWidget_t>(id, parent)
