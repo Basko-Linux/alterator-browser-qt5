@@ -125,14 +125,9 @@ public:
 	alMainWidgetPre(const QString& id,const QString& parent):
 		alWidget(id,parent)
 	{
-		//qDebug("%s parent<%s>", __FUNCTION__, parent.toLatin1().data());
 		elements[id] = this;
 		wnd_ = new Widget(main_window);
-		wnd_->setObjectName("main_widget");
 		wnd_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-		//wnd_->setFrameStyle(QFrame::Box|QFrame::Raised);
-		//main_window->layout()->addWidget(wnd_);
 		main_window->setCentralWidget( wnd_ );
 	}
 

@@ -12,9 +12,6 @@ MainWindow::MainWindow():
     MainWindow_t()
 {
     started = false;
-    setObjectName("main_window");
-//    new MainWindowLayout_t(this);
-//    resize(600,400);
 }
 
 MainWindow::~MainWindow()
