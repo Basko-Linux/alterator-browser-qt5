@@ -2,11 +2,11 @@
 #define QT_BROWSER_MAIN_WINDOW_HH
 
 #include <QFrame>
+#include <QMainWindow>
+#define MainWindow_t QMainWindow
+#define MainWindowLayout_t QGridLayout
 
 #include "layout.hh"
-
-#define MainWindow_t QWidget
-#define MainWindowLayout_t QGridLayout
 
 class MainWindow: public MainWindow_t
 {

@@ -130,9 +130,10 @@ public:
 		wnd_ = new Widget(main_window);
 		wnd_->setObjectName("main_widget");
 		wnd_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
 		//wnd_->setFrameStyle(QFrame::Box|QFrame::Raised);
-		main_window->layout()->addWidget(wnd_);
-		wnd_->show();
+		//main_window->layout()->addWidget(wnd_);
+		main_window->setCentralWidget( wnd_ );
 	}
 
 	~alMainWidgetPre() { wnd_->deleteLater(); }
@@ -298,7 +299,7 @@ public:
 	    new MyVBoxLayout(wnd_);
 	}
 	void setAttr(const QString& name,const QString& value);
-	void start() {}
+	void start() { wnd_->show(); }
 	void stop()  { QApplication::closeAllWindows(); }
 };
 
