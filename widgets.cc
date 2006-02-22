@@ -409,16 +409,14 @@ void alMainWidget::setAttr(const QString& name,const QString& value)
 	}
 	else if ("layout-policy" == name)
 	{
-		qDebug("don't do layout policy for main widget");
+		//qDebug("don't do layout policy for main widget");
 	}
 	else if ("width" == name)
 	{
-		qDebug("don't do width for main widget");
 		//wnd_->resize(value.toInt(),wnd_->height());
 	}
 	else if ("height" == name)
 	{
-		qDebug("don't do height for main widget");
 		//wnd_->resize(wnd_->width(),value.toInt());
 	}
 	else
