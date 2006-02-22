@@ -190,9 +190,12 @@ void getDocParser(alCommand *cmd)
 
 void emitEvent(const QString& id,const QString& type)
 {
-	QWidget *dlg = QApplication::activeModalWidget();
+	QWidget *dlg = QApplication::activeWindow();
 	if( !dlg )
+	{
+	    qDebug("%s: no activeModalWidget", __FUNCTION__);
 	    dlg = main_window;
+	}
 	if( dlg->accessibleName() == "locked") return;
 	dlg->setAccessibleName("locked");
 
