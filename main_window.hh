@@ -15,11 +15,15 @@ public:
     MainWindow();
     ~MainWindow();
 
+    bool haveWindowManager();
+
 private:
     bool started;
+    bool have_wm;
     void showEvent(QShowEvent*);
 
 private slots:
     void start();
+
 };
 #endif
