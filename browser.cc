@@ -145,8 +145,8 @@ void eventRequest(const QString& id,const QString& value)
 
 void timerRequest(const QString& action)
 {
-	if ("add" == action) updater->start();
-	else if ("remove" == action) updater->stop();
+	if (updater && "add" == action) updater->start();
+	else if (updater && "remove" == action) updater->stop();
 }
 
 ////////////////////////////////////////////////
@@ -180,7 +180,10 @@ void getDocParser(alCommand *cmd)
 	else if ("stop" == action)
 		stopRequest(e.value("widget-id"));
 	else if ("retry" == action)
+	{
+	    if( updater )
 		QTimer::singleShot(50,updater,SLOT(doRetry()));
+	}
 }
 
 ////////////////////////////////////////////////

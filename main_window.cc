@@ -77,7 +77,7 @@ bool MainWindow::haveWindowManager()
 	if (data_ret)
 	{
 	    Window supportwindow = *((Window *) data_ret);
-	    unsigned char *name_ret;
+	    unsigned char *name_ret = 0;
 	    if (XGetWindowProperty(xdisplay, supportwindow, wm_name_atom,
 		0l, (long) 4096, False,
 		UTF8_STRING, &type_ret, &format_ret,
