@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.6
-Release: alt7.1
+Release: alt11
 
 Source:%name-%version.tar.bz2
 
@@ -40,6 +40,26 @@ sed -i "s|^\s*CXXFLAGS\s*=.*$|CXXFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Ma
 %_bindir/*
 
 %changelog
+* Wed Feb 22 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6-alt11
+- separate main window
+- start full-screen without window manager
+
+* Tue Feb 21 2006 Stanislav Ievlev <inger@altlinux.org> 2.6-alt10
+- improve language selection
+
+* Wed Feb 08 2006 Stanislav Ievlev <inger@altlinux.org> 2.6-alt9
+- listbox fixes (indentation + auto-scrolling)
+
+* Tue Feb 07 2006 Stanislav Ievlev <inger@altlinux.org> 2.6-alt8.1
+- little layout fixes
+
+* Mon Feb 06 2006 Stanislav Ievlev <inger@altlinux.org> 2.6-alt8
+- resurrect old hacks for QDialog
+- added support for full-screen
+
+* Fri Jan 27 2006 Stanislav Ievlev <inger@altlinux.org> 2.6-alt7.2
+- added support for splashes
+
 * Fri Jan 27 2006 Stanislav Ievlev <inger@altlinux.org> 2.6-alt7.1
 - added support for tooltips
 
