@@ -15,10 +15,8 @@ Provides: alterator-look-qt
 Obsoletes: alterator-look-qt
 
 
-# Automatically added by buildreq on Thu Dec 08 2005
-BuildRequires: fontconfig freetype2 gcc-c++ libqt4-core libqt4-devel libstdc++-devel qt4-settings
-
-BuildRequires: gcc-c++ guile16-devel libdbus-devel libdbus-qt-devel libqt3-devel libstdc++-devel pkgconfig
+BuildRequires: fontconfig freetype2 gcc-c++ libqt4-devel libstdc++-devel
+BuildRequires: gcc-c++ guile16-devel libdbus-devel libdbus-qt-devel libqt3-devel libstdc++-devel pkg-config
 
 %description
 X11 Qt interface driver for alterator
