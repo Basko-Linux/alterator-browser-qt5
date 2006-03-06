@@ -47,7 +47,7 @@ void MainWindow::start()
 
 void MainWindow::showEvent(QShowEvent*)
 {
-    start();
+    QTimer::singleShot(0, this, SLOT(start()));
 }
 
 bool MainWindow::haveWindowManager()
