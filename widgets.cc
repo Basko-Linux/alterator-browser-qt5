@@ -302,7 +302,6 @@ void alListBox::registerEvent(const QString& name)
 
 QString alListBox::postData() const
 {
-//	return QString(" (current . ") + QString::number(wnd_->indexOfTopLevelItem(wnd_->currentItem())) +" )";
 	return QString(" (current . ") + QString("%1").arg(wnd_->currentRow()) +" )";
 }
 
