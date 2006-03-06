@@ -2,7 +2,7 @@
 #define QTBROWSER_HACKS_HH
 
 #include <QDialog>
-#include <QTreeWidget>
+#include <QListWidget>
 
 #include <QKeyEvent>
 #include <QPaintEvent>
@@ -14,17 +14,17 @@
 
 void widget_corners_round(QWidget*);
 
-//QTreeWidget unable to scroll to active widget until it invisible
-class QTreeWidget2: public QTreeWidget
+//QListWidget unable to scroll to active widget until it invisible
+class QListWidget2: public QListWidget
 {
 public:
-	QTreeWidget2(QWidget *parent=0):
-		QTreeWidget(parent)
+	QListWidget2(QWidget *parent=0):
+		QListWidget(parent)
 	{}
 protected:
 	void showEvent(QShowEvent *e)
 	{
-		QTreeWidget::showEvent(e);
+		QListWidget::showEvent(e);
 		scrollTo(currentIndex());
 	}
 };

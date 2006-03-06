@@ -209,18 +209,13 @@ public:
 	QString postData() const ;
 };
 
-class alListBox: public alWidgetPre<QTreeWidget2>
+class alListBox: public alWidgetPre<QListWidget2>
 {
 public:
 	alListBox(const QString& id,const QString& parent):
-		alWidgetPre<QTreeWidget2>(id,parent)
+		alWidgetPre<QListWidget2>(id,parent)
 	{
 		wnd_->setAlternatingRowColors(true);
-		//setings to be compatible with QListView
-		wnd_->setColumnCount(1);
-		wnd_->header()->hide();
-		wnd_->setSelectionBehavior(QAbstractItemView::SelectRows);
-		wnd_->setIndentation(0);
 	}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);

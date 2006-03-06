@@ -256,34 +256,38 @@ void alListBox::setAttr(const QString& name,const QString& value)
 	if ("append-item" == name)
 	{//TODO:will be support for multiple columns here
 		QStringList data = value.split(";");
-		QTreeWidgetItem *item(new QTreeWidgetItem(wnd_));
+		QListWidgetItem *item(new QListWidgetItem(wnd_));
 		if (!data[0].isEmpty())
-			item->setText(0,data[0]);
+			item->setText(data[0]);
 		if (!data[1].isEmpty())
-			item->setIcon(0,QIcon(imagePath+data[1]));
+			item->setIcon(QIcon(imagePath+data[1]));
 	}
 	else if ("current" == name)
 	{
-		QTreeWidgetItem *i = wnd_->topLevelItem(value.toInt());
-		wnd_->scrollToItem(i);
-		wnd_->setCurrentItem(i);
+		int n = value.toInt();
+		if( n >= 0)
+		{
+		    QListWidgetItem *i = wnd_->item(n);
+		    wnd_->setCurrentRow(n);
+		    wnd_->scrollToItem(i);
+		}
 	}
 	else if ("remove-item" == name)
 	{
 		if ("all" == value)
 			wnd_->clear();
 		else
-			delete wnd_->takeTopLevelItem(value.toInt());
+			delete wnd_->takeItem(value.toInt());
 	}
 	else if ("item-text" == name)
 	{//TODO: will be support for multiple columns here
 		QStringList data = value.split(";");
-		wnd_->topLevelItem(data[1].toInt())->setText(0,data[0]);
+		wnd_->item(data[1].toInt())->setText(data[0]);
 	}
 	else if ("item-pixmap" == name)
 	{//TODO: will be support for multiple columns here
 		QStringList data = value.split(";");
-		wnd_->topLevelItem(data[1].toInt())->setIcon(0,QIcon(imagePath+data[0]));
+		wnd_->item(data[1].toInt())->setIcon(QIcon(imagePath+data[0]));
 	}
 	else
 		alWidget::setAttr(name,value);
@@ -298,7 +302,8 @@ void alListBox::registerEvent(const QString& name)
 
 QString alListBox::postData() const
 {
-	return QString(" (current . ") + QString::number(wnd_->indexOfTopLevelItem(wnd_->currentItem())) +" )";
+//	return QString(" (current . ") + QString::number(wnd_->indexOfTopLevelItem(wnd_->currentItem())) +" )";
+	return QString(" (current . ") + QString("%1").arg(wnd_->currentRow()) +" )";
 }
 
 void alComboBox::setAttr(const QString& name,const QString& value)
