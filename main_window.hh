@@ -3,10 +3,12 @@
 
 #include <QFrame>
 #include <QMainWindow>
-#define MainWindow_t QMainWindow
-#define MainWindowLayout_t QGridLayout
+#include <QGridLayout>
 
 #include "layout.hh"
+
+typedef QMainWindow MainWindow_t;
+typedef QGridLayout MainWindowLayout_t;
 
 class MainWindow: public MainWindow_t
 {

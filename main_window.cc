@@ -2,7 +2,6 @@
 #include <QTextStream>
 #include <QDataStream>
 #include <QTimer>
-#include <QGridLayout>
 #include <QCursor>
 #ifdef Q_WS_X11
 #include <QX11Info>

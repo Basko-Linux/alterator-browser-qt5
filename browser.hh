@@ -20,5 +20,6 @@ Q_OBJECT
 };
 
 void getDocParser(alCommand *cmd);
+void emitEvent(const QString& id,const QString& type);
 
 #endif

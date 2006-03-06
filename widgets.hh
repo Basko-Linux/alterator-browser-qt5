@@ -25,12 +25,12 @@
 
 #include "connection.hh"
 #include "main_window.hh"
+#include "browser.hh"
 
-#define MainWidget_t QFrame
+typedef QWidget MainWidget_t;
 
 extern MainWindow *main_window;
 
-void emitEvent(const QString& id,const QString& type);
 MyBoxLayout *getLayout(const QString& id);
 QWidget* getQWidget(const QString& id);
 

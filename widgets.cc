@@ -293,7 +293,7 @@ void alListBox::setAttr(const QString& name,const QString& value)
 void alListBox::registerEvent(const QString& name)
 {
 	if ("on-select" == name)
-		connect(wnd_,SIGNAL( itemSelectionChanged() ),SLOT(onSelect()));
+		connect( wnd_, SIGNAL(itemSelectionChanged()), SLOT(onSelect()) );
 }
 
 QString alListBox::postData() const
