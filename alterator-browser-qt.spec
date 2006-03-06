@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.6
-Release: alt11
+Release: alt12
 
 Source:%name-%version.tar.bz2
 
@@ -38,6 +38,9 @@ sed -i "s|^\s*CXXFLAGS\s*=.*$|CXXFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Ma
 %_bindir/*
 
 %changelog
+* Mon Mar 06 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6-alt12
+- fix current item when listbox on-select
+
 * Wed Feb 22 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6-alt11
 - separate main window
 - start full-screen without window manager
