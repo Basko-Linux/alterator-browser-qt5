@@ -262,6 +262,22 @@ void alListBox::setAttr(const QString& name,const QString& value)
 		if (!data[1].isEmpty())
 			item->setIcon(QIcon(imagePath+data[1]));
 	}
+	if ("items" == name)
+	{
+	    QStringList lst = value.split(";");
+	    QStringListIterator i(lst);
+	    while( i.hasNext() )
+	    {
+		QString text = i.next();
+		if( !i.hasNext() ) break;
+		QString icon = i.next();
+		QListWidgetItem *item;
+		if( icon.isEmpty() )
+		    item = new QListWidgetItem(text, wnd_);
+		else
+		    item = new QListWidgetItem(QIcon(imagePath+icon), text, wnd_);
+	    }
+	}
 	else if ("current" == name)
 	{
 		int n = value.toInt();
@@ -314,6 +330,21 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 			wnd_->addItem(data[0]);
 		else
 			wnd_->addItem(QIcon(imagePath+data[1]),data[0]);
+	}
+	if ("items" == name)
+	{
+	    QStringList lst = value.split(";");
+	    QStringListIterator i(lst);
+	    while( i.hasNext() )
+	    {
+		QString text = i.next();
+		if( !i.hasNext() ) break;
+		QString icon = i.next();
+		if( icon.isEmpty() )
+		    wnd_->addItem(text);
+		else
+		    wnd_->addItem(QIcon(imagePath+icon), text);
+	    }
 	}
 	else if ("current" == name)
 		wnd_->setCurrentIndex(value.toInt());
