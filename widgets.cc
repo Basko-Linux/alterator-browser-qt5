@@ -262,7 +262,7 @@ void alListBox::setAttr(const QString& name,const QString& value)
 		if (!data[1].isEmpty())
 			item->setIcon(QIcon(imagePath+data[1]));
 	}
-	if ("items" == name)
+	else if ("items" == name)
 	{
 	    QStringList lst = value.split(";");
 	    QStringListIterator i(lst);
@@ -331,7 +331,7 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 		else
 			wnd_->addItem(QIcon(imagePath+data[1]),data[0]);
 	}
-	if ("items" == name)
+	else if ("items" == name)
 	{
 	    QStringList lst = value.split(";");
 	    QStringListIterator i(lst);
