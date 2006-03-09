@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.6
-Release: alt12
+Release: alt13
 
 Source:%name-%version.tar.bz2
 
@@ -38,6 +38,9 @@ sed -i "s|^\s*CXXFLAGS\s*=.*$|CXXFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Ma
 %_bindir/*
 
 %changelog
+* Thu Mar 09 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6-alt13
+- add items property to listbox and combobox
+
 * Mon Mar 06 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6-alt12
 - fix current item when listbox on-select
 
