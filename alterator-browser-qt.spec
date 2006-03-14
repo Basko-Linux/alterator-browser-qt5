@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.6
-Release: alt13
+Release: alt14
 
 Source:%name-%version.tar.bz2
 
@@ -38,6 +38,9 @@ sed -i "s|^\s*CXXFLAGS\s*=.*$|CXXFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Ma
 %_bindir/*
 
 %changelog
+* Tue Mar 14 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6-alt14
+- clear listbox and combobox when add list of items
+
 * Thu Mar 09 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6-alt13
 - add items property to listbox and combobox
 
