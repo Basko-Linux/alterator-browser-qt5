@@ -264,6 +264,7 @@ void alListBox::setAttr(const QString& name,const QString& value)
 	}
 	else if ("items" == name)
 	{
+	    wnd_->clear();
 	    QStringList lst = value.split(";");
 	    QStringListIterator i(lst);
 	    while( i.hasNext() )
@@ -333,6 +334,7 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 	}
 	else if ("items" == name)
 	{
+	    wnd_->clear();
 	    QStringList lst = value.split(";");
 	    QStringListIterator i(lst);
 	    while( i.hasNext() )
