@@ -65,6 +65,7 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 		new alDialog(id,parent);
 	    }
 	}
+	else if ("root" == type) new alVBox(id,parent);
 	else if ("vbox" == type) new alVBox(id,parent);
 	else if ("hbox" == type) new alHBox(id,parent);
 	else if ("button" == type) new alButton(id,parent);
