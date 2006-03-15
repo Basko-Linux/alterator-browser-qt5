@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
-Version: 2.6
-Release: alt14
+Version: 2.6.1
+Release: alt1
 
 Source:%name-%version.tar.bz2
 
@@ -38,6 +38,11 @@ sed -i "s|^\s*CXXFLAGS\s*=.*$|CXXFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Ma
 %_bindir/*
 
 %changelog
+* Wed Mar 15 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt1
+- add align for label
+- add widget named root and symlink to vbox
+- add sax optimization
+
 * Tue Mar 14 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6-alt14
 - clear listbox and combobox when add list of items
 
