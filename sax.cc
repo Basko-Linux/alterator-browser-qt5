@@ -52,8 +52,8 @@ public:
 
 
 
-bool alHandler::startElement(const QString &namespaceURI, const QString &localName,
-                             const QString &qName, const QXmlAttributes &attributes)
+bool alHandler::startElement(const QString& /*namespaceURI*/, const QString& /*localName*/,
+                             const QString& qName, const QXmlAttributes& attributes)
 {
 	if (qName == "auth-answer")
 	{
@@ -69,8 +69,8 @@ bool alHandler::startElement(const QString &namespaceURI, const QString &localNa
 	return false;
 }
 
-bool alHandler::endElement(const QString &namespaceURI, const QString &localName,
-                           const QString &qName)
+bool alHandler::endElement(const QString& /*namespaceURI*/, const QString& /*localName*/,
+                           const QString& qName)
 {
 	if (qName == "auth-answer")
 		return false;
@@ -83,7 +83,7 @@ bool alHandler::endElement(const QString &namespaceURI, const QString &localName
 	else return false;
 }
 
-bool alHandler::characters(const QString &str)
+bool alHandler::characters(const QString& str)
 {
 	if (command_) command_->value_ = str;
 	return true;
