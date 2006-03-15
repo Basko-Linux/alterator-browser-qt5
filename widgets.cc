@@ -40,7 +40,7 @@ namespace
 //all current elements on viewer
 QMap<QString,alWidget*> elements;
 
-MyBoxLayout *getLayout(const QString& id)
+MyBoxLayout *findLayout(const QString& id)
 {
 	if (!elements.contains(id)) return 0;
 
@@ -56,7 +56,7 @@ MyBoxLayout *getLayout(const QString& id)
 	return 0;
 }
 
-QWidget* getQWidget(const QString& id)
+QWidget* findQWidget(const QString& id)
 {
 	if (!elements.contains(id)) return 0;
 
@@ -91,7 +91,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		int d = -1;
 		if (policies.count() > 2) d = convertAlign(policies.at(2));
 
-		MyBoxLayout *playout = getLayout(parent_);
+		MyBoxLayout *playout = findLayout(parent_);
 		if (playout)
 		{
 		    playout->addWidget(getWidget(),QSize(w,h),d);

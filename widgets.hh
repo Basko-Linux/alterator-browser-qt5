@@ -31,8 +31,8 @@ typedef QWidget MainWidget_t;
 
 extern MainWindow *main_window;
 
-MyBoxLayout *getLayout(const QString& id);
-QWidget* getQWidget(const QString& id);
+MyBoxLayout *findLayout(const QString& id);
+QWidget* findQWidget(const QString& id);
 
 #define simpleQuote(s) s.replace("\\","\\\\").replace("\"","\\\"")
 
@@ -104,7 +104,7 @@ public:
 		wnd_(createWidget<Widget>(parent))
 	{
 		elements[id] = this;
-		QWidget *pwidget = getQWidget(parent);
+		QWidget *pwidget = findQWidget(parent);
 		if( pwidget )
 		{
 		    QLayout *playout = pwidget->layout();
