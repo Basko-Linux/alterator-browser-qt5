@@ -59,6 +59,7 @@ public:
 	virtual QString stringParent(void) { return parent_; };
 public slots:
 	void onClick(bool) { emitEvent(id_,"on-click"); }
+	void onClick(QListWidgetItem*) { emitEvent(id_,"on-click"); }
 	void onChange(void) { emitEvent(id_,"on-change"); }
 	void onChange(const QString&) { emitEvent(id_,"on-change"); }
 	void onChange(QWidget*) { emitEvent(id_,"on-change"); }

@@ -317,6 +317,8 @@ void alListBox::registerEvent(const QString& name)
 {
 	if ("on-select" == name)
 		connect( wnd_, SIGNAL(currentRowChanged(int)), SLOT(onSelect(int)) );
+	if ("on-click" == name)
+		connect( wnd_, SIGNAL(itemActivated(QListWidgetItem*)), SLOT(onClick(QListWidgetItem*)) );
 }
 
 QString alListBox::postData() const
