@@ -168,8 +168,10 @@ void alEdit::setAttr(const QString& name,const QString& value)
 
 void alEdit::registerEvent(const QString& name)
 {
-	if ("on-change" == name)
+	if( "on-change" == name )
 		connect(wnd_,SIGNAL( textEdited(const QString&) ),SLOT(onChange(const QString&)));
+	else if( "on-return" == name )
+	    connect(wnd_,SIGNAL(returnPressed() ),SLOT(onReturn()));
 }
 
 
