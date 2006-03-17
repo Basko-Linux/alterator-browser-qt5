@@ -320,6 +320,8 @@ void alListBox::registerEvent(const QString& name)
 	if ("on-select" == name)
 		connect( wnd_, SIGNAL(currentRowChanged(int)), SLOT(onSelect(int)) );
 	else if ("on-click" == name)
+		connect( wnd_, SIGNAL(itemClicked(QListWidgetItem*)), SLOT(onClick(QListWidgetItem*)) );
+	else if ("on-return" == name)
 		connect( wnd_, SIGNAL(itemActivated(QListWidgetItem*)), SLOT(onClick(QListWidgetItem*)) );
 }
 

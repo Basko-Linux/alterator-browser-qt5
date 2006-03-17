@@ -64,6 +64,7 @@ public slots:
 	void onChange(const QString&) { emitEvent(id_,"on-change"); }
 	void onChange(QWidget*) { emitEvent(id_,"on-change"); }
 	void onReturn() { emitEvent(id_,"on-return"); }
+	void onReturn(QListWidgetItem*) { emitEvent(id_,"on-return"); }
 	void onSelect() { emitEvent(id_,"on-select"); }
 	void onSelect(int) { emitEvent(id_,"on-select"); }
 	void onDoubleClick() { emitEvent(id_,"on-double-click"); }
