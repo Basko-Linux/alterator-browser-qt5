@@ -16,6 +16,7 @@
 Updater *updater = 0;//slot for updates
 QPointer<QSplashScreen> splash;//single splash screen
 MainWindow *main_window = 0;
+int emit_locker = 0; //wrong emit protector
 
 void splashStart(void)
 {
@@ -101,8 +102,15 @@ void setRequest(const QString& id,const QString& attr,const QString& value)
 //	<<",value:"<<value.toUtf8().data()
 //	<<std::endl;
 
-	if (!elements.contains(id)) return;
-	else elements[id]->setAttr(attr,value);
+	++emit_locker;
+	if (!elements.contains(id))
+	{
+	    --emit_locker;
+	    return;
+	}
+	else
+	    elements[id]->setAttr(attr,value);
+	--emit_locker;
 }
 
 void startRequest(const QString& id)
@@ -193,11 +201,7 @@ void getDocParser(alCommand *cmd)
 
 void emitEvent(const QString& id,const QString& type)
 {
-	QWidget *dlg = QApplication::activeWindow();
-	if( !dlg )
-	    dlg = main_window;
-	if( dlg->accessibleName() == "locked") return;
-	dlg->setAccessibleName("locked");
+	if( emit_locker > 0 ) return;
 
 	QString request = "(alterator-request action \"event\"";
 	request += "name \""+type+"\"";//append type
@@ -217,7 +221,6 @@ void emitEvent(const QString& id,const QString& type)
 	request += "))"; //close message
 
 	getDocument(getDocParser,request);
-	dlg->setAccessibleName("unlocked");
 }
 
 int main(int argc,char **argv)

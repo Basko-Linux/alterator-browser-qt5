@@ -29,5 +29,5 @@ void Updater::doUpdate()
 
 void Updater::doRetry()
 {
-	getDocument(getDocParser);
+	getDocument(getDocParser,"(alterator-request action \"re-get\")");
 }
