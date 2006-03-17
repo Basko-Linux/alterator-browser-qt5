@@ -6,6 +6,7 @@
 #include <QPainter>
 
 #include "widgets.hh"
+#include "al_wizard_face.hh"
 #include "connection.hh"
 #include "browser.hh"
 #include "main_window.hh"
