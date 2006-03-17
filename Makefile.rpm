@@ -1,7 +1,7 @@
 
 PACKAGE=alterator-browser-qt
 VERSION=$(shell cat VERSION)
-SOURCES=*.cc *.hh *.pro Makefile.rpm
+SOURCES=*.cc *.hh *.pro Makefile.rpm *.spec
 
 
 TOPDIR=$(shell pwd)
