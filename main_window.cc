@@ -13,6 +13,7 @@
 #include "browser.hh"
 #include "connection.hh"
 #include "main_window.hh"
+#include "updater.hh"
 
 extern Updater *updater;
 

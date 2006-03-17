@@ -9,6 +9,7 @@
 #include "connection.hh"
 #include "browser.hh"
 #include "main_window.hh"
+#include "updater.hh"
 
 
 Updater *updater = 0;//slot for updates
@@ -217,37 +218,6 @@ void emitEvent(const QString& id,const QString& type)
 	getDocument(getDocParser,request);
 	dlg->setAccessibleName("unlocked");
 }
-
-/////////////////////////////////////////////////
-Updater::Updater():
-	QObject(),
-	timer_(new QTimer(this))
-{
-	timer_->setInterval(500);
-	connect(timer_,SIGNAL(timeout()),this,SLOT(doUpdate()));
-}
-
-void Updater::start()
-{
-	timer_->start();
-}
-
-void Updater::stop()
-{
-	timer_->stop();
-}
-
-void Updater::doUpdate()
-{
-	getDocument(getDocParser,"(alterator-request action \"re-get\")");
-}
-
-
-void Updater::doRetry()
-{
-	getDocument(getDocParser);
-}
-
 
 int main(int argc,char **argv)
 {

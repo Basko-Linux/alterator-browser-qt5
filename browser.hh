@@ -5,20 +5,6 @@
 
 #include "sax.hh"
 
-class Updater: public QObject
-{
-Q_OBJECT
-	public:
-		Updater();
-	public slots:
-		void doUpdate();
-		void doRetry();
-		void start();
-		void stop();
-	private:
-		QTimer *timer_;
-};
-
 void getDocParser(alCommand *cmd);
 void emitEvent(const QString& id,const QString& type);
 
