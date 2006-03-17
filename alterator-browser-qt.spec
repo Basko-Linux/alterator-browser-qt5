@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.6.1
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar.bz2
 
@@ -38,6 +38,11 @@ sed -i "s|^\s*CXXFLAGS\s*=.*$|CXXFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Ma
 %_bindir/*
 
 %changelog
+* Fri Mar 17 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt2
+- add on-click, on-return to listbox
+- add on-return to edit
+- add on-click to listbox
+
 * Wed Mar 15 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt1
 - add align for label
 - add widget named root and symlink to vbox

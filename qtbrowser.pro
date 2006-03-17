@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-VERSION=-2.6
+VERSION=-$(shell cat VERSION)
 
 QT += xml
 

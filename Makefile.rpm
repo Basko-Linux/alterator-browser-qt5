@@ -1,0 +1,34 @@
+
+PACKAGE=alterator-browser-qt
+VERSION=$(shell cat VERSION)
+SOURCES=*.cc *.hh *.pro Makefile.rpm
+
+
+TOPDIR=$(shell pwd)
+RPM_TOPDIR=$(TOPDIR)/RPM
+RPM_TMPDIR=$(TOPDIR)/RPM/TMP
+RPM_SOURCEDIR=$(TOPDIR)/RPM/SOURCES
+RPM_SPECSDIR=$(TOPDIR)
+RPM_SRPMSDIR=$(TOPDIR)/SRPMS
+
+all: rpm
+
+rpm: $(RPM_SRPMSDIR)/$(PACKAGE)-$(VERSION)*src.rpm
+
+$(RPM_SRPMSDIR)/$(PACKAGE)-$(VERSION)*src.rpm: $(RPM_SOURCEDIR)/$(PACKAGE)-$(VERSION).tar.bz2
+	rpmbuild -ba --define "_topdir $(RPM_TOPDIR)" --define "_sourcedir $(RPM_SOURCEDIR)" --define "_tmpdir $(RPM_TMPDIR)" --define  "_specdir $(TOPDIR)" $(PACKAGE).spec
+
+$(RPM_SOURCEDIR)/$(PACKAGE)-$(VERSION).tar.bz2:
+	mkdir -p $(RPM_SOURCEDIR)
+	rm -f $(RPM_SOURCEDIR)/$(PACKAGE)-$(VERSION).tar.bz2
+	rm -rf ~/tmp/$(PACKAGE)-$(VERSION)
+	mkdir -p ~/tmp/$(PACKAGE)-$(VERSION)
+	cp -a $(SOURCES) ~/tmp/$(PACKAGE)-$(VERSION)/
+	find ~/tmp/$(PACKAGE)-$(VERSION)/ -type d -name "CVS"|xargs rm -Rf
+	find ~/tmp/$(PACKAGE)-$(VERSION)/ -type f -name ".cvsignore"|xargs rm -f
+	pushd ~/tmp/$(PACKAGE)-$(VERSION)/;make clean;rm -Rf RPM;popd
+	echo "Tarball ..."
+	pushd ~/tmp/;tar cvfj $(RPM_SOURCEDIR)/$(PACKAGE)-$(VERSION).tar.bz2 $(PACKAGE)-$(VERSION)/;popd
+
+clean:
+	rm -rf $(RPM_TOPDIR)
