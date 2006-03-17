@@ -322,7 +322,7 @@ void alListBox::registerEvent(const QString& name)
 	else if ("on-click" == name)
 		connect( wnd_, SIGNAL(itemClicked(QListWidgetItem*)), SLOT(onClick(QListWidgetItem*)) );
 	else if ("on-return" == name)
-		connect( wnd_, SIGNAL(itemActivated(QListWidgetItem*)), SLOT(onClick(QListWidgetItem*)) );
+		connect( wnd_, SIGNAL(itemActivated(QListWidgetItem*)), SLOT(onReturn(QListWidgetItem*)) );
 }
 
 QString alListBox::postData() const
