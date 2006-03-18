@@ -86,7 +86,7 @@ public slots:
 	}
 };
 
-QLayout *findLayout(const QString& id);
+QLayout *findViewLayout(const QString& id);
 QWidget* findQWidget(const QString& id);
 alWidget* findAlWidget(const QString& id);
 
@@ -113,14 +113,15 @@ public:
 		if( pa )
 		{
 		    QLayout *playout = pa->getViewLayout();
-		    if( playout ) playout->addWidget(wnd_);
+		    if( playout )
+			playout->addWidget(wnd_);
 		}
 	}
 
 	~alWidgetPre() { wnd_->deleteLater(); }
 	QWidget* getWidget() { return wnd_; }	
-	virtual QWidget* getViewWidget() { return wnd_; }	
-	virtual QLayout* getViewLayout() { return getViewWidget()->layout(); }	
+	virtual QWidget* getViewWidget() { return wnd_; }
+	virtual QLayout* getViewLayout() { return wnd_->layout(); }
 };
 
 template <typename Widget>
@@ -141,7 +142,7 @@ public:
 	~alMainWidgetPre() { wnd_->deleteLater(); }
 	QWidget* getWidget() { return wnd_; }	
 	virtual QWidget* getViewWidget() { return wnd_; }	
-	virtual QLayout* getViewLayout() { return getViewWidget()->layout(); }	
+	virtual QLayout* getViewLayout() { return wnd_->layout(); }	
 };
 
 
@@ -307,7 +308,7 @@ public:
 	alBox(const QString& id,const QString& parent,MyBoxLayout::Direction direction):
 		alWidgetPre<QFrame2>(id,parent)
 	{
-		new MyBoxLayout(getViewWidget(),direction);
+		new MyBoxLayout(wnd_,direction);
 	}
 	void setAttr(const QString& name,const QString& value);
 };

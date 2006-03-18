@@ -25,6 +25,7 @@ AWizardFace::~AWizardFace()
 
 void AWizardFace::addItem(const QString &id, AWizardFace::ItemType, const QString &text)
 {
+    qWarning("FIXME! AWizardFace::addItem");
 }
 
 QString AWizardFace::lastClickedItem()
@@ -33,7 +34,7 @@ QString AWizardFace::lastClickedItem()
     return QString("FIXME");
 }
 
-QWidget* AWizardFace::viewWidget()
+QWidget* AWizardFace::getView()
 {
     return view;
 }
@@ -43,18 +44,19 @@ QWidget* AWizardFace::viewWidget()
 alWizardFace::alWizardFace(const QString& id,const QString& parent):
     alWidgetPre<AWizardFace>(id,parent)
 {
+    new MyBoxLayout(wnd_->getView(), MyBoxLayout::vertical);
 }
 
 alWizardFace::~alWizardFace(){}
 
 QWidget* alWizardFace::getViewWidget()
 {
-    return wnd_->viewWidget();
+    return wnd_->getView();
 }
 
-QLayout* alWizardFace::getLayout()
+QLayout* alWizardFace::getViewLayout()
 {
-    return wnd_->viewWidget()->layout();
+    return wnd_->getView()->layout();
 }
 
 void alWizardFace::registerEvent(const QString& name)
@@ -74,18 +76,18 @@ QString alWizardFace::postData() const
 void alWizardFace::setAttr(const QString& name,const QString& value)
 {
     qDebug("alWizardFace::setAttr: <%s> <%s>", name.toLatin1().data(), value.toLatin1().data());
-	if ("add-button-generic" == name)
-	{
-	    qWarning("FIXME!");
-	}
-	else if( "add-button-help" == name)
-	{
-	    qWarning("FIXME!");
-	}
-	else if ("current" == name)
-	{
-	    qWarning("FIXME!");
-	}
-	else
-		alWidget::setAttr(name,value);
+    if ("add-button-generic" == name)
+    {
+	qWarning("FIXME!");
+    }
+    else if( "add-button-help" == name)
+    {
+	qWarning("FIXME!");
+    }
+    else if ("current" == name)
+    {
+	qWarning("FIXME!");
+    }
+    else
+	alWidget::setAttr(name,value);
 }

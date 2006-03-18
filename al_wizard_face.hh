@@ -26,7 +26,7 @@ public:
 
     void addItem(const QString &id, ItemType, const QString &text);
     QString lastClickedItem();
-    QWidget* viewWidget();
+    QWidget* getView();
 private:
     QGridLayout* main_layout;
     QVBoxLayout* labels_layout;
@@ -44,7 +44,7 @@ public:
 	void registerEvent(const QString&);
 	QString postData() const ;
 	QWidget* getViewWidget();
-	QLayout* getLayout();
+	QLayout* getViewLayout();
 };
 
 #endif
