@@ -31,8 +31,6 @@ typedef QWidget MainWidget_t;
 
 extern MainWindow *main_window;
 
-MyBoxLayout *findLayout(const QString& id);
-QWidget* findQWidget(const QString& id);
 
 #define simpleQuote(s) s.replace("\\","\\\\").replace("\"","\\\"")
 
@@ -56,6 +54,8 @@ public:
 	virtual QString postData() const { return ""; }
 
 	virtual QWidget *getWidget(void) = 0;
+	virtual QLayout *getViewLayout(void) = 0;
+	virtual QWidget *getViewWidget(void) = 0;
 	virtual QString stringParent(void) { return parent_; };
 public slots:
 	void onClick(bool) { emitEvent(id_,"on-click"); }
@@ -86,13 +86,16 @@ public slots:
 	}
 };
 
+QLayout *findLayout(const QString& id);
+QWidget* findQWidget(const QString& id);
+alWidget* findAlWidget(const QString& id);
 
 extern QMap<QString,alWidget*> elements;
 
 template <typename Widget>
 Widget *createWidget(const QString& parent)
 {
-	return new Widget(elements.contains(parent)?elements[parent]->getWidget():0);
+	return new Widget(elements.contains(parent)?elements[parent]->getViewWidget():0);
 }
 
 template <typename Widget>
@@ -106,16 +109,18 @@ public:
 		wnd_(createWidget<Widget>(parent))
 	{
 		elements[id] = this;
-		QWidget *pwidget = findQWidget(parent);
-		if( pwidget )
+		alWidget *pa = findAlWidget(parent);
+		if( pa )
 		{
-		    QLayout *playout = pwidget->layout();
+		    QLayout *playout = pa->getViewLayout();
 		    if( playout ) playout->addWidget(wnd_);
 		}
 	}
 
 	~alWidgetPre() { wnd_->deleteLater(); }
-	QWidget *getWidget() { return wnd_; }	
+	QWidget* getWidget() { return wnd_; }	
+	virtual QWidget* getViewWidget() { return wnd_; }	
+	virtual QLayout* getViewLayout() { return getViewWidget()->layout(); }	
 };
 
 template <typename Widget>
@@ -134,7 +139,9 @@ public:
 	}
 
 	~alMainWidgetPre() { wnd_->deleteLater(); }
-	QWidget *getWidget() { return wnd_; }	
+	QWidget* getWidget() { return wnd_; }	
+	virtual QWidget* getViewWidget() { return wnd_; }	
+	virtual QLayout* getViewLayout() { return getViewWidget()->layout(); }	
 };
 
 
@@ -193,7 +200,7 @@ public:
 	alGroupBox(const QString& id,const QString& parent):
 		alWidgetPre<QGroupBox>(id,parent)
 	{
-		new MyVBoxLayout(wnd_);
+		new MyVBoxLayout(getViewWidget());
 	}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
@@ -256,7 +263,7 @@ public:
 		tabbox_(getParentTabBox(parent)),
 		idx_(tabbox_?static_cast<QTabWidget*>(tabbox_->getWidget())->addTab(wnd_,""):-1)
 	{
-		new MyVBoxLayout(wnd_);
+		new MyVBoxLayout(getViewWidget());
 	}
 	void setAttr(const QString& name,const QString& value);
 private:
@@ -274,7 +281,7 @@ public:
 	alDialog(const QString& id,const QString& parent):
 		alWidgetPre<QDialog2>(id,parent)
 	{
-		new MyVBoxLayout(wnd_);
+		new MyVBoxLayout(getViewWidget());
 	}
 	void setAttr(const QString& name,const QString& value);
 	void start() { wnd_->exec(); }
@@ -287,7 +294,7 @@ public:
 	alMainWidget(const QString& id,const QString& parent):
 		alMainWidgetPre<MainWidget_t>(id, parent)
 	{
-	    new MyVBoxLayout(wnd_);
+	    new MyVBoxLayout(getViewWidget());
 	}
 	void setAttr(const QString& name,const QString& value);
 	void start() { wnd_->show(); }
@@ -300,7 +307,7 @@ public:
 	alBox(const QString& id,const QString& parent,MyBoxLayout::Direction direction):
 		alWidgetPre<QFrame2>(id,parent)
 	{
-		new MyBoxLayout(wnd_,direction);
+		new MyBoxLayout(getViewWidget(),direction);
 	}
 	void setAttr(const QString& name,const QString& value);
 };

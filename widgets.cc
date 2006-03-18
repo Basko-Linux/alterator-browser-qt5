@@ -40,29 +40,25 @@ namespace
 //all current elements on viewer
 QMap<QString,alWidget*> elements;
 
-MyBoxLayout *findLayout(const QString& id)
+QLayout *findLayout(const QString& id)
 {
 	if (!elements.contains(id)) return 0;
-
-	alWidget * aw = elements[id];
-	QWidget *w = aw->getWidget();
-	QLayout *l= w->layout();
-//	if( l && w->objectName() != "main_widget" )
-	if( l )
-	    if( MyBoxLayout *ml = qobject_cast<MyBoxLayout*>(l) )
-	    {
-		return ml;
-	    }
-	return 0;
+	alWidget *aw = elements[id];
+	return aw->getViewLayout();
 }
 
 QWidget* findQWidget(const QString& id)
 {
 	if (!elements.contains(id)) return 0;
-
 	QWidget *w = elements[id]->getWidget();
 	if( w )	return w;
 	return 0;
+}
+
+alWidget* findAlWidget(const QString& id)
+{
+	if (!elements.contains(id)) return 0;
+	return elements[id];
 }
 
 void alWidget::setAttr(const QString& name,const QString& value)
@@ -91,13 +87,14 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		int d = -1;
 		if (policies.count() > 2) d = convertAlign(policies.at(2));
 
-		MyBoxLayout *playout = findLayout(parent_);
-		if (playout)
+		QLayout *playout = findLayout(parent_);
+		if( playout )
 		{
-		    playout->addWidget(getWidget(),QSize(w,h),d);
+		    if( MyBoxLayout *ml = qobject_cast<MyBoxLayout*>(playout) )
+			ml->addWidget(getWidget(),QSize(w,h),d);
+		    else
+			qDebug("don't set layout-policy");
 		}
-		else
-		    qDebug("don't set layout-policy");
 	}
 }
 
@@ -471,14 +468,33 @@ void alMainWidget::setAttr(const QString& name,const QString& value)
 void alBox::setAttr(const QString& name,const QString& value)
 {
 	if ("margin" == name)
-		wnd_->layout()->setMargin(value.toInt());
+	{
+	    QLayout *l = getViewLayout();
+	    if( l )
+		l->setMargin(value.toInt());
+	}
 	else if ("spacing" == name)
-		wnd_->layout()->setSpacing(value.toInt());
+	{
+	    QLayout *l = getViewLayout();
+	    if( l )
+		l->setSpacing(value.toInt());
+	}
 	else if("clear-layout" == name)
-		((MyBoxLayout*)(wnd_->layout()))->deleteAllItems();
+	{
+	    QLayout *l = getViewLayout();
+	    if( l )
+		if( MyBoxLayout *ml = qobject_cast<MyBoxLayout*>(l) )
+		    ml->deleteAllItems();
+	}
 	else if ("background-color" == name)
 		wnd_->setBrush(QBrush(QColor(value)));
 	else if ("children-align" == name)
-		((MyBoxLayout*)(wnd_->layout()))->setChildrenAlign(convertAlign(value));
-	else alWidget::setAttr(name,value);
+	{
+	    QLayout *l = getViewLayout();
+	    if( l )
+		if( MyBoxLayout *ml = qobject_cast<MyBoxLayout*>(l) )
+		    ml->setChildrenAlign(convertAlign(value));
+	}
+	else
+	    alWidget::setAttr(name,value);
 }

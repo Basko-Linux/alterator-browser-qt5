@@ -5,13 +5,12 @@
 #include <QPointer>
 #include <QPainter>
 
-#include "widgets.hh"
-#include "al_wizard_face.hh"
 #include "connection.hh"
 #include "browser.hh"
-#include "main_window.hh"
 #include "updater.hh"
-
+#include "main_window.hh"
+#include "widgets.hh"
+#include "al_wizard_face.hh"
 
 Updater *updater = 0;//slot for updates
 QPointer<QSplashScreen> splash;//single splash screen
@@ -82,6 +81,7 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 	else if ("combobox" == type) new alComboBox(id,parent);
 	else if ("tabbox" == type) new alTabBox(id,parent);
 	else if ("tab-page" == type) new alTabPage(id,parent);
+	else if ("wizardface" == type) new alWizardFace(id,parent);
 }
 
 void deleteRequest(const QString& id)
