@@ -83,7 +83,17 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 	    if( !wizard_face )
 		wizard_face = new alWizardFace(id,parent);
 	}
-	else if ("button-help" == type)
+	else if ("wizard-button" == type)
+	{
+	    if( wizard_face && wizard_face->getId() == parent )
+	    {
+		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::ButtonGeneric);
+		new alWizardFaceItem(id,parent,w);
+	    }
+	    else
+		new alButton(id,parent);
+	}
+	else if ("wizard-button-help" == type)
 	{
 	    if( wizard_face && wizard_face->getId() == parent )
 	    {
@@ -92,6 +102,16 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 	    }
 	    else
 		new alButton(id,parent);
+	}
+	else if ("wizard-label" == type)
+	{
+	    if( wizard_face && wizard_face->getId() == parent )
+	    {
+		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::LabelGeneric);
+		new alWizardFaceItem(id,parent,w);
+	    }
+	    else
+		new alLabel(id,parent);
 	}
 }
 
