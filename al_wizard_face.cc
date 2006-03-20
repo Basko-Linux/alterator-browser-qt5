@@ -37,24 +37,20 @@ QWidget* AWizardFace::addItem(const QString &id, AWizardFace::ItemType type)
 	case ButtonCancel:
 	case ButtonBackward:
 	case ButtonForward:
-	    QPushButton *b = new QPushButton();
+	    QPushButton *b = new QPushButton(this);
+	    buttons_layout->addWidget(b);
 	    w = buttons[id] = b;
 	    break;
 	case LabelGeneric:
 	case LabelSection:
-	    QLabel *l = new QLabel();
+	    QLabel *l = new QLabel(this);
+	    labels_layout->addWidget(l);
 	    w = labels[id] = l;
 	    break;
 	default:
 	    break;
     }
     return w;
-}
-
-QString AWizardFace::lastClickedItem()
-{
-    qWarning("FIXME! alWizardFace::lastClickedItem");
-    return QString("FIXME");
 }
 
 QWidget* AWizardFace::getView()
@@ -145,13 +141,13 @@ QLayout* alWizardFace::getViewLayout()
     return wnd_->getView()->layout();
 }
 
-void alWizardFace::registerEvent(const QString& name)
+void alWizardFace::registerEvent(const QString&)
 {
 }
 
 QString alWizardFace::postData() const
 {
-    return QString(" (current . ") + wnd_->lastClickedItem() +" )";
+    return "";
 }
 
 void alWizardFace::setAttr(const QString& name,const QString& value)

@@ -29,7 +29,6 @@ public:
     void setItemText(const QString &id, const QString &value);
     void setItemPixmap(const QString &id, const QString &value);
     QWidget* getItemWidget(const QString &id);
-    QString lastClickedItem();
     QWidget* getView();
 private:
     QGridLayout* main_layout;
