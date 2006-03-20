@@ -56,7 +56,8 @@ public:
 	virtual QWidget *getWidget(void) = 0;
 	virtual QLayout *getViewLayout(void) = 0;
 	virtual QWidget *getViewWidget(void) = 0;
-	virtual QString stringParent(void) { return parent_; };
+	virtual QString getParentId(void) { return parent_; };
+	virtual QString getId(void) { return id_; };
 public slots:
 	void onClick(bool) { emitEvent(id_,"on-click"); }
 	void onClick(QListWidgetItem*) { emitEvent(id_,"on-click"); }
@@ -119,7 +120,7 @@ public:
 	}
 
 	~alWidgetPre() { wnd_->deleteLater(); }
-	QWidget* getWidget() { return wnd_; }	
+	Widget* getWidget() { return wnd_; }	
 	virtual QWidget* getViewWidget() { return wnd_; }
 	virtual QLayout* getViewLayout() { return wnd_->layout(); }
 };
@@ -140,7 +141,7 @@ public:
 	}
 
 	~alMainWidgetPre() { wnd_->deleteLater(); }
-	QWidget* getWidget() { return wnd_; }	
+	Widget* getWidget() { return wnd_; }	
 	virtual QWidget* getViewWidget() { return wnd_; }	
 	virtual QLayout* getViewLayout() { return wnd_->layout(); }	
 };

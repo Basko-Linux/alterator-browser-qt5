@@ -1,9 +1,9 @@
+#include "global.hh"
+
 #include "widgets.hh"
 
 
 ////////////////////////////////////////////
-
-QString imagePath = "/usr/share/alterator/images/";
 
 namespace
 {
@@ -106,7 +106,7 @@ void alLabel::setAttr(const QString& name,const QString& value)
 	if ("text" == name)
 		wnd_->setText(value);
 	else if ("pixmap" == name)
-		wnd_->setPixmap(QPixmap(imagePath+value));
+		wnd_->setPixmap(QPixmap(IMAGES_PATH+value));
 	else if ("align" == name)
 		wnd_->setAlignment(convertAlign(value));
 	else
@@ -118,7 +118,7 @@ void alButton::setAttr(const QString& name,const QString& value)
 	if ("text" == name)
 		wnd_->setText(value);
 	else if ("pixmap" == name)
-		wnd_->setIcon(QIcon(imagePath+value));
+		wnd_->setIcon(QIcon(IMAGES_PATH+value));
 	else
 		alWidget::setAttr(name,value);
 }
@@ -263,7 +263,7 @@ void alListBox::setAttr(const QString& name,const QString& value)
 		if (!data[0].isEmpty())
 			item->setText(data[0]);
 		if (!data[1].isEmpty())
-			item->setIcon(QIcon(imagePath+data[1]));
+			item->setIcon(QIcon(IMAGES_PATH+data[1]));
 	}
 	else if ("items" == name)
 	{
@@ -279,7 +279,7 @@ void alListBox::setAttr(const QString& name,const QString& value)
 		if( icon.isEmpty() )
 		    item = new QListWidgetItem(text, wnd_);
 		else
-		    item = new QListWidgetItem(QIcon(imagePath+icon), text, wnd_);
+		    item = new QListWidgetItem(QIcon(IMAGES_PATH+icon), text, wnd_);
 	    }
 	}
 	else if ("current" == name)
@@ -307,7 +307,7 @@ void alListBox::setAttr(const QString& name,const QString& value)
 	else if ("item-pixmap" == name)
 	{//TODO: will be support for multiple columns here
 		QStringList data = value.split(";");
-		wnd_->item(data[1].toInt())->setIcon(QIcon(imagePath+data[0]));
+		wnd_->item(data[1].toInt())->setIcon(QIcon(IMAGES_PATH+data[0]));
 	}
 	else
 		alWidget::setAttr(name,value);
@@ -337,7 +337,7 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 		if (data[1].isEmpty())
 			wnd_->addItem(data[0]);
 		else
-			wnd_->addItem(QIcon(imagePath+data[1]),data[0]);
+			wnd_->addItem(QIcon(IMAGES_PATH+data[1]),data[0]);
 	}
 	else if ("items" == name)
 	{
@@ -352,7 +352,7 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 		if( icon.isEmpty() )
 		    wnd_->addItem(text);
 		else
-		    wnd_->addItem(QIcon(imagePath+icon), text);
+		    wnd_->addItem(QIcon(IMAGES_PATH+icon), text);
 	    }
 	}
 	else if ("current" == name)
@@ -372,7 +372,7 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 	else if ("item-pixmap" == name)
 	{
 		QStringList data = value.split(";");
-		wnd_->setItemIcon(data[1].toInt(),QIcon(imagePath+data[0]));
+		wnd_->setItemIcon(data[1].toInt(),QIcon(IMAGES_PATH+data[0]));
 	}
 	else
 		alWidget::setAttr(name,value);

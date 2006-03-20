@@ -1,6 +1,9 @@
 
+#include "global.hh"
 #include "widgets.hh"
 #include "al_wizard_face.hh"
+
+extern alWizardFace *wizard_face;
 
 // AWizardFace
 AWizardFace::AWizardFace( QWidget *parent, Qt::WFlags f):
@@ -23,9 +26,29 @@ AWizardFace::AWizardFace( QWidget *parent, Qt::WFlags f):
 AWizardFace::~AWizardFace()
 {}
 
-void AWizardFace::addItem(const QString &id, AWizardFace::ItemType, const QString &text)
+QWidget* AWizardFace::addItem(const QString &id, AWizardFace::ItemType type)
 {
-    qWarning("FIXME! AWizardFace::addItem");
+    QWidget *w = 0;
+    switch( type )
+    {
+	case ButtonGeneric:
+	case ButtonHelp:
+	case ButtonApply:
+	case ButtonCancel:
+	case ButtonBackward:
+	case ButtonForward:
+	    QPushButton *b = new QPushButton();
+	    w = buttons[id] = b;
+	    break;
+	case LabelGeneric:
+	case LabelSection:
+	    QLabel *l = new QLabel();
+	    w = labels[id] = l;
+	    break;
+	default:
+	    break;
+    }
+    return w;
 }
 
 QString AWizardFace::lastClickedItem()
@@ -38,6 +61,69 @@ QWidget* AWizardFace::getView()
 {
     return view;
 }
+
+QWidget* AWizardFace::getItemWidget(const QString &id)
+{
+    if( buttons.contains(id) )
+	return buttons[id];
+    else if( labels.contains(id) )
+	return labels[id];
+    else
+	return 0;
+}
+
+void AWizardFace::setItemText(const QString &id, const QString &value)
+{
+    if( buttons.contains(id) )
+	buttons[id]->setText(value);
+    else if( labels.contains(id) )
+	labels[id]->setText(value);
+}
+
+void AWizardFace::setItemPixmap(const QString &id, const QString &value)
+{
+    if( buttons.contains(id) )
+	buttons[id]->setIcon(QIcon(value));
+    else if( labels.contains(id) )
+	labels[id]->setPixmap(value);
+}
+
+
+// alWizardFaceItem
+alWizardFaceItem::alWizardFaceItem(const QString& id,const QString& parent, QWidget* wnd):
+    alWidget(id, parent)
+{
+    wnd_ = wnd;
+}
+
+alWizardFaceItem::~alWizardFaceItem(){}
+
+void alWizardFaceItem::setAttr(const QString& name,const QString& value)
+{
+    if( wizard_face )
+    {
+	if ("text" == name)
+	    wizard_face->getWidget()->setItemText(getId(), value);
+	else if ("pixmap" == name)
+	    wizard_face->getWidget()->setItemPixmap(getId(), IMAGES_PATH+value);
+	else
+	    alWidget::setAttr(name,value);
+    }
+}
+
+void alWizardFaceItem::registerEvent(const QString& name)
+{
+    if ("on-click" == name)
+    {
+	if( wizard_face )
+	{
+	    QWidget *widget = wizard_face->getWidget()->getItemWidget(getId());
+	    if( widget )
+		connect( widget, SIGNAL(clicked()), SLOT(onClick()) );
+	}
+    }
+}
+
 
 
 // alWizardFace
@@ -61,11 +147,6 @@ QLayout* alWizardFace::getViewLayout()
 
 void alWizardFace::registerEvent(const QString& name)
 {
-    if ("on-click" == name)
-    {
-	qWarning("FIXME! alWizardFace::registerEvent");
-	//connect( wnd_, SIGNAL(itemClicked(QListWidgetItem*)), SLOT(onClick(QListWidgetItem*)) );
-    }
 }
 
 QString alWizardFace::postData() const
@@ -75,19 +156,5 @@ QString alWizardFace::postData() const
 
 void alWizardFace::setAttr(const QString& name,const QString& value)
 {
-    qDebug("alWizardFace::setAttr: <%s> <%s>", name.toLatin1().data(), value.toLatin1().data());
-    if ("add-button-generic" == name)
-    {
-	qWarning("FIXME!");
-    }
-    else if( "add-button-help" == name)
-    {
-	qWarning("FIXME!");
-    }
-    else if ("current" == name)
-    {
-	qWarning("FIXME!");
-    }
-    else
-	alWidget::setAttr(name,value);
+    alWidget::setAttr(name,value);
 }

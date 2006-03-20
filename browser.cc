@@ -15,6 +15,7 @@
 Updater *updater = 0;//slot for updates
 QPointer<QSplashScreen> splash;//single splash screen
 MainWindow *main_window = 0;
+alWizardFace *wizard_face = 0;
 int emit_locker = 0; //wrong emit protector
 
 void splashStart(void)
@@ -77,7 +78,21 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 	else if ("combobox" == type) new alComboBox(id,parent);
 	else if ("tabbox" == type) new alTabBox(id,parent);
 	else if ("tab-page" == type) new alTabPage(id,parent);
-	else if ("wizardface" == type) new alWizardFace(id,parent);
+	else if ("wizardface" == type)
+	{
+	    if( !wizard_face )
+		wizard_face = new alWizardFace(id,parent);
+	}
+	else if ("button-help" == type)
+	{
+	    if( wizard_face && wizard_face->getId() == parent )
+	    {
+		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::ButtonHelp);
+		new alWizardFaceItem(id,parent,w);
+	    }
+	    else
+		new alButton(id,parent);
+	}
 }
 
 void deleteRequest(const QString& id)
@@ -114,7 +129,7 @@ void startRequest(const QString& id)
 	if (!elements.contains(id)) return;
 	alWidget *aw = elements[id];
 	if( aw )
-	    if( aw->stringParent().isEmpty() )
+	    if( aw->getParentId().isEmpty() )
 	    {
 		alMainWidget *m = qobject_cast<alMainWidget*>(aw);
 		if(m) m->start();
@@ -131,7 +146,7 @@ void stopRequest(const QString& id)
 	if (!elements.contains(id)) return;
 	alWidget *aw = elements[id];
 	if( aw )
-	    if( aw->stringParent().isEmpty() )
+	    if( aw->getParentId().isEmpty() )
 	    {
 		alMainWidget *m = qobject_cast<alMainWidget*>(aw);
 		if(m) m->stop();
