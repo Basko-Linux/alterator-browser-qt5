@@ -22,6 +22,7 @@
 #include <QComboBox>
 #include <QTabWidget>
 #include <QDesktopWidget>
+#include <QProgressBar>
 
 #include "connection.hh"
 #include "main_window.hh"
@@ -345,6 +346,16 @@ protected:
 	QWidget *getWidget() { return elements[parent_]->getWidget(); }
 	QLayout *getViewLayout(void) { return elements[parent_]->getViewLayout(); }
 	QWidget *getViewWidget(void) { return elements[parent_]->getViewWidget(); }
+};
+
+class alProgressBar: public alWidgetPre<QProgressBar>
+{
+public:
+    alProgressBar(const QString& id,const QString& parent):
+	alWidgetPre<QProgressBar>(id,parent)
+    {}
+protected:
+    void setAttr(const QString& name,const QString& value);
 };
 
 #endif

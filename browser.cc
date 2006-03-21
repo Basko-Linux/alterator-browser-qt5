@@ -87,6 +87,7 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 	else if ("combobox" == type) new alComboBox(id,parent);
 	else if ("tabbox" == type) new alTabBox(id,parent);
 	else if ("tab-page" == type) new alTabPage(id,parent);
+	else if ("progressbar" == type) new alProgressBar(id,parent);
 	else if ("wizardface" == type)
 	{
 	    if( !wizard_face )
