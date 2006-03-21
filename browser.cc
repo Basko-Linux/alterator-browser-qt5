@@ -113,11 +113,61 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 	    else
 		new alButton(id,parent);
 	}
+	else if ("wizard-button-cancel" == type)
+	{
+	    if( wizard_face && wizard_face->getId() == parent )
+	    {
+		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::ButtonCancel);
+		new alWizardFaceItem(id,parent,w);
+	    }
+	    else
+		new alButton(id,parent);
+	}
+	else if ("wizard-button-apply" == type)
+	{
+	    if( wizard_face && wizard_face->getId() == parent )
+	    {
+		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::ButtonApply);
+		new alWizardFaceItem(id,parent,w);
+	    }
+	    else
+		new alButton(id,parent);
+	}
+	else if ("wizard-button-backward" == type)
+	{
+	    if( wizard_face && wizard_face->getId() == parent )
+	    {
+		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::ButtonBackward);
+		new alWizardFaceItem(id,parent,w);
+	    }
+	    else
+		new alButton(id,parent);
+	}
+	else if ("wizard-button-forward" == type)
+	{
+	    if( wizard_face && wizard_face->getId() == parent )
+	    {
+		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::ButtonForward);
+		new alWizardFaceItem(id,parent,w);
+	    }
+	    else
+		new alButton(id,parent);
+	}
 	else if ("wizard-label" == type)
 	{
 	    if( wizard_face && wizard_face->getId() == parent )
 	    {
 		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::LabelGeneric);
+		new alWizardFaceItem(id,parent,w);
+	    }
+	    else
+		new alLabel(id,parent);
+	}
+	else if ("wizard-label-section" == type)
+	{
+	    if( wizard_face && wizard_face->getId() == parent )
+	    {
+		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::LabelSection);
 		new alWizardFaceItem(id,parent,w);
 	    }
 	    else
