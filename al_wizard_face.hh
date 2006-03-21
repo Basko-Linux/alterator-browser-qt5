@@ -34,7 +34,9 @@ private:
     QGridLayout* main_layout;
     QVBoxLayout* labels_layout;
     QHBoxLayout* buttons_layout;
-    QFrame* view;
+    QFrame* buttons_widget;
+    QFrame* labels_widget;
+    QFrame* view_widget;
     QMap<QString, QPushButton*> buttons;
     QMap<QString, QLabel*> labels;
 };

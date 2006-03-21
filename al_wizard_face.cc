@@ -9,18 +9,27 @@ extern alWizardFace *wizard_face;
 AWizardFace::AWizardFace( QWidget *parent, Qt::WFlags f):
     QWidget(parent, f)
 {
+    labels_widget = new QFrame(this);
+    labels_widget->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
+    labels_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
+//    labels_widget->show();
+
+    view_widget = new QFrame(this);
+    view_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    view_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
+//    view_widget->show();
+
+    buttons_widget = new QFrame(this);
+    buttons_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+    buttons_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
+//    buttons_widget->show();
+
+    labels_layout = new QVBoxLayout( labels_widget );
+    buttons_layout = new QHBoxLayout( buttons_widget );
     main_layout = new QGridLayout(this);
-    labels_layout = new QVBoxLayout();
-    main_layout->addLayout( labels_layout, 0, 0 );
-
-    view = new QFrame(this);
-    view->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    view->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
-    view->show();
-    main_layout->addWidget(view, 0, 1);
-
-    buttons_layout = new QHBoxLayout();
-    main_layout->addLayout( buttons_layout, 0, 0, 1, -1);
+    main_layout->addWidget( labels_widget, 0, 0 );
+    main_layout->addWidget( view_widget, 0, 1);
+    main_layout->addWidget( buttons_widget, 1, 0, 1, 2);
 }
 
 AWizardFace::~AWizardFace()
@@ -28,6 +37,7 @@ AWizardFace::~AWizardFace()
 
 QWidget* AWizardFace::addItem(const QString &id, AWizardFace::ItemType type)
 {
+    qDebug("AWizardFace::addItem");
     QWidget *w = 0;
     switch( type )
     {
@@ -43,11 +53,14 @@ QWidget* AWizardFace::addItem(const QString &id, AWizardFace::ItemType type)
 	    break;
 	case LabelGeneric:
 	case LabelSection:
-	    QLabel *l = new QLabel(this);
+	    QLabel *l = new QLabel(labels_widget);
 	    labels_layout->addWidget(l);
 	    w = labels[id] = l;
 	    break;
 	default:
+	    QLabel *lg = new QLabel(labels_widget);
+	    labels_layout->addWidget(lg);
+	    w = labels[id] = lg;
 	    break;
     }
     return w;
@@ -55,7 +68,7 @@ QWidget* AWizardFace::addItem(const QString &id, AWizardFace::ItemType type)
 
 QWidget* AWizardFace::getView()
 {
-    return view;
+    return view_widget;
 }
 
 QWidget* AWizardFace::getItemWidget(const QString &id)
