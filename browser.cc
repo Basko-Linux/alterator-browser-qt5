@@ -56,15 +56,24 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 	if ("dialog" == type)
 	{
 	    if(parent.isEmpty())
-	    {
 		new alMainWidget(id,"");
+	    else
+		new alDialog(id,parent);
+	}
+	else if ("root" == type)
+	{
+	    if( (qobject_cast<alMainWidget*>(elements[parent])
+		|| qobject_cast<alDialog*>(elements[parent]))
+		&& !parent.isEmpty() )
+	    {
+		new alProxy(id,parent);
 	    }
 	    else
 	    {
-		new alDialog(id,parent);
+		alVBox *item = new alVBox(id,parent);
+		item->setAttr("layout-policy","100;100");
 	    }
 	}
-	else if ("root" == type) new alVBox(id,parent);
 	else if ("vbox" == type) new alVBox(id,parent);
 	else if ("hbox" == type) new alHBox(id,parent);
 	else if ("button" == type) new alButton(id,parent);

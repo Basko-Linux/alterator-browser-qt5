@@ -330,4 +330,21 @@ public:
 	{}
 };
 
+class alProxy: public alWidget
+{
+	QString parent_;
+public:
+	alProxy(const QString& id,const QString &parent):
+		alWidget(id,parent),
+		parent_(parent)
+	{
+		elements[id] = this;
+	}
+		
+protected:
+	QWidget *getWidget() { return elements[parent_]->getWidget(); }
+	QLayout *getViewLayout(void) { return elements[parent_]->getViewLayout(); }
+	QWidget *getViewWidget(void) { return elements[parent_]->getViewWidget(); }
+};
+
 #endif
