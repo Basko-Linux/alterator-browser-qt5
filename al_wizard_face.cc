@@ -37,7 +37,6 @@ AWizardFace::~AWizardFace()
 
 QWidget* AWizardFace::addItem(const QString &id, AWizardFace::ItemType type)
 {
-    qDebug("AWizardFace::addItem");
     QWidget *w = 0;
     switch( type )
     {
@@ -109,14 +108,13 @@ alWizardFaceItem::~alWizardFaceItem(){}
 
 void alWizardFaceItem::setAttr(const QString& name,const QString& value)
 {
+    qDebug("%s: name<%s> value<%s>", __FUNCTION__, name.toLatin1().data(), value.toLatin1().data());
     if( wizard_face )
     {
 	if ("text" == name)
 	    wizard_face->getWidget()->setItemText(getId(), value);
 	else if ("pixmap" == name)
 	    wizard_face->getWidget()->setItemPixmap(getId(), IMAGES_PATH+value);
-	else
-	    alWidget::setAttr(name,value);
     }
 }
 
