@@ -177,13 +177,14 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 
 void deleteRequest(const QString& id)
 {
-	if (!elements.contains(id)) return;
-	else
+	if( elements.contains(id) )
 	{
 	    alWidget *aw = elements.take(id);
 	    aw->getWidget()->hide();
 	    aw->deleteLater();
 	}
+	else
+	    return;
 }
 
 void setRequest(const QString& id,const QString& attr,const QString& value)
