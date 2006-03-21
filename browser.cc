@@ -52,7 +52,7 @@ void splashMessage(const QString& msg)
 
 void newRequest(const QString& id, const QString& type, const QString& parent)
 {
-	qDebug("%s: id<%s> type<%s> parent<%s>", __FUNCTION__, id.toLatin1().data(), type.toLatin1().data(), parent.toLatin1().data());
+//	qDebug("%s: id<%s> type<%s> parent<%s>", __FUNCTION__, id.toLatin1().data(), type.toLatin1().data(), parent.toLatin1().data());
 	if ("dialog" == type)
 	{
 	    if(parent.isEmpty())
