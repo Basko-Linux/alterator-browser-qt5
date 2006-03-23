@@ -322,6 +322,8 @@ void alListBox::registerEvent(const QString& name)
 		connect( wnd_, SIGNAL(itemClicked(QListWidgetItem*)), SLOT(onClick(QListWidgetItem*)) );
 	else if ("on-return" == name)
 		connect( wnd_, SIGNAL(itemActivated(QListWidgetItem*)), SLOT(onReturn(QListWidgetItem*)) );
+	else if ("on-double-click" == name)
+		connect( wnd_, SIGNAL(itemDoubleClicked(QListWidgetItem*)), SLOT(onReturn(QListWidgetItem*)) );
 }
 
 QString alListBox::postData() const
