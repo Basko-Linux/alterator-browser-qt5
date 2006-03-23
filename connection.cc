@@ -19,7 +19,7 @@ void parseAnswer(alRequest *dom,void(parser)(alCommand*))
 
 QStringList languageList(const char *env)
 {
-	QStringList in = QString(env).split(":");
+	QStringList in = QString(env).split(":", QString::SkipEmptyParts);
 	QStringList out;
 	QStringListIterator it(in);
 	while(it.hasNext())
