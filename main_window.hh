@@ -26,6 +26,6 @@ private:
 
 private slots:
     void start();
-
+    void stop();
 };
 #endif

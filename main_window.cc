@@ -3,6 +3,9 @@
 #include <QDataStream>
 #include <QTimer>
 #include <QCursor>
+#include <QSettings>
+#include <QApplication>
+#include <QDesktopWidget>
 #ifdef Q_WS_X11
 #include <QX11Info>
 #include <X11/Xlib.h>
@@ -22,8 +25,27 @@ MainWindow::MainWindow():
 {
     started = false;
     have_wm = haveWindowManager();
-    if( !have_wm )
+    if( have_wm )
+    {
+	QRect desktop_geom  = QApplication::desktop()->geometry();
+	int wnd_recom_width = (int)(desktop_geom.width()/1.5);
+	int wnd_recom_height = (int)(desktop_geom.height()/1.5);
+
+	QSettings settings(QSettings::IniFormat, QSettings::UserScope, "alterator", "browser", this);
+	settings.setFallbacksEnabled(false);
+	settings.beginGroup("qt");
+	int wnd_x = settings.value("window_geometry_x", 0).toInt();
+	int wnd_y = settings.value("window_geometry_y", 0).toInt();
+	int wnd_width = settings.value("window_geometry_width", wnd_recom_width).toInt();
+	int wnd_height = settings.value("window_geometry_height", wnd_recom_height).toInt();
+	settings.endGroup();
+
+	setGeometry(wnd_x, wnd_y, wnd_width, wnd_height);
+    }
+    else
 	setWindowState(windowState() | Qt::WindowFullScreen);
+
+    connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(stop()));
 }
 
 MainWindow::~MainWindow()
@@ -43,6 +65,23 @@ void MainWindow::start()
 #if 1
     initConnection(getDocParser);
 #endif
+}
+
+void MainWindow::stop()
+{
+    if( have_wm )
+    {
+	QRect geom = geometry();
+
+	QSettings settings(QSettings::IniFormat, QSettings::UserScope, "alterator", "browser", this);
+	settings.setFallbacksEnabled(false);
+	settings.beginGroup("qt");
+	settings.setValue("window_geometry_x", geom.x());
+	settings.setValue("window_geometry_y", geom.y());
+	settings.setValue("window_geometry_width", geom.width());
+	settings.setValue("window_geometry_height", geom.height());
+	settings.endGroup();
+    }
 }
 
 void MainWindow::showEvent(QShowEvent*)
