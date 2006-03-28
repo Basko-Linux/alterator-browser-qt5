@@ -34,10 +34,10 @@ MainWindow::MainWindow():
 	QSettings settings(QSettings::IniFormat, QSettings::UserScope, "alterator", "browser", this);
 	settings.setFallbacksEnabled(false);
 	settings.beginGroup("qt");
-	int wnd_x = settings.value("window_geometry_x", 0).toInt();
-	int wnd_y = settings.value("window_geometry_y", 0).toInt();
-	int wnd_width = settings.value("window_geometry_width", wnd_recom_width).toInt();
-	int wnd_height = settings.value("window_geometry_height", wnd_recom_height).toInt();
+	int wnd_x = settings.value("main_window_x", 0).toInt();
+	int wnd_y = settings.value("main_window_y", 0).toInt();
+	int wnd_width = settings.value("main_window_width", wnd_recom_width).toInt();
+	int wnd_height = settings.value("main_window_height", wnd_recom_height).toInt();
 	settings.endGroup();
 
 	setGeometry(wnd_x, wnd_y, wnd_width, wnd_height);
@@ -76,10 +76,10 @@ void MainWindow::stop()
 	QSettings settings(QSettings::IniFormat, QSettings::UserScope, "alterator", "browser", this);
 	settings.setFallbacksEnabled(false);
 	settings.beginGroup("qt");
-	settings.setValue("window_geometry_x", geom.x());
-	settings.setValue("window_geometry_y", geom.y());
-	settings.setValue("window_geometry_width", geom.width());
-	settings.setValue("window_geometry_height", geom.height());
+	settings.setValue("main_window_x", geom.x());
+	settings.setValue("main_window_y", geom.y());
+	settings.setValue("main_window_width", geom.width());
+	settings.setValue("main_window_height", geom.height());
 	settings.endGroup();
     }
 }

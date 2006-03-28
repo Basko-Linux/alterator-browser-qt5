@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.6.1
-Release: alt4
+Release: alt5
 
 Source:%name-%version.tar.bz2
 
@@ -38,6 +38,9 @@ sed -i "s|^\s*CXXFLAGS\s*=.*$|CXXFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Ma
 %_bindir/*
 
 %changelog
+* Tue Mar 28 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt5
+- save window geometry on exit
+
 * Thu Mar 23 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt4
 - add (listbox on-double-click)
 
