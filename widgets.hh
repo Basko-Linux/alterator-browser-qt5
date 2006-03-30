@@ -236,9 +236,11 @@ public:
 
 class alComboBox: public alWidgetPre<QComboBox>
 {
+	int counter_;
 public:
 	alComboBox(const QString& id,const QString& parent):
-		alWidgetPre<QComboBox>(id,parent)
+		alWidgetPre<QComboBox>(id,parent),
+		counter_(0)
 	{}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);

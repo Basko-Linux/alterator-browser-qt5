@@ -340,6 +340,7 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 			wnd_->addItem(data[0]);
 		else
 			wnd_->addItem(QIcon(IMAGES_PATH+data[1]),data[0]);
+		counter_ = wnd_->count();
 	}
 	else if ("items" == name)
 	{
@@ -359,12 +360,15 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 	}
 	else if ("current" == name)
 		wnd_->setCurrentIndex(value.toInt());
+	else if ("alterability" == name)
+		wnd_->setEditable(value == "true");
 	else if ("remove-item" == name)
 	{
 		if ("all" == value)
 			wnd_->clear();
 		else
 			wnd_->removeItem(value.toInt());
+		counter_ = wnd_->count();
 	}
 	else if ("item-text" == name)
 	{
@@ -388,10 +392,16 @@ void alComboBox::registerEvent(const QString& name)
 
 QString alComboBox::postData() const
 {
-	return QString(" (current . ") + QString::number(wnd_->currentIndex()) +" )";
+	QString post = QString(" (current . ") + QString::number(wnd_->currentIndex()) +" )";
+	if (wnd_->isEditable() && (counter_ != wnd_->count()))
+	{//reset items on alterator
+		QStringList items;
+		for (int i=0;i<wnd_->count();++i)
+			items << simpleQuote(wnd_->itemText(i));
+		post += "( items . \"" + items.join(";") + "\")";
+	}
+	return post;
 }
-
-
 
 void alTabPage::setAttr(const QString& name,const QString& value)
 {
