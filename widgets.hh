@@ -23,6 +23,7 @@
 #include <QTabWidget>
 #include <QDesktopWidget>
 #include <QProgressBar>
+#include <QTreeWidget>
 
 #include "connection.hh"
 #include "main_window.hh"
@@ -358,6 +359,27 @@ public:
     {}
 protected:
     void setAttr(const QString& name,const QString& value);
+};
+
+class alTree: public alWidgetPre<QTreeWidget>
+{
+	QString items_;
+	QString coords_;
+	void setItems();
+	QTreeWidgetItem *findPosition(QTreeWidgetItem *,QStringList,int);
+public:
+	alTree(const QString& id,const QString& parent):
+		alWidgetPre<QTreeWidget>(id,parent)
+	{
+		//setings to be compatible with QListView
+		wnd_->setColumnCount(1);
+		wnd_->header()->hide();
+		wnd_->setSelectionBehavior(QAbstractItemView::SelectRows);
+	}
+protected:
+	void setAttr(const QString& name,const QString& value);
+	void registerEventCore(const QString&);
+	QString postDataCore() const ;
 };
 
 #endif

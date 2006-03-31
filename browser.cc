@@ -84,6 +84,7 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 	else if ("groupbox" == type) new alGroupBox(id,parent);
 	else if ("checkbox" == type) new alCheckBox(id,parent);
 	else if ("listbox" == type) new alListBox(id,parent);
+	else if ("tree" == type) new alTree(id,parent);
 	else if ("combobox" == type) new alComboBox(id,parent);
 	else if ("tabbox" == type) new alTabBox(id,parent);
 	else if ("tab-page" == type) new alTabPage(id,parent);

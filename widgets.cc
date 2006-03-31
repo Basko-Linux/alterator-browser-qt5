@@ -524,3 +524,81 @@ void alProgressBar::setAttr(const QString& name,const QString& value)
     else
 	alWidget::setAttr(name,value);
 }
+
+void alTree::setAttr(const QString& name,const QString& value)
+{
+	if ("items" == name)
+	{
+		items_ = value;
+		if (!items_.isEmpty() && !coords_.isEmpty()) setItems();
+	}
+	if ("coords" == name)
+	{
+		coords_ = value;
+		if (!items_.isEmpty() && !coords_.isEmpty()) setItems();
+	}
+	if ("current" == name)
+	{
+		QStringList coords = value.split(";");
+		QTreeWidgetItem *item = findPosition(wnd_->topLevelItem(coords[0].toInt()),
+			                                                coords.mid(1),0);
+		wnd_->scrollToItem(item);
+		wnd_->setCurrentItem(item);
+	}
+	else
+		alWidget::setAttr(name,value);
+}
+
+void alTree::registerEventCore(const QString& name)
+{
+	if ("on-select" == name)
+		connect(wnd_,SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
+			     SLOT(onSelect(QTreeWidgetItem*,QTreeWidgetItem*)));
+}
+
+QString alTree::postDataCore() const
+{
+	QStringList coordlist = coords_.split(";");
+	QString data = coordlist[wnd_->currentItem()->type()/2];
+	data.replace(","," ");
+	return QString("(current .")+"("+data+"))";
+}
+
+
+QTreeWidgetItem *alTree::findPosition(QTreeWidgetItem *parent,QStringList coords,int deep)
+{
+	if (!parent)
+		return 0;
+	else if (coords.size() == deep)
+		return parent;
+	else
+		return findPosition(parent->child(coords[0].toInt()),coords.mid(1),deep);
+}
+
+void alTree::setItems()
+{
+	wnd_->clear();//clear all previous content
+	QStringList itemlist = items_.split(";");
+	QStringList coordlist = coords_.split(";");
+	const int len = itemlist.size();
+	for (int i=0;i<len;i+=2)
+	{
+		if (i+1 >= len) break;
+		
+		QString data = itemlist[i];
+		QString pixmap = itemlist[i+1];
+		QStringList coords = coordlist[i/2].split(",");
+		const int len = coords.size();
+		
+		QTreeWidgetItem *item;
+		if (len == 1)
+			item = new QTreeWidgetItem(wnd_,i);
+		else
+			item = new QTreeWidgetItem(findPosition(wnd_->topLevelItem(coords[0].toInt()),
+			                                                         coords.mid(1),1),
+								    i);
+		item->setText(0,data);
+		if (!pixmap.isEmpty())
+                	item->setIcon(0,QIcon(IMAGES_PATH+pixmap));
+	}
+}

@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.6.1
-Release: alt6
+Release: alt8
 
 Source:%name-%version.tar.bz2
 
@@ -38,6 +38,12 @@ sed -i "s|^\s*CXXFLAGS\s*=.*$|CXXFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Ma
 %_bindir/*
 
 %changelog
+* Fri Mar 31 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt8
+- add alTree
+
+* Fri Mar 31 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt7
+- fix combobox post items
+
 * Thu Mar 30 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt6
 - add (combobox alterability)
 
