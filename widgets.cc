@@ -395,10 +395,10 @@ QString alComboBox::postData() const
 	QString post = QString(" (current . ") + QString::number(wnd_->currentIndex()) +" )";
 	if (wnd_->isEditable() && (counter_ != wnd_->count()))
 	{//reset items on alterator
-		QStringList items;
-		for (int i=0;i<wnd_->count();++i)
-			items << simpleQuote(wnd_->itemText(i));
-		post += "( items . \"" + items.join(";") + "\")";
+	    post += "( items . (";
+	    for (int i=0;i<wnd_->count();++i)
+		post += " ( \""+ simpleQuote(wnd_->itemText(i))+ "\" \"\")";
+	    post += "))";
 	}
 	return post;
 }
