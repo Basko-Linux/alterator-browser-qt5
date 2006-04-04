@@ -39,6 +39,22 @@ namespace
 
 //all current elements on viewer
 QMap<QString,alWidget*> elements;
+QString help_source;
+
+void updateHelp(const QString& value)
+{
+	help_source = value;
+	QMapIterator<QString,alWidget*> i(elements);
+	while (i.hasNext())
+	{
+		i.next();
+		if (dynamic_cast<alHelpPlace*>(i.value()))
+		{
+			i.value()->setAttr("source",value);
+			break;
+		}
+	}	
+}
 
 QLayout *findViewLayout(const QString& id)
 {
@@ -60,6 +76,8 @@ alWidget* findAlWidget(const QString& id)
 	if (!elements.contains(id)) return 0;
 	return elements[id];
 }
+
+
 
 void alWidget::setAttr(const QString& name,const QString& value)
 {
@@ -98,6 +116,8 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		else
 		    qDebug("no layout");
 	}
+	else if ("help" == name)
+		updateHelp(value);
 }
 
 ////////////////////////////////////////////
@@ -207,10 +227,6 @@ void alGroupBox::setAttr(const QString& name,const QString& value)
 {
 	if ("title" == name)
 		wnd_->setTitle(value);
-	if ("alterability" == name)
-	{
-		wnd_->setCheckable("true" == value);
-	}
 	else if ("state" == name)
 		wnd_->setChecked("true" ==  value);
 	else
@@ -601,4 +617,17 @@ void alTree::setItems()
 		if (!pixmap.isEmpty())
                 	item->setIcon(0,QIcon(IMAGES_PATH+pixmap));
 	}
+}
+
+void alHelpPlace::setAttr(const QString& name,const QString& value)
+{
+	if ("source" == name)
+		wnd_->setSource(value);
+	else
+		alWidget::setAttr(name,value);
+}
+
+void alHelpPlace::onAnchor(const QString& url)
+{
+	wnd_->setSource(url);
 }

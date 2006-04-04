@@ -50,9 +50,13 @@ void splashMessage(const QString& msg)
 
 ///////////////////////////////
 
-void newRequest(const QString& id, const QString& type, const QString& parent)
+void newRequest(const QXmlAttributes& attr)
 {
+	const QString id = attr.value("widget-id");
+	const QString type = attr.value("type");
+	const QString parent = attr.value("parent");
 //	qDebug("%s: id<%s> type<%s> parent<%s>", __FUNCTION__, id.toLatin1().data(), type.toLatin1().data(), parent.toLatin1().data());
+
 	if ("dialog" == type)
 	{
 	    if(parent.isEmpty())
@@ -81,7 +85,8 @@ void newRequest(const QString& id, const QString& type, const QString& parent)
 	else if ("label" == type) new alLabel(id,parent);
 	else if ("edit" == type) new alEdit(id,parent);
 	else if ("textbox" == type) new alTextBox(id,parent);
-	else if ("groupbox" == type) new alGroupBox(id,parent);
+	else if ("help-place" == type) new alHelpPlace(id,parent);
+	else if ("groupbox" == type) new alGroupBox(id,parent,attr.value("with-checkbox"));
 	else if ("checkbox" == type) new alCheckBox(id,parent);
 	else if ("listbox" == type) new alListBox(id,parent);
 	else if ("tree" == type) new alTree(id,parent);
@@ -263,9 +268,7 @@ void getDocParser(alCommand *cmd)
 	QString action = e.value("action");
 
 	if ("new" == action)
-		newRequest(e.value("widget-id"),
-		           e.value("type"),
-			   e.value("parent"));
+		newRequest(e);
 	else if ("delete" == action)
 		deleteRequest(e.value("widget-id"));
 	else if ("set" == action)

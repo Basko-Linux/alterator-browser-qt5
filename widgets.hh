@@ -24,15 +24,13 @@
 #include <QDesktopWidget>
 #include <QProgressBar>
 #include <QTreeWidget>
+#include <QTextBrowser>
 
 #include "connection.hh"
 #include "main_window.hh"
 #include "browser.hh"
 
 typedef QWidget MainWidget_t;
-
-extern MainWindow *main_window;
-
 
 #define simpleQuote(s) s.replace("\\","\\\\").replace("\"","\\\"")
 
@@ -89,11 +87,14 @@ public slots:
 	}
 };
 
+extern MainWindow *main_window;
+extern QMap<QString,alWidget*> elements;
+extern QString help_source;
+
 QLayout *findViewLayout(const QString& id);
 QWidget* findQWidget(const QString& id);
 alWidget* findAlWidget(const QString& id);
 
-extern QMap<QString,alWidget*> elements;
 
 template <typename Widget>
 Widget *createWidget(const QString& parent)
@@ -201,10 +202,11 @@ public:
 class alGroupBox: public alWidgetPre<QGroupBox>
 {
 public:
-	alGroupBox(const QString& id,const QString& parent):
+	alGroupBox(const QString& id,const QString& parent,const QString& checkable):
 		alWidgetPre<QGroupBox>(id,parent)
 	{
 		new MyVBoxLayout(getViewWidget());
+		wnd_->setCheckable("true" == checkable);
 	}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
@@ -380,6 +382,23 @@ protected:
 	void setAttr(const QString& name,const QString& value);
 	void registerEventCore(const QString&);
 	QString postDataCore() const ;
+};
+
+class alHelpPlace: public alWidgetPre<QTextBrowser>
+{
+Q_OBJECT
+public:
+	alHelpPlace(const QString& id,const QString& parent):
+		alWidgetPre<QTextBrowser>(id,parent)
+	{
+		if (!help_source.isEmpty()) wnd_->setSource(help_source);
+		connect(wnd_,SIGNAL(anchorClicked(const QString&)),
+		             SLOT(onAnchor(const QString&)));
+	}
+protected:
+	void setAttr(const QString& name,const QString& value);
+protected slots:
+	void onAnchor(const QString& url);
 };
 
 #endif
