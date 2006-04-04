@@ -344,7 +344,95 @@ void alListBox::registerEvent(const QString& name)
 
 QString alListBox::postData() const
 {
-	return QString(" (current . ") + QString("%1").arg(wnd_->currentRow()) +" )";
+	return QString(" (current . %1 )").arg(wnd_->currentRow());
+}
+
+void alMultiListBox::setAttr(const QString& name,const QString& value)
+{
+	if ("append-item" == name)
+	{
+		QStringList data = value.split(";");
+		const int len = data.size();
+		if (len <= 1) return;
+		const int columns = wnd_->columnCount();
+		QTreeWidgetItem *item(new QTreeWidgetItem(wnd_));
+		for (int col = 0;(col < columns*2) && (col+1 < len);col+=2)
+		{
+			if (!data[col].isEmpty())
+				item->setText(col/2,data[0]);
+			if (!data[col+1].isEmpty())
+				item->setIcon(col/2,QIcon(IMAGES_PATH+data[col+1]));
+		}
+	}
+	if ("items" == name)
+	{
+		QStringList data = value.split(";");
+		QList<QTreeWidgetItem *> items;
+		const int len = data.size();
+		const int columns = wnd_->columnCount();
+		for(int i=0;i+1 < len;)
+		{
+			QTreeWidgetItem *elt = new QTreeWidgetItem(0);
+			for(int col = 0; (col < columns);++col,i+=2)
+			{
+				if (!data[i].isEmpty())
+					elt->setText(col,data[i]);
+				if (!data[i+1].isEmpty())
+					elt->setIcon(col,QIcon(IMAGES_PATH+data[i+1]));
+			}
+			items.push_front(elt);
+		}
+		wnd_->clear();		
+		wnd_->addTopLevelItems(items);
+	}
+	else if ("current" == name)
+	{
+		QTreeWidgetItem *i = wnd_->topLevelItem(value.toInt());
+		wnd_->scrollToItem(i);
+		wnd_->setCurrentItem(i);
+	}
+	else if ("remove-item" == name)
+	{
+		if ("all" == value)
+			wnd_->clear();
+		else
+			delete wnd_->takeTopLevelItem(value.toInt());
+	}
+	else if ("item-text" == name)
+	{//TODO: will be support for multiple columns here
+		QStringList data = value.split(";");
+		wnd_->topLevelItem(data[1].toInt())->setText(0,data[0]);
+	}
+	else if ("item-pixmap" == name)
+	{//TODO: will be support for multiple columns here
+		QStringList data = value.split(";");
+		wnd_->topLevelItem(data[1].toInt())->setIcon(0,QIcon(IMAGES_PATH+data[0]));
+	}
+	else if ("header" == name)
+	{
+		wnd_->header()->show();
+		wnd_->setHeaderLabels(value.split(";"));
+	}
+	else
+		alWidget::setAttr(name,value);
+}
+
+void alMultiListBox::registerEvent(const QString& name)
+{
+	if ("on-select" == name)
+		connect(wnd_,SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
+			     SLOT(onSelect(QTreeWidgetItem*,QTreeWidgetItem*)));
+	else if ("on-click" == name)
+		connect(wnd_,SIGNAL(itemPressed(QTreeWidgetItem*,int)), SLOT(onClick(QTreeWidgetItem*,int)));
+	else if ("on-return" == name)
+		connect( wnd_, SIGNAL(itemActivated(QTreeWidgetItem*,int)), SLOT(onReturn(QTreeWidgetItem*,int)));
+	else if ("on-double-click" == name)
+		connect(wnd_,SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), SLOT(onDoubleClick(QTreeWidgetItem*,int)));
+}
+
+QString alMultiListBox::postData() const
+{
+	return QString(" (current . %1 )").arg(wnd_->indexOfTopLevelItem(wnd_->currentItem()));
 }
 
 void alComboBox::setAttr(const QString& name,const QString& value)

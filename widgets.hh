@@ -61,14 +61,23 @@ public:
 public slots:
 	void onClick(bool) { emitEvent(id_,"on-click"); }
 	void onClick(QListWidgetItem*) { emitEvent(id_,"on-click"); }
+	void onClick(QTreeWidgetItem*,int) { emitEvent(id_,"on-click"); }
+
 	void onChange(void) { emitEvent(id_,"on-change"); }
 	void onChange(const QString&) { emitEvent(id_,"on-change"); }
 	void onChange(QWidget*) { emitEvent(id_,"on-change"); }
+
 	void onReturn() { emitEvent(id_,"on-return"); }
 	void onReturn(QListWidgetItem*) { emitEvent(id_,"on-return"); }
+	void onReturn(QTreeWidgetItem*, int) { emitEvent(id_,"on-return"); }
+
 	void onSelect() { emitEvent(id_,"on-select"); }
 	void onSelect(int) { emitEvent(id_,"on-select"); }
+	void onSelect(QTreeWidgetItem*,QTreeWidgetItem*) { emitEvent(id_,"on-select"); }
+
 	void onDoubleClick() { emitEvent(id_,"on-double-click"); }
+	void onDoubleClick(QTreeWidgetItem*,int) { emitEvent(id_,"on-double-click"); }
+
 	void onToggle(bool) { emitEvent(id_,"on-toggle"); }
 	void onToggle(int) { emitEvent(id_,"on-toggle"); }
 
@@ -232,6 +241,24 @@ public:
 	{
 		wnd_->setAlternatingRowColors(true);
 	}
+	void setAttr(const QString& name,const QString& value);
+	void registerEvent(const QString&);
+	QString postData() const ;
+};
+
+class alMultiListBox: public alWidgetPre<QTreeWidget>
+{
+public:
+	alMultiListBox(const QString& id,const QString& parent, int cols):
+		alWidgetPre<QTreeWidget>(id,parent)
+	{
+		//setings to be compatible with QListView
+		wnd_->setColumnCount(cols);
+		wnd_->header()->hide();
+		wnd_->setSelectionBehavior(QAbstractItemView::SelectRows);
+		wnd_->setIndentation(0);
+	}
+protected:
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const ;

@@ -88,12 +88,19 @@ void newRequest(const QXmlAttributes& attr)
 	else if ("help-place" == type) new alHelpPlace(id,parent);
 	else if ("groupbox" == type) new alGroupBox(id,parent,attr.value("with-checkbox"));
 	else if ("checkbox" == type) new alCheckBox(id,parent);
-	else if ("listbox" == type) new alListBox(id,parent);
 	else if ("tree" == type) new alTree(id,parent);
 	else if ("combobox" == type) new alComboBox(id,parent);
 	else if ("tabbox" == type) new alTabBox(id,parent);
 	else if ("tab-page" == type) new alTabPage(id,parent);
 	else if ("progressbar" == type) new alProgressBar(id,parent);
+	else if ("listbox" == type)
+	{
+	    int cols = attr.value("with-columns").toInt();
+	    if( cols <= 0 )
+		new alListBox(id,parent);
+	    else
+		new alMultiListBox(id,parent,cols);
+	}
 	else if ("wizardface" == type)
 	{
 	    if( !wizard_face )
