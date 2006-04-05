@@ -316,12 +316,12 @@ void alListBox::setAttr(const QString& name,const QString& value)
 			delete wnd_->takeItem(value.toInt());
 	}
 	else if ("item-text" == name)
-	{//TODO: will be support for multiple columns here
+	{
 		QStringList data = value.split(";");
 		wnd_->item(data[1].toInt())->setText(data[0]);
 	}
 	else if ("item-pixmap" == name)
-	{//TODO: will be support for multiple columns here
+	{
 		QStringList data = value.split(";");
 		wnd_->item(data[1].toInt())->setIcon(QIcon(IMAGES_PATH+data[0]));
 	}
@@ -399,14 +399,16 @@ void alMultiListBox::setAttr(const QString& name,const QString& value)
 			delete wnd_->takeTopLevelItem(value.toInt());
 	}
 	else if ("item-text" == name)
-	{//TODO: will be support for multiple columns here
+	{
 		QStringList data = value.split(";");
-		wnd_->topLevelItem(data[1].toInt())->setText(0,data[0]);
+		int column = data.size()<3? 0: data[2].toInt();
+		wnd_->topLevelItem(data[1].toInt())->setText(column,data[0]);
 	}
 	else if ("item-pixmap" == name)
-	{//TODO: will be support for multiple columns here
+	{
 		QStringList data = value.split(";");
-		wnd_->topLevelItem(data[1].toInt())->setIcon(0,QIcon(IMAGES_PATH+data[0]));
+		int column = data.size()<3? 0: data[2].toInt();
+		wnd_->topLevelItem(data[1].toInt())->setIcon(column,QIcon(IMAGES_PATH+data[0]));
 	}
 	else if ("header" == name)
 	{
