@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.6.1
-Release: alt9
+Release: alt10
 
 Source:%name-%version.tar.bz2
 
@@ -38,6 +38,9 @@ sed -i "s|^\s*CXXFLAGS\s*=.*$|CXXFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Ma
 %_bindir/*
 
 %changelog
+* Wed Apr 05 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt10
+- don't use alMultiListBox for 1 column
+
 * Tue Apr 04 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt9
 - add alMultiListBox
 - add alHelpPlace

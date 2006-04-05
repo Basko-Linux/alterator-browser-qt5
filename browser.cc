@@ -96,7 +96,7 @@ void newRequest(const QXmlAttributes& attr)
 	else if ("listbox" == type)
 	{
 	    int cols = attr.value("with-columns").toInt();
-	    if( cols <= 0 )
+	    if( cols <= 1 )
 		new alListBox(id,parent);
 	    else
 		new alMultiListBox(id,parent,cols);
