@@ -434,7 +434,11 @@ void alMultiListBox::registerEvent(const QString& name)
 
 QString alMultiListBox::postData() const
 {
-	return QString(" (current . %1 )").arg(wnd_->indexOfTopLevelItem(wnd_->currentItem()));
+	QTreeWidgetItem *i = wnd_->currentItem();
+	if( i )
+	    return QString(" (current . ") + QString::number(wnd_->indexOfTopLevelItem(i)) +" )";
+	else
+	    return "";
 }
 
 void alComboBox::setAttr(const QString& name,const QString& value)
@@ -635,13 +639,24 @@ void alTree::setAttr(const QString& name,const QString& value)
 {
 	if ("items" == name)
 	{
+                wnd_->clear();//clear all previous content
 		items_ = value;
-		if (!items_.isEmpty() && !coords_.isEmpty()) setItems();
+		if (!coords_.isEmpty())
+		{
+		    setItems();
+		    coordmap_ = coords_.split(";");//move to internal storage
+		    items_ = coords_ = "";
+		}
 	}
 	if ("coords" == name)
 	{
 		coords_ = value;
-		if (!items_.isEmpty() && !coords_.isEmpty()) setItems();
+		if (!items_.isEmpty())
+		{
+		    setItems();
+		    coordmap_ = coords_.split(";");//move to internal storage
+		    items_ = coords_ = "";
+		}
 	}
 	if ("current" == name)
 	{
@@ -655,21 +670,24 @@ void alTree::setAttr(const QString& name,const QString& value)
 		alWidget::setAttr(name,value);
 }
 
-void alTree::registerEventCore(const QString& name)
+void alTree::registerEvent(const QString& name)
 {
 	if ("on-select" == name)
 		connect(wnd_,SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
 			     SLOT(onSelect(QTreeWidgetItem*,QTreeWidgetItem*)));
 }
 
-QString alTree::postDataCore() const
+QString alTree::postData() const
 {
-	QStringList coordlist = coords_.split(";");
-	QString data = coordlist[wnd_->currentItem()->type()/2];
-	data.replace(","," ");
-	return QString("(current .")+"("+data+"))";
+       QTreeWidgetItem *i = wnd_->currentItem();
+       if (i)
+       {
+               QString data = coordmap_[i->type()/2];
+               data.replace(","," ");
+               return QString("(current .")+"("+data+"))";
+       }
+               return "";
 }
-
 
 QTreeWidgetItem *alTree::findPosition(QTreeWidgetItem *parent,QStringList coords,int deep)
 {
@@ -683,7 +701,6 @@ QTreeWidgetItem *alTree::findPosition(QTreeWidgetItem *parent,QStringList coords
 
 void alTree::setItems()
 {
-	wnd_->clear();//clear all previous content
 	QStringList itemlist = items_.split(";");
 	QStringList coordlist = coords_.split(";");
 	const int len = itemlist.size();

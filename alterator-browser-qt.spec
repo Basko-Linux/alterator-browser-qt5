@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.6.1
-Release: alt11
+Release: alt12
 
 Source:%name-%version.tar.bz2
 
@@ -38,6 +38,9 @@ sed -i "s|^\s*CXXFLAGS\s*=.*$|CXXFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Ma
 %_bindir/*
 
 %changelog
+* Thu Apr 06 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt12
+- add alTree fixes
+
 * Wed Apr 05 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt11
 - add patch fix for item-text and item-pixmap in multicolon listbox
 

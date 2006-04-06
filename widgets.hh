@@ -394,6 +394,7 @@ class alTree: public alWidgetPre<QTreeWidget>
 {
 	QString items_;
 	QString coords_;
+	QStringList coordmap_;//internal coordinates map
 	void setItems();
 	QTreeWidgetItem *findPosition(QTreeWidgetItem *,QStringList,int);
 public:
@@ -407,8 +408,8 @@ public:
 	}
 protected:
 	void setAttr(const QString& name,const QString& value);
-	void registerEventCore(const QString&);
-	QString postDataCore() const ;
+	void registerEvent(const QString&);
+	QString postData() const ;
 };
 
 class alHelpPlace: public alWidgetPre<QTextBrowser>
