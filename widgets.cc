@@ -637,7 +637,7 @@ void alProgressBar::setAttr(const QString& name,const QString& value)
 
 void alTree::setAttr(const QString& name,const QString& value)
 {
-	if ("items" == name)
+	if ("tree-items" == name)
 	{
                 wnd_->clear();//clear all previous content
 		items_ = value;
