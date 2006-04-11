@@ -58,8 +58,7 @@ QPixmap APixmaps::get(const QString &id)
 
 	if( pixmap.width() <= 0 || pixmap.height() <= 0 )
 	    pixmap = QApplication::style()->standardPixmap(standard["theme:question"]);
-	else if( (pixmap.width() <= 48 && pixmap.height() <= 48)
-		|| is_generated )
+	else if( is_generated || (pixmap.width() <= 48 && pixmap.height() <= 48) )
 	    QPixmapCache::insert(id, pixmap);
     }
     return pixmap;
@@ -67,7 +66,7 @@ QPixmap APixmaps::get(const QString &id)
 
 QPixmap APixmaps::generate(const QString &id)
 {
-    QPixmap pix;
+    QPixmap pixmap;
     if( generated.contains(id) )
     {
 	QPair<QStyle::PrimitiveElement, int> pair(generated[id]);
@@ -78,16 +77,17 @@ QPixmap APixmaps::generate(const QString &id)
 		QStyle::StateFlag opt = (QStyle::StateFlag)pair.second;
     		QStyleOptionButton b;
 		QRect r = QApplication::style()->subElementRect(QStyle::SE_CheckBoxIndicator,&b);
-		pix = QPixmap(r.width(),r.height());
-		QPainter paint(&pix);
+		pixmap = QPixmap(r.width(),r.height());
+		QPainter paint(&pixmap);
 		b.state |= opt;
 		b.rect = QRect(0,0,r.width(),r.height());
 		QApplication::style()->drawPrimitive(QStyle::PE_IndicatorCheckBox,&b,&paint);
 		break;
 	    }
 	    default:
+		pixmap = QApplication::style()->standardPixmap(standard["theme:question"]);
 		break;
 	}
     }
-    return pix;
+    return pixmap;
 }
