@@ -272,7 +272,7 @@ QString alCheckBox::postData() const
 
 void alListBox::setAttr(const QString& name,const QString& value)
 {
-	if ("append-item" == name)
+	if ("append-row" == name)
 	{//TODO:will be support for multiple columns here
 		QStringList data = value.split(";");
 		QListWidgetItem *item(new QListWidgetItem(wnd_));
@@ -281,7 +281,7 @@ void alListBox::setAttr(const QString& name,const QString& value)
 		if( !data[1].isEmpty() && pixmaps )
 			item->setIcon( QIcon(pixmaps->get(data[1])) );
 	}
-	else if ("items" == name)
+	else if ("rows" == name)
 	{
 	    wnd_->clear();
 	    QStringList lst = value.split(";");
@@ -308,19 +308,19 @@ void alListBox::setAttr(const QString& name,const QString& value)
 		    wnd_->scrollToItem(i);
 		}
 	}
-	else if ("remove-item" == name)
+	else if ("remove-row" == name)
 	{
 		if ("all" == value)
 			wnd_->clear();
 		else
 			delete wnd_->takeItem(value.toInt());
 	}
-	else if ("item-text" == name)
+	else if ("row-item-text" == name)
 	{
 		QStringList data = value.split(";");
 		wnd_->item(data[1].toInt())->setText(data[0]);
 	}
-	else if ("item-pixmap" == name && pixmaps)
+	else if ("row-item-pixmap" == name && pixmaps)
 	{
 		QStringList data = value.split(";");
 		wnd_->item( data[1].toInt() )->setIcon( QIcon(pixmaps->get(data[0])) );
@@ -349,7 +349,7 @@ QString alListBox::postData() const
 
 void alMultiListBox::setAttr(const QString& name,const QString& value)
 {
-	if ("append-item" == name)
+	if ("append-row" == name)
 	{
 		QStringList data = value.split(";");
 		const int len = data.size();
@@ -364,7 +364,7 @@ void alMultiListBox::setAttr(const QString& name,const QString& value)
 				item->setIcon(col/2,QIcon(pixmaps->get(data[col+1])));
 		}
 	}
-	if ("items" == name)
+	if ("rows" == name)
 	{
 		QStringList data = value.split(";");
 		QList<QTreeWidgetItem *> items;
@@ -391,20 +391,20 @@ void alMultiListBox::setAttr(const QString& name,const QString& value)
 		wnd_->scrollToItem(i);
 		wnd_->setCurrentItem(i);
 	}
-	else if ("remove-item" == name)
+	else if ("remove-row" == name)
 	{
 		if ("all" == value)
 			wnd_->clear();
 		else
 			delete wnd_->takeTopLevelItem(value.toInt());
 	}
-	else if ("item-text" == name)
+	else if ("row-item-text" == name)
 	{
 		QStringList data = value.split(";");
 		int column = data.size()<3? 0: data[2].toInt();
 		wnd_->topLevelItem(data[1].toInt())->setText(column,data[0]);
 	}
-	else if ("item-pixmap" == name && pixmaps)
+	else if ("row-item-pixmap" == name && pixmaps)
 	{
 		QStringList data = value.split(";");
 		int column = data.size()<3? 0: data[2].toInt();
@@ -443,7 +443,7 @@ QString alMultiListBox::postData() const
 
 void alComboBox::setAttr(const QString& name,const QString& value)
 {
-	if ("append-item" == name)
+	if ("append-row" == name)
 	{
 		QStringList data = value.split(";");
 		if (data[1].isEmpty() || !pixmaps)
@@ -452,7 +452,7 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 			wnd_->addItem(QIcon(pixmaps->get(data[1])),data[0]);
 		counter_ = wnd_->count();
 	}
-	else if ("items" == name)
+	else if ("rows" == name)
 	{
 	    wnd_->clear();
 	    QStringList lst = value.split(";");
@@ -472,7 +472,7 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 		wnd_->setCurrentIndex(value.toInt());
 	else if ("alterability" == name)
 		wnd_->setEditable(value == "true");
-	else if ("remove-item" == name)
+	else if ("remove-row" == name)
 	{
 		if ("all" == value)
 			wnd_->clear();
@@ -480,12 +480,12 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 			wnd_->removeItem(value.toInt());
 		counter_ = wnd_->count();
 	}
-	else if ("item-text" == name)
+	else if ("row-item-text" == name)
 	{
 		QStringList data = value.split(";");
 		wnd_->setItemText(data[1].toInt(),data[0]);
 	}
-	else if ("item-pixmap" == name && pixmaps)
+	else if ("row-item-pixmap" == name && pixmaps)
 	{
 		QStringList data = value.split(";");
 		wnd_->setItemIcon(data[1].toInt(),QIcon(pixmaps->get(data[0])));
@@ -505,7 +505,7 @@ QString alComboBox::postData() const
 	QString post = QString(" (current . ") + QString::number(wnd_->currentIndex()) +" )";
 	if (wnd_->isEditable() && (counter_ != wnd_->count()))
 	{//reset items on alterator
-	    post += "( items . (";
+	    post += "( rows . (";
 	    for (int i=0;i<wnd_->count();++i)
 		post += " ( \""+ simpleQuote(wnd_->itemText(i))+ "\" . \"\")";
 	    post += "))";
