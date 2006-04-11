@@ -11,12 +11,14 @@
 #include "main_window.hh"
 #include "widgets.hh"
 #include "al_wizard_face.hh"
+#include "a_pixmaps.hh"
 
 Updater *updater = 0;//slot for updates
 QPointer<QSplashScreen> splash;//single splash screen
 MainWindow *main_window = 0;
 alWizardFace *wizard_face = 0;
 int emit_locker = 0; //wrong emit protector
+APixmaps *pixmaps = 0; //pixmaps store
 
 void splashStart(void)
 {

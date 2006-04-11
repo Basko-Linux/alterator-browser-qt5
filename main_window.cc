@@ -19,6 +19,7 @@
 #include "updater.hh"
 
 extern Updater *updater;
+extern APixmaps *pixmaps;
 
 MainWindow::MainWindow():
     MainWindow_t()
@@ -55,12 +56,20 @@ MainWindow::~MainWindow()
 	delete updater;
 	updater = 0;
     }
+    if( pixmaps )
+    {
+	delete pixmaps;
+	pixmaps = 0;
+    }
 }
 
 void MainWindow::start()
 {
     if( started ) return;
     started = true;
+
+    if( !pixmaps )
+	pixmaps = new APixmaps();
     updater = new Updater();
 #if 1
     initConnection(getDocParser);

@@ -92,8 +92,8 @@ void AWizardFace::setItemPixmap(const QString &id, const QString &value)
 {
     if( buttons.contains(id) )
 	buttons[id]->setIcon(QIcon(value));
-    else if( labels.contains(id) )
-	labels[id]->setPixmap(value);
+    else if( pixmaps && labels.contains(id) )
+	labels[id]->setPixmap(pixmaps->get(value));
 }
 
 
@@ -114,7 +114,7 @@ void alWizardFaceItem::setAttr(const QString& name,const QString& value)
 	if ("text" == name)
 	    wizard_face->getWidget()->setItemText(getId(), value);
 	else if ("pixmap" == name)
-	    wizard_face->getWidget()->setItemPixmap(getId(), IMAGES_PATH+value);
+	    wizard_face->getWidget()->setItemPixmap(getId(), value);
     }
 }
 
