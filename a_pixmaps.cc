@@ -47,12 +47,12 @@ QPixmap APixmaps::get(const QString &id)
 	{
 	    if( standard.contains(id) )
 	    {
-		qDebug("selected standard pixmap");
+		//qDebug("selected standard pixmap");
 		pixmap = QApplication::style()->standardPixmap(standard[id]);
 	    }
 	    else if( generated.contains(id) )
 	    {
-		qDebug("selected generated pixmap");
+		//qDebug("selected generated pixmap");
 		is_generated = true;
 		pixmap = generate(id);
 	    }
@@ -60,7 +60,7 @@ QPixmap APixmaps::get(const QString &id)
 	else
 	    pixmap = QPixmap( IMAGES_PATH + id );
 
-	if( pixmap.width() <= 0 || pixmap.height() <= 0 )
+	if( pixmap.isNull() )
 	    pixmap = QApplication::style()->standardPixmap(standard["theme:unknown"]);
 	else if( is_generated || (pixmap.width() <= 48 && pixmap.height() <= 48) )
 	    QPixmapCache::insert(id, pixmap);
