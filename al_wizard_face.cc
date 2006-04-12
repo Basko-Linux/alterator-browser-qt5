@@ -50,16 +50,18 @@ QWidget* AWizardFace::addItem(const QString &id, AWizardFace::ItemType type)
 	    buttons_layout->addWidget(b);
 	    w = buttons[id] = b;
 	    break;
-	case LabelGeneric:
 	case LabelSection:
-	    QLabel *l = new QLabel(labels_widget);
+	case LabelGeneric:
+	    QPushButton *l = new QPushButton(labels_widget);
+	    l->setFlat(true);
 	    labels_layout->addWidget(l);
-	    w = labels[id] = l;
+	    w = buttons[id] = l;
 	    break;
 	default:
-	    QLabel *lg = new QLabel(labels_widget);
+	    QPushButton *lg = new QPushButton(labels_widget);
+	    lg->setFlat(true);
 	    labels_layout->addWidget(lg);
-	    w = labels[id] = lg;
+	    w = buttons[id] = lg;
 	    break;
     }
     return w;
@@ -74,8 +76,6 @@ QWidget* AWizardFace::getItemWidget(const QString &id)
 {
     if( buttons.contains(id) )
 	return buttons[id];
-    else if( labels.contains(id) )
-	return labels[id];
     else
 	return 0;
 }
@@ -84,16 +84,12 @@ void AWizardFace::setItemText(const QString &id, const QString &value)
 {
     if( buttons.contains(id) )
 	buttons[id]->setText(value);
-    else if( labels.contains(id) )
-	labels[id]->setText(value);
 }
 
 void AWizardFace::setItemPixmap(const QString &id, const QString &value)
 {
     if( buttons.contains(id) )
-	buttons[id]->setIcon(QIcon(value));
-    else if( pixmaps && labels.contains(id) )
-	labels[id]->setPixmap(pixmaps->get(value));
+	buttons[id]->setIcon(QIcon(pixmaps->get(value)));
 }
 
 
