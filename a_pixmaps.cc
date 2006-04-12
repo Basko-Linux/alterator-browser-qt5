@@ -29,8 +29,8 @@ APixmaps::APixmaps()
 
     standard["theme:unknown"] = QStyle::SP_TitleBarMenuButton;
 
-    generated["theme:checkbox-on"] = qMakePair(QStyle::PE_IndicatorCheckBox, (int)QStyle::State_On);
-    generated["theme:checkbox-off"] = qMakePair(QStyle::PE_IndicatorCheckBox, (int)QStyle::State_Off);
+    generated["theme:check-on"] = qMakePair(QStyle::PE_IndicatorCheckBox, (int)QStyle::State_On);
+    generated["theme:check-off"] = qMakePair(QStyle::PE_IndicatorCheckBox, (int)QStyle::State_Off);
     generated["theme:radio-on"] = qMakePair(QStyle::PE_IndicatorRadioButton, (int)QStyle::State_On);
     generated["theme:radio-off"] = qMakePair(QStyle::PE_IndicatorRadioButton, (int)QStyle::State_Off);
 }
