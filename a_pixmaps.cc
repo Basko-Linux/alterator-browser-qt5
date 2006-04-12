@@ -27,8 +27,10 @@ APixmaps::APixmaps()
     standard["theme:dir"] = QStyle::SP_DirOpenIcon;
     standard["theme:file"] = QStyle::SP_FileIcon;
 
-    generated["theme:checkbox-checked"] = qMakePair(QStyle::PE_IndicatorCheckBox, (int)QStyle::State_On);
-    generated["theme:checkbox-unchecked"] = qMakePair(QStyle::PE_IndicatorCheckBox, (int)QStyle::State_Off);
+    generated["theme:checkbox-on"] = qMakePair(QStyle::PE_IndicatorCheckBox, (int)QStyle::State_On);
+    generated["theme:checkbox-off"] = qMakePair(QStyle::PE_IndicatorCheckBox, (int)QStyle::State_Off);
+    generated["theme:radio-on"] = qMakePair(QStyle::PE_IndicatorRadioButton, (int)QStyle::State_On);
+    generated["theme:radio-off"] = qMakePair(QStyle::PE_IndicatorRadioButton, (int)QStyle::State_Off);
 }
 
 APixmaps::~APixmaps() {}
@@ -81,7 +83,19 @@ QPixmap APixmaps::generate(const QString &id)
 		QPainter paint(&pixmap);
 		b.state |= opt;
 		b.rect = QRect(0,0,r.width(),r.height());
-		QApplication::style()->drawPrimitive(QStyle::PE_IndicatorCheckBox,&b,&paint);
+		QApplication::style()->drawPrimitive(pair.first,&b,&paint);
+		break;
+	    }
+	    case QStyle::PE_IndicatorRadioButton:
+	    {
+		QStyle::StateFlag opt = (QStyle::StateFlag)pair.second;
+    		QStyleOptionButton b;
+		QRect r = QApplication::style()->subElementRect(QStyle::SE_RadioButtonIndicator,&b);
+		pixmap = QPixmap(r.width(),r.height());
+		QPainter paint(&pixmap);
+		b.state |= opt;
+		b.rect = QRect(0,0,r.width(),r.height());
+		QApplication::style()->drawPrimitive(pair.first,&b,&paint);
 		break;
 	    }
 	    default:
