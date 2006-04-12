@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.6.1
-Release: alt13
+Release: alt14
 
 Source:%name-%version.tar.bz2
 
@@ -38,6 +38,9 @@ sed -i "s|^\s*CXXFLAGS\s*=.*$|CXXFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Ma
 %_bindir/*
 
 %changelog
+* Wed Apr 12 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt14
+- update standatd pixmaps list
+
 * Tue Apr 11 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt13
 - rename items to rows
 - add pixmaps caching
