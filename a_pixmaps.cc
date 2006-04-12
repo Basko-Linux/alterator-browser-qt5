@@ -23,9 +23,11 @@ APixmaps::APixmaps()
     standard["theme:hd"] = QStyle::SP_DriveHDIcon;
     standard["theme:cd"] = QStyle::SP_DriveCDIcon;
     standard["theme:dvd"] = QStyle::SP_DriveDVDIcon;
-    standard["theme:net"] = QStyle::SP_DriveNetIcon;
+    standard["theme:netdisk"] = QStyle::SP_DriveNetIcon;
     standard["theme:dir"] = QStyle::SP_DirOpenIcon;
     standard["theme:file"] = QStyle::SP_FileIcon;
+
+    standard["theme:unknown"] = QStyle::SP_TitleBarMenuButton;
 
     generated["theme:checkbox-on"] = qMakePair(QStyle::PE_IndicatorCheckBox, (int)QStyle::State_On);
     generated["theme:checkbox-off"] = qMakePair(QStyle::PE_IndicatorCheckBox, (int)QStyle::State_Off);
@@ -59,7 +61,7 @@ QPixmap APixmaps::get(const QString &id)
 	    pixmap = QPixmap( IMAGES_PATH + id );
 
 	if( pixmap.width() <= 0 || pixmap.height() <= 0 )
-	    pixmap = QApplication::style()->standardPixmap(standard["theme:question"]);
+	    pixmap = QApplication::style()->standardPixmap(standard["theme:unknown"]);
 	else if( is_generated || (pixmap.width() <= 48 && pixmap.height() <= 48) )
 	    QPixmapCache::insert(id, pixmap);
     }
@@ -99,7 +101,7 @@ QPixmap APixmaps::generate(const QString &id)
 		break;
 	    }
 	    default:
-		pixmap = QApplication::style()->standardPixmap(standard["theme:question"]);
+		pixmap = QApplication::style()->standardPixmap(standard["theme:unknown"]);
 		break;
 	}
     }
