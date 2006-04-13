@@ -20,12 +20,12 @@ APixmaps::APixmaps()
     standard["theme:trash"] = QStyle::SP_TrashIcon;
     standard["theme:computer"] = QStyle::SP_ComputerIcon;
 
-    standard["theme:fd"] = QStyle::SP_DriveFDIcon;
-    standard["theme:hd"] = QStyle::SP_DriveHDIcon;
-    standard["theme:cd"] = QStyle::SP_DriveCDIcon;
-    standard["theme:dvd"] = QStyle::SP_DriveDVDIcon;
-    standard["theme:netdisk"] = QStyle::SP_DriveNetIcon;
-    standard["theme:dir"] = QStyle::SP_DirOpenIcon;
+    standard["theme:disk-fd"] = QStyle::SP_DriveFDIcon;
+    standard["theme:disk-hd"] = QStyle::SP_DriveHDIcon;
+    standard["theme:disk-cd"] = QStyle::SP_DriveCDIcon;
+    standard["theme:disk-dvd"] = QStyle::SP_DriveDVDIcon;
+    standard["theme:disk-net"] = QStyle::SP_DriveNetIcon;
+    standard["theme:directory"] = QStyle::SP_DirOpenIcon;
     standard["theme:file"] = QStyle::SP_FileIcon;
 
     standard["theme:unknown"] = QStyle::SP_TitleBarMenuButton;
