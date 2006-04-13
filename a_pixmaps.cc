@@ -36,44 +36,51 @@ APixmaps::APixmaps()
     generated["theme:radio-off"] = qMakePair(QStyle::PE_IndicatorRadioButton, (int)QStyle::State_Off);
 
     generated["theme:null"] = qMakePair((QStyle::PrimitiveElement)0, 0);
+
+    filesystem["theme:help"] = "help.png";
 }
 
 APixmaps::~APixmaps() {}
 
-QPixmap APixmaps::get(const QString &id)
+QPixmap APixmaps::get(const QString &x_id)
 {
-    QString x_id = id;
+    QString id = x_id;
     QPixmap pixmap;
 
     if( id.isEmpty() )
     {
-	x_id = "theme:null";
+	id = "theme:null";
     }
 
-    if( !QPixmapCache::find(x_id, pixmap) )
+    if( !QPixmapCache::find(id, pixmap) )
     {
 	bool is_generated = false;
-	if( x_id.startsWith("theme:") )
+	if( id.startsWith("theme:") )
 	{
-	    if( standard.contains(x_id) )
+	    if( standard.contains(id) )
 	    {
 		//qDebug("selected standard pixmap");
-		pixmap = QApplication::style()->standardPixmap(standard[x_id]);
+		pixmap = QApplication::style()->standardPixmap(standard[id]);
 	    }
-	    else if( generated.contains(x_id) )
+	    else if( generated.contains(id) )
 	    {
 		//qDebug("selected generated pixmap");
 		is_generated = true;
-		pixmap = generate(x_id);
+		pixmap = generate(id);
+	    }
+	    else if( filesystem.contains(id) )
+	    {
+		// FIXME may be images path changeble ?
+		pixmap = QPixmap( IMAGES_PATH + filesystem[id] );
 	    }
 	}
 	else
-	    pixmap = QPixmap( IMAGES_PATH + x_id );
+	    pixmap = QPixmap( IMAGES_PATH + id );
 
 	if( pixmap.isNull() )
 	    pixmap = QApplication::style()->standardPixmap(standard["theme:unknown"]);
 	if( is_generated || (pixmap.width() < 48 && pixmap.height() < 48) )
-	    QPixmapCache::insert(x_id, pixmap);
+	    QPixmapCache::insert(id, pixmap);
     }
     return pixmap;
 }

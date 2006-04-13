@@ -17,6 +17,7 @@ public:
 private:
     QMap<QString, QStyle::StandardPixmap> standard;
     QMap<QString, QPair<QStyle::PrimitiveElement, int> > generated;
+    QMap<QString, QString> filesystem;
 
     QPixmap generate(const QString &id);
 };
