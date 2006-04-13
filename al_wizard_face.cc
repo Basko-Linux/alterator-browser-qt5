@@ -107,6 +107,7 @@ void alWizardFaceItem::setAttr(const QString& name,const QString& value)
     qDebug("%s: name<%s> value<%s>", __FUNCTION__, name.toLatin1().data(), value.toLatin1().data());
     if( wizard_face )
     {
+	// FIXME set pixmap only if wizard_face not custimized
 	if ("text" == name)
 	    wizard_face->getWidget()->setItemText(getId(), value);
 	else if ("pixmap" == name)

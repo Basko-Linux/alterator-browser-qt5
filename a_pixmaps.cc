@@ -3,6 +3,7 @@
 #include <QPainter>
 #include <QRect>
 #include <QStyleOptionButton>
+#include <QBitmap>
 
 #include "a_pixmaps.hh"
 
@@ -33,37 +34,46 @@ APixmaps::APixmaps()
     generated["theme:check-off"] = qMakePair(QStyle::PE_IndicatorCheckBox, (int)QStyle::State_Off);
     generated["theme:radio-on"] = qMakePair(QStyle::PE_IndicatorRadioButton, (int)QStyle::State_On);
     generated["theme:radio-off"] = qMakePair(QStyle::PE_IndicatorRadioButton, (int)QStyle::State_Off);
+
+    generated["theme:null"] = qMakePair((QStyle::PrimitiveElement)0, 0);
 }
 
 APixmaps::~APixmaps() {}
 
 QPixmap APixmaps::get(const QString &id)
 {
+    QString x_id = id;
     QPixmap pixmap;
-    if( !id.isEmpty() && !QPixmapCache::find(id, pixmap) )
+
+    if( id.isEmpty() )
+    {
+	x_id = "theme:null";
+    }
+
+    if( !QPixmapCache::find(x_id, pixmap) )
     {
 	bool is_generated = false;
-	if( id.startsWith("theme:") )
+	if( x_id.startsWith("theme:") )
 	{
-	    if( standard.contains(id) )
+	    if( standard.contains(x_id) )
 	    {
 		//qDebug("selected standard pixmap");
-		pixmap = QApplication::style()->standardPixmap(standard[id]);
+		pixmap = QApplication::style()->standardPixmap(standard[x_id]);
 	    }
-	    else if( generated.contains(id) )
+	    else if( generated.contains(x_id) )
 	    {
 		//qDebug("selected generated pixmap");
 		is_generated = true;
-		pixmap = generate(id);
+		pixmap = generate(x_id);
 	    }
 	}
 	else
-	    pixmap = QPixmap( IMAGES_PATH + id );
+	    pixmap = QPixmap( IMAGES_PATH + x_id );
 
 	if( pixmap.isNull() )
 	    pixmap = QApplication::style()->standardPixmap(standard["theme:unknown"]);
-	else if( is_generated || (pixmap.width() <= 48 && pixmap.height() <= 48) )
-	    QPixmapCache::insert(id, pixmap);
+	if( is_generated || (pixmap.width() < 48 && pixmap.height() < 48) )
+	    QPixmapCache::insert(x_id, pixmap);
     }
     return pixmap;
 }
@@ -76,6 +86,13 @@ QPixmap APixmaps::generate(const QString &id)
 	QPair<QStyle::PrimitiveElement, int> pair(generated[id]);
 	switch( pair.first )
 	{
+	    case 0:
+	    {
+		pixmap = QPixmap(16,16);
+		pixmap.fill( Qt::white );
+		pixmap.setMask(pixmap.createMaskFromColor(Qt::white));
+		break;
+	    }
 	    case QStyle::PE_IndicatorCheckBox:
 	    {
 		QStyle::StateFlag opt = (QStyle::StateFlag)pair.second;
