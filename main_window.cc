@@ -43,8 +43,10 @@ MainWindow::MainWindow():
 
 	setGeometry(wnd_x, wnd_y, wnd_width, wnd_height);
     }
+#if 0 //temporary disable
     else
 	setWindowState(windowState() | Qt::WindowFullScreen);
+#endif
 
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(stop()));
 }
