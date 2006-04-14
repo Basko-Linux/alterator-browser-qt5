@@ -2,6 +2,7 @@
 #include "global.hh"
 #include "widgets.hh"
 #include "al_wizard_face.hh"
+#include "a_pixmaps.hh"
 
 extern alWizardFace *wizard_face;
 
@@ -89,7 +90,7 @@ void AWizardFace::setItemText(const QString &id, const QString &value)
 void AWizardFace::setItemPixmap(const QString &id, const QString &value)
 {
     if( buttons.contains(id) )
-	buttons[id]->setIcon(QIcon(pixmaps->get(value)));
+	buttons[id]->setIcon(QIcon(getPixmap(value)));
 }
 
 

@@ -66,21 +66,4 @@ private:
     QString name_;
 };
 
-
-class APixmaps
-{
-public:
-    APixmaps();
-    ~APixmaps();
-
-    QPixmap get(const QString &id);
-
-private:
-    QMap<QString, QStyle::StandardPixmap> standard;
-    QMap<QString, QPair<QStyle::PrimitiveElement, int> > generated;
-    QMap<QString, QString> filesystem;
-
-    QPixmap generate(const QString &id);
-};
-
 #endif

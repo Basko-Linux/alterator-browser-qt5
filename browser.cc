@@ -18,7 +18,6 @@ QPointer<QSplashScreen> splash;//single splash screen
 MainWindow *main_window = 0;
 alWizardFace *wizard_face = 0;
 int emit_locker = 0; //wrong emit protector
-APixmaps *pixmaps = 0; //pixmaps store
 
 void splashStart(void)
 {

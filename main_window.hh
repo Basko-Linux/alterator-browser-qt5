@@ -6,7 +6,6 @@
 #include <QGridLayout>
 
 #include "layout.hh"
-#include "a_pixmaps.hh"
 
 typedef QMainWindow MainWindow_t;
 typedef QGridLayout MainWindowLayout_t;

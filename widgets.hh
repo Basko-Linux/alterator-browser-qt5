@@ -29,7 +29,6 @@
 #include "connection.hh"
 #include "main_window.hh"
 #include "browser.hh"
-#include "a_pixmaps.hh"
 
 typedef QWidget MainWidget_t;
 
@@ -100,7 +99,6 @@ public slots:
 extern MainWindow *main_window;
 extern QMap<QString,alWidget*> elements;
 extern QString help_source;
-extern APixmaps *pixmaps;
 
 QLayout *findViewLayout(const QString& id);
 QWidget* findQWidget(const QString& id);

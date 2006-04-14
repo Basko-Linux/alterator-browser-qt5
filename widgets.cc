@@ -1,6 +1,7 @@
 #include "global.hh"
 
 #include "widgets.hh"
+#include "a_pixmaps.hh"
 
 
 ////////////////////////////////////////////
@@ -125,8 +126,8 @@ void alLabel::setAttr(const QString& name,const QString& value)
 {
 	if ("text" == name)
 		wnd_->setText(value);
-	else if ("pixmap" == name && pixmaps)
-		wnd_->setPixmap( pixmaps->get(value) );
+	else if ("pixmap" == name)
+		wnd_->setPixmap( getPixmap(value) );
 	else if ("align" == name)
 		wnd_->setAlignment(convertAlign(value));
 	else
@@ -137,8 +138,8 @@ void alButton::setAttr(const QString& name,const QString& value)
 {
 	if ("text" == name)
 		wnd_->setText(value);
-	else if ("pixmap" == name && pixmaps)
-		wnd_->setIcon(QIcon(pixmaps->get(value)));
+	else if ("pixmap" == name)
+		wnd_->setIcon(QIcon(getPixmap(value)));
 	else
 		alWidget::setAttr(name,value);
 }
@@ -278,8 +279,8 @@ void alListBox::setAttr(const QString& name,const QString& value)
 		QListWidgetItem *item(new QListWidgetItem(wnd_));
 		if( !data[0].isEmpty() )
 			item->setText(data[0]);
-		if( !data[1].isEmpty() && pixmaps )
-			item->setIcon( QIcon(pixmaps->get(data[1])) );
+		if( !data[1].isEmpty() )
+			item->setIcon( QIcon(getPixmap(data[1])) );
 	}
 	else if ("rows" == name)
 	{
@@ -292,10 +293,10 @@ void alListBox::setAttr(const QString& name,const QString& value)
 		if( !i.hasNext() ) break;
 		QString icon = i.next();
 		QListWidgetItem *item;
-		if( icon.isEmpty() || !pixmaps )
+		if( icon.isEmpty() )
 		    item = new QListWidgetItem(text, wnd_);
 		else
-		    item = new QListWidgetItem(QIcon(pixmaps->get(icon)), text, wnd_);
+		    item = new QListWidgetItem(QIcon(getPixmap(icon)), text, wnd_);
 	    }
 	}
 	else if ("current" == name)
@@ -320,10 +321,10 @@ void alListBox::setAttr(const QString& name,const QString& value)
 		QStringList data = value.split(";");
 		wnd_->item(data[1].toInt())->setText(data[0]);
 	}
-	else if ("row-item-pixmap" == name && pixmaps)
+	else if ("row-item-pixmap" == name)
 	{
 		QStringList data = value.split(";");
-		wnd_->item( data[1].toInt() )->setIcon( QIcon(pixmaps->get(data[0])) );
+		wnd_->item( data[1].toInt() )->setIcon( QIcon(getPixmap(data[0])) );
 	}
 	else
 	    alWidget::setAttr(name,value);
@@ -360,8 +361,8 @@ void alMultiListBox::setAttr(const QString& name,const QString& value)
 		{
 			if (!data[col].isEmpty())
 				item->setText(col/2,data[0]);
-			if (!data[col+1].isEmpty() && pixmaps)
-				item->setIcon(col/2,QIcon(pixmaps->get(data[col+1])));
+			if (!data[col+1].isEmpty())
+				item->setIcon(col/2,QIcon(getPixmap(data[col+1])));
 		}
 	}
 	if ("rows" == name)
@@ -377,8 +378,8 @@ void alMultiListBox::setAttr(const QString& name,const QString& value)
 			{
 				if (!data[i].isEmpty())
 					elt->setText(col,data[i]);
-				if (!data[i+1].isEmpty() && pixmaps)
-					elt->setIcon(col,QIcon(pixmaps->get(data[i+1])));
+				if (!data[i+1].isEmpty())
+					elt->setIcon(col,QIcon(getPixmap(data[i+1])));
 			}
 			items.push_front(elt);
 		}
@@ -404,11 +405,11 @@ void alMultiListBox::setAttr(const QString& name,const QString& value)
 		int column = data.size()<3? 0: data[2].toInt();
 		wnd_->topLevelItem(data[1].toInt())->setText(column,data[0]);
 	}
-	else if ("row-item-pixmap" == name && pixmaps)
+	else if ("row-item-pixmap" == name)
 	{
 		QStringList data = value.split(";");
 		int column = data.size()<3? 0: data[2].toInt();
-		wnd_->topLevelItem(data[1].toInt())->setIcon(column,QIcon(pixmaps->get(data[0])));
+		wnd_->topLevelItem(data[1].toInt())->setIcon(column,QIcon(getPixmap(data[0])));
 	}
 	else if ("header" == name)
 	{
@@ -446,10 +447,10 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 	if ("append-row" == name)
 	{
 		QStringList data = value.split(";");
-		if (data[1].isEmpty() || !pixmaps)
+		if (data[1].isEmpty())
 			wnd_->addItem(data[0]);
 		else
-			wnd_->addItem(QIcon(pixmaps->get(data[1])),data[0]);
+			wnd_->addItem(QIcon(getPixmap(data[1])),data[0]);
 		counter_ = wnd_->count();
 	}
 	else if ("rows" == name)
@@ -462,10 +463,10 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 		QString text = i.next();
 		if( !i.hasNext() ) break;
 		QString icon = i.next();
-		if( icon.isEmpty() || !pixmaps )
+		if( icon.isEmpty() )
 		    wnd_->addItem(text);
 		else
-		    wnd_->addItem(QIcon(pixmaps->get(icon)), text);
+		    wnd_->addItem(QIcon(getPixmap(icon)), text);
 	    }
 	}
 	else if ("current" == name)
@@ -485,10 +486,10 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 		QStringList data = value.split(";");
 		wnd_->setItemText(data[1].toInt(),data[0]);
 	}
-	else if ("row-item-pixmap" == name && pixmaps)
+	else if ("row-item-pixmap" == name)
 	{
 		QStringList data = value.split(";");
-		wnd_->setItemIcon(data[1].toInt(),QIcon(pixmaps->get(data[0])));
+		wnd_->setItemIcon(data[1].toInt(),QIcon(getPixmap(data[0])));
 	}
 	else
 		alWidget::setAttr(name,value);
@@ -722,7 +723,7 @@ void alTree::setItems()
 								    i);
 		item->setText(0,data);
 		if (!pixmap.isEmpty())
-                	item->setIcon(0,QIcon(pixmaps->get(pixmap)));
+                	item->setIcon(0,QIcon(getPixmap(pixmap)));
 	}
 }
 
