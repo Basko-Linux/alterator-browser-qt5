@@ -33,16 +33,15 @@ QStringList languageList(const char *env)
 static
 QString createLangList()
 {
-	QStringList lst;
 	const char *env = getenv("LANGUAGE");
-	if (env && *env) lst += languageList(env);
+	if (env && *env) return languageList(env).join(";");
 	env = getenv("LC_ALL");
-	if (env && *env) lst += QString(env).replace(QRegExp("\\..*"),"");
+	if (env && *env) return QString(env).replace(QRegExp("\\..*"),"");
 	env = getenv("LC_MESSAGES");
-	if (env && *env) lst += QString(env).replace(QRegExp("\\..*"),"");
+	if (env && *env) return QString(env).replace(QRegExp("\\..*"),"");
 	env = getenv("LANG");
-	if (env && *env) lst += QString(env).replace(QRegExp("\\..*"),"");
-	return lst.join(";");
+	if (env && *env) return QString(env).replace(QRegExp("\\..*"),"");
+	return "";
 }
 
 
