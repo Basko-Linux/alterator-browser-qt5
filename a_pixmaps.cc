@@ -55,6 +55,7 @@ QPixmap APEButtonPixmapGenerator::operator()()
     b.state |= options_;
     b.rect = QRect(0,0,r.width(),r.height());
     QApplication::style()->drawPrimitive(id_,&b,&paint);
+    pixmap.setMask(pixmap.createMaskFromColor(QApplication::palette().color(QPalette::Active, QPalette::Background)));
     return pixmap;
 }
 
