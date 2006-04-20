@@ -32,24 +32,34 @@ class AStdPixmapGenerator: public APixmapGenerator
 {
     QStyle::StandardPixmap id_;
 public:
-    AStdPixmapGenerator(QStyle::StandardPixmap id);
+    AStdPixmapGenerator(QStyle::StandardPixmap id):
+	APixmapGenerator(APixmapGenerator::Standard),
+	id_(id)
+    {};
     QPixmap operator()();
 };
 
 class ANullPixmapGenerator: public APixmapGenerator
 {
 public:
-	ANullPixmapGenerator();
-	QPixmap operator()();
+    ANullPixmapGenerator::ANullPixmapGenerator():
+	APixmapGenerator(APixmapGenerator::Generated)
+	{};
+    QPixmap operator()();
 };
 
 class APEButtonPixmapGenerator: public APixmapGenerator
 {
 public:
-	APEButtonPixmapGenerator(
-	    QStyle::PrimitiveElement id,
-	    QStyle::SubElement sub,
-	    QStyle::StateFlag options);
+    APEButtonPixmapGenerator::APEButtonPixmapGenerator(
+	QStyle::PrimitiveElement id,
+	QStyle::SubElement sub,
+	QStyle::StateFlag options):
+	APixmapGenerator(APixmapGenerator::Generated),
+	    id_(id),
+	    sub_(sub),
+	    options_(options)
+	{};
 	QPixmap operator()();
 private:
     QStyle::PrimitiveElement id_;
@@ -60,8 +70,11 @@ private:
 class AFilePixmapGenerator: public APixmapGenerator
 {
 public:
-	AFilePixmapGenerator(const QString& name);
-	QPixmap operator()();
+    AFilePixmapGenerator::AFilePixmapGenerator(const QString& name):
+	APixmapGenerator(APixmapGenerator::File),
+	name_(name)
+    {};
+    QPixmap operator()();
 private:
     QString name_;
 };

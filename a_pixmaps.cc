@@ -13,19 +13,10 @@ QString images_path(IMAGES_PATH);
 pix_map_t pix_map;
 bool pix_map_initialised = false;
 
-AStdPixmapGenerator::AStdPixmapGenerator(QStyle::StandardPixmap id):
-    APixmapGenerator(APixmapGenerator::Standard),
-    id_(id)
-{}
-
 QPixmap AStdPixmapGenerator::operator()()
 {
 	return QApplication::style()->standardPixmap(id_);
 }
-
-ANullPixmapGenerator::ANullPixmapGenerator():
-    APixmapGenerator(APixmapGenerator::Generated)
-{}
 
 QPixmap ANullPixmapGenerator::operator()()
 {
@@ -34,17 +25,6 @@ QPixmap ANullPixmapGenerator::operator()()
     pixmap.setMask(pixmap.createMaskFromColor(Qt::white));
     return pixmap;
 }
-
-
-APEButtonPixmapGenerator::APEButtonPixmapGenerator(
-    QStyle::PrimitiveElement id,
-    QStyle::SubElement sub,
-    QStyle::StateFlag options):
-	APixmapGenerator(APixmapGenerator::Generated),
-	id_(id),
-	sub_(sub),
-	options_(options)
-{}
 
 QPixmap APEButtonPixmapGenerator::operator()()
 {
@@ -59,16 +39,10 @@ QPixmap APEButtonPixmapGenerator::operator()()
     return pixmap;
 }
 
-AFilePixmapGenerator::AFilePixmapGenerator(const QString& name):
-    APixmapGenerator(APixmapGenerator::File),
-    name_(name)
-{}
-
 QPixmap AFilePixmapGenerator::operator()()
 {
     return QPixmap(images_path + name_);
 }
-
 	
 void initPixmaps()
 {
