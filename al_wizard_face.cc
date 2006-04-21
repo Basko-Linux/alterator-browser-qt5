@@ -83,6 +83,7 @@ QWidget* AWizardFace::getItemWidget(const QString &id)
 
 void AWizardFace::setItemText(const QString &id, const QString &value)
 {
+    qDebug("%s: AWizardFace::setItemText id<%s> value<%s>", __FUNCTION__, id.toLatin1().data(), value.toLocal8Bit().data());
     if( buttons.contains(id) )
 	buttons[id]->setText(value);
 }
@@ -98,6 +99,7 @@ void AWizardFace::setItemPixmap(const QString &id, const QString &value)
 alWizardFaceItem::alWizardFaceItem(const QString& id,const QString& parent, QWidget* wnd):
     alWidget(id, parent)
 {
+    elements[id] = this;
     wnd_ = wnd;
 }
 
@@ -105,7 +107,7 @@ alWizardFaceItem::~alWizardFaceItem(){}
 
 void alWizardFaceItem::setAttr(const QString& name,const QString& value)
 {
-    qDebug("%s: name<%s> value<%s>", __FUNCTION__, name.toLatin1().data(), value.toLatin1().data());
+//    qDebug("alWizardFaceItem::setAttr: name<%s> value<%s>", name.toLatin1().data(), value.toLatin1().data());
     if( wizard_face )
     {
 	// FIXME set pixmap only if wizard_face not custimized
