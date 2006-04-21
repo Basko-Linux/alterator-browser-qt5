@@ -1,4 +1,6 @@
 
+#include <QScrollArea>
+
 #include "global.hh"
 #include "widgets.hh"
 #include "al_wizard_face.hh"
@@ -13,23 +15,25 @@ AWizardFace::AWizardFace( QWidget *parent, Qt::WFlags f):
     labels_widget = new QFrame(this);
     labels_widget->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
     labels_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
-//    labels_widget->show();
 
-    view_widget = new QFrame(this);
-    view_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    view_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
-//    view_widget->show();
+    QScrollArea *scroll = new QScrollArea(this);
+    scroll->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
+    scroll->setWidgetResizable( true );
+
+    view_widget = new QWidget(scroll);
+//    view_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    scroll->setWidget(view_widget);
 
     buttons_widget = new QFrame(this);
     buttons_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     buttons_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
-//    buttons_widget->show();
 
     labels_layout = new QVBoxLayout( labels_widget );
     buttons_layout = new QHBoxLayout( buttons_widget );
     main_layout = new QGridLayout(this);
     main_layout->addWidget( labels_widget, 0, 0 );
-    main_layout->addWidget( view_widget, 0, 1);
+    main_layout->addWidget( scroll, 0, 1);
     main_layout->addWidget( buttons_widget, 1, 0, 1, 2);
 }
 
@@ -83,7 +87,7 @@ QWidget* AWizardFace::getItemWidget(const QString &id)
 
 void AWizardFace::setItemText(const QString &id, const QString &value)
 {
-    qDebug("%s: AWizardFace::setItemText id<%s> value<%s>", __FUNCTION__, id.toLatin1().data(), value.toLocal8Bit().data());
+    //qDebug("%s: AWizardFace::setItemText id<%s> value<%s>", __FUNCTION__, id.toLatin1().data(), value.toLocal8Bit().data());
     if( buttons.contains(id) )
 	buttons[id]->setText(value);
 }

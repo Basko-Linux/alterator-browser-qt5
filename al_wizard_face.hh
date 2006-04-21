@@ -36,7 +36,7 @@ private:
     QHBoxLayout* buttons_layout;
     QFrame* buttons_widget;
     QFrame* labels_widget;
-    QFrame* view_widget;
+    QWidget* view_widget;
     QMap<QString, QAbstractButton*> buttons;
 };
 
