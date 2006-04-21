@@ -205,10 +205,7 @@ void deleteRequest(const QString& id)
 
 void setRequest(const QString& id,const QString& attr,const QString& value)
 {
-//	std::cerr<<"SET:id:"<<id.toUtf8().data()
-//	<<",attr:"<<attr.toUtf8().data()
-//	<<",value:"<<value.toUtf8().data()
-//	<<std::endl;
+	//qDebug("%s: id<%s> attr<%s> value<%s>", __FUNCTION__, id.toLatin1().data(), attr.toLatin1().data(), value.toLocal8Bit().data());
 
 	++emit_locker;
 	if (!elements.contains(id))
