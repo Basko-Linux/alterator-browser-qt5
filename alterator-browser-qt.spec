@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.6.1
-Release: alt16
+Release: alt17
 
 Source:%name-%version.tar.bz2
 
@@ -38,6 +38,9 @@ sed -i "s|^\s*CXXFLAGS\s*=.*$|CXXFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Ma
 %_bindir/*
 
 %changelog
+* Thu Apr 20 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt17
+- improve pixmap theme handling
+
 * Fri Apr 14 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt16
 - change language selection order
 
