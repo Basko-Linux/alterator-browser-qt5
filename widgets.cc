@@ -281,6 +281,8 @@ void alListBox::setAttr(const QString& name,const QString& value)
 			item->setText(data[0]);
 		if( !data[1].isEmpty() )
 			item->setIcon( QIcon(getPixmap(data[1])) );
+		else
+			item->setIcon( QIcon(getPixmap("theme:null")) );
 	}
 	else if ("rows" == name)
 	{
@@ -294,7 +296,7 @@ void alListBox::setAttr(const QString& name,const QString& value)
 		QString icon = i.next();
 		QListWidgetItem *item;
 		if( icon.isEmpty() )
-		    item = new QListWidgetItem(text, wnd_);
+		    item = new QListWidgetItem(QIcon(getPixmap("theme:null")), text, wnd_);
 		else
 		    item = new QListWidgetItem(QIcon(getPixmap(icon)), text, wnd_);
 	    }
@@ -363,6 +365,8 @@ void alMultiListBox::setAttr(const QString& name,const QString& value)
 				item->setText(col/2,data[0]);
 			if (!data[col+1].isEmpty())
 				item->setIcon(col/2,QIcon(getPixmap(data[col+1])));
+			else
+				item->setIcon(col/2,QIcon(getPixmap("theme:null")));
 		}
 	}
 	if ("rows" == name)
@@ -380,6 +384,8 @@ void alMultiListBox::setAttr(const QString& name,const QString& value)
 					elt->setText(col,data[i]);
 				if (!data[i+1].isEmpty())
 					elt->setIcon(col,QIcon(getPixmap(data[i+1])));
+				else
+					elt->setIcon(col,QIcon(getPixmap("theme:null")));
 			}
 			items.push_front(elt);
 		}
