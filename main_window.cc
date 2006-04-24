@@ -44,7 +44,8 @@ MainWindow::MainWindow():
     }
 #if 0 //temporary disable
     else
-	setWindowState(windowState() | Qt::WindowFullScreen);
+	showFullScreen();
+//	setWindowState(windowState() | Qt::WindowFullScreen);
 #endif
 
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(stop()));

@@ -557,9 +557,9 @@ void alDialog::setAttr(const QString& name,const QString& value)
 	else if ("full-screen" == name)
 	{
 		if ("true" == value)
-			wnd_->setWindowState(wnd_->windowState() | Qt::WindowFullScreen);
+			wnd_->showFullScreen();
 		else
-			wnd_->setWindowState(wnd_->windowState() & (~Qt::WindowFullScreen));
+			wnd_->showNormal();
 	}
 	else if ("width" == name)
 		wnd_->resize(value.toInt(),wnd_->height());
@@ -576,9 +576,9 @@ void alMainWidget::setAttr(const QString& name,const QString& value)
 	else if ("full-screen" == name)
 	{
 		if ("true" == value)
-			wnd_->setWindowState(wnd_->windowState() | Qt::WindowFullScreen);
+			wnd_->showFullScreen();
 		else
-			wnd_->setWindowState(wnd_->windowState() & (~Qt::WindowFullScreen));
+			wnd_->showNormal();
 	}
 	else if ("layout-policy" == name)
 	{
