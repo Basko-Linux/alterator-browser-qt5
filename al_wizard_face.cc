@@ -130,7 +130,7 @@ void alWizardFaceItem::registerEvent(const QString& name)
 	{
 	    QWidget *widget = wizard_face->getWidget()->getItemWidget(getId());
 	    if( widget )
-		connect( widget, SIGNAL(clicked()), SLOT(onClick()) );
+		connect( widget, SIGNAL(clicked(bool)), SLOT(onClick(bool)) );
 	}
     }
 }
