@@ -11,6 +11,11 @@
 #include <QBrush>
 #include <QPainter>
 #include <QApplication>
+#include <QDesktopWidget>
+
+#include "main_window.hh"
+
+extern MainWindow *main_window;
 
 void widget_corners_round(QWidget*);
 
@@ -67,16 +72,19 @@ protected:
 		    (e->key() != Qt::Key_Return))
 			QDialog::keyPressEvent(e);
 	}
-//	void showEvent(QShowEvent *e)
-//	{
-//		QDialog::showEvent(e);
-//		int x = QApplication::desktop()->width()/2 - width()/2;
-//		if( x < 0 ) x = 0;
-//    		int y = QApplication::desktop()->height()/2 - height()/2;
-//		if( y < 0 ) y = 0;
-//		move(x, y);
-//    		QCursor::setPos(mapToGlobal(QPoint(width()/2, height()/2)));
-//	}
+	void showEvent(QShowEvent *e)
+	{
+	    if( !main_window->haveWindowManager() )
+	    {
+		QDialog::showEvent(e);
+		int x = QApplication::desktop()->width()/2 - width()/2;
+		if( x < 0 ) x = 0;
+		int y = QApplication::desktop()->height()/2 - height()/2;
+		if( y < 0 ) y = 0;
+		move(x, y);
+    		QCursor::setPos(mapToGlobal(QPoint(width()/2, height()/2)));
+	    }
+	}
 	void paintEvent(QPaintEvent* e)
 	{
 		QDialog::paintEvent(e);
