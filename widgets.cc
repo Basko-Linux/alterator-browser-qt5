@@ -514,7 +514,7 @@ QString alComboBox::postData() const
 	{//reset items on alterator
 	    post += "( rows . (";
 	    for (int i=0;i<wnd_->count();++i)
-		post += " ( \""+ simpleQuote(wnd_->itemText(i))+ "\" . \"\")";
+		post += " #(( \""+ simpleQuote(wnd_->itemText(i))+ "\" . \"\"))";
 	    post += "))";
 	}
 	return post;
