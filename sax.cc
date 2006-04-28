@@ -26,6 +26,7 @@ public:
         void fetchData()
 	{
 		buf_= in_.readLine();
+		buf_+="\n";
 		pos_ = 0;
 	}
         virtual QChar next()
