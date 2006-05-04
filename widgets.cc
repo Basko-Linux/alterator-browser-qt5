@@ -146,7 +146,7 @@ void alButton::setAttr(const QString& name,const QString& value)
 
 void alButton::registerEvent(const QString& name)
 {
-	if ("on-click" == name)
+	if ("clicked" == name)
 		connect(wnd_,SIGNAL( clicked(bool) ),SLOT(onClick(bool)));
 }
 
@@ -164,7 +164,7 @@ void alRadio::setAttr(const QString& name,const QString& value)
 
 void alRadio::registerEvent(const QString& name)
 {
-	if ("on-toggle" == name)
+	if ("toggled" == name)
 		connect(wnd_,SIGNAL( toggled(bool) ),SLOT(onToggle(bool)));
 }
 
@@ -188,9 +188,9 @@ void alEdit::setAttr(const QString& name,const QString& value)
 
 void alEdit::registerEvent(const QString& name)
 {
-	if( "on-change" == name )
+	if( "changed" == name )
 		connect(wnd_,SIGNAL( textEdited(const QString&) ),SLOT(onChange(const QString&)));
-	else if( "on-return" == name )
+	else if( "return-pressed" == name )
 	    connect(wnd_,SIGNAL(returnPressed() ),SLOT(onReturn()));
 }
 
@@ -215,7 +215,7 @@ void alTextBox::setAttr(const QString& name,const QString& value)
 
 void alTextBox::registerEvent(const QString& name)
 {
-	if ("on-change" == name)
+	if ("changed" == name)
 		connect(wnd_,SIGNAL( textChanged(const QString&) ),SLOT(onChange(const QString&)));
 }
 
@@ -236,7 +236,7 @@ void alGroupBox::setAttr(const QString& name,const QString& value)
 
 void alGroupBox::registerEvent(const QString& name)
 {
-	if ("on-toggle" == name)
+	if ("toggled" == name)
 		connect(wnd_,SIGNAL( toggled(bool) ),SLOT(onToggle(bool)));
 }
 
@@ -262,7 +262,7 @@ void alCheckBox::setAttr(const QString& name,const QString& value)
 
 void alCheckBox::registerEvent(const QString& name)
 {
-	if ("on-toggle" == name)
+	if ("toggled" == name)
 		connect(wnd_,SIGNAL( stateChanged(int) ),SLOT(onToggle(int)));
 }
 
@@ -335,13 +335,13 @@ void alListBox::setAttr(const QString& name,const QString& value)
 
 void alListBox::registerEvent(const QString& name)
 {
-	if ("on-select" == name)
+	if ("selected" == name)
 		connect( wnd_, SIGNAL(currentRowChanged(int)), SLOT(onSelect(int)) );
-	else if ("on-click" == name)
+	else if ("clicked" == name)
 		connect( wnd_, SIGNAL(itemClicked(QListWidgetItem*)), SLOT(onClick(QListWidgetItem*)) );
-	else if ("on-return" == name)
+	else if ("return-pressed" == name)
 		connect( wnd_, SIGNAL(itemActivated(QListWidgetItem*)), SLOT(onReturn(QListWidgetItem*)) );
-	else if ("on-double-click" == name)
+	else if ("double-clicked" == name)
 		connect( wnd_, SIGNAL(itemDoubleClicked(QListWidgetItem*)), SLOT(onReturn(QListWidgetItem*)) );
 }
 
@@ -428,14 +428,14 @@ void alMultiListBox::setAttr(const QString& name,const QString& value)
 
 void alMultiListBox::registerEvent(const QString& name)
 {
-	if ("on-select" == name)
+	if ("selected" == name)
 		connect(wnd_,SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
 			     SLOT(onSelect(QTreeWidgetItem*,QTreeWidgetItem*)));
-	else if ("on-click" == name)
+	else if ("clicked" == name)
 		connect(wnd_,SIGNAL(itemPressed(QTreeWidgetItem*,int)), SLOT(onClick(QTreeWidgetItem*,int)));
-	else if ("on-return" == name)
+	else if ("return-pressed" == name)
 		connect( wnd_, SIGNAL(itemActivated(QTreeWidgetItem*,int)), SLOT(onReturn(QTreeWidgetItem*,int)));
-	else if ("on-double-click" == name)
+	else if ("double-clicked" == name)
 		connect(wnd_,SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), SLOT(onDoubleClick(QTreeWidgetItem*,int)));
 }
 
@@ -503,7 +503,7 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 
 void alComboBox::registerEvent(const QString& name)
 {
-	if ("on-select" == name)
+	if ("selected" == name)
 		connect(wnd_,SIGNAL( activated(int) ),SLOT(onSelect(int)));
 }
 
@@ -679,7 +679,7 @@ void alTree::setAttr(const QString& name,const QString& value)
 
 void alTree::registerEvent(const QString& name)
 {
-	if ("on-select" == name)
+	if ("selected" == name)
 		connect(wnd_,SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
 			     SLOT(onSelect(QTreeWidgetItem*,QTreeWidgetItem*)));
 }

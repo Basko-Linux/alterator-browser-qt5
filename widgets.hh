@@ -59,27 +59,27 @@ public:
 	virtual QString getParentId(void) { return parent_; };
 	virtual QString getId(void) { return id_; };
 public slots:
-	void onClick(bool) { emitEvent(id_,"on-click"); }
-	void onClick(QListWidgetItem*) { emitEvent(id_,"on-click"); }
-	void onClick(QTreeWidgetItem*,int) { emitEvent(id_,"on-click"); }
+	void onClick(bool) { emitEvent(id_,"clicked"); }
+	void onClick(QListWidgetItem*) { emitEvent(id_,"clicked"); }
+	void onClick(QTreeWidgetItem*,int) { emitEvent(id_,"clicked"); }
 
-	void onChange(void) { emitEvent(id_,"on-change"); }
-	void onChange(const QString&) { emitEvent(id_,"on-change"); }
-	void onChange(QWidget*) { emitEvent(id_,"on-change"); }
+	void onChange(void) { emitEvent(id_,"changed"); }
+	void onChange(const QString&) { emitEvent(id_,"changed"); }
+	void onChange(QWidget*) { emitEvent(id_,"changed"); }
 
-	void onReturn() { emitEvent(id_,"on-return"); }
-	void onReturn(QListWidgetItem*) { emitEvent(id_,"on-return"); }
-	void onReturn(QTreeWidgetItem*, int) { emitEvent(id_,"on-return"); }
+	void onReturn() { emitEvent(id_,"return-pressed"); }
+	void onReturn(QListWidgetItem*) { emitEvent(id_,"return-pressed"); }
+	void onReturn(QTreeWidgetItem*, int) { emitEvent(id_,"return-pressed"); }
 
-	void onSelect() { emitEvent(id_,"on-select"); }
-	void onSelect(int) { emitEvent(id_,"on-select"); }
-	void onSelect(QTreeWidgetItem*,QTreeWidgetItem*) { emitEvent(id_,"on-select"); }
+	void onSelect() { emitEvent(id_,"selected"); }
+	void onSelect(int) { emitEvent(id_,"selected"); }
+	void onSelect(QTreeWidgetItem*,QTreeWidgetItem*) { emitEvent(id_,"selected"); }
 
-	void onDoubleClick() { emitEvent(id_,"on-double-click"); }
-	void onDoubleClick(QTreeWidgetItem*,int) { emitEvent(id_,"on-double-click"); }
+	void onDoubleClick() { emitEvent(id_,"double-clicked"); }
+	void onDoubleClick(QTreeWidgetItem*,int) { emitEvent(id_,"double-clicked"); }
 
-	void onToggle(bool) { emitEvent(id_,"on-toggle"); }
-	void onToggle(int) { emitEvent(id_,"on-toggle"); }
+	void onToggle(bool) { emitEvent(id_,"toggled"); }
+	void onToggle(int) { emitEvent(id_,"toggled"); }
 
 //delayed versions
 	void delayedOnSelect()

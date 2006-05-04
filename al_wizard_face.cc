@@ -124,7 +124,7 @@ void alWizardFaceItem::setAttr(const QString& name,const QString& value)
 
 void alWizardFaceItem::registerEvent(const QString& name)
 {
-    if ("on-click" == name)
+    if ("click" == name)
     {
 	if( wizard_face )
 	{
