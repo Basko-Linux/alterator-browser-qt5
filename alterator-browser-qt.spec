@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.6.1
-Release: alt18
+Release: alt20
 
 Source:%name-%version.tar.bz2
 
@@ -9,9 +9,8 @@ License: GPL
 Group: System/Configuration/Other
 
 Provides: alterator-browser
-Requires: alterator-common >= 2.6
+Requires: alterator-common >= 2.8-alt0.8.2
 
-Provides: alterator-look-qt
 Obsoletes: alterator-look-qt
 
 
@@ -32,12 +31,20 @@ sed -i "s|^\s*CXXFLAGS\s*=.*$|CXXFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Ma
 
 
 %install
-%make INSTALL_ROOT=$RPM_BUILD_ROOT install
+%make INSTALL_ROOT=%buildroot install
+ln -s %name %buildroot/%_bindir/qtbrowser
 
 %files
 %_bindir/*
 
 %changelog
+* Thu May 04 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt20
+- update to new alterator
+
+* Fri Apr 28 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt19
+- update to vector based model
+- fix problems with multiline textboxes
+
 * Fri Apr 21 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt18
 - add scrolling to wizardface inner widget
 
