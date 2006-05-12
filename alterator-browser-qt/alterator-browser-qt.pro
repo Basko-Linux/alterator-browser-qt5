@@ -62,7 +62,7 @@ rpm.commands = \
 	    --define "_srpmsdir $$RPM_SRPMSDIR" \
 	    $$sprintf("%1.spec",$$NAME)
 
-# custom target 'tar' to create tarball from CVS
+# custom target to clean rpm files
 clear.target = clear
 clear.input = RPM_TOPDIR
 clear.commands = \
