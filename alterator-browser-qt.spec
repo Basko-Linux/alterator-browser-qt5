@@ -15,6 +15,7 @@ Obsoletes: alterator-look-qt
 
 
 BuildRequires: fontconfig freetype2 gcc-c++ libqt4-devel libstdc++-devel
+
 #BuildRequires: gcc-c++ guile16-devel libdbus-devel libdbus-qt-devel libqt3-devel libstdc++-devel pkg-config
 
 %description
