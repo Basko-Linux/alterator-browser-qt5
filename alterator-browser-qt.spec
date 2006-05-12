@@ -2,7 +2,7 @@ Name: alterator-browser-qt
 Version: 2.6.1
 Release: alt20
 
-Source:%name-%version.tar.bz2
+Source:%name-%version.tar
 
 Summary: X11 Qt interface driver for alterator
 License: GPL
@@ -15,7 +15,7 @@ Obsoletes: alterator-look-qt
 
 
 BuildRequires: fontconfig freetype2 gcc-c++ libqt4-devel libstdc++-devel
-BuildRequires: gcc-c++ guile16-devel libdbus-devel libdbus-qt-devel libqt3-devel libstdc++-devel pkg-config
+#BuildRequires: gcc-c++ guile16-devel libdbus-devel libdbus-qt-devel libqt3-devel libstdc++-devel pkg-config
 
 %description
 X11 Qt interface driver for alterator
