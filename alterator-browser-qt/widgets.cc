@@ -673,6 +673,11 @@ void alTree::setAttr(const QString& name,const QString& value)
 		wnd_->scrollToItem(item);
 		wnd_->setCurrentItem(item);
 	}
+	else if ("header" == name) 
+	{ 
+		wnd_->header()->show(); 
+        	wnd_->setHeaderLabels(value.split(";")); 
+	} 
 	else
 		alWidget::setAttr(name,value);
 }
@@ -711,13 +716,10 @@ void alTree::setItems()
 	QStringList itemlist = items_.split(";");
 	QStringList coordlist = coords_.split(";");
 	const int len = itemlist.size();
-	for (int i=0;i<len;i+=2)
+	const int columns = wnd_->columnCount();
+	for (int i=0;i+1<len;)
 	{
-		if (i+1 >= len) break;
-		
-		QString data = itemlist[i];
-		QString pixmap = itemlist[i+1];
-		QStringList coords = coordlist[i/2].split(",");
+		QStringList coords = coordlist[i/(2*columns)].split(",");
 		const int len = coords.size();
 		
 		QTreeWidgetItem *item;
@@ -727,9 +729,15 @@ void alTree::setItems()
 			item = new QTreeWidgetItem(findPosition(wnd_->topLevelItem(coords[0].toInt()),
 			                                                         coords.mid(1),1),
 								    i);
-		item->setText(0,data);
-		if (!pixmap.isEmpty())
-                	item->setIcon(0,QIcon(getPixmap(pixmap)));
+		
+		for(int col=0;col < columns; ++col,i+=2)
+		{
+			QString data = itemlist[i];
+			QString pixmap = itemlist[i+1];
+			item->setText(col,data);
+			if (!pixmap.isEmpty())
+                		item->setIcon(col,QIcon(getPixmap(pixmap)));
+		}
 	}
 }
 

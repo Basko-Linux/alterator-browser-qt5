@@ -398,11 +398,11 @@ class alTree: public alWidgetPre<QTreeWidget>
 	void setItems();
 	QTreeWidgetItem *findPosition(QTreeWidgetItem *,QStringList,int);
 public:
-	alTree(const QString& id,const QString& parent):
+	alTree(const QString& id,const QString& parent,const QString& columns):
 		alWidgetPre<QTreeWidget>(id,parent)
 	{
 		//setings to be compatible with QListView
-		wnd_->setColumnCount(1);
+		wnd_->setColumnCount(columns.isEmpty()? 1 : columns.toInt());
 		wnd_->header()->hide();
 		wnd_->setSelectionBehavior(QAbstractItemView::SelectRows);
 	}
