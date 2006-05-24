@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.6.1
-Release: alt20
+Release: alt21
 
 Source:%name-%version.tar
 
@@ -39,6 +39,9 @@ ln -s %name %buildroot/%_bindir/qtbrowser
 %_bindir/*
 
 %changelog
+* Wed May 24 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt21
+- fix compile with new gcc
+
 * Thu May 04 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt20
 - update to new alterator
 

@@ -42,7 +42,7 @@ public:
 class ANullPixmapGenerator: public APixmapGenerator
 {
 public:
-    ANullPixmapGenerator::ANullPixmapGenerator():
+    ANullPixmapGenerator():
 	APixmapGenerator(APixmapGenerator::Generated)
 	{};
     QPixmap operator()();
@@ -51,7 +51,7 @@ public:
 class APEButtonPixmapGenerator: public APixmapGenerator
 {
 public:
-    APEButtonPixmapGenerator::APEButtonPixmapGenerator(
+    APEButtonPixmapGenerator(
 	QStyle::PrimitiveElement id,
 	QStyle::SubElement sub,
 	QStyle::StateFlag options):
@@ -70,7 +70,7 @@ private:
 class AFilePixmapGenerator: public APixmapGenerator
 {
 public:
-    AFilePixmapGenerator::AFilePixmapGenerator(const QString& name):
+    AFilePixmapGenerator(const QString& name):
 	APixmapGenerator(APixmapGenerator::File),
 	name_(name)
     {};

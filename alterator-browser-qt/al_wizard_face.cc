@@ -43,6 +43,7 @@ AWizardFace::~AWizardFace()
 QWidget* AWizardFace::addItem(const QString &id, AWizardFace::ItemType type)
 {
     QWidget *w = 0;
+    
     switch( type )
     {
 	case ButtonGeneric:
@@ -51,23 +52,29 @@ QWidget* AWizardFace::addItem(const QString &id, AWizardFace::ItemType type)
 	case ButtonCancel:
 	case ButtonBackward:
 	case ButtonForward:
-	    QPushButton *b = new QPushButton(buttons_widget);
-	    buttons_layout->addWidget(b);
-	    w = buttons[id] = b;
-	    break;
+	    {
+		QPushButton *b = new QPushButton(buttons_widget);
+		buttons_layout->addWidget(b);
+		w = buttons[id] = b;
+		break;
+	    }
 	case LabelSection:
 	case LabelGeneric:
-	    QPushButton *l = new QPushButton(labels_widget);
-	    l->setFlat(true);
-	    labels_layout->addWidget(l);
-	    w = buttons[id] = l;
-	    break;
+	    {
+		QPushButton *l = new QPushButton(labels_widget);
+		l->setFlat(true);
+		labels_layout->addWidget(l);
+		w = buttons[id] = l;
+		break;
+	    }
 	default:
-	    QPushButton *lg = new QPushButton(labels_widget);
-	    lg->setFlat(true);
-	    labels_layout->addWidget(lg);
-	    w = buttons[id] = lg;
-	    break;
+	    {
+		QPushButton *lg = new QPushButton(labels_widget);
+		lg->setFlat(true);
+		labels_layout->addWidget(lg);
+		w = buttons[id] = lg;
+		break;
+	    }
     }
     return w;
 }
