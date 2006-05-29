@@ -338,7 +338,10 @@ void alListBox::registerEvent(const QString& name)
 	if ("selected" == name)
 		connect( wnd_, SIGNAL(currentRowChanged(int)), SLOT(onSelect(int)) );
 	else if ("clicked" == name)
+	{
 		connect( wnd_, SIGNAL(itemClicked(QListWidgetItem*)), SLOT(onClick(QListWidgetItem*)) );
+		connect(wnd_,SIGNAL(spaceBtnPressed()), SLOT(onClick()));
+	}
 	else if ("return-pressed" == name)
 		connect( wnd_, SIGNAL(itemActivated(QListWidgetItem*)), SLOT(onReturn(QListWidgetItem*)) );
 	else if ("double-clicked" == name)
@@ -432,7 +435,10 @@ void alMultiListBox::registerEvent(const QString& name)
 		connect(wnd_,SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
 			     SLOT(onSelect(QTreeWidgetItem*,QTreeWidgetItem*)));
 	else if ("clicked" == name)
+	{
 		connect(wnd_,SIGNAL(itemPressed(QTreeWidgetItem*,int)), SLOT(onClick(QTreeWidgetItem*,int)));
+		connect(wnd_,SIGNAL(spaceBtnPressed()), SLOT(onClick()));
+	}
 	else if ("return-pressed" == name)
 		connect( wnd_, SIGNAL(itemActivated(QTreeWidgetItem*,int)), SLOT(onReturn(QTreeWidgetItem*,int)));
 	else if ("double-clicked" == name)

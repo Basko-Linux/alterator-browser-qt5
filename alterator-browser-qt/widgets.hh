@@ -59,6 +59,7 @@ public:
 	virtual QString getParentId(void) { return parent_; };
 	virtual QString getId(void) { return id_; };
 public slots:
+	void onClick() { emitEvent(id_,"clicked"); }
 	void onClick(bool) { emitEvent(id_,"clicked"); }
 	void onClick(QListWidgetItem*) { emitEvent(id_,"clicked"); }
 	void onClick(QTreeWidgetItem*,int) { emitEvent(id_,"clicked"); }
@@ -246,11 +247,11 @@ public:
 	QString postData() const ;
 };
 
-class alMultiListBox: public alWidgetPre<QTreeWidget>
+class alMultiListBox: public alWidgetPre<QTreeWidget2>
 {
 public:
 	alMultiListBox(const QString& id,const QString& parent, int cols):
-		alWidgetPre<QTreeWidget>(id,parent)
+		alWidgetPre<QTreeWidget2>(id,parent)
 	{
 		//setings to be compatible with QListView
 		wnd_->setColumnCount(cols);
