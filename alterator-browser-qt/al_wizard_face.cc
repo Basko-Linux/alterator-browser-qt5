@@ -126,6 +126,8 @@ void alWizardFaceItem::setAttr(const QString& name,const QString& value)
 	    wizard_face->getWidget()->setItemText(getId(), value);
 	else if ("pixmap" == name)
 	    wizard_face->getWidget()->setItemPixmap(getId(), value);
+	else
+	    alWidget::setAttr(name,value);
     }
 }
 
