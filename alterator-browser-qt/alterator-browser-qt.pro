@@ -12,7 +12,7 @@ RPM_SRPMSDIR=$$RPM_TOPDIR/SRPMS
 
 TEMPLATE = app
 QT += xml
-QMAKE_CXXFLAGS += $RPM_OPT_FLAGS
+QMAKE_CXXFLAGS += $(RPM_OPT_FLAGS)
 
 SOURCES = browser.cc
 SOURCES += layout.cc connection.cc widgets.cc sax.cc hacks.cc
