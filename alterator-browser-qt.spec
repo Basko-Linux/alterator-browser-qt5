@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.6.1
-Release: alt21
+Release: alt22
 
 Source:%name-%version.tar
 
@@ -24,8 +24,8 @@ X11 Qt interface driver for alterator
 %prep
 %setup -q
 %_qt4dir/bin/qmake -spec default
-sed -i "s|^\s*CFLAGS\s*=.*$|CFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Makefile
-sed -i "s|^\s*CXXFLAGS\s*=.*$|CXXFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Makefile
+#sed -i "s|^\s*CFLAGS\s*=.*$|CFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Makefile
+#sed -i "s|^\s*CXXFLAGS\s*=.*$|CXXFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Makefile
 
 %build
 %make_build
@@ -39,6 +39,9 @@ ln -s %name %buildroot/%_bindir/qtbrowser
 %_bindir/*
 
 %changelog
+* Tue May 30 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt22
+- make listbox clicked by space 
+
 * Wed May 24 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt21
 - fix compile with new gcc
 
