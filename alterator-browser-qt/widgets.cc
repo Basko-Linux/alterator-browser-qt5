@@ -700,14 +700,15 @@ void alTree::registerEvent(const QString& name)
 
 QString alTree::postData() const
 {
-       QTreeWidgetItem *i = wnd_->currentItem();
-       if (i)
-       {
-               QString data = coordmap_[i->type()/2];
-               data.replace(","," ");
-               return QString("(current .")+"("+data+"))";
-       }
-               return "";
+    QTreeWidgetItem *i = wnd_->currentItem();
+    if (i)
+    {
+	const int columns = wnd_->columnCount();
+	QString data = coordmap_[i->type()/(2*columns)];
+        data.replace(","," ");
+	return QString("(current .")+"("+data+"))";
+    }
+    return "";
 }
 
 QTreeWidgetItem *alTree::findPosition(QTreeWidgetItem *parent,QStringList coords,int deep)
