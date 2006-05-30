@@ -101,16 +101,19 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		    qDebug("wrong number of arguments to layout-policy attribute");
 		    exit(1);
 		}
-		int w = policies.at(0).toInt();
-		int h = policies.at(1).toInt();
-		int d = -1;
-		if (policies.count() > 2) d = convertAlign(policies.at(2));
 
 		QLayout *playout = findViewLayout(parent_);
 		if( playout )
 		{
 		    if( MyBoxLayout *ml = qobject_cast<MyBoxLayout*>(playout) )
+		    {
+			int w = policies.at(0).toInt();
+			int h = policies.at(1).toInt();
+			int d = -1;
+			if (policies.count() > 2)
+			    d = convertAlign(policies.at(2));
 			ml->addWidget(getWidget(),QSize(w,h),d);
+		    }
 		    else
 			qDebug("don't set layout-policy");
 		}
