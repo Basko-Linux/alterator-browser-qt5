@@ -421,13 +421,13 @@ public:
 		alWidgetPre<QTextBrowser>(id,parent)
 	{
 		if (!help_source.isEmpty()) wnd_->setSource(help_source);
-		connect(wnd_,SIGNAL(anchorClicked(const QString&)),
-		             SLOT(onAnchor(const QString&)));
+		connect(wnd_,SIGNAL(anchorClicked(const QUrl&)),
+		             SLOT(onAnchor(const QUrl&)));
 	}
 protected:
 	void setAttr(const QString& name,const QString& value);
 protected slots:
-	void onAnchor(const QString& url);
+	void onAnchor(const QUrl& url);
 };
 
 #endif

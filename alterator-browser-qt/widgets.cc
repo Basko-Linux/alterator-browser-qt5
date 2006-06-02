@@ -759,7 +759,7 @@ void alHelpPlace::setAttr(const QString& name,const QString& value)
 		alWidget::setAttr(name,value);
 }
 
-void alHelpPlace::onAnchor(const QString& url)
+void alHelpPlace::onAnchor(const QUrl& url)
 {
 	wnd_->setSource(url);
 }
