@@ -76,7 +76,9 @@ class QDialog2: public QDialog
 {
 public:
 	QDialog2(QWidget *parent = 0): QDialog(parent)
-	{}
+	{
+	    setWindowModality(Qt::ApplicationModal);
+	}
 protected:
 	void closeEvent(QCloseEvent *e)
 	{

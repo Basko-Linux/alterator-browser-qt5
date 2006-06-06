@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.6.1
-Release: alt23
+Release: alt24
 
 Source:%name-%version.tar
 
@@ -39,6 +39,9 @@ ln -s %name %buildroot/%_bindir/qtbrowser
 %_bindir/*
 
 %changelog
+* Tue Jun 06 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt24
+- turn off modeless dialogs
+
 * Tue May 30 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt23
 - add fix for tree
 
