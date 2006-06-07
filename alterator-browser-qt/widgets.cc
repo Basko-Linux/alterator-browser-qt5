@@ -22,19 +22,6 @@ namespace
 		else if ("stars" == value) return QLineEdit::Password;
 		return QLineEdit::Normal; //default yes
 	}
-
-	alWidget *findWidget(const QString& name)
-	{
-		QMapIterator<QString,alWidget*> it(elements);
-		while(it.hasNext())
-		{
-			it.next();
-			if ( it.value()->getWidget()->objectName() == name )
-				return it.value();
-		}
-		return 0;
-	}
-	
 }
 ////////////////////////////////////////////
 
@@ -548,9 +535,8 @@ void alTabBox::setAttr(const QString& name,const QString& value)
 {
 	if ("current" == name)
 	{ //find current in elements or save value
-		alWidget *w = findWidget(value);
-		if (w)
-			wnd_->setCurrentWidget(w->getWidget());
+		if (elements.contains(value))
+			wnd_->setCurrentWidget(elements[value]->getWidget());
 		else
 			current_ = value;
 	}
@@ -664,7 +650,7 @@ void alTree::setAttr(const QString& name,const QString& value)
 		    items_ = coords_ = "";
 		}
 	}
-	if ("coords" == name)
+	if ("coordinates" == name)
 	{
 		coords_ = value;
 		if (!items_.isEmpty())

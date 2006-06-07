@@ -58,20 +58,15 @@ void newRequest(const QXmlAttributes& attr)
 	const QString parent = attr.value("parent");
 //	qDebug("%s: id<%s> type<%s> parent<%s>", __FUNCTION__, id.toLatin1().data(), type.toLatin1().data(), parent.toLatin1().data());
 
-	if ("dialog" == type)
+	if ("root" == type)
 	{
-	    if(parent.isEmpty())
-		new alMainWidget(id,"");
-	    else
-		new alDialog(id,parent);
-	}
-	else if ("root" == type)
-	{
-	    if( (qobject_cast<alMainWidget*>(elements[parent])
-		|| qobject_cast<alDialog*>(elements[parent]))
-		&& !parent.isEmpty() )
+	    const QString subtype = attr.value("sub-type");
+	    if ("popup" == subtype) //this is a dialog
 	    {
-		new alProxy(id,parent);
+	    	if(parent.isEmpty())
+			new alMainWidget(id,"");
+	    	else
+			new alDialog(id,parent);	    
 	    }
 	    else
 	    {
@@ -87,16 +82,16 @@ void newRequest(const QXmlAttributes& attr)
 	else if ("edit" == type) new alEdit(id,parent);
 	else if ("textbox" == type) new alTextBox(id,parent);
 	else if ("help-place" == type) new alHelpPlace(id,parent);
-	else if ("groupbox" == type) new alGroupBox(id,parent,attr.value("with-checkbox"));
+	else if ("groupbox" == type) new alGroupBox(id,parent,attr.value("checked"));
 	else if ("checkbox" == type) new alCheckBox(id,parent);
-	else if ("tree" == type) new alTree(id,parent,attr.value("with-checkbox"));
+	else if ("tree" == type) new alTree(id,parent,attr.value("checked"));
 	else if ("combobox" == type) new alComboBox(id,parent);
 	else if ("tabbox" == type) new alTabBox(id,parent);
 	else if ("tab-page" == type) new alTabPage(id,parent);
 	else if ("progressbar" == type) new alProgressBar(id,parent);
 	else if ("listbox" == type)
 	{
-	    int cols = attr.value("with-columns").toInt();
+	    int cols = attr.value("columns").toInt();
 	    if( cols <= 1 )
 		new alListBox(id,parent);
 	    else
@@ -278,7 +273,7 @@ void getDocParser(alCommand *cmd)
 		deleteRequest(e.value("widget-id"));
 	else if ("set" == action)
 		setRequest(e.value("widget-id"),
-			   e.value("attr"),
+			   e.value("name"),
 			   cmd->value_);
 	else if ("create-event" == action)
 		eventRequest(e.value("widget-id"),
