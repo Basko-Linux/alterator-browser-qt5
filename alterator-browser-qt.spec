@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
-Version: 2.6.1
-Release: alt24
+Version: 2.9.1
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -9,7 +9,7 @@ License: GPL
 Group: System/Configuration/Other
 
 Provides: alterator-browser
-Requires: alterator-common >= 2.8-alt0.8.2
+Requires: alterator-common >= 2.9
 
 Obsoletes: alterator-look-qt
 
@@ -39,6 +39,9 @@ ln -s %name %buildroot/%_bindir/qtbrowser
 %_bindir/*
 
 %changelog
+* Wed Jun 07 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.1-alt1
+- update to new alterator
+
 * Tue Jun 06 2006 Sergey V Turchin <zerg at altlinux dot org> 2.6.1-alt24
 - turn off modeless dialogs
 
