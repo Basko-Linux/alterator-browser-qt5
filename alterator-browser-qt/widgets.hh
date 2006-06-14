@@ -440,6 +440,7 @@ public:
 	alWidgetPre<QSlider>(id,parent)
     {
 	wnd_->setOrientation( Qt::Horizontal );
+	wnd_->setTickPosition( QSlider::TicksBothSides );
     }
     void setAttr(const QString& name,const QString& value);
 };
