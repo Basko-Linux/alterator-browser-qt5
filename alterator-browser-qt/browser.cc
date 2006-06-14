@@ -89,6 +89,7 @@ void newRequest(const QXmlAttributes& attr)
 	else if ("tabbox" == type) new alTabBox(id,parent);
 	else if ("tab-page" == type) new alTabPage(id,parent);
 	else if ("progressbar" == type) new alProgressBar(id,parent);
+	else if ("slider" == type) new alSlider(id,parent);
 	else if ("listbox" == type)
 	{
 	    int cols = attr.value("columns").toInt();

@@ -25,6 +25,7 @@
 #include <QProgressBar>
 #include <QTreeWidget>
 #include <QTextBrowser>
+#include <QSlider>
 
 #include "connection.hh"
 #include "main_window.hh"
@@ -428,6 +429,18 @@ protected:
 	void setAttr(const QString& name,const QString& value);
 protected slots:
 	void onAnchor(const QUrl& url);
+};
+
+class alSlider: public alWidgetPre<QSlider>
+{
+Q_OBJECT
+public:
+    alSlider(const QString& id, const QString& parent):
+	alWidgetPre<QSlider>(id,parent)
+    {
+	wnd_->setOrientation( Qt::Horizontal );
+    }
+    void setAttr(const QString& name,const QString& value);
 };
 
 #endif

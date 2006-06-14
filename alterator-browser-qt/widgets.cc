@@ -749,3 +749,26 @@ void alHelpPlace::onAnchor(const QUrl& url)
 {
 	wnd_->setSource(url);
 }
+
+void alSlider::setAttr(const QString& name,const QString& value)
+{
+	if( "orientation" == name )
+	{
+	    if( "vertical" == value )
+		wnd_->setOrientation(Qt::Vertical);
+	    else
+		wnd_->setOrientation(Qt::Horizontal);
+	}
+	if( "minimum" == name )
+	    wnd_->setMinimum( name.toInt() );
+	if( "maximum" == name )
+	    wnd_->setMaximum( name.toInt() );
+	if( "step" == name )
+	{
+	    int step = name.toInt();
+	    wnd_->setSingleStep( step );
+	    wnd_->setPageStep( step * 8 );
+	}
+	else
+	    alWidget::setAttr(name,value);
+}
