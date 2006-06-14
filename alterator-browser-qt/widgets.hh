@@ -26,6 +26,7 @@
 #include <QTreeWidget>
 #include <QTextBrowser>
 #include <QSlider>
+#include <QSplitter>
 
 #include "connection.hh"
 #include "main_window.hh"
@@ -437,6 +438,18 @@ Q_OBJECT
 public:
     alSlider(const QString& id, const QString& parent):
 	alWidgetPre<QSlider>(id,parent)
+    {
+	wnd_->setOrientation( Qt::Horizontal );
+    }
+    void setAttr(const QString& name,const QString& value);
+};
+
+class alSplitter: public alWidgetPre<QSplitter>
+{
+Q_OBJECT
+public:
+    alSplitter(const QString& id, const QString& parent):
+	alWidgetPre<QSplitter>(id,parent)
     {
 	wnd_->setOrientation( Qt::Horizontal );
     }

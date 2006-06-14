@@ -772,3 +772,16 @@ void alSlider::setAttr(const QString& name,const QString& value)
 	else
 	    alWidget::setAttr(name,value);
 }
+
+void alSplitter::setAttr(const QString& name,const QString& value)
+{
+	if( "orientation" == name )
+	{
+	    if( "vertical" == value )
+		wnd_->setOrientation(Qt::Vertical);
+	    else
+		wnd_->setOrientation(Qt::Horizontal);
+	}
+	else
+	    alWidget::setAttr(name,value);
+}
