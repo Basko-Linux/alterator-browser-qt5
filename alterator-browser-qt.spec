@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.1
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -39,6 +39,9 @@ ln -s %name %buildroot/%_bindir/qtbrowser
 %_bindir/*
 
 %changelog
+* Thu Jun 15 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.1-alt2
+- add slider,splitter widgets
+
 * Wed Jun 07 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.1-alt1
 - update to new alterator
 
