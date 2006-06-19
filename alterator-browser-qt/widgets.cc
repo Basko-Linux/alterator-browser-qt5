@@ -760,12 +760,12 @@ void alSlider::setAttr(const QString& name,const QString& value)
 		wnd_->setOrientation(Qt::Horizontal);
 	}
 	if( "minimum" == name )
-	    wnd_->setMinimum( name.toInt() );
+	    wnd_->setMinimum( value.toInt() );
 	if( "maximum" == name )
-	    wnd_->setMaximum( name.toInt() );
+	    wnd_->setMaximum( value.toInt() );
 	if( "step" == name )
 	{
-	    int step = name.toInt();
+	    int step = value.toInt();
 	    wnd_->setSingleStep( step );
 	    wnd_->setPageStep( step * 8 );
 	}
