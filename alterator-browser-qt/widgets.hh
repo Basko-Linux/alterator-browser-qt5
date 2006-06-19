@@ -443,6 +443,7 @@ public:
 	wnd_->setTickPosition( QSlider::TicksBothSides );
     }
     void setAttr(const QString& name,const QString& value);
+    QString postData() const;
 };
 
 class alSplitter: public alWidgetPre<QSplitter>

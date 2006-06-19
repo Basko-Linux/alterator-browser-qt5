@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.1
-Release: alt3
+Release: alt4
 
 Source:%name-%version.tar
 
@@ -39,6 +39,9 @@ ln -s %name %buildroot/%_bindir/qtbrowser
 %_bindir/*
 
 %changelog
+* Mon Jun 19 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.1-alt4
+- add value attribute to slider
+
 * Mon Jun 19 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.1-alt3
 - fix slider attributes
 

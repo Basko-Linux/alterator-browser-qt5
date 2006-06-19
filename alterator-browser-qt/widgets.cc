@@ -759,18 +759,25 @@ void alSlider::setAttr(const QString& name,const QString& value)
 	    else
 		wnd_->setOrientation(Qt::Horizontal);
 	}
-	if( "minimum" == name )
+	else if( "minimum" == name )
 	    wnd_->setMinimum( value.toInt() );
-	if( "maximum" == name )
+	else if( "maximum" == name )
 	    wnd_->setMaximum( value.toInt() );
-	if( "step" == name )
+	else if( "step" == name )
 	{
 	    int step = value.toInt();
 	    wnd_->setSingleStep( step );
 	    wnd_->setPageStep( step * 8 );
 	}
+	else if( "value" == name )
+	    wnd_->setValue(value.toInt());
 	else
 	    alWidget::setAttr(name,value);
+}
+
+QString alSlider::postData() const
+{
+	return QString(" (value . %1 )").arg(wnd_->value());
 }
 
 void alSplitter::setAttr(const QString& name,const QString& value)
