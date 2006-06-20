@@ -775,6 +775,12 @@ void alSlider::setAttr(const QString& name,const QString& value)
 	    alWidget::setAttr(name,value);
 }
 
+void alSlider::registerEvent(const QString& name)
+{
+	if ("changed" == name)
+		connect(wnd_, SIGNAL(sliderMoved(int)), SLOT(onChange(int)));
+}
+
 QString alSlider::postData() const
 {
 	return QString(" (value . %1 )").arg(wnd_->value());

@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.1
-Release: alt4
+Release: alt5
 
 Source:%name-%version.tar
 
@@ -39,6 +39,9 @@ ln -s %name %buildroot/%_bindir/qtbrowser
 %_bindir/*
 
 %changelog
+* Tue Jun 20 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.1-alt5
+- add changed event to silder
+
 * Mon Jun 19 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.1-alt4
 - add value attribute to slider
 
