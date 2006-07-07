@@ -8,7 +8,7 @@
 #include "connection.hh"
 
 QString sessionId;
-
+QString userId;
 
 static
 void parseAnswer(alRequest *dom,void(parser)(alCommand*))
@@ -53,6 +53,7 @@ void initConnection(void (parser)(alCommand*))
 	std::auto_ptr<alRequest> dom(readRequest());
 	
 	sessionId = dom->attrs_.value("session-id");
+	userId = dom->attrs_.value("user");
 //	std::cerr<<"session-id="<<sessionId.toLatin1().data()<<std::endl;
 	
 	parseAnswer(dom.get(),parser);
@@ -62,7 +63,7 @@ QString makeRequest(const QString& content)
 {
 	QString out;
 	QTextStream s(&out);
-	s<<"(auth-request user \"qtbrowser\" session-id "
+	s<<"(auth-request user \""<<userId<<"\" session-id "
 	 <<"\""<<sessionId<<"\""
 	 <<" content "<<content<<")";
        return out;
