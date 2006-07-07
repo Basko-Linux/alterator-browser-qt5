@@ -64,9 +64,10 @@ void newRequest(const QXmlAttributes& attr)
 	    if ("popup" == subtype) //this is a dialog
 	    {
 	    	if(parent.isEmpty())
-			new alMainWidget(id,"");
+		    new alMainWidget(id,"");
 	    	else
-			new alDialog(id,parent);	    
+		    new alDialog(id,parent,attr.value("width"),
+		                          attr.value("height"));
 	    }
 	    else
 	    {
