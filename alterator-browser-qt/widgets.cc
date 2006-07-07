@@ -195,7 +195,9 @@ void alTextBox::setAttr(const QString& name,const QString& value)
 {
 	if ("text" == name)
 		wnd_->setPlainText(value);
-	if ("text-append" == name)
+	else if ("text-append" == name)
+		wnd_->append(value);
+	else if ("append-text" == name)
 		wnd_->append(value);
 	else if ("alterability" == name)
 		wnd_->setReadOnly("false" == value);
