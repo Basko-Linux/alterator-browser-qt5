@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
-Version: 2.9.1
-Release: alt5
+Version: 2.9.2
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -9,7 +9,7 @@ License: GPL
 Group: System/Configuration/Other
 
 Provides: alterator-browser
-Requires: alterator-common >= 2.9
+Requires: alterator-common >= 2.9-alt0.2
 
 Obsoletes: alterator-look-qt
 
@@ -39,6 +39,9 @@ ln -s %name %buildroot/%_bindir/qtbrowser
 %_bindir/*
 
 %changelog
+* Wed Jul 12 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.2-alt1
+- update to new alterator
+
 * Tue Jun 20 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.1-alt5
 - add changed event to silder
 
