@@ -37,6 +37,7 @@ private:
     QFrame* buttons_widget;
     QFrame* labels_widget;
     QWidget* view_widget;
+    QLabel* title;
     QMap<QString, QAbstractButton*> buttons;
 };
 
