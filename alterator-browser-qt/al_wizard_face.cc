@@ -105,6 +105,10 @@ void AWizardFace::setItemPixmap(const QString &id, const QString &value)
 	buttons[id]->setIcon(QIcon(getPixmap(value)));
 }
 
+void AWizardFace::setTitle( const QString &value)
+{
+}
+
 
 // alWizardFaceItem
 alWizardFaceItem::alWizardFaceItem(const QString& id,const QString& parent, QWidget* wnd):

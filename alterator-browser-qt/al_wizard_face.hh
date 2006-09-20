@@ -26,6 +26,7 @@ public:
     };
 
     QWidget* addItem(const QString &id, ItemType);
+    void setTitle( const QString &value);
     void setItemText(const QString &id, const QString &value);
     void setItemPixmap(const QString &id, const QString &value);
     QWidget* getItemWidget(const QString &id);
