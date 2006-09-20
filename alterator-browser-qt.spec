@@ -9,6 +9,7 @@ License: GPL
 Group: System/Configuration/Other
 
 Provides: alterator-browser
+Provides: alterator-browser-x11
 Requires: alterator-common >= 2.9-alt0.2
 
 Obsoletes: alterator-look-qt
