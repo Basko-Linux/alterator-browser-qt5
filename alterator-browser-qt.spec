@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.2
+Version: 2.9.3
 Release: alt1
 
 Source:%name-%version.tar
@@ -12,6 +12,7 @@ Requires: alterator-common >= 2.9-alt0.2
 Requires: alterator-icons
 Provides: alterator-browser
 Provides: alterator-browser-x11
+Requires: libqt4-core >= %{get_version libqt4-core}
 
 Obsoletes: alterator-look-qt
 
@@ -41,6 +42,11 @@ ln -s %name %buildroot/%_bindir/qtbrowser
 %_bindir/*
 
 %changelog
+* Mon Sep 25 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.3-alt1
+- autowrap text on labels
+- add current and title attributes to wizardface
+- require alterator-icons
+
 * Wed Jul 12 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.2-alt1
 - update to new alterator
 
