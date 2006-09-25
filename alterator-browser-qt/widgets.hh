@@ -169,7 +169,9 @@ class alLabel: public alWidgetPre<QLabel>
 public:
 	alLabel(const QString& id,const QString& parent):
 		alWidgetPre<QLabel>(id,parent)
-		{}
+		{
+		    wnd_->setWordWrap( true );
+		}
 	void setAttr(const QString& name,const QString& value);
 };
 
