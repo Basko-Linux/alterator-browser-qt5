@@ -16,6 +16,11 @@ AWizardFace::AWizardFace( QWidget *parent, Qt::WFlags f):
     labels_widget->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
     labels_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
 
+    title = new QLabel(this);
+    title->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+    title->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
+    title->setAlignment(Qt::AlignCenter);
+
     QScrollArea *scroll = new QScrollArea(this);
     scroll->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
@@ -32,9 +37,10 @@ AWizardFace::AWizardFace( QWidget *parent, Qt::WFlags f):
     labels_layout = new QVBoxLayout( labels_widget );
     buttons_layout = new QHBoxLayout( buttons_widget );
     main_layout = new QGridLayout(this);
-    main_layout->addWidget( labels_widget, 0, 0 );
-    main_layout->addWidget( scroll, 0, 1);
-    main_layout->addWidget( buttons_widget, 1, 0, 1, 2);
+    main_layout->addWidget( labels_widget, 0, 0, 2, 1 );
+    main_layout->addWidget( title, 0, 1 );
+    main_layout->addWidget( scroll, 1, 1);
+    main_layout->addWidget( buttons_widget, 2, 0, 1, 2);
 }
 
 AWizardFace::~AWizardFace()
@@ -107,6 +113,7 @@ void AWizardFace::setItemPixmap(const QString &id, const QString &value)
 
 void AWizardFace::setTitle( const QString &value)
 {
+    title->setText(value);
 }
 
 
@@ -180,5 +187,8 @@ QString alWizardFace::postData() const
 
 void alWizardFace::setAttr(const QString& name,const QString& value)
 {
-    alWidget::setAttr(name,value);
+    if ("title" == name)
+	wnd_->setTitle(value);
+    else
+	alWidget::setAttr(name,value);
 }
