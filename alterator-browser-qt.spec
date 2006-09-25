@@ -8,9 +8,10 @@ Summary: X11 Qt interface driver for alterator
 License: GPL
 Group: System/Configuration/Other
 
+Requires: alterator-common >= 2.9-alt0.2
+Requires: alterator-icons
 Provides: alterator-browser
 Provides: alterator-browser-x11
-Requires: alterator-common >= 2.9-alt0.2
 
 Obsoletes: alterator-look-qt
 
