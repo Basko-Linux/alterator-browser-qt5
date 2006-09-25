@@ -116,6 +116,41 @@ void AWizardFace::setTitle( const QString &value)
     title->setText(value);
 }
 
+void AWizardFace::setCurrent( int n )
+{
+    QList<QPushButton *> labels = labels_widget->findChildren<QPushButton *>();
+    int i = 0;
+    QList<QPushButton *>::iterator it;
+    for( it = labels.begin();; it++, i++)
+    {
+	if( it == labels.end() )
+	{
+	    it--;
+	    break;
+	}
+	if( i >= n )
+	    break;
+	QPushButton *lbl = *it;
+	lbl->setEnabled(false);
+	QFont font = lbl->font();
+	font.setWeight(QFont::Normal);
+	lbl->setFont(font);
+    }
+    QPushButton *current = *it;
+    QFont font = current->font();
+    current->setEnabled(true);
+    font.setWeight(QFont::Bold);
+    current->setFont(font);
+    for(++it ;it != labels.end(); it++)
+    {
+	QPushButton *lbl = *it;
+	lbl->setEnabled(true);
+	QFont font = lbl->font();
+	font.setWeight(QFont::Normal);
+	lbl->setFont(font);
+    }
+}
+
 
 // alWizardFaceItem
 alWizardFaceItem::alWizardFaceItem(const QString& id,const QString& parent, QWidget* wnd):
@@ -189,6 +224,10 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
 {
     if ("title" == name)
 	wnd_->setTitle(value);
+    else if ("current" == value)
+    {
+	wnd_->setCurrent( value.toInt() );
+    }
     else
 	alWidget::setAttr(name,value);
 }
