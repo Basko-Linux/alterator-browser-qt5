@@ -41,6 +41,11 @@ private:
     QWidget* view_widget;
     QLabel* title;
     QMap<QString, QAbstractButton*> buttons;
+    QMap<QString, ItemType> types;
+
+    int newButtonPosition(ItemType);
+    int findButtonPosition(ItemType);
+    Qt::Alignment newButtonAlignment(ItemType);
 };
 
 class alWizardFaceItem: public alWidget

@@ -46,6 +46,103 @@ AWizardFace::AWizardFace( QWidget *parent, Qt::WFlags f):
 AWizardFace::~AWizardFace()
 {}
 
+int AWizardFace::findButtonPosition(ItemType type)
+{
+    int pos = -1;
+    QMapIterator<QString, ItemType> it(types);
+    while( it.hasNext() )
+    {
+	it.next();
+	pos++;
+	if( it.value() == type )
+	{
+	    QAbstractButton *btn = buttons[it.key()];
+	    if( btn )
+	    {
+		pos = buttons_layout->indexOf( btn );
+	    }
+	    break;
+	}
+    }
+    return pos;
+}
+
+int AWizardFace::newButtonPosition(ItemType type)
+{
+    switch( type )
+    {
+	case ButtonHelp:
+	    {
+		return 0;
+	    }
+	case ButtonApply:
+	    {
+		int pos = findButtonPosition( ButtonCancel );
+		if( pos >= 0 )
+		    return pos;
+		else
+		    pos = findButtonPosition( ButtonBackward );
+		if( pos >= 0 )
+		    return pos;
+		else
+		    return findButtonPosition( ButtonForward );
+	    }
+	case ButtonCancel:
+	    {
+		int pos = findButtonPosition( ButtonApply );
+		if( pos >= 0 )
+		    return ++pos;
+		else
+		    pos = findButtonPosition( ButtonBackward );
+		if( pos >= 0 )
+		    return pos;
+		else
+		    return findButtonPosition( ButtonForward );
+	    }
+	case ButtonBackward:
+	    {
+		int pos = findButtonPosition( ButtonForward );
+		qDebug("forward button position: %d", pos);
+		if( pos >= 0 )
+		    return pos;
+		else
+		    return -1;
+	    }
+	case ButtonForward:
+	    {
+		return -1;
+	    }
+	case ButtonGeneric:
+	default:
+	    {
+		return 1;
+	    }
+    }
+}
+
+Qt::Alignment AWizardFace::newButtonAlignment(ItemType type)
+{
+    switch( type )
+    {
+	case ButtonHelp:
+	    {
+		return Qt::AlignLeft;
+	    }
+	case ButtonApply:
+	case ButtonCancel:
+	case ButtonForward:
+	case ButtonBackward:
+	    {
+		return Qt::AlignRight;
+	    }
+	case ButtonGeneric:
+	default:
+	    {
+		return Qt::AlignCenter;
+	    }
+    }
+}
+
 QWidget* AWizardFace::addItem(const QString &id, AWizardFace::ItemType type)
 {
     QWidget *w = 0;
@@ -60,8 +157,9 @@ QWidget* AWizardFace::addItem(const QString &id, AWizardFace::ItemType type)
 	case ButtonForward:
 	    {
 		QPushButton *b = new QPushButton(buttons_widget);
-		buttons_layout->addWidget(b);
+		buttons_layout->insertWidget( newButtonPosition(type), b, 0, newButtonAlignment(type) );
 		w = buttons[id] = b;
+		types[id] = type;
 		break;
 	    }
 	case LabelSection:
@@ -71,6 +169,7 @@ QWidget* AWizardFace::addItem(const QString &id, AWizardFace::ItemType type)
 		l->setFlat(true);
 		labels_layout->addWidget(l);
 		w = buttons[id] = l;
+		types[id] = type;
 		break;
 	    }
 	default:
@@ -79,6 +178,7 @@ QWidget* AWizardFace::addItem(const QString &id, AWizardFace::ItemType type)
 		lg->setFlat(true);
 		labels_layout->addWidget(lg);
 		w = buttons[id] = lg;
+		types[id] = type;
 		break;
 	    }
     }
