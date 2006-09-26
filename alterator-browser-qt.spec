@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.3
+Version: 2.9.4
 Release: alt1
 
 Source:%name-%version.tar
@@ -10,25 +10,27 @@ Group: System/Configuration/Other
 
 Requires: alterator-common >= 2.9-alt0.2
 Requires: alterator-icons
+PreReq(post,preun): alternatives >= 0.2
+
 Provides: alterator-browser
 Provides: alterator-browser-x11
 Requires: libqt4-core >= %{get_version libqt4-core}
 
 Obsoletes: alterator-look-qt
 
-
+BuildRequires: libalternatives-devel
 BuildRequires: fontconfig freetype2 gcc-c++ libqt4-devel libstdc++-devel
-
-#BuildRequires: gcc-c++ guile16-devel libdbus-devel libdbus-qt-devel libqt3-devel libstdc++-devel pkg-config
 
 %description
 X11 Qt interface driver for alterator
+
 
 %prep
 %setup -q
 %_qt4dir/bin/qmake -spec default
 #sed -i "s|^\s*CFLAGS\s*=.*$|CFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Makefile
 #sed -i "s|^\s*CXXFLAGS\s*=.*$|CXXFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Makefile
+
 
 %build
 %make_build
@@ -38,12 +40,27 @@ X11 Qt interface driver for alterator
 %make INSTALL_ROOT=%buildroot install
 ln -s %name %buildroot/%_bindir/qtbrowser
 
+mkdir -p %buildroot/%_altdir
+cat >%buildroot/%_altdir/%name <<__EOF__
+%_bindir/alterator-browser-x11	%_bindir/%name 99
+__EOF__
+
+
+%post
+%post_register_alternatives %name -- %name
+%update_alternatives
+%preun
+%preun_unregister_alternatives %name
+
+
 %files
+%config %_altdir/%name
 %_bindir/*
 
 %changelog
-#- apply default icons to wizardface buttons
-#- arrange buttons in wizardface
+* Tue Sep 26 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.4-alt1
+- apply default icons to wizardface buttons
+- arrange buttons in wizardface
 
 * Mon Sep 25 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.3-alt1
 - autowrap text on labels
