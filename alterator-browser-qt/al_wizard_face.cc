@@ -102,7 +102,6 @@ int AWizardFace::newButtonPosition(ItemType type)
 	case ButtonBackward:
 	    {
 		int pos = findButtonPosition( ButtonForward );
-		qDebug("forward button position: %d", pos);
 		if( pos >= 0 )
 		    return pos;
 		else
@@ -143,6 +142,43 @@ Qt::Alignment AWizardFace::newButtonAlignment(ItemType type)
     }
 }
 
+void AWizardFace::setButtonIcon(QAbstractButton* btn, ItemType type)
+{
+    QString name;
+    switch( type )
+    {
+	case ButtonHelp:
+	    {
+		name = "theme:help";
+		break;
+	    }
+	case ButtonApply:
+	    {
+		name = "theme:apply";
+		break;
+	    }
+	case ButtonCancel:
+	    {
+		name = "theme:cancel";
+		break;
+	    }
+	case ButtonForward:
+	    {
+		name = "theme:forward";
+		break;
+	    }
+	case ButtonBackward:
+	    {
+		name = "theme:backward";
+		break;
+	    }
+	default:
+	    break;
+    }
+    if( !name.isEmpty() && btn )
+	btn->setIcon(QIcon(getPixmap(name)));
+}
+
 QWidget* AWizardFace::addItem(const QString &id, AWizardFace::ItemType type)
 {
     QWidget *w = 0;
@@ -157,6 +193,7 @@ QWidget* AWizardFace::addItem(const QString &id, AWizardFace::ItemType type)
 	case ButtonForward:
 	    {
 		QPushButton *b = new QPushButton(buttons_widget);
+		setButtonIcon(b, type);
 		buttons_layout->insertWidget( newButtonPosition(type), b, 0, newButtonAlignment(type) );
 		w = buttons[id] = b;
 		types[id] = type;

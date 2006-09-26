@@ -42,6 +42,7 @@ ln -s %name %buildroot/%_bindir/qtbrowser
 %_bindir/*
 
 %changelog
+#- apply default icons to wizardface buttons
 #- arrange buttons in wizardface
 
 * Mon Sep 25 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.3-alt1

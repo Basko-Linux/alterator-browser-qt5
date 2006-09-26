@@ -46,6 +46,7 @@ private:
     int newButtonPosition(ItemType);
     int findButtonPosition(ItemType);
     Qt::Alignment newButtonAlignment(ItemType);
+    void setButtonIcon(QAbstractButton*, ItemType);
 };
 
 class alWizardFaceItem: public alWidget
