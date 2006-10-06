@@ -54,7 +54,7 @@ public:
     APEButtonPixmapGenerator(
 	QStyle::PrimitiveElement id,
 	QStyle::SubElement sub,
-	QStyle::StateFlag options):
+	int options):
 	APixmapGenerator(APixmapGenerator::Generated),
 	    id_(id),
 	    sub_(sub),
@@ -64,7 +64,7 @@ public:
 private:
     QStyle::PrimitiveElement id_;
     QStyle::SubElement sub_;
-    QStyle::StateFlag options_;
+    int options_;
 };
 
 class AFilePixmapGenerator: public APixmapGenerator

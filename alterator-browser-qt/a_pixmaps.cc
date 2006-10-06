@@ -21,8 +21,9 @@ QPixmap AStdPixmapGenerator::operator()()
 QPixmap ANullPixmapGenerator::operator()()
 {
     QPixmap pixmap(16,16);
-    pixmap.fill( Qt::white );
-    pixmap.setMask(pixmap.createMaskFromColor(Qt::white));
+    pixmap.fill( QColor(0,0,0,0) );
+//    pixmap.fill( Qt::white );
+//    pixmap.setMask(pixmap.createMaskFromColor(Qt::white));
     return pixmap;
 }
 
@@ -31,11 +32,14 @@ QPixmap APEButtonPixmapGenerator::operator()()
     QStyleOptionButton b;
     QRect r = QApplication::style()->subElementRect(sub_,&b);
     QPixmap pixmap(r.width(),r.height());
+    //QColor bgcolor =  QApplication::palette().color(QPalette::Active, QPalette::Background);
+    QColor bgcolor(0,0,0,0);
+    pixmap.fill(bgcolor);
     QPainter paint(&pixmap);
-    b.state |= options_;
+    b.state |= (QStyle::State)options_;
     b.rect = QRect(0,0,r.width(),r.height());
     QApplication::style()->drawPrimitive(id_,&b,&paint);
-    pixmap.setMask(pixmap.createMaskFromColor(QApplication::palette().color(QPalette::Active, QPalette::Background)));
+    //pixmap.setMask(pixmap.createMaskFromColor(bgcolor));
     return pixmap;
 }
 
@@ -67,16 +71,16 @@ void initPixmaps()
 
     	pix_map["theme:check-on"] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorCheckBox,
 	                                          QStyle::SE_CheckBoxIndicator,
-						  QStyle::State_On);
+						  QStyle::State_On|QStyle::State_Enabled);
     	pix_map["theme:check-off"] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorCheckBox,
 	                                           QStyle::SE_CheckBoxIndicator,
-						   QStyle::State_Off);
+						   QStyle::State_Off|QStyle::State_Enabled);
     	pix_map["theme:radio-on"] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorRadioButton,
 	                                          QStyle::SE_RadioButtonIndicator,
-						  QStyle::State_On);
+						  QStyle::State_On|QStyle::State_Enabled);
     	pix_map["theme:radio-off"] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorRadioButton,
 	                                           QStyle::SE_RadioButtonIndicator,
-						   QStyle::State_Off);
+						   QStyle::State_Off|QStyle::State_Enabled);
 
     	pix_map["theme:null"] = new ANullPixmapGenerator();
 	pix_map["theme:help"] = new AFilePixmapGenerator("help.png");
