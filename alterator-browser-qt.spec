@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.4
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Fri Oct 06 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.4-alt2
+- fix draw primitives with Qt-4.2
+
 * Tue Sep 26 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.4-alt1
 - apply default icons to wizardface buttons
 - arrange buttons in wizardface
