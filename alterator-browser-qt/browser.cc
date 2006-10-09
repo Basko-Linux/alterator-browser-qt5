@@ -189,16 +189,27 @@ void newRequest(const QXmlAttributes& attr)
 	}
 }
 
-void deleteRequest(const QString& id)
+void closeRequest(const QString& id)
 {
 	if( elements.contains(id) )
-	{
-	    alWidget *aw = elements.take(id);
-	    aw->getWidget()->hide();
-	    aw->deleteLater();
-	}
-	else
+	    elements.take(id)->deleteLater();
+}
+
+void cleanRequest(const QString& id)
+{
+	if( !elements.contains(id) )
 	    return;
+
+	alWidget *el = elements[id];
+	QList<alWidget *> children = el->findChildren<alWidget *>();
+	
+	MyBoxLayout* layout = qobject_cast<MyBoxLayout*>(el->getViewLayout());
+	if( layout )
+	    layout->deleteAllItems();
+	
+	QListIterator<alWidget *> it(children);
+	while( it.hasNext() )
+	    it.next()->deleteLater();
 }
 
 void setRequest(const QString& id,const QString& attr,const QString& value)
@@ -272,8 +283,10 @@ void getDocParser(alCommand *cmd)
 
 	if ("new" == action)
 		newRequest(e);
-	else if ("delete" == action)
-		deleteRequest(e.value("widget-id"));
+	else if ("close" == action)
+		closeRequest(e.value("widget-id"));
+	else if ("clean" == action)
+		cleanRequest(e.value("widget-id"));
 	else if ("set" == action)
 		setRequest(e.value("widget-id"),
 			   e.value("name"),
