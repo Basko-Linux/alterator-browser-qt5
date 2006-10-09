@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.4
-Release: alt3
+Release: alt4
 
 Source:%name-%version.tar
 
@@ -8,7 +8,7 @@ Summary: X11 Qt interface driver for alterator
 License: GPL
 Group: System/Configuration/Other
 
-Requires: alterator-common >= 2.9-alt0.2
+Requires: alterator-common >= 2.9-alt0.10
 Requires: alterator-icons
 PreReq(post,preun): alternatives >= 0.2
 
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Mon Oct 09 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.4-alt4
+- update to new alterator
+
 * Mon Oct 09 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.4-alt3
 - add some fixes for new alterator
 
