@@ -293,7 +293,6 @@ void AWizardFace::setCurrent( int n )
 alWizardFaceItem::alWizardFaceItem(const QString& id,const QString& parent, QWidget* wnd):
     alWidget(id, parent)
 {
-    elements[id] = this;
     wnd_ = wnd;
 }
 

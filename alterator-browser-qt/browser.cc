@@ -201,13 +201,12 @@ void cleanRequest(const QString& id)
 	    return;
 
 	alWidget *el = alWidget::elements[id];
-	QList<alWidget *> children = el->findChildren<alWidget *>();
 	
 	MyBoxLayout* layout = qobject_cast<MyBoxLayout*>(el->getViewLayout());
-//	MyBoxLayout* layout=dynamic_cast<MyBoxLayout*>(el->getWidget()->layout());
 	if( layout )
 	    layout->deleteAllItems();
 	
+	QList<alWidget *> children = el->findChildren<alWidget *>();
 	QListIterator<alWidget *> it(children);
 	while( it.hasNext() )
 	    it.next()->deleteLater();
