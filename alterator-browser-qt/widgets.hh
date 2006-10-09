@@ -45,12 +45,21 @@ protected:
 	QString id_;
 	QString parent_;
 public:
+	typedef QMap<QString,alWidget*> element_map_t;
+	typedef QMapIterator<QString,alWidget*> element_map_iterator_t;
+	static element_map_t elements;
 
 	alWidget(const QString& id,const QString& parent):
+		QObject(elements.value(parent,0)),
 		id_(id),
 		parent_(parent)
-		{}
-	virtual ~alWidget() {}
+	{
+	    elements[id] = this;
+	}
+	virtual ~alWidget()
+	{
+	    elements.remove(id_);
+	}
 	virtual void setAttr(const QString& name,const QString& value);
 	virtual void registerEvent(const QString&) {}
 	virtual QString postData() const { return ""; }
@@ -101,7 +110,6 @@ public slots:
 };
 
 extern MainWindow *main_window;
-extern QMap<QString,alWidget*> elements;
 extern QString help_source;
 
 QLayout *findViewLayout(const QString& id);
@@ -112,7 +120,7 @@ QString reparentTag(QString parent);
 template <typename Widget>
 Widget *createWidget(const QString& parent)
 {
-	return new Widget(elements.contains(parent)?elements[parent]->getViewWidget():0);
+	return new Widget(alWidget::elements.contains(parent)?alWidget::elements[parent]->getViewWidget():0);
 }
 
 template <typename Widget>
@@ -125,7 +133,6 @@ public:
 		alWidget(id,reparentTag(parent)),
 		wnd_(createWidget<Widget>(parent))
 	{
-		elements[id] = this;
 		alWidget *pa = findAlWidget(parent);
 		if( pa )
 		{
@@ -150,7 +157,6 @@ public:
 	alMainWidgetPre(const QString& id,const QString& parent):
 		alWidget(id,parent)
 	{
-		elements[id] = this;
 		wnd_ = new Widget(main_window);
 		wnd_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 		main_window->setCentralWidget( wnd_ );
@@ -380,7 +386,6 @@ public:
 		alWidget(id,parent),
 		parent_(parent)
 	{
-		elements[id] = this;
 	}
 		
 protected:

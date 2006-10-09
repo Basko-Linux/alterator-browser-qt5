@@ -26,13 +26,13 @@ namespace
 ////////////////////////////////////////////
 
 //all current elements on viewer
-QMap<QString,alWidget*> elements;
+alWidget::element_map_t alWidget::elements; 
 QString help_source;
 
 void updateHelp(const QString& value)
 {
 	help_source = value;
-	QMapIterator<QString,alWidget*> i(elements);
+	alWidget::element_map_iterator_t i(alWidget::elements);
 	while (i.hasNext())
 	{
 		i.next();
@@ -46,23 +46,23 @@ void updateHelp(const QString& value)
 
 QLayout *findViewLayout(const QString& id)
 {
-	if (!elements.contains(id)) return 0;
-	alWidget *aw = elements[id];
+	if (!alWidget::elements.contains(id)) return 0;
+	alWidget *aw = alWidget::elements[id];
 	return aw->getViewLayout();
 }
 
 QWidget* findQWidget(const QString& id)
 {
-	if (!elements.contains(id)) return 0;
-	QWidget *w = elements[id]->getWidget();
+	if (!alWidget::elements.contains(id)) return 0;
+	QWidget *w = alWidget::elements[id]->getWidget();
 	if( w )	return w;
 	return 0;
 }
 
 alWidget* findAlWidget(const QString& id)
 {
-	if (!elements.contains(id)) return 0;
-	return elements[id];
+	if (!alWidget::elements.contains(id)) return 0;
+	return alWidget::elements[id];
 }
 
 QString reparentTag(QString parent)
