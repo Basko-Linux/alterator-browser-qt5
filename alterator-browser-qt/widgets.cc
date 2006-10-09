@@ -382,7 +382,8 @@ void alMultiListBox::setAttr(const QString& name,const QString& value)
 				else
 					elt->setIcon(col,QIcon(getPixmap("theme:null")));
 			}
-			items.push_front(elt);
+			//items.push_front(elt);
+			items.push_back(elt);
 		}
 		wnd_->clear();		
 		wnd_->addTopLevelItems(items);
