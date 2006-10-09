@@ -65,7 +65,10 @@ alWidget* findAlWidget(const QString& id)
 	return elements[id];
 }
 
-
+QString reparentTag(QString parent)
+{
+       return parent.replace(QString(":reparent:"),QString(""));
+}
 
 void alWidget::setAttr(const QString& name,const QString& value)
 {
@@ -550,7 +553,7 @@ void alTabBox::setAttr(const QString& name,const QString& value)
 
 void alDialog::setAttr(const QString& name,const QString& value)
 {
-	if ("caption" == name)
+	if ("title" == name)
 		wnd_->setWindowTitle(value);
 	else if ("full-screen" == name)
 	{

@@ -361,7 +361,8 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
 {
     if ("title" == name)
 	wnd_->setTitle(value);
-    else if ("current" == value)
+
+    if ("current" == value)
     {
 	wnd_->setCurrent( value.toInt() );
     }

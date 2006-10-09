@@ -1,3 +1,4 @@
+#include <iostream>
 #include <QTextStream>
 #include <QXmlInputSource>
 #include <QXmlSimpleReader>
@@ -9,14 +10,14 @@ class alInputSource: public QXmlInputSource
 {
 	int pos_;
 	QString buf_;
-	QTextStream in_;
+	//QTextStream in_;
 	
 public:
 	alInputSource():
-		pos_(0),
-		in_(stdin)
+	    pos_(0)
+	    //in_(stdin)
 	{
-		in_.setCodec("UTF-8");
+		//in_.setCodec("UTF-8");
 	}
 
 	void setData(const QString& dat) { buf_ = dat; }
@@ -25,7 +26,10 @@ public:
         void reset() { pos_ = 0; }
         void fetchData()
 	{
-		buf_= in_.readLine();
+		std::string line;
+		std::getline(std::cin,line);
+		buf_ = QString::fromUtf8(line.c_str());	
+//		buf_= in_.readLine();
 		buf_+="\n";
 		pos_ = 0;
 	}

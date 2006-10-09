@@ -107,7 +107,7 @@ extern QString help_source;
 QLayout *findViewLayout(const QString& id);
 QWidget* findQWidget(const QString& id);
 alWidget* findAlWidget(const QString& id);
-
+QString reparentTag(QString parent);
 
 template <typename Widget>
 Widget *createWidget(const QString& parent)
@@ -122,7 +122,7 @@ protected:
 	Widget *wnd_;
 public:
 	alWidgetPre(const QString& id,const QString& parent):
-		alWidget(id,parent.replace(QString(":reparent:"),QString(""))),
+		alWidget(id,reparentTag(parent)),
 		wnd_(createWidget<Widget>(parent))
 	{
 		elements[id] = this;
