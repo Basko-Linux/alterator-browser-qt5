@@ -122,7 +122,7 @@ protected:
 	Widget *wnd_;
 public:
 	alWidgetPre(const QString& id,const QString& parent):
-		alWidget(id,parent),
+		alWidget(id,parent.replace(QString(":reparent:"),QString(""))),
 		wnd_(createWidget<Widget>(parent))
 	{
 		elements[id] = this;
@@ -300,7 +300,7 @@ class alTabPage: public alWidgetPre<QFrame>
 	int idx_;
 public:
 	alTabPage(const QString& id,const QString& parent):
-		alWidgetPre<QFrame>(id,""),
+		alWidgetPre<QFrame>(id,":reparent:"+parent),
 		tabbox_(getParentTabBox(parent)),
 		idx_(tabbox_?static_cast<QTabWidget*>(tabbox_->getWidget())->addTab(wnd_,""):-1)
 	{
