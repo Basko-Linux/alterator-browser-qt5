@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.4
-Release: alt2
+Release: alt3
 
 Source:%name-%version.tar
 
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Mon Oct 09 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.4-alt3
+- add some fixes for new alterator
+
 * Fri Oct 06 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.4-alt2
 - fix draw primitives with Qt-4.2
 
