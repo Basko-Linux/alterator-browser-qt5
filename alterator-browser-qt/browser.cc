@@ -206,8 +206,8 @@ void cleanRequest(const QString& id)
 	if( layout )
 	    layout->deleteAllItems();
 	
-	//QList<alWidget *> children = el->findChildren<alWidget *>();
-	QList<alWidget *> children = findAlChildren(id);
+	QList<alWidget *> children = el->findChildren<alWidget *>();
+	//QList<alWidget *> children = findAlChildren(id);
 	if( children.size() > 0 )
 	{
 	    //qDebug("clear children for <%s>", id.toLatin1().data());
@@ -243,12 +243,12 @@ void startRequest(const QString& id)
 	if( aw )
 	    if( aw->getParentId().isEmpty() )
 	    {
-		alMainWidget *m = dynamic_cast<alMainWidget*>(aw);
+		alMainWidget *m = qobject_cast<alMainWidget*>(aw);
 		if(m) m->start();
 	    }
 	    else
 	    {
-		alDialog *d = dynamic_cast<alDialog*>(aw);
+		alDialog *d = qobject_cast<alDialog*>(aw);
 		if(d) d->start();
 	    }
 }
@@ -260,7 +260,7 @@ void stopRequest(const QString& id)
 	if( aw )
 	    if( aw->getParentId().isEmpty() )
 	    {
-		alMainWidget *m = dynamic_cast<alMainWidget*>(aw);
+		alMainWidget *m = qobject_cast<alMainWidget*>(aw);
 		if(m) m->stop();
 	    }
 	    else
