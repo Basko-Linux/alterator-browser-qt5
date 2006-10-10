@@ -56,7 +56,7 @@ void newRequest(const QXmlAttributes& attr)
 	const QString id = attr.value("widget-id");
 	const QString type = attr.value("type");
 	const QString parent = attr.value("parent");
-//	qDebug("%s: id<%s> type<%s> parent<%s>", __FUNCTION__, id.toLatin1().data(), type.toLatin1().data(), parent.toLatin1().data());
+	//qDebug("%s: id<%s> type<%s> parent<%s>", __FUNCTION__, id.toLatin1().data(), type.toLatin1().data(), parent.toLatin1().data());
 
 	if ("root" == type)
 	{
@@ -112,7 +112,7 @@ void newRequest(const QXmlAttributes& attr)
 	    if( wizard_face )
 	    {
 		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::ButtonGeneric);
-		new alWizardFaceItem(id,wizard_face->getId(),w);
+		new alWizardFaceItem(id,parent,w);
 	    }
 	    else
 		new alButton(id,parent);
@@ -122,7 +122,7 @@ void newRequest(const QXmlAttributes& attr)
 	    if( wizard_face )
 	    {
 		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::ButtonHelp);
-		new alWizardFaceItem(id,wizard_face->getId(),w);
+		new alWizardFaceItem(id,parent,w);
 	    }
 	    else
 		new alButton(id,parent);
@@ -132,7 +132,7 @@ void newRequest(const QXmlAttributes& attr)
 	    if( wizard_face )
 	    {
 		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::ButtonCancel);
-		new alWizardFaceItem(id,wizard_face->getId(),w);
+		new alWizardFaceItem(id,parent,w);
 	    }
 	    else
 		new alButton(id,parent);
@@ -142,7 +142,7 @@ void newRequest(const QXmlAttributes& attr)
 	    if( wizard_face )
 	    {
 		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::ButtonApply);
-		new alWizardFaceItem(id,wizard_face->getId(),w);
+		new alWizardFaceItem(id,parent,w);
 	    }
 	    else
 		new alButton(id,parent);
@@ -152,7 +152,7 @@ void newRequest(const QXmlAttributes& attr)
 	    if( wizard_face )
 	    {
 		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::ButtonBackward);
-		new alWizardFaceItem(id,wizard_face->getId(),w);
+		new alWizardFaceItem(id,parent,w);
 	    }
 	    else
 		new alButton(id,parent);
@@ -162,7 +162,7 @@ void newRequest(const QXmlAttributes& attr)
 	    if( wizard_face )
 	    {
 		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::ButtonForward);
-		new alWizardFaceItem(id,wizard_face->getId(),w);
+		new alWizardFaceItem(id,parent,w);
 	    }
 	    else
 		new alButton(id,parent);
@@ -172,7 +172,7 @@ void newRequest(const QXmlAttributes& attr)
 	    if( wizard_face )
 	    {
 		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::LabelGeneric);
-		new alWizardFaceItem(id,wizard_face->getId(),w);
+		new alWizardFaceItem(id,parent,w);
 	    }
 	    else
 		new alLabel(id,parent);
@@ -182,7 +182,7 @@ void newRequest(const QXmlAttributes& attr)
 	    if( wizard_face )
 	    {
 		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::LabelSection);
-		new alWizardFaceItem(id,wizard_face->getId(),w);
+		new alWizardFaceItem(id,parent,w);
 	    }
 	    else
 		new alLabel(id,parent);
@@ -206,10 +206,19 @@ void cleanRequest(const QString& id)
 	if( layout )
 	    layout->deleteAllItems();
 	
-	QList<alWidget *> children = el->findChildren<alWidget *>();
-	QListIterator<alWidget *> it(children);
-	while( it.hasNext() )
-	    it.next()->deleteLater();
+	//QList<alWidget *> children = el->findChildren<alWidget *>();
+	QList<alWidget *> children = findAlChildren(id);
+	if( children.size() > 0 )
+	{
+	    //qDebug("clear children for <%s>", id.toLatin1().data());
+	    QListIterator<alWidget *> it(children);
+	    while( it.hasNext() )
+	    {
+		alWidget *aw = it.next();
+		//qDebug("clear <%s>", aw->getId().toLatin1().data());
+		aw->deleteLater();
+	    }
+	}
 }
 
 void setRequest(const QString& id,const QString& attr,const QString& value)
@@ -234,12 +243,12 @@ void startRequest(const QString& id)
 	if( aw )
 	    if( aw->getParentId().isEmpty() )
 	    {
-		alMainWidget *m = qobject_cast<alMainWidget*>(aw);
+		alMainWidget *m = dynamic_cast<alMainWidget*>(aw);
 		if(m) m->start();
 	    }
 	    else
 	    {
-		alDialog *d = qobject_cast<alDialog*>(aw);
+		alDialog *d = dynamic_cast<alDialog*>(aw);
 		if(d) d->start();
 	    }
 }
@@ -251,7 +260,7 @@ void stopRequest(const QString& id)
 	if( aw )
 	    if( aw->getParentId().isEmpty() )
 	    {
-		alMainWidget *m = qobject_cast<alMainWidget*>(aw);
+		alMainWidget *m = dynamic_cast<alMainWidget*>(aw);
 		if(m) m->stop();
 	    }
 	    else

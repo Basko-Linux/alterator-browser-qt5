@@ -116,6 +116,7 @@ QLayout *findViewLayout(const QString& id);
 QWidget* findQWidget(const QString& id);
 alWidget* findAlWidget(const QString& id);
 QString reparentTag(QString parent);
+QList<alWidget*> findAlChildren(const QString& id);
 
 template <typename Widget>
 Widget *createWidget(const QString& parent)

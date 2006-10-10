@@ -32,6 +32,7 @@ public:
     void setItemPixmap(const QString &id, const QString &value);
     QWidget* getItemWidget(const QString &id);
     QWidget* getView();
+    void cleanRequest();
 private:
     QGridLayout* main_layout;
     QVBoxLayout* labels_layout;
@@ -74,6 +75,7 @@ public:
     QString postData() const ;
     QWidget* getViewWidget();
     QLayout* getViewLayout();
+    void cleanRequest();
 };
 
 #endif

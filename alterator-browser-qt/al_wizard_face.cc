@@ -289,14 +289,31 @@ void AWizardFace::setCurrent( int n )
 }
 
 
+void AWizardFace::cleanRequest()
+{
+    QList<QAbstractButton*> children;
+    children += labels_widget->findChildren<QAbstractButton*>();
+    children += buttons_widget->findChildren<QAbstractButton*>();
+    QListIterator<QAbstractButton*> it(children);
+    while( it.hasNext() )
+    {
+	QAbstractButton* b = it.next();
+	b->deleteLater();
+    }
+}
+
 // alWizardFaceItem
 alWizardFaceItem::alWizardFaceItem(const QString& id,const QString& parent, QWidget* wnd):
     alWidget(id, parent)
 {
+//    qDebug("alWizardFaceItem parent=<%s>", parent.toLatin1().data());
     wnd_ = wnd;
 }
 
-alWizardFaceItem::~alWizardFaceItem(){}
+alWizardFaceItem::~alWizardFaceItem()
+{
+    wnd_->deleteLater();
+}
 
 void alWizardFaceItem::setAttr(const QString& name,const QString& value)
 {
@@ -367,4 +384,9 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
     }
     else
 	alWidget::setAttr(name,value);
+}
+
+void alWizardFace::cleanRequest()
+{
+    wnd_->cleanRequest();
 }

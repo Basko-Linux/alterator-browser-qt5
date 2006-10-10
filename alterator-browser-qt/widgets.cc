@@ -65,6 +65,20 @@ alWidget* findAlWidget(const QString& id)
 	return alWidget::elements[id];
 }
 
+QList<alWidget*> findAlChildren(const QString& id)
+{
+    QList<alWidget*> children;
+    alWidget::element_map_iterator_t it(alWidget::elements);
+    while(it.hasNext())
+    {
+	it.next();
+	alWidget *aw = it.value();
+	if( aw->getParentId() == id )
+	    children << aw;
+    }
+    return children;
+}
+
 QString reparentTag(QString parent)
 {
        return parent.replace(QString(":reparent:"),QString(""));

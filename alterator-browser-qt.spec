@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
-Version: 2.9.4
-Release: alt4
+Version: 2.9.5
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Tue Oct 10 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.5-alt1
+- update to new alterator
+
 * Mon Oct 09 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.4-alt4
 - update to new alterator
 
