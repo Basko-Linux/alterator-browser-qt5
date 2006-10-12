@@ -1,4 +1,3 @@
-
 #include <QTextStream>
 #include <QDataStream>
 #include <QTimer>
@@ -12,6 +11,8 @@
 #include <X11/Xatom.h>
 #include <X11/Xutil.h>
 #endif
+//#include <sys/types.h>
+#include <sys/wait.h>
 
 #include "browser.hh"
 #include "connection.hh"
@@ -19,11 +20,22 @@
 #include "updater.hh"
 
 extern Updater *updater;
+bool x_redirect_error;
+bool x_error_occurred;
+XErrorEvent x_last_error_event;
+int x_catchRedirectError(Display *dpy, XErrorEvent *event)
+{
+    x_redirect_error = true;
+    x_last_error_event = *event;
+    x_error_occurred = true;
+    return 0;
+}
 
 MainWindow::MainWindow():
     MainWindow_t()
 {
     started = false;
+    detect_wm = false;
     have_wm = haveWindowManager();
     if( have_wm )
     {
@@ -42,11 +54,8 @@ MainWindow::MainWindow():
 
 	setGeometry(wnd_x, wnd_y, wnd_width, wnd_height);
     }
-#if 0 //temporary disable
     else
 	showFullScreen();
-//	setWindowState(windowState() | Qt::WindowFullScreen);
-#endif
 
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(stop()));
 }
@@ -95,46 +104,47 @@ void MainWindow::showEvent(QShowEvent*)
 
 bool MainWindow::haveWindowManager()
 {
+    if( detect_wm )
+	return have_wm;
     bool have_wm = false;
 #ifdef Q_WS_X11
     const QX11Info xinfo = x11Info();
     Display *xdisplay = xinfo.display();
     int screen_id = xinfo.appScreen();
 
-    Atom type_ret;
-    int format_ret;
-    unsigned char *data_ret = 0;
-    unsigned long nitems_ret, unused;
-
-    Window xroot = RootWindow(xdisplay, screen_id);
-
-    Atom supporting_atom = XInternAtom (xdisplay, "_NET_SUPPORTING_WM_CHECK", False);
-    Atom wm_name_atom = XInternAtom (xdisplay, "_NET_WM_NAME", False);
-    Atom UTF8_STRING = XInternAtom (xdisplay, "UTF8_STRING", False);
-
-    if (XGetWindowProperty(xdisplay, xroot, supporting_atom,
-	0l, 1l, False,
-	XA_WINDOW, &type_ret, &format_ret,
-	&nitems_ret, &unused, &data_ret) == Success)
+    int status = -1;
+    pid_t pid = fork();
+    if( pid == 0 )
     {
-	if (data_ret)
-	{
-	    Window supportwindow = *((Window *) data_ret);
-	    unsigned char *name_ret = 0;
-	    if (XGetWindowProperty(xdisplay, supportwindow, wm_name_atom,
-		0l, (long) 4096, False,
-		UTF8_STRING, &type_ret, &format_ret,
-		&nitems_ret, &unused, &name_ret)	== Success)
-		{
-		    if ( name_ret )
-		    {
-		        have_wm = true;
-		        XFree(name_ret);
-		    }
-		}
-	    XFree(data_ret);
-	}
+	Window xroot = RootWindow(xdisplay, screen_id);
+	x_redirect_error = false;
+	XSetErrorHandler(x_catchRedirectError);
+/*
+	XSelectInput(xdisplay, xroot,
+	    ColormapChangeMask | EnterWindowMask | PropertyChangeMask | 
+	    SubstructureRedirectMask | KeyPressMask |
+	    ButtonPressMask | ButtonReleaseMask);
+*/
+	XSelectInput(xdisplay, xroot,
+	    ColormapChangeMask | EnterWindowMask | PropertyChangeMask | 
+	    SubstructureRedirectMask);
+	XSync(xdisplay, 0);
+	if( x_redirect_error )
+	    exit(0);
+	else
+	    exit(1);
     }
+    else if( pid > 0 )
+    {
+	waitpid(pid, &status, 0);
+    }
+    else
+        qDebug("failed to fork");
+    if( status == 0 )
+	have_wm = true;
+    else
+	qDebug("No Window Manager detected");
 #endif
+    detect_wm = true;
     return have_wm;
 }

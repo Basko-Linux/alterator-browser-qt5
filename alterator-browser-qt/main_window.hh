@@ -22,6 +22,7 @@ public:
 private:
     bool started;
     bool have_wm;
+    bool detect_wm;
 
     void showEvent(QShowEvent*);
 
