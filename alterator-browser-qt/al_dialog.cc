@@ -18,9 +18,9 @@ QWidget* QDialog2::getView()
 
 void QDialog2::showEvent(QShowEvent *e)
 {
+    QDialog::showEvent(e);
     if( !main_window->haveWindowManager() )
     {
-	QDialog::showEvent(e);
 	int x = QApplication::desktop()->width()/2 - width()/2;
 	if( x < 0 ) x = 0;
 	int y = QApplication::desktop()->height()/2 - height()/2;
