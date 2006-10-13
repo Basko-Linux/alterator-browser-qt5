@@ -41,10 +41,18 @@ void QDialog2::paintEvent(QPaintEvent* e)
 
 void QDialog2::keyPressEvent ( QKeyEvent * e ) 
 {
-	if ((e->key() != Qt::Key_Escape) && 
-	    (e->key() != Qt::Key_Enter) &&
-	    (e->key() != Qt::Key_Return))
-		QDialog::keyPressEvent(e);
+    switch( e->key() )
+    {
+	case Qt::Key_Escape:
+	case Qt::Key_Enter:
+	case Qt::Key_Return:
+	{
+	    e->ignore();
+	    break;
+	}
+	default:
+	    QDialog::keyPressEvent(e);
+    }
 }
 
 void QDialog2::closeEvent(QCloseEvent *e)
