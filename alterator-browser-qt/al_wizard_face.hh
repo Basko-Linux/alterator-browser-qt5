@@ -1,5 +1,5 @@
-#ifndef QTBROWSER_ALWIZARDFACE_HH
-#define QTBROWSER_ALWIZARDFACE_HH
+#ifndef QTBROWSER_AL_WIZARDFACE_HH
+#define QTBROWSER_AL_WIZARDFACE_HH
 
 #include <QWidget>
 #include <QPushButton>
