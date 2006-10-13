@@ -28,26 +28,30 @@ void widget_corners_round(QWidget *widget)
     // right
     frame.setRect(widget->width()-framesize_, 0, framesize_, widget->height());
     painter.fillRect(frame, bg_brush);
-    // outline the frame
-    painter.setPen( dark_color );
-    painter.setPen(QPen(QColor("black")));
-    frame = widget->rect();
 
+    // outline the frame
+    //painter.setPen( dark_color );
+    painter.setPen( QColor("black") );
+    frame = widget->rect();
+    frame.setHeight( frame.height()-1 );
+    frame.setWidth( frame.width()-1 );
     painter.drawRect(frame);
+
     // set the inner frame
     painter.setPen( dark_color );
     frame.setRect(frame.x() + framesize_-1, frame.y() + framesize_-1,
-	frame.width() - framesize_*2 +2,
-	frame.height() - (framesize_*2) +2);
+	frame.width() - framesize_*2 +2, frame.height() - (framesize_*2) +2);
 
     // local temp right and bottom
     int r(widget->width());
     int b(widget->height());
     // draw the inner frame with rounded corners
+    painter.setPen( dark_color );
     painter.drawRoundRect(frame, 1, 1);
+
     // choose a color from scheme
-	// painter.setPen( dark_color );
-    painter.setPen(QPen(QColor("black")));
+    // painter.setPen( dark_color );
+    painter.setPen( QColor("black") );
 
     // Draw edge of top-left corner inside the area removed by the mask.
     painter.drawPoint(4, 1);
@@ -144,42 +148,6 @@ void QTreeWidget2::showEvent(QShowEvent *e)
 {
     QTreeWidget::showEvent(e);
     scrollTo(currentIndex());
-}
-
-void QDialog2::showEvent(QShowEvent *e)
-{
-    if( !main_window->haveWindowManager() )
-    {
-	QDialog::showEvent(e);
-	int x = QApplication::desktop()->width()/2 - width()/2;
-	if( x < 0 ) x = 0;
-	int y = QApplication::desktop()->height()/2 - height()/2;
-	if( y < 0 ) y = 0;
-	move(x, y);
-	QCursor::setPos(mapToGlobal(QPoint(width()/2, height()/2)));
-    }
-}
-
-void QDialog2::paintEvent(QPaintEvent* e)
-{
-    if( !main_window->haveWindowManager() )
-    {
-	QDialog::paintEvent(e);
-	widget_corners_round(this);
-    }
-}
-
-void QDialog2::keyPressEvent ( QKeyEvent * e ) 
-{
-	if ((e->key() != Qt::Key_Escape) && 
-	    (e->key() != Qt::Key_Enter) &&
-	    (e->key() != Qt::Key_Return))
-		QDialog::keyPressEvent(e);
-}
-
-void QDialog2::closeEvent(QCloseEvent *e)
-{
-    e->ignore();
 }
 
 void QFrame2::paintEvent(QPaintEvent* e)

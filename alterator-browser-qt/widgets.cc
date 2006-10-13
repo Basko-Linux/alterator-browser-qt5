@@ -564,26 +564,6 @@ void alTabBox::setAttr(const QString& name,const QString& value)
 		alWidget::setAttr(name,value);
 }
 
-
-void alDialog::setAttr(const QString& name,const QString& value)
-{
-	if ("title" == name)
-		wnd_->setWindowTitle(value);
-	else if ("full-screen" == name)
-	{
-		if ("true" == value)
-			wnd_->showFullScreen();
-		else
-			wnd_->showNormal();
-	}
-	else if ("width" == name)
-		wnd_->resize(value.toInt(),wnd_->height());
-	else if ("height" == name)
-		wnd_->resize(wnd_->width(),value.toInt());
-	else
-		alWidget::setAttr(name,value);
-}
-
 void alMainWidget::setAttr(const QString& name,const QString& value)
 {
 	if ("caption" == name)

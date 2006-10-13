@@ -66,20 +66,4 @@ protected:
 	void paintEvent(QPaintEvent*);
 };
 
-//hack to access protected done() slot
-//also ignore escape button press and some other features
-class QDialog2: public QDialog
-{
-public:
-	QDialog2(QWidget *parent = 0): QDialog(parent)
-	{
-	    setWindowModality(Qt::ApplicationModal);
-	}
-protected:
-	void closeEvent(QCloseEvent*);
-	void keyPressEvent(QKeyEvent*);
-	void showEvent(QShowEvent*);
-	void paintEvent(QPaintEvent*);
-};
-
 #endif

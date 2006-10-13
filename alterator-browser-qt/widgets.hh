@@ -323,21 +323,7 @@ private:
 	}
 };
 
-class alDialog: public alWidgetPre<QDialog2>
-{
-public:
-	alDialog(const QString& id,const QString& parent,
-	         const QString& width,const QString& height):
-		alWidgetPre<QDialog2>(id,parent)
-	{
-		wnd_->resize(width.isEmpty()?wnd_->width():width.toInt(),
-		             height.isEmpty()?wnd_->height():height.toInt());
-		new MyVBoxLayout(getViewWidget());
-	}
-	void setAttr(const QString& name,const QString& value);
-	void start() { wnd_->exec(); }
-	void stop()  { wnd_->done(0); }
-};
+#include "al_dialog.hh"
 
 class alMainWidget: public alMainWidgetPre<MainWidget_t>
 {
