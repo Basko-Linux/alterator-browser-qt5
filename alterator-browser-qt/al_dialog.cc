@@ -6,7 +6,10 @@ QDialog2::QDialog2(QWidget *parent):
 {
     setWindowModality(Qt::ApplicationModal);
     QGridLayout *main_layout = new QGridLayout(this);
-    main_layout->setMargin(10);
+    if( main_window->haveWindowManager() )
+	main_layout->setMargin(5);
+    else
+	main_layout->setMargin(10);
     view_vidget = new QWidget(this);
     main_layout->addWidget( view_vidget, 0, 0);
 }

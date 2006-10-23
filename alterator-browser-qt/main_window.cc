@@ -75,9 +75,7 @@ void MainWindow::start()
     started = true;
 
     updater = new Updater();
-#if 1
     initConnection(getDocParser);
-#endif
 }
 
 void MainWindow::stop()
@@ -99,7 +97,8 @@ void MainWindow::stop()
 
 void MainWindow::showEvent(QShowEvent*)
 {
-    QTimer::singleShot(0, this, SLOT(start()));
+    if( !started )
+	QTimer::singleShot(0, this, SLOT(start()));
 }
 
 bool MainWindow::haveWindowManager()

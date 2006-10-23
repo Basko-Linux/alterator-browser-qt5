@@ -334,7 +334,7 @@ public:
 	    new MyVBoxLayout(getViewWidget());
 	}
 	void setAttr(const QString& name,const QString& value);
-	void start() { wnd_->show(); }
+	void start() { }
 	void stop()  { QApplication::closeAllWindows(); }
 };
 

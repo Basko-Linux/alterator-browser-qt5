@@ -348,14 +348,14 @@ void emitEvent(const QString& id,const QString& type)
 
 int main(int argc,char **argv)
 {
-        QApplication app(argc, argv);
-	MainWindow mw;
-	main_window = &mw;
-	mw.show();
-	int ret = app.exec();
-	main_window = 0;
+    QApplication app(argc, argv);
 
-	return ret;
+    MainWindow mw;
+    main_window = &mw;
+    mw.show();
+    int ret = app.exec();
+    main_window = 0;
+    return ret;
 }
 
 
