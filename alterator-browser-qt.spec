@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.7
+Version: 2.9.8
 Release: alt1
 
 Source:%name-%version.tar
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Mon Oct 23 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.8-alt1
+- fix window manager detection
+
 * Fri Oct 13 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.7-alt1
 - fix dialog borders
 

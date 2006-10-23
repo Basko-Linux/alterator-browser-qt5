@@ -570,10 +570,12 @@ void alMainWidget::setAttr(const QString& name,const QString& value)
 		wnd_->setWindowTitle(value);
 	else if ("full-screen" == name)
 	{
+	    /*
 		if ("true" == value)
 			wnd_->showFullScreen();
 		else
 			wnd_->showNormal();
+	    */
 	}
 	else if ("layout-policy" == name)
 	{

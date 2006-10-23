@@ -23,7 +23,7 @@ extern Updater *updater;
 bool x_redirect_error;
 bool x_error_occurred;
 XErrorEvent x_last_error_event;
-int x_catchRedirectError(Display *dpy, XErrorEvent *event)
+int x_catchRedirectError(Display *, XErrorEvent *event)
 {
     x_redirect_error = true;
     x_last_error_event = *event;
@@ -95,7 +95,7 @@ void MainWindow::stop()
     }
 }
 
-void MainWindow::showEvent(QShowEvent* e)
+void MainWindow::showEvent(QShowEvent*)
 {
     if( !started )
 	QTimer::singleShot(0, this, SLOT(start()));
@@ -107,42 +107,22 @@ bool MainWindow::haveWindowManager()
 	return have_wm;
     bool have_wm = false;
 #ifdef Q_WS_X11
-    const QX11Info xinfo = x11Info();
-    Display *xdisplay = xinfo.display();
-    int screen_id = xinfo.appScreen();
+	const QX11Info xinfo = x11Info();
+	Display *xdisplay = xinfo.display();
+	int screen_id = xinfo.appScreen();
 
-    int status = -1;
-    pid_t pid = fork();
-    if( pid == 0 )
-    {
 	Window xroot = RootWindow(xdisplay, screen_id);
 	x_redirect_error = false;
 	XSetErrorHandler(x_catchRedirectError);
-/*
-	XSelectInput(xdisplay, xroot,
-	    ColormapChangeMask | EnterWindowMask | PropertyChangeMask | 
-	    SubstructureRedirectMask | KeyPressMask |
-	    ButtonPressMask | ButtonReleaseMask);
-*/
-	XSelectInput(xdisplay, xroot,
-	    ColormapChangeMask | EnterWindowMask | PropertyChangeMask | 
-	    SubstructureRedirectMask);
-	XSync(xdisplay, 0);
+	XSelectInput(xdisplay, xroot, SubstructureRedirectMask );
+	QApplication::syncX();
 	if( x_redirect_error )
-	    exit(0);
+	{
+	    have_wm = true;
+	    qDebug("Window Manager detected");
+	}
 	else
-	    exit(1);
-    }
-    else if( pid > 0 )
-    {
-	waitpid(pid, &status, 0);
-    }
-    else
-        qDebug("failed to fork");
-    if( status == 0 )
-	have_wm = true;
-    else
-	qDebug("No Window Manager detected");
+	    qDebug("No Window Manager detected");
 #endif
     detect_wm = true;
     return have_wm;
