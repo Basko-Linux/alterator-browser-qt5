@@ -14,7 +14,8 @@ static
 void parseAnswer(alRequest *dom,void(parser)(alCommand*))
 {
 	QListIterator<alCommand*> it(dom->commands_);
-	while(it.hasNext()) parser(it.next());
+	while(it.hasNext())
+	    parser(it.next());
 }
 
 QStringList languageList(const char *env)

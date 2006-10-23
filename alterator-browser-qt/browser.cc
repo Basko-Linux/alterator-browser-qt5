@@ -255,32 +255,39 @@ void startRequest(const QString& id)
 
 void stopRequest(const QString& id)
 {
-	if (!alWidget::elements.contains(id)) return;
+	if (!alWidget::elements.contains(id))
+	    return;
 	alWidget *aw = alWidget::elements[id];
 	if( aw )
 	    if( aw->getParentId().isEmpty() )
 	    {
 		alMainWidget *m = qobject_cast<alMainWidget*>(aw);
-		if(m) m->stop();
+		if(m)
+		    m->stop();
 	    }
 	    else
 	    {
 		alDialog *d = qobject_cast<alDialog*>(aw);
-		if(d) d->stop();
+		if(d)
+		    d->stop();
 	    }
 }
 
 
 void eventRequest(const QString& id,const QString& value)
 {
-	if (!alWidget::elements.contains(id)) return;
-	else alWidget::elements[id]->registerEvent(value);
+	if (!alWidget::elements.contains(id))
+	    return;
+	else
+	    alWidget::elements[id]->registerEvent(value);
 }
 
 void timerRequest(const QString& action)
 {
-	if (updater && "add" == action) updater->start();
-	else if (updater && "remove" == action) updater->stop();
+	if (updater && "add" == action)
+	    updater->start();
+	else if (updater && "remove" == action)
+	    updater->stop();
 }
 
 ////////////////////////////////////////////////

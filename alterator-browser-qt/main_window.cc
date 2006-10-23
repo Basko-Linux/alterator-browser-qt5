@@ -95,7 +95,7 @@ void MainWindow::stop()
     }
 }
 
-void MainWindow::showEvent(QShowEvent*)
+void MainWindow::showEvent(QShowEvent* e)
 {
     if( !started )
 	QTimer::singleShot(0, this, SLOT(start()));

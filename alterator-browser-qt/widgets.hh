@@ -338,11 +338,11 @@ public:
 	void stop()  { QApplication::closeAllWindows(); }
 };
 
-class alBox: public alWidgetPre<QFrame2>
+class alBox: public alWidgetPre<QFrame>
 {
 public:
 	alBox(const QString& id,const QString& parent,MyBoxLayout::Direction direction):
-		alWidgetPre<QFrame2>(id,parent)
+		alWidgetPre<QFrame>(id,parent)
 	{
 		new MyBoxLayout(wnd_,direction);
 	}

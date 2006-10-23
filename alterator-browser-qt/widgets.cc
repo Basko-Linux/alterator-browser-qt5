@@ -613,7 +613,9 @@ void alBox::setAttr(const QString& name,const QString& value)
 		    ml->deleteAllItems();
 	}
 	else if ("background-color" == name)
-		wnd_->setBrush(QBrush(QColor(value)));
+	{
+		//wnd_->setBrush(QBrush(QColor(value)));
+	}
 	else if ("children-align" == name)
 	{
 	    QLayout *l = getViewLayout();
