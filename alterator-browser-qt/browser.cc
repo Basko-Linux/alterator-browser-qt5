@@ -191,16 +191,16 @@ void newRequest(const QXmlAttributes& attr)
 
 void closeRequest(const QString& id)
 {
-	if( alWidget::elements.contains(id) )
-	    alWidget::elements.take(id)->deleteLater();
+	if( elements.contains(id) )
+	    elements.take(id)->deleteLater();
 }
 
 void cleanRequest(const QString& id)
 {
-	if( !alWidget::elements.contains(id) )
+	if( !elements.contains(id) )
 	    return;
 
-	alWidget *el = alWidget::elements[id];
+	alWidget *el = elements[id];
 	
 	MyBoxLayout* layout = qobject_cast<MyBoxLayout*>(el->getViewLayout());
 	if( layout )
@@ -226,20 +226,20 @@ void setRequest(const QString& id,const QString& attr,const QString& value)
 	//qDebug("%s: id<%s> attr<%s> value<%s>", __FUNCTION__, id.toLatin1().data(), attr.toLatin1().data(), value.toLocal8Bit().data());
 
 	++emit_locker;
-	if (!alWidget::elements.contains(id))
+	if (!elements.contains(id))
 	{
 	    --emit_locker;
 	    return;
 	}
 	else
-	    alWidget::elements[id]->setAttr(attr,value);
+	    elements[id]->setAttr(attr,value);
 	--emit_locker;
 }
 
 void startRequest(const QString& id)
 {
-	if (!alWidget::elements.contains(id)) return;
-	alWidget *aw = alWidget::elements[id];
+	if (!elements.contains(id)) return;
+	alWidget *aw = elements[id];
 	if( aw )
 	    if( aw->getParentId().isEmpty() )
 	    {
@@ -255,9 +255,9 @@ void startRequest(const QString& id)
 
 void stopRequest(const QString& id)
 {
-	if (!alWidget::elements.contains(id))
+	if (!elements.contains(id))
 	    return;
-	alWidget *aw = alWidget::elements[id];
+	alWidget *aw = elements[id];
 	if( aw )
 	    if( aw->getParentId().isEmpty() )
 	    {
@@ -276,10 +276,10 @@ void stopRequest(const QString& id)
 
 void eventRequest(const QString& id,const QString& value)
 {
-	if (!alWidget::elements.contains(id))
+	if (!elements.contains(id))
 	    return;
 	else
-	    alWidget::elements[id]->registerEvent(value);
+	    elements[id]->registerEvent(value);
 }
 
 void timerRequest(const QString& action)
@@ -339,7 +339,7 @@ void emitEvent(const QString& id,const QString& type)
 	
 	//now collect a post data
 	request += "\n state (";
-	alWidget::element_map_iterator_t it(alWidget::elements);
+	QMapIterator<QString,alWidget*> it(elements);
 	while(it.hasNext())
 	{
 		it.next();

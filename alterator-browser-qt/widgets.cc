@@ -25,14 +25,12 @@ namespace
 }
 ////////////////////////////////////////////
 
-//all current elements on viewer
-alWidget::element_map_t alWidget::elements; 
 QString help_source;
 
 void updateHelp(const QString& value)
 {
 	help_source = value;
-	alWidget::element_map_iterator_t i(alWidget::elements);
+	QMapIterator<QString,alWidget*> i(elements);
 	while (i.hasNext())
 	{
 		i.next();
@@ -46,29 +44,29 @@ void updateHelp(const QString& value)
 
 QLayout *findViewLayout(const QString& id)
 {
-	if (!alWidget::elements.contains(id)) return 0;
-	alWidget *aw = alWidget::elements[id];
+	if (!elements.contains(id)) return 0;
+	alWidget *aw = elements[id];
 	return aw->getViewLayout();
 }
 
 QWidget* findQWidget(const QString& id)
 {
-	if (!alWidget::elements.contains(id)) return 0;
-	QWidget *w = alWidget::elements[id]->getWidget();
+	if (!elements.contains(id)) return 0;
+	QWidget *w = elements[id]->getWidget();
 	if( w )	return w;
 	return 0;
 }
 
 alWidget* findAlWidget(const QString& id)
 {
-	if (!alWidget::elements.contains(id)) return 0;
-	return alWidget::elements[id];
+	if (!elements.contains(id)) return 0;
+	return elements[id];
 }
 
 QList<alWidget*> findAlChildren(const QString& id)
 {
     QList<alWidget*> children;
-    alWidget::element_map_iterator_t it(alWidget::elements);
+    QMapIterator<QString,alWidget*> it(elements);
     while(it.hasNext())
     {
 	it.next();
@@ -82,50 +80,6 @@ QList<alWidget*> findAlChildren(const QString& id)
 QString reparentTag(QString parent)
 {
        return parent.replace(QString(":reparent:"),QString(""));
-}
-
-void alWidget::setAttr(const QString& name,const QString& value)
-{
-	if ("visibility" == name)
-		("true" == value)?getWidget()->show():getWidget()->hide();
-	else if ("activity" == name)
-		getWidget()->setEnabled("true" == value);
-	else if ("widget-name" == name)
-		getWidget()->setObjectName(value);
-	else if ("tooltip" == name)
-	{
-		QStringList args = value.split(";");
-		getWidget()->setToolTip(args[0]);
-	}
-	else if ("layout-policy" == name)
-	{
-		QStringList policies = value.split(";");
-		if (policies.count() < 2)
-		{
-		    qDebug("wrong number of arguments to layout-policy attribute");
-		    exit(1);
-		}
-
-		QLayout *playout = findViewLayout(parent_);
-		if( playout )
-		{
-		    if( MyBoxLayout *ml = qobject_cast<MyBoxLayout*>(playout) )
-		    {
-			int w = policies.at(0).toInt();
-			int h = policies.at(1).toInt();
-			int d = -1;
-			if (policies.count() > 2)
-			    d = convertAlign(policies.at(2));
-			ml->addWidget(getWidget(),QSize(w,h),d);
-		    }
-		    else
-			qDebug("don't set layout-policy");
-		}
-		else
-		    qDebug("no layout");
-	}
-	else if ("help" == name)
-		updateHelp(value);
 }
 
 ////////////////////////////////////////////
@@ -559,35 +513,6 @@ void alTabBox::setAttr(const QString& name,const QString& value)
 			wnd_->setCurrentWidget(elements[value]->getWidget());
 		else
 			current_ = value;
-	}
-	else
-		alWidget::setAttr(name,value);
-}
-
-void alMainWidget::setAttr(const QString& name,const QString& value)
-{
-	if ("caption" == name)
-		wnd_->setWindowTitle(value);
-	else if ("full-screen" == name)
-	{
-	    /*
-		if ("true" == value)
-			wnd_->showFullScreen();
-		else
-			wnd_->showNormal();
-	    */
-	}
-	else if ("layout-policy" == name)
-	{
-		//qDebug("don't do layout policy for main widget");
-	}
-	else if ("width" == name)
-	{
-		//wnd_->resize(value.toInt(),wnd_->height());
-	}
-	else if ("height" == name)
-	{
-		//wnd_->resize(wnd_->width(),value.toInt());
 	}
 	else
 		alWidget::setAttr(name,value);

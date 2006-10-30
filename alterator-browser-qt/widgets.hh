@@ -36,78 +36,8 @@ typedef QWidget MainWidget_t;
 
 #define simpleQuote(s) s.replace("\\","\\\\").replace("\"","\\\"")
 
-//Note: I need QObject inheritanse for correct deffered object deletion
-// cause I need to destruct objects from it's callbacks
-class alWidget: public QObject
-{
-	Q_OBJECT
-protected:
-	QString id_;
-	QString parent_;
-public:
-	typedef QMap<QString,alWidget*> element_map_t;
-	typedef QMapIterator<QString,alWidget*> element_map_iterator_t;
-	static element_map_t elements;
+#include "al_widget.hh"
 
-	alWidget(const QString& id,const QString& parent):
-		QObject(elements.value(parent,0)),
-		id_(id),
-		parent_(parent)
-	{
-	    elements[id] = this;
-	}
-	virtual ~alWidget()
-	{
-	    elements.remove(id_);
-	}
-	virtual void setAttr(const QString& name,const QString& value);
-	virtual void registerEvent(const QString&) {}
-	virtual QString postData() const { return ""; }
-
-	virtual QWidget *getWidget(void) = 0;
-	virtual QLayout *getViewLayout(void) = 0;
-	virtual QWidget *getViewWidget(void) = 0;
-	virtual QString getParentId(void) { return parent_; };
-	virtual QString getId(void) { return id_; };
-public slots:
-	void onClick() { emitEvent(id_,"clicked"); }
-	void onClick(bool) { emitEvent(id_,"clicked"); }
-	void onClick(QListWidgetItem*) { emitEvent(id_,"clicked"); }
-	void onClick(QTreeWidgetItem*,int) { emitEvent(id_,"clicked"); }
-
-	void onChange(int) { emitEvent(id_,"changed"); }
-	void onChange(void) { emitEvent(id_,"changed"); }
-	void onChange(const QString&) { emitEvent(id_,"changed"); }
-	void onChange(QWidget*) { emitEvent(id_,"changed"); }
-
-	void onReturn() { emitEvent(id_,"return-pressed"); }
-	void onReturn(QListWidgetItem*) { emitEvent(id_,"return-pressed"); }
-	void onReturn(QTreeWidgetItem*, int) { emitEvent(id_,"return-pressed"); }
-
-	void onSelect() { emitEvent(id_,"selected"); }
-	void onSelect(int) { emitEvent(id_,"selected"); }
-	void onSelect(QTreeWidgetItem*,QTreeWidgetItem*) { emitEvent(id_,"selected"); }
-
-	void onDoubleClick() { emitEvent(id_,"double-clicked"); }
-	void onDoubleClick(QTreeWidgetItem*,int) { emitEvent(id_,"double-clicked"); }
-
-	void onToggle(bool) { emitEvent(id_,"toggled"); }
-	void onToggle(int) { emitEvent(id_,"toggled"); }
-
-//delayed versions
-	void delayedOnSelect()
-	{
-		QTimer::singleShot(0,this, SLOT(onSelect()));
-	}
-	void delayedOnSelect(const QString&)
-	{
-		QTimer::singleShot(0,this, SLOT(onSelect()));
-	}
-	void delayedOnDoubleClick()
-	{
-		QTimer::singleShot(0,this, SLOT(onDoubleClick()));
-	}
-};
 
 extern MainWindow *main_window;
 extern QString help_source;
@@ -118,57 +48,7 @@ alWidget* findAlWidget(const QString& id);
 QString reparentTag(QString parent);
 QList<alWidget*> findAlChildren(const QString& id);
 
-template <typename Widget>
-Widget *createWidget(const QString& parent)
-{
-	return new Widget(alWidget::elements.contains(parent)?alWidget::elements[parent]->getViewWidget():0);
-}
-
-template <typename Widget>
-class alWidgetPre: public alWidget
-{
-protected:
-	Widget *wnd_;
-public:
-	alWidgetPre(const QString& id,const QString& parent):
-		alWidget(id,reparentTag(parent)),
-		wnd_(createWidget<Widget>(parent))
-	{
-		alWidget *pa = findAlWidget(parent);
-		if( pa )
-		{
-		    QLayout *playout = pa->getViewLayout();
-		    if( playout )
-			playout->addWidget(wnd_);
-		}
-	}
-
-	~alWidgetPre() { wnd_->deleteLater(); }
-	Widget* getWidget() { return wnd_; }	
-	virtual QWidget* getViewWidget() { return wnd_; }
-	virtual QLayout* getViewLayout() { return wnd_->layout(); }
-};
-
-template <typename Widget>
-class alMainWidgetPre: public alWidget
-{
-protected:
-	Widget *wnd_;
-public:
-	alMainWidgetPre(const QString& id,const QString& parent):
-		alWidget(id,parent)
-	{
-		wnd_ = new Widget(main_window);
-		wnd_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-		main_window->setCentralWidget( wnd_ );
-	}
-
-	~alMainWidgetPre() { wnd_->deleteLater(); }
-	Widget* getWidget() { return wnd_; }	
-	virtual QWidget* getViewWidget() { return wnd_; }	
-	virtual QLayout* getViewLayout() { return wnd_->layout(); }	
-};
-
+#include "al_main_widget.hh"
 
 //widgets
 class alLabel: public alWidgetPre<QLabel>
@@ -325,18 +205,6 @@ private:
 
 #include "al_dialog.hh"
 
-class alMainWidget: public alMainWidgetPre<MainWidget_t>
-{
-public:
-	alMainWidget(const QString& id,const QString& parent):
-		alMainWidgetPre<MainWidget_t>(id, parent)
-	{
-	    new MyVBoxLayout(getViewWidget());
-	}
-	void setAttr(const QString& name,const QString& value);
-	void start() { }
-	void stop()  { QApplication::closeAllWindows(); }
-};
 
 class alBox: public alWidgetPre<QFrame>
 {

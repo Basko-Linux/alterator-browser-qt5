@@ -16,12 +16,12 @@ QMAKE_CXXFLAGS += $(RPM_OPT_FLAGS)
 
 SOURCES = browser.cc
 SOURCES += layout.cc connection.cc widgets.cc sax.cc hacks.cc
-SOURCES += main_window.cc updater.cc a_pixmaps.cc
-SOURCES += al_wizard_face.cc al_dialog.cc
+SOURCES += main_window.cc updater.cc a_pixmaps.cc utils.cc
+SOURCES += al_wizard_face.cc al_dialog.cc al_widget.cc al_main_widget.cc
 HEADERS = global.hh
 HEADERS += layout.hh widgets.hh connection.hh browser.hh sax.hh hacks.hh
-HEADERS += main_window.hh updater.hh a_pixmaps.hh
-HEADERS +=  al_wizard_face.hh al_dialog.hh
+HEADERS += main_window.hh updater.hh a_pixmaps.hh utils.hh
+HEADERS += al_wizard_face.hh al_dialog.hh al_widget.hh al_main_widget.hh
 DATA = *.pro *.spec
 
 target.path = /usr/bin/
