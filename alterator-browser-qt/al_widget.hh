@@ -41,7 +41,7 @@ public:
 	virtual QString getParentId(void) { return parent_; };
 	virtual QString getId(void) { return id_; };
 	Type type() { return type_; };
-	void adjustSizePolicy(Qt::Orientation orientation);
+	static QSizePolicy adjustSizePolicy(const Type, const QSizePolicy, const Qt::Orientation orientation);
 public slots:
 	void onClick() { emitEvent(id_,"clicked"); }
 	void onClick(bool) { emitEvent(id_,"clicked"); }
@@ -113,7 +113,7 @@ public:
 			    Qt::Orientation orientation= Qt::Horizontal;
 			    if( bl->direction() == QBoxLayout::TopToBottom || bl->direction() == QBoxLayout::BottomToTop )
 				orientation = Qt::Vertical;
-			    alWidget::adjustSizePolicy( orientation );
+			    wnd_->setSizePolicy(alWidget::adjustSizePolicy( type, wnd_->sizePolicy(), orientation ));
 			}
 			l->addWidget(wnd_);
 		    }

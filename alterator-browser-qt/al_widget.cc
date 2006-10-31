@@ -39,11 +39,10 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	}
 }
 
-void alWidget::adjustSizePolicy(Qt::Orientation orientation)
+QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy, const Qt::Orientation orientation)
 {
-    QWidget *widget = getWidget();
-    QSizePolicy szpol = widget->sizePolicy();
-    switch( type() )
+    QSizePolicy szpol = policy;
+    switch( type )
     {
 	case VBox:
 	{
@@ -107,5 +106,5 @@ void alWidget::adjustSizePolicy(Qt::Orientation orientation)
 	    //qDebug("don't set size policy");
 	}
     }
-    widget->setSizePolicy(szpol);
+    return szpol;
 }
