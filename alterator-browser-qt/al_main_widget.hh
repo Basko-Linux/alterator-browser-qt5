@@ -15,8 +15,8 @@ class alMainWidgetPre: public alWidget
 protected:
 	Widget *wnd_;
 public:
-	alMainWidgetPre(const QString& id,const QString& parent):
-		alWidget(id,parent)
+	alMainWidgetPre(Type type, const QString& id,const QString& parent):
+		alWidget(type, id,parent)
 	{
 		wnd_ = new Widget(main_window);
 		wnd_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -33,9 +33,11 @@ class alMainWidget: public alMainWidgetPre<MainWidget_t>
 {
 public:
 	alMainWidget(const QString& id,const QString& parent):
-		alMainWidgetPre<MainWidget_t>(id, parent)
+		alMainWidgetPre<MainWidget_t>(MainWidget, id, parent)
 	{
-	    new QVBoxLayout(getViewWidget());
+	    QVBoxLayout *bl = new QVBoxLayout(getViewWidget());
+	    bl->setSpacing(5);
+	    bl->setMargin(5);
 	}
 	void setAttr(const QString& name,const QString& value);
 	void start() { }

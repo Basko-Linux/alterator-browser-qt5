@@ -71,8 +71,7 @@ void newRequest(const QXmlAttributes& attr)
 	    }
 	    else
 	    {
-		alVBox *item = new alVBox(id,parent);
-		item->setAttr("layout-policy","100;100");
+		new alVBox(id,parent);
 	    }
 	}
 	else if ("vbox" == type) new alVBox(id,parent);
@@ -202,20 +201,20 @@ void cleanRequest(const QString& id)
 
 	alWidget *el = elements[id];
 	
-	MyBoxLayout* layout = qobject_cast<MyBoxLayout*>(el->getViewLayout());
+	QLayout* layout = qobject_cast<QLayout*>(el->getViewLayout());
 	if( layout )
-	    layout->deleteAllItems();
+	{
+	    for (int i = 0; i < layout->count(); ++i)
+		delete layout->takeAt(i);
+	}
 	
-	QList<alWidget *> children = el->findChildren<alWidget *>();
-	//QList<alWidget *> children = findAlChildren(id);
+	QList<alWidget*> children = el->findChildren<alWidget*>();
 	if( children.size() > 0 )
 	{
-	    //qDebug("clear children for <%s>", id.toLatin1().data());
 	    QListIterator<alWidget *> it(children);
 	    while( it.hasNext() )
 	    {
 		alWidget *aw = it.next();
-		//qDebug("clear <%s>", aw->getId().toLatin1().data());
 		aw->deleteLater();
 	    }
 	}

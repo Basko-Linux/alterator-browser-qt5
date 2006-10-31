@@ -14,12 +14,21 @@
 class alWidget: public QObject
 {
 	Q_OBJECT
+public:
+	enum Type {
+	    UnknownWidget, WizardFace, WizardFaceItem, MainWidget, Dialog,
+	    Label, Button, Radio, Edit, TextBox,
+	    GroupBox, CheckBox, ListBox, MultiListBox, ComboBox,
+	    TabBox, TabPage, Box, HBox, VBox, ProgressBar, Tree,
+	    Slider, Splitter,
+	    HelpPlace, Proxy
+	};
 protected:
+	Type type_;
 	QString id_;
 	QString parent_;
 public:
-
-	alWidget(const QString& id,const QString& parent);
+	alWidget(Type type, const QString& id,const QString& parent);
 	virtual ~alWidget();
 
 	virtual void setAttr(const QString& name,const QString& value);
@@ -31,6 +40,8 @@ public:
 	virtual QWidget *getViewWidget(void) = 0;
 	virtual QString getParentId(void) { return parent_; };
 	virtual QString getId(void) { return id_; };
+	Type type() { return type_; };
+	void adjustSizePolicy(Qt::Orientation orientation);
 public slots:
 	void onClick() { emitEvent(id_,"clicked"); }
 	void onClick(bool) { emitEvent(id_,"clicked"); }
@@ -86,8 +97,8 @@ class alWidgetPre: public alWidget
 protected:
 	Widget *wnd_;
 public:
-	alWidgetPre(const QString& id,const QString& parent):
-		alWidget(id,Utils::reparentTag(parent)),
+	alWidgetPre(Type type, const QString& id,const QString& parent):
+		alWidget(type,id,Utils::reparentTag(parent)),
 		wnd_(createWidget<Widget>(parent))
 	{
 		QWidget *p = wnd_->parentWidget();
@@ -95,7 +106,17 @@ public:
 		{
 		    QLayout *l = p->layout();
 		    if( l )
+		    {
+			QBoxLayout *bl = qobject_cast<QBoxLayout*>(l);
+			if( bl )
+			{
+			    Qt::Orientation orientation= Qt::Horizontal;
+			    if( bl->direction() == QBoxLayout::TopToBottom || bl->direction() == QBoxLayout::BottomToTop )
+				orientation = Qt::Vertical;
+			    alWidget::adjustSizePolicy( orientation );
+			}
 			l->addWidget(wnd_);
+		    }
 		}
 	}
 
@@ -103,6 +124,7 @@ public:
 	Widget* getWidget() { return wnd_; }	
 	virtual QWidget* getViewWidget() { return wnd_; }
 	virtual QLayout* getViewLayout() { return wnd_->layout(); }
+	void adjustSizePolicy(Qt::Orientation);
 };
 
 

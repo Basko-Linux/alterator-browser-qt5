@@ -304,7 +304,7 @@ void AWizardFace::cleanRequest()
 
 // alWizardFaceItem
 alWizardFaceItem::alWizardFaceItem(const QString& id,const QString& parent, QWidget* wnd):
-    alWidget(id, parent)
+    alWidget(WizardFaceItem, id, parent)
 {
 //    qDebug("alWizardFaceItem parent=<%s>", parent.toLatin1().data());
     wnd_ = wnd;
@@ -347,9 +347,9 @@ void alWizardFaceItem::registerEvent(const QString& name)
 
 // alWizardFace
 alWizardFace::alWizardFace(const QString& id,const QString& parent):
-    alWidgetPre<AWizardFace>(id,parent)
+    alWidgetPre<AWizardFace>(WizardFace,id,parent)
 {
-    new MyBoxLayout(wnd_->getView(), MyBoxLayout::vertical);
+    new QVBoxLayout(wnd_->getView());
 }
 
 alWizardFace::~alWizardFace(){}

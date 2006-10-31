@@ -90,7 +90,9 @@ void alLabel::setAttr(const QString& name,const QString& value)
 	else if ("pixmap" == name)
 		wnd_->setPixmap( getPixmap(value) );
 	else if ("align" == name)
-		wnd_->setAlignment(convertAlign(value));
+	{
+		//wnd_->setAlignment(convertAlign(value));
+	}
 	else
 		alWidget::setAttr(name,value);
 }
@@ -522,22 +524,18 @@ void alBox::setAttr(const QString& name,const QString& value)
 {
 	if ("margin" == name)
 	{
-	    QLayout *l = getViewLayout();
-	    if( l )
-		l->setMargin(value.toInt());
 	}
 	else if ("spacing" == name)
 	{
-	    QLayout *l = getViewLayout();
-	    if( l )
-		l->setSpacing(value.toInt());
 	}
 	else if("clear-layout" == name)
 	{
 	    QLayout *l = getViewLayout();
 	    if( l )
-		if( MyBoxLayout *ml = qobject_cast<MyBoxLayout*>(l) )
-		    ml->deleteAllItems();
+	    {
+		for (int i = 0; i < l->count(); ++i)
+		    delete l->takeAt(i);
+	    }
 	}
 	else if ("background-color" == name)
 	{
@@ -545,10 +543,6 @@ void alBox::setAttr(const QString& name,const QString& value)
 	}
 	else if ("children-align" == name)
 	{
-	    QLayout *l = getViewLayout();
-	    if( l )
-		if( MyBoxLayout *ml = qobject_cast<MyBoxLayout*>(l) )
-		    ml->setChildrenAlign(convertAlign(value));
 	}
 	else
 	    alWidget::setAttr(name,value);

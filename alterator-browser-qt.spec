@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.8
+Version: 2.9.9
 Release: alt1
 
 Source:%name-%version.tar
@@ -58,6 +58,10 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Tue Oct 31 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.9-alt1
+- ignore attributes: layout-policy, width, height, align, children-align,
+  background-color
+
 * Mon Oct 23 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.8-alt1
 - fix window manager detection
 

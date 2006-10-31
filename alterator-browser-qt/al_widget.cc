@@ -3,8 +3,9 @@
 
 QMap<QString,alWidget*> elements;
 
-alWidget::alWidget(const QString& id,const QString& parent):
+alWidget::alWidget(Type type, const QString& id,const QString& parent):
     QObject(elements.value(parent,0)),
+    type_(type),
     id_(id),
     parent_(parent)
 {
@@ -31,32 +32,6 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	}
 	else if ("layout-policy" == name)
 	{
-	    /*
-		QStringList policies = value.split(";");
-		if (policies.count() < 2)
-		{
-		    qDebug("wrong number of arguments to layout-policy attribute");
-		    exit(1);
-		}
-
-		QLayout *playout = findViewLayout(parent_);
-		if( playout )
-		{
-		    if( MyBoxLayout *ml = qobject_cast<MyBoxLayout*>(playout) )
-		    {
-			int w = policies.at(0).toInt();
-			int h = policies.at(1).toInt();
-			int d = -1;
-			if (policies.count() > 2)
-			    d = convertAlign(policies.at(2));
-			ml->addWidget(getWidget(),QSize(w,h),d);
-		    }
-		    else
-			qDebug("don't set layout-policy");
-		}
-		else
-		    qDebug("no layout");
-		*/
 	}
 	else if ("help" == name)
 	{
@@ -64,3 +39,73 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	}
 }
 
+void alWidget::adjustSizePolicy(Qt::Orientation orientation)
+{
+    QWidget *widget = getWidget();
+    QSizePolicy szpol = widget->sizePolicy();
+    switch( type() )
+    {
+	case VBox:
+	{
+	    szpol.setVerticalPolicy(QSizePolicy::Expanding);
+	    break;
+	}
+	case HBox:
+	{
+	    szpol.setHorizontalPolicy(QSizePolicy::Expanding);
+	    break;
+	}
+	case GroupBox:
+	{
+	    szpol.setVerticalPolicy(QSizePolicy::Expanding);
+	    szpol.setHorizontalPolicy(QSizePolicy::Expanding); //
+	    break;
+	}
+	case TabBox:
+	case TextBox:
+	{
+	    szpol.setVerticalPolicy(QSizePolicy::Expanding);
+	    szpol.setHorizontalPolicy(QSizePolicy::Expanding);
+	    break;
+	}
+	case Tree:
+	case ListBox:
+	case MultiListBox:
+	{
+	    szpol.setHorizontalPolicy(QSizePolicy::Preferred);
+	    szpol.setVerticalPolicy(QSizePolicy::Expanding);
+	    break;
+	}
+	case ProgressBar:
+	case Slider:
+	case Splitter:
+	case CheckBox:
+	case Radio:
+	case Label:
+	{
+	    //szpol.setVerticalPolicy(QSizePolicy::Maximum);
+	    //szpol.setHorizontalPolicy(QSizePolicy::Expanding);
+	    break;
+	}
+	case Edit:
+	{
+	    szpol.setHorizontalPolicy(QSizePolicy::Expanding);
+	    break;
+	}
+	case ComboBox:
+	{
+	    szpol.setHorizontalPolicy(QSizePolicy::Preferred);
+	    break;
+	}
+	case Button:
+	{
+	    szpol.setHorizontalPolicy(QSizePolicy::Preferred);
+	    break;
+	}
+	default:
+	{
+	    //qDebug("don't set size policy");
+	}
+    }
+    widget->setSizePolicy(szpol);
+}

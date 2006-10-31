@@ -1,7 +1,6 @@
 #ifndef QTBROWSER_WIDGETS_HH
 #define QTBROWSER_WIDGETS_HH
 
-#include "layout.hh"
 #include "hacks.hh"
 
 #include <QObject>
@@ -55,7 +54,7 @@ class alLabel: public alWidgetPre<QLabel>
 {
 public:
 	alLabel(const QString& id,const QString& parent):
-		alWidgetPre<QLabel>(id,parent)
+		alWidgetPre<QLabel>(Label, id,parent)
 		{
 		    wnd_->setWordWrap( true );
 		}
@@ -66,7 +65,8 @@ class alButton: public alWidgetPre<QPushButton>
 {
 public:
 	alButton(const QString& id,const QString& parent):
-		alWidgetPre<QPushButton>(id,parent) {}
+		alWidgetPre<QPushButton>(Button, id,parent)
+	{}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 };
@@ -75,7 +75,8 @@ class alRadio: public alWidgetPre<QRadioButton>
 {
 public:
 	alRadio(const QString& id,const QString& parent):
-		alWidgetPre<QRadioButton>(id,parent) {}
+		alWidgetPre<QRadioButton>(Radio,id,parent)
+	{}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const ;
@@ -85,7 +86,8 @@ class alEdit: public alWidgetPre<QLineEdit>
 {
 public:
 	alEdit(const QString& id,const QString& parent):
-		alWidgetPre<QLineEdit>(id,parent) {}
+		alWidgetPre<QLineEdit>(Edit,id,parent)
+	{}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const ;
@@ -95,7 +97,8 @@ class alTextBox: public alWidgetPre<QTextEdit>
 {
 public:
 	alTextBox(const QString& id,const QString& parent):
-		alWidgetPre<QTextEdit>(id,parent) {}
+		alWidgetPre<QTextEdit>(TextBox,id,parent)
+	{}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const ;
@@ -105,10 +108,12 @@ class alGroupBox: public alWidgetPre<QGroupBox>
 {
 public:
 	alGroupBox(const QString& id,const QString& parent,const QString& checkable):
-		alWidgetPre<QGroupBox>(id,parent)
+		alWidgetPre<QGroupBox>(GroupBox,id,parent)
 	{
-		new MyVBoxLayout(getViewWidget());
-		wnd_->setCheckable("true" == checkable);
+	    wnd_->setCheckable("true" == checkable);
+	    QVBoxLayout *bl = new QVBoxLayout(getViewWidget());
+	    bl->setSpacing(5);
+	    bl->setMargin(5);
 	}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
@@ -119,7 +124,7 @@ class alCheckBox: public alWidgetPre<QCheckBox>
 {
 public:
 	alCheckBox(const QString& id,const QString& parent):
-		alWidgetPre<QCheckBox>(id,parent)
+		alWidgetPre<QCheckBox>(CheckBox,id,parent)
 	{}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
@@ -130,7 +135,7 @@ class alListBox: public alWidgetPre<QListWidget2>
 {
 public:
 	alListBox(const QString& id,const QString& parent):
-		alWidgetPre<QListWidget2>(id,parent)
+		alWidgetPre<QListWidget2>(ListBox,id,parent)
 	{
 		wnd_->setAlternatingRowColors(true);
 	}
@@ -143,7 +148,7 @@ class alMultiListBox: public alWidgetPre<QTreeWidget2>
 {
 public:
 	alMultiListBox(const QString& id,const QString& parent, int cols):
-		alWidgetPre<QTreeWidget2>(id,parent)
+		alWidgetPre<QTreeWidget2>(MultiListBox,id,parent)
 	{
 		//setings to be compatible with QListView
 		wnd_->setColumnCount(cols);
@@ -162,7 +167,7 @@ class alComboBox: public alWidgetPre<QComboBox>
 	int counter_;
 public:
 	alComboBox(const QString& id,const QString& parent):
-		alWidgetPre<QComboBox>(id,parent),
+		alWidgetPre<QComboBox>(ComboBox,id,parent),
 		counter_(0)
 	{}
 	void setAttr(const QString& name,const QString& value);
@@ -175,7 +180,7 @@ class alTabBox: public alWidgetPre<QTabWidget>
 public:
 	QString current_;
 	alTabBox(const QString& id,const QString& parent):
-		alWidgetPre<QTabWidget>(id,parent)
+		alWidgetPre<QTabWidget>(TabBox,id,parent)
 	{}
 	void setAttr(const QString& name,const QString& value);
 };
@@ -187,11 +192,13 @@ class alTabPage: public alWidgetPre<QFrame>
 	int idx_;
 public:
 	alTabPage(const QString& id,const QString& parent):
-		alWidgetPre<QFrame>(id,":reparent:"+parent),
+		alWidgetPre<QFrame>(TabPage,id,":reparent:"+parent),
 		tabbox_(getParentTabBox(parent)),
 		idx_(tabbox_?static_cast<QTabWidget*>(tabbox_->getWidget())->addTab(wnd_,""):-1)
 	{
-		new MyVBoxLayout(getViewWidget());
+	    QVBoxLayout *bl = new QVBoxLayout(getViewWidget());
+	    bl->setSpacing(5);
+	    bl->setMargin(5);
 	}
 	void setAttr(const QString& name,const QString& value);
 private:
@@ -209,10 +216,16 @@ private:
 class alBox: public alWidgetPre<QFrame>
 {
 public:
-	alBox(const QString& id,const QString& parent,MyBoxLayout::Direction direction):
-		alWidgetPre<QFrame>(id,parent)
+	alBox(const QString& id,const QString& parent, Qt::Orientation orientation):
+		alWidgetPre<QFrame>((orientation==Qt::Vertical)?VBox:HBox,id,parent)
 	{
-		new MyBoxLayout(wnd_,direction);
+	    QBoxLayout *l;
+	    if( orientation == Qt::Horizontal )
+		l = new QHBoxLayout(wnd_);
+	    else
+		l = new QVBoxLayout(wnd_);
+	    l->setSpacing(5);
+	    l->setMargin(0);
 	}
 	void setAttr(const QString& name,const QString& value);
 };
@@ -221,7 +234,7 @@ class alVBox: public alBox
 {
 public:
 	alVBox(const QString& id,const QString& parent):
-		alBox(id,parent,MyBoxLayout::vertical)
+		alBox(id,parent,Qt::Vertical)
 	{}
 };
 
@@ -229,7 +242,7 @@ class alHBox: public alBox
 {
 public:
 	alHBox(const QString& id,const QString& parent):
-		alBox(id,parent,MyBoxLayout::horizontal)
+		alBox(id,parent,Qt::Horizontal)
 	{}
 };
 
@@ -238,10 +251,9 @@ class alProxy: public alWidget
 	QString parent_;
 public:
 	alProxy(const QString& id,const QString &parent):
-		alWidget(id,parent),
+		alWidget(Proxy,id,parent),
 		parent_(parent)
-	{
-	}
+	{}
 		
 protected:
 	QWidget *getWidget() { return elements[parent_]->getWidget(); }
@@ -253,7 +265,7 @@ class alProgressBar: public alWidgetPre<QProgressBar>
 {
 public:
     alProgressBar(const QString& id,const QString& parent):
-	alWidgetPre<QProgressBar>(id,parent)
+	alWidgetPre<QProgressBar>(ProgressBar,id,parent)
     {}
 protected:
     void setAttr(const QString& name,const QString& value);
@@ -268,7 +280,7 @@ class alTree: public alWidgetPre<QTreeWidget>
 	QTreeWidgetItem *findPosition(QTreeWidgetItem *,QStringList,int);
 public:
 	alTree(const QString& id,const QString& parent,const QString& columns):
-		alWidgetPre<QTreeWidget>(id,parent)
+		alWidgetPre<QTreeWidget>(Tree,id,parent)
 	{
 		//setings to be compatible with QListView
 		wnd_->setColumnCount(columns.isEmpty()? 1 : columns.toInt());
@@ -286,7 +298,7 @@ class alHelpPlace: public alWidgetPre<QTextBrowser>
 Q_OBJECT
 public:
 	alHelpPlace(const QString& id,const QString& parent):
-		alWidgetPre<QTextBrowser>(id,parent)
+		alWidgetPre<QTextBrowser>(HelpPlace,id,parent)
 	{
 		if (!help_source.isEmpty()) wnd_->setSource(help_source);
 		connect(wnd_,SIGNAL(anchorClicked(const QUrl&)),
@@ -303,7 +315,7 @@ class alSlider: public alWidgetPre<QSlider>
 Q_OBJECT
 public:
     alSlider(const QString& id, const QString& parent):
-	alWidgetPre<QSlider>(id,parent)
+	alWidgetPre<QSlider>(Slider,id,parent)
     {
 	wnd_->setOrientation( Qt::Horizontal );
 	wnd_->setTickPosition( QSlider::TicksBothSides );
@@ -318,9 +330,20 @@ class alSplitter: public alWidgetPre<QSplitter>
 Q_OBJECT
 public:
     alSplitter(const QString& id, const QString& parent):
-	alWidgetPre<QSplitter>(id,parent)
+	alWidgetPre<QSplitter>(Splitter,id,parent)
     {
-	wnd_->setOrientation( Qt::Horizontal );
+	Qt::Orientation orient = Qt::Horizontal;
+	QLayout *l = wnd_->layout();
+	if( l )
+	{
+	    QBoxLayout *bl = qobject_cast<QBoxLayout*>(l);
+	    if( bl )
+	    {
+		if( bl->direction() == QBoxLayout::LeftToRight || bl->direction() == QBoxLayout::RightToLeft )
+		    orient = Qt::Vertical;
+	    }
+	}
+	wnd_->setOrientation( orient );
     }
     void setAttr(const QString& name,const QString& value);
 };

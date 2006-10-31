@@ -7,7 +7,7 @@ QDialog2::QDialog2(QWidget *parent):
     setWindowModality(Qt::ApplicationModal);
     QGridLayout *main_layout = new QGridLayout(this);
     if( main_window->haveWindowManager() )
-	main_layout->setMargin(5);
+	main_layout->setMargin(1);
     else
 	main_layout->setMargin(10);
     view_vidget = new QWidget(this);
@@ -86,9 +86,13 @@ void alDialog::setAttr(const QString& name,const QString& value)
 			wnd_->showNormal();
 	}
 	else if ("width" == name)
-		wnd_->resize(value.toInt(),wnd_->height());
+	{
+		//wnd_->resize(value.toInt(),wnd_->height());
+	}
 	else if ("height" == name)
-		wnd_->resize(wnd_->width(),value.toInt());
+	{
+		//wnd_->resize(wnd_->width(),value.toInt());
+	}
 	else
 		alWidget::setAttr(name,value);
 }

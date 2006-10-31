@@ -28,9 +28,12 @@ class alDialog: public alWidgetPre<QDialog2>
 public:
 	alDialog(const QString& id,const QString& parent,
 	         const QString& width,const QString& height):
-		alWidgetPre<QDialog2>(id,parent)
+		alWidgetPre<QDialog2>(Dialog,id,parent)
 	{
-		new MyVBoxLayout(getViewWidget());
+	    wnd_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	    QVBoxLayout *bl = new QVBoxLayout(getViewWidget());
+	    bl->setSpacing(5);
+	    bl->setMargin(5);
 	}
 	void setAttr(const QString& name,const QString& value);
 	void start() { wnd_->exec(); }
