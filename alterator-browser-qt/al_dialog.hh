@@ -30,7 +30,6 @@ public:
 	         const QString& width,const QString& height):
 		alWidgetPre<QDialog2>(Dialog,id,parent)
 	{
-	    wnd_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	    QVBoxLayout *bl = new QVBoxLayout(getViewWidget());
 	    bl->setSpacing(5);
 	    bl->setMargin(5);

@@ -11,6 +11,7 @@ QDialog2::QDialog2(QWidget *parent):
     else
 	main_layout->setMargin(10);
     view_vidget = new QWidget(this);
+    view_vidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     main_layout->addWidget( view_vidget, 0, 0);
 }
 

@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.9
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
