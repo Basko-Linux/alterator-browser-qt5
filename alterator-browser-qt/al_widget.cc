@@ -44,12 +44,6 @@ QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy
     QSizePolicy szpol = policy;
     switch( type )
     {
-	case Dialog:
-	{
-	    //szpol.setVerticalPolicy(QSizePolicy::Expanding);
-	    //szpol.setHorizontalPolicy(QSizePolicy::Expanding);
-	    break;
-	}
 	case VBox:
 	{
 	    szpol.setVerticalPolicy(QSizePolicy::Expanding);

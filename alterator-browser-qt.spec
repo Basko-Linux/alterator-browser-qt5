@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Thu Nov 02 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.9-alt2
+- small widgets layout fix
+
 * Tue Oct 31 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.9-alt1
 - ignore attributes: layout-policy, width, height, align, children-align,
   background-color
