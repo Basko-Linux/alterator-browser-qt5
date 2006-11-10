@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
-Version: 2.9.9
-Release: alt2
+Version: 2.9.10
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -8,7 +8,7 @@ Summary: X11 Qt interface driver for alterator
 License: GPL
 Group: System/Configuration/Other
 
-Requires: alterator-common >= 2.9-alt0.10
+Requires: alterator-common >= 2.9-alt0.14
 Requires: alterator-icons
 PreReq(post,preun): alternatives >= 0.2
 
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Fri Nov 10 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.10-alt1
+- update to new alterator
+
 * Thu Nov 02 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.9-alt2
 - small widgets layout fix
 

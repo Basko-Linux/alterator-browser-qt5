@@ -18,6 +18,7 @@
 #include "connection.hh"
 #include "main_window.hh"
 #include "updater.hh"
+#include "messagebox.hh"
 
 extern Updater *updater;
 bool x_redirect_error;
@@ -75,6 +76,7 @@ void MainWindow::start()
     started = true;
 
     updater = new Updater();
+    AMessageBox::initButtonMap();
     initConnection(getDocParser);
 }
 

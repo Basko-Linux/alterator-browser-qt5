@@ -12,6 +12,7 @@
 #include "widgets.hh"
 #include "al_wizard_face.hh"
 #include "a_pixmaps.hh"
+#include "messagebox.hh"
 
 Updater *updater = 0;//slot for updates
 QPointer<QSplashScreen> splash;//single splash screen
@@ -289,6 +290,21 @@ void timerRequest(const QString& action)
 	    updater->stop();
 }
 
+void messageboxRequest(const QXmlAttributes& e)
+{
+	const QString answer =
+	AMessageBox::unconvertButton(
+	    AMessageBox::selectMessageBox(
+		e.value("type"))(QApplication::activeModalWidget(),
+		e.value("title"),
+		e.value("message"),
+		AMessageBox::convertButtonList(e.value("buttons")),
+		AMessageBox::convertButton(e.value("default-button"))
+	    )
+	);
+	getDocument(getDocParser,answer);
+}
+
 ////////////////////////////////////////////////
 
 void getDocParser(alCommand *cmd)
@@ -319,6 +335,8 @@ void getDocParser(alCommand *cmd)
 		startRequest(e.value("widget-id"));
 	else if ("stop" == action)
 		stopRequest(e.value("widget-id"));
+	else if ("messagebox" == action)
+		messageboxRequest(e);
 	else if ("retry" == action)
 	{
 	    if( updater )
