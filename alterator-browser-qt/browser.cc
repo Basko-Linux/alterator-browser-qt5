@@ -202,7 +202,7 @@ void cleanRequest(const QString& id)
 
 	alWidget *el = elements[id];
 	
-	QLayout* layout = qobject_cast<QLayout*>(el->getViewLayout());
+	QLayout* layout = el->getViewLayout();
 	if( layout )
 	{
 	    for (int i = 0; i < layout->count(); ++i)
