@@ -41,6 +41,10 @@ AWizardFace::AWizardFace( QWidget *parent, Qt::WFlags f):
     main_layout->addWidget( title, 0, 1 );
     main_layout->addWidget( scroll, 1, 1);
     main_layout->addWidget( buttons_widget, 2, 0, 1, 2);
+
+    signal_mapper = new QSignalMapper(this);
+    connect(signal_mapper, SIGNAL(mapped(const QString &)),
+	this, SIGNAL(itemSelected(const QString &)));
 }
 
 AWizardFace::~AWizardFace()
@@ -71,47 +75,47 @@ int AWizardFace::newButtonPosition(ItemType type)
 {
     switch( type )
     {
-	case ButtonHelp:
+	case ItemHelp:
 	    {
 		return 0;
 	    }
-	case ButtonApply:
+	case ItemApply:
 	    {
-		int pos = findButtonPosition( ButtonCancel );
+		int pos = findButtonPosition( ItemCancel );
 		if( pos >= 0 )
 		    return pos;
 		else
-		    pos = findButtonPosition( ButtonBackward );
+		    pos = findButtonPosition( ItemBackward );
 		if( pos >= 0 )
 		    return pos;
 		else
-		    return findButtonPosition( ButtonForward );
+		    return findButtonPosition( ItemForward );
 	    }
-	case ButtonCancel:
+	case ItemCancel:
 	    {
-		int pos = findButtonPosition( ButtonApply );
+		int pos = findButtonPosition( ItemApply );
 		if( pos >= 0 )
 		    return ++pos;
 		else
-		    pos = findButtonPosition( ButtonBackward );
+		    pos = findButtonPosition( ItemBackward );
 		if( pos >= 0 )
 		    return pos;
 		else
-		    return findButtonPosition( ButtonForward );
+		    return findButtonPosition( ItemForward );
 	    }
-	case ButtonBackward:
+	case ItemBackward:
 	    {
-		int pos = findButtonPosition( ButtonForward );
+		int pos = findButtonPosition( ItemForward );
 		if( pos >= 0 )
 		    return pos;
 		else
 		    return -1;
 	    }
-	case ButtonForward:
+	case ItemForward:
 	    {
 		return -1;
 	    }
-	case ButtonGeneric:
+	case ItemGeneric:
 	default:
 	    {
 		return 1;
@@ -123,18 +127,18 @@ Qt::Alignment AWizardFace::newButtonAlignment(ItemType type)
 {
     switch( type )
     {
-	case ButtonHelp:
+	case ItemHelp:
 	    {
 		return Qt::AlignLeft;
 	    }
-	case ButtonApply:
-	case ButtonCancel:
-	case ButtonForward:
-	case ButtonBackward:
+	case ItemApply:
+	case ItemCancel:
+	case ItemForward:
+	case ItemBackward:
 	    {
 		return Qt::AlignRight;
 	    }
-	case ButtonGeneric:
+	case ItemGeneric:
 	default:
 	    {
 		return Qt::AlignCenter;
@@ -147,27 +151,27 @@ void AWizardFace::setButtonIcon(QAbstractButton* btn, ItemType type)
     QString name;
     switch( type )
     {
-	case ButtonHelp:
+	case ItemHelp:
 	    {
 		name = "theme:help";
 		break;
 	    }
-	case ButtonApply:
+	case ItemApply:
 	    {
 		name = "theme:apply";
 		break;
 	    }
-	case ButtonCancel:
+	case ItemCancel:
 	    {
 		name = "theme:cancel";
 		break;
 	    }
-	case ButtonForward:
+	case ItemForward:
 	    {
 		name = "theme:forward";
 		break;
 	    }
-	case ButtonBackward:
+	case ItemBackward:
 	    {
 		name = "theme:backward";
 		break;
@@ -179,43 +183,43 @@ void AWizardFace::setButtonIcon(QAbstractButton* btn, ItemType type)
 	btn->setIcon(QIcon(getPixmap(name)));
 }
 
-QWidget* AWizardFace::addItem(const QString &id, AWizardFace::ItemType type)
+QWidget* AWizardFace::addItem(const QString &key, AWizardFace::ItemType type)
 {
     QWidget *w = 0;
     
     switch( type )
     {
-	case ButtonGeneric:
-	case ButtonHelp:
-	case ButtonApply:
-	case ButtonCancel:
-	case ButtonBackward:
-	case ButtonForward:
+	case ItemGeneric:
+	case ItemQuit:
+	case ItemHelp:
+	case ItemApply:
+	case ItemCancel:
+	case ItemBackward:
+	case ItemForward:
 	    {
 		QPushButton *b = new QPushButton(buttons_widget);
 		setButtonIcon(b, type);
 		buttons_layout->insertWidget( newButtonPosition(type), b, 0, newButtonAlignment(type) );
-		w = buttons[id] = b;
-		types[id] = type;
+		w = buttons[key] = b;
+		types[key] = type;
+		connect(b, SIGNAL(clicked()), signal_mapper, SLOT(map()));
+		signal_mapper->setMapping(b, key);
 		break;
 	    }
-	case LabelSection:
-	case LabelGeneric:
+	case ItemSection:
+	case ItemStep:
 	    {
 		QPushButton *l = new QPushButton(labels_widget);
 		l->setFlat(true);
 		labels_layout->addWidget(l);
-		w = buttons[id] = l;
-		types[id] = type;
+		w = buttons[key] = l;
+		types[key] = type;
+		connect(l, SIGNAL(clicked()), signal_mapper, SLOT(map()));
+		signal_mapper->setMapping(l, key);
 		break;
 	    }
 	default:
 	    {
-		QPushButton *lg = new QPushButton(labels_widget);
-		lg->setFlat(true);
-		labels_layout->addWidget(lg);
-		w = buttons[id] = lg;
-		types[id] = type;
 		break;
 	    }
     }
@@ -227,25 +231,31 @@ QWidget* AWizardFace::getView()
     return view_widget;
 }
 
-QWidget* AWizardFace::getItemWidget(const QString &id)
+QWidget* AWizardFace::getItemWidget(const QString &key)
 {
-    if( buttons.contains(id) )
-	return buttons[id];
+    if( buttons.contains(key) )
+	return buttons[key];
     else
 	return 0;
 }
 
-void AWizardFace::setItemText(const QString &id, const QString &value)
+void AWizardFace::setItemText(const QString &key, const QString &value)
 {
     //qDebug("%s: AWizardFace::setItemText id<%s> value<%s>", __FUNCTION__, id.toLatin1().data(), value.toLocal8Bit().data());
-    if( buttons.contains(id) )
-	buttons[id]->setText(value);
+    if( buttons.contains(key) )
+	buttons[key]->setText(value);
 }
 
-void AWizardFace::setItemPixmap(const QString &id, const QString &value)
+void AWizardFace::setItemPixmap(const QString &key, const QString &value)
 {
-    if( buttons.contains(id) )
-	buttons[id]->setIcon(QIcon(getPixmap(value)));
+    if( buttons.contains(key) )
+	buttons[key]->setIcon(QIcon(getPixmap(value)));
+}
+
+void AWizardFace::setItemActivity(const QString &key, bool a)
+{
+    if( buttons.contains(key) )
+	buttons[key]->setEnabled(a);
 }
 
 void AWizardFace::setTitle( const QString &value)
@@ -253,7 +263,7 @@ void AWizardFace::setTitle( const QString &value)
     title->setText(value);
 }
 
-void AWizardFace::setCurrent( int n )
+void AWizardFace::setCurrentStep( int n )
 {
     QList<QPushButton *> labels = labels_widget->findChildren<QPushButton *>();
     int i = 0;
@@ -302,54 +312,30 @@ void AWizardFace::cleanRequest()
     }
 }
 
-// alWizardFaceItem
-alWizardFaceItem::alWizardFaceItem(const QString& id,const QString& parent, QWidget* wnd):
-    alWidget(WizardFaceItem, id, parent)
+QString AWizardFace::current()
 {
-//    qDebug("alWizardFaceItem parent=<%s>", parent.toLatin1().data());
-    wnd_ = wnd;
+    return current_;
 }
 
-alWizardFaceItem::~alWizardFaceItem()
+void AWizardFace::onSelect(const QString& key)
 {
-    wnd_->deleteLater();
+    current_ = key;
+    emit itemSelected();
 }
-
-void alWizardFaceItem::setAttr(const QString& name,const QString& value)
-{
-//    qDebug("alWizardFaceItem::setAttr: name<%s> value<%s>", name.toLatin1().data(), value.toLatin1().data());
-    if( wizard_face )
-    {
-	// FIXME set pixmap only if wizard_face not custimized
-	if ("text" == name)
-	    wizard_face->getWidget()->setItemText(getId(), value);
-	else if ("pixmap" == name)
-	    wizard_face->getWidget()->setItemPixmap(getId(), value);
-	else
-	    alWidget::setAttr(name,value);
-    }
-}
-
-void alWizardFaceItem::registerEvent(const QString& name)
-{
-    if ("clicked" == name)
-    {
-	if( wizard_face )
-	{
-	    QWidget *widget = wizard_face->getWidget()->getItemWidget(getId());
-	    if( widget )
-		connect( widget, SIGNAL(clicked(bool)), SLOT(onClick(bool)) );
-	}
-    }
-}
-
-
 
 // alWizardFace
 alWizardFace::alWizardFace(const QString& id,const QString& parent):
     alWidgetPre<AWizardFace>(WizardFace,id,parent)
 {
     new QVBoxLayout(wnd_->getView());
+    key2type["quit"]     = AWizardFace::ItemQuit;
+    key2type["help"]     = AWizardFace::ItemHelp;
+    key2type["apply"]    = AWizardFace::ItemApply;
+    key2type["cancel"]   = AWizardFace::ItemCancel;
+    key2type["backward"] = AWizardFace::ItemBackward;
+    key2type["forward"]  = AWizardFace::ItemForward;
+    key2type["step"]     = AWizardFace::ItemStep;
+    key2type["section"]  = AWizardFace::ItemSection;
 }
 
 alWizardFace::~alWizardFace(){}
@@ -370,23 +356,61 @@ void alWizardFace::registerEvent(const QString&)
 
 QString alWizardFace::postData() const
 {
-    return "";
+    QString current = wnd_->current();
+    if (current.isEmpty())
+	return "";
+    else
+	return "(current-action . " +current+" )";
+}
+
+void alWizardFace::addItem(const QString& key, const QString& name, const QString& pixmap)
+{
+    if( !key.isEmpty() )
+    {
+        AWizardFace::ItemType type = key2type[key];
+        if( key.isEmpty() )
+	    type = AWizardFace::ItemGeneric;
+	QWidget *w = wnd_->addItem(key, type);
+	wnd_->setItemText(key, name);
+	if (!pixmap.isEmpty())
+	    wnd_->setItemPixmap(key, pixmap);
+    }
 }
 
 void alWizardFace::setAttr(const QString& name,const QString& value)
 {
-    if ("title" == name)
-	wnd_->setTitle(value);
-
-    if ("current" == value)
+    if( "title" == name )
     {
-	wnd_->setCurrent( value.toInt() );
+	// set and continue
+	wnd_->setTitle(value);
+    }
+
+    if( "actions" == name )
+    {
+	QStringList data = value.split(";", QString::KeepEmptyParts);
+	const int len = data.size();
+	for(int i=0;i+2 < len;i+=3)
+	    addItem(data[i], data[i+1], data[i+2]);
+    }
+    if( "action-add" == name )
+    {
+	QStringList data = value.split(";", QString::KeepEmptyParts);
+	const int len = data.size();
+	if( len >= 3 )
+	    addItem(data[0], data[1], data[2]);
+	else if( len >= 2 )
+	    addItem(data[0], data[1], "");
+	else if( len >= 1 )
+	    addItem(data[0], "", "");
+    }
+    if( "action-activity" == name )
+    {
+	QStringList data = value.split(";");
+	if( data.size() >= 2 )
+	{
+	    wnd_->setItemActivity(data[0], "true" == data[1]);
+	}
     }
     else
 	alWidget::setAttr(name,value);
-}
-
-void alWizardFace::cleanRequest()
-{
-    wnd_->cleanRequest();
 }

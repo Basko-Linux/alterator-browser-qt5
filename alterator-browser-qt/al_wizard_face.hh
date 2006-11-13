@@ -4,36 +4,50 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QLabel>
+#include <QSignalMapper>
 
 #include "widgets.hh"
 
 class AWizardFace: public QWidget
 {
+    Q_OBJECT;
 public:
     AWizardFace( QWidget *parent=0, Qt::WFlags f=0 );
     ~AWizardFace();
 
     enum ItemType
     {
-	ButtonGeneric,
-	ButtonHelp,
-	ButtonApply,
-	ButtonCancel,
-	ButtonBackward,
-	ButtonForward,
-	LabelGeneric,
-	LabelSection
+	ItemGeneric,
+	ItemQuit,
+	ItemHelp,
+	ItemApply,
+	ItemCancel,
+	ItemBackward,
+	ItemForward,
+	ItemStep,
+	ItemSection
     };
 
-    QWidget* addItem(const QString &id, ItemType);
-    void setCurrent( int );
+    QWidget* addItem(const QString &key, ItemType);
+    void setCurrentStep( int );
     void setTitle( const QString &value);
-    void setItemText(const QString &id, const QString &value);
-    void setItemPixmap(const QString &id, const QString &value);
-    QWidget* getItemWidget(const QString &id);
+    void setItemText(const QString &key, const QString &value);
+    void setItemPixmap(const QString &key, const QString &value);
+    void setItemActivity(const QString &key, bool);
+    QWidget* getItemWidget(const QString &key);
     QWidget* getView();
     void cleanRequest();
+    QString current();
+
+signals:
+    void itemSelected();
+
+private slots:
+    void onSelect(const QString&);
+
 private:
+    QString current_;
+    QSignalMapper *signal_mapper;
     QGridLayout* main_layout;
     QVBoxLayout* labels_layout;
     QHBoxLayout* buttons_layout;
@@ -50,23 +64,11 @@ private:
     void setButtonIcon(QAbstractButton*, ItemType);
 };
 
-class alWizardFaceItem: public alWidget
-{
-public:
-    alWizardFaceItem(const QString& id,const QString& parent, QWidget* wnd);
-    ~alWizardFaceItem();
-
-    void setAttr(const QString& name,const QString& value);
-    void registerEvent(const QString&);
-    QWidget* getWidget() { return wnd_; };
-    QWidget* getViewWidget() { return 0; };
-    QLayout* getViewLayout() { return 0; };
-private:
-    QWidget* wnd_;
-};
-
 class alWizardFace: public alWidgetPre<AWizardFace>
 {
+private:
+    QMap<QString,AWizardFace::ItemType> key2type;
+    void addItem(const QString& key, const QString& name, const QString& pixmap);
 public:
     alWizardFace(const QString& id,const QString& parent);
     ~alWizardFace();
@@ -75,7 +77,6 @@ public:
     QString postData() const ;
     QWidget* getViewWidget();
     QLayout* getViewLayout();
-    void cleanRequest();
 };
 
 #endif

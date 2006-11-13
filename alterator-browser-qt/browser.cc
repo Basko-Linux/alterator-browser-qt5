@@ -102,90 +102,10 @@ void newRequest(const QXmlAttributes& attr)
 	}
 	else if ("wizardface" == type)
 	{
-	    if( !wizard_face )
-		wizard_face = new alWizardFace(id,parent);
-	    else
+	    if( wizard_face )
 		new alVBox(id,parent);
-	}
-	else if ("wizard-button" == type)
-	{
-	    if( wizard_face )
-	    {
-		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::ButtonGeneric);
-		new alWizardFaceItem(id,parent,w);
-	    }
 	    else
-		new alButton(id,parent);
-	}
-	else if ("wizard-button-help" == type)
-	{
-	    if( wizard_face )
-	    {
-		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::ButtonHelp);
-		new alWizardFaceItem(id,parent,w);
-	    }
-	    else
-		new alButton(id,parent);
-	}
-	else if ("wizard-button-cancel" == type)
-	{
-	    if( wizard_face )
-	    {
-		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::ButtonCancel);
-		new alWizardFaceItem(id,parent,w);
-	    }
-	    else
-		new alButton(id,parent);
-	}
-	else if ("wizard-button-apply" == type)
-	{
-	    if( wizard_face )
-	    {
-		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::ButtonApply);
-		new alWizardFaceItem(id,parent,w);
-	    }
-	    else
-		new alButton(id,parent);
-	}
-	else if ("wizard-button-backward" == type)
-	{
-	    if( wizard_face )
-	    {
-		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::ButtonBackward);
-		new alWizardFaceItem(id,parent,w);
-	    }
-	    else
-		new alButton(id,parent);
-	}
-	else if ("wizard-button-forward" == type)
-	{
-	    if( wizard_face )
-	    {
-		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::ButtonForward);
-		new alWizardFaceItem(id,parent,w);
-	    }
-	    else
-		new alButton(id,parent);
-	}
-	else if ("wizard-label" == type)
-	{
-	    if( wizard_face )
-	    {
-		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::LabelGeneric);
-		new alWizardFaceItem(id,parent,w);
-	    }
-	    else
-		new alLabel(id,parent);
-	}
-	else if ("wizard-label-section" == type)
-	{
-	    if( wizard_face )
-	    {
-		QWidget *w = wizard_face->getWidget()->addItem(id, AWizardFace::LabelSection);
-		new alWizardFaceItem(id,parent,w);
-	    }
-	    else
-		new alLabel(id,parent);
+		wizard_face = new alWizardFace(id,parent);
 	}
 }
 

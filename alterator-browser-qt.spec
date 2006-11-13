@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.10
+Version: 2.9.11
 Release: alt1
 
 Source:%name-%version.tar
@@ -58,6 +58,10 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Mon Nov 13 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.11-alt1
+- fix document:popup-*
+- new wizardface interface
+
 * Fri Nov 10 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.10-alt1
 - update to new alterator
 
