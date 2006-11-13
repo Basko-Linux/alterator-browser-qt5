@@ -41,6 +41,7 @@ public:
 
 signals:
     void itemSelected();
+    void itemSelected(const QString&);
 
 private slots:
     void onSelect(const QString&);

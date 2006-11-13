@@ -45,6 +45,8 @@ AWizardFace::AWizardFace( QWidget *parent, Qt::WFlags f):
     signal_mapper = new QSignalMapper(this);
     connect(signal_mapper, SIGNAL(mapped(const QString &)),
 	this, SIGNAL(itemSelected(const QString &)));
+    connect( this, SIGNAL(itemSelected(const QString&)),
+	this, SLOT(onSelect(const QString&)) );
 }
 
 AWizardFace::~AWizardFace()
@@ -350,8 +352,10 @@ QLayout* alWizardFace::getViewLayout()
     return wnd_->getView()->layout();
 }
 
-void alWizardFace::registerEvent(const QString&)
+void alWizardFace::registerEvent(const QString& name)
 {
+    if ("selected" == name)
+	connect(wnd_,SIGNAL(itemSelected()), SLOT(onSelect()));
 }
 
 QString alWizardFace::postData() const
