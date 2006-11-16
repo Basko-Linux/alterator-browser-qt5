@@ -121,7 +121,7 @@ bool MainWindow::haveWindowManager()
 	if( x_redirect_error )
 	{
 	    have_wm = true;
-	    qDebug("Window Manager detected");
+	    //qDebug("Window Manager detected");
 	}
 	else
 	    qDebug("No Window Manager detected");

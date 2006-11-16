@@ -3,8 +3,10 @@
 
 void alMainWidget::setAttr(const QString& name,const QString& value)
 {
-	if ("caption" == name)
+	if ("title" == name)
+	{
 		wnd_->setWindowTitle(value);
+	}
 	else if ("full-screen" == name)
 	{
 	    /*

@@ -12,9 +12,19 @@ extern alWizardFace *wizard_face;
 AWizardFace::AWizardFace( QWidget *parent, Qt::WFlags f):
     QWidget(parent, f)
 {
-    labels_widget = new QFrame(this);
-    labels_widget->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
-    labels_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
+    key2type["abort"]    = AWizardFace::ActionAbort;
+    key2type["finish"]   = AWizardFace::ActionFinish;
+    key2type["help"]     = AWizardFace::ActionHelp;
+    key2type["apply"]    = AWizardFace::ActionApply;
+    key2type["cancel"]   = AWizardFace::ActionCancel;
+    key2type["backward"] = AWizardFace::ActionBackward;
+    key2type["forward"]  = AWizardFace::ActionForward;
+
+    steps_widget = new QFrame(this);
+    steps_widget->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
+    steps_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
+
+    stepbox = new QListWidget(steps_widget);
 
     title = new QLabel(this);
     title->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
@@ -34,38 +44,45 @@ AWizardFace::AWizardFace( QWidget *parent, Qt::WFlags f):
     buttons_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     buttons_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
 
-    labels_layout = new QVBoxLayout( labels_widget );
+    menu_btn = new QPushButton(buttons_widget);
+    menu = new QMenu();
+    menu_btn->setMenu(menu);
+
+    steps_layout = new QVBoxLayout( steps_widget );
     buttons_layout = new QHBoxLayout( buttons_widget );
     main_layout = new QGridLayout(this);
-    main_layout->addWidget( labels_widget, 0, 0, 2, 1 );
+    main_layout->addWidget( steps_widget, 0, 0, 2, 1 );
     main_layout->addWidget( title, 0, 1 );
     main_layout->addWidget( scroll, 1, 1);
     main_layout->addWidget( buttons_widget, 2, 0, 1, 2);
+    steps_layout->addWidget( stepbox );
+    buttons_layout->insertWidget(0, menu_btn, 0, Qt::AlignLeft);
 
     signal_mapper = new QSignalMapper(this);
     connect(signal_mapper, SIGNAL(mapped(const QString &)),
-	this, SIGNAL(itemSelected(const QString &)));
-    connect( this, SIGNAL(itemSelected(const QString&)),
-	this, SLOT(onSelect(const QString&)) );
+	this, SIGNAL(actionSelected(const QString &)));
+    connect( this, SIGNAL(actionSelected(const QString&)),
+	this, SLOT(onSelectAction(const QString&)) );
+    connect( stepbox, SIGNAL(itemActivated(QListWidgetItem*)),
+	this, SLOT(onSelectStep(QListWidgetItem*)) );
 }
 
 AWizardFace::~AWizardFace()
 {}
 
-int AWizardFace::findButtonPosition(ItemType type)
+int AWizardFace::findButtonPosition(ActionType type)
 {
     int pos = -1;
-    QMapIterator<QString, ItemType> it(types);
+    QMapIterator<QString, ActionType> it(button_types);
     while( it.hasNext() )
     {
 	it.next();
 	pos++;
 	if( it.value() == type )
 	{
-	    QAbstractButton *btn = buttons[it.key()];
-	    if( btn )
+	    if( buttons.contains(it.key()) )
 	    {
-		pos = buttons_layout->indexOf( btn );
+		pos = buttons_layout->indexOf( buttons[it.key()] );
 	    }
 	    break;
 	}
@@ -73,51 +90,51 @@ int AWizardFace::findButtonPosition(ItemType type)
     return pos;
 }
 
-int AWizardFace::newButtonPosition(ItemType type)
+int AWizardFace::newButtonPosition(ActionType type)
 {
     switch( type )
     {
-	case ItemHelp:
+	case ActionHelp:
 	    {
 		return 0;
 	    }
-	case ItemApply:
+	case ActionApply:
 	    {
-		int pos = findButtonPosition( ItemCancel );
+		int pos = findButtonPosition( ActionCancel );
 		if( pos >= 0 )
 		    return pos;
 		else
-		    pos = findButtonPosition( ItemBackward );
+		    pos = findButtonPosition( ActionBackward );
 		if( pos >= 0 )
 		    return pos;
 		else
-		    return findButtonPosition( ItemForward );
+		    return findButtonPosition( ActionForward );
 	    }
-	case ItemCancel:
+	case ActionCancel:
 	    {
-		int pos = findButtonPosition( ItemApply );
+		int pos = findButtonPosition( ActionApply );
 		if( pos >= 0 )
 		    return ++pos;
 		else
-		    pos = findButtonPosition( ItemBackward );
+		    pos = findButtonPosition( ActionBackward );
 		if( pos >= 0 )
 		    return pos;
 		else
-		    return findButtonPosition( ItemForward );
+		    return findButtonPosition( ActionForward );
 	    }
-	case ItemBackward:
+	case ActionBackward:
 	    {
-		int pos = findButtonPosition( ItemForward );
+		int pos = findButtonPosition( ActionForward );
 		if( pos >= 0 )
 		    return pos;
 		else
 		    return -1;
 	    }
-	case ItemForward:
+	case ActionForward:
 	    {
 		return -1;
 	    }
-	case ItemGeneric:
+	case ActionGeneric:
 	default:
 	    {
 		return 1;
@@ -125,22 +142,22 @@ int AWizardFace::newButtonPosition(ItemType type)
     }
 }
 
-Qt::Alignment AWizardFace::newButtonAlignment(ItemType type)
+Qt::Alignment AWizardFace::newButtonAlignment(ActionType type)
 {
     switch( type )
     {
-	case ItemHelp:
+	case ActionHelp:
 	    {
 		return Qt::AlignLeft;
 	    }
-	case ItemApply:
-	case ItemCancel:
-	case ItemForward:
-	case ItemBackward:
+	case ActionApply:
+	case ActionCancel:
+	case ActionForward:
+	case ActionBackward:
 	    {
 		return Qt::AlignRight;
 	    }
-	case ItemGeneric:
+	case ActionGeneric:
 	default:
 	    {
 		return Qt::AlignCenter;
@@ -148,32 +165,42 @@ Qt::Alignment AWizardFace::newButtonAlignment(ItemType type)
     }
 }
 
-void AWizardFace::setButtonIcon(QAbstractButton* btn, ItemType type)
+QPixmap AWizardFace::defaultActionIcon(ActionType type)
 {
     QString name;
     switch( type )
     {
-	case ItemHelp:
+	case ActionFinish:
+	    {
+		name = "theme:finish"; // names are fake until fixed
+		break;
+	    }
+	case ActionAbort:
+	    {
+		name = "theme:abort";
+		break;
+	    }
+	case ActionHelp:
 	    {
 		name = "theme:help";
 		break;
 	    }
-	case ItemApply:
+	case ActionApply:
 	    {
 		name = "theme:apply";
 		break;
 	    }
-	case ItemCancel:
+	case ActionCancel:
 	    {
 		name = "theme:cancel";
 		break;
 	    }
-	case ItemForward:
+	case ActionForward:
 	    {
 		name = "theme:forward";
 		break;
 	    }
-	case ItemBackward:
+	case ActionBackward:
 	    {
 		name = "theme:backward";
 		break;
@@ -181,83 +208,156 @@ void AWizardFace::setButtonIcon(QAbstractButton* btn, ItemType type)
 	default:
 	    break;
     }
-    if( !name.isEmpty() && btn )
-	btn->setIcon(QIcon(getPixmap(name)));
+    return getPixmap(name);
 }
 
-QWidget* AWizardFace::addItem(const QString &key, AWizardFace::ItemType type)
+void AWizardFace::addAction(const QString& key, const QString& name, const QString& pixmap)
 {
-    QWidget *w = 0;
-    
+    if( !key.isEmpty() )
+    {
+        AWizardFace::ActionType type = key2type[key];
+        if( key.isEmpty() )
+	    type = AWizardFace::ActionGeneric;
+	addAction(key, type);
+	setActionText(key, name);
+	if (!pixmap.isEmpty())
+	    setActionPixmap(key, pixmap);
+    }
+}
+
+
+void AWizardFace::addAction(const QString &key, AWizardFace::ActionType type)
+{
     switch( type )
     {
-	case ItemGeneric:
-	case ItemQuit:
-	case ItemHelp:
-	case ItemApply:
-	case ItemCancel:
-	case ItemBackward:
-	case ItemForward:
+	case ActionFinish:
+	case ActionApply:
+	case ActionCancel:
+	case ActionBackward:
+	case ActionForward:
 	    {
 		QPushButton *b = new QPushButton(buttons_widget);
-		setButtonIcon(b, type);
+		b->setIcon(QIcon(defaultActionIcon(type)));
 		buttons_layout->insertWidget( newButtonPosition(type), b, 0, newButtonAlignment(type) );
-		w = buttons[key] = b;
-		types[key] = type;
+		buttons[key] = b;
+		button_types[key] = type;
 		connect(b, SIGNAL(clicked()), signal_mapper, SLOT(map()));
 		signal_mapper->setMapping(b, key);
 		break;
 	    }
-	case ItemSection:
-	case ItemStep:
-	    {
-		QPushButton *l = new QPushButton(labels_widget);
-		l->setFlat(true);
-		labels_layout->addWidget(l);
-		w = buttons[key] = l;
-		types[key] = type;
-		connect(l, SIGNAL(clicked()), signal_mapper, SLOT(map()));
-		signal_mapper->setMapping(l, key);
-		break;
-	    }
+	case ActionHelp:
+	case ActionAbort:
+	case ActionGeneric:
 	default:
 	    {
+		QAction *a = menu->addAction("");
+		a->setIcon(QIcon(defaultActionIcon(type)));
+		menus[key] = a;
+		connect(a, SIGNAL(changed()), signal_mapper, SLOT(map()));
+		signal_mapper->setMapping(a, key);
 		break;
 	    }
     }
-    return w;
 }
 
-QWidget* AWizardFace::getView()
+void AWizardFace::removeAction(const QString &key)
+{
+    if( buttons.contains(key) )
+    {
+	QAbstractButton *b = buttons.take(key);
+	button_types.remove(key);
+	b->deleteLater();
+    }
+    else if( menus.contains(key) )
+    {
+	menu->removeAction(menus[key]);
+    }
+}
+
+void AWizardFace::clearActions()
+{
+    QMapIterator<QString, QAbstractButton*> it(buttons);
+    while( it.hasNext() )
+    {
+	it.next();
+	it.value()->deleteLater();
+    }
+    buttons.clear();
+    button_types.clear();
+    menu->clear();
+    menus.clear();
+}
+
+void AWizardFace::addStep(const QString& name, const QString& pixmap)
+{
+    new QListWidgetItem(QIcon(getPixmap(pixmap)), name, stepbox);
+}
+
+void AWizardFace::removeStep(int n)
+{
+    QListWidgetItem *item = stepbox->takeItem(n);
+    if( item )
+    {
+	delete item;
+    }
+}
+
+void AWizardFace::clearSteps()
+{
+    stepbox->clear();    
+}
+
+QWidget* AWizardFace::getViewWidget()
 {
     return view_widget;
 }
 
-QWidget* AWizardFace::getItemWidget(const QString &key)
-{
-    if( buttons.contains(key) )
-	return buttons[key];
-    else
-	return 0;
-}
-
-void AWizardFace::setItemText(const QString &key, const QString &value)
+void AWizardFace::setActionText(const QString &key, const QString &value)
 {
     //qDebug("%s: AWizardFace::setItemText id<%s> value<%s>", __FUNCTION__, id.toLatin1().data(), value.toLocal8Bit().data());
     if( buttons.contains(key) )
 	buttons[key]->setText(value);
+    // FIXME menus
 }
 
-void AWizardFace::setItemPixmap(const QString &key, const QString &value)
+void AWizardFace::setActionPixmap(const QString &key, const QString &value)
 {
     if( buttons.contains(key) )
 	buttons[key]->setIcon(QIcon(getPixmap(value)));
+    // FIXME menus
 }
 
-void AWizardFace::setItemActivity(const QString &key, bool a)
+void AWizardFace::setActionActivity(const QString &key, bool a)
 {
     if( buttons.contains(key) )
 	buttons[key]->setEnabled(a);
+    // FIXME menus
+}
+
+void AWizardFace::setStepText(int n, const QString &value)
+{
+    QListWidgetItem *item = stepbox->item(n);
+    if( item )
+	item->setText(value);
+}
+
+void AWizardFace::setStepPixmap(int n, const QString &value)
+{
+    QListWidgetItem *item = stepbox->item(n);
+    if( item )
+	item->setIcon(QIcon(getPixmap(value)));
+}
+
+void AWizardFace::setStepActivity(int n, bool a)
+{
+    QListWidgetItem *item = stepbox->item(n);
+    if( item )
+    {
+	if( a )
+	    item->setFlags(Qt::ItemIsEnabled);
+	else
+	    item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
+    }
 }
 
 void AWizardFace::setTitle( const QString &value)
@@ -267,12 +367,14 @@ void AWizardFace::setTitle( const QString &value)
 
 void AWizardFace::setCurrentStep( int n )
 {
-    QList<QPushButton *> labels = labels_widget->findChildren<QPushButton *>();
+    stepbox->setCurrentRow(n);
+/*
+    QList<QPushButton *> steps = steps_widget->findChildren<QPushButton *>();
     int i = 0;
     QList<QPushButton *>::iterator it;
-    for( it = labels.begin();; it++, i++)
+    for( it = steps.begin();; it++, i++)
     {
-	if( it == labels.end() )
+	if( it == steps.end() )
 	{
 	    it--;
 	    break;
@@ -290,7 +392,7 @@ void AWizardFace::setCurrentStep( int n )
     current->setEnabled(true);
     font.setWeight(QFont::Bold);
     current->setFont(font);
-    for(++it ;it != labels.end(); it++)
+    for(++it ;it != steps.end(); it++)
     {
 	QPushButton *lbl = *it;
 	lbl->setEnabled(true);
@@ -298,13 +400,15 @@ void AWizardFace::setCurrentStep( int n )
 	font.setWeight(QFont::Normal);
 	lbl->setFont(font);
     }
+*/
 }
 
 
 void AWizardFace::cleanRequest()
 {
+/*
     QList<QAbstractButton*> children;
-    children += labels_widget->findChildren<QAbstractButton*>();
+    children += steps_widget->findChildren<QAbstractButton*>();
     children += buttons_widget->findChildren<QAbstractButton*>();
     QListIterator<QAbstractButton*> it(children);
     while( it.hasNext() )
@@ -312,73 +416,68 @@ void AWizardFace::cleanRequest()
 	QAbstractButton* b = it.next();
 	b->deleteLater();
     }
+*/
 }
 
-QString AWizardFace::current()
+QString AWizardFace::currentAction()
 {
-    return current_;
+    return current_action;
 }
 
-void AWizardFace::onSelect(const QString& key)
+int AWizardFace::currentStep()
 {
-    current_ = key;
-    emit itemSelected();
+    return stepbox->currentRow();
 }
+
+void AWizardFace::onSelectAction(const QString& key)
+{
+    current_action = key;
+    emit actionSelected();
+}
+
+void AWizardFace::onSelectStep(QListWidgetItem*)
+{
+    emit stepSelected();
+}
+
 
 // alWizardFace
 alWizardFace::alWizardFace(const QString& id,const QString& parent):
     alWidgetPre<AWizardFace>(WizardFace,id,parent)
 {
-    new QVBoxLayout(wnd_->getView());
-    key2type["quit"]     = AWizardFace::ItemQuit;
-    key2type["help"]     = AWizardFace::ItemHelp;
-    key2type["apply"]    = AWizardFace::ItemApply;
-    key2type["cancel"]   = AWizardFace::ItemCancel;
-    key2type["backward"] = AWizardFace::ItemBackward;
-    key2type["forward"]  = AWizardFace::ItemForward;
-    key2type["step"]     = AWizardFace::ItemStep;
-    key2type["section"]  = AWizardFace::ItemSection;
+    new QVBoxLayout(wnd_->getViewWidget());
 }
 
 alWizardFace::~alWizardFace(){}
 
 QWidget* alWizardFace::getViewWidget()
 {
-    return wnd_->getView();
+    return wnd_->getViewWidget();
 }
 
 QLayout* alWizardFace::getViewLayout()
 {
-    return wnd_->getView()->layout();
+    return wnd_->getViewWidget()->layout();
 }
 
 void alWizardFace::registerEvent(const QString& name)
 {
+    if ("clicked" == name)
+	connect(wnd_,SIGNAL(actionSelected()), SLOT(onClick()));
     if ("selected" == name)
-	connect(wnd_,SIGNAL(itemSelected()), SLOT(onSelect()));
+	connect(wnd_,SIGNAL(stepSelected()), SLOT(onSelect()));
 }
 
 QString alWizardFace::postData() const
 {
-    QString current = wnd_->current();
-    if (current.isEmpty())
-	return "";
-    else
-	return "(current-action . " +current+" )";
-}
-
-void alWizardFace::addItem(const QString& key, const QString& name, const QString& pixmap)
-{
-    if( !key.isEmpty() )
-    {
-        AWizardFace::ItemType type = key2type[key];
-        if( key.isEmpty() )
-	    type = AWizardFace::ItemGeneric;
-	QWidget *w = wnd_->addItem(key, type);
-	wnd_->setItemText(key, name);
-	if (!pixmap.isEmpty())
-	    wnd_->setItemPixmap(key, pixmap);
-    }
+    QString ret = "(";
+    QString current_action = wnd_->currentAction();
+    if(!current_action.isEmpty())
+	ret += QString("(current . %1)").arg(current_action);
+    int current_step = wnd_->currentStep();
+    ret += QString("(current-step . %1)").arg(current_step);
+    ret += ")";
+    return ret;
 }
 
 void alWizardFace::setAttr(const QString& name,const QString& value)
@@ -391,29 +490,67 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
 
     if( "actions" == name )
     {
+	wnd_->clearActions();
 	QStringList data = value.split(";", QString::KeepEmptyParts);
 	const int len = data.size();
 	for(int i=0;i+2 < len;i+=3)
-	    addItem(data[i], data[i+1], data[i+2]);
+	    wnd_->addAction(data[i], data[i+1], data[i+2]);
     }
     if( "action-add" == name )
     {
 	QStringList data = value.split(";", QString::KeepEmptyParts);
 	const int len = data.size();
 	if( len >= 3 )
-	    addItem(data[0], data[1], data[2]);
+	    wnd_->addAction(data[0], data[1], data[2]);
 	else if( len >= 2 )
-	    addItem(data[0], data[1], "");
+	    wnd_->addAction(data[0], data[1], "");
 	else if( len >= 1 )
-	    addItem(data[0], "", "");
+	    wnd_->addAction(data[0], "", "");
+    }
+    if( "action-remove" == name )
+    {
+	if ("all" == value)
+	    wnd_->clearActions();
+	else
+	    wnd_->removeAction(value);
     }
     if( "action-activity" == name )
     {
 	QStringList data = value.split(";");
 	if( data.size() >= 2 )
 	{
-	    wnd_->setItemActivity(data[0], "true" == data[1]);
+	    wnd_->setActionActivity(data[0], "true" == data[1]);
 	}
+    }
+    if( "steps" == name )
+    {
+	wnd_->clearActions();
+	QStringList data = value.split(";", QString::KeepEmptyParts);
+	const int len = data.size();
+	for(int i=0;i+1 < len;i+=2)
+	    wnd_->addStep(data[i], data[i+1]);
+    }
+    if( "step-add" == name )
+    {
+	QStringList data = value.split(";", QString::KeepEmptyParts);
+	const int len = data.size();
+	if( len >= 2 )
+	    wnd_->addStep(data[0], data[1]);
+	else if( len >= 1 )
+	    wnd_->addStep(data[0], "");
+    }
+    if( "step-remove" == name )
+    {
+	if ("all" == value)
+	    wnd_->clearSteps();
+	else
+	    wnd_->removeStep(value.toInt());
+    }
+    else if ("current" == name)
+    {
+	int n = value.toInt();
+	if( n >= 0)
+	    wnd_->setCurrentStep(n);
     }
     else
 	alWidget::setAttr(name,value);

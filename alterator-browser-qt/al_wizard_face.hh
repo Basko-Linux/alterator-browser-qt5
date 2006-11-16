@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QSignalMapper>
+#include <QMenu>
 
 #include "widgets.hh"
 
@@ -15,61 +16,77 @@ public:
     AWizardFace( QWidget *parent=0, Qt::WFlags f=0 );
     ~AWizardFace();
 
-    enum ItemType
+    enum ActionType
     {
-	ItemGeneric,
-	ItemQuit,
-	ItemHelp,
-	ItemApply,
-	ItemCancel,
-	ItemBackward,
-	ItemForward,
-	ItemStep,
-	ItemSection
+	ActionGeneric,
+	ActionAbort,
+	ActionFinish,
+	ActionHelp,
+	ActionApply,
+	ActionCancel,
+	ActionBackward,
+	ActionForward,
     };
 
-    QWidget* addItem(const QString &key, ItemType);
+    void addAction(const QString& key, const QString& name, const QString& pixmap);
+    void removeAction(const QString &key);
+    void clearActions();
+    void setActionText(const QString &key, const QString &value);
+    void setActionPixmap(const QString &key, const QString &value);
+    void setActionActivity(const QString &key, bool);
+
+    void addStep(const QString& name, const QString& pixmap);
+    void removeStep(int);
+    void clearSteps();
+    void setStepText(int, const QString &value);
+    void setStepPixmap(int, const QString &value);
+    void setStepActivity(int, bool);
     void setCurrentStep( int );
+
     void setTitle( const QString &value);
-    void setItemText(const QString &key, const QString &value);
-    void setItemPixmap(const QString &key, const QString &value);
-    void setItemActivity(const QString &key, bool);
-    QWidget* getItemWidget(const QString &key);
-    QWidget* getView();
+    QWidget* getViewWidget();
     void cleanRequest();
-    QString current();
+    QString currentAction();
+    int currentStep();
 
 signals:
-    void itemSelected();
-    void itemSelected(const QString&);
+    void stepSelected();
+    void actionSelected();
+// private
+    void actionSelected(const QString&);
 
 private slots:
-    void onSelect(const QString&);
+    void onSelectAction(const QString&);
+    void onSelectStep(QListWidgetItem*);
 
 private:
-    QString current_;
+    QString current_action;
     QSignalMapper *signal_mapper;
     QGridLayout* main_layout;
-    QVBoxLayout* labels_layout;
+    QVBoxLayout* steps_layout;
     QHBoxLayout* buttons_layout;
     QFrame* buttons_widget;
-    QFrame* labels_widget;
+    QFrame* steps_widget;
+    QListWidget* stepbox;
     QWidget* view_widget;
     QLabel* title;
+    QMap<QString,AWizardFace::ActionType> key2type;
     QMap<QString, QAbstractButton*> buttons;
-    QMap<QString, ItemType> types;
+    QMap<QString, ActionType> button_types;
+    QMap<QString, QAction*> menus;
+    QMenu *menu;
+    QPushButton *menu_btn;
 
-    int newButtonPosition(ItemType);
-    int findButtonPosition(ItemType);
-    Qt::Alignment newButtonAlignment(ItemType);
-    void setButtonIcon(QAbstractButton*, ItemType);
+    void addAction(const QString &key, ActionType);
+    int newButtonPosition(ActionType);
+    int findButtonPosition(ActionType);
+    Qt::Alignment newButtonAlignment(ActionType);
+    QPixmap defaultActionIcon(ActionType);
 };
 
 class alWizardFace: public alWidgetPre<AWizardFace>
 {
 private:
-    QMap<QString,AWizardFace::ItemType> key2type;
-    void addItem(const QString& key, const QString& name, const QString& pixmap);
 public:
     alWizardFace(const QString& id,const QString& parent);
     ~alWizardFace();
