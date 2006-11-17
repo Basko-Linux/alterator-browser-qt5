@@ -470,13 +470,12 @@ void alWizardFace::registerEvent(const QString& name)
 
 QString alWizardFace::postData() const
 {
-    QString ret = "(";
+    QString ret;
     QString current_action = wnd_->currentAction();
     if(!current_action.isEmpty())
-	ret += QString("(current-action . %1)").arg(current_action);
+	ret += QString(" (current-action . %1)").arg(current_action);
     int current_step = wnd_->currentStep();
-    ret += QString("(current-step . %1)").arg(current_step);
-    ret += ")";
+    ret += QString(" (current-step . %1)").arg(current_step);
     return ret;
 }
 
