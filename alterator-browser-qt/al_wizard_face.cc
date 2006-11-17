@@ -314,24 +314,26 @@ QWidget* AWizardFace::getViewWidget()
 
 void AWizardFace::setActionText(const QString &key, const QString &value)
 {
-    //qDebug("%s: AWizardFace::setItemText id<%s> value<%s>", __FUNCTION__, id.toLatin1().data(), value.toLocal8Bit().data());
     if( buttons.contains(key) )
 	buttons[key]->setText(value);
-    // FIXME menus
+    else if( menus.contains(key) )
+	menus[key]->setText(value);
 }
 
 void AWizardFace::setActionPixmap(const QString &key, const QString &value)
 {
     if( buttons.contains(key) )
 	buttons[key]->setIcon(QIcon(getPixmap(value)));
-    // FIXME menus
+    else if ( menus.contains(key) )
+	menus[key]->setIcon(QIcon(getPixmap(value)));
 }
 
-void AWizardFace::setActionActivity(const QString &key, bool a)
+void AWizardFace::setActionActivity(const QString &key, bool enable)
 {
     if( buttons.contains(key) )
-	buttons[key]->setEnabled(a);
-    // FIXME menus
+	buttons[key]->setEnabled(enable);
+    else if( menus.contains(key) )
+	menus[key]->setEnabled(enable);
 }
 
 void AWizardFace::setStepText(int n, const QString &value)
