@@ -433,7 +433,7 @@ int AWizardFace::currentStep()
 
 void AWizardFace::onSelectAction(const QString& key)
 {
-    qDebug("current action is <%s>", key.toLatin1().data());
+    //qDebug("current action is <%s>", key.toLatin1().data());
     current_action = key;
     emit actionSelected();
 }
