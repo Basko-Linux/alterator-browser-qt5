@@ -475,7 +475,7 @@ QString alWizardFace::postData() const
     if(!current_action.isEmpty())
 	ret += QString("(current-action . %1)").arg(current_action);
     int current_step = wnd_->currentStep();
-    ret += QString("(current . %1)").arg(current_step);
+    ret += QString("(current-step . %1)").arg(current_step);
     ret += ")";
     return ret;
 }
@@ -496,7 +496,7 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
 	for(int i=0;i+2 < len;i+=3)
 	    wnd_->addAction(data[i], data[i+1], data[i+2]);
     }
-    if( "action-add" == name )
+    else if( "action-add" == name )
     {
 	QStringList data = value.split(";", QString::KeepEmptyParts);
 	const int len = data.size();
@@ -507,14 +507,15 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
 	else if( len >= 1 )
 	    wnd_->addAction(data[0], "", "");
     }
-    if( "action-remove" == name )
+    else if( "action-remove" == name )
     {
-	if ("all" == value)
-	    wnd_->clearActions();
-	else
-	    wnd_->removeAction(value);
+	wnd_->removeAction(value);
     }
-    if( "action-activity" == name )
+    else if( "actions-clear" == name )
+    {
+	wnd_->clearSteps();
+    }
+    else if( "action-activity" == name )
     {
 	QStringList data = value.split(";");
 	if( data.size() >= 2 )
@@ -522,7 +523,7 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
 	    wnd_->setActionActivity(data[0], "true" == data[1]);
 	}
     }
-    if( "steps" == name )
+    else if( "steps" == name )
     {
 	wnd_->clearActions();
 	QStringList data = value.split(";", QString::KeepEmptyParts);
@@ -530,7 +531,7 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
 	for(int i=0;i+1 < len;i+=2)
 	    wnd_->addStep(data[i], data[i+1]);
     }
-    if( "step-add" == name )
+    else if( "step-add" == name )
     {
 	QStringList data = value.split(";", QString::KeepEmptyParts);
 	const int len = data.size();
@@ -539,14 +540,23 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
 	else if( len >= 1 )
 	    wnd_->addStep(data[0], "");
     }
-    if( "step-remove" == name )
+    else if( "step-remove" == name )
     {
-	if ("all" == value)
-	    wnd_->clearSteps();
-	else
-	    wnd_->removeStep(value.toInt());
+	wnd_->removeStep(value.toInt());
     }
-    else if ("current" == name)
+    else if( "steps-clear" == name )
+    {
+	wnd_->clearSteps();
+    }
+    else if( "step-activity" == name )
+    {
+	QStringList data = value.split(";");
+	if( data.size() >= 2 )
+	{
+	    wnd_->setStepActivity(data[0].toInt(), "true" == data[1]);
+	}
+    }
+    else if ("current-step" == name)
     {
 	int n = value.toInt();
 	if( n >= 0)
