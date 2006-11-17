@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.12
-Release: alt2
+Release: alt3
 
 Source:%name-%version.tar
 
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Fri Nov 17 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.12-alt3
+- stable wizardface API
+
 * Fri Nov 17 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.12-alt2
 - fix current attribute for wizardface
 
