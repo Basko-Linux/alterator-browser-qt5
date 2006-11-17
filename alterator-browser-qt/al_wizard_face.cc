@@ -547,14 +547,6 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
     {
 	wnd_->clearSteps();
     }
-    else if( "step-activity" == name )
-    {
-	QStringList data = value.split(";");
-	if( data.size() >= 2 )
-	{
-	    wnd_->setStepActivity(data[0].toInt(), "true" == data[1]);
-	}
-    }
     else if ("current-step" == name)
     {
 	int n = value.toInt();
