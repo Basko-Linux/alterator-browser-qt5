@@ -473,9 +473,9 @@ QString alWizardFace::postData() const
     QString ret = "(";
     QString current_action = wnd_->currentAction();
     if(!current_action.isEmpty())
-	ret += QString("(current . %1)").arg(current_action);
+	ret += QString("(current-action . %1)").arg(current_action);
     int current_step = wnd_->currentStep();
-    ret += QString("(current-step . %1)").arg(current_step);
+    ret += QString("(current . %1)").arg(current_step);
     ret += ")";
     return ret;
 }
