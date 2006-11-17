@@ -58,8 +58,8 @@ AWizardFace::AWizardFace( QWidget *parent, Qt::WFlags f):
     steps_layout->addWidget( stepbox );
     buttons_layout->insertWidget(0, menu_btn, 0, Qt::AlignLeft);
 
-    signal_mapper = new QSignalMapper(this);
-    connect(signal_mapper, SIGNAL(mapped(const QString &)),
+    action_signal_mapper = new QSignalMapper(this);
+    connect(action_signal_mapper, SIGNAL(mapped(const QString &)),
 	this, SIGNAL(actionSelected(const QString &)));
     connect( this, SIGNAL(actionSelected(const QString&)),
 	this, SLOT(onSelectAction(const QString&)) );
@@ -241,8 +241,8 @@ void AWizardFace::addAction(const QString &key, AWizardFace::ActionType type)
 		buttons_layout->insertWidget( newButtonPosition(type), b, 0, newButtonAlignment(type) );
 		buttons[key] = b;
 		button_types[key] = type;
-		connect(b, SIGNAL(clicked()), signal_mapper, SLOT(map()));
-		signal_mapper->setMapping(b, key);
+		connect(b, SIGNAL(clicked()), action_signal_mapper, SLOT(map()));
+		action_signal_mapper->setMapping(b, key);
 		break;
 	    }
 	case ActionHelp:
@@ -253,8 +253,8 @@ void AWizardFace::addAction(const QString &key, AWizardFace::ActionType type)
 		QAction *a = menu->addAction("");
 		a->setIcon(QIcon(defaultActionIcon(type)));
 		menus[key] = a;
-		connect(a, SIGNAL(changed()), signal_mapper, SLOT(map()));
-		signal_mapper->setMapping(a, key);
+		connect(a, SIGNAL(triggered()), action_signal_mapper, SLOT(map()));
+		action_signal_mapper->setMapping(a, key);
 		break;
 	    }
     }
@@ -433,6 +433,7 @@ int AWizardFace::currentStep()
 
 void AWizardFace::onSelectAction(const QString& key)
 {
+    qDebug("current action is <%s>", key.toLatin1().data());
     current_action = key;
     emit actionSelected();
 }

@@ -61,7 +61,7 @@ private slots:
 
 private:
     QString current_action;
-    QSignalMapper *signal_mapper;
+    QSignalMapper *action_signal_mapper;
     QGridLayout* main_layout;
     QVBoxLayout* steps_layout;
     QHBoxLayout* buttons_layout;
