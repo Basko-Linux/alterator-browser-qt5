@@ -276,12 +276,13 @@ void alListBox::setAttr(const QString& name,const QString& value)
 		    wnd_->scrollToItem(i);
 		}
 	}
+	else if ("rows-clear" == name)
+	{
+		wnd_->clear();
+	}
 	else if ("remove-row" == name)
 	{
-		if ("all" == value)
-			wnd_->clear();
-		else
-			delete wnd_->takeItem(value.toInt());
+		delete wnd_->takeItem(value.toInt());
 	}
 	else if ("row-item-text" == name)
 	{
@@ -367,12 +368,13 @@ void alMultiListBox::setAttr(const QString& name,const QString& value)
 		wnd_->scrollToItem(i);
 		wnd_->setCurrentItem(i);
 	}
+	else if ("rows-clear" == name)
+	{
+		wnd_->clear();
+	}
 	else if ("remove-row" == name)
 	{
-		if ("all" == value)
-			wnd_->clear();
-		else
-			delete wnd_->takeTopLevelItem(value.toInt());
+		delete wnd_->takeTopLevelItem(value.toInt());
 	}
 	else if ("row-item-text" == name)
 	{
@@ -451,12 +453,14 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 		wnd_->setCurrentIndex(value.toInt());
 	else if ("alterability" == name)
 		wnd_->setEditable(value == "true");
+	else if ("rows-clear" == name)
+	{
+		wnd_->clear();
+		counter_ = 0;
+	}
 	else if ("remove-row" == name)
 	{
-		if ("all" == value)
-			wnd_->clear();
-		else
-			wnd_->removeItem(value.toInt());
+		wnd_->removeItem(value.toInt());
 		counter_ = wnd_->count();
 	}
 	else if ("row-item-text" == name)
