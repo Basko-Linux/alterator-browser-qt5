@@ -515,7 +515,7 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
     }
     else if( "actions-clear" == name )
     {
-	wnd_->clearSteps();
+	wnd_->clearActions();
     }
     else if( "action-activity" == name )
     {
