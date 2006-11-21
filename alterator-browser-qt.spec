@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.13
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Tue Nov 21 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.13-alt2
+- fix listbox/double-click, wizardface/title
+
 * Mon Nov 20 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.13-alt1
 - add rows-clear attribute to listbox/combobox
 
