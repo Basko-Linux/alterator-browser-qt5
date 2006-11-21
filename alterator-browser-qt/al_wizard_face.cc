@@ -365,6 +365,7 @@ void AWizardFace::setStepActivity(int n, bool a)
 void AWizardFace::setTitle( const QString &value)
 {
     title->setText(value);
+    topLevelWidget()->setWindowTitle(value);
 }
 
 void AWizardFace::setCurrentStep( int n )
