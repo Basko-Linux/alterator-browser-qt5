@@ -63,6 +63,7 @@ public slots:
 
 	void onDoubleClick() { emitEvent(id_,"double-clicked"); }
 	void onDoubleClick(QTreeWidgetItem*,int) { emitEvent(id_,"double-clicked"); }
+	void onDoubleClick(QListWidgetItem*) { emitEvent(id_,"double-clicked"); }
 
 	void onToggle(bool) { emitEvent(id_,"toggled"); }
 	void onToggle(int) { emitEvent(id_,"toggled"); }
