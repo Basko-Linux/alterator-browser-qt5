@@ -137,7 +137,7 @@ void alTextBox::registerEvent(const QString& name)
 
 QString alTextBox::postData() const
 {
-	return " (text . \""+simpleQuote(wnd_->toPlainText())+"\" )";
+	return " (text . \""+Utils::simpleQuote(wnd_->toPlainText())+"\" )";
 }
 
 void alGroupBox::setAttr(const QString& name,const QString& value)
@@ -441,7 +441,7 @@ QString alComboBox::postData() const
 	{//reset items on alterator
 	    post += "( rows . (";
 	    for (int i=0;i<wnd_->count();++i)
-		post += " #(( \""+ simpleQuote(wnd_->itemText(i))+ "\" . \"\"))";
+		post += " #(( \""+ Utils::simpleQuote(wnd_->itemText(i))+ "\" . \"\"))";
 	    post += "))";
 	}
 	return post;

@@ -29,5 +29,5 @@ void alEdit::registerEvent(const QString& name)
 
 QString alEdit::postData() const
 {
-	return " (text . \""+simpleQuote(wnd_->text())+"\" )";
+	return " (text . \""+Utils::simpleQuote(wnd_->text())+"\" )";
 }

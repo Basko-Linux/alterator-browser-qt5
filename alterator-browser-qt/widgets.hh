@@ -82,17 +82,7 @@ public:
 };
 
 #include "al_edit.hh"
-
-class alTextBox: public alWidgetPre<QTextEdit>
-{
-public:
-	alTextBox(const QString& id,const QString& parent):
-		alWidgetPre<QTextEdit>(TextBox,id,parent)
-	{}
-	void setAttr(const QString& name,const QString& value);
-	void registerEvent(const QString&);
-	QString postData() const ;
-};
+#include "al_textbox.hh"
 
 class alGroupBox: public alWidgetPre<QGroupBox>
 {

@@ -9,8 +9,6 @@
 #include "utils.hh"
 #include "browser.hh"
 
-#define simpleQuote(s) s.replace("\\","\\\\").replace("\"","\\\"")
-
 //Note: I need QObject inheritanse for correct deffered object deletion
 // cause I need to destruct objects from it's callbacks
 class alWidget: public QObject
