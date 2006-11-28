@@ -4,27 +4,6 @@
 #include "a_pixmaps.hh"
 
 
-////////////////////////////////////////////
-
-namespace
-{
-	Qt::Alignment convertAlign(const QString& value)
-	{
-		if ("left" == value) return  Qt::AlignLeft;
-		else if ("right" == value) return Qt::AlignRight;
-		else if ("center" == value) return Qt::AlignCenter;
-		return Qt::AlignCenter;
-	}
-
-	QLineEdit::EchoMode convertEchoMode(const QString& value)
-	{
-		if ("no" == value) return QLineEdit::NoEcho;
-		else if ("stars" == value) return QLineEdit::Password;
-		return QLineEdit::Normal; //default yes
-	}
-}
-////////////////////////////////////////////
-
 QString help_source;
 
 void updateHelp(const QString& value)
@@ -135,34 +114,6 @@ QString alRadio::postData() const
 {
 	return QString(" (state . ") + (wnd_->isChecked()?"#t":"#f")+" )";
 }
-
-
-void alEdit::setAttr(const QString& name,const QString& value)
-{
-	if ("text" == name)
-		wnd_->setText(value);
-	else if ("echo" == name) 
-		wnd_->setEchoMode(convertEchoMode(value));
-	else if ("alterability" == name)
-		wnd_->setReadOnly("false" == value);
-	else
-		alWidget::setAttr(name,value);
-}
-
-void alEdit::registerEvent(const QString& name)
-{
-	if( "changed" == name )
-		connect(wnd_,SIGNAL( textEdited(const QString&) ),SLOT(onChange(const QString&)));
-	else if( "return-pressed" == name )
-	    connect(wnd_,SIGNAL(returnPressed() ),SLOT(onReturn()));
-}
-
-
-QString alEdit::postData() const
-{
-	return " (text . \""+simpleQuote(wnd_->text())+"\" )";
-}
-
 
 void alTextBox::setAttr(const QString& name,const QString& value)
 {

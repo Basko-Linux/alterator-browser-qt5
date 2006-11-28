@@ -33,7 +33,6 @@
 
 typedef QWidget MainWidget_t;
 
-#define simpleQuote(s) s.replace("\\","\\\\").replace("\"","\\\"")
 
 #include "al_widget.hh"
 
@@ -82,16 +81,7 @@ public:
 	QString postData() const ;
 };
 
-class alEdit: public alWidgetPre<QLineEdit>
-{
-public:
-	alEdit(const QString& id,const QString& parent):
-		alWidgetPre<QLineEdit>(Edit,id,parent)
-	{}
-	void setAttr(const QString& name,const QString& value);
-	void registerEvent(const QString&);
-	QString postData() const ;
-};
+#include "al_edit.hh"
 
 class alTextBox: public alWidgetPre<QTextEdit>
 {
