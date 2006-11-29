@@ -40,6 +40,8 @@ public:
 	virtual QWidget *getViewWidget(void) = 0;
 	virtual QString getParentId(void) { return parent_; };
 	virtual QString getId(void) { return id_; };
+	virtual QString getValue() { return ""; }
+	virtual void markRequired(bool) {}
 	Type type() { return type_; };
 	static QSizePolicy adjustSizePolicy(const Type, const QSizePolicy, const Qt::Orientation orientation);
 public slots:

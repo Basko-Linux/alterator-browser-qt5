@@ -19,8 +19,11 @@
 #include "main_window.hh"
 #include "updater.hh"
 #include "messagebox.hh"
+#include "constraints.hh"
 
 extern Updater *updater;
+extern Constraints *constraints;
+
 bool x_redirect_error;
 bool x_error_occurred;
 XErrorEvent x_last_error_event;
@@ -76,6 +79,7 @@ void MainWindow::start()
     started = true;
 
     updater = new Updater();
+    constraints = new Constraints();
     AMessageBox::initButtonMap();
     initConnection(getDocParser);
 }

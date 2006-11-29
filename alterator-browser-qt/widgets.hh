@@ -94,6 +94,7 @@ public:
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const ;
+	QString getValue() { return  (wnd_->isChecked()?"true":"false"); }
 };
 
 class alListBox: public alWidgetPre<QListWidget2>

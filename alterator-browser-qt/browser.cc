@@ -13,11 +13,13 @@
 #include "al_wizard_face.hh"
 #include "a_pixmaps.hh"
 #include "messagebox.hh"
+#include "constraints.hh"
 
 Updater *updater = 0;//slot for updates
 QPointer<QSplashScreen> splash;//single splash screen
 MainWindow *main_window = 0;
 alWizardFace *wizard_face = 0;
+Constraints *constraints = 0;//constraints engine
 int emit_locker = 0; //wrong emit protector
 
 void splashStart(void)
@@ -261,10 +263,15 @@ void getDocParser(alCommand *cmd)
 	else if ("messagebox" == action)
 		messageboxRequest(e);
 	else if ("retry" == action)
-	{
-	    if( updater )
 		QTimer::singleShot(50,updater,SLOT(doRetry()));
-	}
+	else if ("constraints-clear" == action)
+		constraints->clear();
+	else if ("constraints-apply" == action)
+		constraints->apply();
+	else if ("constraints-add" == action)
+		constraints->add(e.value("name"),
+		                 e.value("type"),
+			         e.value("params"));
 }
 
 ////////////////////////////////////////////////
