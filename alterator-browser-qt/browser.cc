@@ -263,7 +263,10 @@ void getDocParser(alCommand *cmd)
 	else if ("messagebox" == action)
 		messageboxRequest(e);
 	else if ("retry" == action)
+	{
+	    if(updater)
 		QTimer::singleShot(50,updater,SLOT(doRetry()));
+	}
 	else if ("constraints-clear" == action)
 		constraints->clear();
 	else if ("constraints-apply" == action)
