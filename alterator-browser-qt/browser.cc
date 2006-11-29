@@ -92,6 +92,7 @@ void newRequest(const QXmlAttributes& attr)
 	else if ("progressbar" == type) new alProgressBar(id,parent);
 	else if ("slider" == type) new alSlider(id,parent);
 	else if ("splitter" == type) new alSplitter(id,parent);
+	else if ("spacer" == type) new alSpacer(id,parent);
 	else if ("listbox" == type)
 	{
 	    int cols = attr.value("columns").toInt();

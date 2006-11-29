@@ -21,7 +21,7 @@ public:
 	    GroupBox, CheckBox, ListBox, MultiListBox, ComboBox,
 	    TabBox, TabPage, Box, HBox, VBox, ProgressBar, Tree,
 	    Slider, Splitter,
-	    HelpPlace, Proxy
+	    HelpPlace, Proxy, Spacer
 	};
 protected:
 	Type type_;

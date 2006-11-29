@@ -18,11 +18,12 @@ SOURCES = browser.cc
 SOURCES += connection.cc widgets.cc sax.cc hacks.cc messagebox.cc
 SOURCES += main_window.cc updater.cc a_pixmaps.cc utils.cc
 SOURCES += al_wizard_face.cc al_dialog.cc al_widget.cc al_main_widget.cc
-SOURCES += al_edit.cc al_textbox.cc
+SOURCES += al_edit.cc al_textbox.cc al_spacer.cc
 HEADERS = global.hh
 HEADERS += widgets.hh connection.hh browser.hh sax.hh hacks.hh messagebox.hh
 HEADERS += main_window.hh updater.hh a_pixmaps.hh utils.hh
 HEADERS += al_wizard_face.hh al_dialog.hh al_widget.hh al_main_widget.hh
+HEADERS += al_edit.hh al_textbox.hh al_spacer.hh
 DATA = *.pro *.spec
 
 target.path = /usr/bin/

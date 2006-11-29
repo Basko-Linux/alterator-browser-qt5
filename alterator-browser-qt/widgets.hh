@@ -328,4 +328,6 @@ public:
     void setAttr(const QString& name,const QString& value);
 };
 
+#include "al_spacer.hh"
+
 #endif
