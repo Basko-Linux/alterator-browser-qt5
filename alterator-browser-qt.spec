@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
-Version: 2.9.13
-Release: alt3
+Version: 2.9.14
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Wed Nov 29 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.14-alt1
+- add spacer widget
+
 * Tue Nov 21 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.13-alt3
 - fix tree/columns
 
