@@ -18,7 +18,7 @@ public:
 	enum Type {
 	    UnknownWidget, WizardFace, WizardFaceItem, MainWidget, Dialog,
 	    Label, Button, Radio, Edit, TextBox,
-	    GroupBox, CheckBox, ListBox, MultiListBox, ComboBox,
+	    HGroupBox, VGroupBox, CheckBox, ListBox, MultiListBox, ComboBox,
 	    TabBox, TabPage, Box, HBox, VBox, ProgressBar, Tree,
 	    Slider, Splitter,
 	    HelpPlace, Proxy, Spacer

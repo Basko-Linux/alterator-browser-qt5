@@ -54,7 +54,8 @@ QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy
 	    szpol.setHorizontalPolicy(QSizePolicy::Expanding);
 	    break;
 	}
-	case GroupBox:
+	case VGroupBox:
+	case HGroupBox:
 	{
 	    szpol.setVerticalPolicy(QSizePolicy::Expanding);
 	    //szpol.setHorizontalPolicy(QSizePolicy::Expanding);

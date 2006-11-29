@@ -83,22 +83,7 @@ public:
 
 #include "al_edit.hh"
 #include "al_textbox.hh"
-
-class alGroupBox: public alWidgetPre<QGroupBox>
-{
-public:
-	alGroupBox(const QString& id,const QString& parent,const QString& checkable):
-		alWidgetPre<QGroupBox>(GroupBox,id,parent)
-	{
-	    wnd_->setCheckable("true" == checkable);
-	    QVBoxLayout *bl = new QVBoxLayout(getViewWidget());
-	    bl->setSpacing(5);
-	    bl->setMargin(5);
-	}
-	void setAttr(const QString& name,const QString& value);
-	void registerEvent(const QString&);
-	QString postData() const ;
-};
+#include "al_groupbox.hh"
 
 class alCheckBox: public alWidgetPre<QCheckBox>
 {
@@ -191,40 +176,7 @@ private:
 };
 
 #include "al_dialog.hh"
-
-
-class alBox: public alWidgetPre<QFrame>
-{
-public:
-	alBox(const QString& id,const QString& parent, Qt::Orientation orientation):
-		alWidgetPre<QFrame>((orientation==Qt::Vertical)?VBox:HBox,id,parent)
-	{
-	    QBoxLayout *l;
-	    if( orientation == Qt::Horizontal )
-		l = new QHBoxLayout(wnd_);
-	    else
-		l = new QVBoxLayout(wnd_);
-	    l->setSpacing(5);
-	    l->setMargin(0);
-	}
-	void setAttr(const QString& name,const QString& value);
-};
-
-class alVBox: public alBox
-{
-public:
-	alVBox(const QString& id,const QString& parent):
-		alBox(id,parent,Qt::Vertical)
-	{}
-};
-
-class alHBox: public alBox
-{
-public:
-	alHBox(const QString& id,const QString& parent):
-		alBox(id,parent,Qt::Horizontal)
-	{}
-};
+#include "al_box.hh"
 
 class alProxy: public alWidget
 {

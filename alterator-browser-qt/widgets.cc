@@ -115,32 +115,6 @@ QString alRadio::postData() const
 	return QString(" (state . ") + (wnd_->isChecked()?"#t":"#f")+" )";
 }
 
-void alGroupBox::setAttr(const QString& name,const QString& value)
-{
-	if ("title" == name)
-		wnd_->setTitle(value);
-	else if ("state" == name)
-		wnd_->setChecked("true" ==  value);
-	else
-		alWidget::setAttr(name,value);
-}
-
-void alGroupBox::registerEvent(const QString& name)
-{
-	if ("toggled" == name)
-		connect(wnd_,SIGNAL( toggled(bool) ),SLOT(onToggle(bool)));
-}
-
-
-QString alGroupBox::postData() const
-{
-	if (wnd_->isCheckable())
-		return QString(" (state . ")+ (wnd_->isChecked()?"#t":"#f") +" )";
-	else
-		return "";
-}
-
-
 void alCheckBox::setAttr(const QString& name,const QString& value)
 {
 	if ("text" == name)
@@ -448,34 +422,6 @@ void alTabBox::setAttr(const QString& name,const QString& value)
 	}
 	else
 		alWidget::setAttr(name,value);
-}
-
-void alBox::setAttr(const QString& name,const QString& value)
-{
-	if ("margin" == name)
-	{
-	}
-	else if ("spacing" == name)
-	{
-	}
-	else if("clear-layout" == name)
-	{
-	    QLayout *l = getViewLayout();
-	    if( l )
-	    {
-		for (int i = 0; i < l->count(); ++i)
-		    delete l->takeAt(i);
-	    }
-	}
-	else if ("background-color" == name)
-	{
-		//wnd_->setBrush(QBrush(QColor(value)));
-	}
-	else if ("children-align" == name)
-	{
-	}
-	else
-	    alWidget::setAttr(name,value);
 }
 
 void alProgressBar::setAttr(const QString& name,const QString& value)

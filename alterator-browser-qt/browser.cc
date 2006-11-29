@@ -83,7 +83,9 @@ void newRequest(const QXmlAttributes& attr)
 	else if ("edit" == type) new alEdit(id,parent);
 	else if ("textbox" == type) new alTextBox(id,parent);
 	else if ("help-place" == type) new alHelpPlace(id,parent);
-	else if ("groupbox" == type) new alGroupBox(id,parent,attr.value("checked"));
+	else if ("groupbox" == type) new alVGroupBox(id,parent,attr.value("checked"));
+	else if ("vgroupbox" == type) new alVGroupBox(id,parent,attr.value("checked"));
+	else if ("hgroupbox" == type) new alHGroupBox(id,parent,attr.value("checked"));
 	else if ("checkbox" == type) new alCheckBox(id,parent);
 	else if ("tree" == type) new alTree(id,parent,attr.value("columns"));
 	else if ("combobox" == type) new alComboBox(id,parent);
