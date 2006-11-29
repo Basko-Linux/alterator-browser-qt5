@@ -1,8 +1,53 @@
 #include "utils.hh"
 #include "al_edit.hh"
 
+AEdit::AEdit(QWidget *parent):
+    QWidget(parent)
+{
+    QHBoxLayout layout(this);
+    mark = new QLabel(this);
+    mark->hide();
+    mark->setText("(required)");
+    edit = new QLineEdit(this);
+    edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    layout.addWidget(mark);
+    layout.addWidget(edit);
+}
+
+AEdit::~AEdit() {}
+
+void AEdit::setText(const QString& txt)
+{
+    edit->setText(txt);
+}
+
+void AEdit::setEchoMode(QLineEdit::EchoMode emode)
+{
+    edit->setEchoMode(emode);
+}
+
+void AEdit::setReadOnly(bool ro)
+{
+    edit->setReadOnly(ro);
+}
+
+QString AEdit::text()
+{
+    return edit->text();
+}
+
+
+void AEdit::markRequired(bool req)
+{
+    if(req)
+	mark->show();
+    else
+	mark->hide();
+}
+
+// alEdit
 alEdit::alEdit(const QString& id,const QString& parent):
-		alWidgetPre<QLineEdit>(Edit,id,parent)
+		alWidgetPre<AEdit>(Edit,id,parent)
 {
 }
 
@@ -30,4 +75,9 @@ void alEdit::registerEvent(const QString& name)
 QString alEdit::postData() const
 {
 	return " (text . \""+Utils::simpleQuote(wnd_->text())+"\" )";
+}
+
+void alEdit::markRequired(bool req)
+{
+    wnd_->markRequired(req);
 }
