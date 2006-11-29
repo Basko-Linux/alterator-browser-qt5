@@ -25,7 +25,7 @@ QLineEdit::EchoMode convertEchoMode(const QString& value)
 	return QLineEdit::Normal; //default yes
 }
 
-QString& simpleQuote(const QString &s)
+QString simpleQuote(const QString &s)
 {
     QString ret(s);
     return ret.replace("\\","\\\\").replace("\"","\\\"");

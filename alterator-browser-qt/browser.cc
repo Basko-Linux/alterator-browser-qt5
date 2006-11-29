@@ -268,10 +268,13 @@ void getDocParser(alCommand *cmd)
 		QTimer::singleShot(50,updater,SLOT(doRetry()));
 	}
 	else if ("constraints-clear" == action)
+	    if(constraints)
 		constraints->clear();
 	else if ("constraints-apply" == action)
+	    if(constraints)
 		constraints->apply();
 	else if ("constraints-add" == action)
+	    if(constraints)
 		constraints->add(e.value("name"),
 		                 e.value("type"),
 			         e.value("params"));

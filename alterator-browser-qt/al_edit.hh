@@ -5,6 +5,12 @@
 
 #include "al_widget.hh"
 
+//class AEdit: public QWidget
+//{
+//    AEdit();
+//}
+
+//class alEdit: public alWidgetPre<AEdit>
 class alEdit: public alWidgetPre<QLineEdit>
 {
 public:

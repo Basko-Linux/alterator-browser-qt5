@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.14
+Version: 2.9.15
 Release: alt1
 
 Source:%name-%version.tar
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Wed Nov 29 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.15-alt1
+- add base constraints support
+
 * Wed Nov 29 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.14-alt1
 - add spacer widget
 
