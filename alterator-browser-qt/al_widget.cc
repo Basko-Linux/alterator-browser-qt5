@@ -101,7 +101,7 @@ QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy
 	}
 	case Button:
 	{
-	    szpol.setHorizontalPolicy(QSizePolicy::Expanding);
+	    szpol.setHorizontalPolicy(QSizePolicy::Fixed);
 	    break;
 	}
 	default:
