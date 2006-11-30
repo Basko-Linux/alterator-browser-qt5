@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.15
+Version: 2.9.17
 Release: alt1
 
 Source:%name-%version.tar
@@ -58,6 +58,12 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Thu Nov 30 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.17-alt1
+- fix button and label size
+
+* Thu Nov 30 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.16-alt1
+- fix cleaning widgets
+
 * Wed Nov 29 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.15-alt1
 - add base constraints support
 
