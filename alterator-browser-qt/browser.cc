@@ -167,16 +167,18 @@ void startRequest(const QString& id)
 	if (!elements.contains(id)) return;
 	alWidget *aw = elements[id];
 	if( aw )
-	    if( aw->getParentId().isEmpty() )
+	{
+	    if( aw->type() == alWidget::MainWidget  )
 	    {
 		alMainWidget *m = qobject_cast<alMainWidget*>(aw);
-		if(m) m->start();
+		if(m)  m->start();
 	    }
-	    else
+	    else if ( aw->type() == alWidget::Dialog  )
 	    {
 		alDialog *d = qobject_cast<alDialog*>(aw);
 		if(d) d->start();
 	    }
+	}
 }
 
 void stopRequest(const QString& id)
@@ -185,18 +187,18 @@ void stopRequest(const QString& id)
 	    return;
 	alWidget *aw = elements[id];
 	if( aw )
-	    if( aw->getParentId().isEmpty() )
+	{
+	    if( aw->type() == alWidget::MainWidget  )
 	    {
 		alMainWidget *m = qobject_cast<alMainWidget*>(aw);
-		if(m)
-		    m->stop();
+		if(m)  m->stop();
 	    }
-	    else
+	    else if ( aw->type() == alWidget::Dialog  )
 	    {
 		alDialog *d = qobject_cast<alDialog*>(aw);
-		if(d)
-		    d->stop();
+		if(d) d->stop();
 	    }
+	}
 }
 
 

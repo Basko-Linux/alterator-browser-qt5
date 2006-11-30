@@ -13,7 +13,7 @@ void updateHelp(const QString& value)
 	while (i.hasNext())
 	{
 		i.next();
-		if (dynamic_cast<alHelpPlace*>(i.value()))
+		if( (i.value()).type() == alWidget::HelpPlace )
 		{
 			i.value()->setAttr("source",value);
 			break;
@@ -395,14 +395,11 @@ void alTabPage::setAttr(const QString& name,const QString& value)
 {
 	if ("text" == name)
 		static_cast<QTabWidget*>(tabbox_->getWidget())->setTabText(idx_,value);
-	else 
-	{
-		if (("widget-name" == name) &&
+	else if (("widget-name" == name) &&
 		    (tabbox_ && tabbox_->current_ == value))
-		   static_cast<QTabWidget*>(tabbox_->getWidget())->setCurrentIndex(idx_);
-
+		static_cast<QTabWidget*>(tabbox_->getWidget())->setCurrentIndex(idx_);
+	else
 		alWidget::setAttr(name,value);
-	}
 }
 
 

@@ -7,7 +7,8 @@ namespace AMessageBox {
 	buttonMapType buttonMap;
 
 
-	typedef QMessageBox::StandardButton (*msgfunc)(QMessageBox::QWidget *,
+//	typedef QMessageBox::StandardButton (*msgfunc)(QMessageBox::QWidget *,
+	typedef QMessageBox::StandardButton (*msgfunc)(QWidget *,
                                        const QString &,
 				       const QString &,
 				       QMessageBox::StandardButtons,
