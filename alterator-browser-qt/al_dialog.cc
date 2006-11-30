@@ -4,7 +4,8 @@
 QDialog2::QDialog2(QWidget *parent):
     QDialog(parent)
 {
-    setWindowModality(Qt::ApplicationModal);
+    setHidden(true);
+    setWindowModality(Qt::WindowModal);
     QGridLayout *main_layout = new QGridLayout(this);
     if( main_window->haveWindowManager() )
 	main_layout->setMargin(1);
@@ -81,10 +82,10 @@ void alDialog::setAttr(const QString& name,const QString& value)
 		wnd_->setWindowTitle(value);
 	else if ("full-screen" == name)
 	{
-		if ("true" == value)
-			wnd_->showFullScreen();
-		else
-			wnd_->showNormal();
+	    if ("true" == value)
+		wnd_->showFullScreen();
+	    else
+		wnd_->showNormal();
 	}
 	else if ("width" == name)
 	{
