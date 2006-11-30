@@ -19,6 +19,7 @@ AWizardFace::AWizardFace( QWidget *parent, Qt::WFlags f):
     key2type["cancel"]   = AWizardFace::ActionCancel;
     key2type["backward"] = AWizardFace::ActionBackward;
     key2type["forward"]  = AWizardFace::ActionForward;
+    key2type["generic"]  = AWizardFace::ActionGeneric;
 
     steps_widget = new QFrame(this);
     steps_widget->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
@@ -130,6 +131,7 @@ int AWizardFace::newButtonPosition(ActionType type)
 		else
 		    return -1;
 	    }
+	case ActionFinish:
 	case ActionForward:
 	    {
 		return -1;
@@ -150,6 +152,7 @@ Qt::Alignment AWizardFace::newButtonAlignment(ActionType type)
 	    {
 		return Qt::AlignLeft;
 	    }
+	case ActionFinish:
 	case ActionApply:
 	case ActionCancel:
 	case ActionForward:
