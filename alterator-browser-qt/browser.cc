@@ -141,6 +141,7 @@ void cleanRequest(const QString& id)
 	    while( it.hasNext() )
 	    {
 		alWidget *aw = it.next();
+		aw->show(false);
 		aw->deleteLater();
 	    }
 	}

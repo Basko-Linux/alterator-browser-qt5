@@ -27,6 +27,7 @@ public:
 	Widget* getWidget() { return wnd_; }	
 	virtual QWidget* getViewWidget() { return wnd_; }	
 	virtual QLayout* getViewLayout() { return wnd_->layout(); }	
+	void show(bool b) { if(b && wnd_) wnd_->show(); else wnd_->hide(); };
 };
 
 class alMainWidget: public alMainWidgetPre<MainWidget_t>

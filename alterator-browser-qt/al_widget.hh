@@ -43,6 +43,7 @@ public:
 	virtual QString getValue() { return ""; };
 	virtual void markRequired(bool) {};
 	Type type() { return type_; };
+	virtual void show(bool) = 0;
 	static QSizePolicy adjustSizePolicy(const Type, const QSizePolicy, const Qt::Orientation orientation);
 public slots:
 	void onClick() { emitEvent(id_,"clicked"); }
@@ -127,6 +128,7 @@ public:
 	Widget* getWidget() { return wnd_; }	
 	virtual QWidget* getViewWidget() { return wnd_; }
 	virtual QLayout* getViewLayout() { return wnd_->layout(); }
+	void show(bool b) { if(b && wnd_) wnd_->show(); else wnd_->hide(); };
 	void adjustSizePolicy(Qt::Orientation);
 };
 
