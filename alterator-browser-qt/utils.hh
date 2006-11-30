@@ -6,7 +6,7 @@
 
 namespace Utils
 {
-    QString reparentTag(QString parent);
+    QString reparentTag(const QString &parent);
     Qt::Alignment convertAlign(const QString& value);
     QLineEdit::EchoMode convertEchoMode(const QString& value);
     QString simpleQuote(const QString&);

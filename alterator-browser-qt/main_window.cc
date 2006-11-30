@@ -79,7 +79,7 @@ void MainWindow::start()
     started = true;
 
     updater = new Updater();
-    constraints = new Constraints();
+//    constraints = new Constraints();
     AMessageBox::initButtonMap();
     initConnection(getDocParser);
 }

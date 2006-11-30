@@ -5,9 +5,10 @@
 namespace Utils
 {
 
-QString reparentTag(QString parent)
+QString reparentTag(const QString &parent)
 {
-       return parent.replace(QString(":reparent:"),QString(""));
+    QString ret(parent);
+    return ret.replace(QString(":reparent:"),QString(""));
 }
 
 Qt::Alignment convertAlign(const QString& value)

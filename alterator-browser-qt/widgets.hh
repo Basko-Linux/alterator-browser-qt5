@@ -43,7 +43,6 @@ extern QString help_source;
 QLayout *findViewLayout(const QString& id);
 QWidget* findQWidget(const QString& id);
 alWidget* findAlWidget(const QString& id);
-QString reparentTag(QString parent);
 QList<alWidget*> findAlChildren(const QString& id);
 
 #include "al_main_widget.hh"

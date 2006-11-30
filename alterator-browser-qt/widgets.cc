@@ -56,11 +56,6 @@ QList<alWidget*> findAlChildren(const QString& id)
     return children;
 }
 
-QString reparentTag(QString parent)
-{
-       return parent.replace(QString(":reparent:"),QString(""));
-}
-
 ////////////////////////////////////////////
 void alLabel::setAttr(const QString& name,const QString& value)
 {
