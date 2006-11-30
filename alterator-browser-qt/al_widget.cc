@@ -83,10 +83,14 @@ QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy
 	case Splitter:
 	case CheckBox:
 	case Radio:
-	case Label:
 	{
 	    //szpol.setVerticalPolicy(QSizePolicy::Maximum);
 	    //szpol.setHorizontalPolicy(QSizePolicy::Expanding);
+	    break;
+	}
+	case Label:
+	{
+	    szpol.setVerticalPolicy(QSizePolicy::Fixed);
 	    break;
 	}
 	case Edit:
