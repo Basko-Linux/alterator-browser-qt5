@@ -47,7 +47,7 @@ void AEdit::markRequired(bool req)
 
 // alEdit
 alEdit::alEdit(const QString& id,const QString& parent):
-		alWidgetPre<AEdit>(Edit,id,parent)
+		alWidgetPre<QLineEdit>(Edit,id,parent)
 {
 }
 
@@ -79,5 +79,5 @@ QString alEdit::postData() const
 
 void alEdit::markRequired(bool req)
 {
-    wnd_->markRequired(req);
+//    wnd_->markRequired(req);
 }
