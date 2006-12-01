@@ -22,7 +22,7 @@ private:
     bool have_wm;
     bool detect_wm;
 
-    void showEvent(QShowEvent*);
+//    void showEvent(QShowEvent*);
 
 private slots:
     void start();

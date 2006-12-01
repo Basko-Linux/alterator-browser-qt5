@@ -220,10 +220,12 @@ void timerRequest(const QString& action)
 
 void messageboxRequest(const QXmlAttributes& e)
 {
+    QWidget *parent = QApplication::activeWindow();
+
 	const QString answer =
 	AMessageBox::unconvertButton(
 	    AMessageBox::selectMessageBox(
-		e.value("type"))(QApplication::activeModalWidget(),
+		e.value("type"))(parent,
 		e.value("title"),
 		e.value("message"),
 		AMessageBox::convertButtonList(e.value("buttons")),

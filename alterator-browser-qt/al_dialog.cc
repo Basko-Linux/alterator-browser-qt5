@@ -1,29 +1,27 @@
 #include "al_dialog.hh"
 #include "hacks.hh"
 
-QDialog2::QDialog2(QWidget *parent):
+ADialog::ADialog(QWidget *parent):
     QDialog(parent)
 {
-    setHidden(true);
-    setWindowModality(Qt::WindowModal);
     QGridLayout *main_layout = new QGridLayout(this);
     if( main_window->haveWindowManager() )
 	main_layout->setMargin(1);
     else
 	main_layout->setMargin(10);
     view_vidget = new QWidget(this);
-    view_vidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+//    view_vidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     main_layout->addWidget( view_vidget, 0, 0);
 }
 
-QWidget* QDialog2::getView()
+QWidget* ADialog::getView()
 {
     return view_vidget;
 }
 
-void QDialog2::showEvent(QShowEvent *e)
+void ADialog::showEvent(QShowEvent *e)
 {
-    QDialog::showEvent(e);
+    //QDialog::showEvent(e);
     if( !main_window->haveWindowManager() )
     {
 	int x = QApplication::desktop()->width()/2 - width()/2;
@@ -35,7 +33,7 @@ void QDialog2::showEvent(QShowEvent *e)
     }
 }
 
-void QDialog2::paintEvent(QPaintEvent* e)
+void ADialog::paintEvent(QPaintEvent* e)
 {
     if( !main_window->haveWindowManager() )
     {
@@ -44,7 +42,7 @@ void QDialog2::paintEvent(QPaintEvent* e)
     }
 }
 
-void QDialog2::keyPressEvent ( QKeyEvent * e ) 
+void ADialog::keyPressEvent ( QKeyEvent * e ) 
 {
     switch( e->key() )
     {
@@ -60,7 +58,7 @@ void QDialog2::keyPressEvent ( QKeyEvent * e )
     }
 }
 
-void QDialog2::closeEvent(QCloseEvent *e)
+void ADialog::closeEvent(QCloseEvent *e)
 {
     e->ignore();
 }

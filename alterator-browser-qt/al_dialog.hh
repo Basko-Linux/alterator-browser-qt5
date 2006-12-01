@@ -6,10 +6,10 @@
 
 //hack to access protected done() slot
 //also ignore escape button press and some other features
-class QDialog2: public QDialog
+class ADialog: public QDialog
 {
 public:
-	QDialog2(QWidget *parent = 0);
+	ADialog(QWidget *parent = 0);
 	QWidget* getView();
 
 protected:
@@ -23,12 +23,12 @@ private:
 };
 
 
-class alDialog: public alWidgetPre<QDialog2>
+class alDialog: public alWidgetPre<ADialog>
 {
 public:
 	alDialog(const QString& id,const QString& parent,
 	         const QString& width,const QString& height):
-		alWidgetPre<QDialog2>(Dialog,id,parent)
+		alWidgetPre<ADialog>(Dialog,id,parent)
 	{
 	    QVBoxLayout *bl = new QVBoxLayout(getViewWidget());
 	    bl->setSpacing(5);

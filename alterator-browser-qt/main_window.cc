@@ -62,6 +62,7 @@ MainWindow::MainWindow():
 	showFullScreen();
 
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(stop()));
+    QTimer::singleShot(0, this, SLOT(start()));
 }
 
 MainWindow::~MainWindow()
@@ -101,11 +102,13 @@ void MainWindow::stop()
     }
 }
 
+/*
 void MainWindow::showEvent(QShowEvent*)
 {
     if( !started )
 	QTimer::singleShot(0, this, SLOT(start()));
 }
+*/
 
 bool MainWindow::haveWindowManager()
 {
