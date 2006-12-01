@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.17
-Release: alt1.8
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -58,6 +58,10 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Fri Dec 01 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.17-alt2
+- fix messagebox borders and placement
+- add workaround against showing dialogs when loaded
+
 * Thu Nov 30 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.17-alt1
 - fix button and label size
 
