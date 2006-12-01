@@ -220,9 +220,10 @@ void timerRequest(const QString& action)
 
 void messageboxRequest(const QXmlAttributes& e)
 {
+    qDebug("messagebox");
     QWidget *parent = QApplication::activeWindow();
-
-	const QString answer =
+/*
+    const QString answer =
 	AMessageBox::unconvertButton(
 	    AMessageBox::selectMessageBox(
 		e.value("type"))(parent,
@@ -232,7 +233,16 @@ void messageboxRequest(const QXmlAttributes& e)
 		AMessageBox::convertButton(e.value("default-button"))
 	    )
 	);
-	getDocument(getDocParser,answer);
+*/
+    AMsgBox msgbox(
+	e.value("type"),
+	e.value("title"),
+	e.value("message"),
+	e.value("buttons"),
+	parent
+	);
+    const QString answer = AMessageBox::unconvertButton((QMessageBox::StandardButton)msgbox.exec());
+    getDocument(getDocParser,answer);
 }
 
 ////////////////////////////////////////////////

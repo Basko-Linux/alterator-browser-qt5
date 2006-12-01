@@ -10,7 +10,7 @@ class Updater: public QObject
 {
 Q_OBJECT
 	public:
-		Updater();
+		Updater(QObject *parent);
 	public slots:
 		void doUpdate();
 		void doRetry();

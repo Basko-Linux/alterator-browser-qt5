@@ -67,11 +67,6 @@ MainWindow::MainWindow():
 
 MainWindow::~MainWindow()
 {
-    if( updater )
-    {
-	delete updater;
-	updater = 0;
-    }
 }
 
 void MainWindow::start()
@@ -79,7 +74,7 @@ void MainWindow::start()
     if( started ) return;
     started = true;
 
-    updater = new Updater();
+    updater = new Updater(this);
 //    constraints = new Constraints();
     AMessageBox::initButtonMap();
     initConnection(getDocParser);
@@ -108,12 +103,22 @@ void MainWindow::showEvent(QShowEvent*)
     if( !started )
 	QTimer::singleShot(0, this, SLOT(start()));
 }
+
+void MainWindow::customEvent(QEvent* e)
+{
+    switch(e->type())
+    {
+	default:
+	    break;
+    }
+}
 */
 
 bool MainWindow::haveWindowManager()
 {
     if( detect_wm )
 	return have_wm;
+
     bool have_wm = false;
 #ifdef Q_WS_X11
 	const QX11Info xinfo = x11Info();

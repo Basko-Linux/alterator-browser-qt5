@@ -22,4 +22,19 @@ void initButtonMap();
 
 };
 
+class AMsgBox: public QMessageBox
+{
+public:
+    AMsgBox(
+	const QString &type,
+	const QString &title,
+	const QString &text,
+	const QString &buttons,
+	QWidget *parent = 0
+    );
+    ~AMsgBox();
+    void showEvent(QShowEvent*);
+    void paintEvent(QPaintEvent*);
+};
+
 #endif

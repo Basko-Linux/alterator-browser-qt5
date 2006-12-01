@@ -1,6 +1,7 @@
 #include <QMap>
 
 #include "messagebox.hh"
+#include "hacks.hh"
 
 namespace AMessageBox {
 	typedef QMap<QString,QMessageBox::StandardButton> buttonMapType;
@@ -71,4 +72,52 @@ namespace AMessageBox {
 		return result;
 	}
 
+}
+
+AMsgBox::AMsgBox(
+	const QString &type,
+	const QString &title,
+	const QString &text,
+	const QString &buttons,
+	QWidget *parent
+    ):
+    QMessageBox(parent)
+{
+    QMessageBox::Icon i = QMessageBox::Information;
+    if ("critical" == type)
+	i = QMessageBox::Critical;
+    else if ("question" == type)
+	i = QMessageBox::Question;
+    else if ("warning" == type)
+	i = QMessageBox::Warning;
+    setIcon(i);
+    setWindowTitle(title);
+    setText(text);
+    QMessageBox::StandardButtons btns = AMessageBox::convertButtonList(buttons);
+    if(!btns) btns |= QMessageBox::Ok;
+    setStandardButtons(btns);
+}
+
+AMsgBox::~AMsgBox() {}
+
+void AMsgBox::showEvent(QShowEvent *e)
+{
+    if( !main_window->haveWindowManager() )
+    {
+	int x = QApplication::desktop()->width()/2 - width()/2;
+	if( x < 0 ) x = 0;
+	int y = QApplication::desktop()->height()/2 - height()/2;
+	if( y < 0 ) y = 0;
+	move(x, y);
+	QCursor::setPos(mapToGlobal(QPoint(width()/2, height()/2)));
+    }
+}
+
+void AMsgBox::paintEvent(QPaintEvent* e)
+{
+    if( !main_window->haveWindowManager() )
+    {
+	QDialog::paintEvent(e);
+	widget_corners_round(this);
+    }
 }

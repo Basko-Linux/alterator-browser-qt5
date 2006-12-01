@@ -3,8 +3,8 @@
 #include "connection.hh"
 #include "browser.hh"
 
-Updater::Updater():
-	QObject(),
+Updater::Updater(QObject *parent):
+	QObject(parent),
 	timer_(new QTimer(this))
 {
 	timer_->setInterval(500);
