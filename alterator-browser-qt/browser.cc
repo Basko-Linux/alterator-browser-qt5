@@ -220,7 +220,6 @@ void timerRequest(const QString& action)
 
 void messageboxRequest(const QXmlAttributes& e)
 {
-    qDebug("messagebox");
 #if 0
     QWidget *parent = QApplication::activeWindow();
 /*

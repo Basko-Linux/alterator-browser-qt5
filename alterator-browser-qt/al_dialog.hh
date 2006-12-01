@@ -30,13 +30,12 @@ public:
 	         const QString& width,const QString& height):
 		alWidgetPre<ADialog>(Dialog,id,parent)
 	{
-	    qDebug("new dialog");
 	    QVBoxLayout *bl = new QVBoxLayout(getViewWidget());
 	    bl->setSpacing(5);
 	    bl->setMargin(5);
 	}
 	void setAttr(const QString& name,const QString& value);
-	void start() { qDebug("dialog exec");; wnd_->exec(); }
+	void start() { wnd_->exec(); }
 	void stop()  { wnd_->done(0); }
 	QWidget* getViewWidget();
 	QLayout* getViewLayout();
