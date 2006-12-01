@@ -4,6 +4,7 @@
 #include <QFrame>
 #include <QMainWindow>
 #include <QGridLayout>
+#include <QXmlAttributes>
 
 typedef QMainWindow MainWindow_t;
 typedef QGridLayout MainWindowLayout_t;
@@ -16,11 +17,16 @@ public:
     ~MainWindow();
 
     bool haveWindowManager();
+    void setAttributes(const QXmlAttributes&);
+
+public slots:
+    void messageBox();
 
 private:
     bool started;
     bool have_wm;
     bool detect_wm;
+    QXmlAttributes xml_attributes;
 
 //    void showEvent(QShowEvent*);
 //    void customEvent(QEvent*);
