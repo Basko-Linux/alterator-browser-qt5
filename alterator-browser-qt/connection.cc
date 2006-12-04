@@ -37,12 +37,12 @@ QString createLangList()
     QString langlist(getenv("LC_ALL"));
     QString language(getenv("LANGUAGE"));
 
+    if( !language.isEmpty() )
+	langlist += ":" + language;
     if( langlist.isEmpty() )
 	langlist = getenv("LC_MESSAGES");
     if( langlist.isEmpty() )
 	langlist = getenv("LANG");
-    if( !language.isEmpty() )
-	langlist += ":" + language;
     if( langlist.isEmpty() )
 	langlist = "POSIX";
     QStringList lst = langlist.split( ":", QString::SkipEmptyParts);
