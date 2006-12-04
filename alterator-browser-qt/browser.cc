@@ -243,9 +243,10 @@ void messageboxRequest(const QXmlAttributes& e)
 	);
     const QString answer = AMessageBox::unconvertButton((QMessageBox::StandardButton)msgbox.exec());
     getDocument(getDocParser,answer);
-#endif
+#else
     main_window->setAttributes(e);
     QTimer::singleShot(0, main_window, SLOT(messageBox()));
+#endif
 }
 
 ////////////////////////////////////////////////
@@ -286,16 +287,22 @@ void getDocParser(alCommand *cmd)
 		QTimer::singleShot(50,updater,SLOT(doRetry()));
 	}
 	else if ("constraints-clear" == action)
+	{
 	    if(constraints)
 		constraints->clear();
+	}
 	else if ("constraints-apply" == action)
+	{
 	    if(constraints)
 		constraints->apply();
+	}
 	else if ("constraints-add" == action)
+	{
 	    if(constraints)
 		constraints->add(e.value("name"),
 		                 e.value("type"),
 			         e.value("params"));
+	}
 }
 
 ////////////////////////////////////////////////
@@ -328,11 +335,10 @@ int main(int argc,char **argv)
 {
     QApplication app(argc, argv);
 
-    MainWindow mw;
-    main_window = &mw;
-    mw.show();
+    main_window = new MainWindow();
+    main_window->show();
     int ret = app.exec();
-    main_window = 0;
+    //main_window = 0;
     return ret;
 }
 

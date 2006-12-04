@@ -1,3 +1,6 @@
+//#include <sys/types.h>
+#include <sys/wait.h>
+
 #include <QTextStream>
 #include <QDataStream>
 #include <QTimer>
@@ -5,24 +8,26 @@
 #include <QSettings>
 #include <QApplication>
 #include <QDesktopWidget>
-#ifdef Q_WS_X11
-#include <QX11Info>
-#include <X11/Xlib.h>
-#include <X11/Xatom.h>
-#include <X11/Xutil.h>
-#endif
-//#include <sys/types.h>
-#include <sys/wait.h>
 
+#include "widgets.hh"
 #include "browser.hh"
 #include "connection.hh"
 #include "main_window.hh"
 #include "updater.hh"
 #include "messagebox.hh"
 #include "constraints.hh"
+#include "al_wizard_face.hh"
+
+#ifdef Q_WS_X11
+#include <X11/Xlib.h>
+#include <X11/Xatom.h>
+#include <X11/Xutil.h>
+#include <QX11Info>
+#endif
 
 extern Updater *updater;
 extern Constraints *constraints;
+extern alWizardFace *wizard_face;
 
 bool x_redirect_error;
 bool x_error_occurred;
@@ -56,13 +61,18 @@ MainWindow::MainWindow():
 	int wnd_height = settings.value("main_window_height", wnd_recom_height).toInt();
 	settings.endGroup();
 
-	setGeometry(wnd_x, wnd_y, wnd_width, wnd_height);
+	geometry_ = QRect(wnd_x, wnd_y, wnd_width, wnd_height);
+	setGeometry(geometry_);
     }
     else
-	showFullScreen();
+	setFullScreen(true);
+
+    updater = new Updater(this);
+//    constraints = new Constraints();
+    AMessageBox::initButtonMap();
 
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(stop()));
-    QTimer::singleShot(0, this, SLOT(start()));
+    QTimer::singleShot(1000, this, SLOT(start()));
 }
 
 MainWindow::~MainWindow()
@@ -74,9 +84,6 @@ void MainWindow::start()
     if( started ) return;
     started = true;
 
-    updater = new Updater(this);
-//    constraints = new Constraints();
-    AMessageBox::initButtonMap();
     initConnection(getDocParser);
 }
 
@@ -119,7 +126,10 @@ bool MainWindow::haveWindowManager()
     if( detect_wm )
 	return have_wm;
 
-    bool have_wm = false;
+#if 0
+	have_wm = true;
+#else
+	have_wm = false;
 #ifdef Q_WS_X11
 	const QX11Info xinfo = x11Info();
 	Display *xdisplay = xinfo.display();
@@ -137,6 +147,7 @@ bool MainWindow::haveWindowManager()
 	}
 	else
 	    qDebug("No Window Manager detected");
+#endif
 #endif
     detect_wm = true;
     return have_wm;
@@ -160,4 +171,20 @@ void MainWindow::messageBox()
 void MainWindow::setAttributes(const QXmlAttributes& a)
 {
     xml_attributes = a;
+}
+
+void MainWindow::setHaveWindowManager(bool have)
+{
+    have_wm = have;
+}
+
+void MainWindow::setFullScreen(bool full)
+{
+    if( full )
+    {
+	geometry_ = geometry();
+	setGeometry(QApplication::desktop()->geometry());
+    }
+    else
+	setGeometry(geometry_);
 }

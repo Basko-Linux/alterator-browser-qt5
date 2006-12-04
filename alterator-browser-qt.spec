@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
-Version: 2.9.17
-Release: alt3
+Version: 2.9.18
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Mon Dec 04 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.18-alt1
+- fix full-screen mode
+
 * Mon Dec 04 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.17-alt3
 - fix LANGUAGE detection
 

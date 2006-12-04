@@ -8,7 +8,6 @@ namespace AMessageBox {
 	buttonMapType buttonMap;
 
 
-//	typedef QMessageBox::StandardButton (*msgfunc)(QMessageBox::QWidget *,
 	typedef QMessageBox::StandardButton (*msgfunc)(QWidget *,
                                        const QString &,
 				       const QString &,
@@ -83,6 +82,7 @@ AMsgBox::AMsgBox(
     ):
     QMessageBox(parent)
 {
+//    setWindowModality(Qt::ApplicationModal);
     QMessageBox::Icon i = QMessageBox::Information;
     if ("critical" == type)
 	i = QMessageBox::Critical;

@@ -18,8 +18,8 @@ public:
 	alMainWidgetPre(Type type, const QString& id,const QString& parent):
 		alWidget(type, id,parent)
 	{
-		wnd_ = new Widget(main_window);
-		wnd_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+		wnd_ = new MainWidget_t();
+		//wnd_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 		main_window->setCentralWidget( wnd_ );
 	}
 

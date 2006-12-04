@@ -4,6 +4,7 @@
 ADialog::ADialog(QWidget *parent):
     QDialog(parent)
 {
+//    setWindowModality(Qt::ApplicationModal);
     QGridLayout *main_layout = new QGridLayout(this);
     if( main_window->haveWindowManager() )
 	main_layout->setMargin(1);

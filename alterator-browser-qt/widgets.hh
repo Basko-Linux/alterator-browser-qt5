@@ -31,9 +31,6 @@
 #include "main_window.hh"
 #include "browser.hh"
 
-typedef QWidget MainWidget_t;
-
-
 #include "al_widget.hh"
 
 
