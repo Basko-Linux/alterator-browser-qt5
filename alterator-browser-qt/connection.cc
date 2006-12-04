@@ -34,18 +34,18 @@ QStringList languageList(const char *env)
 static
 QString createLangList()
 {
-    QString langlist(getenv("LC_ALL"));
+    QString lang(getenv("LC_ALL"));
     QString language(getenv("LANGUAGE"));
 
     if( !language.isEmpty() )
-	langlist += ":" + language;
-    if( langlist.isEmpty() )
-	langlist = getenv("LC_MESSAGES");
-    if( langlist.isEmpty() )
-	langlist = getenv("LANG");
-    if( langlist.isEmpty() )
-	langlist = "POSIX";
-    QStringList lst = langlist.split( ":", QString::SkipEmptyParts);
+	lang += ":" + language;
+    if( lang.isEmpty() )
+	lang = getenv("LC_MESSAGES");
+    if( lang.isEmpty() )
+	lang = getenv("LANG");
+    if( lang.isEmpty() )
+	lang = "POSIX";
+    QStringList lst = lang.split( ":", QString::SkipEmptyParts);
     return lst.join(";");
 }
 
