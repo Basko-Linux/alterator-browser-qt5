@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.17
-Release: alt2
+Release: alt3
 
 Source:%name-%version.tar
 
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Mon Dec 04 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.17-alt3
+- fix LANGUAGE detection
+
 * Fri Dec 01 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.17-alt2
 - fix messagebox borders and placement
 - add workaround against showing dialogs when loaded
