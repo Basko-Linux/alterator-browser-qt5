@@ -35,11 +35,11 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	}
 	else if ("max-width" == name)
 	{
-	    setMaximumWidth(value.toInt());
+	    getWidget()->setMaximumWidth(value.toInt());
 	}
 	else if ("max-height" == name)
 	{
-	    setMaximumHeight(value.toInt());
+	    getWidget()->setMaximumHeight(value.toInt());
 	}
 	else if ("help" == name)
 	{
