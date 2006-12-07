@@ -16,11 +16,9 @@ public:
     ~MainWindow();
 
     bool haveWindowManager();
-    void setAttributes(const QXmlAttributes&);
     void setFullScreen(bool);
 
 public slots:
-    void messageBox();
     void start();
     void stop();
 
@@ -29,7 +27,6 @@ private:
     bool started;
     bool have_wm;
     bool detect_wm;
-    QXmlAttributes xml_attributes;
 
 //    void showEvent(QShowEvent*);
 //    void customEvent(QEvent*);

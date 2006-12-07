@@ -107,12 +107,15 @@ void AMsgBox::showEvent(QShowEvent *e)
     //QMessageBox::showEvent(e);
     if( !main_window->haveWindowManager() )
     {
-	int x = QApplication::desktop()->width()/2 - width()/2;
-	if( x < 0 ) x = 0;
-	int y = QApplication::desktop()->height()/2 - height()/2;
-	if( y < 0 ) y = 0;
+	QWidget *xparent = QApplication::desktop();
+	int x = (xparent->width() - width()) / 2;
+	if( x < 0 )
+	    x = 0;
+	int y = (xparent->height() - height()) / 2;
+	if( y < 0 )
+	    y = 0;
 	move(x, y);
-	QCursor::setPos(mapToGlobal(QPoint(width()/2, height()/2)));
+	QCursor::setPos(mapToGlobal(QPoint(width()-5, height()-5)));
     }
 }
 

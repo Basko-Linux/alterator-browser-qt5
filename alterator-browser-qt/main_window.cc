@@ -149,28 +149,6 @@ bool MainWindow::haveWindowManager()
     return have_wm;
 }
 
-void MainWindow::messageBox()
-{
-    updater->pause();
-    QWidget *parent = QApplication::activeWindow();
-    AMsgBox msgbox(
-	xml_attributes.value("type"),
-	xml_attributes.value("title"),
-	xml_attributes.value("message"),
-	xml_attributes.value("buttons"),
-	parent
-	);
-    const QString answer = AMessageBox::unconvertButton((QMessageBox::StandardButton)msgbox.exec());
-    xml_attributes.clear();
-    getDocument(getDocParser,answer);
-    updater->resume();
-}
-
-void MainWindow::setAttributes(const QXmlAttributes& a)
-{
-    xml_attributes = a;
-}
-
 void MainWindow::setFullScreen(bool full)
 {
     if( full )

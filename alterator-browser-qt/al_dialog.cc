@@ -2,7 +2,7 @@
 #include "hacks.hh"
 
 ADialog::ADialog(QWidget *parent):
-    QDialog(parent)
+    QDialog(0)
 {
     //qDebug("new ADialog");
 //    setWindowModality(Qt::ApplicationModal);
@@ -27,12 +27,15 @@ void ADialog::showEvent(QShowEvent *e)
     //QDialog::showEvent(e);
     if( !main_window->haveWindowManager() )
     {
-	int x = QApplication::desktop()->width()/2 - width()/2;
-	if( x < 0 ) x = 0;
-	int y = QApplication::desktop()->height()/2 - height()/2;
-	if( y < 0 ) y = 0;
+	QWidget *xparent = QApplication::desktop();
+	int x = (xparent->width() - width()) / 2;
+	if( x < 0 )
+	    x = 0;
+	int y = (xparent->height() - height()) / 2;
+	if( y < 0 )
+	    y = 0;
 	move(x, y);
-	QCursor::setPos(mapToGlobal(QPoint(width()/2, height()/2)));
+	QCursor::setPos(mapToGlobal(QPoint(width()-5, height()-5)));
     }
 }
 
