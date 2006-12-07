@@ -126,7 +126,7 @@ void QListWidget2::keyPressEvent(QKeyEvent * e)
 
 void QListWidget2::showEvent(QShowEvent *e)
 {
-    QListWidget::showEvent(e);
+    //QListWidget::showEvent(e);
     scrollTo(currentIndex());
 }
 
@@ -146,7 +146,7 @@ void QTreeWidget2::keyPressEvent(QKeyEvent * e)
 
 void QTreeWidget2::showEvent(QShowEvent *e)
 {
-    QTreeWidget::showEvent(e);
+    //QTreeWidget::showEvent(e);
     scrollTo(currentIndex());
 }
 

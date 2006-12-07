@@ -220,8 +220,8 @@ void timerRequest(const QString& action)
 
 void messageboxRequest(const QXmlAttributes& e)
 {
-#if 0
     QWidget *parent = QApplication::activeWindow();
+#if 0
 /*
     const QString answer =
 	AMessageBox::unconvertButton(
@@ -241,6 +241,7 @@ void messageboxRequest(const QXmlAttributes& e)
 	e.value("buttons"),
 	parent
 	);
+    //qDebug("AMsgBox exec");
     const QString answer = AMessageBox::unconvertButton((QMessageBox::StandardButton)msgbox.exec());
     getDocument(getDocParser,answer);
 #else
@@ -335,10 +336,11 @@ int main(int argc,char **argv)
 {
     QApplication app(argc, argv);
 
-    main_window = new MainWindow();
-    main_window->show();
+    MainWindow mw;
+    mw.show();
+    main_window = &mw;
     int ret = app.exec();
-    //main_window = 0;
+    main_window = 0;
     return ret;
 }
 

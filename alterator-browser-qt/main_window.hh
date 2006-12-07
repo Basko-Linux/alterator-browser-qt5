@@ -7,8 +7,6 @@
 #include <QXmlAttributes>
 
 typedef QMainWindow MainWindow_t;
-//typedef QWidget MainWindow_t;
-typedef QGridLayout MainWindowLayout_t;
 
 class MainWindow: public MainWindow_t
 {
@@ -18,12 +16,13 @@ public:
     ~MainWindow();
 
     bool haveWindowManager();
-    void setHaveWindowManager(bool);
     void setAttributes(const QXmlAttributes&);
     void setFullScreen(bool);
 
 public slots:
     void messageBox();
+    void start();
+    void stop();
 
 private:
     QRect geometry_;
@@ -35,8 +34,5 @@ private:
 //    void showEvent(QShowEvent*);
 //    void customEvent(QEvent*);
 
-private slots:
-    void start();
-    void stop();
 };
 #endif

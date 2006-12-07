@@ -9,16 +9,7 @@ void alMainWidget::setAttr(const QString& name,const QString& value)
 	}
 	else if ("full-screen" == name)
 	{
-		if ("true" == value)
-		{
-			main_window->setFullScreen(true);
-			main_window->setHaveWindowManager(false);
-		}
-		else
-		{
-			main_window->setFullScreen(false);
-			main_window->setHaveWindowManager(true);
-		}
+	    main_window->setFullScreen("true" == value);
 	}
 	else if ("layout-policy" == name)
 	{

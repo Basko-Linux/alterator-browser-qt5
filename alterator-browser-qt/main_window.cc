@@ -41,7 +41,7 @@ int x_catchRedirectError(Display *, XErrorEvent *event)
 }
 
 MainWindow::MainWindow():
-    MainWindow_t()
+    MainWindow_t(0)
 {
     started = false;
     detect_wm = false;
@@ -126,9 +126,6 @@ bool MainWindow::haveWindowManager()
     if( detect_wm )
 	return have_wm;
 
-#if 0
-	have_wm = true;
-#else
 	have_wm = false;
 #ifdef Q_WS_X11
 	const QX11Info xinfo = x11Info();
@@ -147,7 +144,6 @@ bool MainWindow::haveWindowManager()
 	}
 	else
 	    qDebug("No Window Manager detected");
-#endif
 #endif
     detect_wm = true;
     return have_wm;
@@ -171,11 +167,6 @@ void MainWindow::messageBox()
 void MainWindow::setAttributes(const QXmlAttributes& a)
 {
     xml_attributes = a;
-}
-
-void MainWindow::setHaveWindowManager(bool have)
-{
-    have_wm = have;
 }
 
 void MainWindow::setFullScreen(bool full)

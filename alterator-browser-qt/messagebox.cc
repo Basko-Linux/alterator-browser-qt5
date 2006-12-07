@@ -82,6 +82,7 @@ AMsgBox::AMsgBox(
     ):
     QMessageBox(parent)
 {
+    //qDebug("new AMsgBox");
 //    setWindowModality(Qt::ApplicationModal);
     QMessageBox::Icon i = QMessageBox::Information;
     if ("critical" == type)
@@ -102,6 +103,8 @@ AMsgBox::~AMsgBox() {}
 
 void AMsgBox::showEvent(QShowEvent *e)
 {
+    //qDebug("AMsgBox::showEvent");
+    //QMessageBox::showEvent(e);
     if( !main_window->haveWindowManager() )
     {
 	int x = QApplication::desktop()->width()/2 - width()/2;
@@ -117,7 +120,7 @@ void AMsgBox::paintEvent(QPaintEvent* e)
 {
     if( !main_window->haveWindowManager() )
     {
-	QDialog::paintEvent(e);
+	//QMessageBox::paintEvent(e);
 	widget_corners_round(this);
     }
 }

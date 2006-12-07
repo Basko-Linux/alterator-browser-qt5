@@ -51,7 +51,7 @@ public:
 	alLabel(const QString& id,const QString& parent):
 		alWidgetPre<QLabel>(Label, id,parent)
 		{
-		    wnd_->setWordWrap( true );
+		    //wnd_->setWordWrap( true );
 		    //wnd_->setFrameStyle(QFrame::Sunken|QFrame::StyledPanel);
 		}
 	void setAttr(const QString& name,const QString& value);

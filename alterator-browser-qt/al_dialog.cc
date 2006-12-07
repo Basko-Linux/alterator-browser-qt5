@@ -4,6 +4,7 @@
 ADialog::ADialog(QWidget *parent):
     QDialog(parent)
 {
+    //qDebug("new ADialog");
 //    setWindowModality(Qt::ApplicationModal);
     QGridLayout *main_layout = new QGridLayout(this);
     if( main_window->haveWindowManager() )
@@ -22,6 +23,7 @@ QWidget* ADialog::getView()
 
 void ADialog::showEvent(QShowEvent *e)
 {
+    //qDebug("ADialog::showEvent");
     //QDialog::showEvent(e);
     if( !main_window->haveWindowManager() )
     {
@@ -38,7 +40,7 @@ void ADialog::paintEvent(QPaintEvent* e)
 {
     if( !main_window->haveWindowManager() )
     {
-	QDialog::paintEvent(e);
+	//QDialog::paintEvent(e);
 	widget_corners_round(this);
     }
 }

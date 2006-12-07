@@ -11,7 +11,7 @@
 
 class AWizardFace: public QWidget
 {
-    Q_OBJECT;
+    Q_OBJECT
 public:
     AWizardFace( QWidget *parent=0, Qt::WFlags f=0 );
     ~AWizardFace();
