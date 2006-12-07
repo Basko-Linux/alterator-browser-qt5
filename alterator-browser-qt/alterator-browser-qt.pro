@@ -25,6 +25,7 @@ HEADERS += main_window.hh updater.hh a_pixmaps.hh utils.hh constraints.hh
 HEADERS += al_wizard_face.hh al_dialog.hh al_widget.hh al_main_widget.hh
 HEADERS += al_edit.hh al_textbox.hh al_spacer.hh al_box.hh al_groupbox.hh
 DATA = *.pro *.spec
+FORMS += help_browser.ui
 
 target.path = /usr/bin/
 INSTALLS += target

@@ -43,7 +43,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	}
 	else if ("help" == name)
 	{
-		//updateHelp(value);
+	    //updateHelp(value);
 	}
 }
 
