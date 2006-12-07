@@ -45,6 +45,8 @@ MainWindow::MainWindow():
 {
     started = false;
     detect_wm = false;
+    help_browser = new HelpBrowser(this);
+
     have_wm = haveWindowManager();
     if( have_wm )
     {
@@ -158,4 +160,51 @@ void MainWindow::setFullScreen(bool full)
     }
     else
 	setGeometry(geometry_);
+}
+
+void MainWindow::setHelpSource(const QString& str)
+{
+    help_browser->setHelpSource(str);
+}
+
+void MainWindow::keyPressEvent(QKeyEvent* e)
+{
+    switch( e->key() )
+    {
+	case Qt::Key_F1:
+	{
+	    QTimer::singleShot(0, help_browser, SLOT(exec()));
+	    break;
+	}
+	default:
+	    break;
+    }
+#if 0
+    if(e->key() == Qt::Key_Return)
+    {
+#if 1
+	qDebug("%s: Key_Return released", __FUNCTION__);
+	if( current_step && current_step->info()->isNextEnabled() )
+	    QTimer::singleShot(0, current_step, SLOT(next()));
+#else
+	QObjectList *list = queryList( "QPushButton" );
+	QObjectListIt it( *list );
+	QPushButton *pb;
+	while ( (pb = (QPushButton*)it.current()) )
+	{
+	    if ( pb->isDefault() && pb->isVisible() )
+	    {
+	        delete list;
+		if ( pb->isEnabled() )
+		{
+		    emit pb->clicked();
+		}
+	    return;
+	    }
+	    ++it;
+	}
+	delete list;
+#endif
+    }
+#endif
 }

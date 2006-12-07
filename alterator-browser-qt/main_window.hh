@@ -6,6 +6,8 @@
 #include <QGridLayout>
 #include <QXmlAttributes>
 
+#include "help_browser.hh"
+
 typedef QMainWindow MainWindow_t;
 
 class MainWindow: public MainWindow_t
@@ -17,6 +19,7 @@ public:
 
     bool haveWindowManager();
     void setFullScreen(bool);
+    void setHelpSource(const QString&);
 
 public slots:
     void start();
@@ -27,7 +30,9 @@ private:
     bool started;
     bool have_wm;
     bool detect_wm;
+    HelpBrowser *help_browser;
 
+    void keyPressEvent(QKeyEvent*);
 //    void showEvent(QShowEvent*);
 //    void customEvent(QEvent*);
 

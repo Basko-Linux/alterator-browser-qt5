@@ -35,8 +35,6 @@
 
 
 extern MainWindow *main_window;
-extern QString help_source;
-
 QLayout *findViewLayout(const QString& id);
 QWidget* findQWidget(const QString& id);
 alWidget* findAlWidget(const QString& id);
@@ -223,21 +221,34 @@ protected:
 	QString postData() const ;
 };
 
-class alHelpPlace: public alWidgetPre<QTextBrowser>
+template <typename Widget>
+class alHelpPlacePre: public alWidget
 {
-Q_OBJECT
+protected:
+	Widget *wnd_;
+public:
+	alHelpPlacePre(Type type, const QString& id,const QString& parent):
+		alWidget(type, id,parent)
+	{
+	    wnd_ = main_window;
+	}
+
+	~alHelpPlacePre() {}
+	Widget* getWidget() { return wnd_; }	
+	virtual QWidget* getViewWidget() { return wnd_; }	
+	virtual QLayout* getViewLayout() { return wnd_->layout(); }	
+	void show(bool) {};
+};
+
+class alHelpPlace: public alHelpPlacePre<MainWindow_t>
+{
 public:
 	alHelpPlace(const QString& id,const QString& parent):
-		alWidgetPre<QTextBrowser>(HelpPlace,id,parent)
+		alHelpPlacePre<MainWindow_t>(HelpPlace,id,parent)
 	{
-		if (!help_source.isEmpty()) wnd_->setSource(help_source);
-		connect(wnd_,SIGNAL(anchorClicked(const QUrl&)),
-		             SLOT(onAnchor(const QUrl&)));
 	}
 protected:
 	void setAttr(const QString& name,const QString& value);
-protected slots:
-	void onAnchor(const QUrl& url);
 };
 
 class alSlider: public alWidgetPre<QSlider>

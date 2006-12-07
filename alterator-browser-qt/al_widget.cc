@@ -1,6 +1,9 @@
 
+#include "main_window.hh"
+
 #include "al_widget.hh"
 
+extern MainWindow *main_window;
 QMap<QString,alWidget*> elements;
 
 alWidget::alWidget(Type type, const QString& id,const QString& parent):
@@ -43,7 +46,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	}
 	else if ("help" == name)
 	{
-	    //updateHelp(value);
+	    main_window->setHelpSource(value);
 	}
 }
 

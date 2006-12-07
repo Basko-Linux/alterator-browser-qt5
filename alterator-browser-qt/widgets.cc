@@ -4,11 +4,8 @@
 #include "a_pixmaps.hh"
 
 
-QString help_source;
-
 void updateHelp(const QString& value)
 {
-	help_source = value;
 	QMapIterator<QString,alWidget*> i(elements);
 	while (i.hasNext())
 	{
@@ -527,15 +524,8 @@ void alTree::setItems()
 
 void alHelpPlace::setAttr(const QString& name,const QString& value)
 {
-	if ("source" == name)
-		wnd_->setSource(value);
-	else
-		alWidget::setAttr(name,value);
-}
-
-void alHelpPlace::onAnchor(const QUrl& url)
-{
-	wnd_->setSource(url);
+    if("source" == name)
+	main_window->setHelpSource(value);
 }
 
 void alSlider::setAttr(const QString& name,const QString& value)
