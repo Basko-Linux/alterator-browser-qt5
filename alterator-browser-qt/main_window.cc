@@ -151,6 +151,7 @@ bool MainWindow::haveWindowManager()
 
 void MainWindow::messageBox()
 {
+    updater->pause();
     QWidget *parent = QApplication::activeWindow();
     AMsgBox msgbox(
 	xml_attributes.value("type"),
@@ -162,6 +163,7 @@ void MainWindow::messageBox()
     const QString answer = AMessageBox::unconvertButton((QMessageBox::StandardButton)msgbox.exec());
     xml_attributes.clear();
     getDocument(getDocParser,answer);
+    updater->resume();
 }
 
 void MainWindow::setAttributes(const QXmlAttributes& a)

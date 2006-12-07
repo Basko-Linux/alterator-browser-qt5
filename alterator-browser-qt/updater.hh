@@ -16,8 +16,11 @@ Q_OBJECT
 		void doRetry();
 		void start();
 		void stop();
+		void pause();
+		void resume();
 	private:
 		QTimer *timer_;
+		bool    restart_;
 };
 
 

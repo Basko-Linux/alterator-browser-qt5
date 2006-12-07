@@ -220,8 +220,9 @@ void timerRequest(const QString& action)
 
 void messageboxRequest(const QXmlAttributes& e)
 {
-    QWidget *parent = QApplication::activeWindow();
 #if 0
+    updater->pause();
+    QWidget *parent = QApplication::activeWindow();
 /*
     const QString answer =
 	AMessageBox::unconvertButton(
@@ -244,6 +245,7 @@ void messageboxRequest(const QXmlAttributes& e)
     //qDebug("AMsgBox exec");
     const QString answer = AMessageBox::unconvertButton((QMessageBox::StandardButton)msgbox.exec());
     getDocument(getDocParser,answer);
+    updater->resume();
 #else
     main_window->setAttributes(e);
     QTimer::singleShot(0, main_window, SLOT(messageBox()));
