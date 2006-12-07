@@ -91,12 +91,12 @@ AMsgBox::AMsgBox(
 	i = QMessageBox::Question;
     else if ("warning" == type)
 	i = QMessageBox::Warning;
+    QMessageBox::StandardButtons btns = AMessageBox::convertButtonList(buttons);
+    if(!btns) btns = QMessageBox::Ok;
+    setStandardButtons(btns);
     setIcon(i);
     setWindowTitle(title);
     setText(text);
-    QMessageBox::StandardButtons btns = AMessageBox::convertButtonList(buttons);
-    if(!btns) btns |= QMessageBox::Ok;
-    setStandardButtons(btns);
 }
 
 AMsgBox::~AMsgBox() {}
