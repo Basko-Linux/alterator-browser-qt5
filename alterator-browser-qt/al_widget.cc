@@ -33,6 +33,14 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	else if ("layout-policy" == name)
 	{
 	}
+	else if ("max-width" == name)
+	{
+	    setMaximumWidth(value.toInt());
+	}
+	else if ("max-height" == name)
+	{
+	    setMaximumHeight(value.toInt());
+	}
 	else if ("help" == name)
 	{
 		//updateHelp(value);
