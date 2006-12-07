@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.19
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Thu Dec 07 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.19-alt2
+- fix messagebox buttons size
+
 * Thu Dec 07 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.19-alt1
 - add max-width, max-height attributes
 
