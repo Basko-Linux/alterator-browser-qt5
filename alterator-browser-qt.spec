@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
-Version: 2.9.19
-Release: alt2
+Version: 2.9.20
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -58,6 +58,10 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Fri Dec 08 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.20-alt1
+- implement help browser
+- reduce events flood from slider
+
 * Thu Dec 07 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.19-alt2
 - fix messagebox buttons size
 
