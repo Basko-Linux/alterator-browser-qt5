@@ -251,20 +251,8 @@ protected:
 	void setAttr(const QString& name,const QString& value);
 };
 
-class alSlider: public alWidgetPre<QSlider>
-{
-Q_OBJECT
-public:
-    alSlider(const QString& id, const QString& parent):
-	alWidgetPre<QSlider>(Slider,id,parent)
-    {
-	wnd_->setOrientation( Qt::Horizontal );
-	wnd_->setTickPosition( QSlider::TicksBothSides );
-    }
-    void setAttr(const QString& name,const QString& value);
-    void registerEvent(const QString&);
-    QString postData() const;
-};
+
+#include "al_slider.hh"
 
 class alSplitter: public alWidgetPre<QSplitter>
 {

@@ -528,42 +528,6 @@ void alHelpPlace::setAttr(const QString& name,const QString& value)
 	main_window->setHelpSource(value);
 }
 
-void alSlider::setAttr(const QString& name,const QString& value)
-{
-	if( "orientation" == name )
-	{
-	    if( "vertical" == value )
-		wnd_->setOrientation(Qt::Vertical);
-	    else
-		wnd_->setOrientation(Qt::Horizontal);
-	}
-	else if( "minimum" == name )
-	    wnd_->setMinimum( value.toInt() );
-	else if( "maximum" == name )
-	    wnd_->setMaximum( value.toInt() );
-	else if( "step" == name )
-	{
-	    int step = value.toInt();
-	    wnd_->setSingleStep( step );
-	    wnd_->setPageStep( step * 8 );
-	}
-	else if( "value" == name )
-	    wnd_->setValue(value.toInt());
-	else
-	    alWidget::setAttr(name,value);
-}
-
-void alSlider::registerEvent(const QString& name)
-{
-	if ("changed" == name)
-		connect(wnd_, SIGNAL(sliderMoved(int)), SLOT(onChange(int)));
-}
-
-QString alSlider::postData() const
-{
-	return QString(" (value . %1 )").arg(wnd_->value());
-}
-
 void alSplitter::setAttr(const QString& name,const QString& value)
 {
 	if( "orientation" == name )

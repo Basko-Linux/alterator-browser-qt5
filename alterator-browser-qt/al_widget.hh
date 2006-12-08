@@ -51,8 +51,8 @@ public slots:
 	void onClick(QListWidgetItem*) { emitEvent(id_,"clicked"); }
 	void onClick(QTreeWidgetItem*,int) { emitEvent(id_,"clicked"); }
 
+	void onChange() { emitEvent(id_,"changed"); }
 	void onChange(int) { emitEvent(id_,"changed"); }
-	void onChange(void) { emitEvent(id_,"changed"); }
 	void onChange(const QString&) { emitEvent(id_,"changed"); }
 	void onChange(QWidget*) { emitEvent(id_,"changed"); }
 
