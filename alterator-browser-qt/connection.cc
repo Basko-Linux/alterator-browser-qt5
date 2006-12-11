@@ -18,19 +18,6 @@ void parseAnswer(alRequest *dom,void(parser)(alCommand*))
 	    parser(it.next());
 }
 
-QStringList languageList(const char *env)
-{
-	QStringList in = QString(env).split(":", QString::SkipEmptyParts);
-	QStringList out;
-	QStringListIterator it(in);
-	while(it.hasNext())
-	{
-		QString item = it.next();
-		if (!item.isEmpty()) out += item.replace(QRegExp("\\..*"),"");
-	}
-	return out;
-}
-
 static
 QString createLangList()
 {
@@ -46,7 +33,14 @@ QString createLangList()
     if( lang.isEmpty() )
 	lang = "POSIX";
     QStringList lst = lang.split( ":", QString::SkipEmptyParts);
-    return lst.join(";");
+    QStringList lst2;
+    QStringListIterator it(lst);
+    while(it.hasNext())
+    {
+	QString item = it.next();
+	lst2.append(item.replace(QRegExp("\\..*"),""));
+    }
+    return lst2.join(";");
 }
 
 
