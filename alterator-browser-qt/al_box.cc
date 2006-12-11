@@ -34,10 +34,6 @@ void alBox::setAttr(const QString& name,const QString& value)
 	{
 		//wnd_->setBrush(QBrush(QColor(value)));
 	}
-	else if ("children-align" == name)
-	{
-	}
 	else
 	    alWidget::setAttr(name,value);
 }
-

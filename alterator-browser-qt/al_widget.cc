@@ -2,6 +2,7 @@
 #include "main_window.hh"
 
 #include "al_widget.hh"
+#include "utils.hh"
 
 extern MainWindow *main_window;
 QMap<QString,alWidget*> elements;
@@ -43,6 +44,20 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	else if ("max-height" == name)
 	{
 	    getWidget()->setMaximumHeight(value.toInt());
+	}
+	else if ("children-align" == name)
+	{
+	    setChildrenAlignment(Utils::convertAlign(value));
+	}
+	else if ("align" == name)
+	{
+	    QWidget *pw = getWidget()->parentWidget();
+	    if( pw )
+	    {
+		QLayout *l = pw->layout();
+		if( l )
+		    l->setAlignment(getWidget(), Utils::convertAlign(value));
+	    }
 	}
 	else if ("help" == name)
 	{
@@ -125,4 +140,14 @@ QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy
 	}
     }
     return szpol;
+}
+
+void alWidget::setChildrenAlignment(Qt::Alignment a)
+{
+    children_alignment = a;
+}
+
+Qt::Alignment alWidget::childrenAlignment()
+{
+    return children_alignment;
 }

@@ -16,7 +16,7 @@ Qt::Alignment convertAlign(const QString& value)
 	if ("left" == value) return  Qt::AlignLeft;
 	else if ("right" == value) return Qt::AlignRight;
 	else if ("center" == value) return Qt::AlignCenter;
-	return Qt::AlignCenter;
+	return Qt::AlignJustify;
 }
 
 QLineEdit::EchoMode convertEchoMode(const QString& value)

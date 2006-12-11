@@ -2,6 +2,7 @@
 
 #include "widgets.hh"
 #include "a_pixmaps.hh"
+#include "utils.hh"
 
 
 void updateHelp(const QString& value)
@@ -62,7 +63,7 @@ void alLabel::setAttr(const QString& name,const QString& value)
 		wnd_->setPixmap( getPixmap(value) );
 	else if ("align" == name)
 	{
-		//wnd_->setAlignment(convertAlign(value));
+		wnd_->setAlignment(Utils::convertAlign(value));
 	}
 	else
 		alWidget::setAttr(name,value);

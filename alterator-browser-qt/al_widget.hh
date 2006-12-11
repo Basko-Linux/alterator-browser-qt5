@@ -27,6 +27,7 @@ protected:
 	Type type_;
 	QString id_;
 	QString parent_;
+	Qt::Alignment children_alignment;
 public:
 	alWidget(Type type, const QString& id,const QString& parent);
 	virtual ~alWidget();
@@ -45,6 +46,8 @@ public:
 	Type type() { return type_; };
 	virtual void show(bool) = 0;
 	static QSizePolicy adjustSizePolicy(const Type, const QSizePolicy, const Qt::Orientation orientation);
+	void setChildrenAlignment(Qt::Alignment);
+	Qt::Alignment childrenAlignment();
 public slots:
 	void onClick() { emitEvent(id_,"clicked"); }
 	void onClick(bool) { emitEvent(id_,"clicked"); }
@@ -114,12 +117,21 @@ public:
 			QBoxLayout *bl = qobject_cast<QBoxLayout*>(l);
 			if( bl )
 			{
-			    Qt::Orientation orientation= Qt::Horizontal;
+			    Qt::Orientation orientation = Qt::Horizontal;
 			    if( bl->direction() == QBoxLayout::TopToBottom || bl->direction() == QBoxLayout::BottomToTop )
 				orientation = Qt::Vertical;
 			    wnd_->setSizePolicy(alWidget::adjustSizePolicy( type, wnd_->sizePolicy(), orientation ));
 			}
-			l->addWidget(wnd_);
+			alWidget *ap = 0;
+			QObject *op = QObject::parent();
+			if( op )
+			    ap = qobject_cast<alWidget*>(op);
+			if( ap && ap->childrenAlignment() != Qt::AlignJustify )
+			{
+			    bl->addWidget(wnd_, 0, ap->childrenAlignment());
+			}
+			else
+			    l->addWidget(wnd_);
 		    }
 		}
 	}
@@ -131,7 +143,5 @@ public:
 	void show(bool b) { if(b && wnd_) wnd_->show(); else wnd_->hide(); };
 	void adjustSizePolicy(Qt::Orientation);
 };
-
-
 
 #endif
