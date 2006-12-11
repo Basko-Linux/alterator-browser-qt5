@@ -22,6 +22,7 @@ AWizardFace::AWizardFace( QWidget *parent, Qt::WFlags f):
     key2type["generic"]  = AWizardFace::ActionGeneric;
 
     steps_widget = new QFrame(this);
+    steps_widget->hide();
     steps_widget->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
     steps_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
 
@@ -293,6 +294,7 @@ void AWizardFace::clearActions()
 
 void AWizardFace::addStep(const QString& name, const QString& pixmap)
 {
+    steps_widget->show();
     new QListWidgetItem(QIcon(getPixmap(pixmap)), name, stepbox);
 }
 
