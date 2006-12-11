@@ -11,7 +11,8 @@ alWidget::alWidget(Type type, const QString& id,const QString& parent):
     QObject(elements.value(parent,0)),
     type_(type),
     id_(id),
-    parent_(parent)
+    parent_(parent),
+    children_alignment(Qt::AlignJustify)
 {
     elements[id] = this;
 }

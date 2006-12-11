@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.20
+Version: 2.9.21
 Release: alt1
 
 Source:%name-%version.tar
@@ -58,6 +58,10 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Mon Dec 11 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.21-alt1
+- return children-align attribute
+- add align attribute
+
 * Fri Dec 08 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.20-alt1
 - implement help browser
 - reduce events flood from slider
