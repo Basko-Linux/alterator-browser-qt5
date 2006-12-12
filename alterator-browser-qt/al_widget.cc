@@ -48,7 +48,8 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	}
 	else if ("children-align" == name)
 	{
-	    setChildrenAlignment(Utils::convertAlign(value));
+	    // turn off
+	    //setChildrenAlignment(Utils::convertAlign(value));
 	}
 	else if ("align" == name)
 	{

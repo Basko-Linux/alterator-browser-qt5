@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.21
-Release: alt2
+Release: alt3
 
 Source:%name-%version.tar
 
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Tue Dec 12 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.21-alt3
+- turn off children-align attribute
+
 * Mon Dec 11 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.21-alt2
 - don't show empty steps list
 
