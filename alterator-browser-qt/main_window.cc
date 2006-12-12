@@ -70,7 +70,7 @@ MainWindow::MainWindow():
 	setFullScreen(true);
 
     updater = new Updater(this);
-//    constraints = new Constraints();
+    constraints = new Constraints();
     AMessageBox::initButtonMap();
 
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(stop()));

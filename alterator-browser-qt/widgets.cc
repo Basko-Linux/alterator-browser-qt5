@@ -40,6 +40,21 @@ alWidget* findAlWidget(const QString& id)
 	return elements[id];
 }
 
+alWidget *findAlWidgetByName(const QString& name)
+{
+    QMapIterator<QString,alWidget*> it(elements);
+    while(it.hasNext())
+    {
+	it.next();
+	alWidget *item = it.value();
+	if (item->objectName() == name)
+	{
+	    return item;
+	}
+    }
+    return 0;
+}
+
 QList<alWidget*> findAlChildren(const QString& id)
 {
     QList<alWidget*> children;

@@ -304,6 +304,7 @@ void getDocParser(alCommand *cmd)
 		                 e.value("type"),
 			         e.value("params"));
 	}
+	//qDebug("getDocParser action %s", action.toLatin1().data());
 }
 
 ////////////////////////////////////////////////

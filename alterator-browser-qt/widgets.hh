@@ -38,6 +38,7 @@ extern MainWindow *main_window;
 QLayout *findViewLayout(const QString& id);
 QWidget* findQWidget(const QString& id);
 alWidget* findAlWidget(const QString& id);
+alWidget *findAlWidgetByName(const QString& name);
 QList<alWidget*> findAlChildren(const QString& id);
 
 #include "al_main_widget.hh"

@@ -21,7 +21,7 @@ private:
     QLineEdit *edit;
 };
 
-class alEdit: public alWidgetPre<QLineEdit>
+class alEdit: public alWidgetPre<AEdit>
 {
 public:
 	alEdit(const QString& id,const QString& parent);

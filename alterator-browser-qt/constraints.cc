@@ -9,7 +9,7 @@ namespace {
 		while(it.hasNext())
 		{
 			it.next();
-			alWidget *excluder = findAlWidget(it.key());
+			alWidget *excluder = findAlWidgetByName(it.key());
 			if (excluder && excluder->getValue() == it.value())
 				return true;
 		}
@@ -30,7 +30,7 @@ void Constraints::clear()
 	QSetIterator<QString> it(excluders);
 	while(it.hasNext())
 	{
-		alWidget *w = findAlWidget(it.next());
+		alWidget *w = findAlWidgetByName(it.next());
 		if (w) QObject::disconnect(w,SIGNAL(updated()),this,SLOT(exclude()));
 	}
 
@@ -42,7 +42,7 @@ void Constraints::clear()
 	QListIterator<QString> it1(required);
 	while(it1.hasNext())
 	{
-		alWidget *w = findAlWidget(it1.next());
+		alWidget *w = findAlWidgetByName(it1.next());
 		if (w) w->markRequired(false);
 	}
 	required.clear();
@@ -54,7 +54,7 @@ void  Constraints::apply()
 	QSetIterator<QString> it(excluders);
 	while(it.hasNext())
 	{
-		alWidget *w = findAlWidget(it.next());
+		alWidget *w = findAlWidgetByName(it.next());
 		if (w) QObject::connect(w,SIGNAL(updated()),this,SLOT(exclude()));
 	}
 	//recheck excludes now
@@ -64,13 +64,14 @@ void  Constraints::apply()
 	QListIterator<QString> it1(required);
 	while(it1.hasNext())
 	{
-		alWidget *w = findAlWidget(it1.next());
+		alWidget *w = findAlWidgetByName(it1.next());
 		if (w) w->markRequired(true);
 	}
 }
 
 void Constraints::add(const QString& name,const QString& type,const QString& params)
 {
+    //qDebug("Constraints::add %s, %s, %s", name.toLocal8Bit().data(), type.toLocal8Bit().data(), params.toLocal8Bit().data());
 	if ("exclude" == type)
 	{	
 		QStringList data = params.split(";");
@@ -92,7 +93,7 @@ void Constraints::exclude()
 	while(it.hasNext())
 	{
 		it.next();
-		alWidget *w = findAlWidget(it.key());
+		alWidget *w = findAlWidgetByName(it.key());
 		if (w) w->getWidget()->setEnabled(!needExclude(it.value()));
 	}
 }

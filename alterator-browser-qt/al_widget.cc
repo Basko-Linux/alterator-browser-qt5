@@ -29,7 +29,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	else if ("activity" == name)
 		getWidget()->setEnabled("true" == value);
 	else if ("widget-name" == name)
-		getWidget()->setObjectName(value);
+		setObjectName(value);
 	else if ("tooltip" == name)
 	{
 		QStringList args = value.split(";");

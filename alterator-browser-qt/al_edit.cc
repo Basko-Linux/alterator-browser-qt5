@@ -4,14 +4,13 @@
 AEdit::AEdit(QWidget *parent):
     QWidget(parent)
 {
-    QHBoxLayout layout(this);
-    mark = new QLabel(this);
-    mark->hide();
-    mark->setText("(required)");
+    mark = new QLabel("(required)" ,this);
     edit = new QLineEdit(this);
     edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    layout.addWidget(mark);
-    layout.addWidget(edit);
+
+    QHBoxLayout *layout = new QHBoxLayout(this);
+    layout->addWidget(mark);
+    layout->addWidget(edit);
 }
 
 AEdit::~AEdit() {}
@@ -47,7 +46,7 @@ void AEdit::markRequired(bool req)
 
 // alEdit
 alEdit::alEdit(const QString& id,const QString& parent):
-		alWidgetPre<QLineEdit>(Edit,id,parent)
+		alWidgetPre<AEdit>(Edit,id,parent)
 {
 }
 
@@ -79,5 +78,5 @@ QString alEdit::postData() const
 
 void alEdit::markRequired(bool req)
 {
-//    wnd_->markRequired(req);
+    wnd_->markRequired(req);
 }
