@@ -21,17 +21,26 @@ AWizardFace::AWizardFace( QWidget *parent, Qt::WFlags f):
     key2type["forward"]  = AWizardFace::ActionForward;
     key2type["generic"]  = AWizardFace::ActionGeneric;
 
-    steps_widget = new QFrame(this);
-    steps_widget->hide();
-    steps_widget->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
-    steps_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
+    current_step = 0;
 
-    stepbox = new QListWidget(steps_widget);
+    title_widget = new QFrame(this);
+    title_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+    title_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
 
-    title = new QLabel(this);
-    title->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
-    title->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
-    title->setAlignment(Qt::AlignCenter);
+    title_icon = new QLabel(title_widget);
+    title_icon->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+    title_icon->setAlignment(Qt::AlignLeft);
+
+    title_text = new QLabel(title_widget);
+    title_text->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+    title_text->setAlignment(Qt::AlignCenter);
+    QFont title_text_font = title_text->font();
+    title_text_font.setBold(true);
+//    int title_text_font_px_size = title_text_font.pixelSize();
+    int title_text_font_pt_size = title_text_font.pointSize();
+//    title_text_font.setPixelSize(title_text_font_px_size*1.5);
+    title_text_font.setPointSize(title_text_font_pt_size*1.5);
+    title_text->setFont(title_text_font);
 
     QScrollArea *scroll = new QScrollArea(this);
     scroll->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -50,14 +59,15 @@ AWizardFace::AWizardFace( QWidget *parent, Qt::WFlags f):
     menu = new QMenu();
     menu_btn->setMenu(menu);
 
-    steps_layout = new QVBoxLayout( steps_widget );
+    title_layout = new QHBoxLayout( title_widget );
     buttons_layout = new QHBoxLayout( buttons_widget );
     main_layout = new QGridLayout(this);
-    main_layout->addWidget( steps_widget, 0, 0, 2, 1 );
-    main_layout->addWidget( title, 0, 1 );
-    main_layout->addWidget( scroll, 1, 1);
-    main_layout->addWidget( buttons_widget, 2, 0, 1, 2);
-    steps_layout->addWidget( stepbox );
+    main_layout->addWidget( title_widget, 0, 0 );
+    main_layout->addWidget( scroll, 1, 0);
+    main_layout->addWidget( buttons_widget, 2, 0);
+
+    title_layout->insertWidget(0, title_icon, 0, Qt::AlignLeft);
+    title_layout->addWidget( title_text );
     buttons_layout->insertWidget(0, menu_btn, 0, Qt::AlignLeft);
 
     action_signal_mapper = new QSignalMapper(this);
@@ -65,8 +75,8 @@ AWizardFace::AWizardFace( QWidget *parent, Qt::WFlags f):
 	this, SIGNAL(actionSelected(const QString &)));
     connect( this, SIGNAL(actionSelected(const QString&)),
 	this, SLOT(onSelectAction(const QString&)) );
-    connect( stepbox, SIGNAL(itemActivated(QListWidgetItem*)),
-	this, SLOT(onSelectStep(QListWidgetItem*)) );
+    //connect( stepbox, SIGNAL(itemActivated(QListWidgetItem*)),
+    //	this, SLOT(onSelectStep(QListWidgetItem*)) );
 }
 
 AWizardFace::~AWizardFace()
@@ -294,22 +304,18 @@ void AWizardFace::clearActions()
 
 void AWizardFace::addStep(const QString& name, const QString& pixmap)
 {
-    steps_widget->show();
-    new QListWidgetItem(QIcon(getPixmap(pixmap)), name, stepbox);
+    //qDebug("AWizardFace::addStep(%s,%s)", name.toLatin1().data(), pixmap.toLatin1().data() );
+    steplist.push_back(QPair<QString, QString>(pixmap, name));
 }
 
 void AWizardFace::removeStep(int n)
 {
-    QListWidgetItem *item = stepbox->takeItem(n);
-    if( item )
-    {
-	delete item;
-    }
+    steplist.removeAt(n);
 }
 
 void AWizardFace::clearSteps()
 {
-    stepbox->clear();    
+    steplist.clear();    
 }
 
 QWidget* AWizardFace::getViewWidget()
@@ -343,20 +349,27 @@ void AWizardFace::setActionActivity(const QString &key, bool enable)
 
 void AWizardFace::setStepText(int n, const QString &value)
 {
-    QListWidgetItem *item = stepbox->item(n);
-    if( item )
-	item->setText(value);
+    if( n < steplist.size() )
+    {
+	QPair<QString, QString> item = steplist.value(n);
+	item.second = value;
+	steplist.replace(n, item);
+    }
 }
 
 void AWizardFace::setStepPixmap(int n, const QString &value)
 {
-    QListWidgetItem *item = stepbox->item(n);
-    if( item )
-	item->setIcon(QIcon(getPixmap(value)));
+    if( n < steplist.size() )
+    {
+	QPair<QString, QString> item = steplist.value(n);
+	item.first = value;
+	steplist.replace(n, item);
+    }
 }
 
 void AWizardFace::setStepActivity(int n, bool a)
 {
+    /*
     QListWidgetItem *item = stepbox->item(n);
     if( item )
     {
@@ -365,52 +378,31 @@ void AWizardFace::setStepActivity(int n, bool a)
 	else
 	    item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
     }
+    */
 }
 
 void AWizardFace::setTitle( const QString &value)
 {
-    title->setText(value);
+    title_text->setText(value);
     topLevelWidget()->setWindowTitle(value);
 }
 
 void AWizardFace::setCurrentStep( int n )
 {
-    stepbox->setCurrentRow(n);
-/*
-    QList<QPushButton *> steps = steps_widget->findChildren<QPushButton *>();
-    int i = 0;
-    QList<QPushButton *>::iterator it;
-    for( it = steps.begin();; it++, i++)
+    int steps_n = steplist.size();
+    if( n < steps_n )
     {
-	if( it == steps.end() )
-	{
-	    it--;
-	    break;
-	}
-	if( i >= n )
-	    break;
-	QPushButton *lbl = *it;
-	lbl->setEnabled(false);
-	QFont font = lbl->font();
-	font.setWeight(QFont::Normal);
-	lbl->setFont(font);
+	QPair<QString, QString> item = steplist.value(n, QPair<QString, QString>("",""));
+        title_icon->setPixmap(getPixmap(item.first));
+	title_text->setText(QString("%1 (%2/%3)").arg(item.second).arg(n).arg(steps_n));
+	current_step = n;
     }
-    QPushButton *current = *it;
-    QFont font = current->font();
-    current->setEnabled(true);
-    font.setWeight(QFont::Bold);
-    current->setFont(font);
-    for(++it ;it != steps.end(); it++)
-    {
-	QPushButton *lbl = *it;
-	lbl->setEnabled(true);
-	QFont font = lbl->font();
-	font.setWeight(QFont::Normal);
-	lbl->setFont(font);
-    }
-*/
 }
 
+int AWizardFace::currentStep()
+{
+    return current_step;
+}
 
 void AWizardFace::cleanRequest()
 {
@@ -430,11 +422,6 @@ void AWizardFace::cleanRequest()
 QString AWizardFace::currentAction()
 {
     return current_action;
-}
-
-int AWizardFace::currentStep()
-{
-    return stepbox->currentRow();
 }
 
 void AWizardFace::onSelectAction(const QString& key)
@@ -490,11 +477,13 @@ QString alWizardFace::postData() const
 
 void alWizardFace::setAttr(const QString& name,const QString& value)
 {
+    /*
     if( "title" == name )
     {
 	// set and continue
 	wnd_->setTitle(value);
     }
+    */
 
     if( "actions" == name )
     {

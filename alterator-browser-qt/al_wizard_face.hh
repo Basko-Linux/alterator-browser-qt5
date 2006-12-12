@@ -9,6 +9,13 @@
 
 #include "widgets.hh"
 
+class AWizardFaceStepList: public QList< QPair<QString, QString> >
+{
+public:
+    AWizardFaceStepList() {};
+    ~AWizardFaceStepList() {};
+};
+
 class AWizardFace: public QWidget
 {
     Q_OBJECT
@@ -60,16 +67,18 @@ private slots:
     void onSelectStep(QListWidgetItem*);
 
 private:
+    AWizardFaceStepList steplist;
+    int current_step;
     QString current_action;
     QSignalMapper *action_signal_mapper;
     QGridLayout* main_layout;
-    QVBoxLayout* steps_layout;
+    QHBoxLayout* title_layout;
     QHBoxLayout* buttons_layout;
     QFrame* buttons_widget;
-    QFrame* steps_widget;
-    QListWidget* stepbox;
     QWidget* view_widget;
-    QLabel* title;
+    QFrame* title_widget;
+    QLabel* title_icon;
+    QLabel* title_text;
     QMap<QString,AWizardFace::ActionType> key2type;
     QMap<QString, QAbstractButton*> buttons;
     QMap<QString, ActionType> button_types;
