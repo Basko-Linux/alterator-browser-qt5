@@ -1,6 +1,9 @@
 #include <iostream>
 
 #include <QApplication>
+#include <QTranslator>
+#include <QLocale>
+#include <QLibraryInfo>
 #include <QSplashScreen>
 #include <QPointer>
 #include <QPainter>
@@ -332,6 +335,9 @@ void emitEvent(const QString& id,const QString& type)
 int main(int argc,char **argv)
 {
     QApplication app(argc, argv);
+    QTranslator translator;
+    translator.load(QLibraryInfo::location(QLibraryInfo::TranslationsPath) + "/qt_"+QLocale::system().name());
+    app.installTranslator(&translator);
 
     MainWindow mw;
     mw.show();
