@@ -1,10 +1,16 @@
+#include <QPainter>
+
 #include "utils.hh"
 #include "al_edit.hh"
 
 AEdit::AEdit(QWidget *parent):
     QWidget(parent)
 {
-    mark = new QLabel("(required)" ,this);
+    mark = new QLabel("*" ,this);
+    QPalette palet = mark->palette();
+    palet.setBrush(QPalette::Foreground, QColor("red"));
+    mark->setPalette(palet);
+
     edit = new QLineEdit(this);
     edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
