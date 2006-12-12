@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Tue Dec 12 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.22-alt1
+- change steps visibility
+
 * Tue Dec 12 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.21-alt3
 - turn off children-align attribute
 
