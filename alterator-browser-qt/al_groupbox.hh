@@ -1,3 +1,5 @@
+#ifndef QTBROWSER_AL_GROUPBOX_HH
+#define QTBROWSER_AL_GROUPBOX_HH
 
 #include <QGroupBox>
 
@@ -27,3 +29,5 @@ public:
 		alGroupBox(id,parent,Qt::Horizontal, checkable)
 	{}
 };
+
+#endif

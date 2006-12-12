@@ -92,36 +92,7 @@ public:
 	QString getValue() { return  (wnd_->isChecked()?"true":"false"); }
 };
 
-class alListBox: public alWidgetPre<QListWidget2>
-{
-public:
-	alListBox(const QString& id,const QString& parent):
-		alWidgetPre<QListWidget2>(ListBox,id,parent)
-	{
-		wnd_->setAlternatingRowColors(true);
-	}
-	void setAttr(const QString& name,const QString& value);
-	void registerEvent(const QString&);
-	QString postData() const ;
-};
-
-class alMultiListBox: public alWidgetPre<QTreeWidget2>
-{
-public:
-	alMultiListBox(const QString& id,const QString& parent, int cols):
-		alWidgetPre<QTreeWidget2>(MultiListBox,id,parent)
-	{
-		//setings to be compatible with QListView
-		wnd_->setColumnCount(cols);
-		wnd_->header()->hide();
-		wnd_->setSelectionBehavior(QAbstractItemView::SelectRows);
-		wnd_->setIndentation(0);
-	}
-protected:
-	void setAttr(const QString& name,const QString& value);
-	void registerEvent(const QString&);
-	QString postData() const ;
-};
+#include "al_listbox.hh"
 
 class alComboBox: public alWidgetPre<QComboBox>
 {
@@ -199,27 +170,7 @@ protected:
     void setAttr(const QString& name,const QString& value);
 };
 
-class alTree: public alWidgetPre<QTreeWidget>
-{
-	QString items_;
-	QString coords_;
-	QStringList coordmap_;//internal coordinates map
-	void setItems();
-	QTreeWidgetItem *findPosition(QTreeWidgetItem *,QStringList,int);
-public:
-	alTree(const QString& id,const QString& parent,const QString& columns):
-		alWidgetPre<QTreeWidget>(Tree,id,parent)
-	{
-		//setings to be compatible with QListView
-		wnd_->setColumnCount(columns.isEmpty()? 1 : columns.toInt());
-		wnd_->header()->hide();
-		wnd_->setSelectionBehavior(QAbstractItemView::SelectRows);
-	}
-protected:
-	void setAttr(const QString& name,const QString& value);
-	void registerEvent(const QString&);
-	QString postData() const ;
-};
+#include "al_tree.hh"
 
 template <typename Widget>
 class alHelpPlacePre: public alWidget

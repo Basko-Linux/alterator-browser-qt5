@@ -20,38 +20,6 @@ extern MainWindow *main_window;
 
 void widget_corners_round(QWidget*);
 
-//QListWidget unable to scroll to active widget until it invisible
-class QListWidget2: public QListWidget
-{
-	Q_OBJECT
-public:
-	QListWidget2(QWidget *parent=0);
-	~QListWidget2();
-
-signals:
-	void spaceBtnPressed();
-
-protected:
-	void keyPressEvent(QKeyEvent * e);
-	void showEvent(QShowEvent *e);
-};
-
-//QTreeWidget unable to scroll to active widget until it invisible
-class QTreeWidget2: public QTreeWidget
-{
-	Q_OBJECT
-public:
-	QTreeWidget2(QWidget *parent=0);
-	~QTreeWidget2();
-
-signals:
-	void spaceBtnPressed();
-
-protected:
-	void keyPressEvent(QKeyEvent * e) ;
-	void showEvent(QShowEvent *e);
-};
-
 //hack for painting
 class QFrame2: public QFrame
 {
