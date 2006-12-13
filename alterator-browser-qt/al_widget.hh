@@ -23,6 +23,9 @@ public:
 	    Slider, Splitter,
 	    HelpPlace, Proxy, Spacer
 	};
+signals:
+	void updated();
+
 protected:
 	Type type_;
 	QString id_;
