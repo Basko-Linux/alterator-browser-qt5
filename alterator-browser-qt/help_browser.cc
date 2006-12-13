@@ -7,7 +7,7 @@ HelpBrowser::HelpBrowser(QWidget *parent):
     QDialog(parent)
 {
     ui.setupUi(this);
-    ui.textBrowser->setHtml( "<center><b>No help available.</b><center>" );
+    ui.textBrowser->setHtml( "<br/><br/><br/><br/><center><b>No help available.</b><center>" );
 
     connect(ui.textBrowser, SIGNAL(anchorClicked(const QUrl&)),
 	    ui.textBrowser, SLOT(setSource(const QUrl&)));
