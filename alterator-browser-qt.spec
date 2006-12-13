@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.23
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Wed Dec 13 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.23-alt2
+- set default help text
+
 * Wed Dec 13 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.23-alt1
 - add constraints to edit, textedit
 - add messagebox buttons translation
