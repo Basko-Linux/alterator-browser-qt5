@@ -2,10 +2,31 @@
 #define QTBROWSER_AL_TEXTBOX_HH
 
 #include <QTextEdit>
+#include <QLabel>
 
 #include "al_widget.hh"
 
-class alTextBox: public alWidgetPre<QTextEdit>
+class ATextEdit: public QWidget
+{
+Q_OBJECT
+public:
+    ATextEdit(QWidget *parent=0);
+    ~ATextEdit();
+    void markRequired(bool);
+    void setText(const QString&);
+    void append(const QString&);
+    void setReadOnly(bool);
+    QString text();
+
+signals:
+    void textEdited();
+
+private:
+    QLabel *mark;
+    QTextEdit *edit;
+};
+
+class alTextBox: public alWidgetPre<ATextEdit>
 {
 public:
 	alTextBox(const QString& id,const QString& parent);

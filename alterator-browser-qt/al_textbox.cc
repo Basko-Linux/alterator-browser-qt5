@@ -2,15 +2,67 @@
 #include "utils.hh"
 #include "al_textbox.hh"
 
+
+ATextEdit::ATextEdit(QWidget *parent):
+    QWidget(parent)
+{
+    mark = new QLabel("*" ,this);
+    mark->hide();
+    QPalette palet = mark->palette();
+    palet.setBrush(QPalette::Foreground, QColor("red"));
+    mark->setPalette(palet);
+
+    edit = new QTextEdit(this);
+    edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    connect(edit, SIGNAL(textChanged()), this, SIGNAL(textEdited()));
+
+    QHBoxLayout *layout = new QHBoxLayout(this);
+    layout->addWidget(mark);
+    layout->addWidget(edit);
+}
+
+ATextEdit::~ATextEdit() {}
+
+void ATextEdit::setText(const QString& txt)
+{
+    edit->setPlainText(txt);
+}
+
+void ATextEdit::append(const QString& txt)
+{
+    edit->append(txt);
+}
+
+void ATextEdit::setReadOnly(bool ro)
+{
+    edit->setReadOnly(ro);
+}
+
+QString ATextEdit::text()
+{
+    return edit->toPlainText();
+}
+
+
+void ATextEdit::markRequired(bool req)
+{
+    if(req)
+	mark->show();
+    else
+	mark->hide();
+}
+
+
+// alTextBox
 alTextBox::alTextBox(const QString& id,const QString& parent):
-		alWidgetPre<QTextEdit>(TextBox,id,parent)
+		alWidgetPre<ATextEdit>(TextBox,id,parent)
 {
 }
 
 void alTextBox::setAttr(const QString& name,const QString& value)
 {
 	if ("text" == name)
-		wnd_->setPlainText(value);
+		wnd_->setText(value);
 	else if ("text-append" == name)
 		wnd_->append(value);
 	else if ("append-text" == name)
@@ -29,6 +81,6 @@ void alTextBox::registerEvent(const QString& name)
 
 QString alTextBox::postData() const
 {
-	return " (text . \""+Utils::simpleQuote(wnd_->toPlainText())+"\" )";
+	return " (text . \""+Utils::simpleQuote(wnd_->text())+"\" )";
 }
 
