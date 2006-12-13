@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.22
+Version: 2.9.23
 Release: alt1
 
 Source:%name-%version.tar
@@ -58,6 +58,11 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Wed Dec 13 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.23-alt1
+- add constraints to edit, textedit
+- add messagebox buttons translation
+- display step numers from 1 in wizardface
+
 * Tue Dec 12 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.22-alt1
 - change steps visibility
 
