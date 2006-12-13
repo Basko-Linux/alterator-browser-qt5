@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.23
-Release: alt2
+Release: alt3
 
 Source:%name-%version.tar
 
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Wed Dec 13 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.23-alt3
+- fix updated signal from checkbox
+
 * Wed Dec 13 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.23-alt2
 - set default help text
 
