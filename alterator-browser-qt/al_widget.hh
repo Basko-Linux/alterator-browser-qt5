@@ -52,6 +52,8 @@ public:
 	void setChildrenAlignment(Qt::Alignment);
 	Qt::Alignment childrenAlignment();
 public slots:
+	void onUpdate(int) { emit updated(); }
+
 	void onClick() { emitEvent(id_,"clicked"); }
 	void onClick(bool) { emitEvent(id_,"clicked"); }
 	void onClick(QListWidgetItem*) { emitEvent(id_,"clicked"); }

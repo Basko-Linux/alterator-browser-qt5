@@ -87,7 +87,7 @@ public:
 	alCheckBox(const QString& id,const QString& parent):
 		alWidgetPre<QCheckBox>(CheckBox,id,parent)
 	{
-	    connect(wnd_, SIGNAL(clicked()), this, SIGNAL(updated()));
+	    connect(wnd_, SIGNAL(stateChanged(int)), this, SLOT(onUpdate(int)));
 	}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
