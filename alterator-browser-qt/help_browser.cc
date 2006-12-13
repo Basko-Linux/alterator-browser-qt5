@@ -1,6 +1,7 @@
 
 #include "main_window.hh"
 #include "help_browser.hh"
+#include "hacks.hh"
 
 HelpBrowser::HelpBrowser(QWidget *parent):
     QDialog(parent)
@@ -15,4 +16,23 @@ HelpBrowser::~HelpBrowser() {}
 void HelpBrowser::setHelpSource(const QString& url)
 {
     ui.textBrowser->setSource(url);
+}
+
+void HelpBrowser::paintEvent(QPaintEvent* e)
+{
+    if( !main_window->haveWindowManager() )
+    {
+	//HelpBrowser::paintEvent(e);
+	widget_corners_round(this);
+    }
+}
+
+void HelpBrowser::showEvent(QShowEvent *e)
+{
+    //qDebug("HelpBrowser::showEvent");
+    //HelpBrowser::showEvent(e);
+    if( !main_window->haveWindowManager() )
+    {
+	fix_wmless_window(this);
+    }
 }

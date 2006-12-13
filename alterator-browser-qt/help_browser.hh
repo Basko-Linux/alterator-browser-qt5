@@ -12,6 +12,10 @@ public:
 
     void setHelpSource(const QString&);
 
+protected:
+    void showEvent(QShowEvent*);
+    void paintEvent(QPaintEvent*);
+
 private:
     Ui::HelpBrowserUI ui;
 };

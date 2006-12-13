@@ -110,9 +110,16 @@ void widget_corners_round(QWidget *widget)
     widget->setMask(mask);
 }
 
-
-void QFrame2::paintEvent(QPaintEvent* e)
+void fix_wmless_window(QWidget *widget)
 {
-    QPainter p(this);
-    p.fillRect(e->rect(),brush_);
+    //qDebug("fix_wmless_window");
+    QWidget *xparent = QApplication::desktop();
+    int x = (xparent->width() - widget->width()) / 2;
+    if( x < 0 )
+	x = 0;
+    int y = (xparent->height() - widget->height()) / 2;
+    if( y < 0 )
+	y = 0;
+    widget->move(x, y);
+    QCursor::setPos(widget->mapToGlobal(QPoint(widget->width()-5, widget->height()-5)));
 }

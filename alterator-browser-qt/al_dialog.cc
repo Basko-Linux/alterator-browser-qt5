@@ -27,15 +27,7 @@ void ADialog::showEvent(QShowEvent *e)
     //QDialog::showEvent(e);
     if( !main_window->haveWindowManager() )
     {
-	QWidget *xparent = QApplication::desktop();
-	int x = (xparent->width() - width()) / 2;
-	if( x < 0 )
-	    x = 0;
-	int y = (xparent->height() - height()) / 2;
-	if( y < 0 )
-	    y = 0;
-	move(x, y);
-	QCursor::setPos(mapToGlobal(QPoint(width()-5, height()-5)));
+	fix_wmless_window(this);
     }
 }
 

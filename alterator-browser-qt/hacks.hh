@@ -19,19 +19,6 @@
 extern MainWindow *main_window;
 
 void widget_corners_round(QWidget*);
-
-//hack for painting
-class QFrame2: public QFrame
-{
-	QBrush brush_;
-public:
-	QFrame2(QWidget *parent=0):
-		QFrame(parent),
-		brush_(QApplication::palette().color(QPalette::Background))
-	{}
-	void setBrush(const QBrush& brush) { brush_ = brush; }
-protected:
-	void paintEvent(QPaintEvent*);
-};
+void fix_wmless_window(QWidget*);
 
 #endif
