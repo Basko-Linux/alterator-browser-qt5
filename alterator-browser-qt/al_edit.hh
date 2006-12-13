@@ -8,6 +8,7 @@
 
 class AEdit: public QWidget
 {
+Q_OBJECT
 public:
     AEdit(QWidget *parent=0);
     ~AEdit();
@@ -16,6 +17,10 @@ public:
     void setEchoMode(QLineEdit::EchoMode);
     void setReadOnly(bool);
     QString text();
+
+signals:
+    void textEdited(const QString&);
+
 private:
     QLabel *mark;
     QLineEdit *edit;

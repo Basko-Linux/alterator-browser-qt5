@@ -9,7 +9,7 @@
 extern alWizardFace *wizard_face;
 
 // AWizardFace
-AWizardFace::AWizardFace( QWidget *parent, Qt::WFlags f):
+AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     QWidget(parent, f)
 {
     key2type["abort"]    = AWizardFace::ActionAbort;
@@ -22,6 +22,7 @@ AWizardFace::AWizardFace( QWidget *parent, Qt::WFlags f):
     key2type["generic"]  = AWizardFace::ActionGeneric;
 
     current_step = 0;
+
 
     title_widget = new QFrame(this);
     title_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);

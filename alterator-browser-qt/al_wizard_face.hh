@@ -1,7 +1,6 @@
 #ifndef QTBROWSER_AL_WIZARDFACE_HH
 #define QTBROWSER_AL_WIZARDFACE_HH
 
-#include <QWidget>
 #include <QPushButton>
 #include <QLabel>
 #include <QSignalMapper>

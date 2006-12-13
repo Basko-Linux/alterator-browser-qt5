@@ -7,12 +7,14 @@ AEdit::AEdit(QWidget *parent):
     QWidget(parent)
 {
     mark = new QLabel("*" ,this);
+    mark->hide();
     QPalette palet = mark->palette();
     palet.setBrush(QPalette::Foreground, QColor("red"));
     mark->setPalette(palet);
 
     edit = new QLineEdit(this);
     edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    connect(edit, SIGNAL(textEdited(const QString&)), this, SIGNAL(textEdited(const QString&)));
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->addWidget(mark);
