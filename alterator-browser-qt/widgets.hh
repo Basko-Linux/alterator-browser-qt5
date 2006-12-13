@@ -110,41 +110,7 @@ public:
 	QString postData() const ;
 };
 
-class alTabBox: public alWidgetPre<QTabWidget>
-{
-public:
-	QString current_;
-	alTabBox(const QString& id,const QString& parent):
-		alWidgetPre<QTabWidget>(TabBox,id,parent)
-	{}
-	void setAttr(const QString& name,const QString& value);
-};
-
-
-class alTabPage: public alWidgetPre<QFrame>
-{
-	alTabBox  *tabbox_;
-	int idx_;
-public:
-	alTabPage(const QString& id,const QString& parent):
-		alWidgetPre<QFrame>(TabPage,id,":reparent:"+parent),
-		tabbox_(getParentTabBox(parent)),
-		idx_(tabbox_?static_cast<QTabWidget*>(tabbox_->getWidget())->addTab(wnd_,""):-1)
-	{
-	    QVBoxLayout *bl = new QVBoxLayout(getViewWidget());
-	    bl->setSpacing(5);
-	    bl->setMargin(5);
-	}
-	void setAttr(const QString& name,const QString& value);
-private:
-	static
-	alTabBox *getParentTabBox(const QString& parent)
-	{
-		if (!elements.contains(parent)) return 0;
-		return dynamic_cast<alTabBox*>(elements[parent]);
-	}
-};
-
+#include "al_tabbox.hh"
 #include "al_dialog.hh"
 #include "al_box.hh"
 

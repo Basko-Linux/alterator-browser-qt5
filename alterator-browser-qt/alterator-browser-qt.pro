@@ -20,7 +20,7 @@ SOURCES += main_window.cc updater.cc a_pixmaps.cc utils.cc constraints.cc
 SOURCES += help_browser.cc
 SOURCES += al_wizard_face.cc al_dialog.cc al_widget.cc al_main_widget.cc
 SOURCES += al_edit.cc al_textbox.cc al_spacer.cc al_box.cc al_groupbox.cc
-SOURCES += al_slider.cc al_tree.cc al_listbox.cc
+SOURCES += al_slider.cc al_tree.cc al_listbox.cc al_tabbox.cc
 
 HEADERS =  browser.hh global.hh
 HEADERS += connection.hh widgets.hh sax.hh hacks.hh messagebox.hh
@@ -28,7 +28,7 @@ HEADERS += main_window.hh updater.hh a_pixmaps.hh utils.hh constraints.hh
 HEADERS += help_browser.hh
 HEADERS += al_wizard_face.hh al_dialog.hh al_widget.hh al_main_widget.hh
 HEADERS += al_edit.hh al_textbox.hh al_spacer.hh al_box.hh al_groupbox.hh
-HEADERS += al_slider.hh al_tree.hh al_listbox.hh
+HEADERS += al_slider.hh al_tree.hh al_listbox.hh al_tabbox.hh
 
 DATA = *.pro *.spec
 
