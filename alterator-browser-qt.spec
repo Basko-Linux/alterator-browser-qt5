@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.23
-Release: alt3
+Release: alt4
 
 Source:%name-%version.tar
 
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Thu Dec 14 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.23-alt4
+- anonymize widget and all it's children before delete
+
 * Wed Dec 13 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.23-alt3
 - fix updated signal from checkbox
 

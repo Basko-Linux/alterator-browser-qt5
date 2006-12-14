@@ -45,12 +45,16 @@ public:
 	virtual QString getParentId(void) { return parent_; };
 	virtual QString getId(void) { return id_; };
 	virtual QString getValue() { return ""; };
-	virtual void markRequired(bool) {};
+
 	Type type() { return type_; };
+	void destroyLater();
+
+	virtual void markRequired(bool) {};
 	virtual void show(bool) = 0;
 	static QSizePolicy adjustSizePolicy(const Type, const QSizePolicy, const Qt::Orientation orientation);
 	void setChildrenAlignment(Qt::Alignment);
 	Qt::Alignment childrenAlignment();
+
 public slots:
 	void onUpdate(int) { emit updated(); }
 

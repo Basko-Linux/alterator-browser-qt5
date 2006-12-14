@@ -153,3 +153,13 @@ Qt::Alignment alWidget::childrenAlignment()
 {
     return children_alignment;
 }
+
+void alWidget::destroyLater()
+{
+    setObjectName("");
+    QList<alWidget*> childs = findChildren<alWidget*>();
+    QListIterator<alWidget*> it(childs);
+    while(it.hasNext())
+            it.next()->destroyLater();
+    deleteLater();
+}

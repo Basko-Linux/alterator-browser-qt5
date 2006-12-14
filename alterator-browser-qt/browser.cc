@@ -120,7 +120,9 @@ void newRequest(const QXmlAttributes& attr)
 void closeRequest(const QString& id)
 {
 	if( elements.contains(id) )
-	    elements.take(id)->deleteLater();
+	{
+	    elements.take(id)->destroyLater();
+	}
 }
 
 void cleanRequest(const QString& id)
@@ -145,7 +147,7 @@ void cleanRequest(const QString& id)
 	    {
 		alWidget *aw = it.next();
 		aw->show(false);
-		aw->deleteLater();
+		aw->destroyLater();
 	    }
 	}
 }
