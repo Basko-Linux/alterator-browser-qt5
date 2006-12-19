@@ -53,10 +53,11 @@ public:
 		orient = tabbox_->getOrientation();
 
 	    QBoxLayout *bl;
+	    QWidget *vw = getViewWidget();
 	    if( orient == Qt::Horizontal )
-		bl = new QHBoxLayout(getViewWidget());
+		bl = new QHBoxLayout(vw);
 	    else
-		bl = new QVBoxLayout(getViewWidget());
+		bl = new QVBoxLayout(vw);
 
 	    bl->setSpacing(5);
 	    bl->setMargin(5);
