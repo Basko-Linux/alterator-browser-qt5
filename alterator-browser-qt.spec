@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
-Version: 2.9.23
-Release: alt4
+Version: 2.9.24
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -58,6 +58,10 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Tue Dec 19 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.24-alt1
+- add widgets: vtabbox, htabbox, vtab-page, htab-page
+- show help browser when wizardface menu item activated
+
 * Thu Dec 14 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.23-alt4
 - anonymize widget and all it's children before delete
 
