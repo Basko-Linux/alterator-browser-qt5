@@ -58,6 +58,7 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     buttons_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
 
     menu_btn = new QPushButton(buttons_widget);
+    menu_btn->setIcon(QIcon(getPixmap("theme:up")));
     menu = new QMenu();
     menu_btn->setMenu(menu);
 
@@ -188,12 +189,12 @@ QPixmap AWizardFace::defaultActionIcon(ActionType type)
     {
 	case ActionFinish:
 	    {
-		name = "theme:finish"; // names are fake until fixed
+		name = "theme:down"; // names are fake until fixed
 		break;
 	    }
 	case ActionAbort:
 	    {
-		name = "theme:abort";
+		name = "theme:cancel";
 		break;
 	    }
 	case ActionHelp:
