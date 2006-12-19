@@ -95,7 +95,11 @@ void newRequest(const QXmlAttributes& attr)
 	else if ("tree" == type) new alTree(id,parent,attr.value("columns"));
 	else if ("combobox" == type) new alComboBox(id,parent);
 	else if ("tabbox" == type) new alTabBox(id,parent);
+	else if ("vtabbox" == type) new alTabBox(id,parent,Qt::Vertical);
+	else if ("htabbox" == type) new alTabBox(id,parent,Qt::Horizontal);
 	else if ("tab-page" == type) new alTabPage(id,parent);
+	else if ("vtab-page" == type) new alTabPage(id,parent,Qt::Vertical);
+	else if ("htab-page" == type) new alTabPage(id,parent,Qt::Horizontal);
 	else if ("progressbar" == type) new alProgressBar(id,parent);
 	else if ("slider" == type) new alSlider(id,parent);
 	else if ("splitter" == type) new alSplitter(id,parent);
