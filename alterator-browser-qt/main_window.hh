@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QMainWindow>
 #include <QGridLayout>
-#include <QXmlAttributes>
+#include <QEvent>
 
 #include "help_browser.hh"
 
@@ -24,6 +24,9 @@ public:
 public slots:
     void start();
     void stop();
+
+protected:
+    virtual bool event(QEvent*);
 
 private:
     QRect geometry_;

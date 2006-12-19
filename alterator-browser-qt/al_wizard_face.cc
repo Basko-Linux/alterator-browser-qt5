@@ -1,5 +1,6 @@
 
 #include <QScrollArea>
+#include <QHelpEvent>
 
 #include "global.hh"
 #include "widgets.hh"
@@ -428,6 +429,11 @@ QString AWizardFace::currentAction()
 void AWizardFace::onSelectAction(const QString& key)
 {
     //qDebug("current action is <%s>", key.toLatin1().data());
+    if( key2type[key] == ActionHelp )
+    {
+	QHelpEvent *hlp = new QHelpEvent((QEvent::Type)EVENT_HELP, QPoint(), QPoint());
+	QApplication::postEvent(main_window, hlp);
+    }
     current_action = key;
     emit actionSelected();
 }

@@ -1,4 +1,6 @@
 #ifndef QTBROWSER_GLOBALS_HH
 #define QTBROWSER_GLOBALS_HH
 
+#define EVENT_HELP 1001
+
 #endif

@@ -9,6 +9,7 @@
 #include <QApplication>
 #include <QDesktopWidget>
 
+#include "global.hh"
 #include "widgets.hh"
 #include "browser.hh"
 #include "connection.hh"
@@ -165,6 +166,15 @@ void MainWindow::setFullScreen(bool full)
 void MainWindow::setHelpSource(const QString& str)
 {
     help_browser->setHelpSource(str);
+}
+
+bool MainWindow::event(QEvent* e)
+{
+    if( e->type() == EVENT_HELP )
+    {
+	QTimer::singleShot(0, help_browser, SLOT(exec()));
+    }
+    return QMainWindow::event(e);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* e)
