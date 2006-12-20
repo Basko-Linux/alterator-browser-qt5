@@ -66,6 +66,9 @@ private slots:
     void onSelectAction(const QString&);
     void onSelectStep(QListWidgetItem*);
 
+protected:
+    void keyPressEvent(QKeyEvent*);
+
 private:
     AWizardFaceStepList steplist;
     int current_step;
@@ -95,7 +98,6 @@ private:
 
 class alWizardFace: public alWidgetPre<AWizardFace>
 {
-Q_OBJECT
 public:
     alWizardFace(const QString& id,const QString& parent);
     ~alWizardFace();
@@ -104,8 +106,6 @@ public:
     QString postData() const ;
     QWidget* getViewWidget();
     QLayout* getViewLayout();
-public slots:
-    void onEnter();
 };
 
 #endif

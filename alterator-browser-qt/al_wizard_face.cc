@@ -256,6 +256,8 @@ void AWizardFace::addAction(const QString &key, AWizardFace::ActionType type)
 		QPushButton *b = new QPushButton(buttons_widget);
 		b->setIcon(QIcon(defaultActionIcon(type)));
 		buttons_layout->insertWidget( newButtonPosition(type), b, 0, newButtonAlignment(type) );
+		if( type == AWizardFace::ActionForward || type == AWizardFace::ActionFinish )
+		    b->setFocus();
 		buttons[key] = b;
 		button_types[key] = type;
 		connect(b, SIGNAL(clicked()), action_signal_mapper, SLOT(map()));
@@ -467,6 +469,22 @@ void AWizardFace::onEnter()
     }
 }
 
+void AWizardFace::keyPressEvent(QKeyEvent* e)
+{
+    switch( e->key() )
+    {
+	case Qt::Key_Return:
+	case Qt::Key_Enter:
+	{
+	    qDebug("Qt::Key_Enter");
+	    onEnter();
+	    break;
+	}
+	default:
+	    break;
+    }
+}
+
 // alWizardFace
 alWizardFace::alWizardFace(const QString& id,const QString& parent):
     alWidgetPre<AWizardFace>(WizardFace,id,parent)
@@ -583,9 +601,4 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
     }
     else
 	alWidget::setAttr(name,value);
-}
-
-void alWizardFace::onEnter()
-{
-    wnd_->onEnter();
 }
