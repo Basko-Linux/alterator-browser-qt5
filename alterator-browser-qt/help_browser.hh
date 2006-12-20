@@ -11,6 +11,7 @@ public:
     ~HelpBrowser();
 
     void setHelpSource(const QString&);
+    void setEmptyHelp();
 
 protected:
     void showEvent(QShowEvent*);

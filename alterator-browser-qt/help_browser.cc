@@ -7,7 +7,7 @@ HelpBrowser::HelpBrowser(QWidget *parent):
     QDialog(parent)
 {
     ui.setupUi(this);
-    ui.textBrowser->setHtml( "<br/><br/><br/><br/><center><b>No help available.</b><center>" );
+    setEmptyHelp();
 
     connect(ui.textBrowser, SIGNAL(anchorClicked(const QUrl&)),
 	    ui.textBrowser, SLOT(setSource(const QUrl&)));
@@ -17,8 +17,17 @@ HelpBrowser::~HelpBrowser() {}
 
 void HelpBrowser::setHelpSource(const QString& url)
 {
-    ui.textBrowser->setSource(url);
+    if(url.isEmpty())
+	setEmptyHelp();
+    else
+	ui.textBrowser->setSource(url);
 }
+
+void HelpBrowser::setEmptyHelp()
+{
+    ui.textBrowser->setHtml( "<br/><br/><br/><br/><center><b>No help available.</b><center>" );
+}
+
 
 void HelpBrowser::paintEvent(QPaintEvent* e)
 {
