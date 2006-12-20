@@ -186,6 +186,13 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
 	    QTimer::singleShot(0, help_browser, SLOT(exec()));
 	    break;
 	}
+	case Qt::Key_Return:
+	case Qt::Key_Enter:
+	{
+	    if( wizard_face )
+		QTimer::singleShot(0, wizard_face, SLOT(onEnter()));
+	    break;
+	}
 	default:
 	    break;
     }

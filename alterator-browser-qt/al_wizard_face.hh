@@ -54,6 +54,7 @@ public:
     void cleanRequest();
     QString currentAction();
     int currentStep();
+    void onEnter();
 
 signals:
     void stepSelected();
@@ -94,7 +95,7 @@ private:
 
 class alWizardFace: public alWidgetPre<AWizardFace>
 {
-private:
+Q_OBJECT
 public:
     alWizardFace(const QString& id,const QString& parent);
     ~alWizardFace();
@@ -103,6 +104,8 @@ public:
     QString postData() const ;
     QWidget* getViewWidget();
     QLayout* getViewLayout();
+public slots:
+    void onEnter();
 };
 
 #endif

@@ -444,6 +444,28 @@ void AWizardFace::onSelectStep(QListWidgetItem*)
     emit stepSelected();
 }
 
+void AWizardFace::onEnter()
+{
+    AWizardFace::ActionType action;
+    QString key;
+
+    QMapIterator<QString, QAbstractButton*> it(buttons);
+    while( it.hasNext() )
+    {
+	it.next();
+	action = key2type[it.key()];
+	if( action == AWizardFace::ActionFinish
+	    || action == AWizardFace::ActionForward )
+	{
+	    key = it.key();
+	}
+    }
+
+    if( !key.isEmpty() )
+    {
+	onSelectAction(key);
+    }
+}
 
 // alWizardFace
 alWizardFace::alWizardFace(const QString& id,const QString& parent):
@@ -561,4 +583,9 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
     }
     else
 	alWidget::setAttr(name,value);
+}
+
+void alWizardFace::onEnter()
+{
+    wnd_->onEnter();
 }
