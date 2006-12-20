@@ -471,6 +471,7 @@ void AWizardFace::onEnter()
     }
 }
 
+#if 0
 void AWizardFace::keyPressEvent(QKeyEvent* e)
 {
     switch( e->key() )
@@ -478,7 +479,6 @@ void AWizardFace::keyPressEvent(QKeyEvent* e)
 	case Qt::Key_Return:
 	case Qt::Key_Enter:
 	{
-	    qDebug("Qt::Key_Enter");
 	    onEnter();
 	    break;
 	}
@@ -489,6 +489,7 @@ void AWizardFace::keyPressEvent(QKeyEvent* e)
 	}
     }
 }
+#endif
 
 // alWizardFace
 alWizardFace::alWizardFace(const QString& id,const QString& parent):
