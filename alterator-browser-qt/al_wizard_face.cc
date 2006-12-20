@@ -481,7 +481,10 @@ void AWizardFace::keyPressEvent(QKeyEvent* e)
 	    break;
 	}
 	default:
+	{
+	    QWidget::keyPressEvent(e);
 	    break;
+	}
     }
 }
 
