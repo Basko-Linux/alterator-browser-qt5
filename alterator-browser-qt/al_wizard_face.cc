@@ -450,6 +450,7 @@ void AWizardFace::onEnter()
 {
     AWizardFace::ActionType action;
     QString key;
+    QAbstractButton *btn = 0;
 
     QMapIterator<QString, QAbstractButton*> it(buttons);
     while( it.hasNext() )
@@ -460,10 +461,11 @@ void AWizardFace::onEnter()
 	    || action == AWizardFace::ActionForward )
 	{
 	    key = it.key();
+	    btn = it.value();
 	}
     }
 
-    if( !key.isEmpty() )
+    if( !key.isEmpty() && btn->isEnabled() )
     {
 	onSelectAction(key);
     }
