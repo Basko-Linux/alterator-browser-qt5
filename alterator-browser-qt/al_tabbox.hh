@@ -11,7 +11,7 @@ public:
 	Qt::Orientation orientation_;
 	QString current_;
 	alTabBox(const QString& id,const QString& parent, Qt::Orientation orientation = Qt::Horizontal):
-		alWidgetPre<QTabWidget>(TabBox,id,parent)
+		alWidgetPre<QTabWidget>((orientation==Qt::Vertical)?VTabBox:HTabBox,id,parent)
 	{
 	    orientation_ = orientation;
 	}
@@ -42,7 +42,7 @@ class alTabPage: public alWidgetPre<QWidget>
 	int idx_;
 public:
 	alTabPage(const QString& id,const QString& parent, Qt::Orientation orientation = (Qt::Orientation)-1):
-		alWidgetPre<QWidget>(TabPage,id,":reparent:"+parent),
+		alWidgetPre<QWidget>((orientation==Qt::Vertical)?VTabPage:HTabPage,id,":reparent:"+parent),
 		tabbox_(getParentTabBox(parent)),
 		idx_(tabbox_?static_cast<QTabWidget*>(tabbox_->getWidget())->addTab(wnd_,""):-1)
 	{
