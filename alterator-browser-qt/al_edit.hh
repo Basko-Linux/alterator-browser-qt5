@@ -24,6 +24,7 @@ signals:
 private:
     QLabel *mark;
     QLineEdit *edit;
+    QHBoxLayout *layout_;
 };
 
 class alEdit: public alWidgetPre<AEdit>

@@ -16,11 +16,11 @@ ATextEdit::ATextEdit(QWidget *parent):
     edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     connect(edit, SIGNAL(textChanged()), this, SIGNAL(textEdited()));
 
-    QHBoxLayout *layout = new QHBoxLayout(this);
-    layout->setMargin(0);
-    layout->setSpacing(0);
-    layout->addWidget(mark);
-    layout->addWidget(edit);
+    layout_ = new QHBoxLayout(this);
+    layout_->setMargin(0);
+    layout_->setSpacing(0);
+    layout_->addWidget(mark);
+    layout_->addWidget(edit);
 }
 
 ATextEdit::~ATextEdit() {}
@@ -49,9 +49,15 @@ QString ATextEdit::text()
 void ATextEdit::markRequired(bool req)
 {
     if(req)
+    {
 	mark->show();
+	layout_->setSpacing(5);
+    }
     else
+    {
 	mark->hide();
+	layout_->setSpacing(0);
+    }
 }
 
 
