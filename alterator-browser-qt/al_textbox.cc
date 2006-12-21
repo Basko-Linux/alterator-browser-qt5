@@ -17,6 +17,8 @@ ATextEdit::ATextEdit(QWidget *parent):
     connect(edit, SIGNAL(textChanged()), this, SIGNAL(textEdited()));
 
     QHBoxLayout *layout = new QHBoxLayout(this);
+    layout->setMargin(0);
+    layout->setSpacing(0);
     layout->addWidget(mark);
     layout->addWidget(edit);
 }
