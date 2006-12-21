@@ -69,14 +69,14 @@ void ASimpleBox::childEvent(QChildEvent* e)
 		if( layout_type == LayoutUnknown )
 		{
 		    qDebug("ASimpleBox::childEvent: Set default layout type by columns");
-		    setColumns("50;50");
+		    setColumns("100");
 		}
-		qDebug("ASimpleBox::childEvent: insert at row %d, column %d", current_row, current_column);
 		if( w->layout() )
 		{
 		    qDebug("ASimpleBox::childEvent: chiled widget already in a layout");
-		    layout_->removeWidget(w);
+		    w->layout()->removeWidget(w);
 		}
+		qDebug("ASimpleBox::childEvent: insert at row %d, column %d", current_row, current_column);
 		layout_->addWidget(w, current_row, current_column);
 		if( layout_type == LayoutColumns )
 		{
