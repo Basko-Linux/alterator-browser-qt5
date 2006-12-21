@@ -465,7 +465,7 @@ void AWizardFace::onEnter()
 	}
     }
 
-    if( !key.isEmpty() && btn->isEnabled() )
+    if( btn && btn->isVisible() && btn->isEnabled() && !key.isEmpty() )
     {
 	onSelectAction(key);
     }
