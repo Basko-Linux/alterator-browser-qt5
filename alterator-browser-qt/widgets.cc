@@ -76,10 +76,10 @@ void alLabel::setAttr(const QString& name,const QString& value)
 		wnd_->setText(value);
 	else if ("pixmap" == name)
 		wnd_->setPixmap( getPixmap(value) );
-	else if ("align" == name)
-	{
-		wnd_->setAlignment(Utils::convertAlign(value));
-	}
+//	else if ("align" == name)
+//	{
+//		wnd_->setAlignment(Utils::convertAlign(value));
+//	}
 	else
 		alWidget::setAttr(name,value);
 }

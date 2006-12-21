@@ -82,17 +82,18 @@ QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy
 	    szpol.setHorizontalPolicy(QSizePolicy::Expanding);
 	    break;
 	}
+	case VTabBox:
 	case VGroupBox:
 	{
 	    szpol.setVerticalPolicy(QSizePolicy::Expanding);
 	}
+	case HTabBox:
 	case HGroupBox:
 	{
 	    szpol.setHorizontalPolicy(QSizePolicy::Expanding);
 	    break;
 	}
-	case VTabBox:
-	case HTabBox:
+	case SimpleBox:
 	case TextBox:
 	{
 	    szpol.setVerticalPolicy(QSizePolicy::Expanding);

@@ -168,6 +168,24 @@ void MainWindow::setHelpSource(const QString& str)
     help_browser->setHelpSource(str);
 }
 
+/*
+void MainWindow::childEvent(QChildEvent *e)
+{
+    if( e->added() )
+    {
+	QObject *o = e->child();
+	if( o->isWidgetType() )
+	{
+	    QWidget *w = qobject_cast<QWidget*>(e->child());
+	    if( w )
+	    {
+		qDebug("MainWindow: child widget inserted");
+	    }
+	}
+    }
+}
+*/
+
 bool MainWindow::event(QEvent* e)
 {
     if( e->type() == EVENT_HELP )

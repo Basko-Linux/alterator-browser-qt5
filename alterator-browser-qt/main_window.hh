@@ -26,6 +26,7 @@ public slots:
     void stop();
 
 protected:
+//    virtual void childEvent(QChildEvent*);
     virtual bool event(QEvent*);
 
 private:

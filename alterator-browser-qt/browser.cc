@@ -8,15 +8,18 @@
 #include <QPointer>
 #include <QPainter>
 
+#include "al_wizard_face.hh"
+#include "al_simplebox.hh"
+
 #include "connection.hh"
 #include "browser.hh"
 #include "updater.hh"
 #include "main_window.hh"
 #include "widgets.hh"
-#include "al_wizard_face.hh"
 #include "a_pixmaps.hh"
 #include "messagebox.hh"
 #include "constraints.hh"
+
 
 Updater *updater = 0;//slot for updates
 QPointer<QSplashScreen> splash;//single splash screen
@@ -91,6 +94,7 @@ void newRequest(const QXmlAttributes& attr)
 	else if ("groupbox" == type) new alVGroupBox(id,parent,attr.value("checked"));
 	else if ("vgroupbox" == type) new alVGroupBox(id,parent,attr.value("checked"));
 	else if ("hgroupbox" == type) new alHGroupBox(id,parent,attr.value("checked"));
+	else if ("simplebox" == type) new alSimpleBox(id,parent);
 	else if ("checkbox" == type) new alCheckBox(id,parent);
 	else if ("tree" == type) new alTree(id,parent,attr.value("columns"));
 	else if ("combobox" == type) new alComboBox(id,parent);
