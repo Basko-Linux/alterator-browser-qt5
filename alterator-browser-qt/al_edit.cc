@@ -15,6 +15,7 @@ AEdit::AEdit(QWidget *parent):
     edit = new QLineEdit(this);
     edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     connect(edit, SIGNAL(textEdited(const QString&)), this, SIGNAL(textEdited(const QString&)));
+    connect(edit, SIGNAL(returnPressed()), this, SIGNAL(returnPressed()));
 
     layout_ = new QHBoxLayout(this);
     layout_->setMargin(0);
