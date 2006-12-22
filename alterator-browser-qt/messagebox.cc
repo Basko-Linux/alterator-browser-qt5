@@ -113,9 +113,9 @@ void AMsgBox::showEvent(QShowEvent *e)
 
 void AMsgBox::paintEvent(QPaintEvent* e)
 {
+    //QMessageBox::paintEvent(e);
     if( !main_window->haveWindowManager() )
     {
-	//QMessageBox::paintEvent(e);
 	widget_corners_round(this);
     }
 }

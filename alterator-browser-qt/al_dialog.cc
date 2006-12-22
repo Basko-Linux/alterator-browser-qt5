@@ -33,9 +33,9 @@ void ADialog::showEvent(QShowEvent *e)
 
 void ADialog::paintEvent(QPaintEvent* e)
 {
+    //QDialog::paintEvent(e);
     if( !main_window->haveWindowManager() )
     {
-	//QDialog::paintEvent(e);
 	widget_corners_round(this);
     }
 }

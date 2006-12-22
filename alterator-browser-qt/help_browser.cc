@@ -31,9 +31,9 @@ void HelpBrowser::setEmptyHelp()
 
 void HelpBrowser::paintEvent(QPaintEvent* e)
 {
+    //QDialog::paintEvent(e);
     if( !main_window->haveWindowManager() )
     {
-	//HelpBrowser::paintEvent(e);
 	widget_corners_round(this);
     }
 }
