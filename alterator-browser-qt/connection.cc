@@ -11,7 +11,7 @@ QString sessionId;
 QString userId;
 
 static
-void parseAnswer(alRequest *dom,void(parser)(alCommand*))
+void parseAnswer(alRequest *dom,parserfunc parser)
 {
 	QListIterator<alCommand*> it(dom->commands_);
 	while(it.hasNext())
@@ -44,7 +44,7 @@ QString createLangList()
 }
 
 
-void initConnection(void (parser)(alCommand*))
+void initConnection(parserfunc parser)
 {
 	std::cout<<"(auth-request user \"qtbrowser\" password \"\" "
 	<<"language \""<<createLangList().toLatin1().data()<<"\""
@@ -68,7 +68,7 @@ QString makeRequest(const QString& content)
        return out;
 }
 
-void getDocument( void (parser)(alCommand*), const QString& content )
+void getDocument( parserfunc parser, const QString& content )
 {
 	std::cout<<makeRequest(content).toUtf8().data()
 		 <<std::endl;

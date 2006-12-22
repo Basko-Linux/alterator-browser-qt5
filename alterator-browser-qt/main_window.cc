@@ -18,6 +18,7 @@
 #include "messagebox.hh"
 #include "constraints.hh"
 #include "al_wizard_face.hh"
+#include "mailbox.hh"
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
@@ -29,6 +30,7 @@
 extern Updater *updater;
 extern Constraints *constraints;
 extern alWizardFace *wizard_face;
+extern MailBox *mailbox;
 
 bool x_redirect_error;
 bool x_error_occurred;
@@ -70,12 +72,8 @@ MainWindow::MainWindow():
     else
 	setFullScreen(true);
 
-    updater = new Updater(this);
-    constraints = new Constraints();
-    AMessageBox::initButtonMap();
-
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(stop()));
-    QTimer::singleShot(1000, this, SLOT(start()));
+    QTimer::singleShot(0, this, SLOT(start()));
 }
 
 MainWindow::~MainWindow()
@@ -86,6 +84,24 @@ void MainWindow::start()
 {
     if( started ) return;
     started = true;
+
+    updater = new Updater(this);
+    constraints = new Constraints();
+    AMessageBox::initButtonMap();
+
+    QString socketPath;
+    QStringList args = QCoreApplication::arguments();
+    QString tmpdir(getenv("TMPDIR"));
+
+    if( args.size() > 1 )
+    	socketPath = args.at(1);
+    else if( !tmpdir.isEmpty() )
+    	socketPath = tmpdir+"/browser-sock";
+    else
+    	socketPath = "/tmp/browser-sock";
+    qDebug("socket path %s ...",qPrintable(socketPath));
+
+    mailbox = new MailBox(socketPath, getDocParser, this);
 
     initConnection(getDocParser);
 }

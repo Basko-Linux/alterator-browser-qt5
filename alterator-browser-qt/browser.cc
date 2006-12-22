@@ -19,8 +19,10 @@
 #include "a_pixmaps.hh"
 #include "messagebox.hh"
 #include "constraints.hh"
+#include "mailbox.hh"
 
 
+MailBox *mailbox = 0;//mailbox engine
 Updater *updater = 0;//slot for updates
 QPointer<QSplashScreen> splash;//single splash screen
 MainWindow *main_window = 0;

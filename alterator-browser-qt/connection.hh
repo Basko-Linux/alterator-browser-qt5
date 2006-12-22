@@ -5,8 +5,10 @@
 
 #include "sax.hh"
 
-void initConnection(void (parser)(alCommand*));
-void getDocument(void (parser)(alCommand*) ,
+typedef void (*parserfunc)(alCommand*);
+
+void initConnection(parserfunc);
+void getDocument(parserfunc,
 		 const QString& content = "(alterator-request action \"get\")");
 
 #endif

@@ -15,7 +15,7 @@ QT += xml
 QMAKE_CXXFLAGS += $(RPM_OPT_FLAGS)
 
 SOURCES =  browser.cc
-SOURCES += connection.cc widgets.cc sax.cc hacks.cc messagebox.cc
+SOURCES += mailbox.cc connection.cc widgets.cc sax.cc hacks.cc messagebox.cc
 SOURCES += main_window.cc updater.cc a_pixmaps.cc utils.cc constraints.cc
 SOURCES += help_browser.cc
 SOURCES += al_wizard_face.cc al_dialog.cc al_widget.cc al_main_widget.cc
@@ -23,7 +23,7 @@ SOURCES += al_edit.cc al_textbox.cc al_spacer.cc al_box.cc al_groupbox.cc
 SOURCES += al_slider.cc al_tree.cc al_listbox.cc al_tabbox.cc al_simplebox.cc
 
 HEADERS =  browser.hh global.hh
-HEADERS += connection.hh widgets.hh sax.hh hacks.hh messagebox.hh
+HEADERS += mailbox.hh connection.hh widgets.hh sax.hh hacks.hh messagebox.hh
 HEADERS += main_window.hh updater.hh a_pixmaps.hh utils.hh constraints.hh
 HEADERS += help_browser.hh
 HEADERS += al_wizard_face.hh al_dialog.hh al_widget.hh al_main_widget.hh
