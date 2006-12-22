@@ -73,6 +73,7 @@ void alSlider::setAttr(const QString& name,const QString& value)
 	{
 	    int step = value.toInt();
 	    wnd_->setSingleStep( step );
+	    wnd_->setPageStep( step*16 );
 	}
 	else if( "value" == name )
 	    wnd_->setValue(value.toInt());
