@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.24
+Version: 2.9.25
 Release: alt1
 
 Source:%name-%version.tar
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Fri Dec 22 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.25-alt1
+- add internal messaging system support
+
 * Tue Dec 19 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.24-alt1
 - add widgets: vtabbox, htabbox, vtab-page, htab-page
 - show help browser when wizardface menu item activated
