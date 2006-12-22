@@ -63,12 +63,16 @@ void alSlider::setAttr(const QString& name,const QString& value)
 	else if( "minimum" == name )
 	    wnd_->setMinimum( value.toInt() );
 	else if( "maximum" == name )
-	    wnd_->setMaximum( value.toInt() );
+	{
+	    int mx = value.toInt();
+	    wnd_->setMaximum( mx );
+	    wnd_->setSingleStep( (mx/64) + 1 );
+	    wnd_->setPageStep( (mx/16) + 1 );
+	}
 	else if( "step" == name )
 	{
 	    int step = value.toInt();
 	    wnd_->setSingleStep( step );
-	    wnd_->setPageStep( step * 8 );
 	}
 	else if( "value" == name )
 	    wnd_->setValue(value.toInt());
