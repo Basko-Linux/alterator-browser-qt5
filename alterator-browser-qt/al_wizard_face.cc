@@ -38,10 +38,10 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     title_text->setAlignment(Qt::AlignCenter);
     QFont title_text_font = title_text->font();
     title_text_font.setBold(true);
-//    int title_text_font_px_size = title_text_font.pixelSize();
-    int title_text_font_pt_size = title_text_font.pointSize();
-//    title_text_font.setPixelSize(title_text_font_px_size*1.5);
-    title_text_font.setPointSize(title_text_font_pt_size*1.5);
+//    int title_text_font_px_size = (int)(title_text_font.pixelSize()*1.5);
+    int title_text_font_pt_size = (int)(title_text_font.pointSize()*1.5);
+//    title_text_font.setPixelSize(title_text_font_px_size);
+    title_text_font.setPointSize(title_text_font_pt_size);
     title_text->setFont(title_text_font);
 
     QScrollArea *scroll = new QScrollArea(this);
