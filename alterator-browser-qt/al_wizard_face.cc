@@ -398,7 +398,11 @@ void AWizardFace::setCurrentStep( int n )
     if( n < steps_n )
     {
 	QPair<QString, QString> item = steplist.value(n, QPair<QString, QString>("",""));
+#if 0
         title_icon->setPixmap(getPixmap(item.first));
+#else
+        title_icon->setPixmap(getPixmap("theme:logo_32"));
+#endif
 	title_text->setText(QString("%1 (%2/%3)").arg(item.second).arg(n+1).arg(steps_n));
 	current_step = n;
     }
