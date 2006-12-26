@@ -254,28 +254,34 @@ void AWizardFace::addAction(const QString &key, AWizardFace::ActionType type)
 	case ActionBackward:
 	case ActionForward:
 	    {
-		QPushButton *b = new QPushButton(buttons_widget);
-		b->setIcon(QIcon(defaultActionIcon(type)));
-		buttons_layout->insertWidget( newButtonPosition(type), b, 0, newButtonAlignment(type) );
-		if( type == AWizardFace::ActionForward || type == AWizardFace::ActionFinish )
-		    b->setFocus();
-		buttons[key] = b;
-		button_types[key] = type;
-		connect(b, SIGNAL(clicked()), action_signal_mapper, SLOT(map()));
-		action_signal_mapper->setMapping(b, key);
-		break;
+		if( !buttons.contains(key) )
+	        {
+		    QPushButton *b = new QPushButton(buttons_widget);
+		    b->setIcon(QIcon(defaultActionIcon(type)));
+		    buttons_layout->insertWidget( newButtonPosition(type), b, 0, newButtonAlignment(type) );
+		    if( type == AWizardFace::ActionForward || type == AWizardFace::ActionFinish )
+			b->setFocus();
+		    buttons[key] = b;
+		    button_types[key] = type;
+		    connect(b, SIGNAL(clicked()), action_signal_mapper, SLOT(map()));
+		    action_signal_mapper->setMapping(b, key);
+		    break;
+		}
 	    }
 	case ActionHelp:
 	case ActionAbort:
 	case ActionGeneric:
 	default:
 	    {
-		QAction *a = menu->addAction("");
-		a->setIcon(QIcon(defaultActionIcon(type)));
-		menus[key] = a;
-		connect(a, SIGNAL(triggered()), action_signal_mapper, SLOT(map()));
-		action_signal_mapper->setMapping(a, key);
-		break;
+		if( !menus.contains(key) )
+		{
+		    QAction *a = menu->addAction("");
+		    a->setIcon(QIcon(defaultActionIcon(type)));
+		    menus[key] = a;
+		    connect(a, SIGNAL(triggered()), action_signal_mapper, SLOT(map()));
+		    action_signal_mapper->setMapping(a, key);
+		    break;
+		}
 	    }
     }
 }
@@ -553,6 +559,7 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
     if( "actions" == name )
     {
 	wnd_->clearActions();
+	wnd_->addAction("help", "Help", "");
 	QStringList data = value.split(";", QString::KeepEmptyParts);
 	const int len = data.size();
 	for(int i=0;i+2 < len;i+=3)
