@@ -236,8 +236,9 @@ void AWizardFace::addAction(const QString& key, const QString& name, const QStri
         if( key.isEmpty() )
 	    type = AWizardFace::ActionGeneric;
 	addAction(key, type);
-	setActionText(key, name);
-	if (!pixmap.isEmpty())
+	if( !name.isEmpty() )
+	    setActionText(key, name);
+	if( !pixmap.isEmpty() )
 	    setActionPixmap(key, pixmap);
     }
 }
@@ -328,12 +329,18 @@ QWidget* AWizardFace::getViewWidget()
     return view_widget;
 }
 
+QString AWizardFace::translateActionText(const QString& txt)
+{
+    QString i18n_text = QApplication::translate("QDialogButtonBox", qPrintable(txt), 0, QApplication::UnicodeUTF8);
+    return QApplication::translate("QAccel", qPrintable(i18n_text), 0, QApplication::UnicodeUTF8);
+}
+
 void AWizardFace::setActionText(const QString &key, const QString &value)
 {
     if( buttons.contains(key) )
-	buttons[key]->setText(value);
+	buttons[key]->setText(translateActionText(value));
     else if( menus.contains(key) )
-	menus[key]->setText(value);
+	menus[key]->setText(translateActionText(value));
 }
 
 void AWizardFace::setActionPixmap(const QString &key, const QString &value)

@@ -7,6 +7,7 @@ HelpBrowser::HelpBrowser(QWidget *parent):
     QDialog(parent)
 {
     ui.setupUi(this);
+    setWindowTitle(QApplication::translate("QDialogButtonBox", "Help", 0, QApplication::UnicodeUTF8));
     setEmptyHelp();
 
     connect(ui.textBrowser, SIGNAL(anchorClicked(const QUrl&)),

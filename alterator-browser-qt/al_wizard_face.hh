@@ -96,6 +96,7 @@ private:
     int findButtonPosition(ActionType);
     Qt::Alignment newButtonAlignment(ActionType);
     QPixmap defaultActionIcon(ActionType);
+    QString translateActionText(const QString&);
 };
 
 class alWizardFace: public alWidgetPre<AWizardFace>
