@@ -11,7 +11,7 @@ extern alWizardFace *wizard_face;
 
 // AWizardFace
 AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
-    QDialog(parent, f)
+    QWidget(parent, f)
 {
     key2type["abort"]    = AWizardFace::ActionAbort;
     key2type["finish"]   = AWizardFace::ActionFinish;
@@ -232,8 +232,10 @@ void AWizardFace::addAction(const QString& key, const QString& name, const QStri
 {
     if( !key.isEmpty() )
     {
-        AWizardFace::ActionType type = key2type[key];
-        if( key.isEmpty() )
+	AWizardFace::ActionType type;
+	if( key2type.contains(key) )
+    	    type = key2type[key];
+        else
 	    type = AWizardFace::ActionGeneric;
 	addAction(key, type);
 	if( !name.isEmpty() )
