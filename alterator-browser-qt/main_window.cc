@@ -17,7 +17,6 @@
 #include "updater.hh"
 #include "messagebox.hh"
 #include "constraints.hh"
-#include "al_wizard_face.hh"
 #include "mailbox.hh"
 
 #ifdef Q_WS_X11

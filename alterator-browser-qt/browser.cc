@@ -8,9 +8,6 @@
 #include <QPointer>
 #include <QPainter>
 
-#include "al_wizard_face.hh"
-#include "al_simplebox.hh"
-
 #include "connection.hh"
 #include "browser.hh"
 #include "updater.hh"
@@ -110,6 +107,7 @@ void newRequest(const QXmlAttributes& attr)
 	else if ("slider" == type) new alSlider(id,parent);
 	else if ("splitter" == type) new alSplitter(id,parent);
 	else if ("spacer" == type) new alSpacer(id,parent);
+	else if ("spinbox" == type) new alSpinBox(id,parent);
 	else if ("listbox" == type)
 	{
 	    int cols = attr.value("columns").toInt();
