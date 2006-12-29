@@ -15,7 +15,7 @@ public:
     ~AWizardFaceStepList() {};
 };
 
-class AWizardFace: public QDialog
+class AWizardFace: public QWidget
 {
     Q_OBJECT
 public:

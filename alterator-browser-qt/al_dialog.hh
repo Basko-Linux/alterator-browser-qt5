@@ -8,9 +8,16 @@
 //also ignore escape button press and some other features
 class ADialog: public QDialog
 {
+    Q_OBJECT
 public:
 	ADialog(QWidget *parent = 0);
 	QWidget* getView();
+
+	void addAction(const QString& key, const QString& name, const QString& pixmap);
+	void removeAction(const QString &key);
+	void clearActions();
+	void setDefaultAction(const QString& key);
+	QString currentAction();
 
 protected:
 	void closeEvent(QCloseEvent*);
@@ -18,8 +25,15 @@ protected:
 	void showEvent(QShowEvent*);
 	void paintEvent(QPaintEvent*);
 
+private slots:
+	void onButtonClicked(QAbstractButton*);
+
 private:
-	QWidget *view_vidget;
+	QWidget *view_widget;
+	QDialogButtonBox *btnbox;
+	QString current_action;
+	QMap<QString,QDialogButtonBox::StandardButton> key2btn;
+	QMap<QString,QAbstractButton*> buttons;
 };
 
 
@@ -35,7 +49,7 @@ public:
 	    bl->setMargin(5);
 	}
 	void setAttr(const QString& name,const QString& value);
-//	void start() { qDebug("dialog exec"); wnd_->exec(); }
+	QString postData() const ;
 	void start() { wnd_->exec(); }
 	void stop()  { wnd_->done(0); }
 	QWidget* getViewWidget();
