@@ -14,7 +14,6 @@
 #include "browser.hh"
 #include "connection.hh"
 #include "main_window.hh"
-#include "updater.hh"
 #include "messagebox.hh"
 #include "constraints.hh"
 #include "mailbox.hh"
@@ -26,7 +25,6 @@
 #include <QX11Info>
 #endif
 
-extern Updater *updater;
 extern Constraints *constraints;
 extern alWizardFace *wizard_face;
 extern MailBox *mailbox;
@@ -84,7 +82,6 @@ void MainWindow::start()
     if( started ) return;
     started = true;
 
-    updater = new Updater(this);
     constraints = new Constraints();
     AMessageBox::initButtonMap();
 

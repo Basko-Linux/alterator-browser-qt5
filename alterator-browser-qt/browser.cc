@@ -10,7 +10,6 @@
 
 #include "connection.hh"
 #include "browser.hh"
-#include "updater.hh"
 #include "main_window.hh"
 #include "widgets.hh"
 #include "a_pixmaps.hh"
@@ -20,7 +19,6 @@
 
 
 MailBox *mailbox = 0;//mailbox engine
-Updater *updater = 0;//slot for updates
 QPointer<QSplashScreen> splash;//single splash screen
 MainWindow *main_window = 0;
 alWizardFace *wizard_face = 0;
@@ -223,17 +221,8 @@ void eventRequest(const QString& id,const QString& value)
 	    elements[id]->registerEvent(value);
 }
 
-void timerRequest(const QString& action)
-{
-	if (updater && "add" == action)
-	    updater->start();
-	else if (updater && "remove" == action)
-	    updater->stop();
-}
-
 void messageboxRequest(const QXmlAttributes& e)
 {
-    updater->pause();
     QWidget *parent = QApplication::activeWindow();
 /*
     const QString answer =
@@ -257,7 +246,6 @@ void messageboxRequest(const QXmlAttributes& e)
     //qDebug("AMsgBox exec");
     const QString answer = AMessageBox::unconvertButton((QMessageBox::StandardButton)msgbox.exec());
     getDocument(getDocParser,answer);
-    updater->resume();
 }
 
 ////////////////////////////////////////////////
@@ -280,8 +268,6 @@ void getDocParser(alCommand *cmd)
 	else if ("create-event" == action)
 		eventRequest(e.value("widget-id"),
 			     cmd->value_);
-	else if ("timer" == action)
-		timerRequest(cmd->value_);
 	else if ("splash" == action)
 		splashMessage(cmd->value_);
 	else if ("start" == action)
@@ -294,8 +280,8 @@ void getDocParser(alCommand *cmd)
 		messageboxRequest(e);
 	else if ("retry" == action)
 	{
-	    if(updater)
-		QTimer::singleShot(50,updater,SLOT(doRetry()));
+	    if(mailbox)
+		QTimer::singleShot(50,mailbox,SLOT(doRetry()));
 	}
 	else if ("constraints-clear" == action)
 	{

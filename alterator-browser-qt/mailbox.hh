@@ -19,6 +19,7 @@ public:
 public slots:
 	void onMessage(int);
 	void readMessage(int);
+	void doRetry();
 private:
 	parserfunc parser_;
 	int sock_;

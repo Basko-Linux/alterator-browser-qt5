@@ -98,3 +98,8 @@ void MailBox::readMessage(int fd)
 		eater_ = 0;
 	}
 }
+
+void MailBox::doRetry()
+{
+	getDocument(parser_,"(alterator-request action \"re-get\")");
+}
