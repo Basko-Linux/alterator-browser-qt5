@@ -110,9 +110,9 @@ void widget_corners_round(QWidget *widget)
     widget->setMask(mask);
 }
 
-void fix_wmless_window(QWidget *widget)
+void fix_wmless_popup(QWidget *widget)
 {
-    //qDebug("fix_wmless_window");
+    //qDebug("fix_wmless_popup");
     QWidget *xparent = QApplication::desktop();
     int x = (xparent->width() - widget->width()) / 2;
     if( x < 0 )

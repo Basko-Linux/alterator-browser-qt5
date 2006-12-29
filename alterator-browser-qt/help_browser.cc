@@ -45,6 +45,6 @@ void HelpBrowser::showEvent(QShowEvent *e)
     //HelpBrowser::showEvent(e);
     if( !main_window->haveWindowManager() )
     {
-	fix_wmless_window(this);
+	fix_wmless_popup(this);
     }
 }

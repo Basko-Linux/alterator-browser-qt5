@@ -107,7 +107,7 @@ void AMsgBox::showEvent(QShowEvent *e)
     //QMessageBox::showEvent(e);
     if( !main_window->haveWindowManager() )
     {
-	fix_wmless_window(this);
+	fix_wmless_popup(this);
     }
 }
 

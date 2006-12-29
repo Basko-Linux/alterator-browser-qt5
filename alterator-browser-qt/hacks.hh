@@ -19,6 +19,6 @@
 extern MainWindow *main_window;
 
 void widget_corners_round(QWidget*);
-void fix_wmless_window(QWidget*);
+void fix_wmless_popup(QWidget*);
 
 #endif

@@ -11,7 +11,7 @@ extern alWizardFace *wizard_face;
 
 // AWizardFace
 AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
-    QWidget(parent, f)
+    QDialog(parent, f)
 {
     key2type["abort"]    = AWizardFace::ActionAbort;
     key2type["finish"]   = AWizardFace::ActionFinish;
