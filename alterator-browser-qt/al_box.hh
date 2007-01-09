@@ -16,7 +16,9 @@ class alVBox: public alBox
 public:
 	alVBox(const QString& id,const QString& parent):
 		alBox(id,parent,Qt::Vertical)
-	{}
+	{
+	    qDebug("vbox is depricated");
+	}
 };
 
 class alHBox: public alBox
@@ -24,5 +26,7 @@ class alHBox: public alBox
 public:
 	alHBox(const QString& id,const QString& parent):
 		alBox(id,parent,Qt::Horizontal)
-	{}
+	{
+	    qDebug("hbox is depricated");
+	}
 };

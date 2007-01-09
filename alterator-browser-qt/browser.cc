@@ -62,6 +62,7 @@ void newRequest(const QXmlAttributes& attr)
 	const QString id = attr.value("widget-id");
 	const QString type = attr.value("type");
 	const QString parent = attr.value("parent");
+	Qt::Orientation orientation = (attr.value("orientation")=="horizontal")? Qt::Horizontal: Qt::Vertical;
 	//qDebug("%s: id<%s> type<%s> parent<%s>", __FUNCTION__, id.toLatin1().data(), type.toLatin1().data(), parent.toLatin1().data());
 
 	if ("root" == type)
@@ -80,27 +81,22 @@ void newRequest(const QXmlAttributes& attr)
 		new alVBox(id,parent);
 	    }
 	}
-	else if ("vbox" == type) new alVBox(id,parent);
-	else if ("hbox" == type) new alHBox(id,parent);
+	else if ("box" == type) new alBox(id,parent,orientation);
+	else if ("vbox" == type) new alBox(id,parent,Qt::Vertical);
+	else if ("hbox" == type) new alBox(id,parent,Qt::Horizontal);
 	else if ("button" == type) new alButton(id,parent);
 	else if ("radio" == type) new alRadio(id,parent);
 	else if ("label" == type) new alLabel(id,parent);
 	else if ("edit" == type) new alEdit(id,parent);
 	else if ("textbox" == type) new alTextBox(id,parent);
 	else if ("help-place" == type) new alHelpPlace(id,parent);
-	else if ("groupbox" == type) new alVGroupBox(id,parent,attr.value("checked"));
-	else if ("vgroupbox" == type) new alVGroupBox(id,parent,attr.value("checked"));
-	else if ("hgroupbox" == type) new alHGroupBox(id,parent,attr.value("checked"));
+	else if ("groupbox" == type) new alGroupBox(id,parent,orientation,attr.value("checked"));
 	else if ("simplebox" == type) new alSimpleBox(id,parent);
 	else if ("checkbox" == type) new alCheckBox(id,parent);
 	else if ("tree" == type) new alTree(id,parent,attr.value("columns"));
 	else if ("combobox" == type) new alComboBox(id,parent);
-	else if ("tabbox" == type) new alTabBox(id,parent);
-	else if ("vtabbox" == type) new alTabBox(id,parent,Qt::Vertical);
-	else if ("htabbox" == type) new alTabBox(id,parent,Qt::Horizontal);
-	else if ("tab-page" == type) new alTabPage(id,parent);
-	else if ("vtab-page" == type) new alTabPage(id,parent,Qt::Vertical);
-	else if ("htab-page" == type) new alTabPage(id,parent,Qt::Horizontal);
+	else if ("tabbox" == type) new alTabBox(id,parent,orientation);
+	else if ("tab-page" == type) new alTabPage(id,parent,orientation);
 	else if ("progressbar" == type) new alProgressBar(id,parent);
 	else if ("slider" == type) new alSlider(id,parent);
 	else if ("splitter" == type) new alSplitter(id,parent);
