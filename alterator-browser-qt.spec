@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.26
+Version: 2.9.27
 Release: alt1
 
 Source:%name-%version.tar
@@ -58,6 +58,11 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Fri Dec 29 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.27-alt1
+- add cursor attribute
+- add actions to dialog
+- add spinbox widget
+
 * Tue Dec 26 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.26-alt1
 - add wizardface default tranlations
 - add help item to wizardface by default
