@@ -17,23 +17,23 @@ alWidget::alWidget(Type type, const QString& id,const QString& parent):
     elements[id] = this;
 
     cursors["arrow"] = Qt::ArrowCursor;
-    cursors["uparrow"] = Qt::UpArrowCursor;
+    cursors["arrow-up"] = Qt::UpArrowCursor;
     cursors["cross"] = Qt::CrossCursor;
     cursors["wait"] = Qt::WaitCursor;
     cursors["ibeam"] = Qt::IBeamCursor;
-    cursors["sizever"] = Qt::SizeVerCursor;
-    cursors["sizehor"] = Qt::SizeHorCursor;
-    cursors["sizebdiag"] = Qt::SizeBDiagCursor;
-    cursors["sizefdiag"] = Qt::SizeFDiagCursor;
-    cursors["sizeall"] = Qt::SizeAllCursor;
+    cursors["size-vertical"] = Qt::SizeVerCursor;
+    cursors["size-horizontal"] = Qt::SizeHorCursor;
+    cursors["size-bdiag"] = Qt::SizeBDiagCursor;
+    cursors["size-fdiag"] = Qt::SizeFDiagCursor;
+    cursors["size-all"] = Qt::SizeAllCursor;
     cursors["blank"] = Qt::BlankCursor;
-    cursors["splitv"] = Qt::SplitVCursor;
-    cursors["splith"] = Qt::SplitHCursor;
-    cursors["pointinghand"] = Qt::PointingHandCursor;
     cursors["forbidden"] = Qt::ForbiddenCursor;
-    cursors["openhand"] = Qt::OpenHandCursor;
-    cursors["closedhand"] = Qt::ClosedHandCursor;
-    cursors["whatsthis"] = Qt::WhatsThisCursor;
+    cursors["split-vertical"] = Qt::SplitVCursor;
+    cursors["split-horizontal"] = Qt::SplitHCursor;
+    cursors["hand-pointing"] = Qt::PointingHandCursor;
+    cursors["hand-open"] = Qt::OpenHandCursor;
+    cursors["hand-closed"] = Qt::ClosedHandCursor;
+    cursors["whats-this"] = Qt::WhatsThisCursor;
     cursors["busy"] = Qt::BusyCursor;
 }
 
