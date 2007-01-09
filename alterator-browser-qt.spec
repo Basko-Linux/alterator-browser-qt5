@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.27
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Tue Jan 09 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.27-alt2
+- fix cursor names
+
 * Fri Dec 29 2006 Sergey V Turchin <zerg at altlinux dot org> 2.9.27-alt1
 - add cursor attribute
 - add actions to dialog
