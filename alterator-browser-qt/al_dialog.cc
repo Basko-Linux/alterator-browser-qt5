@@ -195,13 +195,13 @@ void alDialog::setAttr(const QString& name,const QString& value)
 	wnd_->setWindowTitle(value);
     else if ("width" == name)
     {
-	int w = value.toInt()
+	int w = value.toInt();
 	if( w > 0 )
 	    wnd_->resize(w,wnd_->height());
     }
     else if ("height" == name)
     {
-	int h = value.toInt()
+	int h = value.toInt();
 	if( h > 0 )
 	    wnd_->resize(wnd_->width(),h);
     }
