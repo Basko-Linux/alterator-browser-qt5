@@ -20,11 +20,11 @@ alWidget::alWidget(Type type, const QString& id,const QString& parent):
     cursors["arrow-up"] = Qt::UpArrowCursor;
     cursors["cross"] = Qt::CrossCursor;
     cursors["wait"] = Qt::WaitCursor;
-    cursors["ibeam"] = Qt::IBeamCursor;
+    cursors["caret"] = Qt::IBeamCursor;
     cursors["size-vertical"] = Qt::SizeVerCursor;
     cursors["size-horizontal"] = Qt::SizeHorCursor;
-    cursors["size-bdiag"] = Qt::SizeBDiagCursor;
-    cursors["size-fdiag"] = Qt::SizeFDiagCursor;
+    cursors["size-diagonal-forward"] = Qt::SizeBDiagCursor;
+    cursors["size-diagonal-back"] = Qt::SizeFDiagCursor;
     cursors["size-all"] = Qt::SizeAllCursor;
     cursors["blank"] = Qt::BlankCursor;
     cursors["forbidden"] = Qt::ForbiddenCursor;
@@ -33,7 +33,7 @@ alWidget::alWidget(Type type, const QString& id,const QString& parent):
     cursors["hand-pointing"] = Qt::PointingHandCursor;
     cursors["hand-open"] = Qt::OpenHandCursor;
     cursors["hand-closed"] = Qt::ClosedHandCursor;
-    cursors["whats-this"] = Qt::WhatsThisCursor;
+    cursors["what-is-this"] = Qt::WhatsThisCursor;
     cursors["busy"] = Qt::BusyCursor;
 }
 
