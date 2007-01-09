@@ -41,8 +41,8 @@ void alTree::setAttr(const QString& name,const QString& value)
 		QStringList coords = value.split(";");
 		QTreeWidgetItem *item = findPosition(wnd_->topLevelItem(coords[0].toInt()),
 			                                                coords.mid(1),0);
-		wnd_->scrollToItem(item);
 		wnd_->setCurrentItem(item);
+		wnd_->scrollToItem(item);
 	}
 	else if ("header" == name) 
 	{ 
