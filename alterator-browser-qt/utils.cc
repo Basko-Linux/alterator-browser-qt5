@@ -40,7 +40,8 @@ void errorExit(QWidget *parent, const QString& message)
     QMessageBox::critical(parent, QMessageBox::tr("Error"),
 	message,
 	QMessageBox::Abort);
-    QApplication::closeAllWindows();
+    //QApplication::closeAllWindows();
+    exit(1);
 }
 
 }
