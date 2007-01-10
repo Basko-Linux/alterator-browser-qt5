@@ -1,3 +1,5 @@
+#include <QMessageBox>
+#include <QApplication>
 
 #include "utils.hh"
 
@@ -30,6 +32,15 @@ QString simpleQuote(const QString &s)
 {
     QString ret(s);
     return ret.replace("\\","\\\\").replace("\"","\\\"");
+}
+
+void errorExit(QWidget *parent, const QString& message)
+{
+    qDebug("error exit:%s",qPrintable(message));
+    QMessageBox::critical(parent, QMessageBox::tr("Error"),
+	message,
+	QMessageBox::Abort);
+    QApplication::closeAllWindows();
 }
 
 }

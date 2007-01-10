@@ -5,25 +5,21 @@
 #include <sys/socket.h>
 #include <sys/stat.h>
 
-#include <QCoreApplication>
+#include <QApplication>
 #include <QFile>
 
-namespace
-{
-	void errorExit(const QString& message)
-	{
-		qDebug("error exit:%s",qPrintable(message));
-		exit(1);
-	}
-}
+#include "utils.hh"
+
+using namespace Utils;
 
 MailBox::MailBox(const QString& path, parserfunc parser, QObject *parent):
 	QObject(parent),
 	parser_(parser),
 	eater_(0)
 {
+	QWidget *top_window = QApplication::activeWindow();
 	if ((sock_ = ::socket(PF_UNIX, SOCK_STREAM, 0)) == -1)
-		errorExit("socket");
+		errorExit(top_window, "socket");
 
 	::memset(socka_.sun_path,0,sizeof(socka_.sun_path)/sizeof(char));
 	socka_.sun_family = AF_UNIX;
@@ -34,17 +30,17 @@ MailBox::MailBox(const QString& path, parserfunc parser, QObject *parent):
 	if (::bind(sock_, (struct sockaddr *)&socka_, size) == -1) {
 	    if (::connect(sock_, (struct sockaddr*)&socka_, size) == -1) {
 		    if (!QFile::remove(path))
-		    	errorExit("remove");
+		    	errorExit(top_window, "remove");
 
 		    if (::bind(sock_, (struct sockaddr *)&socka_, size) == -1)
-		    	errorExit("re-bind");
+		    	errorExit(top_window, "re-bind");
 	    }
 	    else
-	    	errorExit("Address already in use");
+	    	errorExit(top_window, "Address already in use");
 	}
 
 	if (::listen(sock_, 1) == -1)
-		errorExit("listen");
+		errorExit(top_window, "listen");
 
 	notifier_ = new QSocketNotifier(sock_,QSocketNotifier::Read);
 	QObject::connect(notifier_,SIGNAL(activated(int)),this, SLOT(onMessage(int)) );
