@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.28
+Version: 2.9.29
 Release: alt1
 
 Source:%name-%version.tar
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Wed Jan 10 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.29-alt1
+- move browser socket into alterator sub-directory
+
 * Wed Jan 10 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.28-alt1
 - add orientation(default vertical) attribute to container widgets
 
