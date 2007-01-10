@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Wed Jan 10 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.28-alt1
+- add orientation(default vertical) attribute to container widgets
+
 * Tue Jan 09 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.27-alt2
 - fix cursor names
 
