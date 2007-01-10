@@ -8,6 +8,7 @@
 #include <QSettings>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QDir>
 
 #include "global.hh"
 #include "widgets.hh"
@@ -92,9 +93,16 @@ void MainWindow::start()
     if( args.size() > 1 )
     	socketPath = args.at(1);
     else if( !tmpdir.isEmpty() )
-    	socketPath = tmpdir+"/browser-sock";
+    	socketPath = tmpdir;
     else
-    	socketPath = "/tmp/browser-sock";
+    	socketPath = "/tmp";
+
+    QDir socketDir(socketPath);
+    if( socketDir.exists("alterator") || socketDir.mkdir("alterator") )
+	socketPath += "/alterator";
+
+    socketPath += "/browser-sock";
+
     qDebug("socket path %s ...",qPrintable(socketPath));
 
     mailbox = new MailBox(socketPath, getDocParser, this);
