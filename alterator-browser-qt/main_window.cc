@@ -99,15 +99,19 @@ void MainWindow::start()
 
     QDir socketDir(socketPath);
     if( socketDir.exists("alterator") || socketDir.mkdir("alterator") )
-	socketPath += "/alterator";
-
-    socketPath += "/browser-sock";
-
-    qDebug("socket path %s ...",qPrintable(socketPath));
-
-    mailbox = new MailBox(socketPath, getDocParser, this);
-
-    initConnection(getDocParser);
+    {
+	socketPath += "/alterator/browser-sock";
+	qDebug("socket path %s ...",qPrintable(socketPath));
+	mailbox = new MailBox(socketPath, getDocParser, this);
+	initConnection(getDocParser);
+    }
+    else
+    {
+	QMessageBox::critical(this, tr("Error"),
+	    tr("Unable to create socket directory."),
+	    QMessageBox::Abort);
+	QApplication::closeAllWindows();
+    }
 }
 
 void MainWindow::stop()
