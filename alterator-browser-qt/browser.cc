@@ -63,7 +63,7 @@ void newRequest(const QXmlAttributes& attr)
 	const QString type = attr.value("type");
 	const QString parent = attr.value("parent");
 	Qt::Orientation orientation = (attr.value("orientation")=="horizontal")? Qt::Horizontal: Qt::Vertical;
-	//qDebug("%s: id<%s> type<%s> parent<%s>", __FUNCTION__, id.toLatin1().data(), type.toLatin1().data(), parent.toLatin1().data());
+	//qDebug("%s: id<%s> type<%s> parent<%s> orientation<%s>", __FUNCTION__, qPrintable(id), qPrintable(type), qPrintable(parent), qPrintable(attr.value("orientation")));
 
 	if ("root" == type)
 	{
