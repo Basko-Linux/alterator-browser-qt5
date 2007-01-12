@@ -41,13 +41,7 @@ class alDialog: public alWidgetPre<ADialog>
 {
 public:
 	alDialog(const QString& id,const QString& parent,
-	         const QString& width,const QString& height):
-		alWidgetPre<ADialog>(Dialog,id,parent)
-	{
-	    QVBoxLayout *bl = new QVBoxLayout(getViewWidget());
-	    bl->setSpacing(5);
-	    bl->setMargin(5);
-	}
+	         const QString& width,const QString& height);
 	void setAttr(const QString& name,const QString& value);
 	QString postData() const ;
 	void start() { wnd_->exec(); }

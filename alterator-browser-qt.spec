@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.29
+Version: 2.9.30
 Release: alt1
 
 Source:%name-%version.tar
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Fri Jan 12 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.30-alt1
+- temporary add width/height for dialogs
+
 * Wed Jan 10 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.29-alt1
 - move browser socket into alterator sub-directory
 

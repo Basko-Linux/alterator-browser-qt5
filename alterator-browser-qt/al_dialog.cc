@@ -148,6 +148,27 @@ QString ADialog::currentAction()
 }
 
 // alDialog
+alDialog::alDialog(const QString& id,const QString& parent, const QString& width,const QString& height):
+    alWidgetPre<ADialog>(Dialog,id,parent)
+{
+    if (!width.isEmpty() || !height.isEmpty())
+    {
+	int w, h;
+	bool w_ok, h_ok;
+	w = width.toInt(&w_ok);
+	if( !w_ok )
+	    w = getWidget()->width();
+	h = width.toInt(&h_ok);
+	if( !h_ok )
+	    h = getWidget()->height();
+	getWidget()->resize(w,h);
+    }
+    QVBoxLayout *bl = new QVBoxLayout(getViewWidget());
+    bl->setSpacing(5);
+    bl->setMargin(5);
+}
+
+
 QWidget* alDialog::getViewWidget()
 {
     return wnd_->getView();
@@ -195,15 +216,15 @@ void alDialog::setAttr(const QString& name,const QString& value)
 	wnd_->setWindowTitle(value);
     else if ("width" == name)
     {
-	int w = value.toInt();
-	if( w > 0 )
-	    wnd_->resize(w,wnd_->height());
+//	int w = value.toInt();
+//	if( w > 0 )
+//	    wnd_->resize(w,wnd_->height());
     }
     else if ("height" == name)
     {
-	int h = value.toInt();
-	if( h > 0 )
-	    wnd_->resize(wnd_->width(),h);
+//	int h = value.toInt();
+//	if( h > 0 )
+//	    wnd_->resize(wnd_->width(),h);
     }
     else
 	alWidget::setAttr(name,value);
