@@ -40,7 +40,7 @@ private:
 class alDialog: public alWidgetPre<ADialog>
 {
 public:
-	alDialog(const QString& id,const QString& parent,
+	alDialog(const QString& id,const QString& parent, Qt::Orientation orientation,
 	         const QString& width,const QString& height);
 	void setAttr(const QString& name,const QString& value);
 	QString postData() const ;

@@ -73,7 +73,7 @@ void newRequest(const QXmlAttributes& attr)
 	    	if(parent.isEmpty())
 		    new alMainWidget(id,"");
 	    	else
-		    new alDialog(id,parent,attr.value("width"),
+		    new alDialog(id,parent,orientation,attr.value("width"),
 		                          attr.value("height"));
 	    }
 	    else

@@ -148,7 +148,8 @@ QString ADialog::currentAction()
 }
 
 // alDialog
-alDialog::alDialog(const QString& id,const QString& parent, const QString& width,const QString& height):
+alDialog::alDialog(const QString& id,const QString& parent, Qt::Orientation orientation,
+    const QString& width,const QString& height):
     alWidgetPre<ADialog>(Dialog,id,parent)
 {
     if (!width.isEmpty() || !height.isEmpty())
@@ -163,7 +164,11 @@ alDialog::alDialog(const QString& id,const QString& parent, const QString& width
 	    h = getWidget()->height();
 	getWidget()->resize(w,h);
     }
-    QVBoxLayout *bl = new QVBoxLayout(getViewWidget());
+    QBoxLayout *bl;
+    if( orientation == Qt::Horizontal )
+	bl = new QHBoxLayout(getViewWidget());
+    else
+	bl = new QVBoxLayout(getViewWidget());
     bl->setSpacing(5);
     bl->setMargin(5);
 }
