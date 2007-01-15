@@ -111,7 +111,7 @@ int AWizardFace::newButtonPosition(ActionType type)
     {
 	case ActionHelp:
 	    {
-		return 0;
+		return 1;
 	    }
 	case ActionApply:
 	    {
