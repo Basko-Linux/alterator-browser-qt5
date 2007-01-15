@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.30
+Version: 2.9.31
 Release: alt1
 
 Source:%name-%version.tar
@@ -58,6 +58,11 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Mon Jan 15 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.31-alt1
+- fix splitter, rename to separator
+- fix help button position
+- add orientation to dialog mainwidget and wizardface
+
 * Fri Jan 12 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.30-alt1
 - temporary add width/height for dialogs
 
