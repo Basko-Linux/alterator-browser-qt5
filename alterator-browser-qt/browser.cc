@@ -99,7 +99,7 @@ void newRequest(const QXmlAttributes& attr)
 	else if ("tab-page" == type) new alTabPage(id,parent,orientation);
 	else if ("progressbar" == type) new alProgressBar(id,parent);
 	else if ("slider" == type) new alSlider(id,parent);
-	else if ("splitter" == type) new alSplitter(id,parent);
+	else if ("separator" == type) new alSeparator(id,parent);
 	else if ("spacer" == type) new alSpacer(id,parent);
 	else if ("spinbox" == type) new alSpinBox(id,parent);
 	else if ("listbox" == type)

@@ -1,7 +1,7 @@
-#include "al_splitter.hh"
+#include "al_separator.hh"
 
-alSplitter::alSplitter(const QString& id, const QString& parent):
-    alWidgetPre<QFrame>(Splitter,id,parent)
+alSeparator::alSeparator(const QString& id, const QString& parent):
+    alWidgetPre<QFrame>(Separator,id,parent)
 {
     QFrame::Shape orient = QFrame::HLine;
     QWidget *pw = wnd_->parentWidget();
@@ -26,7 +26,7 @@ alSplitter::alSplitter(const QString& id, const QString& parent):
 }
 
 
-void alSplitter::setAttr(const QString& name,const QString& value)
+void alSeparator::setAttr(const QString& name,const QString& value)
 {
 # if 0
 	if( "orientation" == name )

@@ -20,7 +20,7 @@ public:
 	    Label, Button, Radio, Edit, TextBox,
 	    HGroupBox, VGroupBox, CheckBox, ListBox, MultiListBox, ComboBox,
 	    HTabBox, VTabBox, HTabPage, VTabPage, HBox, VBox, SimpleBox,
-	    ProgressBar, Tree, Slider, Splitter, SpinBox,
+	    ProgressBar, Tree, Slider, Separator, SpinBox,
 	    HelpPlace, Proxy, Spacer
 	};
 signals:

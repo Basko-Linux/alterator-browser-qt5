@@ -161,7 +161,7 @@ QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy
 	    szpol.setHorizontalPolicy(QSizePolicy::Fixed);
 	    break;
 	}
-	case Splitter:
+	case Separator:
 	{
 	    if( orientation == Qt::Horizontal )
 	    {

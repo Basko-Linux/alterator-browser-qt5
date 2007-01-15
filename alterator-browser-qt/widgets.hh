@@ -25,7 +25,6 @@
 #include <QTreeWidget>
 #include <QTextBrowser>
 #include <QSlider>
-#include <QSplitter>
 
 #include "connection.hh"
 #include "main_window.hh"
@@ -173,7 +172,7 @@ protected:
 
 
 #include "al_slider.hh"
-#include "al_splitter.hh"
+#include "al_separator.hh"
 #include "al_spacer.hh"
 #include "al_wizard_face.hh"
 #include "al_simplebox.hh"
