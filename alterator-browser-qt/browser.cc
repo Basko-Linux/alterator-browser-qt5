@@ -71,7 +71,7 @@ void newRequest(const QXmlAttributes& attr)
 	    if ("popup" == subtype) //this is a dialog
 	    {
 	    	if(parent.isEmpty())
-		    new alMainWidget(id,"");
+		    new alMainWidget(id,"",orientation);
 	    	else
 		    new alDialog(id,parent,orientation,attr.value("width"),
 		                          attr.value("height"));
@@ -113,9 +113,9 @@ void newRequest(const QXmlAttributes& attr)
 	else if ("wizardface" == type)
 	{
 	    if( wizard_face )
-		new alVBox(id,parent);
+		new alBox(id,parent,orientation);
 	    else
-		wizard_face = new alWizardFace(id,parent);
+		wizard_face = new alWizardFace(id,parent,orientation);
 	}
 }
 

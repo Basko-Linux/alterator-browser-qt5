@@ -31,13 +31,7 @@ public:
 class alMainWidget: public alMainWidgetPre<QWidget>
 {
 public:
-	alMainWidget(const QString& id,const QString& parent):
-		alMainWidgetPre<QWidget>(MainWidget, id, parent)
-	{
-	    QVBoxLayout *bl = new QVBoxLayout(wnd_);
-	    bl->setSpacing(5);
-	    bl->setMargin(5);
-	}
+	alMainWidget(const QString& id,const QString& parent, Qt::Orientation orientation);
 	void setAttr(const QString& name,const QString& value);
 	void start() {}
 	void stop()  { QApplication::closeAllWindows(); }

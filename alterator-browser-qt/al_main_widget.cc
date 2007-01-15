@@ -1,6 +1,18 @@
 
 #include "al_main_widget.hh"
 
+alMainWidget::alMainWidget(const QString& id,const QString& parent, Qt::Orientation orientation):
+	alMainWidgetPre<QWidget>(MainWidget, id, parent)
+{
+    QBoxLayout *bl;
+    if( orientation == Qt::Horizontal )
+	bl = new QHBoxLayout(getViewWidget());
+    else
+	bl = new QVBoxLayout(getViewWidget());
+    bl->setSpacing(5);
+    bl->setMargin(5);
+}
+
 void alMainWidget::setAttr(const QString& name,const QString& value)
 {
 	if ("title" == name)

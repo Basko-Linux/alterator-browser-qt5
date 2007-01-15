@@ -511,10 +511,14 @@ void AWizardFace::keyPressEvent(QKeyEvent* e)
 #endif
 
 // alWizardFace
-alWizardFace::alWizardFace(const QString& id,const QString& parent):
+alWizardFace::alWizardFace(const QString& id,const QString& parent, Qt::Orientation orientation):
     alWidgetPre<AWizardFace>(WizardFace,id,parent)
 {
-    new QVBoxLayout(wnd_->getViewWidget());
+    QBoxLayout *bl;
+    if( orientation == Qt::Horizontal )
+	bl = new QHBoxLayout(wnd_->getViewWidget());
+    else
+	bl = new QVBoxLayout(wnd_->getViewWidget());
 }
 
 alWizardFace::~alWizardFace(){}
