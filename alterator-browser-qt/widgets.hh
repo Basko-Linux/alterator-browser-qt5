@@ -173,30 +173,7 @@ protected:
 
 
 #include "al_slider.hh"
-
-class alSplitter: public alWidgetPre<QSplitter>
-{
-Q_OBJECT
-public:
-    alSplitter(const QString& id, const QString& parent):
-	alWidgetPre<QSplitter>(Splitter,id,parent)
-    {
-	Qt::Orientation orient = Qt::Horizontal;
-	QLayout *l = wnd_->layout();
-	if( l )
-	{
-	    QBoxLayout *bl = qobject_cast<QBoxLayout*>(l);
-	    if( bl )
-	    {
-		if( bl->direction() == QBoxLayout::LeftToRight || bl->direction() == QBoxLayout::RightToLeft )
-		    orient = Qt::Vertical;
-	    }
-	}
-	wnd_->setOrientation( orient );
-    }
-    void setAttr(const QString& name,const QString& value);
-};
-
+#include "al_splitter.hh"
 #include "al_spacer.hh"
 #include "al_wizard_face.hh"
 #include "al_simplebox.hh"

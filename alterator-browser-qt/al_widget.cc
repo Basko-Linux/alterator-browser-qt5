@@ -134,7 +134,6 @@ QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy
 	}
 	case ProgressBar:
 	case Slider:
-	case Splitter:
 	case CheckBox:
 	case Radio:
 	{
@@ -160,6 +159,20 @@ QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy
 	case Button:
 	{
 	    szpol.setHorizontalPolicy(QSizePolicy::Fixed);
+	    break;
+	}
+	case Splitter:
+	{
+	    if( orientation == Qt::Horizontal )
+	    {
+		szpol.setHorizontalPolicy(QSizePolicy::Fixed);
+		szpol.setVerticalPolicy(QSizePolicy::Expanding);
+	    }
+	    else
+	    {
+		szpol.setHorizontalPolicy(QSizePolicy::Expanding);
+		szpol.setVerticalPolicy(QSizePolicy::Fixed);
+	    }
 	    break;
 	}
 	default:
