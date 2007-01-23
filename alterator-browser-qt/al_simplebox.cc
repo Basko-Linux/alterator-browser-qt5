@@ -6,111 +6,103 @@
 ASimpleBox::ASimpleBox(QWidget *parent):
     QWidget(parent)
 {
-    qDebug("Thank you for testing new super widget. This is experimental!!!");
-    layout_type = LayoutUnknown;
-    columns_ = 1;
-    current_row = -1;
+    columns_ = 0;
+    current_row = 0;
     current_column = 0;
-    layout_ = new QGridLayout(this);
+
+    view_widget = new QWidget(this);
+    view_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    QSpacerItem *top = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    QSpacerItem *bottom = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+
+    QVBoxLayout *layout_main = new QVBoxLayout(this);
+    layout_main->setSpacing(0);
+    layout_main->setMargin(0);
+
+    layout_ = new QGridLayout(view_widget);
+
+    layout_main->addItem(top);
+    layout_main->addWidget(view_widget);
+    layout_main->addItem(bottom);
 }
 
 ASimpleBox::~ASimpleBox() {}
 
-void ASimpleBox::appendRow()
+QWidget* ASimpleBox::getView()
 {
-    if( layout_type == LayoutColumns )
-    {
-	qDebug("ASimpleBox::appendRow: Ignore! You must use only one layout type");
-	return;
-    }
-    current_row++;
-    current_column = 0;
-    columns_ = 1;
-    layout_type = LayoutRows;
+    return view_widget;
 }
-
 void ASimpleBox::setColumns(const QString &columns)
 {
-    if( layout_type == LayoutRows )
+    if( columns_ > 0 )
     {
-	qDebug("ASimpleBox::setColumns: Ignore! You must use only one layout type");
-	return;
-    }
-    else if( layout_type == LayoutColumns )
-    {
-	qDebug("ASimpleBox::setColumns: Ignore! Double layout setup");
+	qDebug("ASimpleBox: Ignore double layout setup");
 	return;
     }
     QStringList cols = columns.split(";", QString::SkipEmptyParts);
     columns_ = cols.size();
     for(int i=0; i < columns_; i++)
     {
-	qDebug("ASimpleBox::setColumns: %d column stretsh %d", i, cols.at(i).toInt());
+	//qDebug("ASimpleBox::setColumns: %d column stretsh %d", i, cols.at(i).toInt());
 	layout_->setColumnStretch(i, cols.at(i).toInt() );
     }
     if( columns_ <= 0 )
 	columns_ = 1;
     current_row = 0;
     current_column = 0;
-    layout_type = LayoutColumns;
-    qDebug("ASimpleBox::setColumns: %d columns", columns_);
+    //qDebug("ASimpleBox::setColumns: %d columns", columns_);
 }
 
-void ASimpleBox::childEvent(QChildEvent* e)
+void ASimpleBox::addChild(QWidget* chld)
 {
-    if( e->added() )
-    {
-	QObject *o = e->child();
-	if( o->isWidgetType() )
-	{
-	    QWidget *w = qobject_cast<QWidget*>(e->child());
+	    QWidget *w = chld;
 	    if( w )
 	    {
-		if( layout_type == LayoutUnknown )
+		if( columns_ <= 0 )
 		{
-		    qDebug("ASimpleBox::childEvent: Set default layout type by columns");
+		    //qDebug("ASimpleBox: set default 1 column");
 		    setColumns("100");
 		}
-		if( w->layout() )
-		{
-		    qDebug("ASimpleBox::childEvent: chiled widget already in a layout");
-		    w->layout()->removeWidget(w);
-		}
-		qDebug("ASimpleBox::childEvent: insert at row %d, column %d", current_row, current_column);
 		layout_->addWidget(w, current_row, current_column);
-		if( layout_type == LayoutColumns )
+
+		current_column++;
+		if( current_column >= columns_ )
 		{
-		    qDebug("ASimpleBox: child widget inserted by columns");
-		    current_column++;
-		    if( current_column >= columns_ )
-		    {
-			current_column = 0;
-			current_row++;
-		    }
-		}
-		else
-		{
-		    qDebug("ASimpleBox: child widget inserted by rows");
-		    current_column++;
+		    current_column = 0;
+		    current_row++;
 		}
 	    }
-	}
-    }
 }
 
 // alSimpleBox
-alSimpleBox::alSimpleBox(const QString &id,const QString &parent):
+alSimpleBox::alSimpleBox(const QString &id,const QString &parent, const QString &columns):
 	alWidgetPre<ASimpleBox>(SimpleBox,id,parent)
 {
+    if( !columns.isEmpty() )
+	wnd_->setColumns(columns);
 }
 
 void alSimpleBox::setAttr(const QString &name,const QString &value)
 {
-    qDebug("alSimpleBox::setAttr: %s %s", qPrintable(name), qPrintable(value));
-    if ("append-text" == name)
-	wnd_->appendRow();
-    else if ("text" == name)
+    if ("columns" == name)
 	wnd_->setColumns(value);
     else
 	alWidget::setAttr(name,value);
+}
+
+QWidget* alSimpleBox::getViewWidget()
+{
+    return wnd_->getView();
+}
+
+QLayout* alSimpleBox::getViewLayout()
+{
+    return wnd_->getView()->layout();
+}
+
+void alSimpleBox::addChild(QWidget *chld, alWidget::Type type)
+{
+    wnd_->addChild(chld);
 }

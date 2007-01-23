@@ -202,3 +202,25 @@ void alWidget::destroyLater()
             it.next()->destroyLater();
     deleteLater();
 }
+
+void alWidget::addChild(QWidget* chld, Type type)
+{
+	QLayout *l = getViewLayout();
+	if( l )
+	{
+	    QBoxLayout *bl = qobject_cast<QBoxLayout*>(l);
+	    if( bl )
+	    {
+		Qt::Orientation orientation = Qt::Horizontal;
+		if( bl->direction() == QBoxLayout::TopToBottom || bl->direction() == QBoxLayout::BottomToTop )
+		    orientation = Qt::Vertical;
+		chld->setSizePolicy(adjustSizePolicy( type, chld->sizePolicy(), orientation ));
+		if( childrenAlignment() != Qt::AlignJustify )
+		    bl->addWidget(chld, 0, childrenAlignment());
+		else
+		    bl->addWidget(chld);
+	    }
+	    else
+		l->addWidget(chld);
+	}
+}

@@ -41,6 +41,7 @@ public:
 	virtual void registerEvent(const QString&) {}
 	virtual QString postData() const { return ""; }
 
+	virtual void addChild(QWidget* chld, Type type);
 	virtual QWidget *getWidget(void) = 0;
 	virtual QLayout *getViewLayout(void) = 0;
 	virtual QWidget *getViewWidget(void) = 0;
@@ -119,10 +120,13 @@ public:
 		alWidget(type,id,Utils::reparentTag(parent)),
 		wnd_(createWidget<Widget>(parent))
 	{
-		QWidget *p = wnd_->parentWidget();
-		if( p )
-		{
-		    QLayout *l = p->layout();
+	    alWidget *ap = 0;
+	    if( elements.contains(parent) )
+		ap = elements[parent];
+	    if( ap )
+	    {
+#if 0
+		    QLayout *l = ap->getViewLayout();
 		    if( l )
 		    {
 			QBoxLayout *bl = qobject_cast<QBoxLayout*>(l);
@@ -132,19 +136,18 @@ public:
 			    if( bl->direction() == QBoxLayout::TopToBottom || bl->direction() == QBoxLayout::BottomToTop )
 				orientation = Qt::Vertical;
 			    wnd_->setSizePolicy(alWidget::adjustSizePolicy( type, wnd_->sizePolicy(), orientation ));
-			}
-			alWidget *ap = 0;
-			QObject *op = QObject::parent();
-			if( op )
-			    ap = qobject_cast<alWidget*>(op);
-			if( ap && ap->childrenAlignment() != Qt::AlignJustify )
-			{
-			    bl->addWidget(wnd_, 0, ap->childrenAlignment());
+			    if( ap->childrenAlignment() != Qt::AlignJustify )
+				bl->addWidget(wnd_, 0, ap->childrenAlignment());
+			    else
+				bl->addWidget(wnd_);
 			}
 			else
 			    l->addWidget(wnd_);
 		    }
-		}
+#else
+		ap->addChild(wnd_, type);
+#endif
+	    }
 	}
 
 	~alWidgetPre() { wnd_->deleteLater(); }
