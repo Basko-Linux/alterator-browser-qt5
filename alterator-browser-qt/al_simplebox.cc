@@ -16,12 +16,13 @@ ASimpleBox::ASimpleBox(QWidget *parent):
     QSpacerItem *top = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
     QSpacerItem *bottom = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-
     QVBoxLayout *layout_main = new QVBoxLayout(this);
     layout_main->setSpacing(0);
     layout_main->setMargin(0);
 
     layout_ = new QGridLayout(view_widget);
+    layout_->setMargin(0);
+    layout_->setSpacing(5);
 
     layout_main->addItem(top);
     layout_main->addWidget(view_widget);
