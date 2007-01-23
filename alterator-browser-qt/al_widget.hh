@@ -124,30 +124,7 @@ public:
 	    if( elements.contains(parent) )
 		ap = elements[parent];
 	    if( ap )
-	    {
-#if 0
-		    QLayout *l = ap->getViewLayout();
-		    if( l )
-		    {
-			QBoxLayout *bl = qobject_cast<QBoxLayout*>(l);
-			if( bl )
-			{
-			    Qt::Orientation orientation = Qt::Horizontal;
-			    if( bl->direction() == QBoxLayout::TopToBottom || bl->direction() == QBoxLayout::BottomToTop )
-				orientation = Qt::Vertical;
-			    wnd_->setSizePolicy(alWidget::adjustSizePolicy( type, wnd_->sizePolicy(), orientation ));
-			    if( ap->childrenAlignment() != Qt::AlignJustify )
-				bl->addWidget(wnd_, 0, ap->childrenAlignment());
-			    else
-				bl->addWidget(wnd_);
-			}
-			else
-			    l->addWidget(wnd_);
-		    }
-#else
 		ap->addChild(wnd_, type);
-#endif
-	    }
 	}
 
 	~alWidgetPre() { wnd_->deleteLater(); }
