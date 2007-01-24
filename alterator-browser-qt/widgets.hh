@@ -175,7 +175,7 @@ protected:
 #include "al_separator.hh"
 #include "al_spacer.hh"
 #include "al_wizard_face.hh"
-#include "al_simplebox.hh"
+#include "al_gridbox.hh"
 #include "al_spinbox.hh"
 
 #endif

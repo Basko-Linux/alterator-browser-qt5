@@ -6,11 +6,11 @@
 
 #include "al_widget.hh"
 
-class ASimpleBox: public QWidget
+class AGridBox: public QWidget
 {
 public:
-    ASimpleBox(QWidget *parent);
-    ~ASimpleBox();
+    AGridBox(QWidget *parent);
+    ~AGridBox();
 
     void setColumns(const QString&);
     QWidget* getView();
@@ -25,10 +25,10 @@ private:
     QWidget *view_widget;
 };
 
-class alSimpleBox: public alWidgetPre<ASimpleBox>
+class alGridBox: public alWidgetPre<AGridBox>
 {
 public:
-    alSimpleBox(const QString &id,const QString &parent, const QString &columns);
+    alGridBox(const QString &id,const QString &parent, const QString &columns);
     void setAttr(const QString &name,const QString &value);
     QWidget* getViewWidget();
     QLayout* getViewLayout();
