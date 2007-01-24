@@ -117,6 +117,11 @@ void newRequest(const QXmlAttributes& attr)
 	    else
 		wizard_face = new alWizardFace(id,parent,orientation);
 	}
+	else
+	{
+	    qDebug("Unknown widget: %s. Make box instead.", qPrintable(type));
+	    new alBox(id,parent,orientation);
+	}
 }
 
 void closeRequest(const QString& id)
