@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.31
+Version: 2.9.32
 Release: alt1
 
 Source:%name-%version.tar
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Wed Jan 24 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.32-alt1
+- add gridbox widget
+
 * Mon Jan 15 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.31-alt1
 - fix splitter, rename to separator
 - fix help button position
