@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.32
-Release: alt2
+Release: alt3
 
 Source:%name-%version.tar
 
@@ -58,6 +58,10 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Thu Jan 25 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.32-alt3
+- change edit return-pressed event
+  from QLineEdit::returnPressed() to QLineEdit::editingFinished() 
+
 * Thu Jan 25 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.32-alt2
 - fix dialog popup
 
