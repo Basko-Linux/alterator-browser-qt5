@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.32
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Thu Jan 25 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.32-alt2
+- fix dialog popup
+
 * Wed Jan 24 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.32-alt1
 - add gridbox widget
 
