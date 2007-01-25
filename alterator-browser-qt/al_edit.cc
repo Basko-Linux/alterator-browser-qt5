@@ -84,7 +84,7 @@ void alEdit::registerEvent(const QString& name)
 	if( "changed" == name )
 		connect(wnd_,SIGNAL( textEdited(const QString&) ),SLOT(onChange(const QString&)));
 	else if( "return-pressed" == name )
-	    connect(wnd_,SIGNAL(returnPressed() ),SLOT(onReturn()));
+	    connect(wnd_,SIGNAL(editingFinished()),SLOT(onReturn()));
 }
 
 
