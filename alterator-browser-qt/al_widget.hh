@@ -16,7 +16,7 @@ class alWidget: public QObject
 	Q_OBJECT
 public:
 	enum Type {
-	    UnknownWidget, WizardFace, WizardFaceItem, MainWidget, Dialog,
+	    UnknownWidget, WizardFace, MainWidget, Dialog,
 	    Label, Button, Radio, Edit, TextBox,
 	    HGroupBox, VGroupBox, CheckBox, ListBox, MultiListBox, ComboBox,
 	    HTabBox, VTabBox, HTabPage, VTabPage, HBox, VBox, GridBox,
