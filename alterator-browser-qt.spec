@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
-Version: 2.9.32
-Release: alt3
+Version: 2.9.33
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -58,6 +58,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Fri Jan 26 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.33-alt1
+- fix edit return-pressed event
+
 * Thu Jan 25 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.32-alt3
 - change edit return-pressed event
   from QLineEdit::returnPressed() to QLineEdit::editingFinished() 
