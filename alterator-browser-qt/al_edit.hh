@@ -20,6 +20,7 @@ public:
 
 signals:
     void textEdited(const QString&);
+    void editingFinished();
     void returnPressed();
 
 private:
