@@ -218,18 +218,6 @@ QString alComboBox::postData() const
 	return post;
 }
 
-void alProgressBar::setAttr(const QString& name,const QString& value)
-{
-    if( "value" == name )
-	wnd_->setValue(value.toInt());
-    else if( "maximum" == name )
-	wnd_->setMaximum(value.toInt());
-    else if( "minimum" == name )
-	wnd_->setMinimum(value.toInt());
-    else
-	alWidget::setAttr(name,value);
-}
-
 void alHelpPlace::setAttr(const QString& name,const QString& value)
 {
     if("source" == name)
