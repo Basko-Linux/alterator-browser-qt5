@@ -43,18 +43,7 @@ QList<alWidget*> findAlChildren(const QString& id);
 #include "al_main_widget.hh"
 
 //widgets
-class alLabel: public alWidgetPre<QLabel>
-{
-public:
-	alLabel(const QString& id,const QString& parent):
-		alWidgetPre<QLabel>(Label, id,parent)
-		{
-		    //wnd_->setWordWrap( true );
-		    //wnd_->setFrameStyle(QFrame::Sunken|QFrame::StyledPanel);
-		}
-	void setAttr(const QString& name,const QString& value);
-};
-
+#include "al_label.hh"
 class alButton: public alWidgetPre<QPushButton>
 {
 public:
