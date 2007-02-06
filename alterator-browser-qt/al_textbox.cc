@@ -27,7 +27,7 @@ ATextEdit::~ATextEdit() {}
 
 void ATextEdit::setText(const QString& txt)
 {
-    edit->setPlainText(txt);
+    edit->setText(txt);
 }
 
 void ATextEdit::append(const QString& txt)
