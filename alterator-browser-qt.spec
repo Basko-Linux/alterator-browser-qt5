@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.33
+Version: 2.9.34
 Release: alt1
 
 Source:%name-%version.tar
@@ -58,6 +58,12 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Tue Feb 06 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.34-alt1
+- auto-adjust first column width in tree
+- allow insert html into textbox
+- add text-wrap attribute to label
+- add text attribute to progressbar
+
 * Fri Jan 26 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.33-alt1
 - fix edit return-pressed event
 
