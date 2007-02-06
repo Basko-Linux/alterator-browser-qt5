@@ -7,6 +7,7 @@
 
 class alTree: public alWidgetPre<QTreeWidget>
 {
+Q_OBJECT;
 	QString items_;
 	QString coords_;
 	QStringList coordmap_;//internal coordinates map
@@ -14,6 +15,11 @@ class alTree: public alWidgetPre<QTreeWidget>
 	QTreeWidgetItem *findPosition(QTreeWidgetItem *,QStringList,int);
 public:
 	alTree(const QString& id,const QString& parent,const QString& columns);
+	void adjustFirstColumnWidth();
+	void adjustAllColumnsWidth();
+
+public slots:
+	void adjustFirstColumnWidth(QTreeWidgetItem*);
 
 protected:
 	void setAttr(const QString& name,const QString& value);

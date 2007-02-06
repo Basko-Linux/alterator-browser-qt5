@@ -11,6 +11,10 @@ alTree::alTree(const QString& id,const QString& parent,const QString& columns):
     wnd_->setColumnCount(columns.isEmpty()? 1 : columns.toInt());
     wnd_->header()->hide();
     wnd_->setSelectionBehavior(QAbstractItemView::SelectRows);
+    connect(wnd_, SIGNAL(itemCollapsed(QTreeWidgetItem*)),
+	    this, SLOT(adjustFirstColumnWidth(QTreeWidgetItem*)));
+    connect(wnd_, SIGNAL(itemExpanded(QTreeWidgetItem*)),
+	    this, SLOT(adjustFirstColumnWidth(QTreeWidgetItem*)));
 }
 
 void alTree::setAttr(const QString& name,const QString& value)
@@ -35,6 +39,7 @@ void alTree::setAttr(const QString& name,const QString& value)
 		    coordmap_ = coords_.split(";");//move to internal storage
 		    items_ = coords_ = "";
 		}
+		adjustAllColumnsWidth();
 	}
 	if ("current" == name)
 	{
@@ -113,3 +118,28 @@ void alTree::setItems()
 	}
 }
 
+void alTree::adjustFirstColumnWidth(QTreeWidgetItem*)
+{
+    adjustFirstColumnWidth();
+}
+
+void alTree::adjustFirstColumnWidth()
+{
+    int n_columns = wnd_->columnCount();
+    if( n_columns > 0 )
+    {
+	wnd_->resizeColumnToContents(0);
+    }
+}
+
+void alTree::adjustAllColumnsWidth()
+{
+    int n_columns = wnd_->columnCount();
+    if( n_columns > 0 )
+    {
+	for(int col=0;col < n_columns; col++)
+	{
+	    wnd_->resizeColumnToContents(col);
+	}
+    }
+}
