@@ -45,13 +45,13 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     title_text->setFont(title_text_font);
 
     QScrollArea *scroll = new QScrollArea(this);
-    scroll->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    //scroll->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
-    scroll->setWidgetResizable( true );
 
     view_widget = new QWidget(scroll);
 //    view_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     scroll->setWidget(view_widget);
+    scroll->setWidgetResizable( true );
 
     buttons_widget = new QFrame(this);
     buttons_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
