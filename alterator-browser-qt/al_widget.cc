@@ -66,6 +66,27 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	{
 	    getWidget()->setMaximumHeight(value.toInt());
 	}
+	else if ("margin" == name)
+	{
+	    QLayout *l = getViewLayout();
+	    if( l )
+		l->setMargin(value.toInt());
+	}
+	else if ("spacing" == name)
+	{
+	    QLayout *l = getViewLayout();
+	    if( l )
+		l->setSpacing(value.toInt());
+	}
+	else if("clear-layout" == name)
+	{
+	    QLayout *l = getViewLayout();
+	    if( l )
+	    {
+		for (int i = 0; i < l->count(); ++i)
+		    delete l->takeAt(i);
+	    }
+	}
 	else if ("children-align" == name)
 	{
 	    // turn off
