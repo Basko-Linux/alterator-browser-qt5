@@ -1,7 +1,10 @@
 
 #include "main_window.hh"
 #include "help_browser.hh"
-#include "hacks.hh"
+#include "main_window.hh"
+#include "utils.hh"
+
+extern MainWindow *main_window;
 
 HelpBrowser::HelpBrowser(QWidget *parent):
     QDialog(parent)
@@ -35,7 +38,7 @@ void HelpBrowser::paintEvent(QPaintEvent* e)
     //QDialog::paintEvent(e);
     if( !main_window->haveWindowManager() )
     {
-	widget_corners_round(this);
+	Utils::widgetCornersRound(this);
     }
 }
 
@@ -45,6 +48,6 @@ void HelpBrowser::showEvent(QShowEvent *e)
     //HelpBrowser::showEvent(e);
     if( !main_window->haveWindowManager() )
     {
-	fix_wmless_popup(this);
+	Utils::fixWmlessPopup(this);
     }
 }

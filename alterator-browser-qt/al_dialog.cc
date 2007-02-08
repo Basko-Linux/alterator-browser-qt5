@@ -1,7 +1,6 @@
 #include <QScrollArea>
 
 #include "al_dialog.hh"
-#include "hacks.hh"
 
 ADialog::ADialog(QWidget *parent):
     QDialog(0)
@@ -61,7 +60,7 @@ void ADialog::showEvent(QShowEvent *e)
     //QDialog::showEvent(e);
     if( !main_window->haveWindowManager() )
     {
-	fix_wmless_popup(this);
+	Utils::fixWmlessPopup(this);
     }
 }
 
@@ -70,7 +69,7 @@ void ADialog::paintEvent(QPaintEvent* e)
     //QDialog::paintEvent(e);
     if( !main_window->haveWindowManager() )
     {
-	widget_corners_round(this);
+	Utils::widgetCornersRound(this);
     }
 }
 

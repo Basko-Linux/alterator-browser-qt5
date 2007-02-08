@@ -11,6 +11,8 @@ namespace Utils
     QLineEdit::EchoMode convertEchoMode(const QString& value);
     QString simpleQuote(const QString&);
     void errorExit(QWidget *parent, const QString& message);
+    void widgetCornersRound(QWidget*);
+    void fixWmlessPopup(QWidget*);
 };
 
 #endif

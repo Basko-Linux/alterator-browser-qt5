@@ -1,7 +1,10 @@
 #include <QMap>
 
 #include "messagebox.hh"
-#include "hacks.hh"
+#include "main_window.hh"
+#include "utils.hh"
+
+extern MainWindow *main_window;
 
 namespace AMessageBox {
 	typedef QMap<QString,QMessageBox::StandardButton> buttonMapType;
@@ -107,7 +110,7 @@ void AMsgBox::showEvent(QShowEvent *e)
     //QMessageBox::showEvent(e);
     if( !main_window->haveWindowManager() )
     {
-	fix_wmless_popup(this);
+	Utils::fixWmlessPopup(this);
     }
 }
 
@@ -116,6 +119,6 @@ void AMsgBox::paintEvent(QPaintEvent* e)
     //QMessageBox::paintEvent(e);
     if( !main_window->haveWindowManager() )
     {
-	widget_corners_round(this);
+	Utils::widgetCornersRound(this);
     }
 }

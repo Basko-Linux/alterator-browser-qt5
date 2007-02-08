@@ -1,156 +1,32 @@
 #ifndef QTBROWSER_WIDGETS_HH
 #define QTBROWSER_WIDGETS_HH
 
-#include "hacks.hh"
-
-#include <QObject>
-#include <QString>
-#include <QMap>
-#include <QTimer>
-
-
-//widgets
-#include <QLabel>
-#include <QPushButton>
-#include <QRadioButton>
-#include <QLineEdit>
-#include <QTextEdit>
-#include <QGroupBox>
-#include <QCheckBox>
-#include <QHeaderView>
-#include <QComboBox>
-#include <QTabWidget>
-#include <QDesktopWidget>
-#include <QProgressBar>
-#include <QTreeWidget>
-#include <QTextBrowser>
-#include <QSlider>
-
-#include "connection.hh"
-#include "main_window.hh"
-#include "browser.hh"
-
 #include "al_widget.hh"
 
-
-extern MainWindow *main_window;
 QLayout *findViewLayout(const QString& id);
 QWidget* findQWidget(const QString& id);
 alWidget* findAlWidget(const QString& id);
 alWidget *findAlWidgetByName(const QString& name);
 QList<alWidget*> findAlChildren(const QString& id);
 
-#include "al_main_widget.hh"
-
 //widgets
+#include "al_main_widget.hh"
 #include "al_label.hh"
-class alButton: public alWidgetPre<QPushButton>
-{
-public:
-	alButton(const QString& id,const QString& parent):
-		alWidgetPre<QPushButton>(Button, id,parent)
-	{}
-	void setAttr(const QString& name,const QString& value);
-	void registerEvent(const QString&);
-};
-
-class alRadio: public alWidgetPre<QRadioButton>
-{
-public:
-	alRadio(const QString& id,const QString& parent):
-		alWidgetPre<QRadioButton>(Radio,id,parent)
-	{}
-	void setAttr(const QString& name,const QString& value);
-	void registerEvent(const QString&);
-	QString postData() const ;
-};
-
+#include "al_button.hh"
+#include "al_radio.hh"
 #include "al_edit.hh"
 #include "al_textbox.hh"
 #include "al_groupbox.hh"
-
-class alCheckBox: public alWidgetPre<QCheckBox>
-{
-public:
-	alCheckBox(const QString& id,const QString& parent):
-		alWidgetPre<QCheckBox>(CheckBox,id,parent)
-	{
-	    connect(wnd_, SIGNAL(stateChanged(int)), this, SLOT(onUpdate(int)));
-	}
-	void setAttr(const QString& name,const QString& value);
-	void registerEvent(const QString&);
-	QString postData() const ;
-	QString getValue() { return  (wnd_->isChecked()?"true":"false"); }
-};
-
+#include "al_checkbox.hh"
 #include "al_listbox.hh"
-
-class alComboBox: public alWidgetPre<QComboBox>
-{
-	int counter_;
-public:
-	alComboBox(const QString& id,const QString& parent):
-		alWidgetPre<QComboBox>(ComboBox,id,parent),
-		counter_(0)
-	{}
-	void setAttr(const QString& name,const QString& value);
-	void registerEvent(const QString&);
-	QString postData() const ;
-};
-
+#include "al_combobox.hh"
 #include "al_tabbox.hh"
 #include "al_dialog.hh"
 #include "al_box.hh"
-
-class alProxy: public alWidget
-{
-	QString parent_;
-public:
-	alProxy(const QString& id,const QString &parent):
-		alWidget(Proxy,id,parent),
-		parent_(parent)
-	{}
-		
-protected:
-	QWidget *getWidget() { return elements[parent_]->getWidget(); }
-	QLayout *getViewLayout(void) { return elements[parent_]->getViewLayout(); }
-	QWidget *getViewWidget(void) { return elements[parent_]->getViewWidget(); }
-};
-
+#include "al_proxy.hh"
 #include "al_progressbar.hh"
 #include "al_tree.hh"
-
-template <typename Widget>
-class alHelpPlacePre: public alWidget
-{
-protected:
-	Widget *wnd_;
-public:
-	alHelpPlacePre(Type type, const QString& id,const QString& parent):
-		alWidget(type, id,parent)
-	{
-	    wnd_ = main_window;
-	}
-
-	~alHelpPlacePre() {}
-	Widget* getWidget() { return wnd_; }	
-	virtual QWidget* getViewWidget() { return wnd_; }	
-	virtual QLayout* getViewLayout() { return wnd_->layout(); }	
-	void show(bool) {};
-};
-
-class alHelpPlace: public alHelpPlacePre<MainWindow_t>
-{
-public:
-	alHelpPlace(const QString& id,const QString& parent):
-		alHelpPlacePre<MainWindow_t>(HelpPlace,id,parent)
-	{
-	}
-protected:
-	void setAttr(const QString& name,const QString& value);
-};
-
-
+#include "al_helpplace.hh"
 #include "al_slider.hh"
 #include "al_separator.hh"
 #include "al_spacer.hh"
