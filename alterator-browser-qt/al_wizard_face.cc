@@ -73,6 +73,7 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     title_layout->insertWidget(0, title_icon, 0, Qt::AlignLeft);
     title_layout->addWidget( title_text );
     buttons_layout->insertWidget(0, menu_btn, 0, Qt::AlignLeft);
+    buttons_layout->insertStretch(1, 1);
 
     action_signal_mapper = new QSignalMapper(this);
     connect(action_signal_mapper, SIGNAL(mapped(const QString &)),
@@ -110,10 +111,6 @@ int AWizardFace::newButtonPosition(ActionType type)
 {
     switch( type )
     {
-	case ActionHelp:
-	    {
-		return 1;
-	    }
 	case ActionApply:
 	    {
 		int pos = findButtonPosition( ActionCancel );
@@ -151,10 +148,14 @@ int AWizardFace::newButtonPosition(ActionType type)
 	    {
 		return -1;
 	    }
+	case ActionHelp:
+	    {
+		return 1;
+	    }
 	case ActionGeneric:
 	default:
 	    {
-		return 1;
+		return 2;
 	    }
     }
 }
