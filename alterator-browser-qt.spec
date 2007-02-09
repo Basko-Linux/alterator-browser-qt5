@@ -14,6 +14,8 @@ PreReq(post,preun): alternatives >= 0.2
 
 Provides: alterator-browser
 Provides: alterator-browser-x11
+Provides: alterator-browser-qt-light = 2.8-alt1
+Obsoletes: alterator-browser-qt-light < 2.8-alt1
 Requires: libqt4-core >= %{get_version libqt4-core}
 
 Obsoletes: alterator-look-qt
