@@ -52,8 +52,28 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		setObjectName(value);
 	else if ("tooltip" == name)
 	{
-		QStringList args = value.split(";");
-		getWidget()->setToolTip(args[0]);
+//	    QStringList args = value.split(";");
+//	    QString tip = args[0];
+	    QString tip = value;
+	    QString sep = ".<br>";
+	    int sep_len = sep.size();
+	    if( !tip.isEmpty() && !tip.contains("<br") )
+	    {
+		int pos = 0;
+		do
+		{
+		    pos = tip.indexOf(QRegExp("\\.\\s"), pos+1);
+		    if( pos >= 0 )
+		    {
+			tip.replace(pos, 2, sep);
+			pos += sep_len;
+		    }
+		    else
+			break;
+		}
+		while(pos < tip.size());
+	    }
+	    getWidget()->setToolTip(tip);
 	}
 	else if ("layout-policy" == name)
 	{
