@@ -190,7 +190,7 @@ QPixmap AWizardFace::defaultActionIcon(ActionType type)
     {
 	case ActionFinish:
 	    {
-		name = "theme:down"; // names are fake until fixed
+		name = "theme:down";
 		break;
 	    }
 	case ActionAbort:
