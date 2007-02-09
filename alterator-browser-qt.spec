@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.34
+Version: 2.9.35
 Release: alt1
 
 Source:%name-%version.tar
@@ -60,6 +60,10 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Fri Feb 09 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.35-alt1
+- obsolete old alterator-browser-qt-light
+- add margin/spacing attribute for container widgets
+
 * Tue Feb 06 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.34-alt1
 - auto-adjust first column width in tree
 - allow insert html into textbox
