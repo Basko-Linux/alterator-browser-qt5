@@ -10,11 +10,13 @@ void alSpinBox::setAttr(const QString& name,const QString& value)
 	    int mx = value.toInt();
 	    wnd_->setMaximum( mx );
 	    wnd_->setSingleStep( (mx/64) + 1 );
+	    //wnd_->setPageStep( (mx/16) + 1 );
 	}
 	else if( "step" == name )
 	{
 	    int step = value.toInt();
 	    wnd_->setSingleStep( step );
+	    //wnd_->setPageStep( step*16 );
 	}
 	else if( "value" == name )
 	    wnd_->setValue(value.toInt());
@@ -25,7 +27,7 @@ void alSpinBox::setAttr(const QString& name,const QString& value)
 void alSpinBox::registerEvent(const QString& name)
 {
 	if ("changed" == name)
-		connect(wnd_, SIGNAL(valueReallyChanged()), SLOT(onChange()));
+		connect(wnd_, SIGNAL(editingFinished()), SLOT(onChange()));
 }
 
 QString alSpinBox::postData() const
