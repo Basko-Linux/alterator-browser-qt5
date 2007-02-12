@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.35
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -60,6 +60,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Mon Feb 12 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.35-alt2
+- fix spinbox event "changed"
+
 * Fri Feb 09 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.35-alt1
 - obsolete old alterator-browser-qt-light
 - add margin/spacing attribute for container widgets
