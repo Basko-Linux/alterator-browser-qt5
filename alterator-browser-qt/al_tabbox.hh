@@ -10,11 +10,7 @@ class alTabBox: public alWidgetPre<QTabWidget>
 public:
 	Qt::Orientation orientation_;
 	QString current_;
-	alTabBox(const QString& id,const QString& parent, Qt::Orientation orientation = Qt::Horizontal):
-		alWidgetPre<QTabWidget>((orientation==Qt::Vertical)?VTabBox:HTabBox,id,parent)
-	{
-	    orientation_ = orientation;
-	}
+	alTabBox(const QString& id,const QString& parent, Qt::Orientation orientation);
 	void setAttr(const QString& name,const QString& value);
 	Qt::Orientation getOrientation() { return orientation_; };
 };
@@ -41,27 +37,7 @@ class alTabPage: public alWidgetPre<QWidget>
 	alTabBox  *tabbox_;
 	int idx_;
 public:
-	alTabPage(const QString& id,const QString& parent, Qt::Orientation orientation = (Qt::Orientation)-1):
-		alWidgetPre<QWidget>((orientation==Qt::Vertical)?VTabPage:HTabPage,id,":reparent:"+parent),
-		tabbox_(getParentTabBox(parent)),
-		idx_(tabbox_?static_cast<QTabWidget*>(tabbox_->getWidget())->addTab(wnd_,""):-1)
-	{
-	    Qt::Orientation orient = Qt::Vertical;
-	    if( orientation )
-		orient = orientation;
-	    else
-		orient = tabbox_->getOrientation();
-
-	    QBoxLayout *bl;
-	    QWidget *vw = getViewWidget();
-	    if( orient == Qt::Horizontal )
-		bl = new QHBoxLayout(vw);
-	    else
-		bl = new QVBoxLayout(vw);
-
-	    bl->setSpacing(5);
-	    bl->setMargin(5);
-	}
+	alTabPage(const QString& id,const QString& parent, Qt::Orientation orientation);
 	void setAttr(const QString& name,const QString& value);
 private:
 	static

@@ -16,6 +16,7 @@
 #include "messagebox.hh"
 #include "constraints.hh"
 #include "mailbox.hh"
+#include "utils.hh"
 
 
 MailBox *mailbox = 0;//mailbox engine
@@ -62,7 +63,7 @@ void newRequest(const QXmlAttributes& attr)
 	const QString id = attr.value("widget-id");
 	const QString type = attr.value("type");
 	const QString parent = attr.value("parent");
-	Qt::Orientation orientation = (attr.value("orientation")=="horizontal")? Qt::Horizontal: Qt::Vertical;
+	Qt::Orientation orientation = Utils::convertOrientation(attr.value("orientation"));
 /*
 	qDebug("%s: id<%s> type<%s> parent<%s> orientation<%s> sub-type<%s>", __FUNCTION__,
 	    qPrintable(id), qPrintable(type), qPrintable(parent),

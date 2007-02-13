@@ -164,4 +164,35 @@ void fixWmlessPopup(QWidget *widget)
     QCursor::setPos(widget->mapToGlobal(QPoint(widget->width()-5, widget->height()-5)));
 }
 
+Qt::Orientation fixOrientation(Qt::Orientation o, Qt::Orientation def)
+{
+    switch( o )
+    {
+	case Qt::Horizontal:
+	case Qt::Vertical:
+	{
+	    return o;
+	}
+	default:
+	{
+	    // ! need ensure all variants of Orientation
+	    if( def == Qt::Vertical || def == Qt::Horizontal )
+		return def;
+	    else
+		return Qt::Vertical;
+	}
+	
+    }
+}
+
+Qt::Orientation convertOrientation(const QString& str_value)
+{
+    if(str_value == "vertical")
+	return Qt::Vertical;
+    else if(str_value == "horizontal")
+	return Qt::Horizontal;
+    else
+	return (Qt::Orientation)-1;
+}
+
 }

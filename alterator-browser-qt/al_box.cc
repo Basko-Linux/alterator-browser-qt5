@@ -5,7 +5,8 @@ alBox::alBox(const QString& id,const QString& parent, Qt::Orientation orientatio
 		alWidgetPre<QWidget>((orientation==Qt::Vertical)?VBox:HBox,id,parent)
 {
     QBoxLayout *l;
-    if( orientation == Qt::Horizontal )
+    Qt::Orientation o = Utils::fixOrientation(orientation, Qt::Vertical);
+    if( o == Qt::Horizontal )
 	l = new QHBoxLayout(wnd_);
     else
 	l = new QVBoxLayout(wnd_);

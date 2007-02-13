@@ -518,7 +518,8 @@ alWizardFace::alWizardFace(const QString& id,const QString& parent, Qt::Orientat
     alWidgetPre<AWizardFace>(WizardFace,id,parent)
 {
     QBoxLayout *bl;
-    if( orientation == Qt::Horizontal )
+    Qt::Orientation o = Utils::fixOrientation(orientation, Qt::Vertical);
+    if( o == Qt::Horizontal )
 	bl = new QHBoxLayout(wnd_->getViewWidget());
     else
 	bl = new QVBoxLayout(wnd_->getViewWidget());

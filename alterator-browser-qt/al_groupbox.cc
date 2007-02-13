@@ -6,7 +6,8 @@ alGroupBox::alGroupBox(const QString& id,const QString& parent, Qt::Orientation 
 {
     wnd_->setCheckable("true" == checkable);
     QBoxLayout *l;
-    if( orientation == Qt::Horizontal )
+    Qt::Orientation o = Utils::fixOrientation(orientation, Qt::Vertical);
+    if( o == Qt::Horizontal )
 	l = new QHBoxLayout(getViewWidget());
     else
 	l = new QVBoxLayout(getViewWidget());

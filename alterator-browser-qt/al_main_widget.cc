@@ -5,7 +5,8 @@ alMainWidget::alMainWidget(const QString& id,const QString& parent, Qt::Orientat
 	alMainWidgetPre<QWidget>(MainWidget, id, parent)
 {
     QBoxLayout *bl;
-    if( orientation == Qt::Horizontal )
+    Qt::Orientation o = Utils::fixOrientation(orientation, Qt::Vertical);
+    if( o == Qt::Horizontal )
 	bl = new QHBoxLayout(getViewWidget());
     else
 	bl = new QVBoxLayout(getViewWidget());
