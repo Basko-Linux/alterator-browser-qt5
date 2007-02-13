@@ -84,12 +84,24 @@ void alListBox::setAttr(const QString& name,const QString& value)
 	}
 	else if ("current" == name)
 	{
-		int n = value.toInt();
-		if( n >= 0)
+		bool ok = false;
+		int n = value.toInt(&ok);
+		if( n >= 0 && ok)
 		{
 		    QListWidgetItem *i = wnd_->item(n);
 		    wnd_->setCurrentRow(n);
 		    wnd_->scrollToItem(i);
+		}
+		else
+		{
+		    QList<QListWidgetItem*> si = wnd_->selectedItems();
+		    QListIterator<QListWidgetItem*> it(si);
+		    while( it.hasNext() )
+		    {
+			QListWidgetItem *itm = it.next();
+			itm->setSelected(false);
+		    }
+		    wnd_->setCurrentItem(0);
 		}
 	}
 	else if ("rows-clear" == name)

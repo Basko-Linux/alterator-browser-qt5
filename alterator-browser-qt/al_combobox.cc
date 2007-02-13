@@ -30,7 +30,12 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 	    }
 	}
 	else if ("current" == name)
-		wnd_->setCurrentIndex(value.toInt());
+	{
+		bool ok = false;
+		int idx = value.toInt(&ok);
+		if(!ok) idx = -1;
+		wnd_->setCurrentIndex(idx);
+	}
 	else if ("alterability" == name)
 		wnd_->setEditable(value == "true");
 	else if ("rows-clear" == name)

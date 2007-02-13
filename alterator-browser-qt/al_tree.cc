@@ -43,11 +43,29 @@ void alTree::setAttr(const QString& name,const QString& value)
 	}
 	if ("current" == name)
 	{
+		QTreeWidgetItem *item = 0;
 		QStringList coords = value.split(";");
-		QTreeWidgetItem *item = findPosition(wnd_->topLevelItem(coords[0].toInt()),
-			                                                coords.mid(1),0);
-		wnd_->setCurrentItem(item);
-		wnd_->scrollToItem(item);
+		bool ok = false;
+		int pos = coords[0].toInt(&ok);
+		if( pos >= 0 && ok) 
+		    item = findPosition(wnd_->topLevelItem(pos), coords.mid(1),0);
+
+		if( item )
+		{
+		    wnd_->setCurrentItem(item);
+		    wnd_->scrollToItem(item);
+		}
+		else
+		{
+		    QList<QTreeWidgetItem*> si = wnd_->selectedItems();
+		    QListIterator<QTreeWidgetItem*> it(si);
+		    while( it.hasNext() )
+		    {
+			QTreeWidgetItem *itm = it.next();
+			itm->setSelected(false);
+		    }
+		    wnd_->setCurrentItem(0);
+		}
 	}
 	else if ("header" == name) 
 	{ 
