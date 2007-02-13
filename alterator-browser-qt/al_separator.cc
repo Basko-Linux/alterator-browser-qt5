@@ -1,22 +1,30 @@
 #include "al_separator.hh"
 
-alSeparator::alSeparator(const QString& id, const QString& parent):
+alSeparator::alSeparator(const QString& id, const QString& parent, Qt::Orientation orientation):
     alWidgetPre<QFrame>(Separator,id,parent)
 {
-    QFrame::Shape orient = QFrame::HLine;
-    QWidget *pw = wnd_->parentWidget();
-    if( pw )
+    QFrame::Shape orient;
+    if( orientation == Qt::Vertical )
+	orient = QFrame::VLine;
+    else if( orientation == Qt::Horizontal )
+	orient = QFrame::HLine;
+    else
     {
-	QLayout *l = pw->layout();
-	if( l )
+	orient = QFrame::HLine;
+	QWidget *pw = wnd_->parentWidget();
+	if( pw )
 	{
-	    QBoxLayout *bl = qobject_cast<QBoxLayout*>(l);
-    	    if( bl )
+	    QLayout *l = pw->layout();
+	    if( l )
 	    {
-		QBoxLayout::Direction dir = bl->direction();
-		if( dir == QBoxLayout::LeftToRight || dir == QBoxLayout::RightToLeft )
+		QBoxLayout *bl = qobject_cast<QBoxLayout*>(l);
+    		if( bl )
 		{
-		    orient = QFrame::VLine;
+		    QBoxLayout::Direction dir = bl->direction();
+		    if( dir == QBoxLayout::LeftToRight || dir == QBoxLayout::RightToLeft )
+		    {
+			orient = QFrame::VLine;
+		    }
 		}
 	    }
 	}
@@ -28,15 +36,5 @@ alSeparator::alSeparator(const QString& id, const QString& parent):
 
 void alSeparator::setAttr(const QString& name,const QString& value)
 {
-# if 0
-	if( "orientation" == name )
-	{
-	    if( "vertical" == value )
-		wnd_->setFrameShape(QFrame::VLine);
-	    else
-		wnd_->setFrameShape(QFrame::HLine);
-	}
-	else
-#endif
-	    alWidget::setAttr(name,value);
+    alWidget::setAttr(name,value);
 }
