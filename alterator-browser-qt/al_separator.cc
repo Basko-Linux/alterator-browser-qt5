@@ -29,6 +29,10 @@ alSeparator::alSeparator(const QString& id, const QString& parent, Qt::Orientati
 	    }
 	}
     }
+    if( orient == QFrame::HLine )
+	wnd_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    else
+	wnd_->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
     wnd_->setFrameShape(orient);
     wnd_->setFrameShadow(QFrame::Sunken);
 }

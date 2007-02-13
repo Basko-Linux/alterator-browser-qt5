@@ -203,6 +203,7 @@ QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy
 	}
 	case Separator:
 	{
+/*
 	    if( orientation == Qt::Horizontal )
 	    {
 		szpol.setHorizontalPolicy(QSizePolicy::Fixed);
@@ -213,6 +214,7 @@ QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy
 		szpol.setHorizontalPolicy(QSizePolicy::Expanding);
 		szpol.setVerticalPolicy(QSizePolicy::Fixed);
 	    }
+*/
 	    break;
 	}
 	default:

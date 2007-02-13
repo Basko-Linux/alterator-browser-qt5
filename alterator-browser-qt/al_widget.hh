@@ -54,7 +54,7 @@ public:
 
 	virtual void markRequired(bool) {};
 	virtual void show(bool) = 0;
-	static QSizePolicy adjustSizePolicy(const Type, const QSizePolicy, const Qt::Orientation orientation);
+	static QSizePolicy adjustSizePolicy(const Type, const QSizePolicy, const Qt::Orientation parent_orientation);
 	void setChildrenAlignment(Qt::Alignment);
 	Qt::Alignment childrenAlignment();
 
@@ -132,7 +132,6 @@ public:
 	virtual QWidget* getViewWidget() { return wnd_; }
 	virtual QLayout* getViewLayout() { return wnd_->layout(); }
 	void show(bool b) { if(b && wnd_) wnd_->show(); else wnd_->hide(); };
-	void adjustSizePolicy(Qt::Orientation);
 };
 
 #endif
