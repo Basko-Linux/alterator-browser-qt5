@@ -1,25 +1,29 @@
 
 #include "al_spinbox.hh"
+alSpinBox::alSpinBox(const QString& id, const QString& parent):
+    alWidgetPre<QDoubleSpinBox>(SpinBox,id,parent)
+{
+}
 
 void alSpinBox::setAttr(const QString& name,const QString& value)
 {
 	if( "minimum" == name )
-	    wnd_->setMinimum( value.toInt() );
+	    wnd_->setMinimum( value.toDouble() );
 	else if( "maximum" == name )
 	{
-	    int mx = value.toInt();
+	    double mx = value.toDouble();
 	    wnd_->setMaximum( mx );
 	    wnd_->setSingleStep( (mx/64) + 1 );
 	    //wnd_->setPageStep( (mx/16) + 1 );
 	}
 	else if( "step" == name )
 	{
-	    int step = value.toInt();
+	    double step = value.toDouble();
 	    wnd_->setSingleStep( step );
 	    //wnd_->setPageStep( step*16 );
 	}
 	else if( "value" == name )
-	    wnd_->setValue(value.toInt());
+	    wnd_->setValue(value.toDouble());
 	else
 	    alWidget::setAttr(name,value);
 }
