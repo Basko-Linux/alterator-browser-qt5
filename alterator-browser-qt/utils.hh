@@ -14,7 +14,6 @@ namespace Utils
     void widgetCornersRound(QWidget*);
     void fixWmlessPopup(QWidget*);
     Qt::Orientation fixOrientation(Qt::Orientation value, Qt::Orientation def_value = Qt::Vertical);
-    Qt::Orientation fixOrientation(Qt::Orientation);
     Qt::Orientation convertOrientation(const QString&);
 };
 
