@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
-Version: 2.9.35
-Release: alt2
+Version: 2.9.36
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -60,6 +60,11 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Tue Feb 13 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.36-alt1
+- prefer user defined orientation in separator
+- allow to inherit orientation from tabbox to tabpage
+- remove selection on set current < 0 in tree and listbox
+
 * Mon Feb 12 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.35-alt2
 - fix spinbox event "changed"
 
