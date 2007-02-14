@@ -167,7 +167,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	}
 }
 
-QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy, const Qt::Orientation orientation)
+QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy, const Qt::Orientation parent_orientation)
 {
     QSizePolicy szpol = policy;
     switch( type )
@@ -208,6 +208,11 @@ QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy
 	    szpol.setVerticalPolicy(QSizePolicy::Expanding);
 	    break;
 	}
+	case ComboBox:
+	{
+	    szpol.setHorizontalPolicy(QSizePolicy::Preferred);
+	    break;
+	}
 	case ProgressBar:
 	case Slider:
 	case CheckBox:
@@ -227,11 +232,6 @@ QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy
 	    szpol.setHorizontalPolicy(QSizePolicy::Expanding);
 	    break;
 	}
-	case ComboBox:
-	{
-	    szpol.setHorizontalPolicy(QSizePolicy::Preferred);
-	    break;
-	}
 	case Button:
 	{
 	    szpol.setHorizontalPolicy(QSizePolicy::Fixed);
@@ -240,7 +240,7 @@ QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy
 	case Separator:
 	{
 /*
-	    if( orientation == Qt::Horizontal )
+	    if( parent_orientation == Qt::Horizontal )
 	    {
 		szpol.setHorizontalPolicy(QSizePolicy::Fixed);
 		szpol.setVerticalPolicy(QSizePolicy::Expanding);
