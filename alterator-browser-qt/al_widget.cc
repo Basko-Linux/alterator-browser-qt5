@@ -113,6 +113,14 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	{
 	    getWidget()->setMaximumHeight(value.toInt());
 	}
+	else if ("width" == name)
+	{
+	    getWidget()->setFixedWidth(value.toInt());
+	}
+	else if ("height" == name)
+	{
+	    getWidget()->setFixedHeight(value.toInt());
+	}
 	else if ("margin" == name)
 	{
 	    QLayout *l = getViewLayout();
