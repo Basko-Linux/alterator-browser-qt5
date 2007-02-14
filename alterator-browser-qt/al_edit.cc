@@ -91,7 +91,7 @@ void alEdit::registerEvent(const QString& name)
 
 QString alEdit::postData() const
 {
-	return " (text . \""+Utils::simpleQuote(wnd_->text())+"\" )";
+	return QString(" (text . \"%1\" )").arg(Utils::simpleQuote(wnd_->text()));
 }
 
 void alEdit::markRequired(bool req)

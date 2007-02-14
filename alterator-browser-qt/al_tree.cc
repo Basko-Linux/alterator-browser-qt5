@@ -98,7 +98,7 @@ QString alTree::postData() const
 	const int columns = wnd_->columnCount();
 	QString data = coordmap_[i->type()/(2*columns)];
         data.replace(","," ");
-	return QString("(current .")+"("+data+"))";
+	return QString("(current .(%1))").arg(data);
     }
     return "";
 }
