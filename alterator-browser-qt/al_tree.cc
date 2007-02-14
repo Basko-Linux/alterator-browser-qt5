@@ -7,6 +7,7 @@
 alTree::alTree(const QString& id,const QString& parent,const QString& columns):
 	alWidgetPre<QTreeWidget>(Tree,id,parent)
 {
+    expanded_ = false;
     //setings to be compatible with QListView
     wnd_->setColumnCount(columns.isEmpty()? 1 : columns.toInt());
     wnd_->header()->hide();
@@ -39,6 +40,7 @@ void alTree::setAttr(const QString& name,const QString& value)
 		    coordmap_ = coords_.split(";");//move to internal storage
 		    items_ = coords_ = "";
 		}
+		expandOrCollapseAllTree();
 		adjustAllColumnsWidth();
 	}
 	if ("current" == name)
@@ -71,6 +73,11 @@ void alTree::setAttr(const QString& name,const QString& value)
 	{ 
 		wnd_->header()->show(); 
         	wnd_->setHeaderLabels(value.split(";")); 
+	} 
+	else if ("expanded" == name) 
+	{
+	    expanded_ = value == "true";
+	    expandOrCollapseAllTree();
 	} 
 	else
 		alWidget::setAttr(name,value);
@@ -159,5 +166,25 @@ void alTree::adjustAllColumnsWidth()
 	{
 	    wnd_->resizeColumnToContents(col);
 	}
+    }
+}
+
+void alTree::expandOrCollapseAllTree()
+{
+    QTreeWidgetItemIterator it(wnd_);
+    while (*it)
+    {
+	QTreeWidgetItem *item = *it;
+	if( expanded_ )
+	{
+	    if( item->childCount() > 0 && !item->isExpanded() )
+		item->setExpanded(true);
+	}
+	else
+	{
+	    if( item->childCount() > 0 && item->isExpanded() )
+		item->setExpanded(false);
+	}
+	++it;
     }
 }
