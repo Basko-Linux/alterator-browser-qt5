@@ -36,6 +36,10 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 		if(!ok) idx = -1;
 		wnd_->setCurrentIndex(idx);
 	}
+	else if ("text" == name)
+	{
+		wnd_->setEditText(value);
+	}
 	else if ("alterability" == name)
 		wnd_->setEditable(value == "true");
 	else if ("rows-clear" == name)
@@ -70,7 +74,7 @@ void alComboBox::registerEvent(const QString& name)
 
 QString alComboBox::postData() const
 {
-	QString post = QString(" (current . ") + QString::number(wnd_->currentIndex()) +" )";
+	QString post = QString(" (current . %1 )").arg(wnd_->currentIndex());
 	if (wnd_->isEditable() && (counter_ != wnd_->count()))
 	{//reset items on alterator
 	    post += "( rows . (";
@@ -78,6 +82,7 @@ QString alComboBox::postData() const
 		post += " #(( \""+ Utils::simpleQuote(wnd_->itemText(i))+ "\" . \"\"))";
 	    post += "))";
 	}
+	post += QString(" (text . %1 )").arg(wnd_->currentText());
 	return post;
 }
 
