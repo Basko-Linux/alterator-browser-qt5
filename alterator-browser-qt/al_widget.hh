@@ -59,32 +59,33 @@ public:
 	Qt::Alignment childrenAlignment();
 
 public slots:
-	void onUpdate(int) { emit updated(); }
+	void onUpdate(int);
 
-	void onClick() { emitEvent(id_,"clicked"); }
-	void onClick(bool) { emitEvent(id_,"clicked"); }
-	void onClick(QListWidgetItem*) { emitEvent(id_,"clicked"); }
-	void onClick(QTreeWidgetItem*,int) { emitEvent(id_,"clicked"); }
+	void onClick();
+	void onClick(bool);
+	void onClick(QListWidgetItem*);
+	void onClick(QTreeWidgetItem*,int);
 
-	void onChange() { emitEvent(id_,"changed"); }
-	void onChange(int) { emitEvent(id_,"changed"); }
-	void onChange(const QString&) { emitEvent(id_,"changed"); }
-	void onChange(QWidget*) { emitEvent(id_,"changed"); }
+	void onChange();
+	void onChange(int);
+	void onChange(const QString&);
+	void onChange(QWidget*);
 
-	void onReturn() { emitEvent(id_,"return-pressed"); }
-	void onReturn(QListWidgetItem*) { emitEvent(id_,"return-pressed"); }
-	void onReturn(QTreeWidgetItem*, int) { emitEvent(id_,"return-pressed"); }
+	void onReturn();
+	void onReturn(QListWidgetItem*);
+	void onReturn(QTreeWidgetItem*, int);
 
-	void onSelect() { emitEvent(id_,"selected"); }
-	void onSelect(int) { emitEvent(id_,"selected"); }
-	void onSelect(QTreeWidgetItem*,QTreeWidgetItem*) { emitEvent(id_,"selected"); }
+	void onSelect();
+	void onSelect(int);
+	void onSelect(QTreeWidgetItem*,QTreeWidgetItem*);
+	void onSelect(const QString&);
 
-	void onDoubleClick() { emitEvent(id_,"double-clicked"); }
-	void onDoubleClick(QTreeWidgetItem*,int) { emitEvent(id_,"double-clicked"); }
-	void onDoubleClick(QListWidgetItem*) { emitEvent(id_,"double-clicked"); }
+	void onDoubleClick();
+	void onDoubleClick(QTreeWidgetItem*,int);
+	void onDoubleClick(QListWidgetItem*);
 
-	void onToggle(bool) { emitEvent(id_,"toggled"); }
-	void onToggle(int) { emitEvent(id_,"toggled"); }
+	void onToggle(bool);
+	void onToggle(int);
 
 //delayed versions
 	void delayedOnSelect()

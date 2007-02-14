@@ -42,6 +42,34 @@ alWidget::~alWidget()
     elements.remove(id_);
 }
 
+void alWidget::onUpdate(int) { emit updated(); }
+
+void alWidget::onClick() { emitEvent(id_,"clicked"); }
+void alWidget::onClick(bool) { emitEvent(id_,"clicked"); }
+void alWidget::onClick(QListWidgetItem*) { emitEvent(id_,"clicked"); }
+void alWidget::onClick(QTreeWidgetItem*,int) { emitEvent(id_,"clicked"); }
+
+void alWidget::onChange() { emitEvent(id_,"changed"); }
+void alWidget::onChange(int) { emitEvent(id_,"changed"); }
+void alWidget::onChange(const QString&) { emitEvent(id_,"changed"); }
+void alWidget::onChange(QWidget*) { emitEvent(id_,"changed"); }
+
+void alWidget::onReturn() { emitEvent(id_,"return-pressed"); }
+void alWidget::onReturn(QListWidgetItem*) { emitEvent(id_,"return-pressed"); }
+void alWidget::onReturn(QTreeWidgetItem*, int) { emitEvent(id_,"return-pressed"); }
+
+void alWidget::onSelect() { emitEvent(id_,"selected"); }
+void alWidget::onSelect(int n) { emitEvent(id_,"selected"); }
+void alWidget::onSelect(QTreeWidgetItem*,QTreeWidgetItem*) { emitEvent(id_,"selected"); }
+void alWidget::onSelect(const QString& s) { emitEvent(id_,"selected"); }
+
+void alWidget::onDoubleClick() { emitEvent(id_,"double-clicked"); }
+void alWidget::onDoubleClick(QTreeWidgetItem*,int) { emitEvent(id_,"double-clicked"); }
+void alWidget::onDoubleClick(QListWidgetItem*) { emitEvent(id_,"double-clicked"); }
+
+void alWidget::onToggle(bool) { emitEvent(id_,"toggled"); }
+void alWidget::onToggle(int) { emitEvent(id_,"toggled"); }
+
 void alWidget::setAttr(const QString& name,const QString& value)
 {
 	if ("visibility" == name)
