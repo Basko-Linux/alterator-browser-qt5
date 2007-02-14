@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.36
+Version: 2.9.37
 Release: alt1
 
 Source:%name-%version.tar
@@ -60,6 +60,10 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Wed Feb 14 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.37-alt1
+- add "text" attrubute to combobox
+- add "expanded" attrubute to tree
+
 * Tue Feb 13 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.36-alt1
 - prefer user defined orientation in separator
 - allow to inherit orientation from tabbox to tabpage
