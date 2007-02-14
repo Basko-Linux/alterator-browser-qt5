@@ -1,6 +1,70 @@
+#include <QApplication>
 
 #include "al_combobox.hh"
 #include "a_pixmaps.hh"
+
+AComboBox::AComboBox(QWidget *parent):
+    QComboBox(parent)
+{
+    text_changed_ = false;
+    connect(this, SIGNAL(editTextChanged(const QString&)),
+	this, SLOT(onTextChange(const QString&)));
+    connect(this, SIGNAL(activated(const QString&)),
+	this, SLOT(onActivate(const QString&)));
+}
+
+AComboBox::~AComboBox() {}
+
+void AComboBox::keyPressEvent(QKeyEvent *e)
+{
+    QComboBox::keyPressEvent(e);
+    switch( e->key() )
+    {
+	case Qt::Key_Enter:
+	case Qt::Key_Return:
+	{
+	    emit editingFinished();
+	    break;
+	}
+	default:
+	    break;
+    }
+}
+
+void AComboBox::focusOutEvent(QFocusEvent* e)
+{
+    Qt::FocusReason reason = e->reason();
+    if( reason != Qt::PopupFocusReason
+        && !(QApplication::activePopupWidget() && QApplication::activePopupWidget()->parentWidget() == this))
+    {
+	if( text_changed_ )
+	    emit editingFinished();
+    }
+}
+
+void AComboBox::focusInEvent(QFocusEvent *e)
+{
+    text_changed_ = false;
+    QComboBox::focusInEvent(e);
+}
+
+void AComboBox::onTextChange(const QString&)
+{
+    text_changed_ = true;
+}
+
+void AComboBox::onActivate(const QString&)
+{
+    text_changed_ = false;
+    emit editingFinished();
+}
+
+// alComboBox
+alComboBox::alComboBox(const QString& id,const QString& parent):
+    alWidgetPre<AComboBox>(ComboBox,id,parent)
+{
+    counter_ = 0;
+}
 
 void alComboBox::setAttr(const QString& name,const QString& value)
 {
@@ -70,9 +134,10 @@ void alComboBox::registerEvent(const QString& name)
 {
     if ("selected" == name)
     {
-        connect(wnd_,SIGNAL( activated(int) ),SLOT(onSelect(int)));
+        //connect(wnd_,SIGNAL( activated(int) ),SLOT(onSelect(int)));
         //connect(wnd_,SIGNAL( editTextChanged(const QString&) ),SLOT(onSelect(const QString&)));
         //connect(wnd_,SIGNAL( activated(const QString&) ),SLOT(onSelect(const QString&)));
+        connect(wnd_,SIGNAL( editingFinished() ),SLOT(onSelect()));
     }
 }
 
@@ -89,4 +154,3 @@ QString alComboBox::postData() const
 	post += QString(" (text . \"%1\" )").arg(Utils::simpleQuote(wnd_->currentText()));
 	return post;
 }
-

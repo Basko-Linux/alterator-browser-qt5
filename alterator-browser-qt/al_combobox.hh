@@ -2,21 +2,41 @@
 #define QTBROWSER_AL_COMBOBOX_HH
 
 #include <QComboBox>
+#include <QKeyEvent>
 
 #include "al_widget.hh"
 
-class alComboBox: public alWidgetPre<QComboBox>
+class AComboBox: public QComboBox
 {
-	int counter_;
+Q_OBJECT;
 public:
-	alComboBox(const QString& id,const QString& parent):
-		alWidgetPre<QComboBox>(ComboBox,id,parent),
-		counter_(0)
-	{}
+    AComboBox(QWidget *parent = 0);
+    ~AComboBox();
+signals:
+	void editingFinished();
+
+protected:
+	void keyPressEvent(QKeyEvent*);
+	void focusOutEvent(QFocusEvent*);
+	void focusInEvent(QFocusEvent*);
+
+private:
+	bool text_changed_;
+private slots:
+	void onTextChange(const QString&);
+	void onActivate(const QString&);
+};
+
+class alComboBox: public alWidgetPre<AComboBox>
+{
+public:
+	alComboBox(const QString& id,const QString& parent);
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const ;
-};
 
+private:
+	int counter_;
+};
 
 #endif
