@@ -258,7 +258,7 @@ QString alMultiListBox::postData() const
 {
 	QTreeWidgetItem *i = wnd_->currentItem();
 	if( i )
-	    return QString(" (current . ") + QString::number(wnd_->indexOfTopLevelItem(i)) +" )";
+	    return QString(" (current . %1 )").arg(wnd_->indexOfTopLevelItem(i));
 	else
 	    return "";
 }

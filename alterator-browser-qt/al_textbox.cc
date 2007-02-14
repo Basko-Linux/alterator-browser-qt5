@@ -89,6 +89,6 @@ void alTextBox::registerEvent(const QString& name)
 
 QString alTextBox::postData() const
 {
-	return " (text . \""+Utils::simpleQuote(wnd_->text())+"\" )";
+	return QString(" (text . \"%1\" )").arg(Utils::simpleQuote(wnd_->text()));
 }
 

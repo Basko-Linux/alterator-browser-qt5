@@ -35,7 +35,7 @@ void alGroupBox::registerEvent(const QString& name)
 QString alGroupBox::postData() const
 {
 	if (wnd_->isCheckable())
-		return QString(" (state . ")+ (wnd_->isChecked()?"#t":"#f") +" )";
+		return QString(" (state . %1 )").arg(wnd_->isChecked()?"#t":"#f");
 	else
 		return "";
 }
