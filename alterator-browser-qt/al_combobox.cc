@@ -68,8 +68,12 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 
 void alComboBox::registerEvent(const QString& name)
 {
-	if ("selected" == name)
-		connect(wnd_,SIGNAL( activated(int) ),SLOT(onSelect(int)));
+    if ("selected" == name)
+    {
+        connect(wnd_,SIGNAL( activated(int) ),SLOT(onSelect(int)));
+        //connect(wnd_,SIGNAL( editTextChanged(const QString&) ),SLOT(onSelect(const QString&)));
+        //connect(wnd_,SIGNAL( activated(const QString&) ),SLOT(onSelect(const QString&)));
+    }
 }
 
 QString alComboBox::postData() const
@@ -82,7 +86,7 @@ QString alComboBox::postData() const
 		post += " #(( \""+ Utils::simpleQuote(wnd_->itemText(i))+ "\" . \"\"))";
 	    post += "))";
 	}
-	post += QString(" (text . %1 )").arg(wnd_->currentText());
+	post += QString(" (text . \"%1\" )").arg(Utils::simpleQuote(wnd_->currentText()));
 	return post;
 }
 
