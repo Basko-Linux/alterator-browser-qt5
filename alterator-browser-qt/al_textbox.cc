@@ -2,7 +2,6 @@
 #include "utils.hh"
 #include "al_textbox.hh"
 
-
 ATextEdit::ATextEdit(QWidget *parent):
     QWidget(parent)
 {
@@ -13,6 +12,8 @@ ATextEdit::ATextEdit(QWidget *parent):
     mark->setPalette(palet);
 
     edit = new QTextEdit(this);
+    edit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    edit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     connect(edit, SIGNAL(textChanged()), this, SIGNAL(textEdited()));
 
@@ -60,6 +61,11 @@ void ATextEdit::markRequired(bool req)
     }
 }
 
+void ATextEdit::showEvent(QShowEvent*)
+{
+    edit->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    edit->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+}
 
 // alTextBox
 alTextBox::alTextBox(const QString& id,const QString& parent):

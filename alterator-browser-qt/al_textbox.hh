@@ -21,6 +21,9 @@ public:
 signals:
     void textEdited();
 
+protected:
+    void showEvent(QShowEvent*);
+
 private:
     QLabel *mark;
     QTextEdit *edit;
