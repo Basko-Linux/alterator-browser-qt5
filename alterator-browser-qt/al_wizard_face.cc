@@ -57,7 +57,7 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     buttons_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     buttons_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
 
-    menu_btn = new QPushButton(buttons_widget);
+    menu_btn = new QPushButton(translateActionText("Menu"), buttons_widget);
     menu_btn->hide();
     menu_btn->setIcon(QIcon(getPixmap("theme:up")));
     menu = new QMenu();
