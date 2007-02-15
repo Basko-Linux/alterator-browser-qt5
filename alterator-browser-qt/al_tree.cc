@@ -9,6 +9,7 @@ alTree::alTree(const QString& id,const QString& parent,const QString& columns):
 {
     expanded_ = false;
     //setings to be compatible with QListView
+    wnd_->setAlternatingRowColors(true);
     wnd_->setColumnCount(columns.isEmpty()? 1 : columns.toInt());
     wnd_->header()->hide();
     wnd_->setSelectionBehavior(QAbstractItemView::SelectRows);

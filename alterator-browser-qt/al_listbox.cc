@@ -48,7 +48,7 @@ void ATreeWidget::showEvent(QShowEvent *e)
 alListBox::alListBox(const QString& id,const QString& parent):
 	alWidgetPre<AListWidget>(ListBox,id,parent)
 {
-    wnd_->setAlternatingRowColors(true);
+    //wnd_->setAlternatingRowColors(true);
 }
 
 
@@ -158,6 +158,7 @@ alMultiListBox::alMultiListBox(const QString& id,const QString& parent, int cols
     wnd_->header()->hide();
     wnd_->setSelectionBehavior(QAbstractItemView::SelectRows);
     wnd_->setIndentation(0);
+    wnd_->setAlternatingRowColors(true);
 }
 
 void alMultiListBox::setAttr(const QString& name,const QString& value)
