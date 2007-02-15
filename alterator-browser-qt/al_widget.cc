@@ -72,6 +72,7 @@ void alWidget::onToggle(int) { emitEvent(id_,"toggled"); }
 
 void alWidget::setAttr(const QString& name,const QString& value)
 {
+	qDebug("alWidget::setAttr");
 	if ("visibility" == name)
 		("true" == value)?getWidget()->show():getWidget()->hide();
 	else if ("activity" == name)
@@ -107,19 +108,27 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	}
 	else if ("max-width" == name)
 	{
+	    qDebug("max-width %s", qPrintable(value));
 	    getWidget()->setMaximumWidth(value.toInt());
 	}
 	else if ("max-height" == name)
 	{
+	    qDebug("max-height %s", qPrintable(value));
 	    getWidget()->setMaximumHeight(value.toInt());
 	}
 	else if ("width" == name)
 	{
-	    getWidget()->setFixedWidth(value.toInt());
+	    qDebug("width %s", qPrintable(value));
+	    //getWidget()->setFixedWidth(value.toInt());
+	    getWidget()->setMinimumWidth(value.toInt());
+	    getWidget()->setMaximumWidth(value.toInt());
 	}
 	else if ("height" == name)
 	{
-	    getWidget()->setFixedHeight(value.toInt());
+	    qDebug("height %s", qPrintable(value));
+	    //getWidget()->setFixedHeight(value.toInt());
+	    getWidget()->setMinimumHeight(value.toInt());
+	    getWidget()->setMaximumHeight(value.toInt());
 	}
 	else if ("margin" == name)
 	{
