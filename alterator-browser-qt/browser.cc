@@ -254,6 +254,12 @@ void messageboxRequest(const QXmlAttributes& e)
     getDocument(getDocParser,answer);
 }
 
+void languageChangeRequest(const QString& language)
+{
+    if( main_window )
+	main_window->changeLanguage(language);
+}
+
 ////////////////////////////////////////////////
 
 void getDocParser(alCommand *cmd)
@@ -284,6 +290,8 @@ void getDocParser(alCommand *cmd)
 		stopRequest(e.value("widget-id"));
 	else if ("messagebox" == action)
 		messageboxRequest(e);
+	else if ("language" == action)
+		languageChangeRequest(cmd->value_);
 	else if ("retry" == action)
 	{
 	    if(mailbox)
@@ -338,9 +346,6 @@ void emitEvent(const QString& id,const QString& type)
 int main(int argc,char **argv)
 {
     QApplication app(argc, argv);
-    QTranslator translator;
-    translator.load(QLibraryInfo::location(QLibraryInfo::TranslationsPath) + "/qt_"+QLocale::system().name());
-    app.installTranslator(&translator);
 
     MainWindow mw;
     mw.show();

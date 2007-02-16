@@ -9,6 +9,9 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QDir>
+#include <QTranslator>
+#include <QLocale>
+#include <QLibraryInfo>
 
 #include "global.hh"
 #include "widgets.hh"
@@ -44,10 +47,20 @@ int x_catchRedirectError(Display *, XErrorEvent *event)
 MainWindow::MainWindow():
     MainWindow_t(0)
 {
+    qtranslator = 0;
     started = false;
     detect_wm = false;
-    help_browser = new HelpBrowser(this);
 
+    QString language(getenv("LC_ALL"));
+    if( language.isEmpty() )
+	language = getenv("LC_MESSAGES");
+    if( language.isEmpty() )
+	language = getenv("LANG");
+    if( language.isEmpty() )
+	language = "C";
+    changeLanguage(language);
+
+    help_browser = new HelpBrowser(this);
     have_wm = haveWindowManager();
     if( have_wm )
     {
@@ -251,4 +264,30 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
 #endif
     }
 #endif
+}
+
+void MainWindow::changeLanguage(const QString& language)
+{
+    QString locale = language;
+    if( locale.contains("_")
+	&& !(locale.contains(".") || locale.contains("@")))
+    {
+	// && (locale != "C" && locale != "POSIX")
+	locale += ".UTF-8";
+    }
+
+    ::setenv("LC_ALL", locale.toLatin1(), true);
+    ::setlocale(LC_ALL, locale.toLatin1());
+    new QSystemLocale();
+    QLocale::setDefault( QLocale(locale) );
+
+    if( qtranslator )
+    {
+	QCoreApplication::removeTranslator(qtranslator);
+	delete qtranslator;
+    }
+    qtranslator = new QTranslator(this);
+    qtranslator->load(QLibraryInfo::location(QLibraryInfo::TranslationsPath) + "/qt_"+QLocale::system().name());
+    QCoreApplication::installTranslator(qtranslator);
+    emit languageChanged();
 }

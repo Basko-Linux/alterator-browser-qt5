@@ -10,6 +10,9 @@
     <height>400</height>
    </rect>
   </property>
+  <property name="windowTitle" >
+   <string>Help</string>
+  </property>
   <layout class="QGridLayout" >
    <property name="margin" >
     <number>9</number>

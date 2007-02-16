@@ -6,12 +6,16 @@
 
 class HelpBrowser: public QDialog
 {
+Q_OBJECT;
 public:
     HelpBrowser(QWidget *parent);
     ~HelpBrowser();
 
     void setHelpSource(const QString&);
     void setEmptyHelp();
+
+public slots:
+    void retranslateUi();
 
 protected:
     void showEvent(QShowEvent*);

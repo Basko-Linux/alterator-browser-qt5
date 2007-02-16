@@ -10,11 +10,13 @@ HelpBrowser::HelpBrowser(QWidget *parent):
     QDialog(parent)
 {
     ui.setupUi(this);
-    setWindowTitle(QApplication::translate("QDialogButtonBox", "Help", 0, QApplication::UnicodeUTF8));
+    //setWindowTitle(tr("Help"));
+    //setWindowTitle(QApplication::translate("QDialogButtonBox", "Help", 0, QApplication::UnicodeUTF8));
     setEmptyHelp();
 
     connect(ui.textBrowser, SIGNAL(anchorClicked(const QUrl&)),
 	    ui.textBrowser, SLOT(setSource(const QUrl&)));
+    connect(parent, SIGNAL(languageChanged()), this, SLOT(retranslateUi()));
 }
 
 HelpBrowser::~HelpBrowser() {}
@@ -50,4 +52,11 @@ void HelpBrowser::showEvent(QShowEvent *e)
     {
 	Utils::fixWmlessPopup(this);
     }
+}
+
+void HelpBrowser::retranslateUi()
+{
+    ui.retranslateUi(this);
+    setWindowTitle(QApplication::translate("QDialogButtonBox", "Help", 0, QApplication::UnicodeUTF8));
+    ui.buttonBox->setStandardButtons( ui.buttonBox->standardButtons() );
 }

@@ -20,6 +20,10 @@ public:
     bool haveWindowManager();
     void setFullScreen(bool);
     void setHelpSource(const QString&);
+    void changeLanguage(const QString&);
+
+signals:
+    void languageChanged();
 
 public slots:
     void start();
@@ -30,6 +34,7 @@ protected:
     virtual bool event(QEvent*);
 
 private:
+    QTranslator *qtranslator;
     QRect geometry_;
     bool started;
     bool have_wm;
