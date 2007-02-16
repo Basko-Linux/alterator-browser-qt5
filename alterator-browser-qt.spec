@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.37
+Version: 2.9.38
 Release: alt1
 
 Source:%name-%version.tar
@@ -60,6 +60,15 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Fri Feb 16 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.38-alt1
+- resize columns when insert rows to multicolumn listbox
+- change language on language change request
+- add text to menu button in wizardface
+- don't use alternate color in 1-column listbox
+- add width/height attribute for all widgets
+- use alternate color in multicolumn listbox and tree
+- fix scrollbars on initial showing of textbox with text
+
 * Wed Feb 14 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.37-alt1
 - add "text" attrubute to combobox
 - add "expanded" attrubute to tree
