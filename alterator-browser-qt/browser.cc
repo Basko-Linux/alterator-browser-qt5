@@ -63,6 +63,8 @@ void newRequest(const QXmlAttributes& attr)
 	const QString id = attr.value("widget-id");
 	const QString type = attr.value("type");
 	const QString parent = attr.value("parent");
+	const QString width = attr.value("width");
+	const QString height = attr.value("width");
 	Qt::Orientation orientation = Utils::convertOrientation(attr.value("orientation"));
 /*
 	qDebug("%s: id<%s> type<%s> parent<%s> orientation<%s> sub-type<%s>", __FUNCTION__,
@@ -70,62 +72,82 @@ void newRequest(const QXmlAttributes& attr)
 	    qPrintable(attr.value("orientation")), qPrintable(attr.value("sub-type")) );
 */
 
+	alWidget *new_widget = 0;
 	if ("root" == type)
 	{
 	    const QString subtype = attr.value("sub-type");
 	    if ("popup" == subtype) //this is a dialog
 	    {
 	    	if(parent.isEmpty())
-		    new alMainWidget(id,"",orientation);
+		    new_widget = new alMainWidget(id,"",orientation);
 	    	else
-		    new alDialog(id,parent,orientation,attr.value("width"),
-		                          attr.value("height"));
+		{
+		    //new_widget = new alDialog(id,parent,orientation, width, height);
+		    new_widget = new alDialog(id,parent,orientation, 0, 0);
+		}
 	    }
 	    else
 	    {
-		new alVBox(id,parent);
+		    new_widget =new alVBox(id,parent);
 	    }
 	}
-	else if ("box" == type) new alBox(id,parent,orientation);
-	else if ("vbox" == type) new alBox(id,parent,Qt::Vertical);
-	else if ("hbox" == type) new alBox(id,parent,Qt::Horizontal);
-	else if ("button" == type) new alButton(id,parent);
-	else if ("radio" == type) new alRadio(id,parent);
-	else if ("label" == type) new alLabel(id,parent);
-	else if ("edit" == type) new alEdit(id,parent);
-	else if ("textbox" == type) new alTextBox(id,parent);
-	else if ("help-place" == type) new alHelpPlace(id,parent);
-	else if ("groupbox" == type) new alGroupBox(id,parent,orientation,attr.value("checked"));
-	else if ("gridbox" == type) new alGridBox(id,parent,attr.value("columns"));
-	else if ("checkbox" == type) new alCheckBox(id,parent);
-	else if ("tree" == type) new alTree(id,parent,attr.value("columns"));
-	else if ("combobox" == type) new alComboBox(id,parent);
-	else if ("tabbox" == type) new alTabBox(id,parent,orientation);
-	else if ("tab-page" == type) new alTabPage(id,parent,orientation);
-	else if ("progressbar" == type) new alProgressBar(id,parent);
-	else if ("slider" == type) new alSlider(id,parent);
-	else if ("separator" == type) new alSeparator(id,parent,orientation);
-	else if ("spacer" == type) new alSpacer(id,parent);
-	else if ("spinbox" == type) new alSpinBox(id,parent);
+	else if ("box" == type)         new_widget = new alBox(id,parent,orientation);
+	else if ("vbox" == type)        new_widget = new alBox(id,parent,Qt::Vertical);
+	else if ("hbox" == type)        new_widget = new alBox(id,parent,Qt::Horizontal);
+	else if ("button" == type)      new_widget = new alButton(id,parent);
+	else if ("radio" == type)       new_widget = new alRadio(id,parent);
+	else if ("label" == type)       new_widget = new alLabel(id,parent);
+	else if ("edit" == type)        new_widget = new alEdit(id,parent);
+	else if ("textbox" == type)     new_widget = new alTextBox(id,parent);
+	else if ("help-place" == type)  new_widget = new alHelpPlace(id,parent);
+	else if ("groupbox" == type)    new_widget = new alGroupBox(id,parent,orientation,attr.value("checked"));
+	else if ("gridbox" == type)     new_widget = new alGridBox(id,parent,attr.value("columns"));
+	else if ("checkbox" == type)    new_widget = new alCheckBox(id,parent);
+	else if ("tree" == type)        new_widget = new alTree(id,parent,attr.value("columns"));
+	else if ("combobox" == type)    new_widget = new alComboBox(id,parent);
+	else if ("tabbox" == type)      new_widget = new alTabBox(id,parent,orientation);
+	else if ("tab-page" == type)    new_widget = new alTabPage(id,parent,orientation);
+	else if ("progressbar" == type) new_widget = new alProgressBar(id,parent);
+	else if ("slider" == type)      new_widget = new alSlider(id,parent);
+	else if ("separator" == type)   new_widget = new alSeparator(id,parent,orientation);
+	else if ("spacer" == type)      new_widget = new alSpacer(id,parent);
+	else if ("spinbox" == type)     new_widget = new alSpinBox(id,parent);
 	else if ("listbox" == type)
 	{
 	    int cols = attr.value("columns").toInt();
 	    if( cols <= 1 )
-		new alListBox(id,parent);
+		new_widget = new alListBox(id,parent);
 	    else
-		new alMultiListBox(id,parent,cols);
+		new_widget = new alMultiListBox(id,parent,cols);
 	}
 	else if ("wizardface" == type)
 	{
 	    if( wizard_face )
-		new alBox(id,parent,orientation);
+		new_widget = new alBox(id,parent,orientation);
 	    else
-		wizard_face = new alWizardFace(id,parent,orientation);
+		new_widget = wizard_face = new alWizardFace(id,parent,orientation);
 	}
 	else
 	{
 	    qDebug("Unknown widget: %s. Make box instead.", qPrintable(type));
-	    new alBox(id,parent,orientation);
+	    new_widget = new alBox(id,parent,orientation);
+	}
+
+	//
+	if( new_widget )
+	{
+	    switch( new_widget->type() )
+	    {
+//		case alWidget::Dialog:
+//		    break;
+		default:
+		{
+		    int w = width.toInt();
+		    if( w > 0 ) new_widget->setAttr("width", width);
+		    int h = height.toInt();
+		    if( h > 0 ) new_widget->setAttr("height", height);
+		}
+	    }
 	}
 }
 
