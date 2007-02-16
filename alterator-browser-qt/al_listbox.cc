@@ -44,6 +44,18 @@ void ATreeWidget::showEvent(QShowEvent *e)
     scrollTo(currentIndex());
 }
 
+void ATreeWidget::adjustAllColumnsWidth()
+{
+    int n_columns = columnCount();
+    if( n_columns > 0 )
+    {
+	for(int col=0;col < n_columns; col++)
+	{
+	    resizeColumnToContents(col);
+	}
+    }
+}
+
 // alListBox
 alListBox::alListBox(const QString& id,const QString& parent):
 	alWidgetPre<AListWidget>(ListBox,id,parent)
@@ -203,6 +215,7 @@ void alMultiListBox::setAttr(const QString& name,const QString& value)
 		}
 		wnd_->clear();		
 		wnd_->addTopLevelItems(items);
+		wnd_->adjustAllColumnsWidth();
 	}
 	else if ("current" == name)
 	{

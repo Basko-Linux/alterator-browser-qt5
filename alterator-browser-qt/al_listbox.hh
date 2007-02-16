@@ -30,6 +30,8 @@ public:
 	ATreeWidget(QWidget *parent=0);
 	~ATreeWidget();
 
+	void adjustAllColumnsWidth();
+
 signals:
 	void spaceBtnPressed();
 
