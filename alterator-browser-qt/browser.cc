@@ -88,7 +88,7 @@ void newRequest(const QXmlAttributes& attr)
 	    }
 	    else
 	    {
-		    new_widget =new alVBox(id,parent);
+		    new_widget = new alBox(id,parent,orientation);
 	    }
 	}
 	else if ("box" == type)         new_widget = new alBox(id,parent,orientation);
