@@ -71,7 +71,7 @@ void  Constraints::apply()
 
 void Constraints::add(const QString& name,const QString& type,const QString& params)
 {
-    qDebug("Constraints::add %s, %s, %s", qPrintable(name), qPrintable(type), qPrintable(params));
+    //qDebug("Constraints::add %s, %s, %s", qPrintable(name), qPrintable(type), qPrintable(params));
 	if ("exclude" == type)
 	{	
 		QStringList data = params.split(";");
