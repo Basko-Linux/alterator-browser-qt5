@@ -15,26 +15,6 @@ alWidget::alWidget(Type type, const QString& id,const QString& parent):
     children_alignment(Qt::AlignJustify)
 {
     elements[id] = this;
-
-    cursors["arrow"] = Qt::ArrowCursor;
-    cursors["arrow-up"] = Qt::UpArrowCursor;
-    cursors["cross"] = Qt::CrossCursor;
-    cursors["wait"] = Qt::WaitCursor;
-    cursors["caret"] = Qt::IBeamCursor;
-    cursors["size-vertical"] = Qt::SizeVerCursor;
-    cursors["size-horizontal"] = Qt::SizeHorCursor;
-    cursors["size-diagonal-forward"] = Qt::SizeBDiagCursor;
-    cursors["size-diagonal-back"] = Qt::SizeFDiagCursor;
-    cursors["size-all"] = Qt::SizeAllCursor;
-    cursors["blank"] = Qt::BlankCursor;
-    cursors["forbidden"] = Qt::ForbiddenCursor;
-    cursors["split-vertical"] = Qt::SplitVCursor;
-    cursors["split-horizontal"] = Qt::SplitHCursor;
-    cursors["hand-pointing"] = Qt::PointingHandCursor;
-    cursors["hand-open"] = Qt::OpenHandCursor;
-    cursors["hand-closed"] = Qt::ClosedHandCursor;
-    cursors["what-is-this"] = Qt::WhatsThisCursor;
-    cursors["busy"] = Qt::BusyCursor;
 }
 
 alWidget::~alWidget()
@@ -160,10 +140,6 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	else if ("help" == name)
 	{
 	    main_window->setHelpSource(value);
-	}
-	else if ("cursor" == name)
-	{
-	    getWidget()->setCursor(cursors[value]);
 	}
 }
 

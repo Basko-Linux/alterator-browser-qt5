@@ -31,7 +31,6 @@ protected:
 	QString id_;
 	QString parent_;
 	Qt::Alignment children_alignment;
-	QMap<QString, Qt::CursorShape> cursors;
 
 public:
 	alWidget(Type type, const QString& id,const QString& parent);
