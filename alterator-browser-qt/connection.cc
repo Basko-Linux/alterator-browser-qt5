@@ -6,16 +6,21 @@
 #include <QStringList>
 
 #include "connection.hh"
+#include "main_window.hh"
 
+extern MainWindow *main_window;
 QString sessionId;
 QString userId;
 
 static
 void parseAnswer(alRequest *dom,parserfunc parser)
 {
-	QListIterator<alCommand*> it(dom->commands_);
-	while(it.hasNext())
-	    parser(it.next());
+    if( main_window ) main_window->setCursor(Qt::ArrowCursor);
+    QListIterator<alCommand*> it(dom->commands_);
+    while(it.hasNext())
+    {
+	parser(it.next());
+    }
 }
 
 static
@@ -60,6 +65,7 @@ void initConnection(parserfunc parser)
 
 QString makeRequest(const QString& content)
 {
+    if( main_window ) main_window->setCursor(Qt::BusyCursor);
 	QString out;
 	QTextStream s(&out);
 	s<<"(auth-request user \""<<userId<<"\" session-id "
