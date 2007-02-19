@@ -71,7 +71,7 @@ void  Constraints::apply()
 
 void Constraints::add(const QString& name,const QString& type,const QString& params)
 {
-    //qDebug("Constraints::add %s, %s, %s", name.toLocal8Bit().data(), type.toLocal8Bit().data(), params.toLocal8Bit().data());
+    qDebug("Constraints::add %s, %s, %s", qPrintable(name), qPrintable(type), qPrintable(params));
 	if ("exclude" == type)
 	{	
 		QStringList data = params.split(";");
@@ -84,7 +84,10 @@ void Constraints::add(const QString& name,const QString& type,const QString& par
 		}
 	}
 	else if ("required" == type)
+	{
+	    if (name == "true")
 		required.push_back(name);
+	}
 }
 
 void Constraints::exclude()
