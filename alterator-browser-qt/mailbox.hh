@@ -14,14 +14,12 @@ class MailBox: public QObject
 {
 Q_OBJECT
 public:
-	MailBox(const QString& addr, parserfunc parser, QObject *parent = 0);
+	MailBox(const QString& addr, QObject *parent = 0);
 	~MailBox();
 public slots:
 	void onMessage(int);
 	void readMessage(int);
-	void doRetry();
 private:
-	parserfunc parser_;
 	int sock_;
 	sockaddr_un socka_;
 	int size_;

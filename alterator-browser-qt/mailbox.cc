@@ -9,12 +9,14 @@
 #include <QFile>
 
 #include "utils.hh"
+#include "main_window.hh"
 
 using namespace Utils;
 
-MailBox::MailBox(const QString& path, parserfunc parser, QObject *parent):
+extern MainWindow *main_window;
+
+MailBox::MailBox(const QString& path, QObject *parent):
 	QObject(parent),
-	parser_(parser),
 	eater_(0)
 {
 	QWidget *top_window = QApplication::activeWindow();
@@ -83,7 +85,7 @@ void MailBox::readMessage(int fd)
 	if (!message.isEmpty())
 	{
 		qDebug("mailbox message:%s",qPrintable(message));
-		getDocument(parser_,QString("(mailbox-request %1 )").arg(message));
+		main_window->getDocument(QString("(mailbox-request %1 )").arg(message));
 		qDebug("end of processing....");
 	}
 	else if (len <= 0)
@@ -93,9 +95,4 @@ void MailBox::readMessage(int fd)
 		delete eater_;
 		eater_ = 0;
 	}
-}
-
-void MailBox::doRetry()
-{
-	getDocument(parser_,"(alterator-request action \"re-get\")");
 }

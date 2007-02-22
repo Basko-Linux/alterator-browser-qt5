@@ -6,25 +6,66 @@
 #include <QStringList>
 
 #include "connection.hh"
+#include "mailbox.hh"
+#include "global.hh"
+
 #include "main_window.hh"
-
 extern MainWindow *main_window;
-QString sessionId;
-QString userId;
+extern MailBox *mailbox;
 
-static
-void parseAnswer(alRequest *dom,parserfunc parser)
+Connection::Connection(QObject *parent):
+    QThread(parent)
 {
-    if( main_window ) main_window->setCursor(Qt::ArrowCursor);
+    islong_timer = new QTimer(this);
+    connect(this, SIGNAL(started()), this, SLOT(startDelayedFinish()));
+    connect(islong_timer, SIGNAL(timeout()), this, SLOT(checkRequestIsLong()));
+    connect(this, SIGNAL(finished()), this, SLOT(endDelayedFinish()));
+}
+
+Connection::~Connection() {}
+
+void Connection::init()
+{
+	std::cout<<"(auth-request user \"qtbrowser\" password \"\" "
+	<<"language \""<<createLangList().toLatin1().data()<<"\""
+	<<")"<<std::endl;
+	std::auto_ptr<alRequest> dom(readRequest());
+	
+	sessionId = dom->attrs_.value("session-id");
+	userId = dom->attrs_.value("user");
+//	std::cerr<<"session-id="<<sessionId.toLatin1().data()<<std::endl;
+	
+	parseAnswer(dom.get());
+}
+
+void Connection::getDocument(const QString &content)
+{
+    //main_window->setCursor(Qt::BusyCursor);
+    wait();
+    request_string = makeRequest(content);
+    start();
+}
+
+QString Connection::makeRequest(const QString& content)
+{
+	QString out;
+	QTextStream s(&out);
+	s<<"(auth-request user \""<<userId<<"\" session-id "
+	 <<"\""<<sessionId<<"\""
+	 <<" content "<<content<<")";
+       return out;
+}
+
+void Connection::parseAnswer(alRequest *dom)
+{
     QListIterator<alCommand*> it(dom->commands_);
     while(it.hasNext())
     {
-	parser(it.next());
+	getDocParser(it.next());
     }
 }
 
-static
-QString createLangList()
+QString Connection::createLangList()
 {
     QString lang(getenv("LC_ALL"));
     QString language(getenv("LANGUAGE"));
@@ -48,37 +89,87 @@ QString createLangList()
     return lst2.join(";");
 }
 
-
-void initConnection(parserfunc parser)
+void Connection::run()
 {
-	std::cout<<"(auth-request user \"qtbrowser\" password \"\" "
-	<<"language \""<<createLangList().toLatin1().data()<<"\""
-	<<")"<<std::endl;
-	std::auto_ptr<alRequest> dom(readRequest());
-	
-	sessionId = dom->attrs_.value("session-id");
-	userId = dom->attrs_.value("user");
-//	std::cerr<<"session-id="<<sessionId.toLatin1().data()<<std::endl;
-	
-	parseAnswer(dom.get(),parser);
+    std::cout<< request_string.toUtf8().data() << std::endl << std::flush;
+    std::auto_ptr<alRequest> dom(readRequest());
+    parseAnswer(dom.get());
 }
 
-QString makeRequest(const QString& content)
+void Connection::startDelayedFinish()
 {
-    if( main_window ) main_window->setCursor(Qt::BusyCursor);
-	QString out;
-	QTextStream s(&out);
-	s<<"(auth-request user \""<<userId<<"\" session-id "
-	 <<"\""<<sessionId<<"\""
-	 <<" content "<<content<<")";
-       return out;
+    if( !islong_timer->isActive() )
+    {
+	islong_timer->setInterval(500);
+	islong_timer->start();
+    }
 }
 
-void getDocument( parserfunc parser, const QString& content )
+void Connection::checkRequestIsLong()
 {
-	std::cout<<makeRequest(content).toUtf8().data()
-		 <<std::endl;
-	std::auto_ptr<alRequest> dom(readRequest());
+    if( isRunning() )
+    {
+#if 1
+	emit startLongRequest();
+#else
+	QEvent *e = new QEvent((QEvent::Type)EVENT_REQUEST_LONG_BEGIN);
+	QCoreApplication::postEvent(main_window, e);
+#endif
+    }
+}
 
-	parseAnswer(dom.get(),parser);
+void Connection::endDelayedFinish()
+{
+#if 1
+    stopLongRequest();
+#else
+    QEvent *e = new QEvent((QEvent::Type)EVENT_REQUEST_LONG_END);
+    QCoreApplication::postEvent(main_window, e);
+#endif
+}
+
+void Connection::getDocParser(alCommand *cmd)
+{
+	QXmlAttributes e = cmd->attrs_;
+	QString action = e.value("action");
+
+	if ("new" == action)
+		emit newRequest(e);
+	else if ("close" == action)
+		emit closeRequest(e.value("widget-id"));
+	else if ("clean" == action)
+		emit cleanRequest(e.value("widget-id"));
+	else if ("set" == action)
+		emit setRequest(e.value("widget-id"),
+			   e.value("name"),
+			   cmd->value_);
+	else if ("create-event" == action)
+		emit eventRequest(e.value("widget-id"), cmd->value_);
+	else if ("splash" == action)
+		emit splashMessageRequest(cmd->value_);
+	else if ("start" == action)
+		emit startRequest(e.value("widget-id"));
+	else if ("stop" == action)
+		emit stopRequest(e.value("widget-id"));
+	else if ("messagebox" == action)
+		emit messageboxRequest(e);
+	else if ("language" == action)
+		emit changeLanguageRequest(cmd->value_);
+	else if ("retry" == action)
+	{
+	    emit retryRequest();
+	}
+	else if ("constraints-clear" == action)
+	{
+	    emit constraintsClearRequest();
+	}
+	else if ("constraints-apply" == action)
+	{
+	    emit constraintsApplyRequest();
+	}
+	else if ("constraints-add" == action)
+	{
+	    emit constraintsAddRequest(e.value("name"),e.value("type"),e.value("params"));
+	}
+	//qDebug("getDocParser action %s", action.toLatin1().data());
 }
