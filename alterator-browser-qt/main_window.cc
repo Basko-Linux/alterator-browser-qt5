@@ -29,9 +29,8 @@
 #include <QX11Info>
 #endif
 
-extern Constraints *constraints;
-extern alWizardFace *wizard_face;
-extern MailBox *mailbox;
+alWizardFace *wizard_face = 0;
+MailBox *mailbox = 0;
 
 bool x_redirect_error;
 bool x_error_occurred;

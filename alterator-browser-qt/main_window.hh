@@ -10,6 +10,7 @@
 
 #include "help_browser.hh"
 #include "connection.hh"
+#include "constraints.hh"
 
 typedef QMainWindow MainWindow_t;
 
@@ -39,6 +40,7 @@ protected:
     virtual bool event(QEvent*);
 
 private:
+    Constraints *constraints;
     Connection *connection;
     QTranslator *qtranslator;
     QRect geometry_;
