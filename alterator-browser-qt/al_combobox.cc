@@ -100,7 +100,7 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 		if(!ok) idx = -1;
 		wnd_->setCurrentIndex(idx);
 	}
-	else if ("text" == name)
+	else if ("current-text" == name)
 	{
 		wnd_->setEditText(value);
 	}
@@ -151,6 +151,6 @@ QString alComboBox::postData() const
 		post += " #(( \""+ Utils::simpleQuote(wnd_->itemText(i))+ "\" . \"\"))";
 	    post += "))";
 	}
-	post += QString(" (text . \"%1\" )").arg(Utils::simpleQuote(wnd_->currentText()));
+	post += QString(" (current-text . \"%1\" )").arg(Utils::simpleQuote(wnd_->currentText()));
 	return post;
 }
