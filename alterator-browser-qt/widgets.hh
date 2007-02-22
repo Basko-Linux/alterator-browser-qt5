@@ -3,10 +3,10 @@
 
 #include "al_widget.hh"
 
-QLayout *findViewLayout(const QString& id);
+QLayout* findViewLayout(const QString& id);
 QWidget* findQWidget(const QString& id);
-alWidget* findAlWidget(const QString& id);
-alWidget *findAlWidgetByName(const QString& name);
+alWidget* findAlWidgetById(const QString& id);
+alWidget* findAlWidgetByName(const QString& name);
 QList<alWidget*> findAlChildren(const QString& id);
 
 //widgets

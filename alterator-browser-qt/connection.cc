@@ -6,12 +6,10 @@
 #include <QStringList>
 
 #include "connection.hh"
-#include "mailbox.hh"
 #include "global.hh"
 
 #include "main_window.hh"
 extern MainWindow *main_window;
-extern MailBox *mailbox;
 
 Connection::Connection(QObject *parent):
     QThread(parent)

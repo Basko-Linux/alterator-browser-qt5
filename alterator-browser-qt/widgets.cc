@@ -34,7 +34,7 @@ QWidget* findQWidget(const QString& id)
 	return 0;
 }
 
-alWidget* findAlWidget(const QString& id)
+alWidget* findAlWidgetById(const QString& id)
 {
 	if (!elements.contains(id)) return 0;
 	return elements[id];
