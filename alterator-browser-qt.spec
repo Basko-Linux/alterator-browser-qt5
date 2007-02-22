@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.38
+Version: 2.9.39
 Release: alt1
 
 Source:%name-%version.tar
@@ -60,6 +60,10 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Thu Feb 22 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.39-alt1
+- rename "text" attribute to "current-text" for combobox
+- show splash when long request to alterator
+
 * Fri Feb 16 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.38-alt1
 - resize columns when insert rows to multicolumn listbox
 - change language on language change request
