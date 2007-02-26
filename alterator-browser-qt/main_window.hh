@@ -38,6 +38,7 @@ public slots:
 protected:
 //    virtual void childEvent(QChildEvent*);
     virtual bool event(QEvent*);
+    void startBusy();
 
 private:
     Constraints *constraints;
@@ -59,7 +60,7 @@ private:
     void splashStart();
 
 private slots:
-    void onStartBusy();
+    void onStartBusySplash();
     void onStopBusy();
     void onInternalSplashMessage(const QString& msg);
 
@@ -74,5 +75,7 @@ private slots:
     void onEventRequest(const QString& id,const QString& value);
     void onMessageBoxRequest(const QXmlAttributes& e);
     void onSplashMessageRequest(const QString& msg);
+
+friend class Connection;
 };
 #endif

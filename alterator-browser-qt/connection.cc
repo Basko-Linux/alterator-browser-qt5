@@ -38,7 +38,7 @@ void Connection::init()
 
 void Connection::getDocument(const QString &content)
 {
-    //main_window->setCursor(Qt::BusyCursor);
+    main_window->startBusy();
     wait();
     request_string = makeRequest(content);
     start();
@@ -107,7 +107,7 @@ void Connection::checkRequestIsLong()
 {
     if( isRunning() )
     {
-#if 1
+#if 0
 	emit startLongRequest();
 #else
 	QEvent *e = new QEvent((QEvent::Type)EVENT_REQUEST_LONG_BEGIN);
@@ -118,7 +118,7 @@ void Connection::checkRequestIsLong()
 
 void Connection::endDelayedFinish()
 {
-#if 1
+#if 0
     stopLongRequest();
 #else
     QEvent *e = new QEvent((QEvent::Type)EVENT_REQUEST_LONG_END);

@@ -145,7 +145,7 @@ void MainWindow::start()
 	connect(connection, SIGNAL(retryRequest()),
 	    this, SLOT(onRetryRequest()));
 	connect(connection, SIGNAL(startLongRequest()),
-	    this, SLOT(onStartBusy()));
+	    this, SLOT(onStartBusySplash()));
 	connect(connection, SIGNAL(stopLongRequest()),
 	    this, SLOT(onStopBusy()));
 	connection->init();
@@ -183,7 +183,7 @@ void MainWindow::customEvent(QEvent* e)
     {
 	case EVENT_REQUEST_LONG_BEGIN:
 	{
-	    onStartBusy();
+	    onStartBusySplash();
 	    break;
 	}
 	case EVENT_REQUEST_LONG_END:
@@ -624,20 +624,24 @@ void MainWindow::getDocument(const QString& request)
     connection->getDocument(request);
 }
 
-void MainWindow::onStartBusy()
+void MainWindow::startBusy()
 {
-    onInternalSplashMessage("...");
-    //setEnabled(false);
-    //setCursor(Qt::BusyCursor);
+    grabMouse();
+    grabKeyboard();
+}
+
+void MainWindow::onStartBusySplash()
+{
+    //onInternalSplashMessage("...");
     setCursor(Qt::WaitCursor);
 }
 
 void MainWindow::onStopBusy()
 {
-    //setCursor(Qt::ArrowCursor);
     unsetCursor();
-    //setEnabled(true);
-    onInternalSplashMessage("");
+    //onInternalSplashMessage("");
+    releaseKeyboard();
+    releaseMouse();
 }
 
 void MainWindow::onRetryRequest()
