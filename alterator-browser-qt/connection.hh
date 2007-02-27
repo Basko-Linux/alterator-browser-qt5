@@ -47,6 +47,8 @@ private:
     QString userId;
     QTimer *islong_timer;
     QString request_string;
+    bool destruction;
+
     void getDocParser(alCommand *cmd);
     QString makeRequest(const QString& content);
     void parseAnswer(alRequest *dom);

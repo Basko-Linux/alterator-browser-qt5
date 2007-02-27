@@ -14,13 +14,20 @@ extern MainWindow *main_window;
 Connection::Connection(QObject *parent):
     QThread(parent)
 {
+    destruction = false;
     islong_timer = new QTimer(this);
     connect(this, SIGNAL(started()), this, SLOT(startDelayedFinish()));
     connect(islong_timer, SIGNAL(timeout()), this, SLOT(checkRequestIsLong()));
     connect(this, SIGNAL(finished()), this, SLOT(endDelayedFinish()));
 }
 
-Connection::~Connection() {}
+Connection::~Connection()
+{
+    destruction = true;
+    disconnect();
+    islong_timer->disconnect();
+    wait();
+}
 
 void Connection::init()
 {
@@ -38,6 +45,7 @@ void Connection::init()
 
 void Connection::getDocument(const QString &content)
 {
+    if( destruction ) return;
     main_window->startBusy();
     wait();
     request_string = makeRequest(content);
