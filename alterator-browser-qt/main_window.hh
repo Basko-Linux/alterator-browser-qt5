@@ -53,6 +53,7 @@ private:
     bool alterator_splash;
     int emit_locker;
     QPointer<QSplashScreen> splash;//single splash screen
+    QTimer *busy_timer;
 
     void keyPressEvent(QKeyEvent*);
 //    void showEvent(QShowEvent*);
@@ -61,6 +62,7 @@ private:
 
 private slots:
     void onStartBusySplash();
+    void onStopBusySplash();
     void onStopBusy();
     void onInternalSplashMessage(const QString& msg);
 

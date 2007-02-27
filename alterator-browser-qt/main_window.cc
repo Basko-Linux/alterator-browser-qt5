@@ -88,6 +88,9 @@ MainWindow::MainWindow():
     else
 	setFullScreen(true);
 
+    busy_timer = new QTimer(this);
+
+    connect(busy_timer, SIGNAL(timeout()), this, SLOT(onStopBusy()));
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(stop()));
     QTimer::singleShot(0, this, SLOT(start()));
 }
@@ -147,7 +150,7 @@ void MainWindow::start()
 	connect(connection, SIGNAL(startLongRequest()),
 	    this, SLOT(onStartBusySplash()));
 	connect(connection, SIGNAL(stopLongRequest()),
-	    this, SLOT(onStopBusy()));
+	    this, SLOT(onStopBusySplash()));
 	connection->init();
     }
 }
@@ -188,7 +191,7 @@ void MainWindow::customEvent(QEvent* e)
 	}
 	case EVENT_REQUEST_LONG_END:
 	{
-	    onStopBusy();
+	    onStopBusySplash();
 	    break;
 	}
 	default:
@@ -626,22 +629,28 @@ void MainWindow::getDocument(const QString& request)
 
 void MainWindow::startBusy()
 {
-    grabMouse();
-    grabKeyboard();
+//    grabMouse();
+//    grabKeyboard();
 }
 
 void MainWindow::onStartBusySplash()
 {
-    //onInternalSplashMessage("...");
     setCursor(Qt::WaitCursor);
+}
+
+void MainWindow::onStopBusySplash()
+{
+    if(busy_timer->isActive())
+	busy_timer->stop();
+    busy_timer->setInterval(500);
+    busy_timer->start();
 }
 
 void MainWindow::onStopBusy()
 {
     unsetCursor();
-    //onInternalSplashMessage("");
-    releaseKeyboard();
-    releaseMouse();
+//    releaseKeyboard();
+//    releaseMouse();
 }
 
 void MainWindow::onRetryRequest()
