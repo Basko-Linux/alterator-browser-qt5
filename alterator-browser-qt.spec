@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.39
+Version: 2.9.40
 Release: alt1
 
 Source:%name-%version.tar
@@ -60,6 +60,11 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Tue Feb 27 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.40-alt1
+- turn constraints on
+- wait request thread before quit
+- don't using splash when long request to alterator
+
 * Thu Feb 22 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.39-alt1
 - rename "text" attribute to "current-text" for combobox
 - show splash when long request to alterator
