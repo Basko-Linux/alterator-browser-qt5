@@ -19,8 +19,8 @@ namespace {
 }
 
 
-Constraints::Constraints():
-	QObject()
+Constraints::Constraints(QObject *parent):
+	QObject(parent)
 {
 }
 

@@ -52,6 +52,7 @@ MainWindow::MainWindow():
     alterator_splash = false;
     emit_locker = 0; //wrong emit protector
     connection = 0;
+    constraints = 0;
     qtranslator = 0;
     started = false;
     detect_wm = false;
@@ -104,8 +105,17 @@ void MainWindow::start()
     if( started ) return;
     started = true;
 
-    constraints = new Constraints();
     AMessageBox::initButtonMap();
+
+    if(!constraints)
+	constraints = new Constraints(this);
+    else
+	constraints->disconnect();
+
+    if(!connection)
+	connection = new Connection(this);
+    else
+	connection->disconnect();
 
     QString socketPath;
     QStringList args = QCoreApplication::arguments();
@@ -124,35 +134,38 @@ void MainWindow::start()
     socketPath += "/alterator/browser-sock";
     qDebug("socket path %s ...",qPrintable(socketPath));
     mailbox = new MailBox(socketPath, this);
-    if(!connection)
-    {
-	connection = new Connection(this);
-	connect(connection, SIGNAL(newRequest(const QXmlAttributes&)),
+
+    connect(connection, SIGNAL(newRequest(const QXmlAttributes&)),
 	    this, SLOT(onNewRequest(const QXmlAttributes&)));
-	connect(connection, SIGNAL(closeRequest(const QString&)),
+    connect(connection, SIGNAL(closeRequest(const QString&)),
 	    this, SLOT(onCloseRequest(const QString&)));
-	connect(connection, SIGNAL(cleanRequest(const QString&)),
+    connect(connection, SIGNAL(cleanRequest(const QString&)),
 	    this, SLOT(onCleanRequest(const QString&)));
-	connect(connection, SIGNAL(setRequest(const QString&, const QString&, const QString&)),
+    connect(connection, SIGNAL(setRequest(const QString&, const QString&, const QString&)),
 	    this, SLOT(onSetRequest(const QString&, const QString&, const QString&)));
-	connect(connection, SIGNAL(startRequest(const QString&)),
+    connect(connection, SIGNAL(startRequest(const QString&)),
 	    this, SLOT(onStartRequest(const QString&)));
-	connect(connection, SIGNAL(stopRequest(const QString&)),
+    connect(connection, SIGNAL(stopRequest(const QString&)),
 	    this, SLOT(onStopRequest(const QString&)));
-	connect(connection, SIGNAL(eventRequest(const QString&, const QString&)),
+    connect(connection, SIGNAL(eventRequest(const QString&, const QString&)),
 	    this, SLOT(onEventRequest(const QString&, const QString&)));
-	connect(connection, SIGNAL(messageboxRequest(const QXmlAttributes&)),
+    connect(connection, SIGNAL(messageboxRequest(const QXmlAttributes&)),
 	    this, SLOT(onMessageBoxRequest(const QXmlAttributes&)));
-	connect(connection, SIGNAL(splashMessageRequest(const QString&)),
+    connect(connection, SIGNAL(splashMessageRequest(const QString&)),
 	    this, SLOT(onSplashMessageRequest(const QString&)));
-	connect(connection, SIGNAL(retryRequest()),
+    connect(connection, SIGNAL(retryRequest()),
 	    this, SLOT(onRetryRequest()));
-	connect(connection, SIGNAL(startLongRequest()),
+    connect(connection, SIGNAL(startLongRequest()),
 	    this, SLOT(onStartBusySplash()));
-	connect(connection, SIGNAL(stopLongRequest()),
+    connect(connection, SIGNAL(stopLongRequest()),
 	    this, SLOT(onStopBusySplash()));
-	connection->init();
-    }
+
+    connect(connection, SIGNAL(constraintsAddRequest(const QString&, const QString&, const QString&)),
+	constraints, SLOT(add(const QString&, const QString&, const QString&)));
+    connect(connection, SIGNAL(constraintsClearRequest()), constraints, SLOT(clear()));
+    connect(connection, SIGNAL(constraintsApplyRequest()), constraints, SLOT(apply()));
+
+    connection->init();
 }
 
 void MainWindow::stop()

@@ -21,12 +21,12 @@ Q_OBJECT
 	QList<QString> required;
 
 	public:
-		Constraints();
+		Constraints(QObject *parent = 0);
 		virtual ~Constraints() {}
+	public slots:
 		void clear();
 		void add(const QString& name,const QString& type,const QString& params);
 		void apply();
-	public slots:
 		void exclude();
 };
 
