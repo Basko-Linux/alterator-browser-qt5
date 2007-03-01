@@ -421,7 +421,7 @@ void AWizardFace::setCurrentStep( int n )
 #else
         title_icon->setPixmap(getPixmap("theme:logo_32"));
 #endif
-	title_text->setText(QString("%1 (%2/%3)").arg(item.second).arg(n+1).arg(steps_n));
+	title_text->setText(QString("%1/%2: %3").arg(n+1).arg(steps_n).arg(item.second));
 	current_step = n;
     }
 }
