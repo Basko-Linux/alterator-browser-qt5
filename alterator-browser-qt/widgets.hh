@@ -33,5 +33,6 @@ QList<alWidget*> findAlChildren(const QString& id);
 #include "al_wizard_face.hh"
 #include "al_gridbox.hh"
 #include "al_spinbox.hh"
+#include "al_dateedit.hh"
 
 #endif
