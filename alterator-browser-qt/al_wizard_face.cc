@@ -148,6 +148,10 @@ int AWizardFace::newButtonPosition(ActionType type)
 	    {
 		return -1;
 	    }
+	case ActionAbort:
+	    {
+		return 1;
+	    }
 	case ActionHelp:
 	    {
 		return 1;
@@ -164,6 +168,7 @@ Qt::Alignment AWizardFace::newButtonAlignment(ActionType type)
 {
     switch( type )
     {
+	case ActionAbort:
 	case ActionHelp:
 	    {
 		return Qt::AlignLeft;
@@ -257,6 +262,8 @@ void AWizardFace::addAction(const QString &key, AWizardFace::ActionType type)
 	case ActionCancel:
 	case ActionBackward:
 	case ActionForward:
+	case ActionHelp:
+	case ActionAbort:
 	    {
 		if( !buttons.contains(key) )
 	        {
@@ -272,8 +279,6 @@ void AWizardFace::addAction(const QString &key, AWizardFace::ActionType type)
 		    break;
 		}
 	    }
-	case ActionHelp:
-	case ActionAbort:
 	case ActionGeneric:
 	default:
 	    {
