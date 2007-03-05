@@ -10,13 +10,10 @@ void alTabBox::setAttr(const QString& name,const QString& value)
 {
 	if ("current" == name)
 	{ //find current in elements or save value
-		if (elements.contains(value))
-			wnd_->setCurrentWidget(elements[value]->getWidget());
-		else
-			current_ = value;
+	    wnd_->setCurrentIndex(value.toInt());
 	}
 	else
-		alWidget::setAttr(name,value);
+	    alWidget::setAttr(name,value);
 }
 
 void alTabBox::registerEvent(const QString& name)
@@ -24,6 +21,13 @@ void alTabBox::registerEvent(const QString& name)
        if ("selected" == name)
                connect(wnd_,SIGNAL(currentChanged(int)),SLOT(onSelect(int)));
 }
+
+QString alTabBox::postData() const
+{
+    return QString(" (current . %1 )").arg(wnd_->currentIndex());
+}
+
+// alTabPage
 
 alTabPage::alTabPage(const QString& id,const QString& parent, Qt::Orientation orientation):
     alWidgetPre<QWidget>((orientation==Qt::Vertical)?VTabPage:HTabPage,id,":reparent:"+parent),
