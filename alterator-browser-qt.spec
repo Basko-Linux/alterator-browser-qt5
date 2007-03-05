@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
-Version: 2.9.40
-Release: alt1.1
+Version: 2.9.41
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -60,6 +60,10 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Mon Mar 05 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.41-alt1
+- add dateedit and timeedit widgets
+- make tabbox::current a numeric
+	    
 * Mon Mar 05 2007 Stanislav Ievlev <inger@altlinux.org> 2.9.40-alt1.1
 - add tabbox selected event callback
 
