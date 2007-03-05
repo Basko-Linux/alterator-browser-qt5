@@ -35,7 +35,7 @@ ATimeEdit::ATimeEdit(QWidget *parent):
     lay->setSpacing(0);
 
     clock = new ADigitalClock(this);
-//    clock->hide();
+    clock->hide();
 
     time_edit = new QTimeEdit(this);
     time_edit->setTime(QTime::currentTime());
