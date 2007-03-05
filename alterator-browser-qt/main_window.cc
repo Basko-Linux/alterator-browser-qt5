@@ -430,6 +430,8 @@ void MainWindow::onNewRequest(const QXmlAttributes& attr)
 	else if ("separator" == type)   new_widget = new alSeparator(id,parent,orientation);
 	else if ("spacer" == type)      new_widget = new alSpacer(id,parent);
 	else if ("spinbox" == type)     new_widget = new alSpinBox(id,parent);
+	else if ("dateedit" == type)    new_widget = new alDateEdit(id,parent);
+	else if ("timeedit" == type)    new_widget = new alTimeEdit(id,parent);
 	else if ("listbox" == type)
 	{
 	    int cols = attr.value("columns").toInt();
