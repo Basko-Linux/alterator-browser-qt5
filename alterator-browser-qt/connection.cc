@@ -113,9 +113,9 @@ void Connection::startDelayedFinish()
 
 void Connection::checkRequestIsLong()
 {
+    islong_timer->stop();
     if( isRunning() )
     {
-	islong_timer->stop();
 #if 1
 	emit startLongRequest();
 #else
