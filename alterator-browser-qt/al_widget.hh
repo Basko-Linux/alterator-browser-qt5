@@ -21,7 +21,7 @@ public:
 	    HGroupBox, VGroupBox, CheckBox, ListBox, MultiListBox, ComboBox,
 	    HTabBox, VTabBox, HTabPage, VTabPage, HBox, VBox, GridBox,
 	    ProgressBar, Tree, Slider, Separator, SpinBox,
-	    HelpPlace, Proxy, Spacer, DateEdit
+	    HelpPlace, Proxy, Spacer, DateEdit, TimeEdit
 	};
 signals:
 	void updated();
