@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.40
-Release: alt1
+Release: alt1.1
 
 Source:%name-%version.tar
 
@@ -60,6 +60,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Mon Mar 05 2007 Stanislav Ievlev <inger@altlinux.org> 2.9.40-alt1.1
+- add tabbox selected event callback
+
 * Tue Feb 27 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.40-alt1
 - turn constraints on
 - wait request thread before quit

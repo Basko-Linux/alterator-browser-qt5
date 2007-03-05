@@ -8,29 +8,14 @@
 class alTabBox: public alWidgetPre<QTabWidget>
 {
 public:
-	Qt::Orientation orientation_;
-	QString current_;
 	alTabBox(const QString& id,const QString& parent, Qt::Orientation orientation);
 	void setAttr(const QString& name,const QString& value);
+	void registerEvent(const QString&);
 	Qt::Orientation getOrientation() { return orientation_; };
+private:
+	Qt::Orientation orientation_;
+	QString current_;
 };
-
-class alHTabBox: public alTabBox
-{
-public:
-	alHTabBox(const QString& id,const QString& parent):
-		alTabBox(id,parent,Qt::Horizontal)
-	{}
-};
-
-class alVTabBox: public alTabBox
-{
-public:
-	alVTabBox(const QString& id,const QString& parent):
-		alTabBox(id,parent,Qt::Vertical)
-	{}
-};
-
 
 class alTabPage: public alWidgetPre<QWidget>
 {

@@ -19,6 +19,11 @@ void alTabBox::setAttr(const QString& name,const QString& value)
 		alWidget::setAttr(name,value);
 }
 
+void alTabBox::registerEvent(const QString& name)
+{
+       if ("selected" == name)
+               connect(wnd_,SIGNAL(currentChanged(int)),SLOT(onSelect(int)));
+}
 
 alTabPage::alTabPage(const QString& id,const QString& parent, Qt::Orientation orientation):
     alWidgetPre<QWidget>((orientation==Qt::Vertical)?VTabPage:HTabPage,id,":reparent:"+parent),
