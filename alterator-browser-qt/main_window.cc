@@ -661,6 +661,7 @@ void MainWindow::onStopBusySplash()
 
 void MainWindow::onStopBusy()
 {
+    busy_timer->stop();
     unsetCursor();
 //    releaseKeyboard();
 //    releaseMouse();
