@@ -23,9 +23,8 @@ ADateEdit::ADateEdit(QWidget *parent):
 
     connect(calendar, SIGNAL(activated(const QDate&)), date_edit, SLOT(setDate(const QDate&)));
     connect(calendar, SIGNAL(clicked(const QDate&)), date_edit, SLOT(setDate(const QDate&)));
+    connect(calendar, SIGNAL(selectionChanged()), this, SIGNAL(changed()));
     connect(date_edit, SIGNAL(dateChanged(const QDate&)), calendar, SLOT(setSelectedDate(const QDate&)));
-
-    connect(calendar, SIGNAL(editingFinished()), this, SIGNAL(changed()));
 }
 
 ADateEdit::~ADateEdit()
@@ -33,10 +32,7 @@ ADateEdit::~ADateEdit()
 
 void ADateEdit::setDate(const QString& new_date)
 {
-    QVariant x(new_date);
-    QDate xdate = x.toDate();
-    calendar->setSelectedDate(xdate);
-    date_edit->setDate(xdate);
+    date_edit->setDate(QDate::fromString(new_date, Qt::ISODate));
 }
 
 QString ADateEdit::date()

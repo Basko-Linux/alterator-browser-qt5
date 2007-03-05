@@ -15,12 +15,6 @@ public:
 
 public slots:
     void setTime(const QTime&);
-
-private slots:
-    void showTime();
-
-private:
-    QTime own_time;
 };
 
 class ATimeEdit: public QWidget
@@ -37,14 +31,15 @@ public:
 signals:
     void changed();
 
-private slots:
-    void onChange();
-
 private:
     ADigitalClock *clock;
     QTimeEdit *time_edit;
     QVBoxLayout *lay;
-    QTime own_time;
+    int offset;
+
+private slots:
+    void showTime();
+    void onChange(const QTime&);
 };
 
 

@@ -4,36 +4,23 @@
 ADigitalClock::ADigitalClock(QWidget *parent)
     : QLCDNumber(parent)
 {
-    own_time = QTime::currentTime();
-    own_time.start();
-
+    setNumDigits( 8 );
     setSegmentStyle(Filled);
 
-    showTime();
-
-    QTimer *timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(showTime()));
-
-    timer->start(1000);
+    setTime(QTime::currentTime());
 }
 
 ADigitalClock::~ADigitalClock()
 {}
 
-void ADigitalClock::showTime()
+void ADigitalClock::setTime(const QTime& new_time)
 {
-    QString text = own_time.toString("hh:mm:ss");
-    if( (own_time.second() % 2) == 0 )
+    QString text = new_time.toString("hh:mm:ss");
+    if( (new_time.second() % 2) == 0 )
     {
-        text[2] = ' ';
         text[5] = ' ';
     }
     display(text);
-}
-
-void ADigitalClock::setTime(const QTime& new_time)
-{
-    own_time = new_time;
 }
 
 // ATimeEdit
@@ -41,25 +28,25 @@ void ADigitalClock::setTime(const QTime& new_time)
 ATimeEdit::ATimeEdit(QWidget *parent):
     QWidget(parent)
 {
-    own_time = QTime::currentTime();
-    own_time.start();
+    offset = 0;
 
     lay = new QVBoxLayout(this);
     lay->setMargin(0);
     lay->setSpacing(0);
 
     clock = new ADigitalClock(this);
-    clock->setVisible(false);
+//    clock->hide();
 
     time_edit = new QTimeEdit(this);
-    time_edit->setTime(own_time);
+    time_edit->setTime(QTime::currentTime());
 
     lay->addWidget(clock);
     lay->addWidget(time_edit);
 
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(showTime()));
-    connect(time_edit, SIGNAL(editingFinished()), this, SIGNAL(onChange()));
+    connect(time_edit, SIGNAL(timeChanged(const QTime&)), this, SLOT(onChange(const QTime&)));
+    connect(time_edit, SIGNAL(editingFinished()), this, SIGNAL(changed()));
 
     timer->start(1000);
 }
@@ -69,10 +56,7 @@ ATimeEdit::~ATimeEdit()
 
 void ATimeEdit::setTime(const QString& new_time)
 {
-    QVariant x(new_time);
-    QTime xtime = x.toTime();
-    clock->setTime(xtime);
-    time_edit->setTime(xtime);
+    time_edit->setTime(QTime::fromString(new_time, Qt::ISODate));
 }
 
 QString ATimeEdit::time()
@@ -82,14 +66,22 @@ QString ATimeEdit::time()
 
 void ATimeEdit::setExpanded(bool expand)
 {
-    clock->setVisible(expand);
+    if(expand)
+	clock->show();
+    else
+	clock->hide();
     lay->setSpacing(expand?5:0);
 }
 
-void ATimeEdit::onChange()
+void ATimeEdit::onChange(const QTime& new_time)
 {
-    clock->setTime(time_edit->time());
-    emit changed();
+    offset = QTime::currentTime().secsTo(new_time);
+    clock->setTime(new_time);
+}
+
+void ATimeEdit::showTime()
+{
+    time_edit->setTime(QTime::currentTime().addSecs(offset));
 }
 
 // alTimeEdit
