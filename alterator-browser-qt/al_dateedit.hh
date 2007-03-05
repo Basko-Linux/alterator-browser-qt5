@@ -1,5 +1,5 @@
-#ifndef QTBROWSER_AL_DIALOG_HH
-#define QTBROWSER_AL_DIALOG_HH
+#ifndef QTBROWSER_AL_DATEEDIT_HH
+#define QTBROWSER_AL_DATEEDIT_HH
 
 #include <QCalendarWidget>
 #include <QDateEdit>
@@ -23,6 +23,7 @@ signals:
 private:
     QDateEdit *date_edit;
     QCalendarWidget *calendar;
+    QVBoxLayout *lay;
 };
 
 

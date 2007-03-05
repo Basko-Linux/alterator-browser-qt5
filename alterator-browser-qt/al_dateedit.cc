@@ -4,9 +4,12 @@
 ADateEdit::ADateEdit(QWidget *parent):
     QWidget(parent)
 {
-    QVBoxLayout *lay = new QVBoxLayout(this);
+    lay = new QVBoxLayout(this);
+    lay->setMargin(0);
+    lay->setSpacing(0);
 
     calendar = new QCalendarWidget(this);
+    calendar->setVisible(false);
     calendar->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader);
 
     date_edit = new QDateEdit(this);
@@ -36,6 +39,7 @@ QString ADateEdit::date()
 void ADateEdit::setExpanded(bool expand)
 {
     calendar->setVisible(expand);
+    lay->setSpacing(expand?5:0);
 }
 
 // alDateEdit
