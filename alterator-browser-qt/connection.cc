@@ -115,6 +115,7 @@ void Connection::checkRequestIsLong()
 {
     if( isRunning() )
     {
+	islong_timer->stop();
 #if 1
 	emit startLongRequest();
 #else
