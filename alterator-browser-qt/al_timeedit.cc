@@ -95,7 +95,7 @@ void alTimeEdit::setAttr(const QString& name,const QString& value)
     if ("text" == name)
         wnd_->setTime(value);
     else if ("expanded" == name)
-        wnd_->setExpanded("false" == value);
+        wnd_->setExpanded("true" == value);
     else
         alWidget::setAttr(name,value);
 }
