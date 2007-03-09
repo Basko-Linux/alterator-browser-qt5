@@ -2,9 +2,26 @@
 #define QTBROWSER_AL_TIMEEDIT_HH
 
 #include <QLCDNumber>
+#include <QPen>
 #include <QTimeEdit>
 
 #include "al_widget.hh"
+
+class AAnalogClock: public QWidget
+{
+public:
+    AAnalogClock(QWidget *parent = 0);
+    ~AAnalogClock();
+
+    void setOffset(int);
+    virtual void paintEvent(QPaintEvent*);
+
+private:
+    QPixmap *orig;
+    int offset;
+    double deg_per_hou, deg_per_min, deg_per_sec;
+    QPen hpen, mpen, spen;
+};
 
 class ADigitalClock : public QLCDNumber
 {

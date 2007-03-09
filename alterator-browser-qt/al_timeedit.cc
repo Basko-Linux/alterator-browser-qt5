@@ -1,5 +1,68 @@
 
+#include <QPainter>
+
 #include "al_timeedit.hh"
+
+AAnalogClock::AAnalogClock(QWidget *parent):
+    QWidget(parent)
+{
+    offset = 0;
+    deg_per_hou = 360.0 / 12.0;
+    deg_per_min = 360.0 / 60.0;
+    deg_per_sec = 360.0 / 60.0;
+    hpen = QPen(QColor("black")); hpen.setWidth(4); hpen.setCapStyle(Qt::RoundCap);
+    mpen = QPen(QColor("black")); mpen.setWidth(2); mpen.setCapStyle(Qt::RoundCap);
+    spen = QPen(QColor("red"));   spen.setWidth(1);
+
+    orig = new QPixmap("clock.png");
+    //setFixedWidth(orig->width());
+    //setFixedHeight(orig->height());
+}
+
+AAnalogClock::~AAnalogClock()
+{}
+
+void AAnalogClock::setOffset(int offs)
+{
+    offset = offs;
+}
+
+void AAnalogClock::paintEvent(QPaintEvent*)
+{
+	QPainter p(this);
+	p.setRenderHints(QPainter::Antialiasing);
+	int x, y;
+	QTime tm = (QTime::currentTime()).addSecs(offset);
+	int h = tm.hour();
+	int m = tm.minute();
+	int s = tm.second();
+
+	p.drawPixmap(QPoint(0,0), *orig);
+	p.translate(64, 64);
+	
+	double deg;
+
+	// hours
+	deg = deg_per_hou * h;
+	p.rotate(deg);
+	p.setPen(hpen);
+	p.drawLine(0, 0, 0, -33);
+	p.rotate(-deg);
+
+	// minutes
+	deg = deg_per_min * m;
+	p.rotate(deg);
+	p.setPen(mpen);
+	p.drawLine(0, 0, 0, -46);
+	p.rotate(-deg);
+
+	// seconds
+	deg = deg_per_sec * s;
+	p.rotate(deg);
+	p.setPen(spen);
+	p.drawLine(0, 0, 0, -50);
+	p.rotate(-deg);
+}
 
 ADigitalClock::ADigitalClock(QWidget *parent)
     : QLCDNumber(parent)
