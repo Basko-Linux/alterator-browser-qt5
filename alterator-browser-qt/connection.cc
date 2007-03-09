@@ -17,7 +17,6 @@ Connection::Connection(QObject *parent):
     destruction = false;
     islong_timer = new QTimer(this);
     connect(this, SIGNAL(started()), this, SLOT(startDelayedFinish()));
-    connect(islong_timer, SIGNAL(timeout()), this, SLOT(checkRequestIsLong()));
     connect(this, SIGNAL(finished()), this, SLOT(endDelayedFinish()));
 }
 
@@ -25,7 +24,7 @@ Connection::~Connection()
 {
     destruction = true;
     disconnect();
-    islong_timer->disconnect();
+    islong_timer->stop();
     wait();
 }
 
@@ -105,15 +104,11 @@ void Connection::run()
 void Connection::startDelayedFinish()
 {
     if( !islong_timer->isActive() )
-    {
-	islong_timer->setInterval(500);
-	islong_timer->start();
-    }
+	islong_timer->singleShot(500, this, SLOT(checkRequestIsLong()));
 }
 
 void Connection::checkRequestIsLong()
 {
-    islong_timer->stop();
     if( isRunning() )
     {
 #if 1

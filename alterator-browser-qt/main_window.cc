@@ -91,7 +91,6 @@ MainWindow::MainWindow():
 
     busy_timer = new QTimer(this);
 
-    connect(busy_timer, SIGNAL(timeout()), this, SLOT(onStopBusy()));
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(stop()));
     QTimer::singleShot(0, this, SLOT(start()));
 }
@@ -657,13 +656,11 @@ void MainWindow::onStopBusySplash()
 {
     if(busy_timer->isActive())
 	busy_timer->stop();
-    busy_timer->setInterval(500);
-    busy_timer->start();
+    busy_timer->singleShot(500, this, SLOT(onStopBusy()));
 }
 
 void MainWindow::onStopBusy()
 {
-    busy_timer->stop();
     unsetCursor();
 //    releaseKeyboard();
 //    releaseMouse();
