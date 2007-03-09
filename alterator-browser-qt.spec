@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.41
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -60,6 +60,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Fri Mar 09 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.41-alt2
+- fix expanded attribute
+
 * Mon Mar 05 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.41-alt1
 - add dateedit and timeedit widgets
 - make tabbox::current a numeric
