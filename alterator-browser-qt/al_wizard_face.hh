@@ -81,6 +81,7 @@ private:
     QHBoxLayout* buttons_layout;
     QFrame* buttons_widget;
     QWidget* view_widget;
+    QLabel *logo_icon;
     QFrame* title_widget;
     QLabel* title_icon;
     QLabel* title_text;

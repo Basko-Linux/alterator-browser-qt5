@@ -27,11 +27,17 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
 
     title_widget = new QFrame(this);
     title_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
-    title_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
+    //title_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
 
     title_icon = new QLabel(title_widget);
     title_icon->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     title_icon->setAlignment(Qt::AlignLeft);
+
+    logo_icon = new QLabel(this);
+    logo_icon->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+    logo_icon->setAlignment(Qt::AlignRight);
+    //logo_icon->setPixmap(getPixmap("theme:logo_32"));
+    logo_icon->setPixmap(getPixmap("logo_32"));
 
     title_text = new QLabel(title_widget);
     title_text->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
@@ -55,7 +61,7 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
 
     buttons_widget = new QFrame(this);
     buttons_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
-    buttons_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
+    //buttons_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
 
     menu_btn = new QPushButton(translateActionText("Menu"), buttons_widget);
     menu_btn->hide();
@@ -64,14 +70,21 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     menu_btn->setMenu(menu);
 
     title_layout = new QHBoxLayout( title_widget );
+    title_layout->setMargin(0);
+    title_layout->setSpacing(5);
     buttons_layout = new QHBoxLayout( buttons_widget );
+    buttons_layout->setMargin(5);
+    buttons_layout->setSpacing(5);
     main_layout = new QGridLayout(this);
+    main_layout->setMargin(5);
+    main_layout->setSpacing(5);
     main_layout->addWidget( title_widget, 0, 0 );
     main_layout->addWidget( scroll, 1, 0);
     main_layout->addWidget( buttons_widget, 2, 0);
 
     title_layout->insertWidget(0, title_icon, 0, Qt::AlignLeft);
     title_layout->addWidget( title_text );
+    title_layout->insertWidget(2, logo_icon, 0, Qt::AlignRight);
     buttons_layout->insertWidget(0, menu_btn, 0, Qt::AlignLeft);
     buttons_layout->insertStretch(1, 1);
 
@@ -421,11 +434,7 @@ void AWizardFace::setCurrentStep( int n )
     if( n < steps_n )
     {
 	QPair<QString, QString> item = steplist.value(n, QPair<QString, QString>("",""));
-#if 0
         title_icon->setPixmap(getPixmap(item.first));
-#else
-        title_icon->setPixmap(getPixmap("theme:logo_32"));
-#endif
 	title_text->setText(QString("%1/%2: %3").arg(n+1).arg(steps_n).arg(item.second));
 	current_step = n;
     }
