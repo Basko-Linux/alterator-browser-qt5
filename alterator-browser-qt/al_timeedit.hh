@@ -13,25 +13,14 @@ public:
     AAnalogClock(QWidget *parent = 0);
     ~AAnalogClock();
 
-    void setOffset(int);
     virtual void paintEvent(QPaintEvent*);
 
+    void setOffcet(int);
+
 private:
-    QPixmap *orig;
     int offset;
     double deg_per_hou, deg_per_min, deg_per_sec;
     QPen hpen, mpen, spen;
-};
-
-class ADigitalClock : public QLCDNumber
-{
-Q_OBJECT;
-public:
-    ADigitalClock(QWidget *parent = 0);
-    ~ADigitalClock();
-
-public slots:
-    void setTime(const QTime&);
 };
 
 class ATimeEdit: public QWidget
@@ -49,7 +38,7 @@ signals:
     void changed();
 
 private:
-    ADigitalClock *clock;
+    AAnalogClock *clock;
     QTimeEdit *time_edit;
     QVBoxLayout *lay;
     int offset;

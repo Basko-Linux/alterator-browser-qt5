@@ -7,83 +7,76 @@ AAnalogClock::AAnalogClock(QWidget *parent):
     QWidget(parent)
 {
     offset = 0;
-    deg_per_hou = 360.0 / 12.0;
-    deg_per_min = 360.0 / 60.0;
-    deg_per_sec = 360.0 / 60.0;
+    deg_per_hou = 360 / 12;
+    deg_per_min = 360 / 60;
+    deg_per_sec = 360 / 60;
     hpen = QPen(QColor("black")); hpen.setWidth(4); hpen.setCapStyle(Qt::RoundCap);
     mpen = QPen(QColor("black")); mpen.setWidth(2); mpen.setCapStyle(Qt::RoundCap);
     spen = QPen(QColor("red"));   spen.setWidth(1);
 
-    orig = new QPixmap("clock.png");
-    //setFixedWidth(orig->width());
-    //setFixedHeight(orig->height());
+    QTimer *timer = new QTimer(this);
+    timer->setInterval(1000);
+    connect(timer, SIGNAL(timeout()), this, SLOT(repaint()));
+    timer->start();
 }
 
 AAnalogClock::~AAnalogClock()
 {}
 
-void AAnalogClock::setOffset(int offs)
+void AAnalogClock::setOffcet(int new_offcet)
 {
-    offset = offs;
+    offset = new_offcet;
 }
 
 void AAnalogClock::paintEvent(QPaintEvent*)
 {
-	QPainter p(this);
-	p.setRenderHints(QPainter::Antialiasing);
-	int x, y;
 	QTime tm = (QTime::currentTime()).addSecs(offset);
 	int h = tm.hour();
 	int m = tm.minute();
 	int s = tm.second();
 
-	p.drawPixmap(QPoint(0,0), *orig);
-	p.translate(64, 64);
-	
-	double deg;
+	QPainter p(this);
+	p.setRenderHints(QPainter::Antialiasing);
 
+	int wdth = width();
+	int hght = height();
+	int hpen_w = hpen.width();
+
+	int round;
+	if( wdth > hght  )
+	    round = hght-hpen_w;
+	else
+	    round = wdth-hpen_w;
+
+	int round_x, round_y;
+	round_x = round_y = -round/2;
+
+	p.translate(wdth/2, hght/2);
+
+	p.setPen(hpen);
+	p.drawEllipse(QRect(round_x, round_y, round, round));
+
+	double deg;
 	// hours
 	deg = deg_per_hou * h;
 	p.rotate(deg);
 	p.setPen(hpen);
-	p.drawLine(0, 0, 0, -33);
+	p.drawLine(0, 0, 0, -(round*0.3));
 	p.rotate(-deg);
 
 	// minutes
 	deg = deg_per_min * m;
 	p.rotate(deg);
 	p.setPen(mpen);
-	p.drawLine(0, 0, 0, -46);
+	p.drawLine(0, 0, 0, -(round*0.45));
 	p.rotate(-deg);
 
 	// seconds
 	deg = deg_per_sec * s;
 	p.rotate(deg);
 	p.setPen(spen);
-	p.drawLine(0, 0, 0, -50);
+	p.drawLine(0, 0, 0, -(round*0.45));
 	p.rotate(-deg);
-}
-
-ADigitalClock::ADigitalClock(QWidget *parent)
-    : QLCDNumber(parent)
-{
-    setNumDigits( 8 );
-    setSegmentStyle(Filled);
-
-    setTime(QTime::currentTime());
-}
-
-ADigitalClock::~ADigitalClock()
-{}
-
-void ADigitalClock::setTime(const QTime& new_time)
-{
-    QString text = new_time.toString("hh:mm:ss");
-    if( (new_time.second() % 2) == 0 )
-    {
-        text[5] = ' ';
-    }
-    display(text);
 }
 
 // ATimeEdit
@@ -97,7 +90,7 @@ ATimeEdit::ATimeEdit(QWidget *parent):
     lay->setMargin(0);
     lay->setSpacing(0);
 
-    clock = new ADigitalClock(this);
+    clock = new AAnalogClock(this);
     clock->hide();
 
     time_edit = new QTimeEdit(this);
@@ -139,7 +132,7 @@ void ATimeEdit::setExpanded(bool expand)
 void ATimeEdit::onChange(const QTime& new_time)
 {
     offset = QTime::currentTime().secsTo(new_time);
-    clock->setTime(new_time);
+    clock->setOffcet(offset);
 }
 
 void ATimeEdit::showTime()
