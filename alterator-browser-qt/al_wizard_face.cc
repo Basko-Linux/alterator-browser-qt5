@@ -70,7 +70,10 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     menu_btn->setMenu(menu);
 
     title_layout = new QHBoxLayout( title_widget );
-    title_layout->setMargin(0);
+    if( logo_icon->pixmap()->height() > title_text->font().pointSize() )
+	title_layout->setMargin(0);
+    else
+	title_layout->setMargin(5);
     title_layout->setSpacing(5);
     buttons_layout = new QHBoxLayout( buttons_widget );
     buttons_layout->setMargin(5);
