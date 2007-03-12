@@ -43,10 +43,10 @@ private slots:
     void endDelayedFinish();
 
 private:
+    QStringList requests;
     QString sessionId;
     QString userId;
     QTimer *islong_timer;
-    QString request_string;
     bool destruction;
 
     void getDocParser(alCommand *cmd);

@@ -46,9 +46,9 @@ void Connection::getDocument(const QString &content)
 {
     if( destruction ) return;
     main_window->startBusy();
-    wait();
-    request_string = makeRequest(content);
-    start();
+    requests.append(makeRequest(content));
+    if(!isRunning())
+	start();
 }
 
 QString Connection::makeRequest(const QString& content)
@@ -96,9 +96,12 @@ QString Connection::createLangList()
 
 void Connection::run()
 {
-    std::cout<< request_string.toUtf8().data() << std::endl << std::flush;
-    std::auto_ptr<alRequest> dom(readRequest());
-    parseAnswer(dom.get());
+    while(!requests.isEmpty())
+    {
+	std::cout<< requests.takeFirst().toUtf8().data() << std::endl << std::flush;
+	std::auto_ptr<alRequest> dom(readRequest());
+	parseAnswer(dom.get());
+    }
 }
 
 void Connection::startDelayedFinish()
