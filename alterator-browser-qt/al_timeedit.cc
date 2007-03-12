@@ -6,10 +6,12 @@
 AAnalogClock::AAnalogClock(QWidget *parent):
     QWidget(parent)
 {
+    setMinimumSize(64, 64);
+
     offset = 0;
-    deg_per_hou = 360 / 12;
-    deg_per_min = 360 / 60;
-    deg_per_sec = 360 / 60;
+    deg_per_hou = 360/12;
+    deg_per_min = 360/60;
+    deg_per_sec = 360/60;
     hpen = QPen(QColor("black")); hpen.setWidth(4); hpen.setCapStyle(Qt::RoundCap);
     mpen = QPen(QColor("black")); mpen.setWidth(2); mpen.setCapStyle(Qt::RoundCap);
     spen = QPen(QColor("red"));   spen.setWidth(1);
@@ -57,25 +59,19 @@ void AAnalogClock::paintEvent(QPaintEvent*)
 	p.drawEllipse(QRect(round_x, round_y, round, round));
 
 	double deg;
-	// hours
 	deg = deg_per_hou * h;
 	p.rotate(deg);
-	p.setPen(hpen);
-	p.drawLine(0, 0, 0, -(round*0.3));
+	p.setPen(hpen);	p.drawLine(0, 0, 0, -(round*0.3));
 	p.rotate(-deg);
 
-	// minutes
 	deg = deg_per_min * m;
 	p.rotate(deg);
-	p.setPen(mpen);
-	p.drawLine(0, 0, 0, -(round*0.45));
+	p.setPen(mpen);	p.drawLine(0, 0, 0, -(round*0.45));
 	p.rotate(-deg);
 
-	// seconds
 	deg = deg_per_sec * s;
 	p.rotate(deg);
-	p.setPen(spen);
-	p.drawLine(0, 0, 0, -(round*0.45));
+	p.setPen(spen);	p.drawLine(0, 0, 0, -(round*0.45));
 	p.rotate(-deg);
 }
 
@@ -94,6 +90,7 @@ ATimeEdit::ATimeEdit(QWidget *parent):
     clock->hide();
 
     time_edit = new QTimeEdit(this);
+    time_edit->setSizePolicy(QSizePolicy::Maximum, time_edit->sizePolicy().verticalPolicy());
     time_edit->setTime(QTime::currentTime());
 
     lay->addWidget(clock);

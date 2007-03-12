@@ -15,6 +15,7 @@ ADateEdit::ADateEdit(QWidget *parent):
     calendar->setFirstDayOfWeek( Qt::Monday ); // FIXME
 
     date_edit = new QDateEdit(this);
+    date_edit->setSizePolicy(QSizePolicy::Maximum, date_edit->sizePolicy().verticalPolicy());
     date_edit->setDate(calendar->selectedDate());
     date_edit->setCalendarPopup( true );
 
