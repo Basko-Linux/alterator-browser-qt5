@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
-Version: 2.9.41
-Release: alt2
+Version: 2.9.42
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -60,6 +60,10 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Mon Mar 12 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.42-alt1
+- make analog clock in timeedit
+- use steps icons in wizardface
+
 * Fri Mar 09 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.41-alt2
 - fix expanded attribute
 
