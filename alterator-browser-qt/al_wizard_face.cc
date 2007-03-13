@@ -37,7 +37,7 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     logo_icon->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     logo_icon->setAlignment(Qt::AlignRight);
     //logo_icon->setPixmap(getPixmap("theme:logo_32"));
-    logo_icon->setPixmap(getPixmap("logo_32"));
+    logo_icon->setPixmap(getPixmap("logo_48"));
 
     title_text = new QLabel(title_widget);
     title_text->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
