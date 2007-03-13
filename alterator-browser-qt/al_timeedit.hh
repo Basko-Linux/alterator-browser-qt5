@@ -23,7 +23,7 @@ private:
     QTimer *tmr;
     int offset;
     double deg_per_hou, deg_per_min, deg_per_sec;
-    QPen hpen, mpen, spen;
+    QPen hpen, mpen, spen, rpen;
 };
 
 class ATimeEdit: public QWidget

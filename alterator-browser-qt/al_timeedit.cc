@@ -12,6 +12,7 @@ AAnalogClock::AAnalogClock(QWidget *parent):
     deg_per_hou = 360/12;
     deg_per_min = 360/60;
     deg_per_sec = 360/60;
+    rpen = QPen(QColor("grey")); rpen.setWidth(4);
     hpen = QPen(QColor("black")); hpen.setWidth(4); hpen.setCapStyle(Qt::RoundCap);
     mpen = QPen(QColor("black")); mpen.setWidth(2); mpen.setCapStyle(Qt::RoundCap);
     spen = QPen(QColor("red"));   spen.setWidth(1);
@@ -66,7 +67,7 @@ void AAnalogClock::paintEvent(QPaintEvent*)
 
 	p.translate(wdth/2, hght/2);
 
-	p.setPen(hpen);
+	p.setPen(rpen);
 	p.drawEllipse(QRect(round_x, round_y, round, round));
 
 	double deg;
