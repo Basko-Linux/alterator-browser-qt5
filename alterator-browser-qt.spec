@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.42
+Version: 2.9.43
 Release: alt1
 
 Source:%name-%version.tar
@@ -60,6 +60,10 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Tue Mar 13 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.43-alt1
+- add start/stop attributes to timeedit
+- rearrange wizardface widgets
+
 * Mon Mar 12 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.42-alt1
 - make analog clock in timeedit
 - use steps icons in wizardface
