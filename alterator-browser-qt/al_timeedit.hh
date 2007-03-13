@@ -16,8 +16,11 @@ public:
     virtual void paintEvent(QPaintEvent*);
 
     void setOffcet(int);
+    void start();
+    void stop();
 
 private:
+    QTimer *tmr;
     int offset;
     double deg_per_hou, deg_per_min, deg_per_sec;
     QPen hpen, mpen, spen;
@@ -33,11 +36,14 @@ public:
     void setExpanded(bool);
     void setTime(const QString&);
     QString time();
+    void start();
+    void stop();
 
 signals:
     void changed();
 
 private:
+    QTimer *tmr;
     AAnalogClock *clock;
     QTimeEdit *time_edit;
     QVBoxLayout *lay;

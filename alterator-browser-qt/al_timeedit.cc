@@ -16,10 +16,10 @@ AAnalogClock::AAnalogClock(QWidget *parent):
     mpen = QPen(QColor("black")); mpen.setWidth(2); mpen.setCapStyle(Qt::RoundCap);
     spen = QPen(QColor("red"));   spen.setWidth(1);
 
-    QTimer *timer = new QTimer(this);
-    timer->setInterval(1000);
-    connect(timer, SIGNAL(timeout()), this, SLOT(repaint()));
-    timer->start();
+    tmr = new QTimer(this);
+    tmr->setInterval(1000);
+    connect(tmr, SIGNAL(timeout()), this, SLOT(repaint()));
+    start();
 }
 
 AAnalogClock::~AAnalogClock()
@@ -28,6 +28,17 @@ AAnalogClock::~AAnalogClock()
 void AAnalogClock::setOffcet(int new_offcet)
 {
     offset = new_offcet;
+}
+
+void AAnalogClock::start()
+{
+    offset = 0;
+    tmr->start();
+}
+
+void AAnalogClock::stop()
+{
+    tmr->stop();
 }
 
 void AAnalogClock::paintEvent(QPaintEvent*)
@@ -96,16 +107,30 @@ ATimeEdit::ATimeEdit(QWidget *parent):
     lay->addWidget(clock);
     lay->addWidget(time_edit);
 
-    QTimer *timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(showTime()));
+    tmr = new QTimer(this);
+    tmr->setInterval(1000);
+    connect(tmr, SIGNAL(timeout()), this, SLOT(showTime()));
     connect(time_edit, SIGNAL(timeChanged(const QTime&)), this, SLOT(onChange(const QTime&)));
     connect(time_edit, SIGNAL(editingFinished()), this, SIGNAL(changed()));
 
-    timer->start(1000);
+    start();
 }
 
 ATimeEdit::~ATimeEdit()
 {}
+
+void ATimeEdit::start()
+{
+    offset = 0;
+    tmr->start();
+    clock->start();
+}
+
+void ATimeEdit::stop()
+{
+    clock->stop();
+    tmr->stop();
+}
 
 void ATimeEdit::setTime(const QString& new_time)
 {
@@ -147,6 +172,10 @@ void alTimeEdit::setAttr(const QString& name,const QString& value)
 {
     if ("text" == name)
         wnd_->setTime(value);
+    if ("start" == name)
+        wnd_->start();
+    if ("stop" == name)
+        wnd_->stop();
     else if ("expanded" == name)
         wnd_->setExpanded("true" == value);
     else
