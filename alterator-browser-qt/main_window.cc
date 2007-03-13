@@ -641,12 +641,6 @@ void MainWindow::getDocument(const QString& request)
     connection->getDocument(request);
 }
 
-void MainWindow::startBusy()
-{
-//    grabMouse();
-//    grabKeyboard();
-}
-
 void MainWindow::onStartBusySplash()
 {
     setCursor(Qt::WaitCursor);

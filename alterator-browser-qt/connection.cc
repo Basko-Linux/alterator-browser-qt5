@@ -45,7 +45,6 @@ void Connection::init()
 void Connection::getDocument(const QString &content)
 {
     if( destruction ) return;
-    main_window->startBusy();
     requests.append(makeRequest(content));
     if(!isRunning())
 	start();
