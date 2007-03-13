@@ -31,7 +31,7 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
 
     title_icon = new QLabel(title_widget);
     title_icon->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
-    title_icon->setAlignment(Qt::AlignLeft);
+    //title_icon->setAlignment(Qt::AlignCenter);
 
     logo_icon = new QLabel(this);
     logo_icon->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
@@ -40,8 +40,8 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     logo_icon->setPixmap(getPixmap("logo_48"));
 
     title_text = new QLabel(title_widget);
-    title_text->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
-    title_text->setAlignment(Qt::AlignCenter);
+    title_text->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    title_text->setAlignment(Qt::AlignLeft);
     QFont title_text_font = title_text->font();
     title_text_font.setBold(true);
 //    int title_text_font_px_size = (int)(title_text_font.pixelSize()*1.5);
@@ -59,37 +59,50 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     scroll->setWidget(view_widget);
     scroll->setWidgetResizable( true );
 
-    buttons_widget = new QFrame(this);
-    buttons_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
-    //buttons_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
+    bottom_widget = new QFrame(this);
+    bottom_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+    //bottom_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
 
-    menu_btn = new QPushButton(translateActionText("Menu"), buttons_widget);
+    menu_btn = new QPushButton(translateActionText("Menu"), bottom_widget);
     menu_btn->hide();
     menu_btn->setIcon(QIcon(getPixmap("theme:up")));
     menu = new QMenu();
     menu_btn->setMenu(menu);
 
     title_layout = new QHBoxLayout( title_widget );
-    if( logo_icon->pixmap()->height() > title_text->font().pointSize() )
-	title_layout->setMargin(0);
-    else
-	title_layout->setMargin(5);
+    title_layout->setMargin(0);
     title_layout->setSpacing(5);
-    buttons_layout = new QHBoxLayout( buttons_widget );
-    buttons_layout->setMargin(5);
-    buttons_layout->setSpacing(5);
+
+    QHBoxLayout *bottom_layout = new QHBoxLayout(bottom_widget);
+    bottom_layout->setMargin(0);
+    bottom_layout->setSpacing(0);
+
     main_layout = new QGridLayout(this);
     main_layout->setMargin(5);
     main_layout->setSpacing(5);
     main_layout->addWidget( title_widget, 0, 0 );
     main_layout->addWidget( scroll, 1, 0);
-    main_layout->addWidget( buttons_widget, 2, 0);
+    main_layout->addWidget( bottom_widget, 2, 0);
 
-    title_layout->insertWidget(0, title_icon, 0, Qt::AlignLeft);
-    title_layout->addWidget( title_text );
-    title_layout->insertWidget(2, logo_icon, 0, Qt::AlignRight);
-    buttons_layout->insertWidget(0, menu_btn, 0, Qt::AlignLeft);
-    buttons_layout->insertStretch(1, 1);
+    menu_layout = new QHBoxLayout();
+    menu_layout->setMargin(5);
+    menu_layout->setSpacing(5);
+
+    buttons_layout = new QHBoxLayout();
+    buttons_layout->setMargin(5);
+    buttons_layout->setSpacing(5);
+
+    title_layout->insertStretch(0, 1);
+    title_layout->insertWidget(1, title_icon, 0, Qt::AlignRight);
+    title_layout->insertWidget(2, title_text, 0, Qt::AlignLeft);
+    title_layout->insertStretch(3, 1);
+
+    bottom_layout->addLayout(menu_layout, Qt::AlignLeft);
+    bottom_layout->addLayout(buttons_layout, Qt::AlignCenter);
+    bottom_layout->addWidget(logo_icon, Qt::AlignCenter);
+
+    menu_layout->insertWidget(0, menu_btn, 0, Qt::AlignLeft);
+    buttons_layout->insertStretch(0, 1);
 
     action_signal_mapper = new QSignalMapper(this);
     connect(action_signal_mapper, SIGNAL(mapped(const QString &)),
@@ -283,9 +296,12 @@ void AWizardFace::addAction(const QString &key, AWizardFace::ActionType type)
 	    {
 		if( !buttons.contains(key) )
 	        {
-		    QPushButton *b = new QPushButton(buttons_widget);
+		    QBoxLayout *lay = buttons_layout;
+		    if( type == ActionHelp || type == ActionAbort )
+			lay = menu_layout;
+		    QPushButton *b = new QPushButton(bottom_widget);
 		    b->setIcon(QIcon(defaultActionIcon(type)));
-		    buttons_layout->insertWidget( newButtonPosition(type), b, 0, newButtonAlignment(type) );
+		    lay->insertWidget( newButtonPosition(type), b, 0, newButtonAlignment(type) );
 		    if( type == AWizardFace::ActionForward || type == AWizardFace::ActionFinish )
 			b->setFocus();
 		    buttons[key] = b;
@@ -437,7 +453,8 @@ void AWizardFace::setCurrentStep( int n )
     if( n < steps_n )
     {
 	QPair<QString, QString> item = steplist.value(n, QPair<QString, QString>("",""));
-        title_icon->setPixmap(getPixmap(item.first));
+        //title_icon->setPixmap(getPixmap(item.first));
+        title_icon->setPixmap(getPixmap(QString("step_%1").arg(n+1)));
 	title_text->setText(QString("%1/%2: %3").arg(n+1).arg(steps_n).arg(item.second));
 	current_step = n;
     }
@@ -453,7 +470,7 @@ void AWizardFace::cleanRequest()
 /*
     QList<QAbstractButton*> children;
     children += steps_widget->findChildren<QAbstractButton*>();
-    children += buttons_widget->findChildren<QAbstractButton*>();
+    children += bottom_widget->findChildren<QAbstractButton*>();
     QListIterator<QAbstractButton*> it(children);
     while( it.hasNext() )
     {

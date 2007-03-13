@@ -79,7 +79,8 @@ private:
     QGridLayout* main_layout;
     QHBoxLayout* title_layout;
     QHBoxLayout* buttons_layout;
-    QFrame* buttons_widget;
+    QHBoxLayout* menu_layout;
+    QFrame* bottom_widget;
     QWidget* view_widget;
     QLabel *logo_icon;
     QFrame* title_widget;
