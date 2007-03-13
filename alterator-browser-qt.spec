@@ -7,6 +7,7 @@ Source:%name-%version.tar
 Summary: X11 Qt interface driver for alterator
 License: GPL
 Group: System/Configuration/Other
+Packager: Sergey V Turchin <zerg at altlinux dot org>
 
 Requires: alterator-common >= 2.9-alt0.14
 Requires: alterator-icons
@@ -20,6 +21,7 @@ Requires: libqt4-core >= %{get_version libqt4-core}
 
 Obsoletes: alterator-look-qt
 
+BuildRequires(pre): libqt4-core
 BuildRequires: libalternatives-devel
 BuildRequires: fontconfig freetype2 gcc-c++ libqt4-devel libstdc++-devel
 
