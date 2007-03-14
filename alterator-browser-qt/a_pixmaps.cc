@@ -122,7 +122,8 @@ QPixmap getPixmap(QString id)
     	    pixmap = QPixmap(images_path + id);
 
 	if( pixmap.isNull() )
-	    pixmap = (*pix_map["theme:unknown"])();
+	    pixmap = QPixmap(images_path + "logo_48");
+//	    pixmap = (*pix_map["theme:unknown"])();
 	else if( (pixgen && pixgen->type() == APixmapGenerator::Generated )
 		|| (pixmap.width() < 48 && pixmap.height() < 48) )
     	    QPixmapCache::insert(id, pixmap);
