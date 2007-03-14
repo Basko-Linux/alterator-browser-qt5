@@ -80,7 +80,8 @@ void initPixmaps()
 	pix_map["theme:directory"] = new AStdPixmapGenerator(QStyle::SP_DirOpenIcon);
 	pix_map["theme:file"] = new AStdPixmapGenerator(QStyle::SP_FileIcon);
 
-	pix_map["theme:unknown"] = new AStdPixmapGenerator(QStyle::SP_TitleBarMenuButton);
+//	pix_map["theme:unknown"] = new AStdPixmapGenerator(QStyle::SP_TitleBarMenuButton);
+	pix_map["theme:unknown"] = new AFilePixmapGenerator("logo_48");
 
     	pix_map["theme:check-on"] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorCheckBox,
 	                                          QStyle::SE_CheckBoxIndicator,
@@ -113,17 +114,23 @@ QPixmap getPixmap(QString id)
     if( !QPixmapCache::find(id, pixmap) )
     {
 	APixmapGenerator *pixgen = 0;
-	if( id.startsWith("theme:") && pix_map.contains(id) )
-	    pixgen = pix_map[id];
-
-	if( pixgen )
-    	    pixmap = (*pixgen)();
+	if( id.startsWith("theme:") )
+	{
+	    QString fid = id.mid(6);
+	    pixmap = AFilePixmapGenerator(fid)();
+	    if( pixmap.isNull() )
+	    {
+		if( pix_map.contains(id) )
+		    pixgen = pix_map[id];
+		if( pixgen )
+    		    pixmap = (*pixgen)();
+	    }
+	}
 	else
-    	    pixmap = QPixmap(images_path + id);
+	    pixmap = AFilePixmapGenerator(id)();
 
 	if( pixmap.isNull() )
-	    pixmap = QPixmap(images_path + "logo_48");
-//	    pixmap = (*pix_map["theme:unknown"])();
+	    pixmap = (*pix_map["theme:unknown"])();
 	else if( (pixgen && pixgen->type() == APixmapGenerator::Generated )
 		|| (pixmap.width() < 48 && pixmap.height() < 48) )
     	    QPixmapCache::insert(id, pixmap);
