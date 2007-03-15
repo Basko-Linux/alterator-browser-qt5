@@ -26,9 +26,9 @@ AAnalogClock::AAnalogClock(QWidget *parent):
 AAnalogClock::~AAnalogClock()
 {}
 
-void AAnalogClock::setOffcet(int new_offcet)
+void AAnalogClock::setOffset(int new_offset)
 {
-    offset = new_offcet;
+    offset = new_offset;
 }
 
 void AAnalogClock::start()
@@ -161,7 +161,7 @@ void ATimeEdit::setExpanded(bool expand)
 void ATimeEdit::onChange(const QTime& new_time)
 {
     offset = QTime::currentTime().secsTo(new_time);
-    clock->setOffcet(offset);
+    clock->setOffset(offset);
 }
 
 void ATimeEdit::showTime()

@@ -15,7 +15,7 @@ public:
 
     virtual void paintEvent(QPaintEvent*);
 
-    void setOffcet(int);
+    void setOffset(int);
     void start();
     void stop();
 
