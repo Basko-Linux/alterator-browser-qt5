@@ -192,25 +192,6 @@ void MainWindow::showEvent(QShowEvent*)
 }
 */
 
-void MainWindow::customEvent(QEvent* e)
-{
-    switch(e->type())
-    {
-	case EVENT_REQUEST_LONG_BEGIN:
-	{
-	    onStartBusySplash();
-	    break;
-	}
-	case EVENT_REQUEST_LONG_END:
-	{
-	    onStopBusySplash();
-	    break;
-	}
-	default:
-	    break;
-    }
-}
-
 bool MainWindow::haveWindowManager()
 {
     if( detect_wm )

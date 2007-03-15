@@ -136,23 +136,13 @@ void Connection::checkRequestIsLong()
 {
     if( isRunning() )
     {
-#if 1
 	emit startLongRequest();
-#else
-	QEvent *e = new QEvent((QEvent::Type)EVENT_REQUEST_LONG_BEGIN);
-	QCoreApplication::postEvent(main_window, e);
-#endif
     }
 }
 
 void Connection::endDelayedFinish()
 {
-#if 1
     emit stopLongRequest();
-#else
-    QEvent *e = new QEvent((QEvent::Type)EVENT_REQUEST_LONG_END);
-    QCoreApplication::postEvent(main_window, e);
-#endif
 }
 
 void Connection::getDocParser(alCommand *cmd)

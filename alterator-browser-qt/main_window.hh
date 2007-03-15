@@ -56,7 +56,6 @@ private:
 
     void keyPressEvent(QKeyEvent*);
 //    void showEvent(QShowEvent*);
-    void customEvent(QEvent*);
     void splashStart();
 
 private slots:
