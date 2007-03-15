@@ -34,8 +34,8 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     //title_icon->setAlignment(Qt::AlignCenter);
 
     logo_icon = new QLabel(this);
-    logo_icon->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
-    logo_icon->setAlignment(Qt::AlignRight);
+    logo_icon->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    logo_icon->setAlignment(Qt::AlignLeft);
     //logo_icon->setPixmap(getPixmap("theme:logo_32"));
     logo_icon->setPixmap(getPixmap("logo_48"));
 
@@ -97,11 +97,12 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     title_layout->insertWidget(2, title_text, 0, Qt::AlignLeft);
     title_layout->insertStretch(3, 1);
 
+    bottom_layout->addWidget(logo_icon, Qt::AlignLeft);
     bottom_layout->addLayout(menu_layout, Qt::AlignLeft);
-    bottom_layout->addLayout(buttons_layout, Qt::AlignCenter);
-    bottom_layout->addWidget(logo_icon, Qt::AlignCenter);
+    bottom_layout->addLayout(buttons_layout, Qt::AlignRight);
 
     menu_layout->insertWidget(0, menu_btn, 0, Qt::AlignLeft);
+    menu_layout->insertStretch(-1, 1);
     buttons_layout->insertStretch(0, 1);
 
     action_signal_mapper = new QSignalMapper(this);
