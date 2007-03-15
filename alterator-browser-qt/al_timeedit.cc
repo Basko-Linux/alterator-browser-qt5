@@ -49,7 +49,7 @@ void AAnalogClock::stop()
 void AAnalogClock::timerEvent(QTimerEvent* e)
 {
     if( e->timerId() == tmr_id )
-	repaint();
+	update();
 }
 
 void AAnalogClock::paintEvent(QPaintEvent*)
