@@ -69,17 +69,40 @@ void Connection::parseAnswer(alRequest *dom)
     }
 }
 
+/* Guess value of current locale from value of the environment variables.  */
+static const char *guess_locale_value(void)
+{
+       const char *language;
+       const char *retval;
+
+       /* The highest priority value is the `LANGUAGE' environment
+          variable.  But we don't use the value if the currently selected
+          locale is the C locale.  This is a GNU extension.  */
+       language = ::getenv("LANGUAGE");
+       if (language != NULL && language[0] == '\0')
+               language = NULL;
+
+       /* We have to proceed with the POSIX methods of looking to `LC_ALL',
+          `LC_xxx', and `LANG'.  On some systems this can be done by the
+          `setlocale' function itself.  */
+       retval = ::setlocale(LC_MESSAGES, NULL);
+
+       /* Ignore LANGUAGE if the locale is set to "C" because
+          1. "C" locale usually uses the ASCII encoding, and most international
+          messages use non-ASCII characters. These characters get displayed
+          as question marks (if using glibc's iconv()) or as invalid 8-bit
+          characters (because other iconv()s refuse to convert most non-ASCII
+          characters to ASCII). In any case, the output is ugly.
+          2. The precise output of some programs in the "C" locale is specified
+          by POSIX and should not depend on environment variables like
+          "LANGUAGE".  We allow such programs to use gettext().  */
+       return language != NULL
+               && ::strcmp(retval, "C") ? language : retval;
+}
+
 QString Connection::createLangList()
 {
-    QString lang(getenv("LC_ALL"));
-    QString language(getenv("LANGUAGE"));
-
-    if( !language.isEmpty() )
-	lang += ":" + language;
-    if( lang.isEmpty() )
-	lang = getenv("LC_MESSAGES");
-    if( lang.isEmpty() )
-	lang = getenv("LANG");
+    QString lang(guess_locale_value());
     if( lang.isEmpty() )
 	lang = "POSIX";
     QStringList lst = lang.split( ":", QString::SkipEmptyParts);
