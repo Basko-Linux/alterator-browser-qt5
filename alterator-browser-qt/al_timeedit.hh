@@ -20,10 +20,11 @@ public:
     void stop();
 
 private:
+    QPixmap bg;
     QTimer *tmr;
     int offset;
     double deg_per_hou, deg_per_min, deg_per_sec;
-    QPen hpen, mpen, spen, rpen;
+    QPen hpen, mpen, spen;
 };
 
 class ATimeEdit: public QWidget

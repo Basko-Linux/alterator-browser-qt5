@@ -5,6 +5,7 @@ MainWindow *main_window = 0;
 
 int main(int argc,char **argv)
 {
+    Q_INIT_RESOURCE(images);
     QApplication app(argc, argv);
 
     MainWindow mw;

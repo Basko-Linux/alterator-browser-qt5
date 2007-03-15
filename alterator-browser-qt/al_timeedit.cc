@@ -12,7 +12,8 @@ AAnalogClock::AAnalogClock(QWidget *parent):
     deg_per_hou = 360/12;
     deg_per_min = 360/60;
     deg_per_sec = 360/60;
-    rpen = QPen(QColor("grey")); rpen.setWidth(4);
+    bg = QPixmap(":/images/clock.png");
+    setFixedSize(bg.width(), bg.height());
     hpen = QPen(QColor("black")); hpen.setWidth(4); hpen.setCapStyle(Qt::RoundCap);
     mpen = QPen(QColor("black")); mpen.setWidth(2); mpen.setCapStyle(Qt::RoundCap);
     spen = QPen(QColor("red"));   spen.setWidth(1);
@@ -54,36 +55,24 @@ void AAnalogClock::paintEvent(QPaintEvent*)
 
 	int wdth = width();
 	int hght = height();
-	int hpen_w = hpen.width();
 
-	int round;
-	if( wdth > hght  )
-	    round = hght-hpen_w;
-	else
-	    round = wdth-hpen_w;
-
-	int round_x, round_y;
-	round_x = round_y = -round/2;
-
+	p.drawPixmap(QPoint(0,0), bg);
 	p.translate(wdth/2, hght/2);
-
-	p.setPen(rpen);
-	p.drawEllipse(QRect(round_x, round_y, round, round));
 
 	double deg;
 	deg = deg_per_hou * h;
 	p.rotate(deg);
-	p.setPen(hpen);	p.drawLine(0, 0, 0, -(round*0.3));
+	p.setPen(hpen);	p.drawLine(0, 0, 0, -(wdth*0.3));
 	p.rotate(-deg);
 
 	deg = deg_per_min * m;
 	p.rotate(deg);
-	p.setPen(mpen);	p.drawLine(0, 0, 0, -(round*0.45));
+	p.setPen(mpen);	p.drawLine(0, 0, 0, -(wdth*0.40));
 	p.rotate(-deg);
 
 	deg = deg_per_sec * s;
 	p.rotate(deg);
-	p.setPen(spen);	p.drawLine(0, 0, 0, -(round*0.45));
+	p.setPen(spen);	p.drawLine(0, 0, 0, -(wdth*0.40));
 	p.rotate(-deg);
 }
 

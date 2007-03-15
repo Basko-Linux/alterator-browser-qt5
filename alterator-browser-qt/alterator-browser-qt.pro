@@ -35,6 +35,7 @@ HEADERS += al_button.hh al_radio.hh al_checkbox.hh al_combobox.hh al_proxy.hh
 HEADERS += al_helpplace.hh al_dateedit.hh al_timeedit.hh
 
 DATA = *.pro *.spec
+RESOURCES = images.qrc
 
 FORMS += help_browser.ui
 
