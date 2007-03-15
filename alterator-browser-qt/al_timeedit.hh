@@ -47,7 +47,7 @@ private:
     QTimer *tmr;
     AAnalogClock *clock;
     QTimeEdit *time_edit;
-    QVBoxLayout *lay;
+    QGridLayout *lay;
     int offset;
 
 private slots:

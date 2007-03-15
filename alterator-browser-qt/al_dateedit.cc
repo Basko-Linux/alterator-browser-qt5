@@ -4,7 +4,7 @@
 ADateEdit::ADateEdit(QWidget *parent):
     QWidget(parent)
 {
-    lay = new QVBoxLayout(this);
+    lay = new QGridLayout(this);
     lay->setMargin(0);
     lay->setSpacing(0);
 
@@ -15,12 +15,12 @@ ADateEdit::ADateEdit(QWidget *parent):
     calendar->setFirstDayOfWeek( Qt::Monday ); // FIXME
 
     date_edit = new QDateEdit(this);
-    date_edit->setSizePolicy(QSizePolicy::Maximum, date_edit->sizePolicy().verticalPolicy());
+    //date_edit->setSizePolicy(QSizePolicy::Maximum, date_edit->sizePolicy().verticalPolicy());
     date_edit->setDate(calendar->selectedDate());
     date_edit->setCalendarPopup( true );
 
-    lay->addWidget(calendar);
-    lay->addWidget(date_edit);
+    lay->addWidget(calendar, 0, 0, Qt::AlignCenter);
+    lay->addWidget(date_edit, 1, 0, Qt::AlignCenter);
 
     connect(calendar, SIGNAL(activated(const QDate&)), date_edit, SLOT(setDate(const QDate&)));
     connect(calendar, SIGNAL(clicked(const QDate&)), date_edit, SLOT(setDate(const QDate&)));

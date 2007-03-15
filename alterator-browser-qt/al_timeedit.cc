@@ -83,7 +83,7 @@ ATimeEdit::ATimeEdit(QWidget *parent):
 {
     offset = 0;
 
-    lay = new QVBoxLayout(this);
+    lay = new QGridLayout(this);
     lay->setMargin(0);
     lay->setSpacing(0);
 
@@ -91,11 +91,11 @@ ATimeEdit::ATimeEdit(QWidget *parent):
     clock->hide();
 
     time_edit = new QTimeEdit(this);
-    time_edit->setSizePolicy(QSizePolicy::Maximum, time_edit->sizePolicy().verticalPolicy());
+    //time_edit->setSizePolicy(QSizePolicy::Maximum, time_edit->sizePolicy().verticalPolicy());
     time_edit->setTime(QTime::currentTime());
 
-    lay->addWidget(clock);
-    lay->addWidget(time_edit);
+    lay->addWidget(clock, 0, 0, Qt::AlignCenter);
+    lay->addWidget(time_edit, 1, 0, Qt::AlignCenter);
 
     tmr = new QTimer(this);
     tmr->setInterval(1000);
