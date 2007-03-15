@@ -38,6 +38,7 @@ public slots:
 protected:
 //    virtual void childEvent(QChildEvent*);
     virtual bool event(QEvent*);
+    void timerEvent(QTimerEvent*);
 
 private:
     Constraints *constraints;
@@ -52,7 +53,7 @@ private:
     bool alterator_splash;
     int emit_locker;
     QPointer<QSplashScreen> splash;//single splash screen
-    QTimer *busy_timer;
+    int busy_timer_id;
 
     void keyPressEvent(QKeyEvent*);
 //    void showEvent(QShowEvent*);
@@ -61,7 +62,6 @@ private:
 private slots:
     void onStartBusySplash();
     void onStopBusySplash();
-    void onStopBusy();
     void onInternalSplashMessage(const QString& msg);
 
     void doRetry();

@@ -54,6 +54,7 @@ MainWindow::MainWindow():
     connection = 0;
     constraints = 0;
     qtranslator = 0;
+    busy_timer_id = 0;
     started = false;
     detect_wm = false;
 
@@ -88,8 +89,6 @@ MainWindow::MainWindow():
     }
     else
 	setFullScreen(true);
-
-    busy_timer = new QTimer(this);
 
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(stop()));
     QTimer::singleShot(0, this, SLOT(start()));
@@ -622,16 +621,19 @@ void MainWindow::onStartBusySplash()
 
 void MainWindow::onStopBusySplash()
 {
-    if(busy_timer->isActive())
-	busy_timer->stop();
-    busy_timer->singleShot(500, this, SLOT(onStopBusy()));
+    if( busy_timer_id > 0 )
+	killTimer(busy_timer_id);
+    busy_timer_id = startTimer(500);
 }
 
-void MainWindow::onStopBusy()
+void MainWindow::timerEvent(QTimerEvent *e)
 {
-    unsetCursor();
-//    releaseKeyboard();
-//    releaseMouse();
+    if( e->timerId() == busy_timer_id )
+    {
+	killTimer(busy_timer_id);
+	busy_timer_id = 0;
+	unsetCursor();
+    }
 }
 
 void MainWindow::onRetryRequest()

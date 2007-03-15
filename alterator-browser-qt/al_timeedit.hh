@@ -19,9 +19,12 @@ public:
     void start();
     void stop();
 
+protected:
+    void timerEvent(QTimerEvent*);
+
 private:
     QPixmap bg;
-    QTimer *tmr;
+    int tmr_id;
     int offset;
     double deg_per_hou, deg_per_min, deg_per_sec;
     QPen hpen, mpen, spen;
@@ -43,8 +46,11 @@ public:
 signals:
     void changed();
 
+protected:
+    void timerEvent(QTimerEvent*);
+
 private:
-    QTimer *tmr;
+    int tmr_id;
     AAnalogClock *clock;
     QTimeEdit *time_edit;
     QGridLayout *lay;

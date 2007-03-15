@@ -1,5 +1,6 @@
 
 #include <QPainter>
+#include <QTimerEvent>
 
 #include "al_timeedit.hh"
 
@@ -9,6 +10,7 @@ AAnalogClock::AAnalogClock(QWidget *parent):
     setMinimumSize(64, 64);
 
     offset = 0;
+    tmr_id = 0;
     deg_per_hou = 360/12;
     deg_per_min = 360/60;
     deg_per_sec = 360/60;
@@ -18,9 +20,6 @@ AAnalogClock::AAnalogClock(QWidget *parent):
     mpen = QPen(QColor("black")); mpen.setWidth(2); mpen.setCapStyle(Qt::RoundCap);
     spen = QPen(QColor("red"));   spen.setWidth(1);
 
-    tmr = new QTimer(this);
-    tmr->setInterval(1000);
-    connect(tmr, SIGNAL(timeout()), this, SLOT(repaint()));
     start();
 }
 
@@ -35,12 +34,22 @@ void AAnalogClock::setOffcet(int new_offcet)
 void AAnalogClock::start()
 {
     offset = 0;
-    tmr->start();
+    if( tmr_id > 0 )
+	stop();
+    tmr_id = startTimer(1000);
 }
 
 void AAnalogClock::stop()
 {
-    tmr->stop();
+    if( tmr_id > 0 )
+	killTimer(tmr_id);
+    tmr_id = 0;
+}
+
+void AAnalogClock::timerEvent(QTimerEvent* e)
+{
+    if( e->timerId() == tmr_id )
+	repaint();
 }
 
 void AAnalogClock::paintEvent(QPaintEvent*)
@@ -82,6 +91,7 @@ ATimeEdit::ATimeEdit(QWidget *parent):
     QWidget(parent)
 {
     offset = 0;
+    tmr_id = 0;
 
     lay = new QGridLayout(this);
     lay->setMargin(0);
@@ -97,9 +107,6 @@ ATimeEdit::ATimeEdit(QWidget *parent):
     lay->addWidget(clock, 0, 0, Qt::AlignCenter);
     lay->addWidget(time_edit, 1, 0, Qt::AlignCenter);
 
-    tmr = new QTimer(this);
-    tmr->setInterval(1000);
-    connect(tmr, SIGNAL(timeout()), this, SLOT(showTime()));
     connect(time_edit, SIGNAL(timeChanged(const QTime&)), this, SLOT(onChange(const QTime&)));
     connect(time_edit, SIGNAL(editingFinished()), this, SIGNAL(changed()));
 
@@ -112,14 +119,24 @@ ATimeEdit::~ATimeEdit()
 void ATimeEdit::start()
 {
     offset = 0;
-    tmr->start();
+    if( tmr_id > 0 )
+	stop();
+    tmr_id = startTimer(1000);
     clock->start();
 }
 
 void ATimeEdit::stop()
 {
     clock->stop();
-    tmr->stop();
+    if( tmr_id > 0 )
+	killTimer(tmr_id);
+    tmr_id = 0;
+}
+
+void ATimeEdit::timerEvent(QTimerEvent* e)
+{
+    if( e->timerId() == tmr_id )
+	showTime();
 }
 
 void ATimeEdit::setTime(const QString& new_time)

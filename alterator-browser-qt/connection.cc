@@ -15,7 +15,7 @@ Connection::Connection(QObject *parent):
     QThread(parent)
 {
     destruction = false;
-    islong_timer = new QTimer(this);
+    islong_timer_id = 0;
     connect(this, SIGNAL(started()), this, SLOT(startDelayedFinish()));
     connect(this, SIGNAL(finished()), this, SLOT(endDelayedFinish()));
 }
@@ -24,7 +24,8 @@ Connection::~Connection()
 {
     destruction = true;
     disconnect();
-    islong_timer->stop();
+    if( islong_timer_id > 0 )
+	killTimer(islong_timer_id);
     wait();
 }
 
@@ -128,15 +129,19 @@ void Connection::run()
 
 void Connection::startDelayedFinish()
 {
-    if( !islong_timer->isActive() )
-	islong_timer->singleShot(500, this, SLOT(checkRequestIsLong()));
+    if( islong_timer_id > 0 )
+	killTimer(islong_timer_id);
+    islong_timer_id = startTimer(500);
 }
 
-void Connection::checkRequestIsLong()
+void Connection::timerEvent(QTimerEvent *e)
 {
-    if( isRunning() )
+    if( e->timerId() == islong_timer_id )
     {
-	emit startLongRequest();
+	killTimer(islong_timer_id);
+	islong_timer_id = 0;
+	if( isRunning() )
+	    emit startLongRequest();
     }
 }
 

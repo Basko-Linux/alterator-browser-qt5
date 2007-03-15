@@ -37,16 +37,18 @@ signals:
     void startLongRequest();
     void stopLongRequest();
 
+protected:
+    void timerEvent(QTimerEvent*);
+
 private slots:
     void startDelayedFinish();
-    void checkRequestIsLong();
     void endDelayedFinish();
 
 private:
     QStringList requests;
     QString sessionId;
     QString userId;
-    QTimer *islong_timer;
+    int islong_timer_id;
     bool destruction;
 
     void getDocParser(alCommand *cmd);
