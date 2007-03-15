@@ -148,7 +148,7 @@ void Connection::checkRequestIsLong()
 void Connection::endDelayedFinish()
 {
 #if 1
-    stopLongRequest();
+    emit stopLongRequest();
 #else
     QEvent *e = new QEvent((QEvent::Type)EVENT_REQUEST_LONG_END);
     QCoreApplication::postEvent(main_window, e);
