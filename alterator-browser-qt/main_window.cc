@@ -431,14 +431,7 @@ void MainWindow::onNewRequest(const QXmlAttributes& attr)
 	else if ("spinbox" == type)     new_widget = new alSpinBox(id,parent);
 	else if ("dateedit" == type)    new_widget = new alDateEdit(id,parent);
 	else if ("timeedit" == type)    new_widget = new alTimeEdit(id,parent);
-	else if ("listbox" == type)
-	{
-	    int cols = attr.value("columns").toInt();
-	    if( cols <= 1 )
-		new_widget = new alListBox(id,parent);
-	    else
-		new_widget = new alMultiListBox(id,parent,cols);
-	}
+	else if ("listbox" == type)	new_widget = new alMultiListBox(id,parent,attr.value("columns").toInt());
 	else if ("wizardface" == type)
 	{
 	    if( wizard_face )
@@ -448,7 +441,7 @@ void MainWindow::onNewRequest(const QXmlAttributes& attr)
 	}
 	else
 	{
-	    qDebug("Unknown widget: %s. Make box instead.", qPrintable(type));
+	    qDebug("Unknown widget \"%s\". Make box instead.", qPrintable(type));
 	    new_widget = new alBox(id,parent,orientation);
 	}
 
