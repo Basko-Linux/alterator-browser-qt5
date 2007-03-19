@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.43
+Version: 2.9.44
 Release: alt1
 
 Source:%name-%version.tar
@@ -62,6 +62,13 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Mon Mar 19 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.44-alt1
+- add locale guessing fix from ldv@alt
+- use internal QObject timers instead QTimer
+- use pixmap for timeedit clock background
+- use only alMultiListBox for lisbbox
+- rearrange wizardface widgets with bottomleft logo
+				    
 * Tue Mar 13 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.43-alt1
 - add start/stop attributes to timeedit
 - rearrange wizardface widgets
