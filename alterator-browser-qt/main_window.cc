@@ -412,6 +412,7 @@ void MainWindow::onNewRequest(const QXmlAttributes& attr)
 	else if ("dateedit" == type)    new_widget = new alDateEdit(id,parent);
 	else if ("timeedit" == type)    new_widget = new alTimeEdit(id,parent);
 	else if ("listbox" == type)	new_widget = new alMultiListBox(id,parent,attr.value("columns").toInt());
+	else if ("slideshow" == type)	new_widget = new alSlideShow(id,parent);
 	else if ("wizardface" == type)
 	{
 	    if( wizard_face )
