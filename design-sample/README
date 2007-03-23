@@ -1,0 +1,10 @@
+Слямзено из примеров Qt.
+
+В .qss можно использовать любые виджеты, имеюшиеся в исходниках browser.
+Дизайн располагается в каталоге /usr/share/design-browser-qt/name_of_design
+Создается ссылка на него /etc/alterator/design-browser-qt
+
+При запаковке:
+/etc/alterator/design-browser-qt должна делаться при помощи alternatives
+/usr/share/design-browser-qt и /usr/share/design-browser-qt/current - зарезервированные имена
+и будут в пакете alterator-browser-qt
