@@ -655,12 +655,55 @@ void MainWindow::loadStyleSheet()
     {
 	QSettings settings("/etc/alterator/design-browser-qt/design.ini", QSettings::IniFormat, this);
 	settings.setFallbacksEnabled(false);
+
+	// set style
 	QString styleName = settings.value("style", "Plastique").toString();
 	if( !QStyleFactory::keys().contains(styleName) )
 	    styleName = "Plastique";
 	qApp->setStyle(styleName);
+
+
+	// set palette
+	QStringList strlist;
+	int i;
+	QPalette pal(Qt::black);
+	int groupCount = 0;
+	strlist = settings.value(QLatin1String("Palette/active")).toStringList();
+	if (strlist.count() == QPalette::NColorRoles)
+	{
+	    ++groupCount;
+	    for (i = 0; i < QPalette::NColorRoles; i++)
+		pal.setColor(QPalette::Active, (QPalette::ColorRole) i, QColor(strlist[i]));
+	}
+	strlist = settings.value(QLatin1String("Palette/inactive")).toStringList();
+	if (strlist.count() == QPalette::NColorRoles)
+	{
+	    ++groupCount;
+	    for (i = 0; i < QPalette::NColorRoles; i++)
+		pal.setColor(QPalette::Inactive, (QPalette::ColorRole) i, QColor(strlist[i]));
+	}
+	strlist = settings.value(QLatin1String("Palette/disabled")).toStringList();
+	if(strlist.count() == QPalette::NColorRoles)
+	{
+	    ++groupCount;
+	    for (i = 0; i < QPalette::NColorRoles; i++)
+	    pal.setColor(QPalette::Disabled, (QPalette::ColorRole) i, QColor(strlist[i]));
+	}
+	if( groupCount == QPalette::NColorGroups )
+	    QApplication::setPalette(pal);
+
+	// set font
+        QFont font(QApplication::font());
+        QString str = settings.value(QLatin1String("font")).toString();
+        if (!str.isEmpty())
+	{
+            font.fromString(str);
+            if (font != QApplication::font())
+                QApplication::setFont(font);
+        }
     }
 
+    // set style
     QFile file("/etc/alterator/design-browser-qt/design.qss");
     if( file.exists() )
     {
