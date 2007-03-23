@@ -36,7 +36,7 @@ void ASlideShow::setSource(const QString& new_src)
     if( n_images > 1 )
     {
 	showNextSlide();
-	tm->setInterval(3000);
+	tm->setInterval(8000);
 	tm->start();
     }
     else if( n_images == 1 )
