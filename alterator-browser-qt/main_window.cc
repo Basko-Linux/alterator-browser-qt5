@@ -13,6 +13,7 @@
 #include <QLocale>
 #include <QLibraryInfo>
 #include <QPainter>
+#include <QStyleFactory>
 
 #include "global.hh"
 #include "widgets.hh"
@@ -650,13 +651,16 @@ void MainWindow::doRetry()
 
 void MainWindow::loadStyleSheet()
 {
-    // load config /etc/alterator/design-browser-qt/design.ini
-    //qApp->setStyle(styleName);
+    if( QFile::exists("/etc/alterator/design-browser-qt/design.ini") )
+    {
+	QSettings settings("/etc/alterator/design-browser-qt/design.ini", QSettings::IniFormat, this);
+	settings.setFallbacksEnabled(false);
+	QString styleName = settings.value("style", "Plastique").toString();
+	if( !QStyleFactory::keys().contains(styleName) )
+	    styleName = "Plastique";
+	qApp->setStyle(styleName);
+    }
 
-    /*
-	/etc/alterator/design-browser-qt MUST be a symlink to
-	/usr/share/design-browser-qt/your_design_directory
-    */
     QFile file("/etc/alterator/design-browser-qt/design.qss");
     if( file.exists() )
     {
