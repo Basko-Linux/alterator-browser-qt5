@@ -47,6 +47,7 @@ MainWindow::MainWindow():
     MainWindow_t(0)
 {
     qRegisterMetaType<QXmlAttributes>("QXmlAttributes");
+    loadStyleSheet();
 
     internal_splash = false;
     alterator_splash = false;
@@ -645,4 +646,38 @@ void MainWindow::onRetryRequest()
 void MainWindow::doRetry()
 {
     connection->getDocument("(alterator-request action \"re-get\")");
+}
+
+void MainWindow::loadStyleSheet()
+{
+    // load config /etc/alterator/design-browser-qt/design.ini
+    //qApp->setStyle(styleName);
+
+    /*
+	/etc/alterator/design-browser-qt MUST be a symlink to
+	/usr/share/design-browser-qt/your_design_directory
+    */
+    QFile file("/etc/alterator/design-browser-qt/design.qss");
+    if( file.exists() )
+    {
+	if( file.open(QFile::ReadOnly) )
+	{
+	    QString styleContent = file.readAll();
+	    if( styleContent.size() < 10 )
+	    {
+		qDebug("Too small file: \"%s\"", qPrintable(file.fileName()));
+		return;
+	    }
+	    QDir cur_dir = QDir::current();
+	    QString cur = cur_dir.absolutePath();
+	    cur_dir.cd("/etc/alterator/design-browser-qt");
+	    qApp->setStyleSheet(styleContent);
+	    cur_dir.cd(cur);
+	}
+	else
+	{
+	    qDebug("Unable to read file: \"%s\"", qPrintable(file.fileName()));
+	    return;
+	}
+    }
 }

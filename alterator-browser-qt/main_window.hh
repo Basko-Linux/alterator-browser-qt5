@@ -58,6 +58,7 @@ private:
     void keyPressEvent(QKeyEvent*);
 //    void showEvent(QShowEvent*);
     void splashStart();
+    void loadStyleSheet();
 
 private slots:
     void onStartBusySplash();
