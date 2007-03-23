@@ -7,7 +7,6 @@
 ASlideShow::ASlideShow(QWidget *parent):
     QLabel(parent)
 {
-    //setMaximumSize(parent->width(), parent->height());
     setWordWrap( true );
     setAlignment( Qt::AlignCenter );
     current_img = 0;
@@ -54,7 +53,11 @@ void ASlideShow::showNextSlide()
     QString imgfile = src + QDir::separator() + current_img->next();
     QPixmap pix = QPixmap(imgfile);
     if( !pix.isNull() )
-	setPixmap(imgfile);
+    {
+	if( pix.width() >= width() || pix.height() >= height() )
+	    pix = pix.scaled(width(), height(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+	setPixmap(pix);
+    }
     else
 	setText("Unable to load file: " + imgfile);
 }
