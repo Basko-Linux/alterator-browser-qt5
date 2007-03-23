@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.44
+Version: 2.9.45
 Release: alt1
 
 Source:%name-%version.tar
@@ -62,6 +62,10 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Fri Mar 23 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.45-alt1
+- add slideshow widget
+- add custom GUI design support
+
 * Mon Mar 19 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.44-alt1
 - add locale guessing fix from ldv@alt
 - use internal QObject timers instead QTimer
