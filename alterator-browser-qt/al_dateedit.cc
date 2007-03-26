@@ -4,7 +4,7 @@
 ADateEdit::ADateEdit(QWidget *parent):
     QWidget(parent)
 {
-    lay = new QGridLayout(this);
+    lay = new QVBoxLayout(this);
     lay->setMargin(0);
     lay->setSpacing(0);
 
@@ -19,8 +19,9 @@ ADateEdit::ADateEdit(QWidget *parent):
     date_edit->setDate(calendar->selectedDate());
     date_edit->setCalendarPopup( true );
 
-    lay->addWidget(calendar, 0, 0, Qt::AlignCenter);
-    lay->addWidget(date_edit, 1, 0, Qt::AlignCenter);
+    lay->addWidget(calendar, 0, Qt::AlignCenter);
+    lay->addStretch(1);
+    lay->addWidget(date_edit, 0, Qt::AlignCenter);
 
     connect(calendar, SIGNAL(activated(const QDate&)), date_edit, SLOT(setDate(const QDate&)));
     connect(calendar, SIGNAL(clicked(const QDate&)), date_edit, SLOT(setDate(const QDate&)));

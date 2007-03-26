@@ -93,7 +93,7 @@ ATimeEdit::ATimeEdit(QWidget *parent):
     offset = 0;
     tmr_id = 0;
 
-    lay = new QGridLayout(this);
+    lay = new QVBoxLayout(this);
     lay->setMargin(0);
     lay->setSpacing(0);
 
@@ -104,8 +104,9 @@ ATimeEdit::ATimeEdit(QWidget *parent):
     //time_edit->setSizePolicy(QSizePolicy::Maximum, time_edit->sizePolicy().verticalPolicy());
     time_edit->setTime(QTime::currentTime());
 
-    lay->addWidget(clock, 0, 0, Qt::AlignCenter);
-    lay->addWidget(time_edit, 1, 0, Qt::AlignCenter);
+    lay->addWidget(clock, 0, Qt::AlignCenter);
+    lay->addStretch(1);
+    lay->addWidget(time_edit, 0, Qt::AlignCenter);
 
     connect(time_edit, SIGNAL(timeChanged(const QTime&)), this, SLOT(onChange(const QTime&)));
     connect(time_edit, SIGNAL(editingFinished()), this, SIGNAL(changed()));

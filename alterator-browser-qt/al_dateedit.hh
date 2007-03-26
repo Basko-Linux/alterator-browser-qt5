@@ -23,7 +23,7 @@ signals:
 private:
     QDateEdit *date_edit;
     QCalendarWidget *calendar;
-    QGridLayout *lay;
+    QVBoxLayout *lay;
 };
 
 

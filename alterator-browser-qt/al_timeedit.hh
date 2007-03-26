@@ -53,7 +53,7 @@ private:
     int tmr_id;
     AAnalogClock *clock;
     QTimeEdit *time_edit;
-    QGridLayout *lay;
+    QVBoxLayout *lay;
     int offset;
 
 private slots:
