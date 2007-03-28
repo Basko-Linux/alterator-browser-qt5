@@ -74,7 +74,7 @@ private slots:
     void onStartRequest(const QString& id);
     void onStopRequest(const QString& id);
     void onEventRequest(const QString& id,const QString& value);
-    void onMessageBoxRequest(const QXmlAttributes& e);
+    void onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, const QString& buttons);
     void onSplashMessageRequest(const QString& msg);
 };
 #endif

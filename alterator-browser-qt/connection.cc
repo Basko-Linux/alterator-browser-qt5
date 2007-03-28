@@ -174,7 +174,7 @@ void Connection::getDocParser(alCommand *cmd)
 	else if ("stop" == action)
 		emit stopRequest(e.value("widget-id"));
 	else if ("messagebox" == action)
-		emit messageboxRequest(e);
+		emit messageBoxRequest(e.value("type"), e.value("title"), e.value("message"), e.value("buttons"));
 	else if ("language" == action)
 		emit changeLanguageRequest(cmd->value_);
 	else if ("retry" == action)

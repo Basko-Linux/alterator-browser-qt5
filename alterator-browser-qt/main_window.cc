@@ -149,8 +149,8 @@ void MainWindow::start()
 	    this, SLOT(onStopRequest(const QString&)));
     connect(connection, SIGNAL(eventRequest(const QString&, const QString&)),
 	    this, SLOT(onEventRequest(const QString&, const QString&)));
-    connect(connection, SIGNAL(messageboxRequest(const QXmlAttributes&)),
-	    this, SLOT(onMessageBoxRequest(const QXmlAttributes&)));
+    connect(connection, SIGNAL(messageBoxRequest(const QString&, const QString&, const QString&, const QString&)),
+	    this, SLOT(onMessageBoxRequest(const QString&, const QString&, const QString&, const QString&)));
     connect(connection, SIGNAL(splashMessageRequest(const QString&)),
 	    this, SLOT(onSplashMessageRequest(const QString&)));
     connect(connection, SIGNAL(retryRequest()),
@@ -543,16 +543,10 @@ void MainWindow::onEventRequest(const QString& id,const QString& value)
 	    elements[id]->registerEvent(value);
 }
 
-void MainWindow::onMessageBoxRequest(const QXmlAttributes& e)
+void MainWindow::onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, const QString& buttons)
 {
     QWidget *parent = QApplication::activeWindow();
-    AMsgBox msgbox(
-	e.value("type"),
-	e.value("title"),
-	e.value("message"),
-	e.value("buttons"),
-	parent
-	);
+    AMsgBox msgbox(type, title, message, buttons, parent);
     //qDebug("AMsgBox exec");
     const QString answer = AMessageBox::unconvertButton((QMessageBox::StandardButton)msgbox.exec());
     connection->getDocument(answer);

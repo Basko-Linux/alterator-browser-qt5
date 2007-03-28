@@ -28,7 +28,7 @@ signals:
     void splashMessageRequest(const QString&);
     void startRequest(const QString&);
     void stopRequest(const QString&);
-    void messageboxRequest(const QXmlAttributes&);
+    void messageBoxRequest(const QString&, const QString&, const QString&, const QString&);
     void changeLanguageRequest(const QString&);
     void constraintsClearRequest();
     void constraintsApplyRequest();
