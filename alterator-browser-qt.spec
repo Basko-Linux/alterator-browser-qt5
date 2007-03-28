@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.45
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -62,6 +62,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Wed Mar 28 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.45-alt2
+- small UI fix
+
 * Fri Mar 23 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.45-alt1
 - add slideshow widget
 - add custom GUI design support
