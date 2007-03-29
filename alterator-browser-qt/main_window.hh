@@ -67,7 +67,7 @@ private slots:
 
     void doRetry();
     void onRetryRequest();
-    void onNewRequest(const QXmlAttributes& attr);
+    void onNewRequest(const QMap<QString,QString>& attr);
     void onCloseRequest(const QString& id);
     void onCleanRequest(const QString& id);
     void onSetRequest(const QString& id,const QString& attr,const QString& value);

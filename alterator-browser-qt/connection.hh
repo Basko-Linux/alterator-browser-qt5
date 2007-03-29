@@ -20,7 +20,7 @@ public:
     void getDocument(const QString& content = "(alterator-request action \"get\")");
 
 signals:
-    void newRequest(const QXmlAttributes&);
+    void newRequest(const QMap<QString,QString>&);
     void closeRequest(const QString&);
     void cleanRequest(const QString&);
     void setRequest(const QString&, const QString&, const QString&);

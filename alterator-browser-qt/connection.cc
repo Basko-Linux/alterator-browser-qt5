@@ -156,7 +156,19 @@ void Connection::getDocParser(alCommand *cmd)
 	QString action = e.value("action");
 
 	if ("new" == action)
-		emit newRequest(e);
+	{
+	    QMap<QString,QString> attr;
+	    attr["widget-id"] = e.value("widget-id");
+	    attr["type"] = e.value("type");
+	    attr["parent"] = e.value("parent");
+	    attr["width"] = e.value("width");
+	    attr["height"] = e.value("height");
+	    attr["orientation"] = e.value("orientation");
+	    attr["sub-type"] = e.value("sub-type");
+	    attr["checked"] = e.value("checked");
+	    attr["columns"] = e.value("columns");
+	    emit newRequest(attr);
+	}
 	else if ("close" == action)
 		emit closeRequest(e.value("widget-id"));
 	else if ("clean" == action)

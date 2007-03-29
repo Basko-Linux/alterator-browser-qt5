@@ -47,7 +47,8 @@ int x_catchRedirectError(Display *, XErrorEvent *event)
 MainWindow::MainWindow():
     MainWindow_t(0)
 {
-    qRegisterMetaType<QXmlAttributes>("QXmlAttributes");
+    qRegisterMetaType< QMap<QString,QString> >("QMap<QString,QString>");
+    qRegisterMetaType< QMap<QString,QString> >("QMap_QString_QString");
     loadStyleSheet();
 
     internal_splash = false;
@@ -135,8 +136,8 @@ void MainWindow::start()
     qDebug("socket path %s ...",qPrintable(socketPath));
     mailbox = new MailBox(socketPath, this);
 
-    connect(connection, SIGNAL(newRequest(const QXmlAttributes&)),
-	    this, SLOT(onNewRequest(const QXmlAttributes&)));
+    connect(connection, SIGNAL(newRequest(const QMap<QString,QString>&)),
+	    this, SLOT(onNewRequest(const QMap<QString,QString>&)));
     connect(connection, SIGNAL(closeRequest(const QString&)),
 	    this, SLOT(onCloseRequest(const QString&)));
     connect(connection, SIGNAL(cleanRequest(const QString&)),
@@ -356,25 +357,24 @@ void MainWindow::emitEvent(const QString& id,const QString& type)
 	connection->getDocument(request);
 }
 
-
-void MainWindow::onNewRequest(const QXmlAttributes& attr)
+void MainWindow::onNewRequest(const QMap<QString,QString>& attr)
 {
-	const QString id = attr.value("widget-id");
-	const QString type = attr.value("type");
-	const QString parent = attr.value("parent");
-	const QString width = attr.value("width");
-	const QString height = attr.value("width");
-	Qt::Orientation orientation = Utils::convertOrientation(attr.value("orientation"));
+	const QString id = attr["widget-id"];
+	const QString type = attr["type"];
+	const QString parent = attr["parent"];
+	const QString width = attr["width"];
+	const QString height = attr["height"];
+	Qt::Orientation orientation = Utils::convertOrientation(attr["orientation"]);
 /*
 	qDebug("%s: id<%s> type<%s> parent<%s> orientation<%s> sub-type<%s>", __FUNCTION__,
 	    qPrintable(id), qPrintable(type), qPrintable(parent),
-	    qPrintable(attr.value("orientation")), qPrintable(attr.value("sub-type")) );
+	    qPrintable(attr["orientation"]), qPrintable(attr.value("sub-type")) );
 */
 
 	alWidget *new_widget = 0;
 	if ("root" == type)
 	{
-	    const QString subtype = attr.value("sub-type");
+	    const QString subtype = attr["sub-type"];
 	    if ("popup" == subtype) //this is a dialog
 	    {
 	    	if(parent.isEmpty())
@@ -399,10 +399,10 @@ void MainWindow::onNewRequest(const QXmlAttributes& attr)
 	else if ("edit" == type)        new_widget = new alEdit(id,parent);
 	else if ("textbox" == type)     new_widget = new alTextBox(id,parent);
 	else if ("help-place" == type)  new_widget = new alHelpPlace(id,parent);
-	else if ("groupbox" == type)    new_widget = new alGroupBox(id,parent,orientation,attr.value("checked"));
-	else if ("gridbox" == type)     new_widget = new alGridBox(id,parent,attr.value("columns"));
+	else if ("groupbox" == type)    new_widget = new alGroupBox(id,parent,orientation,attr["checked"]);
+	else if ("gridbox" == type)     new_widget = new alGridBox(id,parent,attr["columns"]);
 	else if ("checkbox" == type)    new_widget = new alCheckBox(id,parent);
-	else if ("tree" == type)        new_widget = new alTree(id,parent,attr.value("columns"));
+	else if ("tree" == type)        new_widget = new alTree(id,parent,attr["columns"]);
 	else if ("combobox" == type)    new_widget = new alComboBox(id,parent);
 	else if ("tabbox" == type)      new_widget = new alTabBox(id,parent,orientation);
 	else if ("tab-page" == type)    new_widget = new alTabPage(id,parent,orientation);
@@ -413,7 +413,7 @@ void MainWindow::onNewRequest(const QXmlAttributes& attr)
 	else if ("spinbox" == type)     new_widget = new alSpinBox(id,parent);
 	else if ("dateedit" == type)    new_widget = new alDateEdit(id,parent);
 	else if ("timeedit" == type)    new_widget = new alTimeEdit(id,parent);
-	else if ("listbox" == type)	new_widget = new alMultiListBox(id,parent,attr.value("columns").toInt());
+	else if ("listbox" == type)	new_widget = new alMultiListBox(id,parent,attr["columns"].toInt());
 	else if ("slideshow" == type)	new_widget = new alSlideShow(id,parent);
 	else if ("wizardface" == type)
 	{
