@@ -1,0 +1,6 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+   <file>design/design.ini</file>
+   <file>design/design.qss</file>
+</qresource>
+</RCC>

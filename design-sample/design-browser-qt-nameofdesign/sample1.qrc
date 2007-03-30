@@ -1,0 +1,36 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+   <file>design/design.ini</file>
+   <file>design/design.qss</file>
+   <file>design/checkbox_checked_hover.png</file>
+   <file>design/checkbox_checked.png</file>
+   <file>design/checkbox_checked_pressed.png</file>
+   <file>design/checkbox_unchecked_hover.png</file>
+   <file>design/checkbox_unchecked.png</file>
+   <file>design/checkbox_unchecked_pressed.png</file>
+   <file>design/down_arrow_disabled.png</file>
+   <file>design/down_arrow.png</file>
+   <file>design/frame.png</file>
+   <file>design/pagefold.png</file>
+   <file>design/pushbutton_hover.png</file>
+   <file>design/pushbutton.png</file>
+   <file>design/pushbutton_pressed.png</file>
+   <file>design/radiobutton_checked_hover.png</file>
+   <file>design/radiobutton_checked.png</file>
+   <file>design/radiobutton_checked_pressed.png</file>
+   <file>design/radiobutton_unchecked_hover.png</file>
+   <file>design/radiobutton_unchecked.png</file>
+   <file>design/radiobutton_unchecked_pressed.png</file>
+   <file>design/sizegrip.png</file>
+   <file>design/spindown_hover.png</file>
+   <file>design/spindown_off.png</file>
+   <file>design/spindown.png</file>
+   <file>design/spindown_pressed.png</file>
+   <file>design/spinup_hover.png</file>
+   <file>design/spinup_off.png</file>
+   <file>design/spinup.png</file>
+   <file>design/spinup_pressed.png</file>
+   <file>design/up_arrow_disabled.png</file>
+   <file>design/up_arrow.png</file>
+</qresource>
+</RCC>

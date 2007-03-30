@@ -1,6 +1,6 @@
 Слямзено из примеров Qt.
 
-Дизайн располагается в каталоге /usr/share/design-browser-qt/name_of_design
+Дизайн располагается в файле /usr/share/design-browser-qt/name_of_design
 Создается ссылка на него /etc/alterator/design-browser-qt
 
 Содержимое:

@@ -14,6 +14,7 @@
 #include <QLibraryInfo>
 #include <QPainter>
 #include <QStyleFactory>
+#include <QResource>
 
 #include "global.hh"
 #include "widgets.hh"
@@ -640,9 +641,12 @@ void MainWindow::doRetry()
 
 void MainWindow::loadStyleSheet()
 {
-    if( QFile::exists("/etc/alterator/design-browser-qt/design.ini") )
+    QResource::unregisterResource("/etc/alterator/design-browser-qt");
+    QResource::registerResource("/etc/alterator/design-browser-qt");
+
+    if( QFile::exists(":/design/design.ini") )
     {
-	QSettings settings("/etc/alterator/design-browser-qt/design.ini", QSettings::IniFormat, this);
+	QSettings settings(":/design/design.ini", QSettings::IniFormat, this);
 	settings.setFallbacksEnabled(false);
 
 	// set Qt style
@@ -693,7 +697,7 @@ void MainWindow::loadStyleSheet()
     }
 
     // set style
-    QFile file("/etc/alterator/design-browser-qt/design.qss");
+    QFile file(":/design/design.qss");
     if( file.exists() )
     {
 	if( file.open(QFile::ReadOnly) )
@@ -704,12 +708,7 @@ void MainWindow::loadStyleSheet()
 		qDebug("Too small file: \"%s\"", qPrintable(file.fileName()));
 		return;
 	    }
-	    char cur_dir_[PATH_MAX+1];
-	    char* cur_dir = (char*)&cur_dir_;
-	    ::getcwd(cur_dir, PATH_MAX);
-	    ::chdir("/etc/alterator/design-browser-qt");
 	    qApp->setStyleSheet(styleContent);
-	    ::chdir(cur_dir);
 	}
 	else
 	{
