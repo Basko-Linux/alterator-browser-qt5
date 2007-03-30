@@ -8,7 +8,7 @@
 class alGroupBox: public alWidgetPre<QGroupBox>
 {
 public:
-	alGroupBox(const QString& id,const QString& parent, Qt::Orientation orientation, const QString& checkable);
+	alGroupBox(const QString& id,const QString& parent, Qt::Orientation orientation, bool checkable);
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const ;
@@ -17,7 +17,7 @@ public:
 class alVGroupBox: public alGroupBox
 {
 public:
-	alVGroupBox(const QString& id,const QString& parent, const QString& checkable):
+	alVGroupBox(const QString& id,const QString& parent, bool checkable):
 		alGroupBox(id,parent,Qt::Vertical, checkable)
 	{}
 };
@@ -25,7 +25,7 @@ public:
 class alHGroupBox: public alGroupBox
 {
 public:
-	alHGroupBox(const QString& id,const QString& parent, const QString& checkable):
+	alHGroupBox(const QString& id,const QString& parent, bool checkable):
 		alGroupBox(id,parent,Qt::Horizontal, checkable)
 	{}
 };

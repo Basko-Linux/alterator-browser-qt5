@@ -21,6 +21,7 @@ public:
 
 signals:
     void newRequest(const QMap<QString,QString>&);
+    void newRequest(const QString&, const QString&, const QString&, const QString&, const QString&, Qt::Orientation, const QString&, bool, const QString&);
     void closeRequest(const QString&);
     void cleanRequest(const QString&);
     void setRequest(const QString&, const QString&, const QString&);

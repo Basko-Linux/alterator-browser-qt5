@@ -1,10 +1,10 @@
 
 #include "al_groupbox.hh"
 
-alGroupBox::alGroupBox(const QString& id,const QString& parent, Qt::Orientation orientation, const QString& checkable):
+alGroupBox::alGroupBox(const QString& id,const QString& parent, Qt::Orientation orientation, bool checkable):
 	alWidgetPre<QGroupBox>((orientation==Qt::Vertical)?VGroupBox:HGroupBox,id,parent)
 {
-    wnd_->setCheckable("true" == checkable);
+    wnd_->setCheckable(checkable);
     QBoxLayout *l;
     Qt::Orientation o = Utils::fixOrientation(orientation, Qt::Vertical);
     if( o == Qt::Horizontal )

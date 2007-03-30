@@ -7,6 +7,7 @@
 
 #include "connection.hh"
 #include "global.hh"
+#include "utils.hh"
 
 #include "main_window.hh"
 extern MainWindow *main_window;
@@ -154,7 +155,7 @@ void Connection::getDocParser(alCommand *cmd)
 {
 	QXmlAttributes e = cmd->attrs_;
 	QString action = e.value("action");
-
+/*
 	if ("new" == action)
 	{
 	    QMap<QString,QString> attr;
@@ -168,6 +169,13 @@ void Connection::getDocParser(alCommand *cmd)
 	    attr["checked"] = e.value("checked");
 	    attr["columns"] = e.value("columns");
 	    emit newRequest(attr);
+	}
+*/
+	if ("new" == action)
+	{
+	    emit newRequest(e.value("widget-id"), e.value("type"), e.value("parent"),
+		e.value("width"), e.value("height"), Utils::convertOrientation(e.value("orientation")),
+		e.value("sub-type"), e.value("checked") == "true", e.value("columns"));
 	}
 	else if ("close" == action)
 		emit closeRequest(e.value("widget-id"));

@@ -67,7 +67,9 @@ private slots:
 
     void doRetry();
     void onRetryRequest();
-    void onNewRequest(const QMap<QString,QString>& attr);
+    void onNewRequest(const QString &id, const QString &type, const QString &parent_id,
+	const QString &width, const QString &height, Qt::Orientation orientation,  const QString &sub_type, bool checked,
+	const QString &columns);
     void onCloseRequest(const QString& id);
     void onCleanRequest(const QString& id);
     void onSetRequest(const QString& id,const QString& attr,const QString& value);
