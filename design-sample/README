@@ -1,6 +1,6 @@
 Слямзено из примеров Qt.
 
-Дизайн располагается в файле /usr/share/design-browser-qt/name_of_design
+Дизайн располагается в файле /usr/share/design-browser-qt/name_of_design.rcc
 Создается ссылка на него /etc/alterator/design-browser-qt
 
 Содержимое:
@@ -13,5 +13,5 @@
 
 При запаковке:
 /etc/alterator/design-browser-qt должна делаться при помощи alternatives
-/usr/share/design-browser-qt и /usr/share/design-browser-qt/current - зарезервированные имена
-и будут в пакете alterator-browser-qt
+Каталог /usr/share/design-browser-qt и файл /usr/share/design-browser-qt/current -
+зарезервированные имена и будут в пакете alterator-browser-qt
