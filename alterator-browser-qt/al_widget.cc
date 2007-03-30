@@ -145,6 +145,17 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	{
 	    ("false" == value)?getWidget()->clearFocus():getWidget()->setFocus();
 	}
+	else if ("tab-order" == name)
+	{
+	    QWidget *first = 0;
+	    if( elements.contains(value) )
+		first = elements[value]->getWidget();
+	    if( first )
+	    {
+		QWidget *w = getWidget();
+		w->setTabOrder(first, w);
+	    }
+	}
 }
 
 QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy, const Qt::Orientation parent_orientation)

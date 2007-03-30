@@ -645,7 +645,7 @@ void MainWindow::loadStyleSheet()
 	QSettings settings("/etc/alterator/design-browser-qt/design.ini", QSettings::IniFormat, this);
 	settings.setFallbacksEnabled(false);
 
-	// set style
+	// set Qt style
 	QString styleName = settings.value("style", "Plastique").toString();
 	if( !QStyleFactory::keys().contains(styleName) )
 	    styleName = "Plastique";
@@ -704,11 +704,12 @@ void MainWindow::loadStyleSheet()
 		qDebug("Too small file: \"%s\"", qPrintable(file.fileName()));
 		return;
 	    }
-	    QDir cur_dir = QDir::current();
-	    QString cur = cur_dir.absolutePath();
-	    cur_dir.cd("/etc/alterator/design-browser-qt");
+	    char cur_dir_[PATH_MAX+1];
+	    char* cur_dir = (char*)&cur_dir_;
+	    ::getcwd(cur_dir, PATH_MAX);
+	    ::chdir("/etc/alterator/design-browser-qt");
 	    qApp->setStyleSheet(styleContent);
-	    cur_dir.cd(cur);
+	    ::chdir(cur_dir);
 	}
 	else
 	{
