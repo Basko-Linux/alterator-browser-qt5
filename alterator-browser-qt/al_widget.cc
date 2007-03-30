@@ -143,7 +143,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	}
 	else if ("focus" == name)
 	{
-	    getWidget()->setFocus();
+	    ("false" == value)?getWidget()->clearFocus():getWidget()->setFocus();
 	}
 }
 
