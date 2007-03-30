@@ -141,6 +141,10 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	{
 	    main_window->setHelpSource(value);
 	}
+	else if ("focus" == name)
+	{
+	    getWidget()->setFocus();
+	}
 }
 
 QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy, const Qt::Orientation parent_orientation)
