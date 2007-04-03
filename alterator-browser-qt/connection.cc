@@ -17,6 +17,21 @@ Connection::Connection(QObject *parent):
 {
     destruction = false;
     islong_timer_id = 0;
+    str2action["new"] = AlteratorRequestNew;
+    str2action["close"] = AlteratorRequestClose;
+    str2action["clean"] = AlteratorRequestClean;
+    str2action["set"] = AlteratorRequestSet;
+    str2action["create-event"] = AlteratorRequestEvent;
+    str2action["splash"] = AlteratorRequestSplash;
+    str2action["start"] = AlteratorRequestStart;
+    str2action["stop"] = AlteratorRequestStop;
+    str2action["messagebox"] = AlteratorRequestMessage;
+    str2action["language"] = AlteratorRequestLanguage;
+    str2action["retry"] = AlteratorRequestRetry;
+    str2action["constraints-add"]   = AlteratorRequestCnstrAdd;
+    str2action["constraints-clear"] = AlteratorRequestCnstrClear;
+    str2action["constraints-apply"] = AlteratorRequestCnstrApply;
+
     connect(this, SIGNAL(started()), this, SLOT(startDelayedFinish()));
     connect(this, SIGNAL(finished()), this, SLOT(endDelayedFinish()));
 }
@@ -154,64 +169,101 @@ void Connection::endDelayedFinish()
 void Connection::getDocParser(alCommand *cmd)
 {
 	QXmlAttributes e = cmd->attrs_;
-	QString action = e.value("action");
+	AlteratorRequestInfo request;
+	request.type = AlteratorRequestDefault;
+	request.action = str2action[e.value("action")];
+	switch( request.action )
+	{
+	    case AlteratorRequestNew:
+	    {
+		request.attr["widget-id"] = e.value("widget-id");
+		request.attr["type"] = e.value("type");
+		request.attr["parent"] = e.value("parent");
+		request.attr["width"] = e.value("width");
+		request.attr["height"] = e.value("height");
+		request.attr["orientation"] = e.value("orientation");
+		request.attr["sub-type"] = e.value("sub-type");
+		request.attr["checked"] = e.value("checked");
+		request.attr["columns"] = e.value("columns");
+		break;
+	    }
+	    case AlteratorRequestClose:
+	    {
+		request.attr["widget-id"] = e.value("widget-id");
+		break;
+	    }
+	    case AlteratorRequestClean:
+	    {
+		request.attr["widget-id"] = e.value("widget-id");
+		break;
+	    }
+	    case AlteratorRequestSet:
+	    {
+		request.attr["widget-id"] = e.value("widget-id");
+		request.attr["name"] = e.value("name");
+		request.attr["value"] = cmd->value_;
+		break;
+	    }
+	    case AlteratorRequestEvent:
+	    {
+		request.attr["widget-id"] = e.value("widget-id");
+		request.attr["value"] = cmd->value_;
+		break;
+	    }
+	    case AlteratorRequestSplash:
+	    {
+		request.attr["value"] = cmd->value_;
+		break;
+	    }
+	    case AlteratorRequestStart:
+	    {
+		request.attr["widget-id"] = e.value("widget-id");
+		break;
+	    }
+	    case AlteratorRequestStop:
+	    {
+		request.attr["widget-id"] = e.value("widget-id");
+		break;
+	    }
+	    case AlteratorRequestMessage:
+	    {
+		request.attr["type"] = e.value("type");
+		request.attr["title"] = e.value("title");
+		request.attr["message"] = e.value("message");
+		request.attr["buttons"] = e.value("buttons");
+		break;
+	    }
+	    case AlteratorRequestLanguage:
+	    {
+		request.attr["value"] = e.value(cmd->value_);
+		break;
+	    }
+	    case AlteratorRequestRetry:
+	    {
+		break;
+	    }
+	    case AlteratorRequestCnstrAdd:
+	    {
+		request.attr["name"] = e.value("name");
+		request.attr["type"] = e.value("type");
+		request.attr["params"] = e.value("params");
+		break;
+	    }
+	    case AlteratorRequestCnstrClear:
+	    {
+		break;
+	    }
+	    case AlteratorRequestCnstrApply:
+	    {
+		break;
+	    }
 /*
-	if ("new" == action)
-	{
-	    QMap<QString,QString> attr;
-	    attr["widget-id"] = e.value("widget-id");
-	    attr["type"] = e.value("type");
-	    attr["parent"] = e.value("parent");
-	    attr["width"] = e.value("width");
-	    attr["height"] = e.value("height");
-	    attr["orientation"] = e.value("orientation");
-	    attr["sub-type"] = e.value("sub-type");
-	    attr["checked"] = e.value("checked");
-	    attr["columns"] = e.value("columns");
-	    emit newRequest(attr);
-	}
+	    default:
+	    {
+		qDebug("Unknown alterator request action \"%s\".", qPrintable(e.value("action")));
+		return;
+	    }
 */
-	if ("new" == action)
-	{
-	    emit newRequest(e.value("widget-id"), e.value("type"), e.value("parent"),
-		e.value("width"), e.value("height"), Utils::convertOrientation(e.value("orientation")),
-		e.value("sub-type"), e.value("checked") == "true", e.value("columns"));
 	}
-	else if ("close" == action)
-		emit closeRequest(e.value("widget-id"));
-	else if ("clean" == action)
-		emit cleanRequest(e.value("widget-id"));
-	else if ("set" == action)
-		emit setRequest(e.value("widget-id"),
-			   e.value("name"),
-			   cmd->value_);
-	else if ("create-event" == action)
-		emit eventRequest(e.value("widget-id"), cmd->value_);
-	else if ("splash" == action)
-		emit splashMessageRequest(cmd->value_);
-	else if ("start" == action)
-		emit startRequest(e.value("widget-id"));
-	else if ("stop" == action)
-		emit stopRequest(e.value("widget-id"));
-	else if ("messagebox" == action)
-		emit messageBoxRequest(e.value("type"), e.value("title"), e.value("message"), e.value("buttons"));
-	else if ("language" == action)
-		emit changeLanguageRequest(cmd->value_);
-	else if ("retry" == action)
-	{
-	    emit retryRequest();
-	}
-	else if ("constraints-clear" == action)
-	{
-	    emit constraintsClearRequest();
-	}
-	else if ("constraints-apply" == action)
-	{
-	    emit constraintsApplyRequest();
-	}
-	else if ("constraints-add" == action)
-	{
-	    emit constraintsAddRequest(e.value("name"),e.value("type"),e.value("params"));
-	}
-	//qDebug("getDocParser action %s", action.toLatin1().data());
+	emit alteratorRequest(request);
 }

@@ -49,6 +49,7 @@ MainWindow::MainWindow():
     MainWindow_t(0)
 {
     qRegisterMetaType<Qt::Orientation>("Qt::Orientation");
+    qRegisterMetaType<AlteratorRequestInfo>("AlteratorRequestInfo");
     loadStyleSheet();
 
     internal_splash = false;
@@ -136,6 +137,9 @@ void MainWindow::start()
     qDebug("socket path %s ...",qPrintable(socketPath));
     mailbox = new MailBox(socketPath, this);
 
+    connect(connection, SIGNAL(alteratorRequest(const AlteratorRequestInfo&)),
+	    this, SLOT(onAlteratorRequest(const AlteratorRequestInfo&)));
+/*
     connect(connection, SIGNAL(newRequest(const QString&, const QString&, const QString&, const QString&, const QString&, Qt::Orientation, const QString&, bool, const QString&)),
 	    this, SLOT(onNewRequest(const QString&, const QString&, const QString&, const QString&, const QString&, Qt::Orientation, const QString&, bool, const QString&)));
     connect(connection, SIGNAL(closeRequest(const QString&)),
@@ -165,6 +169,7 @@ void MainWindow::start()
 	constraints, SLOT(add(const QString&, const QString&, const QString&)));
     connect(connection, SIGNAL(constraintsClearRequest()), constraints, SLOT(clear()));
     connect(connection, SIGNAL(constraintsApplyRequest()), constraints, SLOT(apply()));
+*/
 
     connection->init();
 }
@@ -355,6 +360,86 @@ void MainWindow::emitEvent(const QString& id,const QString& type)
 	request += "))"; //close message
 
 	connection->getDocument(request);
+}
+
+void MainWindow::onAlteratorRequest(const AlteratorRequestInfo& request)
+{
+    switch( request.action )
+    {
+	    case AlteratorRequestNew:
+	    {
+		onNewRequest(request.attr["widget-id"], request.attr["type"], request.attr["parent"],
+		    request.attr["width"], request.attr["height"], Utils::convertOrientation(request.attr["orientation"]),
+		    request.attr["sub-type"], request.attr["checked"] == "true", request.attr["columns"]);
+		break;
+	    }
+	    case AlteratorRequestClose:
+	    {
+		onCloseRequest(request.attr["widget-id"]);
+		break;
+	    }
+	    case AlteratorRequestClean:
+	    {
+		onCleanRequest(request.attr["widget-id"]);
+		break;
+	    }
+	    case AlteratorRequestSet:
+	    {
+		onSetRequest(request.attr["widget-id"], request.attr["name"], request.attr["value"]);
+		break;
+	    }
+	    case AlteratorRequestEvent:
+	    {
+		onEventRequest(request.attr["widget-id"], request.attr["value"]);
+		break;
+	    }
+	    case AlteratorRequestSplash:
+	    {
+		onSplashMessageRequest(request.attr["value"]);
+		break;
+	    }
+	    case AlteratorRequestStart:
+	    {
+		onStartRequest(request.attr["widget-id"]);
+		break;
+	    }
+	    case AlteratorRequestStop:
+	    {
+		onStopRequest(request.attr["widget-id"]);
+		break;
+	    }
+	    case AlteratorRequestMessage:
+	    {
+		onMessageBoxRequest(request.attr["type"], request.attr["title"],
+			request.attr["message"], request.attr["buttons"]);
+		break;
+	    }
+	    case AlteratorRequestLanguage:
+	    {
+		changeLanguage(request.attr["value"]);
+		break;
+	    }
+	    case AlteratorRequestRetry:
+	    {
+		onRetryRequest();
+		break;
+	    }
+	    case AlteratorRequestCnstrAdd:
+	    {
+		constraints->add(request.attr["name"], request.attr["type"], request.attr["params"]);
+		break;
+	    }
+	    case AlteratorRequestCnstrClear:
+	    {
+		constraints->clear();
+		break;
+	    }
+	    case AlteratorRequestCnstrApply:
+	    {
+		constraints->apply();
+		break;
+	    }
+    }
 }
 
 void MainWindow::onNewRequest(const QString &id, const QString &type, const QString &parent_id,

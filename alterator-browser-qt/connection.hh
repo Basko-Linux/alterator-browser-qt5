@@ -4,10 +4,42 @@
 #include <QDomDocument>
 #include <QThread>
 #include <QTimer>
+#include <QMap>
 
 #include "sax.hh"
 
 typedef void (*parserfunc)(alCommand*);
+
+enum AlteratorRequestAction
+{
+    AlteratorRequestNew,
+    AlteratorRequestClose,
+    AlteratorRequestClean,
+    AlteratorRequestSet,
+    AlteratorRequestEvent,
+    AlteratorRequestSplash,
+    AlteratorRequestStart,
+    AlteratorRequestStop,
+    AlteratorRequestMessage,
+    AlteratorRequestLanguage,
+    AlteratorRequestCnstrAdd,
+    AlteratorRequestCnstrClear,
+    AlteratorRequestCnstrApply,
+    AlteratorRequestRetry
+};
+
+enum AlteratorRequestType
+{
+    AlteratorRequestDefault,
+    AlteratorRequestBlocking
+};
+
+struct AlteratorRequestInfo
+{
+    AlteratorRequestType type;
+    AlteratorRequestAction action;
+    QMap<QString, QString> attr;
+};
 
 class Connection: public QThread
 {
@@ -20,6 +52,7 @@ public:
     void getDocument(const QString& content = "(alterator-request action \"get\")");
 
 signals:
+    void alteratorRequest(const AlteratorRequestInfo&);
     void newRequest(const QString&, const QString&, const QString&, const QString&, const QString&, Qt::Orientation, const QString&, bool, const QString&);
     void closeRequest(const QString&);
     void cleanRequest(const QString&);
@@ -45,6 +78,7 @@ private slots:
     void endDelayedFinish();
 
 private:
+    QMap<QString,AlteratorRequestAction> str2action;
     QStringList requests;
     QString sessionId;
     QString userId;

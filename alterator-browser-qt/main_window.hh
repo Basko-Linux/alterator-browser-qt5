@@ -60,12 +60,6 @@ private:
     void splashStart();
     void loadStyleSheet();
 
-private slots:
-    void onStartBusySplash();
-    void onStopBusySplash();
-    void onInternalSplashMessage(const QString& msg);
-
-    void doRetry();
     void onRetryRequest();
     void onNewRequest(const QString &id, const QString &type, const QString &parent_id,
 	const QString &width, const QString &height, Qt::Orientation orientation,  const QString &sub_type, bool checked,
@@ -78,5 +72,13 @@ private slots:
     void onEventRequest(const QString& id,const QString& value);
     void onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, const QString& buttons);
     void onSplashMessageRequest(const QString& msg);
+
+private slots:
+    void onStartBusySplash();
+    void onStopBusySplash();
+    void onInternalSplashMessage(const QString& msg);
+
+    void doRetry();
+    void onAlteratorRequest(const AlteratorRequestInfo&);
 };
 #endif
