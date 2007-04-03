@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
-Version: 2.9.45
-Release: alt2
+Version: 2.9.46
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -62,6 +62,12 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Tue Apr 03 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.46-alt1
+- add possibility to ignore outgoing events during special request to alterator
+- support one-file design themes
+- add tab-order, focus attributes to all widgets
+- add possibility remove focus from fidget
+
 * Wed Mar 28 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.45-alt2
 - small UI fix
 
