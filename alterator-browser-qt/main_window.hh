@@ -26,7 +26,7 @@ public:
     void setHelpSource(const QString&);
     void changeLanguage(const QString&);
     void getDocument(const QString& request);
-    void emitEvent(const QString& id,const QString& type);
+    void emitEvent(const QString& id,const QString& type, AlteratorRequestType request_type = AlteratorRequestDefault);
 
 signals:
     void languageChanged();

@@ -488,13 +488,26 @@ QString AWizardFace::currentAction()
 void AWizardFace::onSelectAction(const QString& key)
 {
     //qDebug("current action is <%s>", key.toLatin1().data());
-    if( key2type[key] == ActionHelp )
+    ActionType type = key2type[key];
+    if( type == ActionHelp )
     {
 	QHelpEvent *hlp = new QHelpEvent((QEvent::Type)EVENT_HELP, QPoint(), QPoint());
 	QApplication::postEvent(main_window, hlp);
     }
     current_action = key;
-    emit actionSelected();
+    switch( type )
+    {
+	case ActionApply:
+	case ActionFinish:
+	case ActionForward:
+	case ActionBackward:
+	{
+	    emit blockingActionSelected();
+	    break;
+	}
+	default:
+	    emit actionSelected();
+    }
 }
 
 void AWizardFace::onSelectStep(QListWidgetItem*)
@@ -575,6 +588,8 @@ void alWizardFace::registerEvent(const QString& name)
 {
     if ("clicked" == name)
 	connect(wnd_,SIGNAL(actionSelected()), SLOT(onClick()));
+    if ("clicked" == name)
+	connect(wnd_,SIGNAL(blockingActionSelected()), SLOT(onBlockingClick()));
     if ("selected" == name)
 	connect(wnd_,SIGNAL(stepSelected()), SLOT(onSelect()));
 }

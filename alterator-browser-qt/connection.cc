@@ -59,10 +59,13 @@ void Connection::init()
 	parseAnswer(dom.get());
 }
 
-void Connection::getDocument(const QString &content)
+void Connection::getDocument(const QString &content, AlteratorRequestType request_type)
 {
     if( destruction ) return;
-    requests.append(makeRequest(content));
+    AlteratorAskInfo ask;
+    ask.type = request_type;
+    ask.request = makeRequest(content);
+    requests.append(ask);
     if(!isRunning())
 	start();
 }
@@ -77,12 +80,16 @@ QString Connection::makeRequest(const QString& content)
        return out;
 }
 
-void Connection::parseAnswer(alRequest *dom)
+void Connection::parseAnswer(alRequest *dom, AlteratorRequestType request_type)
 {
     QListIterator<alCommand*> it(dom->commands_);
     while(it.hasNext())
     {
-	getDocParser(it.next());
+	alCommand* cmd = it.next();
+	if( it.hasNext() )
+	    getDocParser(cmd, AlteratorRequestDefault);
+	else
+	    getDocParser(cmd, request_type);
     }
 }
 
@@ -137,9 +144,10 @@ void Connection::run()
 {
     while(!requests.isEmpty())
     {
-	std::cout<< requests.takeFirst().toUtf8().data() << std::endl << std::flush;
+	AlteratorAskInfo ask = requests.takeFirst();
+	std::cout<< ask.request.toUtf8().data() << std::endl << std::flush;
 	std::auto_ptr<alRequest> dom(readRequest());
-	parseAnswer(dom.get());
+	parseAnswer(dom.get(), ask.type);
     }
 }
 
@@ -166,11 +174,11 @@ void Connection::endDelayedFinish()
     emit stopLongRequest();
 }
 
-void Connection::getDocParser(alCommand *cmd)
+void Connection::getDocParser(alCommand *cmd, AlteratorRequestType request_type)
 {
 	QXmlAttributes e = cmd->attrs_;
 	AlteratorRequestInfo request;
-	request.type = AlteratorRequestDefault;
+	request.type = request_type;
 	request.action = str2action[e.value("action")];
 	switch( request.action )
 	{

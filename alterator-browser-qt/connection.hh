@@ -41,6 +41,12 @@ struct AlteratorRequestInfo
     QMap<QString, QString> attr;
 };
 
+struct AlteratorAskInfo
+{
+    AlteratorRequestType type;
+    QString request;
+};
+
 class Connection: public QThread
 {
     Q_OBJECT;
@@ -49,10 +55,12 @@ public:
     ~Connection();
 
     void init();
-    void getDocument(const QString& content = "(alterator-request action \"get\")");
+    void getDocument(const QString& content = "(alterator-request action \"get\")",
+	AlteratorRequestType request_type = AlteratorRequestDefault);
 
 signals:
     void alteratorRequest(const AlteratorRequestInfo&);
+#if 0
     void newRequest(const QString&, const QString&, const QString&, const QString&, const QString&, Qt::Orientation, const QString&, bool, const QString&);
     void closeRequest(const QString&);
     void cleanRequest(const QString&);
@@ -67,6 +75,7 @@ signals:
     void constraintsApplyRequest();
     void constraintsAddRequest(const QString&, const QString&, const QString&);
     void retryRequest();
+#endif
     void startLongRequest();
     void stopLongRequest();
 
@@ -79,15 +88,17 @@ private slots:
 
 private:
     QMap<QString,AlteratorRequestAction> str2action;
-    QStringList requests;
+    QList<AlteratorAskInfo> requests;
     QString sessionId;
     QString userId;
     int islong_timer_id;
     bool destruction;
 
-    void getDocParser(alCommand *cmd);
+    void getDocParser(alCommand *cmd,
+	AlteratorRequestType request_type = AlteratorRequestDefault);
     QString makeRequest(const QString& content);
-    void parseAnswer(alRequest *dom);
+    void parseAnswer(alRequest *dom,
+	AlteratorRequestType request_type = AlteratorRequestDefault);
     QString createLangList();
     void run();
 };

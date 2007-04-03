@@ -59,6 +59,7 @@ public:
 signals:
     void stepSelected();
     void actionSelected();
+    void blockingActionSelected();
 // private
     void actionSelected(const QString&);
 

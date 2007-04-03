@@ -160,16 +160,16 @@ void MainWindow::start()
 	    this, SLOT(onSplashMessageRequest(const QString&)));
     connect(connection, SIGNAL(retryRequest()),
 	    this, SLOT(onRetryRequest()));
-    connect(connection, SIGNAL(startLongRequest()),
-	    this, SLOT(onStartBusySplash()));
-    connect(connection, SIGNAL(stopLongRequest()),
-	    this, SLOT(onStopBusySplash()));
 
     connect(connection, SIGNAL(constraintsAddRequest(const QString&, const QString&, const QString&)),
 	constraints, SLOT(add(const QString&, const QString&, const QString&)));
     connect(connection, SIGNAL(constraintsClearRequest()), constraints, SLOT(clear()));
     connect(connection, SIGNAL(constraintsApplyRequest()), constraints, SLOT(apply()));
 */
+    connect(connection, SIGNAL(startLongRequest()),
+	    this, SLOT(onStartBusySplash()));
+    connect(connection, SIGNAL(stopLongRequest()),
+	    this, SLOT(onStopBusySplash()));
 
     connection->init();
 }
@@ -338,9 +338,11 @@ void MainWindow::changeLanguage(const QString& language)
     emit languageChanged();
 }
 
-void MainWindow::emitEvent(const QString& id,const QString& type)
+void MainWindow::emitEvent(const QString& id,const QString& type, AlteratorRequestType request_type)
 {
 	if( emit_locker > 0 ) return;
+	if( request_type == AlteratorRequestBlocking )
+	    ++emit_locker;
 
 	QString request = "(alterator-request action \"event\"";
 	request += "name \""+type+"\"";//append type
@@ -359,7 +361,7 @@ void MainWindow::emitEvent(const QString& id,const QString& type)
 	
 	request += "))"; //close message
 
-	connection->getDocument(request);
+	connection->getDocument(request, request_type);
 }
 
 void MainWindow::onAlteratorRequest(const AlteratorRequestInfo& request)
@@ -440,6 +442,9 @@ void MainWindow::onAlteratorRequest(const AlteratorRequestInfo& request)
 		break;
 	    }
     }
+
+    if( request.type == AlteratorRequestBlocking )
+	    --emit_locker;
 }
 
 void MainWindow::onNewRequest(const QString &id, const QString &type, const QString &parent_id,
@@ -565,16 +570,12 @@ void MainWindow::onCleanRequest(const QString& id)
 void MainWindow::onSetRequest(const QString& id,const QString& attr,const QString& value)
 {
 	//qDebug("%s: id<%s> attr<%s> value<%s>", __FUNCTION__, id.toLatin1().data(), attr.toLatin1().data(), value.toLocal8Bit().data());
-
-	++emit_locker;
-	if (!elements.contains(id))
+	if (elements.contains(id))
 	{
-	    --emit_locker;
-	    return;
-	}
-	else
+	    ++emit_locker;
 	    elements[id]->setAttr(attr,value);
-	--emit_locker;
+	    --emit_locker;
+	}
 }
 
 void MainWindow::onStartRequest(const QString& id)
