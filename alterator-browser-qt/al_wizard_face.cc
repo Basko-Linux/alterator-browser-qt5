@@ -587,9 +587,10 @@ QLayout* alWizardFace::getViewLayout()
 void alWizardFace::registerEvent(const QString& name)
 {
     if ("clicked" == name)
+    {
 	connect(wnd_,SIGNAL(actionSelected()), SLOT(onClick()));
-    if ("clicked" == name)
 	connect(wnd_,SIGNAL(blockingActionSelected()), SLOT(onBlockingClick()));
+    }
     if ("selected" == name)
 	connect(wnd_,SIGNAL(stepSelected()), SLOT(onSelect()));
 }
