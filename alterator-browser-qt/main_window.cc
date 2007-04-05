@@ -429,10 +429,12 @@ void MainWindow::onNewRequest(const QString &id, const QString &type, const QStr
     const QString &width, const QString &height, Qt::Orientation orientation,  const QString &sub_type, bool checked,
     const QString &columns)
 {
+    /*
 	qDebug("%s: id<%s> type<%s> parent_id<%s> orientation<%s> sub-type<%s> width<%s> height<%s> columns<%s>", __FUNCTION__,
 	    qPrintable(id), qPrintable(type), qPrintable(parent_id),
 	    orientation == Qt::Horizontal ? "-":"|", qPrintable(sub_type),
 	    qPrintable(width), qPrintable(height), qPrintable(columns) );
+	*/
 
 	alWidget *new_widget = 0;
 	if ("root" == type)
