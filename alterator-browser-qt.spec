@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.46
+Version: 2.9.47
 Release: alt1
 
 Source:%name-%version.tar
@@ -62,6 +62,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Thu Apr 05 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.47-alt1
+- fix early igniring outgouing events during special request to alterator
+
 * Tue Apr 03 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.46-alt1
 - add possibility to ignore outgoing events during special request to alterator
 - support one-file design themes
