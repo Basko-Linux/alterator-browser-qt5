@@ -49,7 +49,7 @@ MainWindow::MainWindow():
     MainWindow_t(0)
 {
     qRegisterMetaType<Qt::Orientation>("Qt::Orientation");
-    qRegisterMetaType<AlteratorRequestInfo>("AlteratorRequestInfo");
+    qRegisterMetaType<AlteratorRequest>("AlteratorRequest");
     loadStyleSheet();
 
     internal_splash = false;
@@ -137,35 +137,9 @@ void MainWindow::start()
     qDebug("socket path %s ...",qPrintable(socketPath));
     mailbox = new MailBox(socketPath, this);
 
-    connect(connection, SIGNAL(alteratorRequest(const AlteratorRequestInfo&)),
-	    this, SLOT(onAlteratorRequest(const AlteratorRequestInfo&)));
-/*
-    connect(connection, SIGNAL(newRequest(const QString&, const QString&, const QString&, const QString&, const QString&, Qt::Orientation, const QString&, bool, const QString&)),
-	    this, SLOT(onNewRequest(const QString&, const QString&, const QString&, const QString&, const QString&, Qt::Orientation, const QString&, bool, const QString&)));
-    connect(connection, SIGNAL(closeRequest(const QString&)),
-	    this, SLOT(onCloseRequest(const QString&)));
-    connect(connection, SIGNAL(cleanRequest(const QString&)),
-	    this, SLOT(onCleanRequest(const QString&)));
-    connect(connection, SIGNAL(setRequest(const QString&, const QString&, const QString&)),
-	    this, SLOT(onSetRequest(const QString&, const QString&, const QString&)));
-    connect(connection, SIGNAL(startRequest(const QString&)),
-	    this, SLOT(onStartRequest(const QString&)));
-    connect(connection, SIGNAL(stopRequest(const QString&)),
-	    this, SLOT(onStopRequest(const QString&)));
-    connect(connection, SIGNAL(eventRequest(const QString&, const QString&)),
-	    this, SLOT(onEventRequest(const QString&, const QString&)));
-    connect(connection, SIGNAL(messageBoxRequest(const QString&, const QString&, const QString&, const QString&)),
-	    this, SLOT(onMessageBoxRequest(const QString&, const QString&, const QString&, const QString&)));
-    connect(connection, SIGNAL(splashMessageRequest(const QString&)),
-	    this, SLOT(onSplashMessageRequest(const QString&)));
-    connect(connection, SIGNAL(retryRequest()),
-	    this, SLOT(onRetryRequest()));
+    connect(connection, SIGNAL(alteratorRequest(const AlteratorRequest&)),
+	    this, SLOT(onAlteratorRequest(const AlteratorRequest&)));
 
-    connect(connection, SIGNAL(constraintsAddRequest(const QString&, const QString&, const QString&)),
-	constraints, SLOT(add(const QString&, const QString&, const QString&)));
-    connect(connection, SIGNAL(constraintsClearRequest()), constraints, SLOT(clear()));
-    connect(connection, SIGNAL(constraintsApplyRequest()), constraints, SLOT(apply()));
-*/
     connect(connection, SIGNAL(startLongRequest()),
 	    this, SLOT(onStartBusySplash()));
     connect(connection, SIGNAL(stopLongRequest()),
@@ -364,8 +338,14 @@ void MainWindow::emitEvent(const QString& id,const QString& type, AlteratorReque
 	connection->getDocument(request, request_type);
 }
 
-void MainWindow::onAlteratorRequest(const AlteratorRequestInfo& request)
+void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
 {
+    if( request.type == AlteratorRequestBlocking )
+	    --emit_locker;
+
+    for(AlteratorRequestActionList::const_iterator it = (request.actions).begin(); it != (request.actions).end(); it++)
+    {
+	AlteratorRequestActionInfo request = *it;
     switch( request.action )
     {
 	    case AlteratorRequestNew:
@@ -442,20 +422,17 @@ void MainWindow::onAlteratorRequest(const AlteratorRequestInfo& request)
 		break;
 	    }
     }
-
-    if( request.type == AlteratorRequestBlocking )
-	    --emit_locker;
+    }
 }
 
 void MainWindow::onNewRequest(const QString &id, const QString &type, const QString &parent_id,
     const QString &width, const QString &height, Qt::Orientation orientation,  const QString &sub_type, bool checked,
     const QString &columns)
 {
-/*
-	qDebug("%s: id<%s> type<%s> parent_id<%s> orientation<%s> sub-type<%s>", __FUNCTION__,
+	qDebug("%s: id<%s> type<%s> parent_id<%s> orientation<%s> sub-type<%s> width<%s> height<%s> columns<%s>", __FUNCTION__,
 	    qPrintable(id), qPrintable(type), qPrintable(parent_id),
-	    qPrintable(attr["orientation"]), qPrintable(attr.value("sub-type")) );
-*/
+	    orientation == Qt::Horizontal ? "-":"|", qPrintable(sub_type),
+	    qPrintable(width), qPrintable(height), qPrintable(columns) );
 
 	alWidget *new_widget = 0;
 	if ("root" == type)

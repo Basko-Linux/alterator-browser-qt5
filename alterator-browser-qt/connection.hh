@@ -12,6 +12,7 @@ typedef void (*parserfunc)(alCommand*);
 
 enum AlteratorRequestAction
 {
+    AlteratorRequestUnknown,
     AlteratorRequestNew,
     AlteratorRequestClose,
     AlteratorRequestClean,
@@ -34,11 +35,18 @@ enum AlteratorRequestType
     AlteratorRequestBlocking
 };
 
-struct AlteratorRequestInfo
+struct AlteratorRequestActionInfo
 {
-    AlteratorRequestType type;
     AlteratorRequestAction action;
     QMap<QString, QString> attr;
+};
+
+typedef QList<AlteratorRequestActionInfo> AlteratorRequestActionList;
+
+struct AlteratorRequest
+{
+    AlteratorRequestType type;
+    AlteratorRequestActionList actions;
 };
 
 struct AlteratorAskInfo
@@ -46,6 +54,8 @@ struct AlteratorAskInfo
     AlteratorRequestType type;
     QString request;
 };
+
+typedef QList<AlteratorAskInfo> AlteratorAskList;
 
 class Connection: public QThread
 {
@@ -59,23 +69,7 @@ public:
 	AlteratorRequestType request_type = AlteratorRequestDefault);
 
 signals:
-    void alteratorRequest(const AlteratorRequestInfo&);
-#if 0
-    void newRequest(const QString&, const QString&, const QString&, const QString&, const QString&, Qt::Orientation, const QString&, bool, const QString&);
-    void closeRequest(const QString&);
-    void cleanRequest(const QString&);
-    void setRequest(const QString&, const QString&, const QString&);
-    void eventRequest(const QString&, const QString&);
-    void splashMessageRequest(const QString&);
-    void startRequest(const QString&);
-    void stopRequest(const QString&);
-    void messageBoxRequest(const QString&, const QString&, const QString&, const QString&);
-    void changeLanguageRequest(const QString&);
-    void constraintsClearRequest();
-    void constraintsApplyRequest();
-    void constraintsAddRequest(const QString&, const QString&, const QString&);
-    void retryRequest();
-#endif
+    void alteratorRequest(const AlteratorRequest&);
     void startLongRequest();
     void stopLongRequest();
 
@@ -88,14 +82,13 @@ private slots:
 
 private:
     QMap<QString,AlteratorRequestAction> str2action;
-    QList<AlteratorAskInfo> requests;
+    AlteratorAskList requests;
     QString sessionId;
     QString userId;
     int islong_timer_id;
     bool destruction;
 
-    void getDocParser(alCommand *cmd,
-	AlteratorRequestType request_type = AlteratorRequestDefault);
+    AlteratorRequestActionInfo getDocParser(alCommand *cmd);
     QString makeRequest(const QString& content);
     void parseAnswer(alRequest *dom,
 	AlteratorRequestType request_type = AlteratorRequestDefault);

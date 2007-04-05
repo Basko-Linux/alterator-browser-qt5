@@ -80,19 +80,6 @@ QString Connection::makeRequest(const QString& content)
        return out;
 }
 
-void Connection::parseAnswer(alRequest *dom, AlteratorRequestType request_type)
-{
-    QListIterator<alCommand*> it(dom->commands_);
-    while(it.hasNext())
-    {
-	alCommand* cmd = it.next();
-	if( it.hasNext() )
-	    getDocParser(cmd, AlteratorRequestDefault);
-	else
-	    getDocParser(cmd, request_type);
-    }
-}
-
 /* Guess value of current locale from value of the environment variables.  */
 static const char *guess_locale_value(void)
 {
@@ -151,6 +138,18 @@ void Connection::run()
     }
 }
 
+void Connection::parseAnswer(alRequest *dom, AlteratorRequestType request_type)
+{
+    AlteratorRequest request;
+    request.type = request_type;
+    QListIterator<alCommand*> it(dom->commands_);
+    while(it.hasNext())
+    {
+	request.actions.append( getDocParser(it.next()) );
+    }
+    emit alteratorRequest(request);
+}
+
 void Connection::startDelayedFinish()
 {
     if( islong_timer_id > 0 )
@@ -174,76 +173,76 @@ void Connection::endDelayedFinish()
     emit stopLongRequest();
 }
 
-void Connection::getDocParser(alCommand *cmd, AlteratorRequestType request_type)
+AlteratorRequestActionInfo Connection::getDocParser(alCommand *cmd)
 {
 	QXmlAttributes e = cmd->attrs_;
-	AlteratorRequestInfo request;
-	request.type = request_type;
-	request.action = str2action[e.value("action")];
-	switch( request.action )
+	AlteratorRequestActionInfo act;
+	act.action = str2action[e.value("action")];
+
+	switch( act.action )
 	{
 	    case AlteratorRequestNew:
 	    {
-		request.attr["widget-id"] = e.value("widget-id");
-		request.attr["type"] = e.value("type");
-		request.attr["parent"] = e.value("parent");
-		request.attr["width"] = e.value("width");
-		request.attr["height"] = e.value("height");
-		request.attr["orientation"] = e.value("orientation");
-		request.attr["sub-type"] = e.value("sub-type");
-		request.attr["checked"] = e.value("checked");
-		request.attr["columns"] = e.value("columns");
+		act.attr["widget-id"] = e.value("widget-id");
+		act.attr["type"] = e.value("type");
+		act.attr["parent"] = e.value("parent");
+		act.attr["width"] = e.value("width");
+		act.attr["height"] = e.value("height");
+		act.attr["orientation"] = e.value("orientation");
+		act.attr["sub-type"] = e.value("sub-type");
+		act.attr["checked"] = e.value("checked");
+		act.attr["columns"] = e.value("columns");
 		break;
 	    }
 	    case AlteratorRequestClose:
 	    {
-		request.attr["widget-id"] = e.value("widget-id");
+		act.attr["widget-id"] = e.value("widget-id");
 		break;
 	    }
 	    case AlteratorRequestClean:
 	    {
-		request.attr["widget-id"] = e.value("widget-id");
+		act.attr["widget-id"] = e.value("widget-id");
 		break;
 	    }
 	    case AlteratorRequestSet:
 	    {
-		request.attr["widget-id"] = e.value("widget-id");
-		request.attr["name"] = e.value("name");
-		request.attr["value"] = cmd->value_;
+		act.attr["widget-id"] = e.value("widget-id");
+		act.attr["name"] = e.value("name");
+		act.attr["value"] = cmd->value_;
 		break;
 	    }
 	    case AlteratorRequestEvent:
 	    {
-		request.attr["widget-id"] = e.value("widget-id");
-		request.attr["value"] = cmd->value_;
+		act.attr["widget-id"] = e.value("widget-id");
+		act.attr["value"] = cmd->value_;
 		break;
 	    }
 	    case AlteratorRequestSplash:
 	    {
-		request.attr["value"] = cmd->value_;
+		act.attr["value"] = cmd->value_;
 		break;
 	    }
 	    case AlteratorRequestStart:
 	    {
-		request.attr["widget-id"] = e.value("widget-id");
+		act.attr["widget-id"] = e.value("widget-id");
 		break;
 	    }
 	    case AlteratorRequestStop:
 	    {
-		request.attr["widget-id"] = e.value("widget-id");
+		act.attr["widget-id"] = e.value("widget-id");
 		break;
 	    }
 	    case AlteratorRequestMessage:
 	    {
-		request.attr["type"] = e.value("type");
-		request.attr["title"] = e.value("title");
-		request.attr["message"] = e.value("message");
-		request.attr["buttons"] = e.value("buttons");
+		act.attr["type"] = e.value("type");
+		act.attr["title"] = e.value("title");
+		act.attr["message"] = e.value("message");
+		act.attr["buttons"] = e.value("buttons");
 		break;
 	    }
 	    case AlteratorRequestLanguage:
 	    {
-		request.attr["value"] = e.value(cmd->value_);
+		act.attr["value"] = e.value(cmd->value_);
 		break;
 	    }
 	    case AlteratorRequestRetry:
@@ -252,9 +251,9 @@ void Connection::getDocParser(alCommand *cmd, AlteratorRequestType request_type)
 	    }
 	    case AlteratorRequestCnstrAdd:
 	    {
-		request.attr["name"] = e.value("name");
-		request.attr["type"] = e.value("type");
-		request.attr["params"] = e.value("params");
+		act.attr["name"] = e.value("name");
+		act.attr["type"] = e.value("type");
+		act.attr["params"] = e.value("params");
 		break;
 	    }
 	    case AlteratorRequestCnstrClear:
@@ -273,5 +272,5 @@ void Connection::getDocParser(alCommand *cmd, AlteratorRequestType request_type)
 	    }
 */
 	}
-	emit alteratorRequest(request);
+	return act;
 }

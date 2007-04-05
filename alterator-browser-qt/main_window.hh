@@ -79,6 +79,6 @@ private slots:
     void onInternalSplashMessage(const QString& msg);
 
     void doRetry();
-    void onAlteratorRequest(const AlteratorRequestInfo&);
+    void onAlteratorRequest(const AlteratorRequest&);
 };
 #endif
