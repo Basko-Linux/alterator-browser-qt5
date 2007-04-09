@@ -356,18 +356,16 @@ void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
 		alWidget *new_wdg = onNewRequest(request.attr["widget-id"], request.attr["type"], request.attr["parent"],
 		    request.attr["width"], request.attr["height"], Utils::convertOrientation(request.attr["orientation"]),
 		    request.attr["sub-type"], request.attr["checked"] == "true", request.attr["columns"]);
-		bool ok = false;
-		int tab_index = (request.attr["tab-index"]).toInt(&ok);
-		if( ok && new_wdg )
-		{
-		    QString parent_id = new_wdg->getParentId();
-		    if( !parent_id.isEmpty() )
-		    {
-			if( !tab_order_parents.contains(parent_id) )
-			    tab_order_parents.append(parent_id);
-			tab_order_list[parent_id].insert(tab_index,new_wdg->getWidget());
-		    }
-		}
+		collectTabIndex(tab_order_parents, tab_order_list, new_wdg, request.attr["value"]);
+		break;
+	    }
+	    case AlteratorRequestSet:
+	    {
+		QString attr_name = request.attr["name"];
+		if( attr_name != "tab-index" )
+		    onSetRequest(request.attr["widget-id"], attr_name, request.attr["value"]);
+		else
+		    collectTabIndex(tab_order_parents, tab_order_list, findAlWidgetById(request.attr["widget-id"]), request.attr["value"]);
 		break;
 	    }
 	    case AlteratorRequestClose:
@@ -378,11 +376,6 @@ void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
 	    case AlteratorRequestClean:
 	    {
 		onCleanRequest(request.attr["widget-id"]);
-		break;
-	    }
-	    case AlteratorRequestSet:
-	    {
-		onSetRequest(request.attr["widget-id"], request.attr["name"], request.attr["value"]);
 		break;
 	    }
 	    case AlteratorRequestEvent:

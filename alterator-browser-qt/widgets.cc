@@ -68,3 +68,19 @@ QList<alWidget*> findAlChildren(const QString& id)
     }
     return children;
 }
+
+void collectTabIndex(QList<QString>& parents, QMap<QString, QMap<int,QWidget*> >& order, alWidget *wdg, const QString& s_index)
+{
+    bool ok = false;
+    int tab_index = s_index.toInt(&ok);
+    if( ok && wdg )
+    {
+        QString parent_id = wdg->getParentId();
+        if( !parent_id.isEmpty() )
+        {
+	    if( !parents.contains(parent_id) )
+		parents.append(parent_id);
+	    order[parent_id].insert(tab_index, wdg->getWidget());
+	}
+    }
+}
