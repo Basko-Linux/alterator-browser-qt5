@@ -192,6 +192,7 @@ AlteratorRequestActionInfo Connection::getDocParser(alCommand *cmd)
 		act.attr["sub-type"] = e.value("sub-type");
 		act.attr["checked"] = e.value("checked");
 		act.attr["columns"] = e.value("columns");
+		act.attr["tab-index"] = e.value("tab-index");
 		break;
 	    }
 	    case AlteratorRequestClose:

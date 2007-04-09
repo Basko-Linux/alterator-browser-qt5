@@ -340,19 +340,34 @@ void MainWindow::emitEvent(const QString& id,const QString& type, AlteratorReque
 
 void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
 {
+    QList<QString> tab_order_parents;
+    QMap<QString, QMap<int,QWidget*> > tab_order_list;
+
     if( request.type == AlteratorRequestBlocking )
 	    --emit_locker;
 
     for(AlteratorRequestActionList::const_iterator it = (request.actions).begin(); it != (request.actions).end(); it++)
     {
 	AlteratorRequestActionInfo request = *it;
-    switch( request.action )
-    {
+	switch( request.action )
+	{
 	    case AlteratorRequestNew:
 	    {
-		onNewRequest(request.attr["widget-id"], request.attr["type"], request.attr["parent"],
+		alWidget *new_wdg = onNewRequest(request.attr["widget-id"], request.attr["type"], request.attr["parent"],
 		    request.attr["width"], request.attr["height"], Utils::convertOrientation(request.attr["orientation"]),
 		    request.attr["sub-type"], request.attr["checked"] == "true", request.attr["columns"]);
+		bool ok = false;
+		int tab_index = (request.attr["tab-index"]).toInt(&ok);
+		if( ok && new_wdg )
+		{
+		    QString parent_id = new_wdg->getParentId();
+		    if( !parent_id.isEmpty() )
+		    {
+			if( !tab_order_parents.contains(parent_id) )
+			    tab_order_parents.append(parent_id);
+			tab_order_list[parent_id].insert(tab_index,new_wdg->getWidget());
+		    }
+		}
 		break;
 	    }
 	    case AlteratorRequestClose:
@@ -421,11 +436,27 @@ void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
 		constraints->apply();
 		break;
 	    }
+	}
     }
+    QListIterator<QString> parent_it(tab_order_parents);
+    while( parent_it.hasNext() )
+    {
+	QMap<int,QWidget*> order_map = tab_order_list[parent_it.next()];
+	QMapIterator<int,QWidget*> it(order_map);
+	if( it.hasNext() )
+	{
+	    QWidget *from = it.next().value();
+	    while( it.hasNext() )
+	    {
+		QWidget *to = it.next().value();
+		setTabOrder(from, to);
+		from = to;
+	    }
+	}
     }
 }
 
-void MainWindow::onNewRequest(const QString &id, const QString &type, const QString &parent_id,
+alWidget* MainWindow::onNewRequest(const QString &id, const QString &type, const QString &parent_id,
     const QString &width, const QString &height, Qt::Orientation orientation,  const QString &sub_type, bool checked,
     const QString &columns)
 {
@@ -509,6 +540,7 @@ void MainWindow::onNewRequest(const QString &id, const QString &type, const QStr
 		}
 	    }
 	}
+    return new_widget;
 }
 
 void MainWindow::onCloseRequest(const QString& id)

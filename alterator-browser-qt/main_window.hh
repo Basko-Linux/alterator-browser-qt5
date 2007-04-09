@@ -11,6 +11,7 @@
 #include "help_browser.hh"
 #include "connection.hh"
 #include "constraints.hh"
+#include "al_widget.hh"
 
 typedef QMainWindow MainWindow_t;
 
@@ -61,7 +62,7 @@ private:
     void loadStyleSheet();
 
     void onRetryRequest();
-    void onNewRequest(const QString &id, const QString &type, const QString &parent_id,
+    alWidget* onNewRequest(const QString &id, const QString &type, const QString &parent_id,
 	const QString &width, const QString &height, Qt::Orientation orientation,  const QString &sub_type, bool checked,
 	const QString &columns);
     void onCloseRequest(const QString& id);
