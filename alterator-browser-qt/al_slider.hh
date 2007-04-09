@@ -33,12 +33,7 @@ class alSlider: public alWidgetPre<ASlider>
 {
 Q_OBJECT
 public:
-    alSlider(const QString& id, const QString& parent):
-	alWidgetPre<ASlider>(Slider,id,parent)
-    {
-	wnd_->setOrientation( Qt::Horizontal );
-	wnd_->setTickPosition( QSlider::TicksBothSides );
-    }
+    alSlider(const QString& id, const QString& parent);
     void setAttr(const QString& name,const QString& value);
     void registerEvent(const QString&);
     QString postData() const;
