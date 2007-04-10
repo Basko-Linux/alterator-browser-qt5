@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.47
+Version: 2.9.48
 Release: alt1
 
 Source:%name-%version.tar
@@ -62,6 +62,10 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Tue Apr 10 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.48-alt1
+- fix set language from alterator
+- remove tab-order attribute, add tab-index
+
 * Thu Apr 05 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.47-alt1
 - fix early igniring outgouing events during special request to alterator
 
