@@ -243,7 +243,7 @@ AlteratorRequestActionInfo Connection::getDocParser(alCommand *cmd)
 	    }
 	    case AlteratorRequestLanguage:
 	    {
-		act.attr["value"] = e.value(cmd->value_);
+		act.attr["value"] = cmd->value_;
 		break;
 	    }
 	    case AlteratorRequestRetry:
