@@ -619,7 +619,6 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
     if( "actions" == name )
     {
 	wnd_->clearActions();
-	wnd_->addAction("help", "Help", "");
 	QStringList data = value.split(";", QString::KeepEmptyParts);
 	const int len = data.size();
 	for(int i=0;i+2 < len;i+=3)
