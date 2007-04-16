@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.48
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -62,6 +62,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Mon Apr 16 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.48-alt2
+- remove Help button by default from wizardface
+
 * Tue Apr 10 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.48-alt1
 - fix set language from alterator
 - remove tab-order attribute, add tab-index
