@@ -317,7 +317,7 @@ void MainWindow::emitEvent(const QString& id,const QString& type, AlteratorReque
 	if( emit_locker > 0 ) return;
 	if( request_type == AlteratorRequestBlocking )
 	{
-	    main_window->setEnabled(false);
+	    setEnabled(false);
 	    ++emit_locker;
 	}
 
@@ -349,7 +349,7 @@ void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
     if( request.type == AlteratorRequestBlocking )
     {
 	    --emit_locker;
-	    main_window->setEnabled(true);
+	    setEnabled(true);
     }
 
     for(AlteratorRequestActionList::const_iterator it = (request.actions).begin(); it != (request.actions).end(); it++)
