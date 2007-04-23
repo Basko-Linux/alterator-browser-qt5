@@ -316,7 +316,10 @@ void MainWindow::emitEvent(const QString& id,const QString& type, AlteratorReque
 {
 	if( emit_locker > 0 ) return;
 	if( request_type == AlteratorRequestBlocking )
+	{
+	    main_window->setEnabled(false);
 	    ++emit_locker;
+	}
 
 	QString request = "(alterator-request action \"event\"";
 	request += "name \""+type+"\"";//append type
@@ -344,7 +347,10 @@ void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
     QMap<QString, QMap<int,QWidget*> > tab_order_list;
 
     if( request.type == AlteratorRequestBlocking )
+    {
 	    --emit_locker;
+	    main_window->setEnabled(true);
+    }
 
     for(AlteratorRequestActionList::const_iterator it = (request.actions).begin(); it != (request.actions).end(); it++)
     {

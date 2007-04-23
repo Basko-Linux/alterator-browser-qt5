@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
 Version: 2.9.48
-Release: alt2
+Release: alt3
 
 Source:%name-%version.tar
 
@@ -62,6 +62,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Mon Apr 23 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.48-alt3
+- disable UI during special request to alterator
+
 * Mon Apr 16 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.48-alt2
 - remove Help button by default from wizardface
 
