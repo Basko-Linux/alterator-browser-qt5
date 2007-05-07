@@ -5,12 +5,12 @@ namespace {
 
 	bool needExclude(const rules& lst)
 	{
-		QMapIterator<QString,QString> it(lst);
+		QMapIterator<QString,QStringList> it(lst);
 		while(it.hasNext())
 		{
 			it.next();
 			alWidget *excluder = findAlWidgetByName(it.key());
-			if (excluder && excluder->getValue() == it.value())
+			if ( excluder && it.value().contains(excluder->getValue()) )
 				return true;
 		}
 		return false;
@@ -79,7 +79,7 @@ void Constraints::add(const QString& name,const QString& type,const QString& par
 		{
 			const QString& value = data[0];
 			const QString& item = data[1];
-			excludings[item][name]=value;
+			excludings[item][name].append(value);
 			excluders.insert(name);
 		}
 	}

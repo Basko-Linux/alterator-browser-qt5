@@ -6,9 +6,10 @@
 #include <QSet>
 #include <QList>
 #include <QString>
+#include <QStringList>
 
 //excluder+value
-typedef QMap<QString,QString> rules;
+typedef QMap<QString,QStringList> rules;
 
 class Constraints: public QObject
 {
