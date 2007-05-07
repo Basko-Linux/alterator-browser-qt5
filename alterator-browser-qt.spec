@@ -1,6 +1,6 @@
 Name: alterator-browser-qt
-Version: 2.9.48
-Release: alt4
+Version: 2.9.49
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -62,6 +62,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Mon May 07 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.49-alt1
+- add multiple excluding values to constraints
+
 * Tue Apr 24 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.48-alt4
 - don't disable UI during special request to alterator
 
