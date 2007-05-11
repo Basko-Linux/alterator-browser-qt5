@@ -64,6 +64,7 @@ alComboBox::alComboBox(const QString& id,const QString& parent):
     alWidgetPre<AComboBox>(ComboBox,id,parent)
 {
     counter_ = 0;
+    connect(wnd_, SIGNAL(editingFinished()), this, SLOT(onUpdate()));
 }
 
 void alComboBox::setAttr(const QString& name,const QString& value)

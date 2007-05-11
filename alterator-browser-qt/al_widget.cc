@@ -22,6 +22,7 @@ alWidget::~alWidget()
     elements.remove(id_);
 }
 
+void alWidget::onUpdate() { emit updated(); }
 void alWidget::onUpdate(int) { emit updated(); }
 
 void alWidget::onClick()     { main_window->emitEvent(id_,"clicked"); }

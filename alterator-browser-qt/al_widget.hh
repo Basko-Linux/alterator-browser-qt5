@@ -58,6 +58,7 @@ public:
 	Qt::Alignment childrenAlignment();
 
 public slots:
+	void onUpdate();
 	void onUpdate(int);
 
 	void onClick();
