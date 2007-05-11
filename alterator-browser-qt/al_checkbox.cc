@@ -1,5 +1,11 @@
 #include "al_checkbox.hh"
 
+alCheckBox::alCheckBox(const QString& id,const QString& parent):
+    alWidgetPre<QCheckBox>(CheckBox,id,parent)
+{
+    connect(wnd_, SIGNAL(stateChanged(int)), this, SLOT(onUpdate(int)));
+}
+
 void alCheckBox::setAttr(const QString& name,const QString& value)
 {
 	if ("text" == name)

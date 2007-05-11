@@ -8,11 +8,8 @@
 class alCheckBox: public alWidgetPre<QCheckBox>
 {
 public:
-	alCheckBox(const QString& id,const QString& parent):
-		alWidgetPre<QCheckBox>(CheckBox,id,parent)
-	{
-	    connect(wnd_, SIGNAL(stateChanged(int)), this, SLOT(onUpdate(int)));
-	}
+	alCheckBox(const QString& id,const QString& parent);
+
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const ;
