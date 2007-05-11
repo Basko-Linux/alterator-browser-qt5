@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.49
+Version: 2.9.50
 Release: alt1
 
 Source:%name-%version.tar
@@ -62,6 +62,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Fri May 11 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.50-alt1
+- add updated() signal to combobox 
+
 * Mon May 07 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.49-alt1
 - add multiple excluding values to constraints
 
