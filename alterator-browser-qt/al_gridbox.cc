@@ -1,6 +1,4 @@
 
-#include <QChildEvent>
-
 #include "al_gridbox.hh"
 
 AGridBox::AGridBox(QWidget *parent):
