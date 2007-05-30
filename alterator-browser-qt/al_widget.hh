@@ -19,7 +19,7 @@ public:
 	    UnknownWidget, WizardFace, MainWidget, Dialog,
 	    Label, Button, Radio, Edit, TextBox,
 	    HGroupBox, VGroupBox, CheckBox, ListBox, MultiListBox, ComboBox,
-	    HTabBox, VTabBox, HTabPage, VTabPage, HBox, VBox, GridBox,
+	    HTabBox, VTabBox, HTabPage, VTabPage, HBox, VBox, GridBox, SplitBox,
 	    ProgressBar, Tree, Slider, Separator, SpinBox,
 	    HelpPlace, Proxy, Spacer, DateEdit, TimeEdit, SlideShow
 	};

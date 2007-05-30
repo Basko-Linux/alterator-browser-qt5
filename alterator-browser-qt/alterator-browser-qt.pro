@@ -23,6 +23,7 @@ SOURCES += al_slider.cc al_tree.cc al_listbox.cc al_tabbox.cc al_gridbox.cc
 SOURCES += al_spinbox.cc al_separator.cc al_progressbar.cc al_label.cc
 SOURCES += al_button.cc al_radio.cc al_checkbox.cc al_combobox.cc al_proxy.cc
 SOURCES += al_helpplace.cc al_dateedit.cc al_timeedit.cc al_slideshow.cc
+SOURCES += al_splitbox.cc
 
 HEADERS =  global.hh
 HEADERS += mailbox.hh connection.hh widgets.hh sax.hh messagebox.hh
@@ -33,6 +34,7 @@ HEADERS += al_slider.hh al_tree.hh al_listbox.hh al_tabbox.hh al_gridbox.hh
 HEADERS += al_spinbox.hh al_separator.hh al_progressbar.hh al_label.hh
 HEADERS += al_button.hh al_radio.hh al_checkbox.hh al_combobox.hh al_proxy.hh
 HEADERS += al_helpplace.hh al_dateedit.hh al_timeedit.hh al_slideshow.hh
+SOURCES += al_splitbox.hh
 
 DATA = *.pro *.spec
 RESOURCES = images.qrc

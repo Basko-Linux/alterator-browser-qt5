@@ -37,5 +37,6 @@ void collectTabIndex(QList<QString>&, QMap<QString, QMap<int,QWidget*> >&, alWid
 #include "al_dateedit.hh"
 #include "al_timeedit.hh"
 #include "al_slideshow.hh"
+#include "al_splitbox.hh"
 
 #endif
