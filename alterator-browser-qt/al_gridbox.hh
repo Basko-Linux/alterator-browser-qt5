@@ -13,8 +13,8 @@ public:
     ~AGridBox();
 
     void setColumns(const QString&);
-    QWidget* getView();
     void addChild(QWidget *chld);
+    QLayout* getViewLayout();
 
 
 private:
@@ -22,7 +22,6 @@ private:
     int columns_;
     int current_row;
     int current_column;
-    QWidget *view_widget;
 };
 
 class alGridBox: public alWidgetPre<AGridBox>
@@ -30,7 +29,6 @@ class alGridBox: public alWidgetPre<AGridBox>
 public:
     alGridBox(const QString &id,const QString &parent, const QString &columns);
     void setAttr(const QString &name,const QString &value);
-    QWidget* getViewWidget();
     QLayout* getViewLayout();
     void addChild(QWidget *chld, alWidget::Type type);
 };

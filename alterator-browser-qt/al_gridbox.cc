@@ -10,28 +10,26 @@ AGridBox::AGridBox(QWidget *parent):
     current_row = 0;
     current_column = 0;
 
-    view_widget = new QWidget(this);
-    view_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
     QVBoxLayout *layout_main = new QVBoxLayout(this);
     layout_main->setSpacing(0);
     layout_main->setMargin(0);
 
-    layout_ = new QGridLayout(view_widget);
+    layout_ = new QGridLayout();
     layout_->setMargin(0);
     layout_->setSpacing(5);
 
     layout_main->addStretch(1);
-    layout_main->addWidget(view_widget);
+    layout_main->addLayout(layout_);
     layout_main->addStretch(1);
 }
 
 AGridBox::~AGridBox() {}
 
-QWidget* AGridBox::getView()
+QLayout* AGridBox::getViewLayout()
 {
-    return view_widget;
+    return layout_;
 }
+
 void AGridBox::setColumns(const QString &columns)
 {
     if( columns_ > 0 )
@@ -90,14 +88,9 @@ void alGridBox::setAttr(const QString &name,const QString &value)
 	alWidget::setAttr(name,value);
 }
 
-QWidget* alGridBox::getViewWidget()
-{
-    return wnd_->getView();
-}
-
 QLayout* alGridBox::getViewLayout()
 {
-    return wnd_->getView()->layout();
+    return wnd_->getViewLayout();
 }
 
 void alGridBox::addChild(QWidget *chld, alWidget::Type type)
