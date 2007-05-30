@@ -13,9 +13,6 @@ AGridBox::AGridBox(QWidget *parent):
     view_widget = new QWidget(this);
     view_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    QSpacerItem *top = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
-    QSpacerItem *bottom = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
-
     QVBoxLayout *layout_main = new QVBoxLayout(this);
     layout_main->setSpacing(0);
     layout_main->setMargin(0);
@@ -24,9 +21,9 @@ AGridBox::AGridBox(QWidget *parent):
     layout_->setMargin(0);
     layout_->setSpacing(5);
 
-    layout_main->addItem(top);
+    layout_main->addStretch(1);
     layout_main->addWidget(view_widget);
-    layout_main->addItem(bottom);
+    layout_main->addStretch(1);
 }
 
 AGridBox::~AGridBox() {}
