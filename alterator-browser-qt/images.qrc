@@ -1,6 +1,6 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
    <file>images/clock.png</file>
-   <file>images/spinner.mng</file>
+   <file>images/whirl.mng</file>
 </qresource>
 </RCC>
