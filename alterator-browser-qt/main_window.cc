@@ -510,7 +510,7 @@ alWidget* MainWindow::onNewRequest(const QString &id, const QString &type, const
 	else if ("timeedit" == type)    new_widget = new alTimeEdit(id,parent_id);
 	else if ("listbox" == type)	new_widget = new alMultiListBox(id,parent_id,columns.toInt());
 	else if ("slideshow" == type)	new_widget = new alSlideShow(id,parent_id);
-	else if ("splitbox" == type)    new_widget = new alSplitBox(id,parent_id,orientation);
+	else if ("splitbox" == type)    new_widget = new alSplitBox(id,parent_id,orientation,columns);
 	else if ("wizardface" == type)
 	{
 	    if( wizard_face )

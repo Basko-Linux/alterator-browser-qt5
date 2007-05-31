@@ -6,6 +6,7 @@ ASplitBox::ASplitBox(QWidget *parent):
 {
     columns_.clear();
     columns_.append(100);
+    columns_sum = 1;
 }
 
 ASplitBox::~ASplitBox() {}
@@ -15,35 +16,25 @@ void ASplitBox::addChild(QWidget* chld)
     addWidget(chld);
 
     // adjust columns
-    int w_num = 0;
-    int all_size = 0;
-    QListIterator<int> sz_it(sizes());
-    while( sz_it.hasNext() )
+    int w_num = count();
+    int col_num = columns_.size();
+
+    if( w_num > col_num )
     {
-	all_size += sz_it.next();
-	w_num++;
-    }
-    QListIterator<int> col_it(columns_);
-    for(int i = 0; i < w_num; i++)
-    {
-	int stretch = all_size/10;
-	if( col_it.hasNext() )
-	    stretch = (all_size/100) * col_it.next();
-	else if( i > columns_.size() && i > 0 )
+	int stretch = (100-columns_sum)/(w_num-col_num);
+	for(int i = col_num; i < w_num; i++)
 	{
-	    QWidget *w = widget(i-1);
-	    if( w )
-	    {
-		QSizePolicy policy = w->sizePolicy();
-		if( orientation() == Qt::Horizontal )
-		    stretch = policy.horizontalStretch();
-		else
-		    stretch = policy.verticalStretch();
-	    }
+	    setStretchFactor(i, stretch);
 	}
-	setStretchFactor(i, stretch);
     }
-    qDebug("n widgets = %d", w_num);
+
+    QListIterator<int> col_it(columns_);
+    int c = 0;
+    while( col_it.hasNext() )
+    {
+	setStretchFactor(c, col_it.next());
+	c++;
+    }
 }
 
 void ASplitBox::setColumns(const QString &columns)
@@ -53,19 +44,28 @@ void ASplitBox::setColumns(const QString &columns)
 	qDebug("splitbox: Ignore double columns setup");
 	return;
     }
+    columns_.clear();
+    columns_sum = 0;
     QStringList cols = columns.split(";", QString::SkipEmptyParts);
     QStringListIterator it(cols);
     while( it.hasNext() )
     {
-	columns_.append(it.next().toInt());
+	int col_sz = it.next().toInt();
+	if( col_sz < 0 ) col_sz = 0;
+	columns_.append(col_sz);
+	columns_sum += col_sz;
     }
+    if( columns_sum <= 0 )
+	columns_sum = 1;
 }
 
 // alSplitBox
-alSplitBox::alSplitBox(const QString &id,const QString &parent, Qt::Orientation orientation):
+alSplitBox::alSplitBox(const QString &id,const QString &parent, Qt::Orientation orientation, const QString &columns):
 	alWidgetPre<ASplitBox>(SplitBox,id,parent)
 {
     wnd_->setOrientation(Utils::fixOrientation(orientation, Qt::Horizontal));
+    if( !columns.isEmpty() )
+	wnd_->setColumns(columns);
 }
 
 void alSplitBox::addChild(QWidget *chld, alWidget::Type type)
@@ -76,7 +76,9 @@ void alSplitBox::addChild(QWidget *chld, alWidget::Type type)
 void alSplitBox::setAttr(const QString& name,const QString& value)
 {
     if( "columns" == name )
+    {
         wnd_->setColumns(value);
+    }
     else
         alWidget::setAttr(name,value);
 }

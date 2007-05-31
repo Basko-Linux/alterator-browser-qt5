@@ -16,12 +16,13 @@ public:
 
 private:
     QList<int> columns_;
+    int columns_sum;
 };
 
 class alSplitBox: public alWidgetPre<ASplitBox>
 {
 public:
-    alSplitBox(const QString &id,const QString &parent, Qt::Orientation orientation);
+    alSplitBox(const QString &id,const QString &parent, Qt::Orientation orientation, const QString &columns);
 
     void setAttr(const QString& name,const QString& value);
     void addChild(QWidget *chld, alWidget::Type type);
