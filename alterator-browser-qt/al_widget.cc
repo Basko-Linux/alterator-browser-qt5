@@ -188,6 +188,7 @@ QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy
 	}
 	case GridBox:
 	case TextBox:
+	case SplitBox:
 	{
 	    szpol.setVerticalPolicy(QSizePolicy::Expanding);
 	    szpol.setHorizontalPolicy(QSizePolicy::Expanding);
