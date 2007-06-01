@@ -59,11 +59,11 @@ void Connection::init()
 	parseAnswer(dom.get());
 }
 
-void Connection::getDocument(const QString &content, AlteratorRequestType request_type)
+void Connection::getDocument(const QString &content, AlteratorRequestFlags request_flags)
 {
     if( destruction ) return;
     AlteratorAskInfo ask;
-    ask.type = request_type;
+    ask.flags = request_flags;
     ask.request = makeRequest(content);
     requests.append(ask);
     if(!isRunning())
@@ -134,14 +134,14 @@ void Connection::run()
 	AlteratorAskInfo ask = requests.takeFirst();
 	std::cout<< ask.request.toUtf8().data() << std::endl << std::flush;
 	std::auto_ptr<alRequest> dom(readRequest());
-	parseAnswer(dom.get(), ask.type);
+	parseAnswer(dom.get(), ask.flags);
     }
 }
 
-void Connection::parseAnswer(alRequest *dom, AlteratorRequestType request_type)
+void Connection::parseAnswer(alRequest *dom, AlteratorRequestFlags request_flags)
 {
     AlteratorRequest request;
-    request.type = request_type;
+    request.flags = request_flags;
     QListIterator<alCommand*> it(dom->commands_);
     while(it.hasNext())
     {

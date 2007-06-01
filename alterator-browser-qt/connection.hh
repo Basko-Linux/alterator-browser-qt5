@@ -29,10 +29,12 @@ enum AlteratorRequestAction
     AlteratorRequestRetry
 };
 
-enum AlteratorRequestType
+typedef int AlteratorRequestFlags;
+enum AlteratorRequestFlag
 {
-    AlteratorRequestDefault,
-    AlteratorRequestBlocking
+    AlteratorRequestDefault = 0,
+    AlteratorRequestBlocking = 1,
+    AlteratorRequestStartup = 2
 };
 
 struct AlteratorRequestActionInfo
@@ -45,13 +47,13 @@ typedef QList<AlteratorRequestActionInfo> AlteratorRequestActionList;
 
 struct AlteratorRequest
 {
-    AlteratorRequestType type;
+    AlteratorRequestFlags flags;
     AlteratorRequestActionList actions;
 };
 
 struct AlteratorAskInfo
 {
-    AlteratorRequestType type;
+    AlteratorRequestFlags flags;
     QString request;
 };
 
@@ -66,7 +68,7 @@ public:
 
     void init();
     void getDocument(const QString& content = "(alterator-request action \"get\")",
-	AlteratorRequestType request_type = AlteratorRequestDefault);
+	AlteratorRequestFlags request_flags = AlteratorRequestDefault);
 
 signals:
     void alteratorRequest(const AlteratorRequest&);
@@ -91,7 +93,7 @@ private:
     AlteratorRequestActionInfo getDocParser(alCommand *cmd);
     QString makeRequest(const QString& content);
     void parseAnswer(alRequest *dom,
-	AlteratorRequestType request_type = AlteratorRequestDefault);
+	AlteratorRequestFlags request_flags = AlteratorRequestDefault);
     QString createLangList();
     void run();
 };

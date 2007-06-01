@@ -312,10 +312,10 @@ void MainWindow::changeLanguage(const QString& language)
     emit languageChanged();
 }
 
-void MainWindow::emitEvent(const QString& id,const QString& type, AlteratorRequestType request_type)
+void MainWindow::emitEvent(const QString& id,const QString& type, AlteratorRequestFlags request_flags)
 {
 	if( emit_locker > 0 ) return;
-	if( request_type == AlteratorRequestBlocking )
+	if( request_flags & AlteratorRequestBlocking )
 	{
 //	    setEnabled(false);
 	    ++emit_locker;
@@ -338,7 +338,7 @@ void MainWindow::emitEvent(const QString& id,const QString& type, AlteratorReque
 	
 	request += "))"; //close message
 
-	connection->getDocument(request, request_type);
+	connection->getDocument(request, request_flags);
 }
 
 void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
@@ -346,7 +346,7 @@ void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
     QList<QString> tab_order_parents;
     QMap<QString, QMap<int,QWidget*> > tab_order_list;
 
-    if( request.type == AlteratorRequestBlocking )
+    if( request.flags & AlteratorRequestBlocking )
     {
 	    --emit_locker;
 //	    setEnabled(true);
