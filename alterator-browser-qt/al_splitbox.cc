@@ -15,26 +15,54 @@ void ASplitBox::addChild(QWidget* chld)
 {
     addWidget(chld);
 
-    // adjust columns
     int w_num = count();
     int col_num = columns_.size();
 
+    // compute undefined columns
     if( w_num > col_num )
     {
 	int stretch = (100-columns_sum)/(w_num-col_num);
+	if( stretch < 0 ) stretch = 1;
 	for(int i = col_num; i < w_num; i++)
 	{
-	    setStretchFactor(i, stretch);
+	    columns_add_.append(stretch);
+	}
+    }
+}
+
+void ASplitBox::showEvent(QShowEvent *e)
+{
+    int w_num = count();
+    int col_num = columns_.size();
+    int all_size = (orientation() == Qt::Vertical )? height(): width(); 
+    QList<int> tmp_cols;
+    int cols_sz = 0;
+
+    // defined columns
+    QListIterator<int> col_it(columns_);
+    int c = 0;
+    while( col_it.hasNext() && c < w_num )
+    {
+	int sz = (all_size/100)*col_it.next();
+	cols_sz += sz;
+	tmp_cols.append(sz);
+	c++;
+    }
+
+    // undefined columns
+    if( w_num > col_num )
+    {
+	int sz = (all_size-cols_sz)/(w_num-col_num);
+	if( sz <= 0 ) sz = 10;
+	for(int i = col_num; i < w_num; i++)
+	{
+	    if( c >= w_num ) break;
+	    tmp_cols.append(sz);
 	}
     }
 
-    QListIterator<int> col_it(columns_);
-    int c = 0;
-    while( col_it.hasNext() )
-    {
-	setStretchFactor(c, col_it.next());
-	c++;
-    }
+    // set widget sizes
+    setSizes(tmp_cols);
 }
 
 void ASplitBox::setColumns(const QString &columns)

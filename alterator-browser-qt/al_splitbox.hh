@@ -14,8 +14,12 @@ public:
     void addChild(QWidget *chld);
     void setColumns(const QString &columns);
 
+protected:
+	void showEvent(QShowEvent *e);
+
 private:
     QList<int> columns_;
+    QList<int> columns_add_;
     int columns_sum;
 };
 
