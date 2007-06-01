@@ -1,5 +1,5 @@
 Name: alterator-browser-qt
-Version: 2.9.52
+Version: 2.9.53
 Release: alt1
 
 Source:%name-%version.tar
@@ -62,6 +62,9 @@ __EOF__
 %_bindir/*
 
 %changelog
+* Fri Jun 01 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.53-alt1
+- add startup animation
+
 * Fri Jun 01 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.52-alt1
 - fix setup columns size for splitbox
 - separate initial alterator request to thread
