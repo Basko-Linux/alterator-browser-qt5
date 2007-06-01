@@ -34,7 +34,7 @@ enum AlteratorRequestFlag
 {
     AlteratorRequestDefault = 0,
     AlteratorRequestBlocking = 1,
-    AlteratorRequestStartup = 2
+    AlteratorRequestInit = 2
 };
 
 struct AlteratorRequestActionInfo
@@ -92,6 +92,7 @@ private:
 
     AlteratorRequestActionInfo getDocParser(alCommand *cmd);
     QString makeRequest(const QString& content);
+    QString makeInitRequest();
     void parseAnswer(alRequest *dom,
 	AlteratorRequestFlags request_flags = AlteratorRequestDefault);
     QString createLangList();

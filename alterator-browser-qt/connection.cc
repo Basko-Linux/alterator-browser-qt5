@@ -45,6 +45,7 @@ Connection::~Connection()
     wait();
 }
 
+#if 0
 void Connection::init()
 {
 	std::cout<<"(auth-request user \"qtbrowser\" password \"\" "
@@ -58,16 +59,11 @@ void Connection::init()
 	
 	parseAnswer(dom.get());
 }
+#endif
 
-void Connection::getDocument(const QString &content, AlteratorRequestFlags request_flags)
+void Connection::init()
 {
-    if( destruction ) return;
-    AlteratorAskInfo ask;
-    ask.flags = request_flags;
-    ask.request = makeRequest(content);
-    requests.append(ask);
-    if(!isRunning())
-	start();
+	getDocument("", AlteratorRequestInit);
 }
 
 QString Connection::makeRequest(const QString& content)
@@ -78,6 +74,30 @@ QString Connection::makeRequest(const QString& content)
 	 <<"\""<<sessionId<<"\""
 	 <<" content "<<content<<")";
        return out;
+}
+
+QString Connection::makeInitRequest()
+{
+    QString out;
+    QTextStream s(&out);
+    s<<"(auth-request user \"qtbrowser\" password \"\" "
+    <<"language \""<<createLangList().toLatin1().data()<<"\""
+    <<")";
+    return out;
+}
+
+void Connection::getDocument(const QString &content, AlteratorRequestFlags request_flags)
+{
+    if( destruction ) return;
+    AlteratorAskInfo ask;
+    ask.flags = request_flags;
+    if( request_flags & AlteratorRequestInit )
+	ask.request = makeInitRequest();
+    else
+	ask.request = makeRequest(content);
+    requests.append(ask);
+    if(!isRunning())
+	start();
 }
 
 /* Guess value of current locale from value of the environment variables.  */
@@ -134,6 +154,12 @@ void Connection::run()
 	AlteratorAskInfo ask = requests.takeFirst();
 	std::cout<< ask.request.toUtf8().data() << std::endl << std::flush;
 	std::auto_ptr<alRequest> dom(readRequest());
+	if( ask.flags & AlteratorRequestInit )
+	{
+	    sessionId = dom->attrs_.value("session-id");
+	    userId = dom->attrs_.value("user");
+	    //qDebug("session-id=%s", qPrintable(sessionId);
+	}
 	parseAnswer(dom.get(), ask.flags);
     }
 }
