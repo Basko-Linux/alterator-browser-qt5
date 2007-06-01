@@ -15,6 +15,7 @@
 #include <QPainter>
 #include <QStyleFactory>
 #include <QResource>
+#include <QMovie>
 
 #include "global.hh"
 #include "widgets.hh"
@@ -70,6 +71,19 @@ MainWindow::MainWindow():
     if( language.isEmpty() )
 	language = "C";
     changeLanguage(language);
+
+    // startup animation
+    startup_splash = new QLabel(this);
+    setCentralWidget(startup_splash);
+    startup_splash->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
+    startup_splash->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    startup_splash->setAlignment( Qt::AlignCenter );
+    QMovie *anim = new QMovie(":/images/whirl.mng");
+    if( anim->isValid() )
+    {
+	startup_splash->setMovie(anim);
+	anim->start();
+    }
 
     help_browser = new HelpBrowser(this);
     have_wm = haveWindowManager();
@@ -350,6 +364,14 @@ void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
     {
 	    --emit_locker;
 //	    setEnabled(true);
+    }
+    if( request.flags & AlteratorRequestInit )
+    {
+	if( startup_splash )
+	{
+	    delete startup_splash;
+	    startup_splash = 0;
+	}
     }
 
     for(AlteratorRequestActionList::const_iterator it = (request.actions).begin(); it != (request.actions).end(); it++)

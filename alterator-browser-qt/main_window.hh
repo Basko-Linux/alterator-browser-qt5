@@ -7,6 +7,7 @@
 #include <QEvent>
 #include <QSplashScreen>
 #include <QPointer>
+#include <QLabel>
 
 #include "help_browser.hh"
 #include "connection.hh"
@@ -55,6 +56,7 @@ private:
     int emit_locker;
     QPointer<QSplashScreen> splash;//single splash screen
     int busy_timer_id;
+    QLabel *startup_splash;
 
     void keyPressEvent(QKeyEvent*);
 //    void showEvent(QShowEvent*);
