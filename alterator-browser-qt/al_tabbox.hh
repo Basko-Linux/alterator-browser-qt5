@@ -29,7 +29,7 @@ private:
 	alTabBox* getParentTabBox(const QString& parent)
 	{
 		if (!elements.contains(parent)) return 0;
-		return qobject_cast<alTabBox*>(elements[parent]);
+		return dynamic_cast<alTabBox*>(elements[parent]);
 	}
 };
 
