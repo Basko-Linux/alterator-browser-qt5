@@ -1,5 +1,8 @@
+
+%define alterator_cfg %_sysconfdir/alterator
+
 Name: alterator-browser-qt
-Version: 2.9.53
+Version: 2.9.54
 Release: alt1
 
 Source:%name-%version.tar
@@ -49,6 +52,10 @@ cat >%buildroot/%_altdir/%name <<__EOF__
 %_bindir/alterator-browser-x11	%_bindir/%name 99
 __EOF__
 
+mkdir -p %buildroot/%alterator_cfg
+ln -s /dev/null %buildroot/%alterator_cfg/design-browser-qt
+mkdir -p %buildroot/%_datadir/%name/design
+ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 %post
 %post_register_alternatives %name -- %name
@@ -59,9 +66,15 @@ __EOF__
 
 %files
 %config %_altdir/%name
+%ghost %config %alterator_cfg/design-browser-qt
 %_bindir/*
+%_datadir/%name/
 
 %changelog
+* Thu Jun 14 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.54-alt1
+- identify wizardface view widget for QSS
+- add design directory
+
 * Fri Jun 01 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.53-alt1
 - add startup animation
 

@@ -13,5 +13,5 @@
 
 При запаковке:
 /etc/alterator/design-browser-qt должна делаться при помощи alternatives
-Каталог /usr/share/design-browser-qt и файл /usr/share/design-browser-qt/current -
+Каталог /usr/share/alterator-browser-qt/design и файл /usr/share/alterator-browser-qt/design/current -
 зарезервированные имена и будут в пакете alterator-browser-qt
