@@ -55,6 +55,7 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
 
     view_widget = new QWidget(scroll);
+    view_widget->setObjectName("view");
 //    view_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     scroll->setWidget(view_widget);
     scroll->setWidgetResizable( true );
