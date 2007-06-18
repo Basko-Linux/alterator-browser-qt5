@@ -59,7 +59,7 @@ void ASlideShow::showNextSlide()
 	setPixmap(pix);
     }
     else
-	setText("Unable to load file: " + imgfile);
+	qDebug("Unable to load file: %s", qPrintable(imgfile));
 }
 
 alSlideShow::alSlideShow(const QString& id, const QString& parent):
