@@ -45,7 +45,13 @@ QPixmap APEButtonPixmapGenerator::operator()()
 
 QPixmap AFilePixmapGenerator::operator()()
 {
-    return QPixmap(images_path + name_);
+    QPixmap px;
+    QString path = images_path + name_;
+    if( ::access( (path + ".png").toLatin1(), R_OK) == 0 )
+	px = QPixmap(path + ".png", "PNG");
+    else if( ::access( (path + ".jpg").toLatin1(), R_OK) == 0 )
+	px = QPixmap(path + ".jpg", "JPEG");
+    return px;
 }
 	
 void initPixmaps()
