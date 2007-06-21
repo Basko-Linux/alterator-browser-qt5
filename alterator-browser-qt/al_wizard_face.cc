@@ -53,7 +53,6 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     QScrollArea *scroll = new QScrollArea(this);
     scroll->setBackgroundRole(QPalette::NoRole);
     scroll->viewport()->setBackgroundRole(QPalette::NoRole);
-    //scroll->setBackgroundRole(QPalette::Dark);
     //scroll->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
     scroll->setWidgetResizable( true );
