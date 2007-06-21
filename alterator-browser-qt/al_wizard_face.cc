@@ -24,7 +24,6 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
 
     current_step = 0;
 
-
     title_widget = new QFrame(this);
     title_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     //title_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
@@ -52,14 +51,18 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     title_text->setFont(title_text_font);
 
     QScrollArea *scroll = new QScrollArea(this);
+    scroll->setBackgroundRole(QPalette::NoRole);
+    scroll->viewport()->setBackgroundRole(QPalette::NoRole);
+    //scroll->setBackgroundRole(QPalette::Dark);
     //scroll->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
-
-    view_widget = new QWidget(scroll);
-    view_widget->setObjectName("view");
-//    view_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    scroll->setWidget(view_widget);
     scroll->setWidgetResizable( true );
+
+    view_widget = new QWidget(scroll->viewport());
+    view_widget->setBackgroundRole(QPalette::NoRole);
+    view_widget->setObjectName("view");
+
+    scroll->setWidget(view_widget);
 
     bottom_widget = new QFrame(this);
     bottom_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
