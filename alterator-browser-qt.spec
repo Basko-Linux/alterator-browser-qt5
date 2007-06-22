@@ -3,7 +3,7 @@
 
 Name: alterator-browser-qt
 Version: 2.9.54
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -71,6 +71,10 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Fri Jun 22 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.54-alt2
+- identify wizardface title text widget for QSS
+- load only PNG and JPG for icon pixmaps
+
 * Thu Jun 14 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.54-alt1
 - identify wizardface view widget for QSS
 - add design directory
