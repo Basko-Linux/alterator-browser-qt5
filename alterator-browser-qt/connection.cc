@@ -298,10 +298,7 @@ AlteratorRequestActionInfo Connection::getDocParser(alCommand *cmd)
 	    }
 /*
 	    default:
-	    {
-		qDebug("Unknown alterator request action \"%s\".", qPrintable(e.value("action")));
 		return;
-	    }
 */
 	}
 	return act;
