@@ -291,6 +291,11 @@ AlteratorRequestActionInfo Connection::getDocParser(alCommand *cmd)
 	    {
 		break;
 	    }
+	    case AlteratorRequestUnknown:
+	    {
+		qDebug("Unknown alterator request action \"%s\".", qPrintable(e.value("action")));
+		break;
+	    }
 /*
 	    default:
 	    {
