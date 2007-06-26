@@ -49,25 +49,58 @@ void AGridBox::setColumns(const QString &columns)
     //qDebug("gridbox::setColumns: %d columns", columns_);
 }
 
-void AGridBox::addChild(QWidget* chld)
+void AGridBox::addChild(QWidget* chld, int rowspan, int colspan)
 {
-	    QWidget *w = chld;
-	    if( w )
-	    {
-		if( columns_ <= 0 )
-		{
-		    //qDebug("gridbox: set default 1 column");
-		    setColumns("100");
-		}
-		layout_->addWidget(w, current_row, current_column);
+    int rows = rowspan; if ( rows <= 0 ) rows = 1;
+    int cols = colspan; if ( cols <= 0 ) cols = 1;
 
-		current_column++;
-		if( current_column >= columns_ )
+    QWidget *w = chld;
+    if( w )
+    {
+	if( columns_ <= 0 )
+	{
+	    //qDebug("gridbox: set default 1 column");
+	    setColumns("100");
+	}
+
+	// check if occuped
+	for(int c = 0; c < cols; c++)
+	{
+	    for(int r = 0; r < rows; r++)
+	    {
+		while( occuped.contains(qMakePair(current_column+c,current_row+r)) )
 		{
-		    current_column = 0;
-		    current_row++;
+		    current_column++; c++;
+		    if( current_column > columns_ )
+		    {
+			current_column = 0; c = 0;
+			current_row++; r++;
+		    }
 		}
 	    }
+	}
+
+	layout_->addWidget(w, current_row, current_column, rows, cols);
+
+	// remember occuped cells
+	if( rows > 1 )
+	{
+	    for(int c = 0; c < cols; c++)
+	    {
+		for(int r = 0; r < rows; r++)
+		{
+		    occuped.append(qMakePair(current_column+c, current_row+r));
+		}
+	    }
+	}
+
+	current_column += cols;
+	if( current_column >= columns_ )
+	{
+	    current_column = 0;
+	    current_row++;
+	}
+    }
 }
 
 // alGridBox
@@ -91,7 +124,7 @@ QLayout* alGridBox::getViewLayout()
     return wnd_->getViewLayout();
 }
 
-void alGridBox::addChild(QWidget *chld, alWidget::Type type, const AlteratorRequestActionAttrs&)
+void alGridBox::addChild(QWidget *chld, alWidget::Type, const AlteratorRequestActionAttrs& attr)
 {
-    wnd_->addChild(chld);
+    wnd_->addChild(chld, attr[AlteratorRequestParamRowSpan].i, attr[AlteratorRequestParamColSpan].i);
 }

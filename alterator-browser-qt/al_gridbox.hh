@@ -13,7 +13,7 @@ public:
     ~AGridBox();
 
     void setColumns(const QString&);
-    void addChild(QWidget *chld);
+    void addChild(QWidget *chld, int rowspan, int colspan);
     QLayout* getViewLayout();
 
 
@@ -22,6 +22,7 @@ private:
     int columns_;
     int current_row;
     int current_column;
+    QList< QPair<int,int> > occuped;
 };
 
 class alGridBox: public alWidgetPre<AGridBox>
