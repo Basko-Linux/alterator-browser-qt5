@@ -27,10 +27,10 @@ private:
 class alGridBox: public alWidgetPre<AGridBox>
 {
 public:
-    alGridBox(const QString &id,const QString &parent, const QString &columns);
+    alGridBox(const AlteratorRequestActionAttrs &attr, const QString &id,const QString &parent, const QString &columns);
     void setAttr(const QString &name,const QString &value);
     QLayout* getViewLayout();
-    void addChild(QWidget *chld, alWidget::Type type);
+    void addChild(QWidget *chld, alWidget::Type type, const AlteratorRequestActionAttrs &attr);
 };
 
 #endif

@@ -1,7 +1,7 @@
 #include "al_tabbox.hh"
 
-alTabBox::alTabBox(const QString& id,const QString& parent, Qt::Orientation orientation):
-	alWidgetPre<QTabWidget>((orientation==Qt::Vertical)?VTabBox:HTabBox,id,parent)
+alTabBox::alTabBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation):
+	alWidgetPre<QTabWidget>(attr,(orientation==Qt::Vertical)?VTabBox:HTabBox,id,parent)
 {
     orientation_ = orientation;
 }
@@ -29,8 +29,8 @@ QString alTabBox::postData() const
 
 // alTabPage
 
-alTabPage::alTabPage(const QString& id,const QString& parent, Qt::Orientation orientation):
-    alWidgetPre<QWidget>((orientation==Qt::Vertical)?VTabPage:HTabPage,id,":reparent:"+parent),
+alTabPage::alTabPage(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation):
+    alWidgetPre<QWidget>(attr,(orientation==Qt::Vertical)?VTabPage:HTabPage,id,":reparent:"+parent),
     tabbox_(getParentTabBox(parent)),
     idx_(tabbox_?static_cast<QTabWidget*>(tabbox_->getWidget())->addTab(wnd_,""):-1)
 {

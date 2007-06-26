@@ -38,8 +38,8 @@ void ATreeWidget::adjustAllColumnsWidth()
 
 // alMultiListBox
 
-alMultiListBox::alMultiListBox(const QString& id,const QString& parent, int cols):
-	alWidgetPre<ATreeWidget>(MultiListBox,id,parent)
+alMultiListBox::alMultiListBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, int cols):
+	alWidgetPre<ATreeWidget>(attr,MultiListBox,id,parent)
 {
     if( cols < 1 ) cols = 1;
     //setings to be compatible with QListView

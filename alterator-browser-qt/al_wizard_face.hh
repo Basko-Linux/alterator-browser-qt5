@@ -105,7 +105,7 @@ private:
 class alWizardFace: public alWidgetPre<AWizardFace>
 {
 public:
-    alWizardFace(const QString& id,const QString& parent, Qt::Orientation orientation);
+    alWizardFace(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation);
     ~alWizardFace();
     void setAttr(const QString& name,const QString& value);
     void registerEvent(const QString&);

@@ -50,8 +50,8 @@ void ASlider::checkValueReallyChanged()
     }
 }
 
-alSlider::alSlider(const QString& id, const QString& parent):
-	alWidgetPre<ASlider>(Slider,id,parent)
+alSlider::alSlider(const AlteratorRequestActionAttrs &attr, const QString& id, const QString& parent):
+	alWidgetPre<ASlider>(attr,Slider,id,parent)
 {
     wnd_->setOrientation( Qt::Horizontal );
     wnd_->setTickPosition( QSlider::NoTicks );

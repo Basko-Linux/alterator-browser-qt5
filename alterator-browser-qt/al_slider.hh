@@ -33,7 +33,7 @@ class alSlider: public alWidgetPre<ASlider>
 {
 Q_OBJECT
 public:
-    alSlider(const QString& id, const QString& parent);
+    alSlider(const AlteratorRequestActionAttrs &attr, const QString& id, const QString& parent);
     void setAttr(const QString& name,const QString& value);
     void registerEvent(const QString&);
     QString postData() const;

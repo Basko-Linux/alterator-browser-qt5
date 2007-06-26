@@ -376,65 +376,68 @@ void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
 
     for(AlteratorRequestActionList::const_iterator it = (request.actions).begin(); it != (request.actions).end(); it++)
     {
-	AlteratorRequestActionInfo request = *it;
+	AlteratorRequestAction request = *it;
 	switch( request.action )
 	{
 	    case AlteratorRequestNew:
 	    {
-		alWidget *new_wdg = onNewRequest(request.attr["widget-id"], request.attr["type"], request.attr["parent"],
-		    request.attr["width"], request.attr["height"], Utils::convertOrientation(request.attr["orientation"]),
-		    request.attr["sub-type"], request.attr["checked"] == "true", request.attr["columns"]);
-		collectTabIndex(tab_order_parents, tab_order_list, new_wdg, request.attr["value"]);
+		alWidget *new_wdg = onNewRequest(request.attr);
+		collectTabIndex(tab_order_parents, tab_order_list, new_wdg,
+		    request.attr[AlteratorRequestParamTabIndex].i);
 		break;
 	    }
 	    case AlteratorRequestSet:
 	    {
-		QString attr_name = request.attr["name"];
+		QString attr_name = request.attr[AlteratorRequestParamWidgetAttrName].s;
 		if( attr_name != "tab-index" )
-		    onSetRequest(request.attr["widget-id"], attr_name, request.attr["value"]);
+		    onSetRequest(request.attr[AlteratorRequestParamWidgetId].s,
+			attr_name,
+			    request.attr[AlteratorRequestParamWidgetAttrValue].s);
 		else
-		    collectTabIndex(tab_order_parents, tab_order_list, findAlWidgetById(request.attr["widget-id"]), request.attr["value"]);
+		    collectTabIndex(tab_order_parents, tab_order_list,
+			findAlWidgetById(request.attr[AlteratorRequestParamWidgetId].s),
+			    request.attr[AlteratorRequestParamTabIndex].i);
 		break;
 	    }
 	    case AlteratorRequestClose:
 	    {
-		onCloseRequest(request.attr["widget-id"]);
+		onCloseRequest(request.attr[AlteratorRequestParamWidgetId].s);
 		break;
 	    }
 	    case AlteratorRequestClean:
 	    {
-		onCleanRequest(request.attr["widget-id"]);
+		onCleanRequest(request.attr[AlteratorRequestParamWidgetId].s);
 		break;
 	    }
 	    case AlteratorRequestEvent:
 	    {
-		onEventRequest(request.attr["widget-id"], request.attr["value"]);
+		onEventRequest(request.attr[AlteratorRequestParamWidgetId].s, request.attr[AlteratorRequestParamEventValue].s);
 		break;
 	    }
 	    case AlteratorRequestSplash:
 	    {
-		onSplashMessageRequest(request.attr["value"]);
+		onSplashMessageRequest(request.attr[AlteratorRequestParamSplashMessage].s);
 		break;
 	    }
 	    case AlteratorRequestStart:
 	    {
-		onStartRequest(request.attr["widget-id"]);
+		onStartRequest(request.attr[AlteratorRequestParamWidgetId].s);
 		break;
 	    }
 	    case AlteratorRequestStop:
 	    {
-		onStopRequest(request.attr["widget-id"]);
+		onStopRequest(request.attr[AlteratorRequestParamWidgetId].s);
 		break;
 	    }
 	    case AlteratorRequestMessage:
 	    {
-		onMessageBoxRequest(request.attr["type"], request.attr["title"],
-			request.attr["message"], request.attr["buttons"]);
+		onMessageBoxRequest(request.attr[AlteratorRequestParamMessageType].s, request.attr[AlteratorRequestParamMessageTitle].s,
+			request.attr[AlteratorRequestParamMessage].s, request.attr[AlteratorRequestParamButtons].buttons);
 		break;
 	    }
 	    case AlteratorRequestLanguage:
 	    {
-		changeLanguage(request.attr["value"]);
+		changeLanguage(request.attr[AlteratorRequestParamLanguage].s);
 		break;
 	    }
 	    case AlteratorRequestRetry:
@@ -444,7 +447,9 @@ void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
 	    }
 	    case AlteratorRequestCnstrAdd:
 	    {
-		constraints->add(request.attr["name"], request.attr["type"], request.attr["params"]);
+		constraints->add(request.attr[AlteratorRequestParamCnstrName].s,
+		    request.attr[AlteratorRequestParamCnstrType].s,
+		    request.attr[AlteratorRequestParamCnstrParams].s);
 		break;
 	    }
 	    case AlteratorRequestCnstrClear:
@@ -455,6 +460,11 @@ void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
 	    case AlteratorRequestCnstrApply:
 	    {
 		constraints->apply();
+		break;
+	    }
+	    case AlteratorRequestUnknown:
+	    {
+		qDebug("Unknown AlteratorRequest.");
 		break;
 	    }
 	}
@@ -477,9 +487,7 @@ void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
     }
 }
 
-alWidget* MainWindow::onNewRequest(const QString &id, const QString &type, const QString &parent_id,
-    const QString &width, const QString &height, Qt::Orientation orientation,  const QString &sub_type, bool checked,
-    const QString &columns)
+alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 {
     /*
 	qDebug("%s: id<%s> type<%s> parent_id<%s> orientation<%s> sub-type<%s> width<%s> height<%s> columns<%s>", __FUNCTION__,
@@ -487,80 +495,77 @@ alWidget* MainWindow::onNewRequest(const QString &id, const QString &type, const
 	    orientation == Qt::Horizontal ? "-":"|", qPrintable(sub_type),
 	    qPrintable(width), qPrintable(height), qPrintable(columns) );
 	*/
+	QString id = attr[AlteratorRequestParamWidgetId].s;
+	QString parent_id = attr[AlteratorRequestParamParentId].s;
+	QString type = attr[AlteratorRequestParamWidgetType].s;
+	Qt::Orientation orientation = attr[AlteratorRequestParamOrientation].o;
+	QString columns = attr[AlteratorRequestParamColumns].s;
 
 	alWidget *new_widget = 0;
 	if ("root" == type)
 	{
-	    const QString subtype = sub_type;
-	    if ("popup" == subtype) //this is a dialog
+	    if ("popup" == attr[AlteratorRequestParamSubType].s) //this is a dialog
 	    {
 	    	if(parent_id.isEmpty())
 		    new_widget = new alMainWidget(id,"",orientation);
 	    	else
 		{
-		    //new_widget = new alDialog(id,parent_id,orientation, width, height);
-		    new_widget = new alDialog(id,parent_id,orientation, 0, 0);
+		    new_widget = new alDialog(attr,id,parent_id,orientation);
 		}
 	    }
 	    else
 	    {
-		    new_widget = new alBox(id,parent_id,orientation);
+		    new_widget = new alBox(attr,id,parent_id,orientation);
 	    }
 	}
-	else if ("box" == type)         new_widget = new alBox(id,parent_id,orientation);
-	else if ("vbox" == type)        new_widget = new alBox(id,parent_id,Qt::Vertical);
-	else if ("hbox" == type)        new_widget = new alBox(id,parent_id,Qt::Horizontal);
-	else if ("button" == type)      new_widget = new alButton(id,parent_id);
-	else if ("radio" == type)       new_widget = new alRadio(id,parent_id);
-	else if ("label" == type)       new_widget = new alLabel(id,parent_id);
-	else if ("edit" == type)        new_widget = new alEdit(id,parent_id);
-	else if ("textbox" == type)     new_widget = new alTextBox(id,parent_id);
+	else if ("box" == type)         new_widget = new alBox(attr,id,parent_id,orientation);
+	else if ("vbox" == type)        new_widget = new alVBox(attr,id,parent_id);
+	else if ("hbox" == type)        new_widget = new alHBox(attr,id,parent_id);
+	else if ("button" == type)      new_widget = new alButton(attr,id,parent_id);
+	else if ("radio" == type)       new_widget = new alRadio(attr,id,parent_id);
+	else if ("label" == type)       new_widget = new alLabel(attr,id,parent_id);
+	else if ("edit" == type)        new_widget = new alEdit(attr,id,parent_id);
+	else if ("textbox" == type)     new_widget = new alTextBox(attr,id,parent_id);
 	else if ("help-place" == type)  new_widget = new alHelpPlace(id,parent_id);
-	else if ("groupbox" == type)    new_widget = new alGroupBox(id,parent_id,orientation, checked);
-	else if ("gridbox" == type)     new_widget = new alGridBox(id,parent_id, columns);
-	else if ("checkbox" == type)    new_widget = new alCheckBox(id,parent_id);
-	else if ("tree" == type)        new_widget = new alTree(id,parent_id, columns);
-	else if ("combobox" == type)    new_widget = new alComboBox(id,parent_id);
-	else if ("tabbox" == type)      new_widget = new alTabBox(id,parent_id,orientation);
-	else if ("tab-page" == type)    new_widget = new alTabPage(id,parent_id,orientation);
-	else if ("progressbar" == type) new_widget = new alProgressBar(id,parent_id);
-	else if ("slider" == type)      new_widget = new alSlider(id,parent_id);
-	else if ("separator" == type)   new_widget = new alSeparator(id,parent_id,orientation);
-	else if ("spacer" == type)      new_widget = new alSpacer(id,parent_id);
-	else if ("spinbox" == type)     new_widget = new alSpinBox(id,parent_id);
-	else if ("dateedit" == type)    new_widget = new alDateEdit(id,parent_id);
-	else if ("timeedit" == type)    new_widget = new alTimeEdit(id,parent_id);
-	else if ("listbox" == type)	new_widget = new alMultiListBox(id,parent_id,columns.toInt());
-	else if ("slideshow" == type)	new_widget = new alSlideShow(id,parent_id);
-	else if ("splitbox" == type)    new_widget = new alSplitBox(id,parent_id,orientation,columns);
+	else if ("groupbox" == type)    new_widget = new alGroupBox(attr,id,parent_id,orientation, attr[AlteratorRequestParamChecked].b);
+	else if ("gridbox" == type)     new_widget = new alGridBox(attr,id,parent_id, columns);
+	else if ("checkbox" == type)    new_widget = new alCheckBox(attr,id,parent_id);
+	else if ("tree" == type)        new_widget = new alTree(attr,id,parent_id, columns);
+	else if ("combobox" == type)    new_widget = new alComboBox(attr,id,parent_id);
+	else if ("tabbox" == type)      new_widget = new alTabBox(attr,id,parent_id,orientation);
+	else if ("tab-page" == type)    new_widget = new alTabPage(attr,id,parent_id,orientation);
+	else if ("progressbar" == type) new_widget = new alProgressBar(attr,id,parent_id);
+	else if ("slider" == type)      new_widget = new alSlider(attr,id,parent_id);
+	else if ("separator" == type)   new_widget = new alSeparator(attr,id,parent_id,orientation);
+	else if ("spacer" == type)      new_widget = new alSpacer(attr,id,parent_id);
+	else if ("spinbox" == type)     new_widget = new alSpinBox(attr,id,parent_id);
+	else if ("dateedit" == type)    new_widget = new alDateEdit(attr,id,parent_id);
+	else if ("timeedit" == type)    new_widget = new alTimeEdit(attr,id,parent_id);
+	else if ("listbox" == type)	new_widget = new alMultiListBox(attr,id,parent_id,columns.toInt());
+	else if ("slideshow" == type)	new_widget = new alSlideShow(attr,id,parent_id);
+	else if ("splitbox" == type)    new_widget = new alSplitBox(attr,id,parent_id,orientation,columns);
 	else if ("wizardface" == type)
 	{
 	    if( wizard_face )
-		new_widget = new alBox(id,parent_id,orientation);
+		new_widget = new alBox(attr,id,parent_id,orientation);
 	    else
-		new_widget = wizard_face = new alWizardFace(id,parent_id,orientation);
+		new_widget = wizard_face = new alWizardFace(attr,id,parent_id,orientation);
 	}
 	else
 	{
 	    qDebug("Unknown widget \"%s\". Make box instead.", qPrintable(type));
-	    new_widget = new alBox(id,parent_id,orientation);
+	    new_widget = new alBox(attr,id,parent_id,orientation);
 	}
 
 	//
 	if( new_widget )
 	{
-	    switch( new_widget->type() )
-	    {
-//		case alWidget::Dialog:
-//		    break;
-		default:
-		{
-		    int w = width.toInt();
-		    if( w > 0 ) new_widget->setAttr("width", width);
-		    int h = height.toInt();
-		    if( h > 0 ) new_widget->setAttr("height", height);
-		}
-	    }
+	    int width = attr[AlteratorRequestParamWidth].i;
+	    if( width  > 0 )
+		new_widget->setAttr("width",  QString("%1").arg(width));
+	    int height = attr[AlteratorRequestParamHeight].i;
+	    if( height > 0 )
+		new_widget->setAttr("height", QString("%1").arg(height));
 	}
     return new_widget;
 }
@@ -658,7 +663,7 @@ void MainWindow::onEventRequest(const QString& id,const QString& value)
 	    elements[id]->registerEvent(value);
 }
 
-void MainWindow::onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, const QString& buttons)
+void MainWindow::onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, QMessageBox::StandardButtons buttons)
 {
     QWidget *parent = QApplication::activeWindow();
     AMsgBox msgbox(type, title, message, buttons, parent);

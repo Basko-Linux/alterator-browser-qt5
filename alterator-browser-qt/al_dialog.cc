@@ -147,22 +147,9 @@ QString ADialog::currentAction()
 }
 
 // alDialog
-alDialog::alDialog(const QString& id,const QString& parent, Qt::Orientation orientation,
-    const QString& width,const QString& height):
-    alWidgetPre<ADialog>(Dialog,id,parent)
+alDialog::alDialog(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation):
+    alWidgetPre<ADialog>(attr,Dialog,id,parent)
 {
-    if (!width.isEmpty() || !height.isEmpty())
-    {
-	int w, h;
-	bool w_ok, h_ok;
-	w = width.toInt(&w_ok);
-	if( !w_ok )
-	    w = getWidget()->width();
-	h = width.toInt(&h_ok);
-	if( !h_ok )
-	    h = getWidget()->height();
-	getWidget()->resize(w,h);
-    }
     QBoxLayout *bl;
     Qt::Orientation o = Utils::fixOrientation(orientation, Qt::Vertical);
     if( o == Qt::Horizontal )

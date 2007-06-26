@@ -40,8 +40,7 @@ private:
 class alDialog: public alWidgetPre<ADialog>
 {
 public:
-	alDialog(const QString& id,const QString& parent, Qt::Orientation orientation,
-	         const QString& width,const QString& height);
+	alDialog(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation);
 	void setAttr(const QString& name,const QString& value);
 	QString postData() const ;
 	void start() { wnd_->exec(); }

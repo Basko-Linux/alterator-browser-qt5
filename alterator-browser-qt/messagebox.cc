@@ -80,7 +80,7 @@ AMsgBox::AMsgBox(
 	const QString &type,
 	const QString &title,
 	const QString &text,
-	const QString &buttons,
+	QMessageBox::StandardButtons buttons,
 	QWidget *parent
     ):
     QMessageBox(parent)
@@ -94,9 +94,7 @@ AMsgBox::AMsgBox(
 	i = QMessageBox::Question;
     else if ("warning" == type)
 	i = QMessageBox::Warning;
-    QMessageBox::StandardButtons btns = AMessageBox::convertButtonList(buttons);
-    if(!btns) btns = QMessageBox::Ok;
-    setStandardButtons(btns);
+    setStandardButtons(buttons);
     setIcon(i);
     setWindowTitle(title);
     setText(text);
@@ -104,7 +102,7 @@ AMsgBox::AMsgBox(
 
 AMsgBox::~AMsgBox() {}
 
-void AMsgBox::showEvent(QShowEvent *e)
+void AMsgBox::showEvent(QShowEvent*)
 {
     //qDebug("AMsgBox::showEvent");
     //QMessageBox::showEvent(e);
@@ -114,7 +112,7 @@ void AMsgBox::showEvent(QShowEvent *e)
     }
 }
 
-void AMsgBox::paintEvent(QPaintEvent* e)
+void AMsgBox::paintEvent(QPaintEvent*)
 {
     //QMessageBox::paintEvent(e);
     if( !main_window->haveWindowManager() )

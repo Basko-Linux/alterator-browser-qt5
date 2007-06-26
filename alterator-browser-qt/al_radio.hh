@@ -8,8 +8,8 @@
 class alRadio: public alWidgetPre<QRadioButton>
 {
 public:
-	alRadio(const QString& id,const QString& parent):
-		alWidgetPre<QRadioButton>(Radio,id,parent)
+	alRadio(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
+		alWidgetPre<QRadioButton>(attr,Radio,id,parent)
 	{}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);

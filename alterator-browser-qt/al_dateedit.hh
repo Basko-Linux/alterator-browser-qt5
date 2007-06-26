@@ -30,7 +30,7 @@ private:
 class alDateEdit: public alWidgetPre<ADateEdit>
 {
 public:
-    alDateEdit(const QString& id,const QString& parent);
+    alDateEdit(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent);
     void setAttr(const QString& name,const QString& value);
     void registerEvent(const QString&);
     QString postData() const;

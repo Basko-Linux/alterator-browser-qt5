@@ -27,7 +27,7 @@ class alSlideShow: public alWidgetPre<ASlideShow>
 {
 Q_OBJECT
 public:
-    alSlideShow(const QString& id, const QString& parent);
+    alSlideShow(const AlteratorRequestActionAttrs &attr, const QString& id, const QString& parent);
     void setAttr(const QString& name,const QString& value);
 };
 

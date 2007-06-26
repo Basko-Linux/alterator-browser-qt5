@@ -51,8 +51,8 @@ void ADateEdit::setExpanded(bool expand)
 
 // alDateEdit
 
-alDateEdit::alDateEdit(const QString& id,const QString& parent):
-    alWidgetPre<ADateEdit>(DateEdit, id, parent)
+alDateEdit::alDateEdit(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
+    alWidgetPre<ADateEdit>(attr,DateEdit, id, parent)
 {}
 
 void alDateEdit::setAttr(const QString& name,const QString& value)

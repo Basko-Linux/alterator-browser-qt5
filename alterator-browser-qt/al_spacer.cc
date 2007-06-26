@@ -1,7 +1,7 @@
 
 #include "al_spacer.hh"
 
-alSpacer::alSpacer(const QString& id,const QString& parent):
-	alWidgetPre<QWidget>(Spacer,id,parent)
+alSpacer::alSpacer(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
+	alWidgetPre<QWidget>(attr,Spacer,id,parent)
 {
 }

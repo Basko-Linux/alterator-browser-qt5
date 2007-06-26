@@ -8,7 +8,7 @@
 class alTabBox: public alWidgetPre<QTabWidget>
 {
 public:
-	alTabBox(const QString& id,const QString& parent, Qt::Orientation orientation);
+	alTabBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation);
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const ;
@@ -22,7 +22,7 @@ class alTabPage: public alWidgetPre<QWidget>
 	alTabBox  *tabbox_;
 	int idx_;
 public:
-	alTabPage(const QString& id,const QString& parent, Qt::Orientation orientation);
+	alTabPage(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation);
 	void setAttr(const QString& name,const QString& value);
 private:
 	static

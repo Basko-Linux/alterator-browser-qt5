@@ -8,7 +8,7 @@
 class alCheckBox: public alWidgetPre<QCheckBox>
 {
 public:
-	alCheckBox(const QString& id,const QString& parent);
+	alCheckBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent);
 
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);

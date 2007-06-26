@@ -9,7 +9,7 @@ class alSpinBox: public alWidgetPre<QDoubleSpinBox>
 {
 Q_OBJECT
 public:
-    alSpinBox(const QString& id, const QString& parent);
+    alSpinBox(const AlteratorRequestActionAttrs &attr, const QString& id, const QString& parent);
     void setAttr(const QString& name,const QString& value);
     void registerEvent(const QString&);
     QString postData() const;

@@ -30,7 +30,7 @@ private slots:
 class alComboBox: public alWidgetPre<AComboBox>
 {
 public:
-	alComboBox(const QString& id,const QString& parent);
+	alComboBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent);
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const ;

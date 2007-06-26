@@ -172,8 +172,8 @@ void ATimeEdit::showTime()
 
 // alTimeEdit
 
-alTimeEdit::alTimeEdit(const QString& id,const QString& parent):
-    alWidgetPre<ATimeEdit>(TimeEdit, id, parent)
+alTimeEdit::alTimeEdit(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
+    alWidgetPre<ATimeEdit>(attr,TimeEdit, id, parent)
 {}
 
 void alTimeEdit::setAttr(const QString& name,const QString& value)

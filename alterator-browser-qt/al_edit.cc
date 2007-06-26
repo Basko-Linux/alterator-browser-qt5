@@ -63,8 +63,8 @@ void AEdit::markRequired(bool req)
 }
 
 // alEdit
-alEdit::alEdit(const QString& id,const QString& parent):
-		alWidgetPre<AEdit>(Edit,id,parent)
+alEdit::alEdit(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
+		alWidgetPre<AEdit>(attr,Edit,id,parent)
 {
 }
 

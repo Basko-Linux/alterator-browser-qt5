@@ -8,7 +8,7 @@ class alSeparator: public alWidgetPre<QFrame>
 {
 Q_OBJECT
 public:
-    alSeparator(const QString& id, const QString& parent, Qt::Orientation orientation);
+    alSeparator(const AlteratorRequestActionAttrs &attr, const QString& id, const QString& parent, Qt::Orientation orientation);
     void setAttr(const QString& name,const QString& value);
 };
 

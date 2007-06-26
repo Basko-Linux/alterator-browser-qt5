@@ -565,8 +565,8 @@ void AWizardFace::keyPressEvent(QKeyEvent* e)
 #endif
 
 // alWizardFace
-alWizardFace::alWizardFace(const QString& id,const QString& parent, Qt::Orientation orientation):
-    alWidgetPre<AWizardFace>(WizardFace,id,parent)
+alWizardFace::alWizardFace(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation):
+    alWidgetPre<AWizardFace>(attr,WizardFace,id,parent)
 {
     QBoxLayout *bl;
     Qt::Orientation o = Utils::fixOrientation(orientation, Qt::Vertical);

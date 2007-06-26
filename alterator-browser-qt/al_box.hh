@@ -7,15 +7,15 @@
 class alBox: public alWidgetPre<QWidget>
 {
 public:
-	alBox(const QString& id,const QString& parent, Qt::Orientation orientation);
+	alBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation);
 	void setAttr(const QString& name,const QString& value);
 };
 
 class alVBox: public alBox
 {
 public:
-	alVBox(const QString& id,const QString& parent):
-		alBox(id,parent,Qt::Vertical)
+	alVBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
+		alBox(attr,id,parent,Qt::Vertical)
 	{
 	    qDebug("vbox is depricated");
 	}
@@ -24,8 +24,8 @@ public:
 class alHBox: public alBox
 {
 public:
-	alHBox(const QString& id,const QString& parent):
-		alBox(id,parent,Qt::Horizontal)
+	alHBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
+		alBox(attr,id,parent,Qt::Horizontal)
 	{
 	    qDebug("hbox is depricated");
 	}

@@ -8,8 +8,8 @@
 class alProgressBar: public alWidgetPre<QProgressBar>
 {
 public:
-    alProgressBar(const QString& id,const QString& parent):
-	alWidgetPre<QProgressBar>(ProgressBar,id,parent)
+    alProgressBar(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
+	alWidgetPre<QProgressBar>(attr,ProgressBar,id,parent)
     {}
 protected:
     void setAttr(const QString& name,const QString& value);

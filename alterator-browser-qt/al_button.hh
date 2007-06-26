@@ -8,8 +8,8 @@
 class alButton: public alWidgetPre<QPushButton>
 {
 public:
-	alButton(const QString& id,const QString& parent):
-		alWidgetPre<QPushButton>(Button, id,parent)
+	alButton(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
+		alWidgetPre<QPushButton>(attr,Button,id,parent)
 	{}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);

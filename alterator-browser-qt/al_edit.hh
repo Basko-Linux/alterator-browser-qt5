@@ -32,7 +32,7 @@ private:
 class alEdit: public alWidgetPre<AEdit>
 {
 public:
-	alEdit(const QString& id,const QString& parent);
+	alEdit(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent);
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const;

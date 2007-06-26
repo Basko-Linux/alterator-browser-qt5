@@ -29,7 +29,7 @@ public:
 	const QString &type,
 	const QString &title,
 	const QString &text,
-	const QString &buttons,
+	QMessageBox::StandardButtons buttons = QMessageBox::Ok,
 	QWidget *parent = 0
     );
     ~AMsgBox();

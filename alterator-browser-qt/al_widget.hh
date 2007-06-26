@@ -8,6 +8,7 @@
 #include <QTimer>
 
 #include "utils.hh"
+#include "connection.hh"
 
 //Note: I need QObject inheritanse for correct deffered object deletion
 // cause I need to destruct objects from it's callbacks
@@ -40,7 +41,7 @@ public:
 	virtual void registerEvent(const QString&) {}
 	virtual QString postData() const { return ""; }
 
-	virtual void addChild(QWidget* chld, Type type);
+	virtual void addChild(QWidget* chld, Type type, const AlteratorRequestActionAttrs &attr);
 	virtual QWidget *getWidget(void) = 0;
 	virtual QLayout *getViewLayout(void) = 0;
 	virtual QWidget *getViewWidget(void) = 0;
@@ -118,15 +119,15 @@ class alWidgetPre: public alWidget
 protected:
 	Widget *wnd_;
 public:
-	alWidgetPre(Type type, const QString& id,const QString& parent):
+	alWidgetPre(const AlteratorRequestActionAttrs &attr, Type type, const QString& id,const QString& parent):
 		alWidget(type,id,Utils::reparentTag(parent)),
 		wnd_(createWidget<Widget>(parent))
 	{
-	    alWidget *ap = 0;
+	    alWidget *a_parent = 0;
 	    if( elements.contains(parent) )
-		ap = elements[parent];
-	    if( ap )
-		ap->addChild(wnd_, type);
+		a_parent = elements[parent];
+	    if( a_parent )
+		a_parent->addChild(wnd_, type, attr);
 	}
 
 	~alWidgetPre() { wnd_->deleteLater(); }

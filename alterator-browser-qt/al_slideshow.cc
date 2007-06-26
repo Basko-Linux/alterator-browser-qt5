@@ -62,8 +62,8 @@ void ASlideShow::showNextSlide()
 	qDebug("Unable to load file: %s", qPrintable(imgfile));
 }
 
-alSlideShow::alSlideShow(const QString& id, const QString& parent):
-	alWidgetPre<ASlideShow>(SlideShow,id,parent)
+alSlideShow::alSlideShow(const AlteratorRequestActionAttrs &attr, const QString& id, const QString& parent):
+	alWidgetPre<ASlideShow>(attr,SlideShow,id,parent)
 {
 }
 

@@ -1,7 +1,7 @@
 #include "al_checkbox.hh"
 
-alCheckBox::alCheckBox(const QString& id,const QString& parent):
-    alWidgetPre<QCheckBox>(CheckBox,id,parent)
+alCheckBox::alCheckBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
+    alWidgetPre<QCheckBox>(attr,CheckBox,id,parent)
 {
     connect(wnd_, SIGNAL(stateChanged(int)), this, SLOT(onUpdate(int)));
 }

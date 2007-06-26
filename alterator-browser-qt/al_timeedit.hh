@@ -65,7 +65,7 @@ private slots:
 class alTimeEdit: public alWidgetPre<ATimeEdit>
 {
 public:
-    alTimeEdit(const QString& id,const QString& parent);
+    alTimeEdit(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent);
     void setAttr(const QString& name,const QString& value);
     void registerEvent(const QString&);
     QString postData() const;

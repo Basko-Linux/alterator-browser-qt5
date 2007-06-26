@@ -4,8 +4,8 @@
 #include "al_tree.hh"
 #include "a_pixmaps.hh"
 
-alTree::alTree(const QString& id,const QString& parent,const QString& columns):
-	alWidgetPre<QTreeWidget>(Tree,id,parent)
+alTree::alTree(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent,const QString& columns):
+	alWidgetPre<QTreeWidget>(attr,Tree,id,parent)
 {
     expanded_ = false;
     //setings to be compatible with QListView

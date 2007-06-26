@@ -7,7 +7,7 @@
 class alSpacer: public alWidgetPre<QWidget>
 {
 public:
-	alSpacer(const QString& id,const QString& parent);
+	alSpacer(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent);
 //	void setAttr(const QString& name,const QString& value);
 //	void registerEvent(const QString&);
 //	QString postData() const ;

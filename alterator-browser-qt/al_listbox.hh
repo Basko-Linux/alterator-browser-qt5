@@ -27,7 +27,7 @@ protected:
 class alMultiListBox: public alWidgetPre<ATreeWidget>
 {
 public:
-	alMultiListBox(const QString& id,const QString& parent, int cols);
+	alMultiListBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, int cols);
 protected:
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);

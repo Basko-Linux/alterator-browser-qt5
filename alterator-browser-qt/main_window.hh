@@ -64,16 +64,14 @@ private:
     void loadStyleSheet();
 
     void onRetryRequest();
-    alWidget* onNewRequest(const QString &id, const QString &type, const QString &parent_id,
-	const QString &width, const QString &height, Qt::Orientation orientation,  const QString &sub_type, bool checked,
-	const QString &columns);
+    alWidget* onNewRequest(const AlteratorRequestActionAttrs &attr);
     void onCloseRequest(const QString& id);
     void onCleanRequest(const QString& id);
     void onSetRequest(const QString& id,const QString& attr,const QString& value);
     void onStartRequest(const QString& id);
     void onStopRequest(const QString& id);
     void onEventRequest(const QString& id,const QString& value);
-    void onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, const QString& buttons);
+    void onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, QMessageBox::StandardButtons buttons);
     void onSplashMessageRequest(const QString& msg);
 
 private slots:
