@@ -257,6 +257,8 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 		act.attr[AlteratorRequestParamSubType] = makeRequestParamData(AlteratorRequestParamDataString, e.value("sub-type"));
 		act.attr[AlteratorRequestParamChecked] = makeRequestParamData(AlteratorRequestParamDataBool, e.value("checked"));
 		act.attr[AlteratorRequestParamColumns] = makeRequestParamData(AlteratorRequestParamDataString, e.value("columns"));
+		act.attr[AlteratorRequestParamRowSpan] = makeRequestParamData(AlteratorRequestParamDataInt, e.value("rowspan"));
+		act.attr[AlteratorRequestParamColSpan] = makeRequestParamData(AlteratorRequestParamDataInt, e.value("colspan"));
 		act.attr[AlteratorRequestParamTabIndex] = makeRequestParamData(AlteratorRequestParamDataInt, e.value("tab-index"));
 		break;
 	    }
