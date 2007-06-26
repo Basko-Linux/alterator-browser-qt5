@@ -298,7 +298,7 @@ AlteratorRequestActionInfo Connection::getDocParser(alCommand *cmd)
 	    }
 /*
 	    default:
-		return;
+		break;
 */
 	}
 	return act;
