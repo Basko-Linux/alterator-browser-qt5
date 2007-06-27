@@ -497,65 +497,77 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	*/
 	QString id = attr[AltReqParamWId].s;
 	QString parent_id = attr[AltReqParamWParentId].s;
-	QString type = attr[AltReqParamWType].s;
+	AlteratorWidgetType type = attr[AltReqParamWType].t;
 	Qt::Orientation orientation = attr[AltReqParamWOrientation].o;
 	QString columns = attr[AltReqParamWColumns].s;
-
 	alWidget *new_widget = 0;
-	if ("root" == type)
+
+    switch( type )
+    {
+	case WDialog:
+	case WMainWidget:
 	{
 	    if ("popup" == attr[AltReqParamWSubType].s) //this is a dialog
 	    {
 	    	if(parent_id.isEmpty())
 		    new_widget = new alMainWidget(id,"",orientation);
 	    	else
-		{
 		    new_widget = new alDialog(attr,id,parent_id,orientation);
-		}
 	    }
 	    else
-	    {
-		    new_widget = new alBox(attr,id,parent_id,orientation);
-	    }
+		new_widget = new alBox(attr,id,parent_id,orientation);
+	    break;
 	}
-	else if ("box" == type)         new_widget = new alBox(attr,id,parent_id,orientation);
-	else if ("vbox" == type)        new_widget = new alVBox(attr,id,parent_id);
-	else if ("hbox" == type)        new_widget = new alHBox(attr,id,parent_id);
-	else if ("button" == type)      new_widget = new alButton(attr,id,parent_id);
-	else if ("radio" == type)       new_widget = new alRadio(attr,id,parent_id);
-	else if ("label" == type)       new_widget = new alLabel(attr,id,parent_id);
-	else if ("edit" == type)        new_widget = new alEdit(attr,id,parent_id);
-	else if ("textbox" == type)     new_widget = new alTextBox(attr,id,parent_id);
-	else if ("help-place" == type)  new_widget = new alHelpPlace(id,parent_id);
-	else if ("groupbox" == type)    new_widget = new alGroupBox(attr,id,parent_id,orientation, attr[AltReqParamWChecked].b);
-	else if ("gridbox" == type)     new_widget = new alGridBox(attr,id,parent_id, columns);
-	else if ("checkbox" == type)    new_widget = new alCheckBox(attr,id,parent_id);
-	else if ("tree" == type)        new_widget = new alTree(attr,id,parent_id, columns);
-	else if ("combobox" == type)    new_widget = new alComboBox(attr,id,parent_id);
-	else if ("tabbox" == type)      new_widget = new alTabBox(attr,id,parent_id,orientation);
-	else if ("tab-page" == type)    new_widget = new alTabPage(attr,id,parent_id,orientation);
-	else if ("progressbar" == type) new_widget = new alProgressBar(attr,id,parent_id);
-	else if ("slider" == type)      new_widget = new alSlider(attr,id,parent_id);
-	else if ("separator" == type)   new_widget = new alSeparator(attr,id,parent_id,orientation);
-	else if ("spacer" == type)      new_widget = new alSpacer(attr,id,parent_id);
-	else if ("spinbox" == type)     new_widget = new alSpinBox(attr,id,parent_id);
-	else if ("dateedit" == type)    new_widget = new alDateEdit(attr,id,parent_id);
-	else if ("timeedit" == type)    new_widget = new alTimeEdit(attr,id,parent_id);
-	else if ("listbox" == type)	new_widget = new alMultiListBox(attr,id,parent_id,columns.toInt());
-	else if ("slideshow" == type)	new_widget = new alSlideShow(attr,id,parent_id);
-	else if ("splitbox" == type)    new_widget = new alSplitBox(attr,id,parent_id,orientation,columns);
-	else if ("wizardface" == type)
+	case WBox: {         new_widget = new alBox(attr,id,parent_id,orientation); break; }
+	case WVBox: {        new_widget = new alVBox(attr,id,parent_id); break; }
+	case WHBox: {        new_widget = new alHBox(attr,id,parent_id); break; }
+	case WButton: {      new_widget = new alButton(attr,id,parent_id); break; }
+	case WRadio: {       new_widget = new alRadio(attr,id,parent_id); break; }
+	case WLabel: {       new_widget = new alLabel(attr,id,parent_id); break; }
+	case WEdit: {        new_widget = new alEdit(attr,id,parent_id); break; }
+	case WTextBox: {     new_widget = new alTextBox(attr,id,parent_id); break; }
+	case WHelpPlace: {   new_widget = new alHelpPlace(id,parent_id); break; }
+	case WVGroupBox:
+	case WHGroupBox:
+	case WGroupBox: {    new_widget = new alGroupBox(attr,id,parent_id,orientation, attr[AltReqParamWChecked].b); break; }
+	case WGridBox: {     new_widget = new alGridBox(attr,id,parent_id, columns); break; }
+	case WCheckBox: {    new_widget = new alCheckBox(attr,id,parent_id); break; }
+	case WTree: {        new_widget = new alTree(attr,id,parent_id, columns); break; }
+	case WComboBox: {    new_widget = new alComboBox(attr,id,parent_id); break; }
+	case WHTabBox:
+	case WVTabBox:
+	case WTabBox: {      new_widget = new alTabBox(attr,id,parent_id,orientation); break; }
+	case WVTabPage:
+	case WHTabPage:
+	case WTabPage: {     new_widget = new alTabPage(attr,id,parent_id,orientation); break; }
+	case WProgressBar: { new_widget = new alProgressBar(attr,id,parent_id); break; }
+	case WSlider: {      new_widget = new alSlider(attr,id,parent_id); break; }
+	case WSeparator: {   new_widget = new alSeparator(attr,id,parent_id,orientation); break; }
+	case WSpacer: {      new_widget = new alSpacer(attr,id,parent_id); break; }
+	case WSpinBox: {     new_widget = new alSpinBox(attr,id,parent_id); break; }
+	case WDateEdit: {    new_widget = new alDateEdit(attr,id,parent_id); break; }
+	case WTimeEdit: {    new_widget = new alTimeEdit(attr,id,parent_id); break; }
+	case WMultiListBox:
+	case WListBox: {     new_widget = new alMultiListBox(attr,id,parent_id,columns.toInt()); break; }
+	case WSlideShow: {   new_widget = new alSlideShow(attr,id,parent_id); break; }
+	case WSplitBox: {    new_widget = new alSplitBox(attr,id,parent_id,orientation,columns); break; }
+	case WWizardFace:
 	{
 	    if( wizard_face )
 		new_widget = new alBox(attr,id,parent_id,orientation);
 	    else
 		new_widget = wizard_face = new alWizardFace(attr,id,parent_id,orientation);
+	    break;
 	}
-	else
+	case WProxy:
+	case WUnknown:
 	{
-	    qDebug("Unknown widget \"%s\". Make box instead.", qPrintable(type));
+	    qDebug("Unknown widget requested. Make box instead.");
 	    new_widget = new alBox(attr,id,parent_id,orientation);
 	}
+	/* default:
+	    break; */
+    }
 
 	//
 	if( new_widget )

@@ -12,6 +12,28 @@
 
 typedef void (*parserfunc)(alCommand*);
 
+enum AlteratorWidgetType {
+    WUnknown = 0,       WWizardFace = 1,
+    WMainWidget = 2,    WDialog = 3,
+    WLabel = 4,         WButton = 5,
+    WRadio = 6,         WEdit = 7,
+    WTextBox = 8,       WGroupBox = 9,
+    WHGroupBox = 10,    WVGroupBox = 11,
+    WCheckBox = 12,     WListBox = 13,
+    WMultiListBox = 14, WComboBox = 15,
+    WTabBox = 16,       WVTabBox = 17,
+    WHTabBox = 18,      WTabPage = 19,
+    WHTabPage = 20,     WVTabPage = 21,
+    WBox = 22,          WVBox = 23,
+    WHBox = 24,         WGridBox = 25,
+    WSplitBox = 26,     WProgressBar = 27,
+    WTree = 28,         WSlider = 29,
+    WSeparator = 30,    WSpinBox = 31,
+    WHelpPlace = 32,    WProxy = 33,
+    WSpacer = 34,       WDateEdit = 35,
+    WTimeEdit = 36,     WSlideShow = 37
+};
+
 enum AlteratorRequestActionType
 {
     AlteratorRequestUnknown = 0,
@@ -63,11 +85,12 @@ enum AlteratorRequestParamType
 enum AlteratorRequestParamDataType
 {
     AltReqParamDataUnknown = 0,
-    AltReqParamDataString = 1,
-    AltReqParamDataBool = 2,
-    AltReqParamDataInt = 3,
-    AltReqParamDataOrientation = 4,
-    AltReqParamDataButtons = 5
+    AltReqParamDataType = 1,
+    AltReqParamDataString = 2,
+    AltReqParamDataBool = 3,
+    AltReqParamDataInt = 4,
+    AltReqParamDataOrientation = 5,
+    AltReqParamDataButtons = 6
 };
 
 class AlteratorRequestParamData
@@ -75,6 +98,7 @@ class AlteratorRequestParamData
 public:
     AlteratorRequestParamData():
 	type(AltReqParamDataUnknown),
+	t(WUnknown),
 	s(""),
 	b(false),
 	i(0),
@@ -84,6 +108,7 @@ public:
     ~AlteratorRequestParamData() {};
 
     AlteratorRequestParamDataType type;
+    AlteratorWidgetType t;
     QString s;
     bool b;
     int i;
@@ -147,6 +172,7 @@ private slots:
 
 private:
     QMap<QString,AlteratorRequestActionType> str2action;
+    QMap<QString,AlteratorWidgetType> str2widget;
     AlteratorAskList requests;
     QString sessionId;
     QString userId;
