@@ -32,7 +32,7 @@ private:
 
 class ATimeEdit: public QWidget
 {
-Q_OBJECT;
+Q_OBJECT
 public:
     ATimeEdit(QWidget *parent = 0);
     ~ATimeEdit();

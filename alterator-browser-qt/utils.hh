@@ -15,6 +15,6 @@ namespace Utils
     void fixWmlessPopup(QWidget*);
     Qt::Orientation fixOrientation(Qt::Orientation value, Qt::Orientation def_value = Qt::Vertical);
     Qt::Orientation convertOrientation(const QString&);
-};
+}
 
 #endif

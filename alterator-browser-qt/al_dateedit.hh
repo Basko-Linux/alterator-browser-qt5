@@ -8,7 +8,7 @@
 
 class ADateEdit: public QWidget
 {
-Q_OBJECT;
+Q_OBJECT
 public:
     ADateEdit(QWidget *parent = 0);
     ~ADateEdit();

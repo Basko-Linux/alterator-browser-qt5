@@ -31,7 +31,7 @@ public:
 	ActionApply,
 	ActionCancel,
 	ActionBackward,
-	ActionForward,
+	ActionForward
     };
 
     void addAction(const QString& key, const QString& name, const QString& pixmap);

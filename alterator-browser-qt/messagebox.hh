@@ -20,7 +20,7 @@ QMessageBox::StandardButtons convertButtonList(const QString& buttons);
 
 void initButtonMap();
 
-};
+}
 
 class AMsgBox: public QMessageBox
 {

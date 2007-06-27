@@ -8,7 +8,7 @@
 
 class AComboBox: public QComboBox
 {
-Q_OBJECT;
+Q_OBJECT
 public:
     AComboBox(QWidget *parent = 0);
     ~AComboBox();

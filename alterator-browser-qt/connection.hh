@@ -124,7 +124,7 @@ typedef QList<AlteratorAskInfo> AlteratorAskList;
 
 class Connection: public QThread
 {
-    Q_OBJECT;
+    Q_OBJECT
 public:
     Connection(QObject *parent = 0);
     ~Connection();

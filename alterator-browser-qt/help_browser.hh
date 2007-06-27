@@ -6,7 +6,7 @@
 
 class HelpBrowser: public QDialog
 {
-Q_OBJECT;
+Q_OBJECT
 public:
     HelpBrowser(QWidget *parent);
     ~HelpBrowser();

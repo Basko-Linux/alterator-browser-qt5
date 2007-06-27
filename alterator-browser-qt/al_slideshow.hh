@@ -7,7 +7,7 @@
 
 class ASlideShow: public QLabel
 {
-Q_OBJECT;
+Q_OBJECT
 public:
     ASlideShow(QWidget *parent);
     ~ASlideShow();
