@@ -63,7 +63,7 @@ void ASlideShow::showNextSlide()
 }
 
 alSlideShow::alSlideShow(const AlteratorRequestActionAttrs &attr, const QString& id, const QString& parent):
-	alWidgetPre<ASlideShow>(attr,SlideShow,id,parent)
+	alWidgetPre<ASlideShow>(attr,WSlideShow,id,parent)
 {
 }
 

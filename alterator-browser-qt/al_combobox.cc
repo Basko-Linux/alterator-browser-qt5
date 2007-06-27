@@ -61,7 +61,7 @@ void AComboBox::onActivate(const QString&)
 
 // alComboBox
 alComboBox::alComboBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
-    alWidgetPre<AComboBox>(attr,ComboBox,id,parent)
+    alWidgetPre<AComboBox>(attr,WComboBox,id,parent)
 {
     counter_ = 0;
     connect(wnd_, SIGNAL(editingFinished()), this, SLOT(onUpdate()));

@@ -7,7 +7,7 @@
 extern MainWindow *main_window;
 QMap<QString,alWidget*> elements;
 
-alWidget::alWidget(Type type, const QString& id,const QString& parent):
+alWidget::alWidget(AlteratorWidgetType type, const QString& id,const QString& parent):
     QObject(elements.value(parent,0)),
     type_(type),
     id_(id),
@@ -160,78 +160,81 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	}
 }
 
-QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy, const Qt::Orientation parent_orientation)
+QSizePolicy alWidget::adjustSizePolicy(const AlteratorWidgetType type, const QSizePolicy policy, const Qt::Orientation parent_orientation)
 {
     QSizePolicy szpol = policy;
     switch( type )
     {
-	case VBox:
+	case WBox:
+	case WVBox:
 	{
 	    szpol.setVerticalPolicy(QSizePolicy::Expanding);
 	    break;
 	}
-	case HBox:
+	case WHBox:
 	{
 	    szpol.setHorizontalPolicy(QSizePolicy::Expanding);
 	    break;
 	}
-	case VTabBox:
-	case VGroupBox:
+	case WTabBox:
+	case WVTabBox:
+	case WGroupBox:
+	case WVGroupBox:
 	{
 	    szpol.setVerticalPolicy(QSizePolicy::Expanding);
 	}
-	case HTabBox:
-	case HGroupBox:
+	case WHTabBox:
+	case WHGroupBox:
 	{
 	    szpol.setHorizontalPolicy(QSizePolicy::Expanding);
 	    break;
 	}
-	case GridBox:
-	case TextBox:
-	case SplitBox:
+	case WGridBox:
+	case WTextBox:
+	case WSplitBox:
 	{
 	    szpol.setVerticalPolicy(QSizePolicy::Expanding);
 	    szpol.setHorizontalPolicy(QSizePolicy::Expanding);
 	    break;
 	}
-	case Tree:
-	case ListBox:
-	case MultiListBox:
+	case WTree:
+	case WListBox:
+	case WMultiListBox:
 	{
 	    szpol.setHorizontalPolicy(QSizePolicy::Preferred);
 	    szpol.setVerticalPolicy(QSizePolicy::Expanding);
 	    break;
 	}
-	case ComboBox:
+	case WComboBox:
 	{
 	    szpol.setHorizontalPolicy(QSizePolicy::Preferred);
 	    break;
 	}
-	case ProgressBar:
-	case Slider:
-	case CheckBox:
-	case Radio:
+	case WProgressBar:
+	case WSlider:
+	case WCheckBox:
+	case WRadio:
 	{
 	    //szpol.setVerticalPolicy(QSizePolicy::Maximum);
 	    //szpol.setHorizontalPolicy(QSizePolicy::Expanding);
 	    break;
 	}
-	case Label:
+	case WLabel:
 	{
 	    szpol.setVerticalPolicy(QSizePolicy::Fixed);
 	    break;
 	}
-	case Edit:
+	case WEdit:
 	{
 	    szpol.setHorizontalPolicy(QSizePolicy::Expanding);
 	    break;
 	}
-	case Button:
+	case WButton:
 	{
 	    szpol.setHorizontalPolicy(QSizePolicy::Fixed);
 	    break;
 	}
-	case Separator:
+	case WSeparator:
 	{
 /*
 	    if( parent_orientation == Qt::Horizontal )
@@ -247,10 +250,25 @@ QSizePolicy alWidget::adjustSizePolicy(const Type type, const QSizePolicy policy
 */
 	    break;
 	}
-	default:
+	case WTabPage:
+	case WVTabPage:
+	case WHTabPage:
+	case WSlideShow:
+	case WTimeEdit:
+	case WDateEdit:
+	case WSpacer:
+	case WSpinBox:
+	case WProxy:
+	case WHelpPlace:
+	case WDialog:
+	case WMainWidget:
+	case WWizardFace:
+	case WUnknown:
+	    break;
+/*	default:
 	{
 	    //qDebug("don't set size policy");
-	}
+	} */
     }
     return szpol;
 }
@@ -275,11 +293,11 @@ void alWidget::destroyLater()
     deleteLater();
 }
 
-void alWidget::addChild(QWidget* chld, Type type, const AlteratorRequestActionAttrs&)
+void alWidget::addChild(QWidget* chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs&)
 {
     switch( type )
     {
-	case Dialog:
+	case WDialog:
 	{
 	    break;
 	}

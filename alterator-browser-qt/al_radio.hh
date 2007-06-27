@@ -9,7 +9,7 @@ class alRadio: public alWidgetPre<QRadioButton>
 {
 public:
 	alRadio(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
-		alWidgetPre<QRadioButton>(attr,Radio,id,parent)
+		alWidgetPre<QRadioButton>(attr,WRadio,id,parent)
 	{}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);

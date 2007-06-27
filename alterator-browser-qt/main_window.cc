@@ -634,12 +634,12 @@ void MainWindow::onStartRequest(const QString& id)
 	alWidget *aw = elements[id];
 	if( aw )
 	{
-	    if( aw->type() == alWidget::MainWidget  )
+	    if( aw->type() == WMainWidget  )
 	    {
 		alMainWidget *m = dynamic_cast<alMainWidget*>(aw);
 		if(m)  m->start();
 	    }
-	    else if ( aw->type() == alWidget::Dialog  )
+	    else if ( aw->type() == WDialog  )
 	    {
 		alDialog *d = dynamic_cast<alDialog*>(aw);
 		if(d) d->start();
@@ -654,12 +654,12 @@ void MainWindow::onStopRequest(const QString& id)
 	alWidget *aw = elements[id];
 	if( aw )
 	{
-	    if( aw->type() == alWidget::MainWidget  )
+	    if( aw->type() == WMainWidget  )
 	    {
 		alMainWidget *m = dynamic_cast<alMainWidget*>(aw);
 		if(m)  m->stop();
 	    }
-	    else if ( aw->type() == alWidget::Dialog  )
+	    else if ( aw->type() == WDialog  )
 	    {
 		alDialog *d = dynamic_cast<alDialog*>(aw);
 		if(d) d->stop();

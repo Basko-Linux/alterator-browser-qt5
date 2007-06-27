@@ -148,7 +148,7 @@ QString ADialog::currentAction()
 
 // alDialog
 alDialog::alDialog(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation):
-    alWidgetPre<ADialog>(attr,Dialog,id,parent)
+    alWidgetPre<ADialog>(attr,WDialog,id,parent)
 {
     QBoxLayout *bl;
     Qt::Orientation o = Utils::fixOrientation(orientation, Qt::Vertical);

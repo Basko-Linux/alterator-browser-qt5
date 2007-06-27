@@ -9,7 +9,7 @@ class alLabel: public alWidgetPre<QLabel>
 {
 public:
 	alLabel(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
-		alWidgetPre<QLabel>(attr,Label,id,parent)
+		alWidgetPre<QLabel>(attr,WLabel,id,parent)
 		{
 		    //wnd_->setWordWrap( true );
 		    //wnd_->setFrameStyle(QFrame::Sunken|QFrame::StyledPanel);

@@ -69,7 +69,7 @@ void ATextEdit::showEvent(QShowEvent*)
 
 // alTextBox
 alTextBox::alTextBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
-		alWidgetPre<ATextEdit>(attr,TextBox,id,parent)
+		alWidgetPre<ATextEdit>(attr,WTextBox,id,parent)
 {
 }
 

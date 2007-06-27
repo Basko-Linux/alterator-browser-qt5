@@ -9,7 +9,7 @@ class alProgressBar: public alWidgetPre<QProgressBar>
 {
 public:
     alProgressBar(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
-	alWidgetPre<QProgressBar>(attr,ProgressBar,id,parent)
+	alWidgetPre<QProgressBar>(attr,WProgressBar,id,parent)
     {}
 protected:
     void setAttr(const QString& name,const QString& value);

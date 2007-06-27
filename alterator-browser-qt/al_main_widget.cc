@@ -2,7 +2,7 @@
 #include "al_main_widget.hh"
 
 alMainWidget::alMainWidget(const QString& id,const QString& parent, Qt::Orientation orientation):
-	alMainWidgetPre<QWidget>(MainWidget, id, parent)
+	alMainWidgetPre<QWidget>(WMainWidget, id, parent)
 {
     QBoxLayout *bl;
     Qt::Orientation o = Utils::fixOrientation(orientation, Qt::Vertical);

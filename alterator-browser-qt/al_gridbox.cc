@@ -105,7 +105,7 @@ void AGridBox::addChild(QWidget* chld, int rowspan, int colspan)
 
 // alGridBox
 alGridBox::alGridBox(const AlteratorRequestActionAttrs &attr, const QString &id,const QString &parent, const QString &columns):
-	alWidgetPre<AGridBox>(attr,GridBox,id,parent)
+	alWidgetPre<AGridBox>(attr,WGridBox,id,parent)
 {
     if( !columns.isEmpty() )
 	wnd_->setColumns(columns);
@@ -124,7 +124,7 @@ QLayout* alGridBox::getViewLayout()
     return wnd_->getViewLayout();
 }
 
-void alGridBox::addChild(QWidget *chld, alWidget::Type, const AlteratorRequestActionAttrs& attr)
+void alGridBox::addChild(QWidget *chld, AlteratorWidgetType, const AlteratorRequestActionAttrs& attr)
 {
     wnd_->addChild(chld, attr[AltReqParamWRowSpan].i, attr[AltReqParamWColSpan].i);
 }

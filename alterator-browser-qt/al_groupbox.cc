@@ -2,7 +2,7 @@
 #include "al_groupbox.hh"
 
 alGroupBox::alGroupBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation, bool checkable):
-	alWidgetPre<QGroupBox>(attr,(orientation==Qt::Vertical)?VGroupBox:HGroupBox,id,parent)
+	alWidgetPre<QGroupBox>(attr,(orientation==Qt::Vertical)?WVGroupBox:WHGroupBox,id,parent)
 {
     wnd_->setCheckable(checkable);
     QBoxLayout *l;

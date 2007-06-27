@@ -2,7 +2,7 @@
 #include "al_box.hh"
 
 alBox::alBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation):
-		alWidgetPre<QWidget>(attr,(orientation==Qt::Vertical)?VBox:HBox,id,parent)
+		alWidgetPre<QWidget>(attr,(orientation==Qt::Vertical)?WVBox:WHBox,id,parent)
 {
     QBoxLayout *l;
     Qt::Orientation o = Utils::fixOrientation(orientation, Qt::Vertical);

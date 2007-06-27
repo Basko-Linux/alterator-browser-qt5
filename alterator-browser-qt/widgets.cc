@@ -11,7 +11,7 @@ void updateHelp(const QString& value)
 	while (i.hasNext())
 	{
 		i.next();
-		if( (i.value())->type() == alWidget::HelpPlace )
+		if( (i.value())->type() == WHelpPlace )
 		{
 			i.value()->setAttr("source",value);
 			break;

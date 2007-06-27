@@ -14,7 +14,7 @@ class alMainWidgetPre: public alWidget
 protected:
 	Widget *wnd_;
 public:
-	alMainWidgetPre(Type type, const QString& id,const QString& parent):
+	alMainWidgetPre(AlteratorWidgetType type, const QString& id,const QString& parent):
 		alWidget(type, id,parent)
 	{
 	    wnd_ = new Widget(main_window);

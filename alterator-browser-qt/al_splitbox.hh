@@ -29,7 +29,7 @@ public:
     alSplitBox(const AlteratorRequestActionAttrs &attr, const QString &id,const QString &parent, Qt::Orientation orientation, const QString &columns);
 
     void setAttr(const QString& name,const QString& value);
-    void addChild(QWidget *chld, alWidget::Type type, const AlteratorRequestActionAttrs &attr);
+    void addChild(QWidget *chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs &attr);
 };
 
 #endif

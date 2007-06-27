@@ -16,32 +16,24 @@ class alWidget: public QObject
 {
 	Q_OBJECT
 public:
-	enum Type {
-	    UnknownWidget, WizardFace, MainWidget, Dialog,
-	    Label, Button, Radio, Edit, TextBox,
-	    HGroupBox, VGroupBox, CheckBox, ListBox, MultiListBox, ComboBox,
-	    HTabBox, VTabBox, HTabPage, VTabPage, HBox, VBox, GridBox, SplitBox,
-	    ProgressBar, Tree, Slider, Separator, SpinBox,
-	    HelpPlace, Proxy, Spacer, DateEdit, TimeEdit, SlideShow
-	};
 signals:
 	void updated();
 
 protected:
-	Type type_;
+	AlteratorWidgetType type_;
 	QString id_;
 	QString parent_;
 	Qt::Alignment children_alignment;
 
 public:
-	alWidget(Type type, const QString& id,const QString& parent);
+	alWidget(AlteratorWidgetType type, const QString& id,const QString& parent);
 	virtual ~alWidget();
 
 	virtual void setAttr(const QString& name,const QString& value);
 	virtual void registerEvent(const QString&) {}
 	virtual QString postData() const { return ""; }
 
-	virtual void addChild(QWidget* chld, Type type, const AlteratorRequestActionAttrs &attr);
+	virtual void addChild(QWidget* chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs &attr);
 	virtual QWidget *getWidget(void) = 0;
 	virtual QLayout *getViewLayout(void) = 0;
 	virtual QWidget *getViewWidget(void) = 0;
@@ -49,12 +41,12 @@ public:
 	virtual QString getId(void) { return id_; };
 	virtual QString getValue() { return ""; };
 
-	Type type() { return type_; };
+	AlteratorWidgetType type() { return type_; };
 	void destroyLater();
 
 	virtual void markRequired(bool) {};
 	virtual void show(bool) = 0;
-	static QSizePolicy adjustSizePolicy(const Type, const QSizePolicy, const Qt::Orientation parent_orientation);
+	static QSizePolicy adjustSizePolicy(const AlteratorWidgetType, const QSizePolicy, const Qt::Orientation parent_orientation);
 	void setChildrenAlignment(Qt::Alignment);
 	Qt::Alignment childrenAlignment();
 
@@ -119,7 +111,7 @@ class alWidgetPre: public alWidget
 protected:
 	Widget *wnd_;
 public:
-	alWidgetPre(const AlteratorRequestActionAttrs &attr, Type type, const QString& id,const QString& parent):
+	alWidgetPre(const AlteratorRequestActionAttrs &attr, AlteratorWidgetType type, const QString& id,const QString& parent):
 		alWidget(type,id,Utils::reparentTag(parent)),
 		wnd_(createWidget<Widget>(parent))
 	{

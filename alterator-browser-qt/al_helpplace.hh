@@ -11,7 +11,7 @@ class alHelpPlacePre: public alWidget
 protected:
 	Widget *wnd_;
 public:
-	alHelpPlacePre(Type type, const QString& id,const QString& parent):
+	alHelpPlacePre(AlteratorWidgetType type, const QString& id,const QString& parent):
 		alWidget(type, id,parent)
 	{
 	    wnd_ = main_window;
@@ -28,7 +28,7 @@ class alHelpPlace: public alHelpPlacePre<MainWindow_t>
 {
 public:
 	alHelpPlace(const QString& id,const QString& parent):
-		alHelpPlacePre<MainWindow_t>(HelpPlace,id,parent)
+		alHelpPlacePre<MainWindow_t>(WHelpPlace,id,parent)
 	{
 	}
 protected:
