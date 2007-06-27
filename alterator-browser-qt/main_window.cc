@@ -383,61 +383,61 @@ void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
 	    {
 		alWidget *new_wdg = onNewRequest(request.attr);
 		collectTabIndex(tab_order_parents, tab_order_list, new_wdg,
-		    request.attr[AlteratorRequestParamTabIndex].i);
+		    request.attr[AltReqParamWTabIndex].i);
 		break;
 	    }
 	    case AlteratorRequestSet:
 	    {
-		QString attr_name = request.attr[AlteratorRequestParamWidgetAttrName].s;
+		QString attr_name = request.attr[AltReqParamWAttrName].s;
 		if( attr_name != "tab-index" )
-		    onSetRequest(request.attr[AlteratorRequestParamWidgetId].s,
+		    onSetRequest(request.attr[AltReqParamWId].s,
 			attr_name,
-			    request.attr[AlteratorRequestParamWidgetAttrValue].s);
+			    request.attr[AltReqParamWAttrValue].s);
 		else
 		    collectTabIndex(tab_order_parents, tab_order_list,
-			findAlWidgetById(request.attr[AlteratorRequestParamWidgetId].s),
-			    request.attr[AlteratorRequestParamTabIndex].i);
+			findAlWidgetById(request.attr[AltReqParamWId].s),
+			    request.attr[AltReqParamWTabIndex].i);
 		break;
 	    }
 	    case AlteratorRequestClose:
 	    {
-		onCloseRequest(request.attr[AlteratorRequestParamWidgetId].s);
+		onCloseRequest(request.attr[AltReqParamWId].s);
 		break;
 	    }
 	    case AlteratorRequestClean:
 	    {
-		onCleanRequest(request.attr[AlteratorRequestParamWidgetId].s);
+		onCleanRequest(request.attr[AltReqParamWId].s);
 		break;
 	    }
 	    case AlteratorRequestEvent:
 	    {
-		onEventRequest(request.attr[AlteratorRequestParamWidgetId].s, request.attr[AlteratorRequestParamEventValue].s);
+		onEventRequest(request.attr[AltReqParamWId].s, request.attr[AltReqParamEventValue].s);
 		break;
 	    }
 	    case AlteratorRequestSplash:
 	    {
-		onSplashMessageRequest(request.attr[AlteratorRequestParamSplashMessage].s);
+		onSplashMessageRequest(request.attr[AltReqParamSplashMessage].s);
 		break;
 	    }
 	    case AlteratorRequestStart:
 	    {
-		onStartRequest(request.attr[AlteratorRequestParamWidgetId].s);
+		onStartRequest(request.attr[AltReqParamWId].s);
 		break;
 	    }
 	    case AlteratorRequestStop:
 	    {
-		onStopRequest(request.attr[AlteratorRequestParamWidgetId].s);
+		onStopRequest(request.attr[AltReqParamWId].s);
 		break;
 	    }
 	    case AlteratorRequestMessage:
 	    {
-		onMessageBoxRequest(request.attr[AlteratorRequestParamMessageType].s, request.attr[AlteratorRequestParamMessageTitle].s,
-			request.attr[AlteratorRequestParamMessage].s, request.attr[AlteratorRequestParamButtons].buttons);
+		onMessageBoxRequest(request.attr[AltReqParamMessageType].s, request.attr[AltReqParamMessageTitle].s,
+			request.attr[AltReqParamMessage].s, request.attr[AltReqParamButtons].buttons);
 		break;
 	    }
 	    case AlteratorRequestLanguage:
 	    {
-		changeLanguage(request.attr[AlteratorRequestParamLanguage].s);
+		changeLanguage(request.attr[AltReqParamLanguage].s);
 		break;
 	    }
 	    case AlteratorRequestRetry:
@@ -447,9 +447,9 @@ void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
 	    }
 	    case AlteratorRequestCnstrAdd:
 	    {
-		constraints->add(request.attr[AlteratorRequestParamCnstrName].s,
-		    request.attr[AlteratorRequestParamCnstrType].s,
-		    request.attr[AlteratorRequestParamCnstrParams].s);
+		constraints->add(request.attr[AltReqParamCnstrName].s,
+		    request.attr[AltReqParamCnstrType].s,
+		    request.attr[AltReqParamCnstrParams].s);
 		break;
 	    }
 	    case AlteratorRequestCnstrClear:
@@ -495,16 +495,16 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	    orientation == Qt::Horizontal ? "-":"|", qPrintable(sub_type),
 	    qPrintable(width), qPrintable(height), qPrintable(columns) );
 	*/
-	QString id = attr[AlteratorRequestParamWidgetId].s;
-	QString parent_id = attr[AlteratorRequestParamParentId].s;
-	QString type = attr[AlteratorRequestParamWidgetType].s;
-	Qt::Orientation orientation = attr[AlteratorRequestParamOrientation].o;
-	QString columns = attr[AlteratorRequestParamColumns].s;
+	QString id = attr[AltReqParamWId].s;
+	QString parent_id = attr[AltReqParamWParentId].s;
+	QString type = attr[AltReqParamWType].s;
+	Qt::Orientation orientation = attr[AltReqParamWOrientation].o;
+	QString columns = attr[AltReqParamWColumns].s;
 
 	alWidget *new_widget = 0;
 	if ("root" == type)
 	{
-	    if ("popup" == attr[AlteratorRequestParamSubType].s) //this is a dialog
+	    if ("popup" == attr[AltReqParamWSubType].s) //this is a dialog
 	    {
 	    	if(parent_id.isEmpty())
 		    new_widget = new alMainWidget(id,"",orientation);
@@ -527,7 +527,7 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	else if ("edit" == type)        new_widget = new alEdit(attr,id,parent_id);
 	else if ("textbox" == type)     new_widget = new alTextBox(attr,id,parent_id);
 	else if ("help-place" == type)  new_widget = new alHelpPlace(id,parent_id);
-	else if ("groupbox" == type)    new_widget = new alGroupBox(attr,id,parent_id,orientation, attr[AlteratorRequestParamChecked].b);
+	else if ("groupbox" == type)    new_widget = new alGroupBox(attr,id,parent_id,orientation, attr[AltReqParamWChecked].b);
 	else if ("gridbox" == type)     new_widget = new alGridBox(attr,id,parent_id, columns);
 	else if ("checkbox" == type)    new_widget = new alCheckBox(attr,id,parent_id);
 	else if ("tree" == type)        new_widget = new alTree(attr,id,parent_id, columns);
@@ -560,10 +560,10 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	//
 	if( new_widget )
 	{
-	    int width = attr[AlteratorRequestParamWidth].i;
+	    int width = attr[AltReqParamWWidth].i;
 	    if( width  > 0 )
 		new_widget->setAttr("width",  QString("%1").arg(width));
-	    int height = attr[AlteratorRequestParamHeight].i;
+	    int height = attr[AltReqParamWHeight].i;
 	    if( height > 0 )
 		new_widget->setAttr("height", QString("%1").arg(height));
 	}

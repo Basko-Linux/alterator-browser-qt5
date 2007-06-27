@@ -33,48 +33,48 @@ enum AlteratorRequestActionType
 
 enum AlteratorRequestParamType
 {
-    AlteratorRequestParamUnknown = 0,
-    AlteratorRequestParamWidgetId = 1,
-    AlteratorRequestParamWidgetType = 2,
-    AlteratorRequestParamParentId = 3,
-    AlteratorRequestParamWidth = 4,
-    AlteratorRequestParamHeight = 5,
-    AlteratorRequestParamOrientation = 6,
-    AlteratorRequestParamSubType = 7,
-    AlteratorRequestParamChecked = 8,
-    AlteratorRequestParamColumns = 9,
-    AlteratorRequestParamRowSpan = 10,
-    AlteratorRequestParamColSpan = 11,
-    AlteratorRequestParamTabIndex = 12,
-    AlteratorRequestParamWidgetAttrName = 13,
-    AlteratorRequestParamWidgetAttrValue = 14,
-    AlteratorRequestParamEventValue = 15,
-    AlteratorRequestParamSplashMessage = 16,
-    AlteratorRequestParamMessageTitle = 17,
-    AlteratorRequestParamMessageType = 18,
-    AlteratorRequestParamMessage = 19,
-    AlteratorRequestParamLanguage = 20,
-    AlteratorRequestParamButtons = 21,
-    AlteratorRequestParamCnstrName = 22,
-    AlteratorRequestParamCnstrType = 23,
-    AlteratorRequestParamCnstrParams = 24
+    AltReqParamUnknown = 0,
+    AltReqParamWId = 1,
+    AltReqParamWType = 2,
+    AltReqParamWParentId = 3,
+    AltReqParamWWidth = 4,
+    AltReqParamWHeight = 5,
+    AltReqParamWOrientation = 6,
+    AltReqParamWSubType = 7,
+    AltReqParamWChecked = 8,
+    AltReqParamWColumns = 9,
+    AltReqParamWRowSpan = 10,
+    AltReqParamWColSpan = 11,
+    AltReqParamWTabIndex = 12,
+    AltReqParamWAttrName = 13,
+    AltReqParamWAttrValue = 14,
+    AltReqParamEventValue = 15,
+    AltReqParamSplashMessage = 16,
+    AltReqParamMessageTitle = 17,
+    AltReqParamMessageType = 18,
+    AltReqParamMessage = 19,
+    AltReqParamLanguage = 20,
+    AltReqParamButtons = 21,
+    AltReqParamCnstrName = 22,
+    AltReqParamCnstrType = 23,
+    AltReqParamCnstrParams = 24
 };
 
 enum AlteratorRequestParamDataType
 {
-    AlteratorRequestParamDataUnknown = 0,
-    AlteratorRequestParamDataString = 1,
-    AlteratorRequestParamDataBool = 2,
-    AlteratorRequestParamDataInt = 3,
-    AlteratorRequestParamDataOrientation = 4,
-    AlteratorRequestParamDataButtons = 5
+    AltReqParamDataUnknown = 0,
+    AltReqParamDataString = 1,
+    AltReqParamDataBool = 2,
+    AltReqParamDataInt = 3,
+    AltReqParamDataOrientation = 4,
+    AltReqParamDataButtons = 5
 };
 
 class AlteratorRequestParamData
 {
 public:
     AlteratorRequestParamData():
-	type(AlteratorRequestParamDataUnknown),
+	type(AltReqParamDataUnknown),
 	s(""),
 	b(false),
 	i(0),

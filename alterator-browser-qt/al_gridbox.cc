@@ -126,5 +126,5 @@ QLayout* alGridBox::getViewLayout()
 
 void alGridBox::addChild(QWidget *chld, alWidget::Type, const AlteratorRequestActionAttrs& attr)
 {
-    wnd_->addChild(chld, attr[AlteratorRequestParamRowSpan].i, attr[AlteratorRequestParamColSpan].i);
+    wnd_->addChild(chld, attr[AltReqParamWRowSpan].i, attr[AltReqParamWColSpan].i);
 }

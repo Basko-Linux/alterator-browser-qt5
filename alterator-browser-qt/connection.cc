@@ -204,30 +204,30 @@ AlteratorRequestParamData Connection::makeRequestParamData(AlteratorRequestParam
     AlteratorRequestParamData data;
     switch( type )
     {
-	case AlteratorRequestParamDataString:
+	case AltReqParamDataString:
 	{
 	    data.s = str; break;
 	}
-	case AlteratorRequestParamDataBool:
+	case AltReqParamDataBool:
 	{
 	    data.b = str == "true"; break;
 	}
-	case AlteratorRequestParamDataInt:
+	case AltReqParamDataInt:
 	{
 	    data.i = str.toInt(); break;
 	}
-	case AlteratorRequestParamDataOrientation:
+	case AltReqParamDataOrientation:
 	{
 	    data.o = Utils::convertOrientation(str); break;
 	}
-	case AlteratorRequestParamDataButtons:
+	case AltReqParamDataButtons:
 	{
 	    QMessageBox::StandardButtons btns = AMessageBox::convertButtonList(str);
 	    if(!btns) btns = QMessageBox::Ok;
 	    data.buttons = btns;
 	    break;
 	}
-	case AlteratorRequestParamDataUnknown:
+	case AltReqParamDataUnknown:
 	{
 	    qDebug("Unknown AlteratorRequestParamDataType.");
 	    break;
@@ -248,73 +248,73 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 	{
 	    case AlteratorRequestNew:
 	    {
-		act.attr[AlteratorRequestParamWidgetId] = makeRequestParamData(AlteratorRequestParamDataString, e.value("widget-id"));
-		act.attr[AlteratorRequestParamWidgetType] = makeRequestParamData(AlteratorRequestParamDataString, e.value("type"));
-		act.attr[AlteratorRequestParamParentId] = makeRequestParamData(AlteratorRequestParamDataString, e.value("parent"));
-		act.attr[AlteratorRequestParamWidth] = makeRequestParamData(AlteratorRequestParamDataInt, e.value("width"));
-		act.attr[AlteratorRequestParamHeight] = makeRequestParamData(AlteratorRequestParamDataInt, e.value("height"));
-		act.attr[AlteratorRequestParamOrientation] = makeRequestParamData(AlteratorRequestParamDataOrientation, e.value("orientation"));
-		act.attr[AlteratorRequestParamSubType] = makeRequestParamData(AlteratorRequestParamDataString, e.value("sub-type"));
-		act.attr[AlteratorRequestParamChecked] = makeRequestParamData(AlteratorRequestParamDataBool, e.value("checked"));
-		act.attr[AlteratorRequestParamColumns] = makeRequestParamData(AlteratorRequestParamDataString, e.value("columns"));
-		act.attr[AlteratorRequestParamRowSpan] = makeRequestParamData(AlteratorRequestParamDataInt, e.value("rowspan"));
-		act.attr[AlteratorRequestParamColSpan] = makeRequestParamData(AlteratorRequestParamDataInt, e.value("colspan"));
-		act.attr[AlteratorRequestParamTabIndex] = makeRequestParamData(AlteratorRequestParamDataInt, e.value("tab-index"));
+		act.attr[AltReqParamWId] = makeRequestParamData(AltReqParamDataString, e.value("widget-id"));
+		act.attr[AltReqParamWType] = makeRequestParamData(AltReqParamDataString, e.value("type"));
+		act.attr[AltReqParamWParentId] = makeRequestParamData(AltReqParamDataString, e.value("parent"));
+		act.attr[AltReqParamWWidth] = makeRequestParamData(AltReqParamDataInt, e.value("width"));
+		act.attr[AltReqParamWHeight] = makeRequestParamData(AltReqParamDataInt, e.value("height"));
+		act.attr[AltReqParamWOrientation] = makeRequestParamData(AltReqParamDataOrientation, e.value("orientation"));
+		act.attr[AltReqParamWSubType] = makeRequestParamData(AltReqParamDataString, e.value("sub-type"));
+		act.attr[AltReqParamWChecked] = makeRequestParamData(AltReqParamDataBool, e.value("checked"));
+		act.attr[AltReqParamWColumns] = makeRequestParamData(AltReqParamDataString, e.value("columns"));
+		act.attr[AltReqParamWRowSpan] = makeRequestParamData(AltReqParamDataInt, e.value("rowspan"));
+		act.attr[AltReqParamWColSpan] = makeRequestParamData(AltReqParamDataInt, e.value("colspan"));
+		act.attr[AltReqParamWTabIndex] = makeRequestParamData(AltReqParamDataInt, e.value("tab-index"));
 		break;
 	    }
 	    case AlteratorRequestClose:
 	    {
-		act.attr[AlteratorRequestParamWidgetId] = makeRequestParamData(AlteratorRequestParamDataString, e.value("widget-id"));
+		act.attr[AltReqParamWId] = makeRequestParamData(AltReqParamDataString, e.value("widget-id"));
 		break;
 	    }
 	    case AlteratorRequestClean:
 	    {
-		act.attr[AlteratorRequestParamWidgetId] = makeRequestParamData(AlteratorRequestParamDataString, e.value("widget-id"));
+		act.attr[AltReqParamWId] = makeRequestParamData(AltReqParamDataString, e.value("widget-id"));
 		break;
 	    }
 	    case AlteratorRequestSet:
 	    {
-		act.attr[AlteratorRequestParamWidgetId] = makeRequestParamData(AlteratorRequestParamDataString, e.value("widget-id"));
+		act.attr[AltReqParamWId] = makeRequestParamData(AltReqParamDataString, e.value("widget-id"));
 		QString attr_name = e.value("name");
-		act.attr[AlteratorRequestParamWidgetAttrName] = makeRequestParamData(AlteratorRequestParamDataString, attr_name);
+		act.attr[AltReqParamWAttrName] = makeRequestParamData(AltReqParamDataString, attr_name);
 		if( attr_name != "tab-index" )
-		    act.attr[AlteratorRequestParamWidgetAttrValue] = makeRequestParamData(AlteratorRequestParamDataString, cmd->value_);
+		    act.attr[AltReqParamWAttrValue] = makeRequestParamData(AltReqParamDataString, cmd->value_);
 		else
-		    act.attr[AlteratorRequestParamTabIndex] = makeRequestParamData(AlteratorRequestParamDataInt, cmd->value_);
+		    act.attr[AltReqParamWTabIndex] = makeRequestParamData(AltReqParamDataInt, cmd->value_);
 		break;
 	    }
 	    case AlteratorRequestEvent:
 	    {
-		act.attr[AlteratorRequestParamWidgetId] = makeRequestParamData(AlteratorRequestParamDataString, e.value("widget-id"));
-		act.attr[AlteratorRequestParamEventValue] = makeRequestParamData(AlteratorRequestParamDataString, cmd->value_);
+		act.attr[AltReqParamWId] = makeRequestParamData(AltReqParamDataString, e.value("widget-id"));
+		act.attr[AltReqParamEventValue] = makeRequestParamData(AltReqParamDataString, cmd->value_);
 		break;
 	    }
 	    case AlteratorRequestSplash:
 	    {
-		act.attr[AlteratorRequestParamSplashMessage] = makeRequestParamData(AlteratorRequestParamDataString, cmd->value_);
+		act.attr[AltReqParamSplashMessage] = makeRequestParamData(AltReqParamDataString, cmd->value_);
 		break;
 	    }
 	    case AlteratorRequestStart:
 	    {
-		act.attr[AlteratorRequestParamWidgetId] = makeRequestParamData(AlteratorRequestParamDataString, e.value("widget-id"));
+		act.attr[AltReqParamWId] = makeRequestParamData(AltReqParamDataString, e.value("widget-id"));
 		break;
 	    }
 	    case AlteratorRequestStop:
 	    {
-		act.attr[AlteratorRequestParamWidgetId] = makeRequestParamData(AlteratorRequestParamDataString, e.value("widget-id"));
+		act.attr[AltReqParamWId] = makeRequestParamData(AltReqParamDataString, e.value("widget-id"));
 		break;
 	    }
 	    case AlteratorRequestMessage:
 	    {
-		act.attr[AlteratorRequestParamMessageType] = makeRequestParamData(AlteratorRequestParamDataString, e.value("type"));
-		act.attr[AlteratorRequestParamMessageTitle] = makeRequestParamData(AlteratorRequestParamDataString, e.value("title"));
-		act.attr[AlteratorRequestParamMessage] = makeRequestParamData(AlteratorRequestParamDataString, e.value("message"));
-		act.attr[AlteratorRequestParamButtons] = makeRequestParamData(AlteratorRequestParamDataButtons, e.value("buttons"));
+		act.attr[AltReqParamMessageType] = makeRequestParamData(AltReqParamDataString, e.value("type"));
+		act.attr[AltReqParamMessageTitle] = makeRequestParamData(AltReqParamDataString, e.value("title"));
+		act.attr[AltReqParamMessage] = makeRequestParamData(AltReqParamDataString, e.value("message"));
+		act.attr[AltReqParamButtons] = makeRequestParamData(AltReqParamDataButtons, e.value("buttons"));
 		break;
 	    }
 	    case AlteratorRequestLanguage:
 	    {
-		act.attr[AlteratorRequestParamLanguage] = makeRequestParamData(AlteratorRequestParamDataString, cmd->value_);
+		act.attr[AltReqParamLanguage] = makeRequestParamData(AltReqParamDataString, cmd->value_);
 		break;
 	    }
 	    case AlteratorRequestRetry:
@@ -323,9 +323,9 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 	    }
 	    case AlteratorRequestCnstrAdd:
 	    {
-		act.attr[AlteratorRequestParamCnstrName] = makeRequestParamData(AlteratorRequestParamDataString, e.value("name"));
-		act.attr[AlteratorRequestParamCnstrType] = makeRequestParamData(AlteratorRequestParamDataString, e.value("type"));
-		act.attr[AlteratorRequestParamCnstrParams] = makeRequestParamData(AlteratorRequestParamDataString, e.value("params"));
+		act.attr[AltReqParamCnstrName] = makeRequestParamData(AltReqParamDataString, e.value("name"));
+		act.attr[AltReqParamCnstrType] = makeRequestParamData(AltReqParamDataString, e.value("type"));
+		act.attr[AltReqParamCnstrParams] = makeRequestParamData(AltReqParamDataString, e.value("params"));
 		break;
 	    }
 	    case AlteratorRequestCnstrClear:
