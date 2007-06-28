@@ -12,7 +12,7 @@ RPM_SRPMSDIR=$$RPM_TOPDIR/SRPMS
 
 TEMPLATE = app
 QT += xml
-QMAKE_CXXFLAGS += -g -O0 -pedantic $(RPM_OPT_FLAGS)
+QMAKE_CXXFLAGS += -pedantic $(RPM_OPT_FLAGS)
 
 SOURCES =  main.cc
 SOURCES += mailbox.cc connection.cc widgets.cc sax.cc messagebox.cc
