@@ -519,8 +519,9 @@ void AWizardFace::onSelectStep(QListWidgetItem*)
     emit stepSelected();
 }
 
-void AWizardFace::onEnter()
+bool AWizardFace::onEnter()
 {
+    bool ret = false;
     AWizardFace::ActionType action;
     QString key;
     QAbstractButton *btn = 0;
@@ -541,26 +542,28 @@ void AWizardFace::onEnter()
     if( btn && btn->isVisible() && btn->isEnabled() && !key.isEmpty() )
     {
 	onSelectAction(key);
+	ret = true;
     }
+    return ret;
 }
 
 #if 0
 void AWizardFace::keyPressEvent(QKeyEvent* e)
 {
+    bool entered = false;
     switch( e->key() )
     {
 	case Qt::Key_Return:
 	case Qt::Key_Enter:
 	{
-	    onEnter();
+	    entered = onEnter();
 	    break;
 	}
 	default:
-	{
-	    QWidget::keyPressEvent(e);
 	    break;
-	}
     }
+    if( !entered )
+	 QWidget::keyPressEvent(e);
 }
 #endif
 

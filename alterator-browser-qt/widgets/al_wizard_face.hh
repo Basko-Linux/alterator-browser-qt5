@@ -54,7 +54,7 @@ public:
     void cleanRequest();
     QString currentAction();
     int currentStep();
-    void onEnter();
+    bool onEnter();
 
 signals:
     void stepSelected();
