@@ -8,19 +8,12 @@
 #include "a_pixmaps.hh"
 
 extern alWizardFace *wizard_face;
+extern Enums *enums;
 
 // AWizardFace
 AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     QWidget(parent, f)
 {
-    key2type["abort"]    = AWizardFace::ActionAbort;
-    key2type["finish"]   = AWizardFace::ActionFinish;
-    key2type["help"]     = AWizardFace::ActionHelp;
-    key2type["apply"]    = AWizardFace::ActionApply;
-    key2type["cancel"]   = AWizardFace::ActionCancel;
-    key2type["backward"] = AWizardFace::ActionBackward;
-    key2type["forward"]  = AWizardFace::ActionForward;
-    key2type["generic"]  = AWizardFace::ActionGeneric;
 
     current_step = 0;
 
@@ -121,10 +114,10 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
 AWizardFace::~AWizardFace()
 {}
 
-int AWizardFace::findButtonPosition(ActionType type)
+int AWizardFace::findButtonPosition(UserActionType type)
 {
     int pos = -1;
-    QMapIterator<QString, ActionType> it(button_types);
+    QMapIterator<QString, UserActionType> it(button_types);
     while( it.hasNext() )
     {
 	it.next();
@@ -141,56 +134,56 @@ int AWizardFace::findButtonPosition(ActionType type)
     return pos;
 }
 
-int AWizardFace::newButtonPosition(ActionType type)
+int AWizardFace::newButtonPosition(UserActionType type)
 {
     switch( type )
     {
-	case ActionApply:
+	case UserActionApply:
 	    {
-		int pos = findButtonPosition( ActionCancel );
+		int pos = findButtonPosition( UserActionCancel );
 		if( pos >= 0 )
 		    return pos;
 		else
-		    pos = findButtonPosition( ActionBackward );
+		    pos = findButtonPosition( UserActionBackward );
 		if( pos >= 0 )
 		    return pos;
 		else
-		    return findButtonPosition( ActionForward );
+		    return findButtonPosition( UserActionForward );
 	    }
-	case ActionCancel:
+	case UserActionCancel:
 	    {
-		int pos = findButtonPosition( ActionApply );
+		int pos = findButtonPosition( UserActionApply );
 		if( pos >= 0 )
 		    return ++pos;
 		else
-		    pos = findButtonPosition( ActionBackward );
+		    pos = findButtonPosition( UserActionBackward );
 		if( pos >= 0 )
 		    return pos;
 		else
-		    return findButtonPosition( ActionForward );
+		    return findButtonPosition( UserActionForward );
 	    }
-	case ActionBackward:
+	case UserActionBackward:
 	    {
-		int pos = findButtonPosition( ActionForward );
+		int pos = findButtonPosition( UserActionForward );
 		if( pos >= 0 )
 		    return pos;
 		else
 		    return -1;
 	    }
-	case ActionFinish:
-	case ActionForward:
+	case UserActionFinish:
+	case UserActionForward:
 	    {
 		return -1;
 	    }
-	case ActionAbort:
+	case UserActionAbort:
 	    {
 		return 1;
 	    }
-	case ActionHelp:
+	case UserActionHelp:
 	    {
 		return 1;
 	    }
-	case ActionGeneric:
+	case UserActionGeneric:
 	default:
 	    {
 		return 2;
@@ -198,24 +191,24 @@ int AWizardFace::newButtonPosition(ActionType type)
     }
 }
 
-Qt::Alignment AWizardFace::newButtonAlignment(ActionType type)
+Qt::Alignment AWizardFace::newButtonAlignment(UserActionType type)
 {
     switch( type )
     {
-	case ActionAbort:
-	case ActionHelp:
+	case UserActionAbort:
+	case UserActionHelp:
 	    {
 		return Qt::AlignLeft;
 	    }
-	case ActionFinish:
-	case ActionApply:
-	case ActionCancel:
-	case ActionForward:
-	case ActionBackward:
+	case UserActionFinish:
+	case UserActionApply:
+	case UserActionCancel:
+	case UserActionForward:
+	case UserActionBackward:
 	    {
 		return Qt::AlignRight;
 	    }
-	case ActionGeneric:
+	case UserActionGeneric:
 	default:
 	    {
 		return Qt::AlignCenter;
@@ -223,42 +216,42 @@ Qt::Alignment AWizardFace::newButtonAlignment(ActionType type)
     }
 }
 
-QPixmap AWizardFace::defaultActionIcon(ActionType type)
+QPixmap AWizardFace::defaultActionIcon(UserActionType type)
 {
     QString name;
     switch( type )
     {
-	case ActionFinish:
+	case UserActionFinish:
 	    {
 		name = "theme:down";
 		break;
 	    }
-	case ActionAbort:
+	case UserActionAbort:
 	    {
 		name = "theme:cancel";
 		break;
 	    }
-	case ActionHelp:
+	case UserActionHelp:
 	    {
 		name = "theme:help";
 		break;
 	    }
-	case ActionApply:
+	case UserActionApply:
 	    {
 		name = "theme:apply";
 		break;
 	    }
-	case ActionCancel:
+	case UserActionCancel:
 	    {
 		name = "theme:cancel";
 		break;
 	    }
-	case ActionForward:
+	case UserActionForward:
 	    {
 		name = "theme:forward";
 		break;
 	    }
-	case ActionBackward:
+	case UserActionBackward:
 	    {
 		name = "theme:backward";
 		break;
@@ -273,11 +266,7 @@ void AWizardFace::addAction(const QString& key, const QString& name, const QStri
 {
     if( !key.isEmpty() )
     {
-	AWizardFace::ActionType type;
-	if( key2type.contains(key) )
-    	    type = key2type[key];
-        else
-	    type = AWizardFace::ActionGeneric;
+	UserActionType type = enums->strToUserAction(key);
 	addAction(key, type);
 	if( !name.isEmpty() )
 	    setActionText(key, name);
@@ -287,27 +276,27 @@ void AWizardFace::addAction(const QString& key, const QString& name, const QStri
 }
 
 
-void AWizardFace::addAction(const QString &key, AWizardFace::ActionType type)
+void AWizardFace::addAction(const QString &key, UserActionType type)
 {
     switch( type )
     {
-	case ActionFinish:
-	case ActionApply:
-	case ActionCancel:
-	case ActionBackward:
-	case ActionForward:
-	case ActionHelp:
-	case ActionAbort:
+	case UserActionFinish:
+	case UserActionApply:
+	case UserActionCancel:
+	case UserActionBackward:
+	case UserActionForward:
+	case UserActionHelp:
+	case UserActionAbort:
 	    {
 		if( !buttons.contains(key) )
 	        {
 		    QBoxLayout *lay = buttons_layout;
-		    if( type == ActionHelp || type == ActionAbort )
+		    if( type == UserActionHelp || type == UserActionAbort )
 			lay = menu_layout;
 		    QPushButton *b = new QPushButton(bottom_widget);
 		    b->setIcon(QIcon(defaultActionIcon(type)));
 		    lay->insertWidget( newButtonPosition(type), b, 0, newButtonAlignment(type) );
-		    if( type == AWizardFace::ActionForward || type == AWizardFace::ActionFinish )
+		    if( type == UserActionForward || type == UserActionFinish )
 			b->setFocus();
 		    buttons[key] = b;
 		    button_types[key] = type;
@@ -316,7 +305,7 @@ void AWizardFace::addAction(const QString &key, AWizardFace::ActionType type)
 		    break;
 		}
 	    }
-	case ActionGeneric:
+	case UserActionGeneric:
 	default:
 	    {
 		if( !menus.contains(key) )
@@ -492,8 +481,8 @@ QString AWizardFace::currentAction()
 void AWizardFace::onSelectAction(const QString& key)
 {
     //qDebug("current action is <%s>", key.toLatin1().data());
-    ActionType type = key2type[key];
-    if( type == ActionHelp )
+    UserActionType type = enums->strToUserAction(key);
+    if( type == UserActionHelp )
     {
 	QHelpEvent *hlp = new QHelpEvent((QEvent::Type)EVENT_HELP, QPoint(), QPoint());
 	QApplication::postEvent(main_window, hlp);
@@ -501,10 +490,10 @@ void AWizardFace::onSelectAction(const QString& key)
     current_action = key;
     switch( type )
     {
-	case ActionApply:
-	case ActionFinish:
-	case ActionForward:
-	case ActionBackward:
+	case UserActionApply:
+	case UserActionFinish:
+	case UserActionForward:
+	case UserActionBackward:
 	{
 	    emit blockingActionSelected();
 	    break;
@@ -522,7 +511,7 @@ void AWizardFace::onSelectStep(QListWidgetItem*)
 bool AWizardFace::onEnter()
 {
     bool ret = false;
-    AWizardFace::ActionType action;
+    UserActionType action;
     QString key;
     QAbstractButton *btn = 0;
 
@@ -530,9 +519,9 @@ bool AWizardFace::onEnter()
     while( it.hasNext() )
     {
 	it.next();
-	action = key2type[it.key()];
-	if( action == AWizardFace::ActionFinish
-	    || action == AWizardFace::ActionForward )
+	action = enums->strToUserAction(it.key());
+	if( action == UserActionFinish
+	    || action == UserActionForward )
 	{
 	    key = it.key();
 	    btn = it.value();

@@ -6,6 +6,7 @@
 #include <QSignalMapper>
 #include <QMenu>
 
+#include "enums.hh"
 #include "widgets.hh"
 
 class AWizardFaceStepList: public QList< QPair<QString, QString> >
@@ -21,18 +22,6 @@ class AWizardFace: public QWidget
 public:
     AWizardFace( QWidget *parent=0, Qt::WFlags f=0 );
     ~AWizardFace();
-
-    enum ActionType
-    {
-	ActionGeneric,
-	ActionAbort,
-	ActionFinish,
-	ActionHelp,
-	ActionApply,
-	ActionCancel,
-	ActionBackward,
-	ActionForward
-    };
 
     void addAction(const QString& key, const QString& name, const QString& pixmap);
     void removeAction(const QString &key);
@@ -87,18 +76,17 @@ private:
     QFrame* title_widget;
     QLabel* title_icon;
     QLabel* title_text;
-    QMap<QString,AWizardFace::ActionType> key2type;
     QMap<QString, QAbstractButton*> buttons;
-    QMap<QString, ActionType> button_types;
+    QMap<QString, UserActionType> button_types;
     QMap<QString, QAction*> menus;
     QMenu *menu;
     QPushButton *menu_btn;
 
-    void addAction(const QString &key, ActionType);
-    int newButtonPosition(ActionType);
-    int findButtonPosition(ActionType);
-    Qt::Alignment newButtonAlignment(ActionType);
-    QPixmap defaultActionIcon(ActionType);
+    void addAction(const QString &key, UserActionType);
+    int newButtonPosition(UserActionType);
+    int findButtonPosition(UserActionType);
+    Qt::Alignment newButtonAlignment(UserActionType);
+    QPixmap defaultActionIcon(UserActionType);
     QString translateActionText(const QString&);
 };
 

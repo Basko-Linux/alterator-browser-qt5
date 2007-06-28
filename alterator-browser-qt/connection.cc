@@ -8,58 +8,17 @@
 #include "connection.hh"
 #include "global.hh"
 #include "utils.hh"
+#include "enums.hh"
 
 #include "main_window.hh"
 extern MainWindow *main_window;
+extern Enums *enums;
 
 Connection::Connection(QObject *parent):
     QThread(parent)
 {
     destruction = false;
     islong_timer_id = 0;
-    str2action["new"] = AlteratorRequestNew;
-    str2action["close"] = AlteratorRequestClose;
-    str2action["clean"] = AlteratorRequestClean;
-    str2action["set"] = AlteratorRequestSet;
-    str2action["create-event"] = AlteratorRequestEvent;
-    str2action["splash"] = AlteratorRequestSplash;
-    str2action["start"] = AlteratorRequestStart;
-    str2action["stop"] = AlteratorRequestStop;
-    str2action["messagebox"] = AlteratorRequestMessage;
-    str2action["language"] = AlteratorRequestLanguage;
-    str2action["retry"] = AlteratorRequestRetry;
-    str2action["constraints-add"]   = AlteratorRequestCnstrAdd;
-    str2action["constraints-clear"] = AlteratorRequestCnstrClear;
-    str2action["constraints-apply"] = AlteratorRequestCnstrApply;
-
-    str2widget["root"] = WMainWidget;
-    str2widget["box"] = WBox;
-    str2widget["vbox"] = WVBox;
-    str2widget["hbox"] = WHBox;
-    str2widget["button"] = WButton;
-    str2widget["radio"] = WRadio;
-    str2widget["label"] = WLabel;
-    str2widget["edit"] = WEdit;
-    str2widget["textbox"] = WTextBox;
-    str2widget["help-place"] = WHelpPlace;
-    str2widget["groupbox"] = WGroupBox;
-    str2widget["gridbox"] = WGridBox;
-    str2widget["checkbox"] = WCheckBox;
-    str2widget["tree"] = WTree;
-    str2widget["combobox"] = WComboBox;
-    str2widget["tabbox"] = WTabBox;
-    str2widget["tab-page"] = WTabPage;
-    str2widget["progressbar"] = WProgressBar;
-    str2widget["slider"] = WSlider;
-    str2widget["separator"] = WSeparator;
-    str2widget["spacer"] = WSpacer;
-    str2widget["spinbox"] = WSpinBox;
-    str2widget["dateedit"] = WDateEdit;
-    str2widget["timeedit"] = WTimeEdit;
-    str2widget["listbox"] = WListBox;
-    str2widget["slideshow"] = WSlideShow;
-    str2widget["splitbox"] = WSplitBox;
-    str2widget["wizardface"] = WWizardFace;
 
     connect(this, SIGNAL(started()), this, SLOT(startDelayedFinish()));
     connect(this, SIGNAL(finished()), this, SLOT(endDelayedFinish()));
@@ -235,7 +194,7 @@ AlteratorRequestParamData Connection::makeRequestParamData(AlteratorRequestParam
     {
 	case AltReqParamDataType:
 	{
-	    data.t = str2widget[str]; break;
+	    data.t = enums->strToWidget(str); break;
 	}
 	case AltReqParamDataString:
 	{
@@ -275,7 +234,7 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 {
 	QXmlAttributes e = cmd->attrs_;
 	AlteratorRequestAction act;
-	act.action = str2action[e.value("action")];
+	act.action = enums->strToRequestAction(e.value("action"));
 
 	switch( act.action )
 	{
