@@ -47,7 +47,9 @@ QPixmap AFilePixmapGenerator::operator()()
 {
     QPixmap px;
     QString path = images_path + name_;
-    if( ::access( (path + ".png").toLatin1(), R_OK) == 0 )
+    if( ::access( (path).toLatin1(), R_OK) == 0 )
+	px = QPixmap(path);
+    else if( ::access( (path + ".png").toLatin1(), R_OK) == 0 )
 	px = QPixmap(path + ".png", "PNG");
     else if( ::access( (path + ".jpg").toLatin1(), R_OK) == 0 )
 	px = QPixmap(path + ".jpg", "JPEG");
