@@ -13,28 +13,21 @@ RPM_SRPMSDIR=$$RPM_TOPDIR/SRPMS
 TEMPLATE = app
 QT += xml
 QMAKE_CXXFLAGS += -pedantic $(RPM_OPT_FLAGS)
+PRECOMPILED_DIR = .pch/
+OBJECTS_DIR = .obj
+MOC_DIR = .moc
+RCC_DIR = .rcc
+UI_DIR = .uic
 
 SOURCES =  main.cc
 SOURCES += mailbox.cc connection.cc widgets.cc sax.cc messagebox.cc
 SOURCES += main_window.cc a_pixmaps.cc utils.cc constraints.cc help_browser.cc
-SOURCES += al_wizard_face.cc al_dialog.cc al_widget.cc al_main_widget.cc
-SOURCES += al_edit.cc al_textbox.cc al_spacer.cc al_box.cc al_groupbox.cc
-SOURCES += al_slider.cc al_tree.cc al_listbox.cc al_tabbox.cc al_gridbox.cc
-SOURCES += al_spinbox.cc al_separator.cc al_progressbar.cc al_label.cc
-SOURCES += al_button.cc al_radio.cc al_checkbox.cc al_combobox.cc al_proxy.cc
-SOURCES += al_helpplace.cc al_dateedit.cc al_timeedit.cc al_slideshow.cc
-SOURCES += al_splitbox.cc
+SOURCES += al_widget.cc widgets/al_*.cc
 
 HEADERS =  global.hh
 HEADERS += mailbox.hh connection.hh widgets.hh sax.hh messagebox.hh
 HEADERS += main_window.hh a_pixmaps.hh utils.hh constraints.hh help_browser.hh
-HEADERS += al_wizard_face.hh al_dialog.hh al_widget.hh al_main_widget.hh
-HEADERS += al_edit.hh al_textbox.hh al_spacer.hh al_box.hh al_groupbox.hh
-HEADERS += al_slider.hh al_tree.hh al_listbox.hh al_tabbox.hh al_gridbox.hh
-HEADERS += al_spinbox.hh al_separator.hh al_progressbar.hh al_label.hh
-HEADERS += al_button.hh al_radio.hh al_checkbox.hh al_combobox.hh al_proxy.hh
-HEADERS += al_helpplace.hh al_dateedit.hh al_timeedit.hh al_slideshow.hh
-SOURCES += al_splitbox.hh
+HEADERS += al_widget.hh widgets/al_*.hh
 
 DATA = *.pro *.spec
 RESOURCES = images.qrc
