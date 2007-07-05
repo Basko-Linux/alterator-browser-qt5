@@ -3,7 +3,7 @@
 
 Name: alterator-browser-qt
 Version: 2.9.55
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -71,6 +71,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Thu Jul 05 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.55-alt2
+- align progressbar text Qt-style independent
+
 * Fri Jun 29 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.55-alt1
 - fix find icon pixmaps
 - fix tab-index attribute
