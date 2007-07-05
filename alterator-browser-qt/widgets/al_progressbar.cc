@@ -1,6 +1,12 @@
 
 #include "al_progressbar.hh"
 
+alProgressBar::alProgressBar(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
+	alWidgetPre<QProgressBar>(attr,WProgressBar,id,parent)
+{
+    wnd_->setAlignment(Qt::AlignCenter);
+}
+
 void alProgressBar::setAttr(const QString& name,const QString& value)
 {
     if( "value" == name )
