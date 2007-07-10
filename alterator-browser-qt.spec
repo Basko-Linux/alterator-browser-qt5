@@ -2,8 +2,8 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.55
-Release: alt2
+Version: 2.9.56
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -71,6 +71,11 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Tue Jul 10 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.56-alt1
+- don't hide splashscreen when clicked by mouse
+- override theme:* pixmaps by browser-design
+- override whirl.mng by browser-design
+
 * Thu Jul 05 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.55-alt2
 - align progressbar text Qt-style independent
 
