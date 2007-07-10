@@ -4,6 +4,7 @@
 #include <QRect>
 #include <QStyleOptionButton>
 #include <QBitmap>
+#include <QFile>
 
 #include "a_pixmaps.hh"
 
@@ -125,7 +126,10 @@ QPixmap getPixmap(QString id)
 	if( id.startsWith("theme:") )
 	{
 	    QString fid = id.mid(6);
-	    pixmap = AFilePixmapGenerator(fid)();
+	    if( QFile::exists(":/design/"+fid+".png") )
+		pixmap = QPixmap(":/design/"+fid+".png");
+	    if( pixmap.isNull() )
+		pixmap = AFilePixmapGenerator(fid)();
 	    if( pixmap.isNull() )
 	    {
 		if( pix_map.contains(id) )
