@@ -55,6 +55,7 @@ MainWindow::MainWindow():
 
     internal_splash = false;
     alterator_splash = false;
+    splash = 0;
     emit_locker = 0; //wrong emit protector
     connection = 0;
     constraints = 0;
@@ -684,23 +685,22 @@ void MainWindow::onMessageBoxRequest(const QString& type, const QString& title, 
     connection->getDocument(answer);
 }
 
-void MainWindow::splashStart(void)
+void MainWindow::splashStart()
 {
 	if (splash) return;
 
-	QPixmap px(250,50);
-	px.fill(QApplication::palette().color(QPalette::Background));
-
-	QPainter painter(&px);
-	painter.drawLine(1, 2, 1, px.height()-2);
-	painter.drawLine(2, 1, px.width()-2,1);
-	painter.drawLine(px.width()-1, 2, px.width()-1, px.height()-2);
-	painter.drawLine(2, px.height()-1, px.width()-2, px.height()-1);
-
-	splash = new QSplashScreen(this, px, Qt::WindowStaysOnTopHint);
-	//splash->setWindowModality(Qt::WindowModal);
-	splash->setWindowModality(Qt::ApplicationModal);
+	splash = new SplashScreen(QApplication::activeWindow());
+	QRect pr(0,0,width(),height());
+	QRect sr(0,0,splash->width(),splash->height());
+	splash->move(mapToGlobal(pr.center()) - sr.center());
 	splash->show();
+}
+
+void MainWindow::splashStop()
+{
+    if( !splash ) return;
+    delete splash;
+    splash = 0;
 }
 
 void MainWindow::onSplashMessageRequest(const QString& msg)
@@ -709,14 +709,13 @@ void MainWindow::onSplashMessageRequest(const QString& msg)
 	{
 	    alterator_splash = false;
 	    if( !internal_splash && splash )
-		delete splash;
+		splashStop();
 	}
 	else
 	{
 	    alterator_splash = true;
-	    if (!splash)
-		splashStart();
-	    splash->showMessage(msg);
+	    splashStart();
+	    splash->setText(msg);
 	}
 }
 
@@ -726,15 +725,14 @@ void MainWindow::onInternalSplashMessage(const QString& msg)
 	{
 	    internal_splash = false;
 	    if( !alterator_splash && splash )
-		delete splash;
+		splashStop();
 	}
 	else
 	{
 	    internal_splash = true;
-	    if (!splash)
-		splashStart();
+	    splashStart();
 	    if( !alterator_splash )
-		splash->showMessage(msg);
+		splash->setText(msg);
 	}
 }
 

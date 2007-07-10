@@ -5,7 +5,6 @@
 #include <QMainWindow>
 #include <QGridLayout>
 #include <QEvent>
-#include <QSplashScreen>
 #include <QPointer>
 #include <QLabel>
 
@@ -13,6 +12,7 @@
 #include "connection.hh"
 #include "constraints.hh"
 #include "al_widget.hh"
+#include "splashscreen.hh"
 
 typedef QMainWindow MainWindow_t;
 
@@ -54,13 +54,14 @@ private:
     bool internal_splash;
     bool alterator_splash;
     int emit_locker;
-    QPointer<QSplashScreen> splash;//single splash screen
+    SplashScreen *splash;//single splash screen
     int busy_timer_id;
     QLabel *startup_splash;
 
     void keyPressEvent(QKeyEvent*);
 //    void showEvent(QShowEvent*);
     void splashStart();
+    void splashStop();
     void loadStyleSheet();
 
     void onRetryRequest();
