@@ -79,7 +79,11 @@ MainWindow::MainWindow():
     startup_splash->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
     startup_splash->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     startup_splash->setAlignment( Qt::AlignCenter );
-    QMovie *anim = new QMovie(":/images/whirl.mng");
+
+    QString startup_splash_file = ":/design/whirl.mng";
+    if( !QFile::exists(startup_splash_file) )
+	startup_splash_file = ":/images/whirl.mng";
+    QMovie *anim = new QMovie(startup_splash_file);
     if( anim->isValid() )
     {
 	startup_splash->setMovie(anim);
