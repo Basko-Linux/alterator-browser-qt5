@@ -164,7 +164,11 @@ void fixWmlessPopup(QWidget *widget)
     if( y < 0 )
 	y = 0;
     widget->move(x, y);
+#if 1
+    QCursor::setPos(widget->mapToGlobal(QPoint(5,5)));
+#else
     QCursor::setPos(widget->mapToGlobal(QPoint(widget->width()-5, widget->height()-5)));
+#endif
 }
 
 Qt::Orientation fixOrientation(Qt::Orientation o, Qt::Orientation def)
