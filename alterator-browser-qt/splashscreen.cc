@@ -3,10 +3,15 @@
 
 #include "splashscreen.hh"
 #include "utils.hh"
+#include "main_window.hh"
+
+extern MainWindow *main_window;
 
 SplashScreen::SplashScreen(QWidget *parent):
-    QWidget(parent, Qt::FramelessWindowHint|Qt::CustomizeWindowHint|Qt::Window|Qt::WindowStaysOnTopHint)
+    QWidget(parent, Qt::FramelessWindowHint|Qt::CustomizeWindowHint|Qt::Window)
 {
+    if( !main_window->haveWindowManager() )
+	setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
     setWindowModality(Qt::ApplicationModal);
     setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
