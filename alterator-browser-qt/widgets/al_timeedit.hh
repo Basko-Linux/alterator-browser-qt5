@@ -26,7 +26,6 @@ private:
     QPixmap bg;
     int tmr_id;
     int offset;
-    double deg_per_hou, deg_per_min, deg_per_sec;
     QPen hpen, mpen, spen;
 };
 

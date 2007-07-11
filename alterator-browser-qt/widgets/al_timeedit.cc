@@ -11,9 +11,6 @@ AAnalogClock::AAnalogClock(QWidget *parent):
 
     offset = 0;
     tmr_id = 0;
-    deg_per_hou = 360/12;
-    deg_per_min = 360/60;
-    deg_per_sec = 360/60;
     bg = QPixmap(":/images/clock.png");
     setFixedSize(bg.width(), bg.height());
     hpen = QPen(QColor("black")); hpen.setWidth(4); hpen.setCapStyle(Qt::RoundCap);
@@ -69,17 +66,17 @@ void AAnalogClock::paintEvent(QPaintEvent*)
 	p.translate(wdth/2, hght/2);
 
 	double deg;
-	deg = deg_per_hou * h;
+	deg = 30 * h + m/2;
 	p.rotate(deg);
 	p.setPen(hpen);	p.drawLine(0, 0, 0, -(wdth*0.3));
 	p.rotate(-deg);
 
-	deg = deg_per_min * m;
+	deg = 6 * m;
 	p.rotate(deg);
 	p.setPen(mpen);	p.drawLine(0, 0, 0, -(wdth*0.40));
 	p.rotate(-deg);
 
-	deg = deg_per_sec * s;
+	deg = 6 * s;
 	p.rotate(deg);
 	p.setPen(spen);	p.drawLine(0, 0, 0, -(wdth*0.40));
 	p.rotate(-deg);
