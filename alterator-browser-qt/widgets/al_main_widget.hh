@@ -18,6 +18,7 @@ public:
 		alWidget(type, id,parent)
 	{
 	    wnd_ = new Widget(main_window);
+	    wnd_->setObjectName("main_widget");
 	    main_window->setCentralWidget(getViewWidget());
 	}
 
