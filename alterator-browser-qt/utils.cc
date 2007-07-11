@@ -54,8 +54,9 @@ void widgetCornersRound(QWidget *widget)
     QPainter painter(widget);
     QPalette palette = widget->palette();
 
-    QBrush bg_brush = palette.brush( QPalette::Background );
+    QBrush bg_brush = palette.brush( QPalette::Window );
     QColor dark_color = palette.dark().color();
+    QColor bg_color = palette.color( QPalette::Window );
     // top
     QRect frame(0, 0, widget->width(), framesize_);
     painter.fillRect(frame, bg_brush);
@@ -70,15 +71,14 @@ void widgetCornersRound(QWidget *widget)
     painter.fillRect(frame, bg_brush);
 
     // outline the frame
-    //painter.setPen( dark_color );
-    painter.setPen( QColor("black") );
+    painter.setPen( dark_color );
     frame = widget->rect();
     frame.setHeight( frame.height()-1 );
     frame.setWidth( frame.width()-1 );
     painter.drawRect(frame);
 
     // set the inner frame
-    painter.setPen( dark_color );
+    //painter.setPen( dark_color );
     frame.setRect(frame.x() + framesize_-1, frame.y() + framesize_-1,
 	frame.width() - framesize_*2 +2, frame.height() - (framesize_*2) +2);
 
@@ -88,13 +88,13 @@ void widgetCornersRound(QWidget *widget)
 
 #if 0
     // draw the inner frame with rounded corners
-    painter.setPen( dark_color );
+    //painter.setPen( dark_color );
+    painter.setPen(bg_color);
     painter.drawRoundRect(frame, 1, 1);
 #endif
 
     // choose a color from scheme
-    // painter.setPen( dark_color );
-    painter.setPen( QColor("black") );
+    painter.setPen( dark_color );
 
     // Draw edge of top-left corner inside the area removed by the mask.
     painter.drawPoint(4, 1);
