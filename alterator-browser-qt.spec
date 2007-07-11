@@ -75,6 +75,7 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 - fix keyboard focus on windowmanager-less popups 
 - show splashscreen on top only without window manager
 - don't draw the inner frame on windowmanager-less popups
+- fix set title for main window
 
 * Tue Jul 10 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.56-alt1
 - don't hide splashscreen when clicked by mouse
