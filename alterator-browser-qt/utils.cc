@@ -85,9 +85,12 @@ void widgetCornersRound(QWidget *widget)
     // local temp right and bottom
     int r(widget->width());
     int b(widget->height());
+
+#if 0
     // draw the inner frame with rounded corners
     painter.setPen( dark_color );
     painter.drawRoundRect(frame, 1, 1);
+#endif
 
     // choose a color from scheme
     // painter.setPen( dark_color );
