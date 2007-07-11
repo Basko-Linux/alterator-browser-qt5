@@ -3,7 +3,7 @@
 
 Name: alterator-browser-qt
 Version: 2.9.57
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -71,6 +71,10 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Wed Jul 11 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.57-alt2
+- fix analog clock hour arrow position
+- set "main_widget" object name for main widget
+
 * Wed Jul 11 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.57-alt1
 - fix keyboard focus on windowmanager-less popups 
 - show splashscreen on top only without window manager
