@@ -13,15 +13,31 @@ AAnalogClock::AAnalogClock(QWidget *parent):
     tmr_id = 0;
     bg = QPixmap(":/images/clock.png");
     setFixedSize(bg.width(), bg.height());
-    hpen = QPen(QColor("black")); hpen.setWidth(4); hpen.setCapStyle(Qt::RoundCap);
-    mpen = QPen(QColor("black")); mpen.setWidth(2); mpen.setCapStyle(Qt::RoundCap);
-    spen = QPen(QColor("red"));   spen.setWidth(1);
-
+    setupColors();
     start();
 }
 
 AAnalogClock::~AAnalogClock()
 {}
+
+void AAnalogClock::setupColors()
+{
+    QPalette pal = palette();
+    //hpen = QPen(pal.dark().color()); hpen.setWidth(4); hpen.setCapStyle(Qt::RoundCap);
+    hpen = QPen(QColor("black")); hpen.setWidth(4); hpen.setCapStyle(Qt::RoundCap);
+    //mpen = QPen(pal.dark().color()); mpen.setWidth(2); mpen.setCapStyle(Qt::RoundCap);
+    mpen = QPen(QColor("black")); mpen.setWidth(2); mpen.setCapStyle(Qt::RoundCap);
+    spen = QPen(QColor("red"));   spen.setWidth(1);
+}
+
+bool AAnalogClock::event(QEvent* e)
+{
+    if( e->type() == QEvent::PaletteChange )
+    {
+	setupColors();
+    }
+    return QWidget::event(e);
+}
 
 void AAnalogClock::setOffset(int new_offset)
 {
@@ -65,7 +81,7 @@ void AAnalogClock::paintEvent(QPaintEvent*)
 	p.drawPixmap(QPoint(0,0), bg);
 	p.translate(wdth/2, hght/2);
 
-	double deg;
+	qreal deg;
 	deg = 30 * h + m/2;
 	p.rotate(deg);
 	p.setPen(hpen);	p.drawLine(0, 0, 0, -(wdth*0.3));
