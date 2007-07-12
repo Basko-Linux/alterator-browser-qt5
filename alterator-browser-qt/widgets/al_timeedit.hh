@@ -21,15 +21,18 @@ public:
 
 protected:
     void timerEvent(QTimerEvent*);
+    void resizeEvent(QResizeEvent*);
     virtual bool event(QEvent*);
 
 private:
     QPixmap bg;
     int tmr_id;
     int offset;
-    QPen hpen, mpen, spen;
+    QPen hou_pen, min_pen, sec_pen;
+    int clock_width, clock_height;
 
     void setupColors();
+    void setupSize();
 };
 
 class ATimeEdit: public QWidget

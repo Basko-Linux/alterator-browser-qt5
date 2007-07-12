@@ -13,6 +13,7 @@ AAnalogClock::AAnalogClock(QWidget *parent):
     tmr_id = 0;
     bg = QPixmap(":/images/clock.png");
     setFixedSize(bg.width(), bg.height());
+    setupSize();
     setupColors();
     start();
 }
@@ -23,20 +24,20 @@ AAnalogClock::~AAnalogClock()
 void AAnalogClock::setupColors()
 {
     QPalette pal = palette();
-    //hpen = QPen(pal.dark().color()); hpen.setWidth(4); hpen.setCapStyle(Qt::RoundCap);
-    hpen = QPen(QColor("black")); hpen.setWidth(4); hpen.setCapStyle(Qt::RoundCap);
-    //mpen = QPen(pal.dark().color()); mpen.setWidth(2); mpen.setCapStyle(Qt::RoundCap);
-    mpen = QPen(QColor("black")); mpen.setWidth(2); mpen.setCapStyle(Qt::RoundCap);
-    spen = QPen(QColor("red"));   spen.setWidth(1);
+    //hou_pen = QPen(pal.dark().color());
+    hou_pen = QPen(QColor("black"));
+    //min_pen = QPen(pal.dark().color());
+    min_pen = QPen(QColor("black"));
+    sec_pen = QPen(QColor("red"));
 }
 
-bool AAnalogClock::event(QEvent* e)
+void AAnalogClock::setupSize()
 {
-    if( e->type() == QEvent::PaletteChange )
-    {
-	setupColors();
-    }
-    return QWidget::event(e);
+    hou_pen.setWidth(4); hou_pen.setCapStyle(Qt::RoundCap);
+    min_pen.setWidth(2); min_pen.setCapStyle(Qt::RoundCap);
+    sec_pen.setWidth(1);
+    clock_width = width();
+    clock_height = height();
 }
 
 void AAnalogClock::setOffset(int new_offset)
@@ -59,6 +60,20 @@ void AAnalogClock::stop()
     tmr_id = 0;
 }
 
+bool AAnalogClock::event(QEvent* e)
+{
+    if( e->type() == QEvent::PaletteChange )
+    {
+	setupColors();
+    }
+    return QWidget::event(e);
+}
+
+void AAnalogClock::resizeEvent(QResizeEvent*)
+{
+    setupSize();
+}
+
 void AAnalogClock::timerEvent(QTimerEvent* e)
 {
     if( e->timerId() == tmr_id )
@@ -75,26 +90,23 @@ void AAnalogClock::paintEvent(QPaintEvent*)
 	QPainter p(this);
 	p.setRenderHints(QPainter::Antialiasing);
 
-	int wdth = width();
-	int hght = height();
-
 	p.drawPixmap(QPoint(0,0), bg);
-	p.translate(wdth/2, hght/2);
+	p.translate(clock_width/2, clock_height/2);
 
 	qreal deg;
 	deg = 30 * h + m/2;
 	p.rotate(deg);
-	p.setPen(hpen);	p.drawLine(0, 0, 0, -(wdth*0.3));
+	p.setPen(hou_pen);	p.drawLine(0, 0, 0, -(clock_width*0.3));
 	p.rotate(-deg);
 
 	deg = 6 * m;
 	p.rotate(deg);
-	p.setPen(mpen);	p.drawLine(0, 0, 0, -(wdth*0.40));
+	p.setPen(min_pen);	p.drawLine(0, 0, 0, -(clock_width*0.40));
 	p.rotate(-deg);
 
 	deg = 6 * s;
 	p.rotate(deg);
-	p.setPen(spen);	p.drawLine(0, 0, 0, -(wdth*0.40));
+	p.setPen(sec_pen);	p.drawLine(0, 0, 0, -(clock_width*0.40));
 	p.rotate(-deg);
 }
 
