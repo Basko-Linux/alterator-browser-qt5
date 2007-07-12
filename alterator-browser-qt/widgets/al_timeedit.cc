@@ -13,8 +13,8 @@ AAnalogClock::AAnalogClock(QWidget *parent):
     tmr_id = 0;
     bg = QPixmap(":/images/clock.png");
     setFixedSize(bg.width(), bg.height());
-    setupSize();
     setupColors();
+    setupSize();
     start();
 }
 
