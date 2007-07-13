@@ -107,35 +107,41 @@ void AAnalogClock::paintEvent(QPaintEvent*)
 
 	p.translate(clock_width/2, clock_height/2);
 
+	qreal deg;
+
 	// marks
 	p.setPen(hou_mrk_pen);
 	int hou_mark_y = clock_width*0.5-round_pen_width-3;
 	for (int i=0;i<12;i++){
-	    p.rotate(30*i);
+	    deg = 30*i;
+	    p.rotate(deg);
 	    p.drawLine(0, hou_mark_y, 0, hou_mark_y-min_mrk_pen.width()*3);
-	    p.rotate(-(30*i));
+	    p.rotate(-deg);
 	}
 	p.setPen(min_mrk_pen);
 	int min_mark_y = clock_width*0.5-round_pen_width-3;
 	for (int i=0;i<72;i++){
-	    p.rotate(6*i);
+	    deg = 6*i;
+	    p.rotate(deg);
 	    p.drawLine(0, min_mark_y, 0, min_mark_y-1);
-	    p.rotate(-(6*i));
+	    p.rotate(-deg);
 	}
 
-	qreal deg;
+	// hours
 	deg = 30 * h + m/2;
 	p.rotate(deg);
 	p.setPen(hou_pen);
 	p.drawLine(0, 0, 0, -(clock_width*0.3));
 	p.rotate(-deg);
 
+	// minutes
 	deg = 6 * m;
 	p.rotate(deg);
 	p.setPen(min_pen);
 	p.drawLine(0, 0, 0, -(clock_width*0.40));
 	p.rotate(-deg);
 
+	// seconds
 	QPainterPath sec;
 	sec.addRect(0,10,0,-(min_mark_y+10));
 	sec.addEllipse(-3,-3,6,6);
