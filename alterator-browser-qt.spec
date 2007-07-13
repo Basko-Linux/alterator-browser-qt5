@@ -2,8 +2,8 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.57
-Release: alt2
+Version: 2.9.58
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -71,6 +71,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Fri Jul 13 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.58-alt1
+- don't use background pixmap for timeedit clock
+
 * Wed Jul 11 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.57-alt2
 - fix analog clock hour arrow position
 - set "main_widget" object name for main widget
