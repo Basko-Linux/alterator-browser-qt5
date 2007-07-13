@@ -11,28 +11,29 @@ AAnalogClock::AAnalogClock(QWidget *parent):
 
     offset = 0;
     tmr_id = 0;
-    bg = QPixmap(":/images/clock.png");
-    setFixedSize(bg.width(), bg.height());
-    setupColors();
-    setupSize();
+    setMinimumSize(128,128);
+    setup();
     start();
 }
 
 AAnalogClock::~AAnalogClock()
 {}
 
-void AAnalogClock::setupColors()
+void AAnalogClock::setup()
 {
+    QPalette::ColorGroup group = isEnabled()? QPalette::Active: QPalette::Disabled;
     QPalette pal = palette();
-    //hou_pen = QPen(pal.dark().color());
-    hou_pen = QPen(QColor("black"));
-    //min_pen = QPen(pal.dark().color());
-    min_pen = QPen(QColor("black"));
-    sec_pen = QPen(QColor("red"));
-}
+    bg_color = pal.color(group, QPalette::Base);
+    round_pen = QPen(pal.dark().color());
+    hou_mrk_pen = QPen(pal.color(group, QPalette::Text));
+    min_mrk_pen = QPen(pal.color(group, QPalette::Text));
+    hou_pen = QPen(pal.color(group, QPalette::Text));
+    min_pen = QPen(pal.color(group, QPalette::Text));
+    sec_pen = QPen(QColor(isEnabled()? "red": "brown"));
 
-void AAnalogClock::setupSize()
-{
+    round_pen.setWidth(6);
+    hou_mrk_pen.setWidth(4); hou_mrk_pen.setCapStyle(Qt::RoundCap);
+    min_mrk_pen.setWidth(2); min_mrk_pen.setCapStyle(Qt::RoundCap);
     hou_pen.setWidth(4); hou_pen.setCapStyle(Qt::RoundCap);
     min_pen.setWidth(2); min_pen.setCapStyle(Qt::RoundCap);
     sec_pen.setWidth(1);
@@ -62,16 +63,23 @@ void AAnalogClock::stop()
 
 bool AAnalogClock::event(QEvent* e)
 {
-    if( e->type() == QEvent::PaletteChange )
+    switch( e->type() )
     {
-	setupColors();
+        case QEvent::PaletteChange:
+	case QEvent::EnabledChange:
+	{
+	    setup();
+	    break;
+	}
+	default:
+	    break;
     }
     return QWidget::event(e);
 }
 
 void AAnalogClock::resizeEvent(QResizeEvent*)
 {
-    setupSize();
+    setup();
 }
 
 void AAnalogClock::timerEvent(QTimerEvent* e)
@@ -90,23 +98,58 @@ void AAnalogClock::paintEvent(QPaintEvent*)
 	QPainter p(this);
 	p.setRenderHints(QPainter::Antialiasing);
 
-	p.drawPixmap(QPoint(0,0), bg);
+	int round_pen_width = round_pen.width();
+	QPainterPath bg;
+	bg.addEllipse(round_pen_width,round_pen_width,clock_width-round_pen_width*2,clock_height-round_pen_width*2);
+	p.fillPath(bg, bg_color);
+	p.setPen(round_pen);
+	p.drawEllipse(round_pen_width/2,round_pen_width/2,clock_width-round_pen_width,clock_height-round_pen_width);
+
 	p.translate(clock_width/2, clock_height/2);
+
+	// marks
+	p.setPen(hou_mrk_pen);
+	int hou_mark_y = clock_width*0.5-round_pen_width-3;
+	for (int i=0;i<12;i++){
+	    p.rotate(30*i);
+	    p.drawLine(0, hou_mark_y, 0, hou_mark_y-min_mrk_pen.width()*3);
+	    p.rotate(-(30*i));
+	}
+	p.setPen(min_mrk_pen);
+	int min_mark_y = clock_width*0.5-round_pen_width-3;
+	for (int i=0;i<72;i++){
+	    p.rotate(6*i);
+	    p.drawLine(0, min_mark_y, 0, min_mark_y-1);
+	    p.rotate(-(6*i));
+	}
 
 	qreal deg;
 	deg = 30 * h + m/2;
 	p.rotate(deg);
-	p.setPen(hou_pen);	p.drawLine(0, 0, 0, -(clock_width*0.3));
+	p.setPen(hou_pen);
+	p.drawLine(0, 0, 0, -(clock_width*0.3));
 	p.rotate(-deg);
 
 	deg = 6 * m;
 	p.rotate(deg);
-	p.setPen(min_pen);	p.drawLine(0, 0, 0, -(clock_width*0.40));
+	p.setPen(min_pen);
+	p.drawLine(0, 0, 0, -(clock_width*0.40));
 	p.rotate(-deg);
+
+	QPainterPath sec;
+	sec.addRect(0,10,0,-(min_mark_y+10));
+	sec.addEllipse(-3,-3,6,6);
+	sec.addEllipse(-5,-(min_mark_y-hou_mrk_pen.width()*3+2),10,10);
+	QPainterPath rounds;
+	rounds.addEllipse(-2,-2,4,4);
+	rounds.addEllipse(-4,-(min_mark_y-hou_mrk_pen.width()*3+1),8,8);
 
 	deg = 6 * s;
 	p.rotate(deg);
-	p.setPen(sec_pen);	p.drawLine(0, 0, 0, -(clock_width*0.40));
+	p.setPen(sec_pen);
+	p.drawPath(sec);
+	p.fillPath(sec,sec_pen.color());
+	p.fillPath(rounds,bg_color);
 	p.rotate(-deg);
 }
 
@@ -117,18 +160,21 @@ ATimeEdit::ATimeEdit(QWidget *parent):
 {
     offset = 0;
     tmr_id = 0;
+    setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
     lay = new QVBoxLayout(this);
     lay->setMargin(0);
     lay->setSpacing(0);
 
     clock = new AAnalogClock(this);
+    clock->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     clock->hide();
 
     time_edit = new QTimeEdit(this);
-    //time_edit->setSizePolicy(QSizePolicy::Maximum, time_edit->sizePolicy().verticalPolicy());
+    //time_edit->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
     time_edit->setTime(QTime::currentTime());
 
+    lay->addStretch(1);
     lay->addWidget(clock, 0, Qt::AlignCenter);
     lay->addStretch(1);
     lay->addWidget(time_edit, 0, Qt::AlignCenter);

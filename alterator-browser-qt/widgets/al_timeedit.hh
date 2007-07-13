@@ -25,14 +25,13 @@ protected:
     virtual bool event(QEvent*);
 
 private:
-    QPixmap bg;
     int tmr_id;
     int offset;
-    QPen hou_pen, min_pen, sec_pen;
+    QPen hou_pen, min_pen, sec_pen, round_pen, hou_mrk_pen, min_mrk_pen;
+    QColor bg_color;
     int clock_width, clock_height;
 
-    void setupColors();
-    void setupSize();
+    void setup();
 };
 
 class ATimeEdit: public QWidget
