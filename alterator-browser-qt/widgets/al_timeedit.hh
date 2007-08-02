@@ -7,11 +7,11 @@
 
 #include "al_widget.hh"
 
-class AAnalogClock: public QWidget
+class AnalogClock: public QWidget
 {
 public:
-    AAnalogClock(QWidget *parent = 0);
-    ~AAnalogClock();
+    AnalogClock(QWidget *parent = 0);
+    ~AnalogClock();
 
     virtual void paintEvent(QPaintEvent*);
 
@@ -55,7 +55,7 @@ protected:
 
 private:
     int tmr_id;
-    AAnalogClock *clock;
+    AnalogClock *clock;
     QTimeEdit *time_edit;
     QVBoxLayout *lay;
     int offset;

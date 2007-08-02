@@ -4,7 +4,7 @@
 
 #include "al_timeedit.hh"
 
-AAnalogClock::AAnalogClock(QWidget *parent):
+AnalogClock::AnalogClock(QWidget *parent):
     QWidget(parent)
 {
     setMinimumSize(64, 64);
@@ -16,10 +16,10 @@ AAnalogClock::AAnalogClock(QWidget *parent):
     start();
 }
 
-AAnalogClock::~AAnalogClock()
+AnalogClock::~AnalogClock()
 {}
 
-void AAnalogClock::setup()
+void AnalogClock::setup()
 {
     QPalette::ColorGroup group = isEnabled()? QPalette::Active: QPalette::Disabled;
     QPalette pal = palette();
@@ -41,12 +41,12 @@ void AAnalogClock::setup()
     clock_height = height();
 }
 
-void AAnalogClock::setOffset(int new_offset)
+void AnalogClock::setOffset(int new_offset)
 {
     offset = new_offset;
 }
 
-void AAnalogClock::start()
+void AnalogClock::start()
 {
     offset = 0;
     if( tmr_id > 0 )
@@ -54,14 +54,14 @@ void AAnalogClock::start()
     tmr_id = startTimer(1000);
 }
 
-void AAnalogClock::stop()
+void AnalogClock::stop()
 {
     if( tmr_id > 0 )
 	killTimer(tmr_id);
     tmr_id = 0;
 }
 
-bool AAnalogClock::event(QEvent* e)
+bool AnalogClock::event(QEvent* e)
 {
     switch( e->type() )
     {
@@ -77,18 +77,18 @@ bool AAnalogClock::event(QEvent* e)
     return QWidget::event(e);
 }
 
-void AAnalogClock::resizeEvent(QResizeEvent*)
+void AnalogClock::resizeEvent(QResizeEvent*)
 {
     setup();
 }
 
-void AAnalogClock::timerEvent(QTimerEvent* e)
+void AnalogClock::timerEvent(QTimerEvent* e)
 {
     if( e->timerId() == tmr_id )
 	update();
 }
 
-void AAnalogClock::paintEvent(QPaintEvent*)
+void AnalogClock::paintEvent(QPaintEvent*)
 {
 	QTime tm = (QTime::currentTime()).addSecs(offset);
 	int h = tm.hour();
@@ -172,7 +172,7 @@ ATimeEdit::ATimeEdit(QWidget *parent):
     lay->setMargin(0);
     lay->setSpacing(0);
 
-    clock = new AAnalogClock(this);
+    clock = new AnalogClock(this);
     clock->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     clock->hide();
 
