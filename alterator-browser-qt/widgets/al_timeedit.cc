@@ -138,12 +138,12 @@ void AnalogClock::paintEvent(QPaintEvent*)
 	deg = 6 * m;
 	p.rotate(deg);
 	p.setPen(min_pen);
-	p.drawLine(0, 0, 0, -(clock_width*0.40));
+	p.drawLine(0, 0, 0, -(clock_width*0.39));
 	p.rotate(-deg);
 
 	// seconds
 	QPainterPath sec;
-	sec.addRect(0,10,0,-(min_mark_y+10));
+	sec.addRect(0,10,0,-(min_mark_y+7));
 	sec.addEllipse(-3,-3,6,6);
 	sec.addEllipse(-5,-(min_mark_y-hou_mrk_pen.width()*3+2),10,10);
 	QPainterPath rounds;
