@@ -7,6 +7,21 @@
 
 #include "al_widget.hh"
 
+class TimeEditFocusEventHandler: public QObject
+{
+Q_OBJECT
+public:
+    TimeEditFocusEventHandler(QObject*);
+    ~TimeEditFocusEventHandler();
+
+signals:
+    void focusIn();
+    void focusOut();
+
+protected:
+    bool eventFilter(QObject*, QEvent*);
+};
+
 class AnalogClock: public QWidget
 {
 public:
@@ -15,6 +30,7 @@ public:
 
     virtual void paintEvent(QPaintEvent*);
 
+    void setTime(const QTime&);
     void setOffset(int);
     void start();
     void stop();
@@ -27,6 +43,7 @@ protected:
 private:
     int tmr_id;
     int offset;
+    QTime last_time;
     QPen hou_pen, min_pen, sec_pen, round_pen, hou_mrk_pen, min_mrk_pen;
     QColor bg_color;
     int clock_width, clock_height;
@@ -44,11 +61,14 @@ public:
     void setExpanded(bool);
     void setTime(const QString&);
     QString time();
+
+public slots:
     void start();
     void stop();
 
 signals:
     void changed();
+
 
 protected:
     void timerEvent(QTimerEvent*);
@@ -59,6 +79,7 @@ private:
     QTimeEdit *time_edit;
     QVBoxLayout *lay;
     int offset;
+    TimeEditFocusEventHandler *time_edit_focus;
 
 private slots:
     void showTime();

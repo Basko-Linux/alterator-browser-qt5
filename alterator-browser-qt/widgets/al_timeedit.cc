@@ -1,8 +1,41 @@
 
 #include <QPainter>
 #include <QTimerEvent>
+#include <QEvent>
 
 #include "al_timeedit.hh"
+
+// TimeEditFocusEventHandler
+
+TimeEditFocusEventHandler::TimeEditFocusEventHandler(QObject *parent):
+    QObject(parent)
+{
+}
+
+TimeEditFocusEventHandler::~TimeEditFocusEventHandler()
+{}
+
+bool TimeEditFocusEventHandler::eventFilter(QObject *obj, QEvent *e)
+{
+    switch(e->type())
+    {
+	case QEvent::FocusIn:
+	{
+	    emit focusIn();
+	    break;
+	}
+	case QEvent::FocusOut:
+	{
+	    emit focusOut();
+	    break;
+	}
+	default:
+	    break;
+    }
+    return QObject::eventFilter(obj, e);
+}
+
+// AnalogClock
 
 AnalogClock::AnalogClock(QWidget *parent):
     QWidget(parent)
@@ -10,6 +43,7 @@ AnalogClock::AnalogClock(QWidget *parent):
     setMinimumSize(64, 64);
 
     offset = 0;
+    last_time = QTime::currentTime();
     tmr_id = 0;
     setMinimumSize(128,128);
     setup();
@@ -44,13 +78,21 @@ void AnalogClock::setup()
 void AnalogClock::setOffset(int new_offset)
 {
     offset = new_offset;
+    if( tmr_id <= 0 )
+	update();
+}
+
+void AnalogClock::setTime(const QTime& new_time)
+{
+    offset = QTime::currentTime().secsTo(new_time);
+    if( tmr_id <= 0 )
+	update();
 }
 
 void AnalogClock::start()
 {
-    offset = 0;
     if( tmr_id > 0 )
-	stop();
+	return;
     tmr_id = startTimer(1000);
 }
 
@@ -59,6 +101,8 @@ void AnalogClock::stop()
     if( tmr_id > 0 )
 	killTimer(tmr_id);
     tmr_id = 0;
+    offset = 0;
+    last_time = QTime::currentTime();
 }
 
 bool AnalogClock::event(QEvent* e)
@@ -90,7 +134,11 @@ void AnalogClock::timerEvent(QTimerEvent* e)
 
 void AnalogClock::paintEvent(QPaintEvent*)
 {
-	QTime tm = (QTime::currentTime()).addSecs(offset);
+	QTime tm;
+	if(tmr_id > 0)
+	    tm = (QTime::currentTime()).addSecs(offset);
+	else
+	    tm = last_time;
 	int h = tm.hour();
 	int m = tm.minute();
 	int s = tm.second();
@@ -185,8 +233,13 @@ ATimeEdit::ATimeEdit(QWidget *parent):
     lay->addStretch(1);
     lay->addWidget(time_edit, 0, Qt::AlignCenter);
 
+    time_edit_focus = new TimeEditFocusEventHandler(this);
+    time_edit->installEventFilter(time_edit_focus);
+
     connect(time_edit, SIGNAL(timeChanged(const QTime&)), this, SLOT(onChange(const QTime&)));
     connect(time_edit, SIGNAL(editingFinished()), this, SIGNAL(changed()));
+    connect(time_edit_focus, SIGNAL(focusIn()), this, SLOT(stop()));
+    connect(time_edit_focus, SIGNAL(focusOut()), this, SLOT(start()));
 
     start();
 }
@@ -196,11 +249,10 @@ ATimeEdit::~ATimeEdit()
 
 void ATimeEdit::start()
 {
-    offset = 0;
-    if( tmr_id > 0 )
-	stop();
-    tmr_id = startTimer(1000);
     clock->start();
+    if( tmr_id > 0 )
+	return;
+    tmr_id = startTimer(1000);
 }
 
 void ATimeEdit::stop()
@@ -209,6 +261,7 @@ void ATimeEdit::stop()
     if( tmr_id > 0 )
 	killTimer(tmr_id);
     tmr_id = 0;
+    offset = 0;
 }
 
 void ATimeEdit::timerEvent(QTimerEvent* e)
