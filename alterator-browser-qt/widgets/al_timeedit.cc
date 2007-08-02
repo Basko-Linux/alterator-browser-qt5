@@ -213,7 +213,7 @@ void ATimeEdit::stop()
 
 void ATimeEdit::timerEvent(QTimerEvent* e)
 {
-    if( e->timerId() == tmr_id )
+    if( e->timerId() == tmr_id && !time_edit->hasFocus() )
 	showTime();
 }
 
