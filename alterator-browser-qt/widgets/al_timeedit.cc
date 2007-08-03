@@ -269,9 +269,10 @@ void ATimeEdit::timerEvent(QTimerEvent* e)
 
 void ATimeEdit::setTime(const QString& new_time)
 {
+    bool state_edit_old = state_edit;
     state_edit = true;
     time_edit->setTime(QTime::fromString(new_time, Qt::ISODate));
-    state_edit = false;
+    state_edit = state_edit_old;
 }
 
 QString ATimeEdit::time()
