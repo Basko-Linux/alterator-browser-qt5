@@ -100,7 +100,6 @@ void AnalogClock::stop()
     else
 	last_time = QTime::currentTime();
     tmr_id = 0;
-    offset = 0;
 }
 
 bool AnalogClock::event(QEvent* e)
@@ -210,6 +209,7 @@ void AnalogClock::paintEvent(QPaintEvent*)
 ATimeEdit::ATimeEdit(QWidget *parent):
     QWidget(parent)
 {
+    state_edit = false;
     offset = 0;
     tmr_id = 0;
     setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
@@ -236,8 +236,8 @@ ATimeEdit::ATimeEdit(QWidget *parent):
 
     connect(time_edit, SIGNAL(timeChanged(const QTime&)), this, SLOT(onChange(const QTime&)));
     connect(time_edit, SIGNAL(editingFinished()), this, SIGNAL(changed()));
-    connect(time_edit_focus, SIGNAL(focusIn()), this, SLOT(stop()));
-    connect(time_edit_focus, SIGNAL(focusOut()), this, SLOT(start()));
+    connect(time_edit_focus, SIGNAL(focusIn()), this, SLOT(onFocusIn()));
+    connect(time_edit_focus, SIGNAL(focusOut()), this, SLOT(onFocusOut()));
 
     start();
 }
@@ -259,18 +259,19 @@ void ATimeEdit::stop()
     if( tmr_id > 0 )
 	killTimer(tmr_id);
     tmr_id = 0;
-    offset = 0;
 }
 
 void ATimeEdit::timerEvent(QTimerEvent* e)
 {
-    if( e->timerId() == tmr_id && !time_edit->hasFocus() )
+    if( e->timerId() == tmr_id && !state_edit )
 	showTime();
 }
 
 void ATimeEdit::setTime(const QString& new_time)
 {
+    state_edit = true;
     time_edit->setTime(QTime::fromString(new_time, Qt::ISODate));
+    state_edit = false;
 }
 
 QString ATimeEdit::time()
@@ -289,8 +290,25 @@ void ATimeEdit::setExpanded(bool expand)
 
 void ATimeEdit::onChange(const QTime& new_time)
 {
-    offset = QTime::currentTime().secsTo(new_time);
-    clock->setTime(new_time);
+    if(state_edit)
+    {
+	offset = QTime::currentTime().secsTo(new_time);
+	clock->setTime(new_time);
+    }
+}
+
+void ATimeEdit::onFocusIn()
+{
+    state_edit = true;
+    stop();
+    onChange(time_edit->time());
+}
+
+void ATimeEdit::onFocusOut()
+{
+    start();
+    onChange(time_edit->time());
+    state_edit = false;
 }
 
 void ATimeEdit::showTime()

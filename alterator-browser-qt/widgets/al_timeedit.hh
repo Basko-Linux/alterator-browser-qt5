@@ -61,7 +61,6 @@ public:
     void setTime(const QString&);
     QString time();
 
-public slots:
     void start();
     void stop();
 
@@ -73,6 +72,7 @@ protected:
     void timerEvent(QTimerEvent*);
 
 private:
+    bool state_edit;
     int tmr_id;
     AnalogClock *clock;
     QTimeEdit *time_edit;
@@ -83,6 +83,8 @@ private:
 private slots:
     void showTime();
     void onChange(const QTime&);
+    void onFocusIn();
+    void onFocusOut();
 };
 
 
