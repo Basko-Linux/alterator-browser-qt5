@@ -31,7 +31,6 @@ public:
     virtual void paintEvent(QPaintEvent*);
 
     void setTime(const QTime&);
-    void setOffset(int);
     void start();
     void stop();
 

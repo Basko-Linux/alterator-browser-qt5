@@ -75,18 +75,15 @@ void AnalogClock::setup()
     clock_height = height();
 }
 
-void AnalogClock::setOffset(int new_offset)
-{
-    offset = new_offset;
-    if( tmr_id <= 0 )
-	update();
-}
-
 void AnalogClock::setTime(const QTime& new_time)
 {
-    offset = QTime::currentTime().secsTo(new_time);
-    if( tmr_id <= 0 )
+    if(tmr_id <= 0)
+    {
+	offset = last_time.secsTo(new_time);
 	update();
+    }
+    else
+	offset = QTime::currentTime().secsTo(new_time);
 }
 
 void AnalogClock::start()
@@ -100,9 +97,10 @@ void AnalogClock::stop()
 {
     if( tmr_id > 0 )
 	killTimer(tmr_id);
+    else
+	last_time = QTime::currentTime();
     tmr_id = 0;
     offset = 0;
-    last_time = QTime::currentTime();
 }
 
 bool AnalogClock::event(QEvent* e)
@@ -136,9 +134,9 @@ void AnalogClock::paintEvent(QPaintEvent*)
 {
 	QTime tm;
 	if(tmr_id > 0)
-	    tm = (QTime::currentTime()).addSecs(offset);
+	    tm = QTime::currentTime().addSecs(offset);
 	else
-	    tm = last_time;
+	    tm = last_time.addSecs(offset);
 	int h = tm.hour();
 	int m = tm.minute();
 	int s = tm.second();
@@ -292,7 +290,7 @@ void ATimeEdit::setExpanded(bool expand)
 void ATimeEdit::onChange(const QTime& new_time)
 {
     offset = QTime::currentTime().secsTo(new_time);
-    clock->setOffset(offset);
+    clock->setTime(new_time);
 }
 
 void ATimeEdit::showTime()
