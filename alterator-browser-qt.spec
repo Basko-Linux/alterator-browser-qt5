@@ -3,7 +3,7 @@
 
 Name: alterator-browser-qt
 Version: 2.9.59
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -71,6 +71,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Fri Aug 03 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.59-alt2
+- add reset parameter to timeedit
+
 * Fri Aug 03 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.59-alt1
 - stop timeedit clock when editing time
 

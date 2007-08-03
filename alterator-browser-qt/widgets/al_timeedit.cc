@@ -102,6 +102,11 @@ void AnalogClock::stop()
     tmr_id = 0;
 }
 
+void AnalogClock::reset()
+{
+    offset = 0;
+}
+
 bool AnalogClock::event(QEvent* e)
 {
     switch( e->type() )
@@ -261,6 +266,12 @@ void ATimeEdit::stop()
     tmr_id = 0;
 }
 
+void ATimeEdit::reset()
+{
+    offset = 0;
+    clock->reset();
+}
+
 void ATimeEdit::timerEvent(QTimerEvent* e)
 {
     if( e->timerId() == tmr_id && !state_edit )
@@ -331,6 +342,8 @@ void alTimeEdit::setAttr(const QString& name,const QString& value)
         wnd_->start();
     if ("stop" == name)
         wnd_->stop();
+    if ("reset" == name)
+        wnd_->reset();
     else if ("expanded" == name)
         wnd_->setExpanded("true" == value);
     else

@@ -33,6 +33,7 @@ public:
     void setTime(const QTime&);
     void start();
     void stop();
+    void reset();
 
 protected:
     void timerEvent(QTimerEvent*);
@@ -63,6 +64,7 @@ public:
 
     void start();
     void stop();
+    void reset();
 
 signals:
     void changed();
