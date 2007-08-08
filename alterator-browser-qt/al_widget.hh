@@ -55,7 +55,7 @@ public slots:
 	void onUpdate(int);
 
 	void onClick();
-	void onBlockingClick(const AlteratorRequestFlags);
+	void onSpecialClick(const AlteratorRequestFlags);
 	void onClick(bool);
 	void onClick(QListWidgetItem*);
 	void onClick(QTreeWidgetItem*,int);

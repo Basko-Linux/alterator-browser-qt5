@@ -26,7 +26,7 @@ void alWidget::onUpdate() { emit updated(); }
 void alWidget::onUpdate(int) { emit updated(); }
 
 void alWidget::onClick()     { main_window->emitEvent(id_, "clicked", AlteratorRequestDefault); }
-void alWidget::onBlockingClick(const AlteratorRequestFlags flags)     { main_window->emitEvent(id_,"clicked", flags); }
+void alWidget::onSpecialClick(const AlteratorRequestFlags flags)     { main_window->emitEvent(id_,"clicked", flags); }
 void alWidget::onClick(bool) { main_window->emitEvent(id_,"clicked", AlteratorRequestDefault); }
 void alWidget::onClick(QListWidgetItem*)     { main_window->emitEvent(id_,"clicked", AlteratorRequestDefault); }
 void alWidget::onClick(QTreeWidgetItem*,int) { main_window->emitEvent(id_,"clicked", AlteratorRequestDefault); }

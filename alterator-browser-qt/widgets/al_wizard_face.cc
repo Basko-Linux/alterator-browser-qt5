@@ -590,7 +590,7 @@ void alWizardFace::registerEvent(const QString& name)
     if ("clicked" == name)
     {
 	connect(wnd_,SIGNAL(actionSelected()), SLOT(onClick()));
-	connect(wnd_,SIGNAL(blockingActionSelected(const AlteratorRequestFlags)), SLOT(onBlockingClick(const AlteratorRequestFlags)));
+	connect(wnd_,SIGNAL(blockingActionSelected(const AlteratorRequestFlags)), SLOT(onSpecialClick(const AlteratorRequestFlags)));
     }
     if ("selected" == name)
 	connect(wnd_,SIGNAL(stepSelected()), SLOT(onSelect()));
