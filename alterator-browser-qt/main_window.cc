@@ -331,7 +331,7 @@ void MainWindow::changeLanguage(const QString& language)
     emit languageChanged();
 }
 
-void MainWindow::emitEvent(const QString& id,const QString& type, AlteratorRequestFlags request_flags)
+void MainWindow::emitEvent(const QString &id,const QString &type, const AlteratorRequestFlags request_flags)
 {
 	if( emit_locker > 0 ) return;
 	if( request_flags & AlteratorRequestBlocking )
@@ -358,6 +358,9 @@ void MainWindow::emitEvent(const QString& id,const QString& type, AlteratorReque
 	request += "))"; //close message
 
 	connection->getDocument(request, request_flags);
+
+	if( request_flags & AlteratorRequestTimeReset )
+	    resetTimeEditAll();
 }
 
 void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
@@ -854,4 +857,21 @@ void MainWindow::loadStyleSheet()
 	    return;
 	}
     }
+}
+
+void MainWindow::addTimeEdit(ATimeEdit *te)
+{
+    time_edits.append(te);
+}
+
+void MainWindow::removeTimeEdit(ATimeEdit *te)
+{
+    time_edits.removeAll(te);
+}
+
+void MainWindow::resetTimeEditAll()
+{
+    QListIterator<ATimeEdit*> it(time_edits);
+    while(it.hasNext())
+	it.next()->reset();
 }

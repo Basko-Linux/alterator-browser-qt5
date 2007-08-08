@@ -25,32 +25,32 @@ alWidget::~alWidget()
 void alWidget::onUpdate() { emit updated(); }
 void alWidget::onUpdate(int) { emit updated(); }
 
-void alWidget::onClick()     { main_window->emitEvent(id_,"clicked"); }
-void alWidget::onBlockingClick()     { main_window->emitEvent(id_,"clicked", AlteratorRequestBlocking); }
-void alWidget::onClick(bool) { main_window->emitEvent(id_,"clicked"); }
-void alWidget::onClick(QListWidgetItem*)     { main_window->emitEvent(id_,"clicked"); }
-void alWidget::onClick(QTreeWidgetItem*,int) { main_window->emitEvent(id_,"clicked"); }
+void alWidget::onClick()     { main_window->emitEvent(id_, "clicked", AlteratorRequestDefault); }
+void alWidget::onBlockingClick(const AlteratorRequestFlags flags)     { main_window->emitEvent(id_,"clicked", flags); }
+void alWidget::onClick(bool) { main_window->emitEvent(id_,"clicked", AlteratorRequestDefault); }
+void alWidget::onClick(QListWidgetItem*)     { main_window->emitEvent(id_,"clicked", AlteratorRequestDefault); }
+void alWidget::onClick(QTreeWidgetItem*,int) { main_window->emitEvent(id_,"clicked", AlteratorRequestDefault); }
 
-void alWidget::onChange()    { main_window->emitEvent(id_,"changed"); }
-void alWidget::onChange(int) { main_window->emitEvent(id_,"changed"); }
-void alWidget::onChange(const QString&) { main_window->emitEvent(id_,"changed"); }
-void alWidget::onChange(QWidget*)       { main_window->emitEvent(id_,"changed"); }
+void alWidget::onChange()    { main_window->emitEvent(id_,"changed", AlteratorRequestDefault); }
+void alWidget::onChange(int) { main_window->emitEvent(id_,"changed", AlteratorRequestDefault); }
+void alWidget::onChange(const QString&) { main_window->emitEvent(id_,"changed", AlteratorRequestDefault); }
+void alWidget::onChange(QWidget*)       { main_window->emitEvent(id_,"changed", AlteratorRequestDefault); }
 
-void alWidget::onReturn() { main_window->emitEvent(id_,"return-pressed"); }
-void alWidget::onReturn(QListWidgetItem*) { main_window->emitEvent(id_,"return-pressed"); }
-void alWidget::onReturn(QTreeWidgetItem*, int) { main_window->emitEvent(id_,"return-pressed"); }
+void alWidget::onReturn() { main_window->emitEvent(id_,"return-pressed", AlteratorRequestDefault); }
+void alWidget::onReturn(QListWidgetItem*) { main_window->emitEvent(id_,"return-pressed", AlteratorRequestDefault); }
+void alWidget::onReturn(QTreeWidgetItem*, int) { main_window->emitEvent(id_,"return-pressed", AlteratorRequestDefault); }
 
-void alWidget::onSelect() { main_window->emitEvent(id_,"selected"); }
-void alWidget::onSelect(int n) { main_window->emitEvent(id_,"selected"); }
-void alWidget::onSelect(QTreeWidgetItem*,QTreeWidgetItem*) { main_window->emitEvent(id_,"selected"); }
-void alWidget::onSelect(const QString& s) { main_window->emitEvent(id_,"selected"); }
+void alWidget::onSelect() { main_window->emitEvent(id_,"selected", AlteratorRequestDefault); }
+void alWidget::onSelect(int n) { main_window->emitEvent(id_,"selected", AlteratorRequestDefault); }
+void alWidget::onSelect(QTreeWidgetItem*,QTreeWidgetItem*) { main_window->emitEvent(id_,"selected", AlteratorRequestDefault); }
+void alWidget::onSelect(const QString& s) { main_window->emitEvent(id_,"selected", AlteratorRequestDefault); }
 
-void alWidget::onDoubleClick() { main_window->emitEvent(id_,"double-clicked"); }
-void alWidget::onDoubleClick(QTreeWidgetItem*,int) { main_window->emitEvent(id_,"double-clicked"); }
-void alWidget::onDoubleClick(QListWidgetItem*) { main_window->emitEvent(id_,"double-clicked"); }
+void alWidget::onDoubleClick() { main_window->emitEvent(id_,"double-clicked", AlteratorRequestDefault); }
+void alWidget::onDoubleClick(QTreeWidgetItem*,int) { main_window->emitEvent(id_,"double-clicked", AlteratorRequestDefault); }
+void alWidget::onDoubleClick(QListWidgetItem*) { main_window->emitEvent(id_,"double-clicked", AlteratorRequestDefault); }
 
-void alWidget::onToggle(bool) { main_window->emitEvent(id_,"toggled"); }
-void alWidget::onToggle(int) { main_window->emitEvent(id_,"toggled"); }
+void alWidget::onToggle(bool) { main_window->emitEvent(id_,"toggled", AlteratorRequestDefault); }
+void alWidget::onToggle(int) { main_window->emitEvent(id_,"toggled", AlteratorRequestDefault); }
 
 void alWidget::setAttr(const QString& name,const QString& value)
 {

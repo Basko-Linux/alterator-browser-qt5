@@ -5,6 +5,9 @@
 
 #include "al_timeedit.hh"
 
+#include "main_window.hh"
+extern MainWindow *main_window;
+
 // TimeEditFocusEventHandler
 
 TimeEditFocusEventHandler::TimeEditFocusEventHandler(QObject *parent):
@@ -244,11 +247,15 @@ ATimeEdit::ATimeEdit(QWidget *parent):
     connect(time_edit_focus, SIGNAL(focusIn()), this, SLOT(onFocusIn()));
     connect(time_edit_focus, SIGNAL(focusOut()), this, SLOT(onFocusOut()));
 
+    main_window->addTimeEdit(this);
+
     start();
 }
 
 ATimeEdit::~ATimeEdit()
-{}
+{
+    main_window->removeTimeEdit(this);
+}
 
 void ATimeEdit::start()
 {

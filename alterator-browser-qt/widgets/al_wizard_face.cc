@@ -481,6 +481,7 @@ QString AWizardFace::currentAction()
 void AWizardFace::onSelectAction(const QString& key)
 {
     //qDebug("current action is <%s>", key.toLatin1().data());
+    AlteratorRequestFlags flags = AlteratorRequestDefault;
     UserActionType type = enums->strToUserAction(key);
     if( type == UserActionHelp )
     {
@@ -488,6 +489,9 @@ void AWizardFace::onSelectAction(const QString& key)
 	QApplication::postEvent(main_window, hlp);
     }
     current_action = key;
+
+    if( type == UserActionForward )
+	flags = flags | AlteratorRequestTimeReset;
     switch( type )
     {
 	case UserActionApply:
@@ -495,7 +499,8 @@ void AWizardFace::onSelectAction(const QString& key)
 	case UserActionForward:
 	case UserActionBackward:
 	{
-	    emit blockingActionSelected();
+	    flags = flags | AlteratorRequestBlocking;
+	    emit blockingActionSelected(flags);
 	    break;
 	}
 	default:
@@ -585,7 +590,7 @@ void alWizardFace::registerEvent(const QString& name)
     if ("clicked" == name)
     {
 	connect(wnd_,SIGNAL(actionSelected()), SLOT(onClick()));
-	connect(wnd_,SIGNAL(blockingActionSelected()), SLOT(onBlockingClick()));
+	connect(wnd_,SIGNAL(blockingActionSelected(const AlteratorRequestFlags)), SLOT(onBlockingClick(const AlteratorRequestFlags)));
     }
     if ("selected" == name)
 	connect(wnd_,SIGNAL(stepSelected()), SLOT(onSelect()));

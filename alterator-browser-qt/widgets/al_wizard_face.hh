@@ -48,7 +48,7 @@ public:
 signals:
     void stepSelected();
     void actionSelected();
-    void blockingActionSelected();
+    void blockingActionSelected(const AlteratorRequestFlags);
 // private
     void actionSelected(const QString&);
 
