@@ -2,8 +2,8 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.59
-Release: alt2
+Version: 2.9.60
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -71,6 +71,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Wed Aug 08 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.60-alt1
+- reset all timeedit widgets when forward clicked in wizardface
+
 * Fri Aug 03 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.59-alt2
 - add reset parameter to timeedit
 
