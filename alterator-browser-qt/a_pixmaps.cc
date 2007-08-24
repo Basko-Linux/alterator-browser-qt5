@@ -47,13 +47,14 @@ QPixmap APEButtonPixmapGenerator::operator()()
 QPixmap AFilePixmapGenerator::operator()()
 {
     QPixmap px;
+    if( QFile::exists(":/design/"+name_) )                       px = QPixmap(":/design/"+name_);
+    if( !px.isNull() ) return px;
+    if( QFile::exists(":/design/"+name_+".png") )                px = QPixmap(":/design/"+name_+".png");
+    if( !px.isNull() ) return px;
     QString path = images_path + name_;
-    if( ::access( (path).toLatin1(), R_OK) == 0 )
-	px = QPixmap(path);
-    else if( ::access( (path + ".png").toLatin1(), R_OK) == 0 )
-	px = QPixmap(path + ".png", "PNG");
-    else if( ::access( (path + ".jpg").toLatin1(), R_OK) == 0 )
-	px = QPixmap(path + ".jpg", "JPEG");
+    if( ::access( (path).toLatin1(), R_OK) == 0 )                px = QPixmap(path);
+    else if( ::access( (path + ".png").toLatin1(), R_OK) == 0 )  px = QPixmap(path + ".png", "PNG");
+    else if( ::access( (path + ".jpg").toLatin1(), R_OK) == 0 )  px = QPixmap(path + ".jpg", "JPEG");
     return px;
 }
 	
@@ -126,10 +127,7 @@ QPixmap getPixmap(QString id)
 	if( id.startsWith("theme:") )
 	{
 	    QString fid = id.mid(6);
-	    if( QFile::exists(":/design/"+fid+".png") )
-		pixmap = QPixmap(":/design/"+fid+".png");
-	    if( pixmap.isNull() )
-		pixmap = AFilePixmapGenerator(fid)();
+	    pixmap = AFilePixmapGenerator(fid)();
 	    if( pixmap.isNull() )
 	    {
 		if( pix_map.contains(id) )
