@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.60
+Version: 2.9.61
 Release: alt1
 
 Source:%name-%version.tar
@@ -71,6 +71,10 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Fri Aug 24 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.61-alt1
+- make "Next/Finish" in wizardface by F12
+- get all pixmaps via design
+
 * Wed Aug 08 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.60-alt1
 - reset all timeedit widgets when forward clicked in wizardface
 
