@@ -541,14 +541,15 @@ bool AWizardFace::onEnter()
     return ret;
 }
 
-#if 0
 void AWizardFace::keyPressEvent(QKeyEvent* e)
 {
     bool entered = false;
     switch( e->key() )
     {
+#if 0
 	case Qt::Key_Return:
 	case Qt::Key_Enter:
+#endif
 	case Qt::Key_F12:
 	{
 	    entered = onEnter();
@@ -560,7 +561,6 @@ void AWizardFace::keyPressEvent(QKeyEvent* e)
     if( !entered )
 	 QWidget::keyPressEvent(e);
 }
-#endif
 
 // alWizardFace
 alWizardFace::alWizardFace(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation):

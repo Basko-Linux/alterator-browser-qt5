@@ -57,9 +57,7 @@ private slots:
     void onSelectStep(QListWidgetItem*);
 
 protected:
-#if 0
     void keyPressEvent(QKeyEvent*);
-#endif
 
 private:
     AWizardFaceStepList steplist;
