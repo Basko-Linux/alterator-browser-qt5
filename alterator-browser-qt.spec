@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.61
+Version: 2.9.62
 Release: alt1
 
 Source:%name-%version.tar
@@ -71,6 +71,10 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Mon Aug 27 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.62-alt1
+- show seconds in timeedit in non-latin locales
+- fix cursor position for window-magagerless popup dialogs
+
 * Fri Aug 24 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.61-alt1
 - make "Next/Finish" in wizardface by F12
 - get all pixmaps via design
