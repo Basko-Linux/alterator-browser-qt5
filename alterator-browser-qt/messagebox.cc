@@ -104,12 +104,16 @@ AMsgBox::~AMsgBox() {}
 
 void AMsgBox::showEvent(QShowEvent*)
 {
-    //qDebug("AMsgBox::showEvent");
-    //QMessageBox::showEvent(e);
     if( !main_window->haveWindowManager() )
     {
-	Utils::fixWmlessPopup(this);
+	Utils::fixWmlessPopupWindow(this);
+	QTimer::singleShot(0, this, SLOT(onShownFix()));
     }
+}
+
+void AMsgBox::onShownFix()
+{
+    Utils::fixWmlessPopupCursor(this);
 }
 
 void AMsgBox::paintEvent(QPaintEvent*)

@@ -13,6 +13,8 @@ namespace Utils
     void errorExit(QWidget *parent, const QString& message);
     void widgetCornersRound(QWidget*);
     void fixWmlessPopup(QWidget*);
+    void fixWmlessPopupWindow(QWidget*);
+    void fixWmlessPopupCursor(QWidget*);
     Qt::Orientation fixOrientation(Qt::Orientation value, Qt::Orientation def_value = Qt::Vertical);
     Qt::Orientation convertOrientation(const QString&);
 }

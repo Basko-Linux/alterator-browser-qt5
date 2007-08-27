@@ -24,6 +24,7 @@ void initButtonMap();
 
 class AMsgBox: public QMessageBox
 {
+Q_OBJECT
 public:
     AMsgBox(
 	const QString &type,
@@ -35,6 +36,9 @@ public:
     ~AMsgBox();
     void showEvent(QShowEvent*);
     void paintEvent(QPaintEvent*);
+
+private slots:
+    void onShownFix();
 };
 
 #endif

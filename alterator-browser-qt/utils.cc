@@ -156,6 +156,12 @@ void widgetCornersRound(QWidget *widget)
 void fixWmlessPopup(QWidget *widget)
 {
     //qDebug("fix_wmless_popup");
+    fixWmlessPopupWindow(widget);
+    fixWmlessPopupCursor(widget);
+}
+
+void fixWmlessPopupWindow(QWidget *widget)
+{
     QDesktopWidget *xparent = QApplication::desktop();
     int x = (xparent->width() - widget->width()) / 2;
     if( x < 0 )
@@ -164,7 +170,12 @@ void fixWmlessPopup(QWidget *widget)
     if( y < 0 )
 	y = 0;
     widget->move(x, y);
-#if 1
+    fixWmlessPopupCursor(widget);
+}
+
+void fixWmlessPopupCursor(QWidget *widget)
+{
+#if 0
     QCursor::setPos(widget->mapToGlobal(QPoint(5,5)));
 #else
     QCursor::setPos(widget->mapToGlobal(QPoint(widget->width()-5, widget->height()-5)));
