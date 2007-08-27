@@ -232,6 +232,7 @@ ATimeEdit::ATimeEdit(QWidget *parent):
 
     time_edit = new QTimeEdit(this);
     //time_edit->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+    time_edit->setDisplayFormat("HH:MM:ss");
     time_edit->setTime(QTime::currentTime());
 
     lay->addStretch(1);
