@@ -13,8 +13,8 @@ public:
 
     void setHelpSource(const QString&);
     void setEmptyHelp();
-    int verticalScrollBarPosition();
-    void setVerticalScrollBarPosition(int);
+    int verticalScrollPosition();
+    void setVerticalScrollPosition(int);
 
 protected:
     void showEvent(QShowEvent*);
@@ -22,6 +22,7 @@ protected:
 
 private:
     Ui::HelpBrowserUI ui;
+    int vscroll_position;
 };
 
 class HelpBrowser: public QObject
@@ -39,7 +40,7 @@ public slots:
 private:
     HelpWidget *help_widget;
     QString help_url;
-    int vslider_position;
+    int vscroll_position;
 };
 
 #endif

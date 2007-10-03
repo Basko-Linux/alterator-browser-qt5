@@ -11,10 +11,8 @@ extern MainWindow *main_window;
 HelpWidget::HelpWidget(QWidget *parent):
     QDialog(parent)
 {
+    vscroll_position = 0;
     ui.setupUi(this);
-    //setWindowTitle(tr("Help"));
-    //setWindowTitle(QApplication::translate("QDialogButtonBox", "Help", 0, QApplication::UnicodeUTF8));
-    setEmptyHelp();
 
     connect(ui.textBrowser, SIGNAL(anchorClicked(const QUrl&)),
 	    ui.textBrowser, SLOT(setSource(const QUrl&)));
@@ -53,16 +51,18 @@ void HelpWidget::showEvent(QShowEvent *e)
     {
 	Utils::fixWmlessPopup(this);
     }
+    if( vscroll_position > 0 )
+	ui.textBrowser->verticalScrollBar()->setValue(vscroll_position);
 }
 
-int HelpWidget::verticalScrollBarPosition()
+int HelpWidget::verticalScrollPosition()
 {
-    return ui.textBrowser->verticalScrollBar()->sliderPosition();
+    return ui.textBrowser->verticalScrollBar()->value();
 }
 
-void HelpWidget::setVerticalScrollBarPosition(int pos)
+void HelpWidget::setVerticalScrollPosition(int pos)
 {
-    ui.textBrowser->verticalScrollBar()->setSliderPosition(pos);
+    vscroll_position = pos;
 }
 
 // HelpBrowser
@@ -71,7 +71,7 @@ HelpBrowser::HelpBrowser(QObject *parent):
     QObject(parent)
 {
     help_widget = 0;
-    vslider_position = 0;
+    vscroll_position = 0;
 }
 
 HelpBrowser::~HelpBrowser()
@@ -80,7 +80,7 @@ HelpBrowser::~HelpBrowser()
 void HelpBrowser::setHelpSource(const QString& url)
 {
     if( help_url != url )
-	vslider_position = 0;
+	vscroll_position = 0;
     help_url = url;
 }
 
@@ -91,10 +91,9 @@ int HelpBrowser::exec()
     {
 	help_widget = new HelpWidget(QApplication::activeWindow());
 	help_widget->setHelpSource(help_url);
-	if( vslider_position > 0 )
-	    help_widget->setVerticalScrollBarPosition(vslider_position);
+	help_widget->setVerticalScrollPosition(vscroll_position);
 	ret = help_widget->exec();
-	vslider_position = help_widget->verticalScrollBarPosition();
+	vscroll_position = help_widget->verticalScrollPosition();
 	delete help_widget;
 	help_widget = 0;
     }
