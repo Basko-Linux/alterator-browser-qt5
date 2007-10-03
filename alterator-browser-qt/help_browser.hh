@@ -4,18 +4,17 @@
 
 #include "ui_help_browser.h"
 
-class HelpBrowser: public QDialog
+class HelpWidget: public QDialog
 {
 Q_OBJECT
 public:
-    HelpBrowser(QWidget *parent);
-    ~HelpBrowser();
+    HelpWidget(QWidget *parent);
+    ~HelpWidget();
 
     void setHelpSource(const QString&);
     void setEmptyHelp();
-
-public slots:
-    void retranslateUi();
+    int verticalScrollBarPosition();
+    void setVerticalScrollBarPosition(int);
 
 protected:
     void showEvent(QShowEvent*);
@@ -23,6 +22,24 @@ protected:
 
 private:
     Ui::HelpBrowserUI ui;
+};
+
+class HelpBrowser: public QObject
+{
+Q_OBJECT
+public:
+    HelpBrowser(QObject *parent);
+    ~HelpBrowser();
+
+    void setHelpSource(const QString&);
+
+public slots:
+    int exec();
+
+private:
+    HelpWidget *help_widget;
+    QString help_url;
+    int vslider_position;
 };
 
 #endif

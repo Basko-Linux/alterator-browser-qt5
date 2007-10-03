@@ -1,4 +1,6 @@
 
+#include <QScrollBar>
+
 #include "main_window.hh"
 #include "help_browser.hh"
 #include "main_window.hh"
@@ -6,7 +8,7 @@
 
 extern MainWindow *main_window;
 
-HelpBrowser::HelpBrowser(QWidget *parent):
+HelpWidget::HelpWidget(QWidget *parent):
     QDialog(parent)
 {
     ui.setupUi(this);
@@ -16,12 +18,11 @@ HelpBrowser::HelpBrowser(QWidget *parent):
 
     connect(ui.textBrowser, SIGNAL(anchorClicked(const QUrl&)),
 	    ui.textBrowser, SLOT(setSource(const QUrl&)));
-    connect(parent, SIGNAL(languageChanged()), this, SLOT(retranslateUi()));
 }
 
-HelpBrowser::~HelpBrowser() {}
+HelpWidget::~HelpWidget() {}
 
-void HelpBrowser::setHelpSource(const QString& url)
+void HelpWidget::setHelpSource(const QString& url)
 {
     if(url.isEmpty())
 	setEmptyHelp();
@@ -29,13 +30,13 @@ void HelpBrowser::setHelpSource(const QString& url)
 	ui.textBrowser->setSource(url);
 }
 
-void HelpBrowser::setEmptyHelp()
+void HelpWidget::setEmptyHelp()
 {
     ui.textBrowser->setHtml( "<br/><br/><br/><br/><center><b>No help available.</b></center>" );
 }
 
 
-void HelpBrowser::paintEvent(QPaintEvent* e)
+void HelpWidget::paintEvent(QPaintEvent* e)
 {
     //QDialog::paintEvent(e);
     if( !main_window->haveWindowManager() )
@@ -44,19 +45,58 @@ void HelpBrowser::paintEvent(QPaintEvent* e)
     }
 }
 
-void HelpBrowser::showEvent(QShowEvent *e)
+void HelpWidget::showEvent(QShowEvent *e)
 {
-    //qDebug("HelpBrowser::showEvent");
-    //HelpBrowser::showEvent(e);
+    //qDebug("HelpWidget::showEvent");
+    //HelpWidget::showEvent(e);
     if( !main_window->haveWindowManager() )
     {
 	Utils::fixWmlessPopup(this);
     }
 }
 
-void HelpBrowser::retranslateUi()
+int HelpWidget::verticalScrollBarPosition()
 {
-    ui.retranslateUi(this);
-    setWindowTitle(QApplication::translate("QDialogButtonBox", "Help", 0, QApplication::UnicodeUTF8));
-    ui.buttonBox->setStandardButtons( ui.buttonBox->standardButtons() );
+    return ui.textBrowser->verticalScrollBar()->sliderPosition();
+}
+
+void HelpWidget::setVerticalScrollBarPosition(int pos)
+{
+    ui.textBrowser->verticalScrollBar()->setSliderPosition(pos);
+}
+
+// HelpBrowser
+
+HelpBrowser::HelpBrowser(QObject *parent):
+    QObject(parent)
+{
+    help_widget = 0;
+    vslider_position = 0;
+}
+
+HelpBrowser::~HelpBrowser()
+{}
+
+void HelpBrowser::setHelpSource(const QString& url)
+{
+    if( help_url != url )
+	vslider_position = 0;
+    help_url = url;
+}
+
+int HelpBrowser::exec()
+{
+    int ret = -1;
+    if( !help_widget )
+    {
+	help_widget = new HelpWidget(QApplication::activeWindow());
+	help_widget->setHelpSource(help_url);
+	if( vslider_position > 0 )
+	    help_widget->setVerticalScrollBarPosition(vslider_position);
+	ret = help_widget->exec();
+	vslider_position = help_widget->verticalScrollBarPosition();
+	delete help_widget;
+	help_widget = 0;
+    }
+    return ret;
 }
