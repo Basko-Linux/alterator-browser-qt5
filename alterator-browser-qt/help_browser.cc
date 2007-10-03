@@ -31,7 +31,7 @@ void HelpBrowser::setHelpSource(const QString& url)
 
 void HelpBrowser::setEmptyHelp()
 {
-    ui.textBrowser->setHtml( "<br/><br/><br/><br/><center><b>No help available.</b><center>" );
+    ui.textBrowser->setHtml( "<br/><br/><br/><br/><center><b>No help available.</b></center>" );
 }
 
 
