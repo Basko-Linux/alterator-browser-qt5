@@ -2,8 +2,8 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.62
-Release: alt2
+Version: 2.9.63
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -71,6 +71,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Wed Oct 03 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.63-alt1
+- create help widget in runtime to retranslate UI and reduce memory usage 
+
 * Wed Sep 19 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.62-alt2
 - fix timedit time format
 
