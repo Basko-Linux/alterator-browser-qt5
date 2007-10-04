@@ -90,6 +90,10 @@ int HelpBrowser::exec()
     if( !help_widget )
     {
 	help_widget = new HelpWidget(QApplication::activeWindow());
+	int w = main_window->width()*0.8;
+	int h = main_window->height()*0.8;
+	if( w > 400 && h > 300 )
+	    help_widget->resize(main_window->width()*0.8, main_window->height()*0.8);
 	help_widget->setHelpSource(help_url);
 	help_widget->setVerticalScrollPosition(vscroll_position);
 	ret = help_widget->exec();
