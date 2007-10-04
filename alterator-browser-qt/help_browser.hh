@@ -16,9 +16,14 @@ public:
     int verticalScrollPosition();
     void setVerticalScrollPosition(int);
 
+private slots:
+    void quit();
+    void about();
+
 protected:
     void showEvent(QShowEvent*);
     void paintEvent(QPaintEvent*);
+
 
 private:
     Ui::HelpBrowserUI ui;

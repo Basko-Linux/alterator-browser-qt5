@@ -1,10 +1,12 @@
 
 #include <QScrollBar>
+#include <QMenuBar>
 
 #include "main_window.hh"
 #include "help_browser.hh"
 #include "main_window.hh"
 #include "utils.hh"
+#include "a_pixmaps.hh"
 
 extern MainWindow *main_window;
 
@@ -14,11 +16,39 @@ HelpWidget::HelpWidget(QWidget *parent):
     vscroll_position = 0;
     ui.setupUi(this);
 
+#if 0
+    QMenuBar *menuBar = new QMenuBar(this);
+    QMenu *menuSession = new QMenu(tr("Session"), menuBar);
+    QMenu *menuHelp = new QMenu(tr("Help"), menuBar);
+    menuBar->addMenu(menuSession);
+    menuBar->addMenu(menuHelp);
+    menuSession->addAction(getPixmap("theme:cancel"), tr("Quit"), this, SLOT(quit()));
+    menuHelp->addAction(getPixmap("logo_16"), tr("About"), this, SLOT(about()));
+    menuHelp->addAction(QApplication::style()->standardPixmap(QStyle::SP_TitleBarMenuButton), tr("About Qt"), qApp, SLOT(aboutQt()));
+    ui.gridLayout->setMenuBar(menuBar);
+#endif
+
     connect(ui.textBrowser, SIGNAL(anchorClicked(const QUrl&)),
 	    ui.textBrowser, SLOT(setSource(const QUrl&)));
 }
 
 HelpWidget::~HelpWidget() {}
+
+void HelpWidget::quit()
+{
+    if( QMessageBox::warning(this, tr("Exit alterator"),
+	tr("Are you sure to exit alterator?"),
+	QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Cancel) == QMessageBox::Ok )
+    {
+	QApplication::closeAllWindows();
+    }
+}
+
+void HelpWidget::about()
+{
+    QMessageBox::information(this, QMessageBox::tr("About"),
+	tr("Alterator Browser"));
+}
 
 void HelpWidget::setHelpSource(const QString& url)
 {
