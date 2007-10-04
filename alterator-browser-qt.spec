@@ -3,7 +3,7 @@
 
 Name: alterator-browser-qt
 Version: 2.9.63
-Release: alt2
+Release: alt3
 
 Source:%name-%version.tar
 
@@ -71,6 +71,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Thu Oct 04 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.63-alt3
+- fix check action exist when add to wizardface
+
 * Wed Oct 03 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.63-alt2
 - fix scrooll help to old position
 

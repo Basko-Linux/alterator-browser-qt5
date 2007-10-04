@@ -278,6 +278,9 @@ void AWizardFace::addAction(const QString& key, const QString& name, const QStri
 
 void AWizardFace::addAction(const QString &key, UserActionType type)
 {
+    if( buttons.contains(key) || menus.contains(key) )
+	return;
+
     switch( type )
     {
 	case UserActionFinish:
@@ -288,8 +291,6 @@ void AWizardFace::addAction(const QString &key, UserActionType type)
 	case UserActionHelp:
 	case UserActionAbort:
 	    {
-		if( !buttons.contains(key) )
-	        {
 		    QBoxLayout *lay = buttons_layout;
 		    if( type == UserActionHelp || type == UserActionAbort )
 			lay = menu_layout;
@@ -303,13 +304,10 @@ void AWizardFace::addAction(const QString &key, UserActionType type)
 		    connect(b, SIGNAL(clicked()), action_signal_mapper, SLOT(map()));
 		    action_signal_mapper->setMapping(b, key);
 		    break;
-		}
 	    }
 	case UserActionGeneric:
 	default:
 	    {
-		if( !menus.contains(key) )
-		{
 		    menu_btn->show();
 		    QAction *a = menu->addAction("");
 		    a->setIcon(QIcon(defaultActionIcon(type)));
@@ -317,7 +315,6 @@ void AWizardFace::addAction(const QString &key, UserActionType type)
 		    connect(a, SIGNAL(triggered()), action_signal_mapper, SLOT(map()));
 		    action_signal_mapper->setMapping(a, key);
 		    break;
-		}
 	    }
     }
 }
