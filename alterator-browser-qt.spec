@@ -3,7 +3,7 @@
 
 Name: alterator-browser-qt
 Version: 2.9.63
-Release: alt4
+Release: alt5
 
 Source:%name-%version.tar
 
@@ -71,6 +71,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Fri Oct 05 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.63-alt5
+- fix press Esc in help dialog
+
 * Fri Oct 05 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.63-alt4
 - add egg by F1,F1
 
