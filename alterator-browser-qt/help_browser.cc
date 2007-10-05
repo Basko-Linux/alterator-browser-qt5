@@ -45,7 +45,7 @@ void HelpWidget::keyPressEvent(QKeyEvent* e)
 	default:
 	    break;
     }
-    e->accept();
+    QDialog::keyPressEvent(e);
 }
 
 void HelpWidget::setHelpSource(const QString& url)
