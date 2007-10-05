@@ -1,6 +1,8 @@
 #ifndef QT_BROWSER_HELP_BROWSER_HH
 #define QT_BROWSER_HELP_BROWSER_HH
 
+#include <QMenuBar>
+#include <QKeyEvent>
 
 #include "ui_help_browser.h"
 
@@ -16,18 +18,16 @@ public:
     int verticalScrollPosition();
     void setVerticalScrollPosition(int);
 
-private slots:
-    void quit();
-    void about();
-
 protected:
-    void showEvent(QShowEvent*);
-    void paintEvent(QPaintEvent*);
+    virtual void showEvent(QShowEvent*);
+    virtual void paintEvent(QPaintEvent*);
+    virtual void keyPressEvent(QKeyEvent*);
 
 
 private:
     Ui::HelpBrowserUI ui;
     int vscroll_position;
+    QMenuBar *menu_bar;
 };
 
 class HelpBrowser: public QObject

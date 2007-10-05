@@ -184,6 +184,28 @@ void MainWindow::stop()
     }
 }
 
+void MainWindow::quitApp()
+{
+    QApplication::closeAllWindows();
+}
+
+void MainWindow::quitAppWarn()
+{
+    if( QMessageBox::warning(this, tr("Quit"),
+	tr("Exit Alterator?"),
+	QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Cancel) == QMessageBox::Ok )
+    {
+	quitApp();
+    }
+}
+
+void MainWindow::about()
+{
+    QMessageBox::information(this, QMessageBox::tr("About"),
+	tr("Alterator Browser"));
+}
+
+
 /*
 void MainWindow::showEvent(QShowEvent*)
 {

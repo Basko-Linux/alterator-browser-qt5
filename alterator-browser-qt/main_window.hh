@@ -38,6 +38,9 @@ signals:
 public slots:
     void start();
     void stop();
+    void quitApp();
+    void quitAppWarn();
+    void about();
 
 protected:
     void addTimeEdit(ATimeEdit*);
@@ -46,6 +49,8 @@ protected:
 //    virtual void childEvent(QChildEvent*);
     virtual bool event(QEvent*);
     void timerEvent(QTimerEvent*);
+    void keyPressEvent(QKeyEvent*);
+//    void showEvent(QShowEvent*);
 
 private:
     Constraints *constraints;
@@ -64,8 +69,6 @@ private:
     QLabel *startup_splash;
     QList<ATimeEdit*> time_edits;
 
-    void keyPressEvent(QKeyEvent*);
-//    void showEvent(QShowEvent*);
     void splashStart();
     void splashStop();
     void loadStyleSheet();

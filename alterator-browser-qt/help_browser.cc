@@ -1,12 +1,12 @@
 
 #include <QScrollBar>
-#include <QMenuBar>
 
 #include "main_window.hh"
-#include "help_browser.hh"
 #include "main_window.hh"
 #include "utils.hh"
 #include "a_pixmaps.hh"
+
+#include "help_browser.hh"
 
 extern MainWindow *main_window;
 
@@ -16,17 +16,16 @@ HelpWidget::HelpWidget(QWidget *parent):
     vscroll_position = 0;
     ui.setupUi(this);
 
-#if 0
-    QMenuBar *menuBar = new QMenuBar(this);
-    QMenu *menuSession = new QMenu(tr("Session"), menuBar);
-    QMenu *menuHelp = new QMenu(tr("Help"), menuBar);
-    menuBar->addMenu(menuSession);
-    menuBar->addMenu(menuHelp);
-    menuSession->addAction(getPixmap("theme:cancel"), tr("Quit"), this, SLOT(quit()));
-    menuHelp->addAction(getPixmap("logo_16"), tr("About"), this, SLOT(about()));
-    menuHelp->addAction(QApplication::style()->standardPixmap(QStyle::SP_TitleBarMenuButton), tr("About Qt"), qApp, SLOT(aboutQt()));
-    ui.gridLayout->setMenuBar(menuBar);
-#endif
+    menu_bar = new QMenuBar(this);
+    menu_bar->hide();
+    QMenu *menu_session = new QMenu(tr("Session"), menu_bar);
+    QMenu *menu_help = new QMenu(tr("Help"), menu_bar);
+    menu_bar->addMenu(menu_session);
+    menu_bar->addMenu(menu_help);
+    menu_session->addAction(QApplication::style()->standardPixmap(QStyle::SP_DialogCancelButton), tr("Quit"), main_window, SLOT(quitAppWarn()));
+    menu_help->addAction(getPixmap("logo_16"), tr("About"), main_window, SLOT(about()));
+    menu_help->addAction(QApplication::style()->standardPixmap(QStyle::SP_TitleBarMenuButton), tr("About Qt"), qApp, SLOT(aboutQt()));
+    ui.gridLayout->setMenuBar(menu_bar);
 
     connect(ui.textBrowser, SIGNAL(anchorClicked(const QUrl&)),
 	    ui.textBrowser, SLOT(setSource(const QUrl&)));
@@ -34,20 +33,19 @@ HelpWidget::HelpWidget(QWidget *parent):
 
 HelpWidget::~HelpWidget() {}
 
-void HelpWidget::quit()
+void HelpWidget::keyPressEvent(QKeyEvent* e)
 {
-    if( QMessageBox::warning(this, tr("Exit alterator"),
-	tr("Are you sure to exit alterator?"),
-	QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Cancel) == QMessageBox::Ok )
+    switch( e->key() )
     {
-	QApplication::closeAllWindows();
+	case Qt::Key_F1:
+	{
+	    menu_bar->setVisible(!menu_bar->isVisible());
+	    break;
+	}
+	default:
+	    break;
     }
-}
-
-void HelpWidget::about()
-{
-    QMessageBox::information(this, QMessageBox::tr("About"),
-	tr("Alterator Browser"));
+    e->accept();
 }
 
 void HelpWidget::setHelpSource(const QString& url)
