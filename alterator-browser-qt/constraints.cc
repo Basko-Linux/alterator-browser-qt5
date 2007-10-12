@@ -1,5 +1,6 @@
 #include "widgets.hh"
 #include "constraints.hh"
+#include "widgetlist.hh"
 
 namespace {
 
@@ -9,7 +10,7 @@ namespace {
 		while(it.hasNext())
 		{
 			it.next();
-			alWidget *excluder = findAlWidgetByName(it.key());
+			alWidget *excluder = widgetlist->alWidgetByName(it.key());
 			if ( excluder && it.value().contains(excluder->getValue()) )
 				return true;
 		}
@@ -30,7 +31,7 @@ void Constraints::clear()
 	QSetIterator<QString> it(excluders);
 	while(it.hasNext())
 	{
-		alWidget *w = findAlWidgetByName(it.next());
+		alWidget *w = widgetlist->alWidgetByName(it.next());
 		if (w) QObject::disconnect(w,SIGNAL(updated()),this,SLOT(exclude()));
 	}
 
@@ -42,7 +43,7 @@ void Constraints::clear()
 	QListIterator<QString> it1(required);
 	while(it1.hasNext())
 	{
-		alWidget *w = findAlWidgetByName(it1.next());
+		alWidget *w = widgetlist->alWidgetByName(it1.next());
 		if (w) w->markRequired(false);
 	}
 	required.clear();
@@ -54,7 +55,7 @@ void  Constraints::apply()
 	QSetIterator<QString> it(excluders);
 	while(it.hasNext())
 	{
-		alWidget *w = findAlWidgetByName(it.next());
+		alWidget *w = widgetlist->alWidgetByName(it.next());
 		if (w) QObject::connect(w,SIGNAL(updated()),this,SLOT(exclude()));
 	}
 	//recheck excludes now
@@ -64,7 +65,7 @@ void  Constraints::apply()
 	QListIterator<QString> it1(required);
 	while(it1.hasNext())
 	{
-		alWidget *w = findAlWidgetByName(it1.next());
+		alWidget *w = widgetlist->alWidgetByName(it1.next());
 		if (w) w->markRequired(true);
 	}
 }
@@ -96,7 +97,7 @@ void Constraints::exclude()
 	while(it.hasNext())
 	{
 		it.next();
-		alWidget *w = findAlWidgetByName(it.key());
+		alWidget *w = widgetlist->alWidgetByName(it.key());
 		if (w) w->getWidget()->setEnabled(!needExclude(it.value()));
 	}
 }

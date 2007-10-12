@@ -3,14 +3,6 @@
 
 #include "al_widget.hh"
 
-QLayout* findViewLayout(const QString& id);
-QWidget* findQWidget(const QString& id);
-alWidget* findAlWidgetById(const QString& id);
-alWidget* findAlWidgetByName(const QString& name);
-QList<alWidget*> findAlChildren(const QString& id);
-void collectTabIndex(QList<QString>&, QMap<QString, QMap<int,QWidget*> >&, alWidget* wdg, int);
-
-//widgets
 #include "widgets/al_main_widget.hh"
 #include "widgets/al_label.hh"
 #include "widgets/al_button.hh"

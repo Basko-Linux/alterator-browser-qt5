@@ -25,12 +25,7 @@ public:
 	alTabPage(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation);
 	void setAttr(const QString& name,const QString& value);
 private:
-	static
-	alTabBox* getParentTabBox(const QString& parent)
-	{
-		if (!elements.contains(parent)) return 0;
-		return dynamic_cast<alTabBox*>(elements[parent]);
-	}
+	static alTabBox* getParentTabBox(const QString& parent);
 };
 
 #endif

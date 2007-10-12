@@ -10,9 +10,9 @@ public:
 	alProxy(const QString& id,const QString &parent);
 		
 protected:
-	QWidget *getWidget() { return elements[parent_]->getWidget(); }
-	QLayout *getViewLayout(void) { return elements[parent_]->getViewLayout(); }
-	QWidget *getViewWidget(void) { return elements[parent_]->getViewWidget(); }
+	QWidget *getWidget();
+	QLayout *getViewLayout(void);
+	QWidget *getViewWidget(void);
 };
 
 #endif

@@ -1,4 +1,5 @@
 #include "al_tabbox.hh"
+#include "widgetlist.hh"
 
 alTabBox::alTabBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation):
 	alWidgetPre<QTabWidget>(attr,(orientation==Qt::Vertical)?WVTabBox:WHTabBox,id,parent)
@@ -9,7 +10,7 @@ alTabBox::alTabBox(const AlteratorRequestActionAttrs &attr, const QString& id,co
 void alTabBox::setAttr(const QString& name,const QString& value)
 {
 	if ("current" == name)
-	{ //find current in elements or save value
+	{
 	    wnd_->setCurrentIndex(value.toInt());
 	}
 	else
@@ -50,6 +51,15 @@ alTabPage::alTabPage(const AlteratorRequestActionAttrs &attr, const QString& id,
 
     bl->setSpacing(5);
     bl->setMargin(5);
+}
+
+alTabBox* alTabPage::getParentTabBox(const QString& parent_)
+{
+    alTabBox *parent_tabbox = 0;
+    alWidget *parent = widgetlist->alWidgetById(parent_);
+    if( parent )
+	parent_tabbox = dynamic_cast<alTabBox*>(parent);
+    return parent_tabbox;
 }
 
 void alTabPage::setAttr(const QString& name,const QString& value)

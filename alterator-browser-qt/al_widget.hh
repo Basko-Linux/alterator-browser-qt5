@@ -7,8 +7,8 @@
 #include <QTreeWidgetItem>
 #include <QTimer>
 
-#include "utils.hh"
 #include "connection.hh"
+#include "utils.hh"
 
 //Note: I need QObject inheritanse for correct deffered object deletion
 // cause I need to destruct objects from it's callbacks
@@ -96,13 +96,13 @@ public slots:
 	}
 };
 
-//all current elements on viewer
-extern QMap<QString,alWidget*> elements;
+alWidget* createWidgetGetParent(const QString& parent);
 
 template <typename Widget>
 Widget *createWidget(const QString& parent)
 {
-	return new Widget(elements.contains(parent)?elements[parent]->getViewWidget():0);
+    alWidget *aw = createWidgetGetParent(parent);
+    return new Widget((aw)? aw->getViewWidget(): 0);
 }
 
 template <typename Widget>
@@ -110,23 +110,23 @@ class alWidgetPre: public alWidget
 {
 protected:
 	Widget *wnd_;
+private:
+    void init(Widget *wnd_, const QString& parent, AlteratorWidgetType type, const AlteratorRequestActionAttrs &attr);
 public:
 	alWidgetPre(const AlteratorRequestActionAttrs &attr, AlteratorWidgetType type, const QString& id,const QString& parent):
 		alWidget(type,id,Utils::reparentTag(parent)),
 		wnd_(createWidget<Widget>(parent))
 	{
-	    alWidget *a_parent = 0;
-	    if( elements.contains(parent) )
-		a_parent = elements[parent];
+	    alWidget *a_parent = createWidgetGetParent(parent);
 	    if( a_parent )
 		a_parent->addChild(wnd_, type, attr);
 	}
-
 	~alWidgetPre() { wnd_->deleteLater(); }
-	Widget* getWidget() { return wnd_; }	
+
+	Widget* getWidget() { return wnd_; }
 	virtual QWidget* getViewWidget() { return wnd_; }
 	virtual QLayout* getViewLayout() { return wnd_->layout(); }
-	void show(bool b) { if(b && wnd_) wnd_->show(); else wnd_->hide(); };
+	void show(bool b) { if(b && wnd_) wnd_->show(); else wnd_->hide(); }
 };
 
 #endif

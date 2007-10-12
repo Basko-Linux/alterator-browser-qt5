@@ -3,23 +3,23 @@
 
 #include "al_widget.hh"
 #include "utils.hh"
+#include "widgetlist.hh"
 
 extern MainWindow *main_window;
-QMap<QString,alWidget*> elements;
 
 alWidget::alWidget(AlteratorWidgetType type, const QString& id,const QString& parent):
-    QObject(elements.value(parent,0)),
+    QObject(widgetlist->qWidgetById(parent)),
     type_(type),
     id_(id),
     parent_(parent),
     children_alignment(Qt::AlignJustify)
 {
-    elements[id] = this;
+    widgetlist->add(id, this);
 }
 
 alWidget::~alWidget()
 {
-    elements.remove(id_);
+    widgetlist->remove(id_);
 }
 
 void alWidget::onUpdate() { emit updated(); }
@@ -150,8 +150,9 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	else if ("tab-order" == name)
 	{
 	    QWidget *first = 0;
-	    if( elements.contains(value) )
-		first = elements[value]->getWidget();
+	    alWidget *aw = widgetlist->alWidgetById(value);
+	    if( aw )
+		first = aw->getWidget();
 	    if( first )
 	    {
 		QWidget *w = getWidget();
@@ -286,8 +287,9 @@ Qt::Alignment alWidget::childrenAlignment()
 void alWidget::destroyLater()
 {
     setObjectName("");
-    QList<alWidget*> childs = findChildren<alWidget*>();
-    QListIterator<alWidget*> it(childs);
+//    QList<alWidget*> childs = findChildren<alWidget*>();
+    QList<alWidget*> children = widgetlist->alChildrenById(id_);
+    QListIterator<alWidget*> it(children);
     while(it.hasNext())
             it.next()->destroyLater();
     deleteLater();
@@ -323,4 +325,9 @@ void alWidget::addChild(QWidget* chld, AlteratorWidgetType type, const Alterator
 	    }
 	}
     }
+}
+
+alWidget* createWidgetGetParent(const QString& parent)
+{
+    return widgetlist->alWidgetById(parent);
 }

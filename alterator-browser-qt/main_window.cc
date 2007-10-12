@@ -24,6 +24,7 @@
 #include "messagebox.hh"
 #include "constraints.hh"
 #include "mailbox.hh"
+#include "widgetlist.hh"
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
@@ -34,6 +35,7 @@
 
 alWizardFace *wizard_face = 0;
 MailBox *mailbox = 0;
+WidgetList *widgetlist = 0;
 
 bool x_redirect_error;
 bool x_error_occurred;
@@ -63,6 +65,7 @@ MainWindow::MainWindow():
     busy_timer_id = 0;
     started = false;
     detect_wm = false;
+    widgetlist = new WidgetList(this);
 
     QString language(getenv("LC_ALL"));
     if( language.isEmpty() )
@@ -368,15 +371,7 @@ void MainWindow::emitEvent(const QString &id,const QString &type, const Alterato
 	
 	//now collect a post data
 	request += "\n state (";
-	QMapIterator<QString,alWidget*> it(elements);
-	while(it.hasNext())
-	{
-		it.next();
-		QString data = it.value()->postData();
-		if (!data.isEmpty())
-			request += " \n("+it.key() + " "+data+ ")";
-	}
-	
+	request += widgetlist->makeRequestData();	
 	request += "))"; //close message
 
 	connection->getDocument(request, request_flags);
@@ -425,7 +420,7 @@ void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
 			    request.attr[AltReqParamWAttrValue].s);
 		else
 		    collectTabIndex(tab_order_parents, tab_order_list,
-			findAlWidgetById(request.attr[AltReqParamWId].s),
+			widgetlist->alWidgetById(request.attr[AltReqParamWId].s),
 			    request.attr[AltReqParamWTabIndex].i);
 		break;
 	    }
@@ -519,18 +514,19 @@ void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
 
 alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 {
-    /*
-	qDebug("%s: id<%s> type<%s> parent_id<%s> orientation<%s> sub-type<%s> width<%s> height<%s> columns<%s>", __FUNCTION__,
-	    qPrintable(id), qPrintable(type), qPrintable(parent_id),
-	    orientation == Qt::Horizontal ? "-":"|", qPrintable(sub_type),
-	    qPrintable(width), qPrintable(height), qPrintable(columns) );
-	*/
 	QString id = attr[AltReqParamWId].s;
 	QString parent_id = attr[AltReqParamWParentId].s;
 	AlteratorWidgetType type = attr[AltReqParamWType].t;
 	Qt::Orientation orientation = attr[AltReqParamWOrientation].o;
 	QString columns = attr[AltReqParamWColumns].s;
 	alWidget *new_widget = 0;
+
+    /*
+	qDebug("%s: id<%s> type<%d> parent_id<%s> orientation<%s> sub-type<%s> width<%d> height<%d> columns<%s>", __FUNCTION__,
+	    qPrintable(id), attr[AltReqParamWType].t, qPrintable(parent_id),
+	    orientation == Qt::Horizontal ? "-":"|", qPrintable(attr[AltReqParamWSubType].s),
+	    attr[AltReqParamWWidth].i, attr[AltReqParamWHeight].i, qPrintable(columns) );
+	*/
 
     switch( type )
     {
@@ -614,19 +610,15 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 
 void MainWindow::onCloseRequest(const QString& id)
 {
-	if( elements.contains(id) )
-	{
-	    elements.take(id)->destroyLater();
-	}
+    widgetlist->destroyLater(id);
 }
 
 void MainWindow::onCleanRequest(const QString& id)
 {
-	if( !elements.contains(id) )
-	    return;
+	alWidget *el = widgetlist->alWidgetById(id);
 
-	alWidget *el = elements[id];
-	
+	if( !el ) return;
+
 	QLayout* layout = el->getViewLayout();
 	if( layout )
 	{
@@ -634,7 +626,8 @@ void MainWindow::onCleanRequest(const QString& id)
 		delete layout->takeAt(i);
 	}
 	
-	QList<alWidget*> children = el->findChildren<alWidget*>();
+//	QList<alWidget*> children = el->findChildren<alWidget*>();
+	QList<alWidget*> children = widgetlist->alChildrenById(id);
 	if( children.size() > 0 )
 	{
 	    QListIterator<alWidget *> it(children);
@@ -649,19 +642,21 @@ void MainWindow::onCleanRequest(const QString& id)
 
 void MainWindow::onSetRequest(const QString& id,const QString& attr,const QString& value)
 {
-	//qDebug("%s: id<%s> attr<%s> value<%s>", __FUNCTION__, id.toLatin1().data(), attr.toLatin1().data(), value.toLocal8Bit().data());
-	if (elements.contains(id))
-	{
-	    ++emit_locker;
-	    elements[id]->setAttr(attr,value);
-	    --emit_locker;
-	}
+    /*
+    qDebug("%s: id<%s> attr<%s> value<%s>", __FUNCTION__, qPrintable(id), qPrintable(attr), qPrintable(value));
+    */
+    alWidget *aw = widgetlist->alWidgetById(id);
+    if( aw )
+    {
+        ++emit_locker;
+        aw->setAttr(attr,value);
+        --emit_locker;
+    }
 }
 
 void MainWindow::onStartRequest(const QString& id)
 {
-	if (!elements.contains(id)) return;
-	alWidget *aw = elements[id];
+	alWidget *aw = widgetlist->alWidgetById(id);
 	if( aw )
 	{
 	    if( aw->type() == WMainWidget  )
@@ -679,9 +674,7 @@ void MainWindow::onStartRequest(const QString& id)
 
 void MainWindow::onStopRequest(const QString& id)
 {
-	if (!elements.contains(id))
-	    return;
-	alWidget *aw = elements[id];
+	alWidget *aw = widgetlist->alWidgetById(id);
 	if( aw )
 	{
 	    if( aw->type() == WMainWidget  )
@@ -699,10 +692,11 @@ void MainWindow::onStopRequest(const QString& id)
 
 void MainWindow::onEventRequest(const QString& id,const QString& value)
 {
-	if (!elements.contains(id))
-	    return;
-	else
-	    elements[id]->registerEvent(value);
+    alWidget *aw = widgetlist->alWidgetById(id);
+    if( aw )
+    {
+	aw->registerEvent(value);
+    }
 }
 
 void MainWindow::onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, QMessageBox::StandardButtons buttons)
@@ -896,4 +890,18 @@ void MainWindow::resetTimeEditAll()
     QListIterator<ATimeEdit*> it(time_edits);
     while(it.hasNext())
 	it.next()->reset();
+}
+
+void MainWindow::collectTabIndex(QList<QString>& parents, QMap<QString, QMap<int,QWidget*> >& order, alWidget *wdg, int tab_index)
+{
+    if( tab_index >= 0 && wdg )
+    {
+        QString parent_id = wdg->getParentId();
+        if( !parent_id.isEmpty() )
+        {
+	    if( !parents.contains(parent_id) )
+		parents.append(parent_id);
+	    order[parent_id].insert(tab_index, wdg->getWidget());
+	}
+    }
 }

@@ -72,6 +72,7 @@ private:
     void splashStart();
     void splashStop();
     void loadStyleSheet();
+    static void collectTabIndex(QList<QString>&, QMap<QString, QMap<int,QWidget*> >&, alWidget* wdg, int);
 
     void onRetryRequest();
     alWidget* onNewRequest(const AlteratorRequestActionAttrs &attr);
