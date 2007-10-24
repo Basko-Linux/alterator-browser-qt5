@@ -1,17 +1,19 @@
-Слямзено из примеров Qt.
-
-Дизайн располагается в файле /usr/share/alterator-browser-qt/design/name_of_design.rcc
-Создается ссылка на него /etc/alterator/design-browser-qt
-
 Содержимое:
+-----------
 Все компоненты: QSS, style, font, Palette - опциональные.
+
 В .qss можно использовать любые виджеты, имеюшиеся в исходниках browser.
+Использовать можно по имени класса виджета или по Qt-шному имени объекта.
+Qt-шные имена найти можно поиском функции setObjectName("конкретное_значение").
+
 Палитру можно сделать при помоши `kcmshell colors`, сохранить,
 из ~/.qt3/qtrc вручную перенести значения из секции Palette.
 В Qt3 не хватает последнего значения - альтернативный цвет в списках.
 В браузере его видно в многоколоночных списках и деревьях.
 
-При запаковке:
+Упаковка:
+---------
+Дизайн располагается в файле /usr/share/alterator-browser-qt/design/name_of_design.rcc
+Создается ссылка на него /etc/alterator/design-browser-qt
 /etc/alterator/design-browser-qt должна делаться при помощи alternatives
-Каталог /usr/share/alterator-browser-qt/design и файл /usr/share/alterator-browser-qt/design/current -
-зарезервированные имена и будут в пакете alterator-browser-qt
+Примеры в пакетах design-alterator-browser-qt-*
