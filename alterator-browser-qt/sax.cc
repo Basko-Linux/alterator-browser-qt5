@@ -8,37 +8,35 @@
 //default Qt's QXmlInputSource uses readAll()
 class alInputSource: public QXmlInputSource
 {
-	int pos_;
-	QString buf_;
-	//QTextStream in_;
+	qint64 buf_pos, buf_len;
+	QString buf;
+	QTextStream in;
 	
 public:
 	alInputSource():
-	    pos_(0)
-	    //in_(stdin)
+	    buf_pos(0),
+	    buf_len(0),
+	    in(stdin, QIODevice::ReadOnly)
 	{
-		//in_.setCodec("UTF-8");
+	    in.setCodec("UTF-8");
 	}
 
-	void setData(const QString& dat) { buf_ = dat; }
-        void setData(const QByteArray& dat) { buf_ = dat; }
-        QString data() const { return buf_; }
-        void reset() { pos_ = 0; }
+	void setData(const QString& dat) { buf = dat; }
+        void setData(const QByteArray& dat) { buf = dat; }
+        QString data() const { return buf; }
+        void reset() { buf_pos = 0; }
         void fetchData()
 	{
-		std::string line;
-		std::getline(std::cin,line);
-		buf_ = QString::fromUtf8(line.c_str());	
-//		buf_= in_.readLine();
-		buf_+="\n";
-		pos_ = 0;
+	    buf_pos = 0;
+	    buf = in.readLine();
+	    buf_len = buf.length();
 	}
         virtual QChar next()
 	{
-		if (pos_ == buf_.length()) fetchData();
-		return buf_[pos_++];
+	    if(buf_pos >= buf_len)
+		fetchData();
+	    return buf.at(buf_pos++);
 	}
-	
 };
 
 //sax input handler
