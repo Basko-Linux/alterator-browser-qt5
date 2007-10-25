@@ -87,6 +87,7 @@ private:
 
 private slots:
     void onStartBusySplash();
+    void onCheckBusySplash();
     void onStopBusySplash();
     void onInternalSplashMessage(const QString& msg);
 

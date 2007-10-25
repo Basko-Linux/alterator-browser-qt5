@@ -165,7 +165,7 @@ void MainWindow::start()
     connect(connection, SIGNAL(startLongRequest()),
 	    this, SLOT(onStartBusySplash()));
     connect(connection, SIGNAL(stopLongRequest()),
-	    this, SLOT(onStopBusySplash()));
+	    this, SLOT(onCheckBusySplash()));
 
     connection->init();
 }
@@ -769,21 +769,24 @@ void MainWindow::onStartBusySplash()
     setCursor(Qt::WaitCursor);
 }
 
-void MainWindow::onStopBusySplash()
+void MainWindow::onCheckBusySplash()
 {
     if( busy_timer_id > 0 )
 	killTimer(busy_timer_id);
     busy_timer_id = startTimer(500);
 }
 
+void MainWindow::onStopBusySplash()
+{
+    killTimer(busy_timer_id);
+    busy_timer_id = 0;
+    unsetCursor();
+}
+
 void MainWindow::timerEvent(QTimerEvent *e)
 {
     if( e->timerId() == busy_timer_id )
-    {
-	killTimer(busy_timer_id);
-	busy_timer_id = 0;
-	unsetCursor();
-    }
+	onStopBusySplash();
 }
 
 void MainWindow::onRetryRequest()
