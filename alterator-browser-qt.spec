@@ -2,8 +2,8 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.63
-Release: alt5
+Version: 2.9.64
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -71,6 +71,11 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Tue Oct 30 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.64-alt1
+- fix clear steps in wizardface "steps" attribute
+- fix to use QTextStream instead iostream in alterator IO
+- make elements a separate object
+
 * Fri Oct 05 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.63-alt5
 - fix press Esc in help dialog
 
