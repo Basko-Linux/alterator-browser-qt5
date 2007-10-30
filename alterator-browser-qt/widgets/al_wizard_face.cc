@@ -652,7 +652,7 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
     }
     else if( "steps" == name )
     {
-	wnd_->clearActions();
+	wnd_->clearSteps();
 	QStringList data = value.split(";", QString::KeepEmptyParts);
 	const int len = data.size();
 	for(int i=0;i+1 < len;i+=2)
