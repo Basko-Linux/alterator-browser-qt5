@@ -41,6 +41,11 @@ void ATextEdit::setReadOnly(bool ro)
     edit->setReadOnly(ro);
 }
 
+bool ATextEdit::isReadOnly()
+{
+    return edit->isReadOnly();
+}
+
 QString ATextEdit::text()
 {
     return edit->toPlainText();
@@ -95,6 +100,9 @@ void alTextBox::registerEvent(const QString& name)
 
 QString alTextBox::postData() const
 {
-	return QString(" (text . \"%1\" )").arg(Utils::simpleQuote(wnd_->text()));
+    QString ret;
+    if( ! wnd_->isReadOnly() )
+	ret.append(QString(" (text . \"%1\" )").arg(Utils::simpleQuote(wnd_->text())));
+    return ret;
 }
 

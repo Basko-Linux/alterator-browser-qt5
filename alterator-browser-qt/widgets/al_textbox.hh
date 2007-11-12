@@ -16,6 +16,7 @@ public:
     void setText(const QString&);
     void append(const QString&);
     void setReadOnly(bool);
+    bool isReadOnly();
     QString text();
 
 signals:
