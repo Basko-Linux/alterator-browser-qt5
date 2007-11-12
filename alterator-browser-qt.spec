@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.64
+Version: 2.9.65
 Release: alt1
 
 Source:%name-%version.tar
@@ -71,6 +71,11 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Mon Nov 12 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.65-alt1
+- fix to skip empty input from alterator
+- don't return text if textbox read-only
+- add min-width min-height attributes
+
 * Tue Oct 30 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.64-alt1
 - fix clear steps in wizardface "steps" attribute
 - fix to use QTextStream instead iostream in alterator IO
