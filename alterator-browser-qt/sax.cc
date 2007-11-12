@@ -1,4 +1,6 @@
 #include <iostream>
+#include <QtDebug>
+#include <QTextCodec>
 #include <QTextStream>
 #include <QXmlInputSource>
 #include <QXmlSimpleReader>
@@ -18,6 +20,7 @@ public:
 	    buf_len(0),
 	    in(stdin, QIODevice::ReadOnly)
 	{
+	    in.setAutoDetectUnicode(false);
 	    in.setCodec("UTF-8");
 	}
 
@@ -27,15 +30,21 @@ public:
         void reset() { buf_pos = 0; }
         void fetchData()
 	{
-	    buf_pos = 0;
-	    buf = in.readLine();
-	    buf_len = buf.length();
+	    while( ! getNextData() ) {};
 	}
         virtual QChar next()
 	{
 	    if(buf_pos >= buf_len)
 		fetchData();
 	    return buf.at(buf_pos++);
+	}
+private:
+	bool getNextData()
+	{
+	    buf_pos = 0;
+	    buf = in.readLine();
+	    buf_len = buf.length();
+	    return buf_len > 0;
 	}
 };
 
