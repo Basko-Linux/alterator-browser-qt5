@@ -95,6 +95,14 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	{
 	    getWidget()->setMaximumHeight(value.toInt());
 	}
+	else if ("min-width" == name)
+	{
+	    getWidget()->setMinimumWidth(value.toInt());
+	}
+	else if ("min-height" == name)
+	{
+	    getWidget()->setMinimumHeight(value.toInt());
+	}
 	else if ("width" == name)
 	{
 	    getWidget()->setFixedWidth(value.toInt());
