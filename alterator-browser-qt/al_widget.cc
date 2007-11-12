@@ -139,12 +139,13 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	}
 	else if ("align" == name)
 	{
-	    QWidget *pw = getWidget()->parentWidget();
-	    if( pw )
+	    QWidget *w = getWidget();
+	    alWidget *aw = widgetlist->alWidgetById(getParentId());
+	    if( aw )
 	    {
-		QLayout *l = pw->layout();
+		QLayout *l = aw->getViewLayout();
 		if( l )
-		    l->setAlignment(getWidget(), Utils::convertAlign(value));
+		    l->setAlignment(w, Utils::convertAlign(value));
 	    }
 	}
 	else if ("help" == name)
