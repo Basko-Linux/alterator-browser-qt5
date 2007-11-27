@@ -84,9 +84,9 @@ void MailBox::readMessage(int fd)
 	
 	if (!message.isEmpty())
 	{
-		qDebug("mailbox message:%s",qPrintable(message));
+		//qDebug("mailbox message:%s",qPrintable(message));
 		main_window->getDocument(QString("(mailbox-request %1 )").arg(message));
-		qDebug("end of processing....");
+		//qDebug("end of processing....");
 	}
 	else if (len <= 0)
 	{
