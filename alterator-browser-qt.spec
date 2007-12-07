@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.66
+Version: 2.9.67
 Release: alt1
 
 Source:%name-%version.tar
@@ -71,6 +71,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Fri Dec 07 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.67-alt1
+- don't cut "\n" from alterator input
+
 * Mon Nov 12 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.66-alt1
 - fix "align" attribute
 

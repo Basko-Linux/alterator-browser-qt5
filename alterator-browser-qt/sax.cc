@@ -13,6 +13,7 @@ class alInputSource: public QXmlInputSource
 	qint64 buf_pos, buf_len;
 	QString buf;
 	QTextStream in;
+	bool at_end;
 	
 public:
 	alInputSource():
@@ -20,6 +21,7 @@ public:
 	    buf_len(0),
 	    in(stdin, QIODevice::ReadOnly)
 	{
+	    at_end = false;
 	    in.setAutoDetectUnicode(false);
 	    in.setCodec("UTF-8");
 	}
@@ -30,21 +32,24 @@ public:
         void reset() { buf_pos = 0; }
         void fetchData()
 	{
-	    while( ! getNextData() ) {};
-	}
-        virtual QChar next()
-	{
-	    if(buf_pos >= buf_len)
-		fetchData();
-	    return buf.at(buf_pos++);
-	}
-private:
-	bool getNextData()
-	{
 	    buf_pos = 0;
 	    buf = in.readLine();
 	    buf_len = buf.length();
-	    return buf_len > 0;
+	    at_end = in.atEnd();
+	    if( !at_end )
+	    {
+		buf.append("\n");
+		buf_len++;
+	    }
+	}
+        virtual QChar next()
+	{
+	    if(buf_pos >= buf_len) fetchData();
+
+	    if( at_end && buf_pos >= buf_len )
+		return QXmlInputSource::EndOfDocument;
+	    else
+		return buf.at(buf_pos++);
 	}
 };
 
