@@ -28,6 +28,7 @@ public:
     bool haveWindowManager();
     void setFullScreen(bool);
     void setHelpSource(const QString&);
+    void setHelpAvailable(bool);
     void changeLanguage(const QString&);
     void getDocument(const QString& request);
     void emitEvent(const QString &id,const QString &type, const AlteratorRequestFlags);
@@ -68,6 +69,7 @@ private:
     int busy_timer_id;
     QLabel *startup_splash;
     QList<ATimeEdit*> time_edits;
+    bool help_available;
 
     void splashStart();
     void splashStop();

@@ -65,6 +65,7 @@ MainWindow::MainWindow():
     busy_timer_id = 0;
     started = false;
     detect_wm = false;
+    help_available = true;
     widgetlist = new WidgetList(this);
 
     QString language(getenv("LC_ALL"));
@@ -261,6 +262,12 @@ void MainWindow::setHelpSource(const QString& str)
     help_browser->setHelpSource(str);
 }
 
+void MainWindow::setHelpAvailable(bool avail)
+{
+    if(help_available && !avail)
+        help_available = false;
+}
+
 /*
 void MainWindow::childEvent(QChildEvent *e)
 {
@@ -283,7 +290,8 @@ bool MainWindow::event(QEvent* e)
 {
     if( e->type() == EVENT_HELP )
     {
-	QTimer::singleShot(0, help_browser, SLOT(exec()));
+	if( help_available )
+	    QTimer::singleShot(0, help_browser, SLOT(exec()));
     }
     return QMainWindow::event(e);
 }
@@ -294,7 +302,8 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
     {
 	case Qt::Key_F1:
 	{
-	    QTimer::singleShot(0, help_browser, SLOT(exec()));
+	    if( help_available )
+		QTimer::singleShot(0, help_browser, SLOT(exec()));
 	    break;
 	}
 	default:

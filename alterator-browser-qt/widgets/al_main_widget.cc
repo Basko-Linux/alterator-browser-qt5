@@ -36,7 +36,10 @@ void alMainWidget::setAttr(const QString& name,const QString& value)
 	{
 		//wnd_->resize(wnd_->width(),value.toInt());
 	}
+        else if ("has-help" == name)
+        {
+            main_window->setHelpAvailable(value == "false");
+        }
 	else
 		alWidget::setAttr(name,value);
 }
-
