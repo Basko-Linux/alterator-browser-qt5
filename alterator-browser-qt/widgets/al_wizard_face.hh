@@ -75,17 +75,21 @@ private:
     QLabel* title_icon;
     QLabel* title_text;
     QMap<QString, QAbstractButton*> buttons;
-    QMap<QString, UserActionType> button_types;
+    QMap<QString, UserActionType> action_types;
     QMap<QString, QAction*> menus;
     QMenu *menu;
     QPushButton *menu_btn;
 
+    void setActionIcon(const QString &key, const QIcon &icon);
     void addAction(const QString &key, UserActionType);
+    void addActionButton(const QString &key, UserActionType);
+    void addActionMenu(const QString &key, UserActionType);
     int newButtonPosition(UserActionType);
     int findButtonPosition(UserActionType);
     Qt::Alignment newButtonAlignment(UserActionType);
     QPixmap defaultActionIcon(UserActionType);
     QString translateActionText(const QString&);
+    void moveMenuButtonsToMenu();
 };
 
 class alWizardFace: public alWidgetPre<AWizardFace>

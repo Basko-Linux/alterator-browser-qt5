@@ -60,7 +60,8 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     bottom_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     //bottom_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
 
-    menu_btn = new QPushButton(translateActionText("Menu"), bottom_widget);
+    //menu_btn = new QPushButton(translateActionText("Menu"), bottom_widget);
+    menu_btn = new QPushButton(bottom_widget);
     menu_btn->hide();
     menu_btn->setIcon(QIcon(getPixmap("theme:up")));
     menu = new QMenu();
@@ -116,18 +117,14 @@ AWizardFace::~AWizardFace()
 
 int AWizardFace::findButtonPosition(UserActionType type)
 {
-    int pos = -1;
-    QMapIterator<QString, UserActionType> it(button_types);
+    int pos = buttons.count() - 1;
+    QMapIterator<QString, UserActionType> it(action_types);
     while( it.hasNext() )
     {
 	it.next();
-	pos++;
-	if( it.value() == type )
+	if( it.value() == type && buttons.contains(it.key()) )
 	{
-	    if( buttons.contains(it.key()) )
-	    {
-		pos = buttons_layout->indexOf( buttons[it.key()] );
-	    }
+	    pos = buttons_layout->indexOf( buttons[it.key()] );
 	    break;
 	}
     }
@@ -288,35 +285,84 @@ void AWizardFace::addAction(const QString &key, UserActionType type)
 	case UserActionCancel:
 	case UserActionBackward:
 	case UserActionForward:
-	case UserActionHelp:
-	case UserActionAbort:
 	    {
-		    QBoxLayout *lay = buttons_layout;
-		    if( type == UserActionHelp || type == UserActionAbort )
-			lay = menu_layout;
-		    QPushButton *b = new QPushButton(bottom_widget);
-		    b->setIcon(QIcon(defaultActionIcon(type)));
-		    lay->insertWidget( newButtonPosition(type), b, 0, newButtonAlignment(type) );
-		    if( type == UserActionForward || type == UserActionFinish )
-			b->setFocus();
-		    buttons[key] = b;
-		    button_types[key] = type;
-		    connect(b, SIGNAL(clicked()), action_signal_mapper, SLOT(map()));
-		    action_signal_mapper->setMapping(b, key);
+		    addActionButton(key, type);
 		    break;
 	    }
+	case UserActionHelp:
+	case UserActionAbort:
 	case UserActionGeneric:
 	default:
 	    {
-		    menu_btn->show();
-		    QAction *a = menu->addAction("");
-		    a->setIcon(QIcon(defaultActionIcon(type)));
-		    menus[key] = a;
-		    connect(a, SIGNAL(triggered()), action_signal_mapper, SLOT(map()));
-		    action_signal_mapper->setMapping(a, key);
+		if( !menu_btn->isVisible() || bottom_widget->findChildren<QPushButton*>().count() >= 4 )
+		{
+		    menu_btn->setVisible(true);
+		    // move additional buttons to menu
+		    QMapIterator<QString, QAbstractButton*> it(buttons);
+		    while(it.hasNext())
+		    {
+			QAbstractButton *btn = it.next().value();
+			if( menu_layout->indexOf(btn) >= 0 )
+			{
+			    QString key = it.key();
+			    QString text = btn->text();
+			    QIcon icon = btn->icon();
+			    UserActionType tp = action_types[key];
+			    removeAction(key);
+			    addActionMenu(key, tp);
+			    setActionText(key, text);
+			    setActionIcon(key, icon);
+			}
+		    }
+		}
+
+		if( menu_btn->isVisible() )
+		    addActionMenu(key, type);
+		else
+		    addActionButton(key, type);
 		    break;
 	    }
     }
+}
+
+void AWizardFace::addActionButton(const QString &key, UserActionType type)
+{
+    QBoxLayout *lay;
+    switch( type )
+    {
+	case UserActionHelp:
+	case UserActionAbort:
+	{
+	    lay = menu_layout;
+	    break;
+	}
+	default:
+	    lay = buttons_layout;
+    }
+    QPushButton *b = new QPushButton(bottom_widget);
+    b->setIcon(QIcon(defaultActionIcon(type)));
+    lay->insertWidget( newButtonPosition(type), b, 0, newButtonAlignment(type) );
+    if( type == UserActionForward || type == UserActionFinish )
+	b->setFocus();
+    buttons[key] = b;
+    action_types[key] = type;
+    connect(b, SIGNAL(clicked()), action_signal_mapper, SLOT(map()));
+    action_signal_mapper->setMapping(b, key);
+}
+
+void AWizardFace::addActionMenu(const QString &key, UserActionType type)
+{
+    menu_btn->show();
+    QAction *a = menu->addAction("");
+    a->setIcon(QIcon(defaultActionIcon(type)));
+    menus[key] = a;
+    action_types[key] = type;
+    connect(a, SIGNAL(triggered()), action_signal_mapper, SLOT(map()));
+    action_signal_mapper->setMapping(a, key);
+}
+
+void moveMenuButtonsToMenu()
+{
 }
 
 void AWizardFace::removeAction(const QString &key)
@@ -324,12 +370,13 @@ void AWizardFace::removeAction(const QString &key)
     if( buttons.contains(key) )
     {
 	QAbstractButton *b = buttons.take(key);
-	button_types.remove(key);
+	action_types.remove(key);
 	b->deleteLater();
     }
     else if( menus.contains(key) )
     {
 	menu->removeAction(menus[key]);
+	action_types.remove(key);
     }
 }
 
@@ -342,7 +389,7 @@ void AWizardFace::clearActions()
 	it.value()->deleteLater();
     }
     buttons.clear();
-    button_types.clear();
+    action_types.clear();
     menu->clear();
     menus.clear();
 }
@@ -388,6 +435,14 @@ void AWizardFace::setActionPixmap(const QString &key, const QString &value)
 	buttons[key]->setIcon(QIcon(getPixmap(value)));
     else if ( menus.contains(key) )
 	menus[key]->setIcon(QIcon(getPixmap(value)));
+}
+
+void AWizardFace::setActionIcon(const QString &key, const QIcon &icon)
+{
+    if( buttons.contains(key) )
+	buttons[key]->setIcon(icon);
+    else if ( menus.contains(key) )
+	menus[key]->setIcon(icon);
 }
 
 void AWizardFace::setActionActivity(const QString &key, bool enable)
