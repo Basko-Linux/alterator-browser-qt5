@@ -296,7 +296,6 @@ void AWizardFace::addAction(const QString &key, UserActionType type)
 	    {
 		if( !menu_btn->isVisible() || bottom_widget->findChildren<QPushButton*>().count() >= 4 )
 		{
-		    menu_btn->setVisible(true);
 		    // move additional buttons to menu
 		    QMapIterator<QString, QAbstractButton*> it(buttons);
 		    while(it.hasNext())
