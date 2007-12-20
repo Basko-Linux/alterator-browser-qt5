@@ -38,7 +38,7 @@ void alMainWidget::setAttr(const QString& name,const QString& value)
 	}
         else if ("has-help" == name)
         {
-            main_window->setHelpAvailable(value == "false");
+            main_window->setHelpAvailable(value != "false");
         }
 	else
 		alWidget::setAttr(name,value);
