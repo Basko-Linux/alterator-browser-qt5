@@ -72,7 +72,7 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 %changelog
 * Thu Dec 20 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.68-alt1
-- move additional actions to menu if all actions more then 4
+- move additional actions to menu if all actions more then 4 in wizardface
 - no text on menu button
 - add has-help attribute to main_widget for global help switch off
 
