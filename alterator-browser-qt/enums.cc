@@ -27,7 +27,6 @@ Enums::Enums()
     str2widget["label"] = WLabel;
     str2widget["edit"] = WEdit;
     str2widget["textbox"] = WTextBox;
-    str2widget["help-place"] = WHelpPlace;
     str2widget["groupbox"] = WGroupBox;
     str2widget["gridbox"] = WGridBox;
     str2widget["checkbox"] = WCheckBox;

@@ -19,7 +19,6 @@
 #include "widgets/al_proxy.hh"
 #include "widgets/al_progressbar.hh"
 #include "widgets/al_tree.hh"
-#include "widgets/al_helpplace.hh"
 #include "widgets/al_slider.hh"
 #include "widgets/al_separator.hh"
 #include "widgets/al_spacer.hh"

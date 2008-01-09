@@ -269,7 +269,6 @@ QSizePolicy alWidget::adjustSizePolicy(const AlteratorWidgetType type, const QSi
 	case WSpacer:
 	case WSpinBox:
 	case WProxy:
-	case WHelpPlace:
 	case WDialog:
 	case WMainWidget:
 	case WWizardFace:

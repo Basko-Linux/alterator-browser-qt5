@@ -561,7 +561,6 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WLabel: {       new_widget = new alLabel(attr,id,parent_id); break; }
 	case WEdit: {        new_widget = new alEdit(attr,id,parent_id); break; }
 	case WTextBox: {     new_widget = new alTextBox(attr,id,parent_id); break; }
-	case WHelpPlace: {   new_widget = new alHelpPlace(id,parent_id); break; }
 	case WVGroupBox:
 	case WHGroupBox:
 	case WGroupBox: {    new_widget = new alGroupBox(attr,id,parent_id,orientation, attr[AltReqParamWChecked].b); break; }

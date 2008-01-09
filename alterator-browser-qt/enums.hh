@@ -40,7 +40,7 @@ enum AlteratorWidgetType {
     WSplitBox = 26,     WProgressBar = 27,
     WTree = 28,         WSlider = 29,
     WSeparator = 30,    WSpinBox = 31,
-    WHelpPlace = 32,    WProxy = 33,
+    WProxy = 33,
     WSpacer = 34,       WDateEdit = 35,
     WTimeEdit = 36,     WSlideShow = 37
 };
