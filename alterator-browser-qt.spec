@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.68
+Version: 2.9.69
 Release: alt1
 
 Source:%name-%version.tar
@@ -71,6 +71,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Wed Jan 09 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.69-alt1
+- remove help-place widget
+
 * Thu Dec 20 2007 Sergey V Turchin <zerg at altlinux dot org> 2.9.68-alt1
 - move additional actions to menu if all actions more then 4 in wizardface
 - no text on menu button
