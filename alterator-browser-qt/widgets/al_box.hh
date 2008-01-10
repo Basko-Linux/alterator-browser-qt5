@@ -17,7 +17,6 @@ public:
 	alVBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
 		alBox(attr,id,parent,Qt::Vertical)
 	{
-	    qDebug("vbox is depricated");
 	}
 };
 
@@ -27,6 +26,5 @@ public:
 	alHBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
 		alBox(attr,id,parent,Qt::Horizontal)
 	{
-	    qDebug("hbox is depricated");
 	}
 };

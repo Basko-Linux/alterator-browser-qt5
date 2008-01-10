@@ -3,7 +3,7 @@
 
 Name: alterator-browser-qt
 Version: 2.9.69
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -71,6 +71,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Thu Jan 10 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.69-alt2
+- box, hbox, box widgets are depricated. Use gridbox instead.
+
 * Wed Jan 09 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.69-alt1
 - remove help-place widget
 
