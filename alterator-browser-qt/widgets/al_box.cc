@@ -4,7 +4,7 @@
 alBox::alBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation):
 		alWidgetPre<QWidget>(attr,(orientation==Qt::Vertical)?WVBox:WHBox,id,parent)
 {
-    qDebug("vbox, hbox, box widgets are deprecated. Use gridbox instead.");
+    qDebug("vbox, hbox, box widgets are deprecated. Use gridbox with colspan/rowspan attributes.");
 
     QBoxLayout *l;
     Qt::Orientation o = Utils::fixOrientation(orientation, Qt::Vertical);
