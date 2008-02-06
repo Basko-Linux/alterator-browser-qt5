@@ -489,7 +489,7 @@ void AWizardFace::setStepActivity(int n, bool a)
 void AWizardFace::setTitle( const QString &value)
 {
     title_text->setText(value);
-    topLevelWidget()->setWindowTitle(value);
+    setWindowTitle(value);
 }
 
 void AWizardFace::setCurrentStep( int n )
@@ -497,9 +497,12 @@ void AWizardFace::setCurrentStep( int n )
     int steps_n = steplist.size();
     if( n < steps_n )
     {
+	QString wtitle = windowTitle();
+	if( !wtitle.isEmpty() )
+	    wtitle.append(". ");
 	QPair<QString, QString> item = steplist.value(n, QPair<QString, QString>("",""));
         title_icon->setPixmap(getPixmap(item.first));
-	title_text->setText(QString("%1/%2: %3").arg(n+1).arg(steps_n).arg(item.second));
+	title_text->setText(QString("%1%2(%3/%4).").arg(wtitle).arg(n+1).arg(steps_n).arg(item.second));
 	current_step = n;
     }
 }
