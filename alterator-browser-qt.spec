@@ -3,7 +3,7 @@
 
 Name: alterator-browser-qt
 Version: 2.9.69
-Release: alt3
+Release: alt4
 
 Source:%name-%version.tar
 
@@ -71,6 +71,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Tue Feb 12 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.69-alt4
+- fix title in wizardface
+
 * Wed Feb 06 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.69-alt3
 - add window title to wizardface step name area
 

@@ -502,7 +502,7 @@ void AWizardFace::setCurrentStep( int n )
 	    wtitle.append(". ");
 	QPair<QString, QString> item = steplist.value(n, QPair<QString, QString>("",""));
         title_icon->setPixmap(getPixmap(item.first));
-	title_text->setText(QString("%1%2(%3/%4).").arg(wtitle).arg(n+1).arg(steps_n).arg(item.second));
+	title_text->setText(QString("%1%2(%3/%4).").arg(wtitle).arg(item.second).arg(n+1).arg(steps_n));
 	current_step = n;
     }
 }
