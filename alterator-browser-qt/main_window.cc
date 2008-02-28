@@ -582,7 +582,7 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WDateEdit: {    new_widget = new alDateEdit(attr,id,parent_id); break; }
 	case WTimeEdit: {    new_widget = new alTimeEdit(attr,id,parent_id); break; }
 	case WMultiListBox:
-	case WListBox: {     new_widget = new alMultiListBox(attr,id,parent_id,columns.toInt()); break; }
+	case WListBox: {     new_widget = new alListBox(attr,id,parent_id,columns.toInt()); break; }
 	case WSlideShow: {   new_widget = new alSlideShow(attr,id,parent_id); break; }
 	case WSplitBox: {    new_widget = new alSplitBox(attr,id,parent_id,orientation,columns); break; }
 	case WWizardFace:

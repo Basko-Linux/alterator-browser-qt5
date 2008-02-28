@@ -4,27 +4,32 @@
 #include "al_listbox.hh"
 #include "a_pixmaps.hh"
 
-ATreeWidget::ATreeWidget(QWidget *parent):
+AMultiListBox::AMultiListBox(QWidget *parent):
 		QTreeWidget(parent)
+{
+    header()->hide();
+    setSelectionBehavior(QAbstractItemView::SelectRows);
+    setIndentation(0);
+    setSortingEnabled(false);
+}
+
+AMultiListBox::~AMultiListBox()
 {}
 
-ATreeWidget::~ATreeWidget()
-{}
-
-void ATreeWidget::keyPressEvent(QKeyEvent * e) 
+void AMultiListBox::keyPressEvent(QKeyEvent * e) 
 {
     if ((e->key() == Qt::Key_Space))
         emit spaceBtnPressed();
     QTreeWidget::keyPressEvent(e);
 }
 
-void ATreeWidget::showEvent(QShowEvent *e)
+void AMultiListBox::showEvent(QShowEvent*)
 {
     //QTreeWidget::showEvent(e);
     scrollTo(currentIndex());
 }
 
-void ATreeWidget::adjustAllColumnsWidth()
+void AMultiListBox::adjustAllColumnsWidth()
 {
     int n_columns = columnCount();
     if( n_columns > 0 )
@@ -36,64 +41,79 @@ void ATreeWidget::adjustAllColumnsWidth()
     }
 }
 
-// alMultiListBox
+void AMultiListBox::appendRow(QStringList& data)
+{
+    if (data.size() < 2 ) return;
 
-alMultiListBox::alMultiListBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, int cols):
-	alWidgetPre<ATreeWidget>(attr,WMultiListBox,id,parent)
+
+    const int columns = columnCount();
+    QStringListIterator it(data);
+    int col = 0;
+    while( it.hasNext() && col < columns )
+    {
+	QString item_text = it.next();
+	QString pixname;
+	if( it.hasNext() )
+	    pixname = it.next();
+	else
+	    break;
+
+	QTreeWidgetItem *item = new QTreeWidgetItem(this);
+	item->setText(col, item_text);
+	if( pixname.isEmpty() )
+	    item->setIcon(col, getPixmap("theme:null"));
+	else
+	    item->setIcon(col, getPixmap(pixname));
+	col++;
+    }
+}
+
+void AMultiListBox::setRows(QStringList& data)
+{
+    clear();
+    const int columns = columnCount();
+    QStringListIterator it(data);
+    while( it.hasNext() )
+    {
+	QStringList row_data;
+	while( it.hasNext() )
+	{
+	    row_data.append(it.next());
+	    if( it.hasNext() )
+		row_data.append(it.next());
+	    if( row_data.size() >= columns*2 )
+	    {
+		appendRow(row_data);
+		break;
+	    }
+	}
+    }
+    adjustAllColumnsWidth();
+}
+
+// alListBox
+
+alListBox::alListBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, int cols):
+	alWidgetPre<AMultiListBox>(attr,WMultiListBox,id,parent)
 {
     if( cols < 1 ) cols = 1;
     //setings to be compatible with QListView
     wnd_->setColumnCount(cols);
-    wnd_->header()->hide();
-    wnd_->setSelectionBehavior(QAbstractItemView::SelectRows);
-    wnd_->setIndentation(0);
     if( cols > 1 )
 	wnd_->setAlternatingRowColors(true);
 }
 
-void alMultiListBox::setAttr(const QString& name,const QString& value)
+void alListBox::setAttr(const QString& name,const QString& value)
 {
 	if ("append-row" == name)
 	{
-		QStringList data = value.split(";");
-		const int len = data.size();
-		if (len <= 1) return;
-		const int columns = wnd_->columnCount();
-		QTreeWidgetItem *item(new QTreeWidgetItem(wnd_));
-		for (int col = 0;(col < columns*2) && (col+1 < len);col+=2)
-		{
-			if (!data[col].isEmpty())
-				item->setText(col/2,data[0]);
-			if (!data[col+1].isEmpty())
-				item->setIcon(col/2,QIcon(getPixmap(data[col+1])));
-			else
-				item->setIcon(col/2,QIcon(getPixmap("theme:null")));
-		}
+	    QStringList data(value.split(";", QString::KeepEmptyParts));
+	    wnd_->appendRow(data);
 	}
 	if ("rows" == name)
 	{
-		QStringList data = value.split(";");
-		QList<QTreeWidgetItem *> items;
-		const int len = data.size();
-		const int columns = wnd_->columnCount();
-		for(int i=0;i+1 < len;)
-		{
-			QTreeWidgetItem *elt = new QTreeWidgetItem(0);
-			for(int col = 0; (col < columns);++col,i+=2)
-			{
-				if (!data[i].isEmpty())
-					elt->setText(col,data[i]);
-				if (!data[i+1].isEmpty())
-					elt->setIcon(col,QIcon(getPixmap(data[i+1])));
-				else
-					elt->setIcon(col,QIcon(getPixmap("theme:null")));
-			}
-			//items.push_front(elt);
-			items.push_back(elt);
-		}
-		wnd_->clear();		
-		wnd_->addTopLevelItems(items);
-		wnd_->adjustAllColumnsWidth();
+	    QStringList data(value.split(";", QString::KeepEmptyParts));
+	    wnd_->setRows(data);
 	}
 	else if ("current" == name)
 	{
@@ -130,7 +150,7 @@ void alMultiListBox::setAttr(const QString& name,const QString& value)
 		alWidget::setAttr(name,value);
 }
 
-void alMultiListBox::registerEvent(const QString& name)
+void alListBox::registerEvent(const QString& name)
 {
 	if ("selected" == name)
 		connect(wnd_,SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
@@ -146,7 +166,7 @@ void alMultiListBox::registerEvent(const QString& name)
 		connect(wnd_,SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), SLOT(onDoubleClick(QTreeWidgetItem*,int)));
 }
 
-QString alMultiListBox::postData() const
+QString alListBox::postData() const
 {
 	QTreeWidgetItem *i = wnd_->currentItem();
 	if( i )

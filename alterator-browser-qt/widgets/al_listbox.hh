@@ -7,14 +7,17 @@
 
 #include "al_widget.hh"
 //QTreeWidget unable to scroll to active widget until it invisible
-class ATreeWidget: public QTreeWidget
+class AMultiListBox: public QTreeWidget
 {
 Q_OBJECT
 public:
-	ATreeWidget(QWidget *parent=0);
-	~ATreeWidget();
+	enum Type { ListBox, MultiListBox, RadioListBox, CheckListBox };
+	AMultiListBox(QWidget *parent=0);
+	~AMultiListBox();
 
 	void adjustAllColumnsWidth();
+	void appendRow(QStringList&);
+	void setRows(QStringList&);
 
 signals:
 	void spaceBtnPressed();
@@ -24,10 +27,10 @@ protected:
 	void showEvent(QShowEvent *e);
 };
 
-class alMultiListBox: public alWidgetPre<ATreeWidget>
+class alListBox: public alWidgetPre<AMultiListBox>
 {
 public:
-	alMultiListBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, int cols);
+	alListBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, int cols);
 protected:
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
