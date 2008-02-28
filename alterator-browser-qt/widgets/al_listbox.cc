@@ -72,6 +72,8 @@ void AMultiListBox::appendRow(QStringList& data, RowType row_type)
 	item->setIcon(col, getPixmap(pixname.isEmpty()? "theme:null": pixname));
 	col++;
     }
+    if( row_type == Header )
+	setHeaderItem(item);
 }
 
 void AMultiListBox::setRows(QStringList& data)
