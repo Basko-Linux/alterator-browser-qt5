@@ -41,14 +41,24 @@ void AMultiListBox::adjustAllColumnsWidth()
     }
 }
 
-void AMultiListBox::appendRow(QStringList& data)
+void AMultiListBox::setHeader(QStringList& data)
+{
+    appendRow(data, Header);
+}
+
+void AMultiListBox::appendRow(QStringList& data, RowType row_type)
 {
     if (data.size() < 2 ) return;
-
 
     const int columns = columnCount();
     QStringListIterator it(data);
     int col = 0;
+
+    QTreeWidgetItem *item;
+    if( row_type == Header )
+	item = new QTreeWidgetItem(0);
+    else
+	item = new QTreeWidgetItem(this);
     while( it.hasNext() && col < columns )
     {
 	QString item_text = it.next();
@@ -58,12 +68,8 @@ void AMultiListBox::appendRow(QStringList& data)
 	else
 	    break;
 
-	QTreeWidgetItem *item = new QTreeWidgetItem(this);
 	item->setText(col, item_text);
-	if( pixname.isEmpty() )
-	    item->setIcon(col, getPixmap("theme:null"));
-	else
-	    item->setIcon(col, getPixmap(pixname));
+	item->setIcon(col, getPixmap(pixname.isEmpty()? "theme:null": pixname));
 	col++;
     }
 }
@@ -143,8 +149,16 @@ void alListBox::setAttr(const QString& name,const QString& value)
 	}
 	else if ("header" == name)
 	{
-		wnd_->header()->show();
-		wnd_->setHeaderLabels(value.split(";"));
+		QStringList data_test = value.split(";", QString::SkipEmptyParts);
+		if( data_test.size() > 0 )
+		    wnd_->header()->show();
+		else
+		    wnd_->header()->hide();
+		QStringList data = value.split(";", QString::KeepEmptyParts);
+		if( data.size() > wnd_->columnCount() )
+		    wnd_->setHeader(data);
+		else
+		    wnd_->setHeaderLabels(data);
 	}
 	else
 		alWidget::setAttr(name,value);

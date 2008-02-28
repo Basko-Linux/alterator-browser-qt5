@@ -12,12 +12,14 @@ class AMultiListBox: public QTreeWidget
 Q_OBJECT
 public:
 	enum Type { ListBox, MultiListBox, RadioListBox, CheckListBox };
+	enum RowType { Row, Header };
 	AMultiListBox(QWidget *parent=0);
 	~AMultiListBox();
 
 	void adjustAllColumnsWidth();
-	void appendRow(QStringList&);
+	void appendRow(QStringList&, RowType row_type = Row);
 	void setRows(QStringList&);
+	void setHeader(QStringList&);
 
 signals:
 	void spaceBtnPressed();
