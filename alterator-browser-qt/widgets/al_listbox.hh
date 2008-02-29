@@ -11,22 +11,31 @@ class AMultiListBox: public QTreeWidget
 {
 Q_OBJECT
 public:
-	enum Type { ListBox, MultiListBox, RadioListBox, CheckListBox };
+	enum ListType { ListBox, MultiListBox, RadioListBox, CheckListBox };
 	enum RowType { Row, Header };
 	AMultiListBox(QWidget *parent=0);
 	~AMultiListBox();
 
+	ListType listType();
+	void setListType(ListType);
 	void adjustAllColumnsWidth();
-	void appendRow(QStringList&, RowType row_type = Row);
+	void addRow(QStringList&, RowType row_type = Row);
 	void setRows(QStringList&);
 	void setHeader(QStringList&);
 
 signals:
 	void spaceBtnPressed();
+	void selected();
 
 protected:
 	void keyPressEvent(QKeyEvent * e) ;
 	void showEvent(QShowEvent *e);
+
+protected slots:
+	void onSelectionChanged();
+
+private:
+	ListType list_type;
 };
 
 class alListBox: public alWidgetPre<AMultiListBox>

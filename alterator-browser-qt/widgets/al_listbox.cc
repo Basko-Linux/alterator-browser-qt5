@@ -8,13 +8,50 @@ AMultiListBox::AMultiListBox(QWidget *parent):
 		QTreeWidget(parent)
 {
     header()->hide();
+    setUniformRowHeights(true);
+    setItemsExpandable(false);
     setSelectionBehavior(QAbstractItemView::SelectRows);
     setIndentation(0);
     setSortingEnabled(false);
+
+    setListType(ListBox);
+    
+    connect(this, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged())) ;
 }
 
 AMultiListBox::~AMultiListBox()
 {}
+
+void AMultiListBox::setListType(ListType type)
+{
+    list_type = type;
+    QAbstractItemView::SelectionMode selection_mode = QAbstractItemView::SingleSelection;
+    switch(list_type)
+    {
+	case MultiListBox:
+	{
+	    selection_mode = QAbstractItemView::ExtendedSelection;
+	    break;
+	}
+	case CheckListBox:
+	{
+	    selection_mode = QAbstractItemView::MultiSelection;
+	    break;
+	}
+	case RadioListBox:
+	case ListBox:
+	default:
+	{
+	    selection_mode = QAbstractItemView::SingleSelection;
+	}
+    }
+    setSelectionMode(selection_mode);
+}
+
+AMultiListBox::ListType AMultiListBox::listType()
+{
+    return list_type;
+}
 
 void AMultiListBox::keyPressEvent(QKeyEvent * e) 
 {
@@ -43,10 +80,13 @@ void AMultiListBox::adjustAllColumnsWidth()
 
 void AMultiListBox::setHeader(QStringList& data)
 {
-    appendRow(data, Header);
+    if( data.size() > columnCount() )
+	addRow(data, Header);
+    else
+	setHeaderLabels(data);
 }
 
-void AMultiListBox::appendRow(QStringList& data, RowType row_type)
+void AMultiListBox::addRow(QStringList& data, RowType row_type)
 {
     if (data.size() < 2 ) return;
 
@@ -69,6 +109,47 @@ void AMultiListBox::appendRow(QStringList& data, RowType row_type)
 	    break;
 
 	item->setText(col, item_text);
+	if( col == 0 )
+	{
+
+	    switch(list_type)
+	    {
+		case MultiListBox:
+		{
+		    if(pixname == "#t")
+			item->setSelected(true);
+		    break;
+		}
+		case CheckListBox:
+		{
+		    if(pixname == "#t")
+		    {
+		        pixname = "theme:check-on";
+			item->setSelected(true);
+		    }
+		    else
+		    {
+			item->setSelected(false);
+			pixname = "theme:check-off";
+		    }
+		    break;
+		}
+		case RadioListBox:
+		{
+		    if(pixname == "#t")
+		    {
+			pixname = "theme:radio-on";
+		    }
+		    else
+			pixname = "theme:radio-off";
+		    break;
+		}
+		case ListBox:
+		default:
+		{
+		}
+	    }
+	}
 	item->setIcon(col, getPixmap(pixname.isEmpty()? "theme:null": pixname));
 	col++;
     }
@@ -91,7 +172,7 @@ void AMultiListBox::setRows(QStringList& data)
 		row_data.append(it.next());
 	    if( row_data.size() >= columns*2 )
 	    {
-		appendRow(row_data);
+		addRow(row_data);
 		break;
 	    }
 	}
@@ -99,13 +180,50 @@ void AMultiListBox::setRows(QStringList& data)
     adjustAllColumnsWidth();
 }
 
+void AMultiListBox::onSelectionChanged()
+{
+    QList<QTreeWidgetItem*> items = selectedItems();
+    if( items.size() > 0 )
+    {
+	switch(list_type)
+	{
+	    case CheckListBox:
+	    case RadioListBox:
+	    {
+		int n = topLevelItemCount();
+		if( n > 0 )
+		{
+		    for(int i = 0; i < n; i++)
+		    {
+			QTreeWidgetItem* item = topLevelItem(i);
+			if( i )
+			{
+			    if( list_type == CheckListBox )
+				item->setIcon(0, getPixmap(item->isSelected()? "theme:check-on": "theme:check-off"));
+			    else
+				item->setIcon(0, getPixmap(item->isSelected()? "theme:radio-on": "theme:radio-off"));
+			}
+		    }
+		}
+		break;
+	    }
+	    case MultiListBox:
+	    case ListBox:
+	    default:
+	    {
+	    }
+	}
+	emit selected();
+    }
+}
+
+
 // alListBox
 
 alListBox::alListBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, int cols):
 	alWidgetPre<AMultiListBox>(attr,WMultiListBox,id,parent)
 {
     if( cols < 1 ) cols = 1;
-    //setings to be compatible with QListView
     wnd_->setColumnCount(cols);
     if( cols > 1 )
 	wnd_->setAlternatingRowColors(true);
@@ -116,7 +234,7 @@ void alListBox::setAttr(const QString& name,const QString& value)
 	if ("append-row" == name)
 	{
 	    QStringList data(value.split(";", QString::KeepEmptyParts));
-	    wnd_->appendRow(data);
+	    wnd_->addRow(data);
 	}
 	if ("rows" == name)
 	{
@@ -135,7 +253,8 @@ void alListBox::setAttr(const QString& name,const QString& value)
 	}
 	else if ("remove-row" == name)
 	{
-		delete wnd_->takeTopLevelItem(value.toInt());
+	    QTreeWidgetItem *i = wnd_->takeTopLevelItem(value.toInt());
+	    if(i) delete i;
 	}
 	else if ("row-item-text" == name)
 	{
@@ -157,10 +276,7 @@ void alListBox::setAttr(const QString& name,const QString& value)
 		else
 		    wnd_->header()->hide();
 		QStringList data = value.split(";", QString::KeepEmptyParts);
-		if( data.size() > wnd_->columnCount() )
-		    wnd_->setHeader(data);
-		else
-		    wnd_->setHeaderLabels(data);
+		wnd_->setHeader(data);
 	}
 	else
 		alWidget::setAttr(name,value);
@@ -169,8 +285,7 @@ void alListBox::setAttr(const QString& name,const QString& value)
 void alListBox::registerEvent(const QString& name)
 {
 	if ("selected" == name)
-		connect(wnd_,SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
-			     SLOT(onSelect(QTreeWidgetItem*,QTreeWidgetItem*)));
+		connect(wnd_,SIGNAL(selected()),SLOT(onSelect()));
 	else if ("clicked" == name)
 	{
 		connect(wnd_,SIGNAL(itemPressed(QTreeWidgetItem*,int)), SLOT(onClick(QTreeWidgetItem*,int)));
@@ -184,9 +299,35 @@ void alListBox::registerEvent(const QString& name)
 
 QString alListBox::postData() const
 {
-	QTreeWidgetItem *i = wnd_->currentItem();
-	if( i )
-	    return QString(" (current . %1 )").arg(wnd_->indexOfTopLevelItem(i));
-	else
-	    return "";
+    QString ret;
+    switch(wnd_->listType())
+    {
+	case AMultiListBox::MultiListBox:
+	case AMultiListBox::CheckListBox:
+	{
+	    int n = wnd_->topLevelItemCount();
+	    if( n > 0 )
+	    {
+		ret.append(" (state-rows . '(");
+		for(int i = 0; i < n; i++)
+		{
+		    QTreeWidgetItem* item = wnd_->topLevelItem(i);
+		    if( i )
+			ret.append(item->isSelected()? " #t": " #f");
+		}
+		ret.append("))");
+	    }
+	    break;
+	}
+	case AMultiListBox::RadioListBox:
+	case AMultiListBox::ListBox:
+	default:
+	{
+	    QList<QTreeWidgetItem*> items = wnd_->selectedItems();
+	    if( items.size() > 0 )
+		ret.append(QString(" (current . %1 )").arg(wnd_->indexOfTopLevelItem(items.first())));
+	}
+    }
+    
+    return ret;
 }
