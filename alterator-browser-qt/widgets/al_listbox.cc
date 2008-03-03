@@ -262,6 +262,50 @@ void alListBox::setAttr(const QString& name,const QString& value)
 		    i->setSelected(i);
 		wnd_->scrollToItem(i);
 	}
+	else if ("current-rows" == name)
+	{
+	    QStringList data = value.split(";");
+	    int n = data.size();
+	    if( n > 0 )
+	    {
+		if( wnd_->selectionMode() != QAbstractItemView::SingleSelection )
+		{
+		    QString sfirst = data.first();
+		    data.clear();
+		    data << sfirst;
+		}
+		foreach(QString sidx, data)
+		{
+		    bool ok;
+		    int idx = sidx.toInt(&ok);
+		    if(ok && idx >= 0)
+		    {
+		        QTreeWidgetItem *item = wnd_->topLevelItem(idx);
+		        if( item )
+			    item->setSelected(true);
+		    }
+		}
+	    }
+	    else
+		wnd_->clearSelection();
+	}
+	else if ("state-rows" == name)
+	{
+	    QStringList data = value.split(";");
+	    int n = wnd_->topLevelItemCount();
+	    if( n == data.size() )
+	    {
+		int i = 0;
+		foreach(QString sidx, data)
+		{
+		    QTreeWidgetItem* item = wnd_->topLevelItem(i);
+		    if( item )
+			item->setSelected((sidx=="#t")? true: false);
+		    if(i >= n) break;
+		    i++;
+		}
+	    }
+	}
 	else if ("rows-clear" == name)
 	{
 		wnd_->clear();
