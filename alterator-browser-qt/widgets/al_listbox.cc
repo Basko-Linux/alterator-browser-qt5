@@ -11,6 +11,7 @@ AMultiListBox::AMultiListBox(QWidget *parent):
     setUniformRowHeights(true);
     setItemsExpandable(false);
     setSelectionBehavior(QAbstractItemView::SelectRows);
+    setAllColumnsShowFocus(true);
     setIndentation(0);
     setSortingEnabled(false);
 
@@ -300,6 +301,9 @@ void alListBox::registerEvent(const QString& name)
 QString alListBox::postData() const
 {
     QString ret;
+    QString state_rows;
+    QString current_rows;
+    QString current;
     switch(wnd_->listType())
     {
 	case AMultiListBox::MultiListBox:
@@ -308,14 +312,24 @@ QString alListBox::postData() const
 	    int n = wnd_->topLevelItemCount();
 	    if( n > 0 )
 	    {
-		ret.append(" (state-rows . '(");
+		state_rows.append(" (state-rows . '(");
 		for(int i = 0; i < n; i++)
 		{
 		    QTreeWidgetItem* item = wnd_->topLevelItem(i);
 		    if( i )
-			ret.append(item->isSelected()? " #t": " #f");
+			state_rows.append(item->isSelected()? " #t": " #f");
 		}
-		ret.append("))");
+		state_rows.append("))");
+	    }
+	    QList<QTreeWidgetItem*> items = wnd_->selectedItems();
+	    if( items.size() > 0 )
+	    {
+		current_rows.append(" (current-rows . '(");
+		foreach(QTreeWidgetItem* item, items)
+		{
+		    current_rows.append(QString(" %1").arg(wnd_->indexOfTopLevelItem(item)));
+		}
+		current_rows.append("))");
 	    }
 	    break;
 	}
@@ -325,9 +339,17 @@ QString alListBox::postData() const
 	{
 	    QList<QTreeWidgetItem*> items = wnd_->selectedItems();
 	    if( items.size() > 0 )
-		ret.append(QString(" (current . %1 )").arg(wnd_->indexOfTopLevelItem(items.first())));
+		current = QString(" (current . %1 )").arg(wnd_->indexOfTopLevelItem(items.first()));
 	}
     }
-    
+
+    if(!state_rows.isEmpty())
+	ret.append(state_rows);
+    if(!current_rows.isEmpty())
+	ret.append(current_rows);
+    if(!current.isEmpty())
+	ret.append(current);
+    else
+	ret.append(" (current . -1 )");
     return ret;
 }
