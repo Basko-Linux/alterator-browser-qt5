@@ -256,8 +256,11 @@ void alListBox::setAttr(const QString& name,const QString& value)
 	else if ("current" == name)
 	{
 		QTreeWidgetItem *i = wnd_->topLevelItem(value.toInt());
-		wnd_->scrollToItem(i);
+		wnd_->clearSelection();
 		wnd_->setCurrentItem(i);
+		if( wnd_->selectionMode() != QAbstractItemView::SingleSelection )
+		    i->setSelected(i);
+		wnd_->scrollToItem(i);
 	}
 	else if ("rows-clear" == name)
 	{
