@@ -24,25 +24,26 @@ enum AlteratorRequestActionType
 };
 
 enum AlteratorWidgetType {
-    WUnknown = 0,       WWizardFace = 1,
-    WMainWidget = 2,    WDialog = 3,
-    WLabel = 4,         WButton = 5,
-    WRadio = 6,         WEdit = 7,
-    WTextBox = 8,       WGroupBox = 9,
-    WHGroupBox = 10,    WVGroupBox = 11,
-    WCheckBox = 12,     WListBox = 13,
-    WMultiListBox = 14, WComboBox = 15,
-    WTabBox = 16,       WVTabBox = 17,
-    WHTabBox = 18,      WTabPage = 19,
-    WHTabPage = 20,     WVTabPage = 21,
-    WBox = 22,          WVBox = 23,
-    WHBox = 24,         WGridBox = 25,
-    WSplitBox = 26,     WProgressBar = 27,
-    WTree = 28,         WSlider = 29,
-    WSeparator = 30,    WSpinBox = 31,
-    WProxy = 33,
-    WSpacer = 34,       WDateEdit = 35,
-    WTimeEdit = 36,     WSlideShow = 37
+    WUnknown = 0,       WWizardFace = 10,
+    WMainWidget = 20,    WDialog = 30,
+    WLabel = 40,         WButton = 50,
+    WRadio = 60,         WEdit = 70,
+    WTextBox = 80,       WGroupBox = 90,
+    WHGroupBox = 100,    WVGroupBox = 110,
+    WCheckBox = 120,     WComboBox = 130,
+    WListBox = 140,      WRadioListBox = 150,
+    WMultiListBox = 160, WCheckListBox = 170,
+    WTabBox = 190,       WVTabBox = 200,
+    WHTabBox = 210,      WTabPage = 220,
+    WHTabPage = 230,     WVTabPage = 240,
+    WSplitBox = 260,     WProgressBar = 270,
+    WTree = 280,         WSlider = 290,
+    WSeparator = 300,    WSpinBox = 310,
+    WProxy = 330,
+    WSpacer = 340,       WDateEdit = 350,
+    WTimeEdit = 360,     WSlideShow = 370,
+    WBox = 380,          WVBox = 390,
+    WHBox = 400,         WGridBox = 410
 };
 
 enum UserActionType

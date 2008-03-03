@@ -209,7 +209,9 @@ QSizePolicy alWidget::adjustSizePolicy(const AlteratorWidgetType type, const QSi
 	}
 	case WTree:
 	case WListBox:
+	case WRadioListBox:
 	case WMultiListBox:
+	case WCheckListBox:
 	{
 	    szpol.setHorizontalPolicy(QSizePolicy::Preferred);
 	    szpol.setVerticalPolicy(QSizePolicy::Expanding);

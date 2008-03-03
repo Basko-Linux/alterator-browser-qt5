@@ -6,15 +6,15 @@
 #include <QKeyEvent>
 
 #include "al_widget.hh"
-//QTreeWidget unable to scroll to active widget until it invisible
-class AMultiListBox: public QTreeWidget
+
+class ASuperListBox: public QTreeWidget
 {
 Q_OBJECT
 public:
 	enum ListType { ListBox, MultiListBox, RadioListBox, CheckListBox };
 	enum RowType { Row, Header };
-	AMultiListBox(QWidget *parent=0);
-	~AMultiListBox();
+	ASuperListBox(QWidget *parent=0);
+	~ASuperListBox();
 
 	ListType listType();
 	void setListType(ListType);
@@ -38,10 +38,10 @@ private:
 	ListType list_type;
 };
 
-class alListBox: public alWidgetPre<AMultiListBox>
+class alListBox: public alWidgetPre<ASuperListBox>
 {
 public:
-	alListBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, int cols);
+	alListBox(const AlteratorWidgetType awtype, const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, int cols);
 protected:
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);

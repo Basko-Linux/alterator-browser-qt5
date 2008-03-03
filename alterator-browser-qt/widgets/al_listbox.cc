@@ -4,7 +4,7 @@
 #include "al_listbox.hh"
 #include "a_pixmaps.hh"
 
-AMultiListBox::AMultiListBox(QWidget *parent):
+ASuperListBox::ASuperListBox(QWidget *parent):
 		QTreeWidget(parent)
 {
     header()->hide();
@@ -15,15 +15,13 @@ AMultiListBox::AMultiListBox(QWidget *parent):
     setIndentation(0);
     setSortingEnabled(false);
 
-    setListType(ListBox);
-    
     connect(this, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged())) ;
 }
 
-AMultiListBox::~AMultiListBox()
+ASuperListBox::~ASuperListBox()
 {}
 
-void AMultiListBox::setListType(ListType type)
+void ASuperListBox::setListType(ListType type)
 {
     list_type = type;
     QAbstractItemView::SelectionMode selection_mode = QAbstractItemView::SingleSelection;
@@ -49,25 +47,25 @@ void AMultiListBox::setListType(ListType type)
     setSelectionMode(selection_mode);
 }
 
-AMultiListBox::ListType AMultiListBox::listType()
+ASuperListBox::ListType ASuperListBox::listType()
 {
     return list_type;
 }
 
-void AMultiListBox::keyPressEvent(QKeyEvent * e) 
+void ASuperListBox::keyPressEvent(QKeyEvent * e) 
 {
     if ((e->key() == Qt::Key_Space))
         emit spaceBtnPressed();
     QTreeWidget::keyPressEvent(e);
 }
 
-void AMultiListBox::showEvent(QShowEvent*)
+void ASuperListBox::showEvent(QShowEvent*)
 {
     //QTreeWidget::showEvent(e);
     scrollTo(currentIndex());
 }
 
-void AMultiListBox::adjustAllColumnsWidth()
+void ASuperListBox::adjustAllColumnsWidth()
 {
     int n_columns = columnCount();
     if( n_columns > 0 )
@@ -79,7 +77,7 @@ void AMultiListBox::adjustAllColumnsWidth()
     }
 }
 
-void AMultiListBox::setHeader(QStringList& data)
+void ASuperListBox::setHeader(QStringList& data)
 {
     if( data.size() > columnCount() )
 	addRow(data, Header);
@@ -87,7 +85,7 @@ void AMultiListBox::setHeader(QStringList& data)
 	setHeaderLabels(data);
 }
 
-void AMultiListBox::addRow(QStringList& data, RowType row_type)
+void ASuperListBox::addRow(QStringList& data, RowType row_type)
 {
     if (data.size() < 2 ) return;
 
@@ -158,7 +156,7 @@ void AMultiListBox::addRow(QStringList& data, RowType row_type)
 	setHeaderItem(item);
 }
 
-void AMultiListBox::setRows(QStringList& data)
+void ASuperListBox::setRows(QStringList& data)
 {
     clear();
     const int columns = columnCount();
@@ -181,7 +179,7 @@ void AMultiListBox::setRows(QStringList& data)
     adjustAllColumnsWidth();
 }
 
-void AMultiListBox::onSelectionChanged()
+void ASuperListBox::onSelectionChanged()
 {
     QList<QTreeWidgetItem*> items = selectedItems();
     if( items.size() > 0 )
@@ -221,13 +219,26 @@ void AMultiListBox::onSelectionChanged()
 
 // alListBox
 
-alListBox::alListBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, int cols):
-	alWidgetPre<AMultiListBox>(attr,WMultiListBox,id,parent)
+alListBox::alListBox(const AlteratorWidgetType awtype, const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, int cols):
+	alWidgetPre<ASuperListBox>(attr,awtype,id,parent)
 {
     if( cols < 1 ) cols = 1;
     wnd_->setColumnCount(cols);
     if( cols > 1 )
 	wnd_->setAlternatingRowColors(true);
+    ASuperListBox::ListType list_type = ASuperListBox::ListBox;
+    switch(awtype)
+    {
+	case WMultiListBox: {list_type = ASuperListBox::MultiListBox; break;}
+	case WCheckListBox: {list_type = ASuperListBox::CheckListBox; break;}
+	case WRadioListBox: {list_type = ASuperListBox::RadioListBox; break;}
+	case WListBox:
+	default:
+	{
+	    list_type = ASuperListBox::ListBox;
+	}
+    }
+    wnd_->setListType(list_type);
 }
 
 void alListBox::setAttr(const QString& name,const QString& value)
@@ -306,8 +317,8 @@ QString alListBox::postData() const
     QString current;
     switch(wnd_->listType())
     {
-	case AMultiListBox::MultiListBox:
-	case AMultiListBox::CheckListBox:
+	case ASuperListBox::MultiListBox:
+	case ASuperListBox::CheckListBox:
 	{
 	    int n = wnd_->topLevelItemCount();
 	    if( n > 0 )
@@ -333,8 +344,8 @@ QString alListBox::postData() const
 	    }
 	    break;
 	}
-	case AMultiListBox::RadioListBox:
-	case AMultiListBox::ListBox:
+	case ASuperListBox::RadioListBox:
+	case ASuperListBox::ListBox:
 	default:
 	{
 	    QList<QTreeWidgetItem*> items = wnd_->selectedItems();

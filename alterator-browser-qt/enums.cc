@@ -42,6 +42,9 @@ Enums::Enums()
     str2widget["dateedit"] = WDateEdit;
     str2widget["timeedit"] = WTimeEdit;
     str2widget["listbox"] = WListBox;
+    str2widget["radiolistbox"] = WRadioListBox;
+    str2widget["multilistbox"] = WMultiListBox;
+    str2widget["checklistbox"] = WCheckListBox;
     str2widget["slideshow"] = WSlideShow;
     str2widget["splitbox"] = WSplitBox;
     str2widget["wizardface"] = WWizardFace;
