@@ -54,10 +54,19 @@ void alWidget::onToggle(int) { main_window->emitEvent(id_,"toggled", AlteratorRe
 
 void alWidget::setAttr(const QString& name,const QString& value)
 {
+	bool bvalue = ("true" == value || "#t" == value);
+	QWidget *w = getWidget();
+
 	if ("visibility" == name)
-		("true" == value)?getWidget()->show():getWidget()->hide();
+	{
+	    if(w)
+		w->setVisible(bvalue);
+	}
 	else if ("activity" == name)
-		getWidget()->setEnabled("true" == value);
+	{
+	    if(w)
+		w->setEnabled(bvalue);
+	}
 	else if ("widget-name" == name)
 		setObjectName(value);
 	else if ("tooltip" == name)
@@ -82,37 +91,43 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		}
 		while(pos < tip.size());
 	    }
-	    getWidget()->setToolTip(tip);
+	    if(w)
+		w->setToolTip(tip);
 	}
 	else if ("window-title" == name)
 	{
-	    QWidget *w = getWidget();
 	    if(w)
 		w->setWindowTitle(value);
 	}
 	else if ("max-width" == name)
 	{
-	    getWidget()->setMaximumWidth(value.toInt());
+	    if(w)
+		w->setMaximumWidth(value.toInt());
 	}
 	else if ("max-height" == name)
 	{
-	    getWidget()->setMaximumHeight(value.toInt());
+	    if(w)
+		w->setMaximumHeight(value.toInt());
 	}
 	else if ("min-width" == name)
 	{
-	    getWidget()->setMinimumWidth(value.toInt());
+	    if(w)
+		w->setMinimumWidth(value.toInt());
 	}
 	else if ("min-height" == name)
 	{
-	    getWidget()->setMinimumHeight(value.toInt());
+	    if(w)
+		w->setMinimumHeight(value.toInt());
 	}
 	else if ("width" == name)
 	{
-	    getWidget()->setFixedWidth(value.toInt());
+	    if(w)
+		w->setFixedWidth(value.toInt());
 	}
 	else if ("height" == name)
 	{
-	    getWidget()->setFixedHeight(value.toInt());
+	    if(w)
+		w->setFixedHeight(value.toInt());
 	}
 	else if ("margin" == name)
 	{
@@ -142,7 +157,6 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	}
 	else if ("align" == name)
 	{
-	    QWidget *w = getWidget();
 	    alWidget *aw = widgetlist->alWidgetById(getParentId());
 	    if( aw )
 	    {
@@ -157,7 +171,13 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	}
 	else if ("focus" == name)
 	{
-	    ("false" == value)?getWidget()->clearFocus():getWidget()->setFocus();
+	    if(w)
+	    {
+		if( bvalue )
+		    w->setFocus();
+		else
+		    w->clearFocus();
+	    }
 	}
 	else if ("tab-order" == name)
 	{
@@ -165,11 +185,8 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	    alWidget *aw = widgetlist->alWidgetById(value);
 	    if( aw )
 		first = aw->getWidget();
-	    if( first )
-	    {
-		QWidget *w = getWidget();
+	    if( w && first )
 		w->setTabOrder(first, w);
-	    }
 	}
 }
 
