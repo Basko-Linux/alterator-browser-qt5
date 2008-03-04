@@ -13,6 +13,7 @@ public:
     ~ASlideShow();
 
     void setSource(const QString&);
+    void setInterval(int);
 
 private slots:
     void showNextSlide();
@@ -21,6 +22,7 @@ private:
     QStringList images;
     QStringListIterator *current_img;
     QTimer *tm;
+    int interval;
 };
 
 class alSlideShow: public alWidgetPre<ASlideShow>

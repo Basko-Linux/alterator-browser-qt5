@@ -10,11 +10,26 @@ ASlideShow::ASlideShow(QWidget *parent):
     setWordWrap( true );
     setAlignment( Qt::AlignCenter );
     current_img = 0;
+    interval = 8000;
     tm = new QTimer(this);
     connect(tm, SIGNAL(timeout()), this, SLOT(showNextSlide()));
 }
 
 ASlideShow::~ASlideShow() {}
+
+void ASlideShow::setInterval(int step)
+{
+    if(step > 1000 )
+    {
+	interval = step;
+	if(tm->isActive())
+	    setInterval(step);
+	else
+	    setSource(src);
+    }
+    else if( step <= 0 )
+	tm->stop();
+}
 
 void ASlideShow::setSource(const QString& new_src)
 {
@@ -36,7 +51,7 @@ void ASlideShow::setSource(const QString& new_src)
     if( n_images > 1 )
     {
 	showNextSlide();
-	tm->setInterval(8000);
+	tm->setInterval(interval);
 	tm->start();
     }
     else if( n_images == 1 )
@@ -71,6 +86,13 @@ void alSlideShow::setAttr(const QString& name,const QString& value)
 {
     if( "text" == name )
         wnd_->setSource(value);
+    if( "step" == name )
+    {
+	bool iok;
+	int step = value.toInt(&iok);
+	if(iok)
+	    wnd_->setInterval(step);
+    }
     else
         alWidget::setAttr(name,value);
 }
