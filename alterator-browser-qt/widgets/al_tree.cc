@@ -9,12 +9,14 @@ alTree::alTree(const AlteratorRequestActionAttrs &attr, const QString& id,const 
 {
     expanded_ = false;
     //setings to be compatible with QListView
-    wnd_->setAlternatingRowColors(true);
-    wnd_->setAllColumnsShowFocus(true);
     wnd_->setUniformRowHeights(true);
+    wnd_->setAllColumnsShowFocus(true);
+    wnd_->setItemsExpandable(true);
     wnd_->setSelectionBehavior(QAbstractItemView::SelectRows);
     int col_count = columns.toInt();
     if( col_count <1 ) col_count = 1;
+    if( col_count > 1 )
+	wnd_->setAlternatingRowColors(true);
     wnd_->setColumnCount(col_count);
     wnd_->header()->hide();
     wnd_->setSelectionBehavior(QAbstractItemView::SelectRows);
