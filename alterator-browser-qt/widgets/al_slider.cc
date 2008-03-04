@@ -59,6 +59,9 @@ alSlider::alSlider(const AlteratorRequestActionAttrs &attr, const QString& id, c
 
 void alSlider::setAttr(const QString& name,const QString& value)
 {
+	bool iok;
+	int ivalue = value.toInt(&iok);
+
 	if( "orientation" == name )
 	{
 	    if( "vertical" == value )
@@ -70,19 +73,27 @@ void alSlider::setAttr(const QString& name,const QString& value)
 	    wnd_->setMinimum( value.toInt() );
 	else if( "maximum" == name )
 	{
-	    int mx = value.toInt();
-	    wnd_->setMaximum( mx );
-	    wnd_->setSingleStep( (mx/64) + 1 );
-	    wnd_->setPageStep( (mx/16) + 1 );
+	    if(iok)
+	    {
+		wnd_->setMaximum( ivalue );
+		wnd_->setSingleStep( (ivalue/64) + 1 );
+		wnd_->setPageStep( (ivalue/16) + 1 );
+	    }
 	}
 	else if( "step" == name )
 	{
 	    int step = value.toInt();
-	    wnd_->setSingleStep( step );
-	    wnd_->setPageStep( step*16 );
+	    if(iok)
+	    {
+		wnd_->setSingleStep( ivalue );
+		wnd_->setPageStep( ivalue*16 );
+	    }
 	}
 	else if( "value" == name )
-	    wnd_->setValue(value.toInt());
+	{
+	    if(iok)
+		wnd_->setValue(ivalue);
+	}
 	else
 	    alWidget::setAttr(name,value);
 }

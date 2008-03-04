@@ -9,22 +9,22 @@ alProgressBar::alProgressBar(const AlteratorRequestActionAttrs &attr, const QStr
 
 void alProgressBar::setAttr(const QString& name,const QString& value)
 {
-    bool vok;
-    int ivalue = value.toInt(&vok);
+    bool iok;
+    int ivalue = value.toInt(&iok);
 
     if( "value" == name )
     {
-	if(vok)
+	if(iok)
 	    wnd_->setValue(value.toInt());
     }
     else if( "maximum" == name )
     {
-	if(vok)
+	if(iok)
 	    wnd_->setMaximum(value.toInt());
     }
     else if( "minimum" == name )
     {
-	if(vok)
+	if(iok)
 	    wnd_->setMinimum(value.toInt());
     }
     else if( "text" == name )
