@@ -229,9 +229,9 @@ void alDialog::setAttr(const QString& name,const QString& value)
     else if ("width" == name)
     {
 	bool ok;
-	int w = value.toInt(&ok);
-	if( ok && w > 0 )
-	    wnd_->resize(w,wnd_->height());
+	int wdth = value.toInt(&ok);
+	if( ok && wdth > 0 )
+	    wnd_->resize(wdth,wnd_->height());
     }
     else if ("height" == name)
     {
