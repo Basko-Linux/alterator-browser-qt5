@@ -54,18 +54,17 @@ void alWidget::onToggle(int) { main_window->emitEvent(id_,"toggled", AlteratorRe
 
 void alWidget::setAttr(const QString& name,const QString& value)
 {
-	bool bvalue = ("true" == value || "#t" == value);
 	QWidget *w = getWidget();
 
 	if ("visibility" == name)
 	{
 	    if(w)
-		w->setVisible(bvalue);
+		w->setVisible("true" == value);
 	}
 	else if ("activity" == name)
 	{
 	    if(w)
-		w->setEnabled(bvalue);
+		w->setEnabled("true" == value);
 	}
 	else if ("widget-name" == name)
 		setObjectName(value);
@@ -173,7 +172,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	{
 	    if(w)
 	    {
-		if( bvalue )
+		if( "true" == value )
 		    w->setFocus();
 		else
 		    w->clearFocus();

@@ -6,7 +6,7 @@ void alLabel::setAttr(const QString& name,const QString& value)
 	if ("text" == name)
 		wnd_->setText(value);
 	if ("text-wrap" == name)
-		wnd_->setWordWrap(value == "true" || value == "#t");
+		wnd_->setWordWrap(value == "true");
 	else if ("pixmap" == name)
 		wnd_->setPixmap( getPixmap(value) );
 //	else if ("align" == name)

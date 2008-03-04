@@ -115,13 +115,13 @@ void ASuperListBox::addRow(QStringList& data, RowType row_type)
 	    {
 		case MultiListBox:
 		{
-		    if(pixname == "#t")
+		    if(pixname == "true")
 			item->setSelected(true);
 		    break;
 		}
 		case CheckListBox:
 		{
-		    if(pixname == "#t")
+		    if(pixname == "true")
 		    {
 		        pixname = "theme:check-on";
 			item->setSelected(true);
@@ -135,7 +135,7 @@ void ASuperListBox::addRow(QStringList& data, RowType row_type)
 		}
 		case RadioListBox:
 		{
-		    if(pixname == "#t")
+		    if(pixname == "true")
 		    {
 			pixname = "theme:radio-on";
 		    }
@@ -300,7 +300,7 @@ void alListBox::setAttr(const QString& name,const QString& value)
 		{
 		    QTreeWidgetItem* item = wnd_->topLevelItem(i);
 		    if( item )
-			item->setSelected((sidx=="#t")? true: false);
+			item->setSelected((sidx=="true")? true: false);
 		    if(i >= n) break;
 		    i++;
 		}
