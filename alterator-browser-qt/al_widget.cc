@@ -84,8 +84,11 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	    }
 	    getWidget()->setToolTip(tip);
 	}
-	else if ("layout-policy" == name)
+	else if ("window-title" == name)
 	{
+	    QWidget *w = getWidget();
+	    if(w)
+		w->setWindowTitle(value);
 	}
 	else if ("max-width" == name)
 	{
