@@ -177,20 +177,40 @@ void alDialog::setAttr(const QString& name,const QString& value)
     {
 	wnd_->clearActions();
 	QStringList data = value.split(";", QString::KeepEmptyParts);
-	const int len = data.size();
-	for(int i=0;i+2 < len;i+=3)
-	    wnd_->addAction(data[i], data[i+1], data[i+2]);
+	QStringListIterator it(data);
+	forever
+	{
+	    QString key, name, pixmap;
+	    if(it.hasNext())
+		key = it.next();
+	    else
+		break;
+	    if(it.hasNext())
+		name = it.next();
+	    else
+		break;
+	    if(it.hasNext())
+		pixmap = it.next();
+	    else
+		break;
+	    wnd_->addAction(key, name, pixmap);
+	}
     }
     else if( "action-add" == name )
     {
 	QStringList data = value.split(";", QString::KeepEmptyParts);
-	const int len = data.size();
-	if( len >= 3 )
-	    wnd_->addAction(data[0], data[1], data[2]);
-	else if( len >= 2 )
-	    wnd_->addAction(data[0], data[1], "");
-	else if( len >= 1 )
-	    wnd_->addAction(data[0], "", "");
+	QStringListIterator it(data);
+	if( data.size() > 0 )
+	{
+	    QString key, name, pixmap;
+	    if(it.hasNext())
+		key = it.next();
+	    if(it.hasNext())
+		name = it.next();
+	    if(it.hasNext())
+		pixmap = it.next();
+	    wnd_->addAction(key, name, pixmap);
+	}
     }
     else if( "action-remove" == name )
     {
@@ -208,14 +228,16 @@ void alDialog::setAttr(const QString& name,const QString& value)
 	wnd_->setWindowTitle(value);
     else if ("width" == name)
     {
-	int w = value.toInt();
-	if( w > 0 )
+	bool ok;
+	int w = value.toInt(&ok);
+	if( ok && w > 0 )
 	    wnd_->resize(w,wnd_->height());
     }
     else if ("height" == name)
     {
-	int h = value.toInt();
-	if( h > 0 )
+	bool ok;
+	int h = value.toInt(&ok);
+	if( ok && h > 0 )
 	    wnd_->resize(wnd_->width(),h);
     }
     else

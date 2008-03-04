@@ -60,7 +60,10 @@ void alDateEdit::setAttr(const QString& name,const QString& value)
     if ("text" == name)
         wnd_->setDate(value);
     else if ("expanded" == name)
-        wnd_->setExpanded("true" == value);
+    {
+	bool expand = (value == "#t" || value == "true");
+        wnd_->setExpanded(expand);
+    }
     else
         alWidget::setAttr(name,value);
 }
