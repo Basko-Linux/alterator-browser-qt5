@@ -75,7 +75,7 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 		if (data[1].isEmpty())
 			wnd_->addItem(data[0]);
 		else
-			wnd_->addItem(QIcon(getPixmap(data[1])),data[0]);
+			wnd_->addItem(getPixmap(data[1]),data[0]);
 		counter_ = wnd_->count();
 	}
 	else if ("rows" == name)
@@ -86,19 +86,21 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 	    while( i.hasNext() )
 	    {
 		QString text = i.next();
-		if( !i.hasNext() ) break;
+		if( !i.hasNext() )
+		    break;
 		QString icon = i.next();
 		if( icon.isEmpty() )
 		    wnd_->addItem(text);
 		else
-		    wnd_->addItem(QIcon(getPixmap(icon)), text);
+		    wnd_->addItem(getPixmap(icon), text);
 	    }
 	}
 	else if ("current" == name)
 	{
 		bool ok = false;
 		int idx = value.toInt(&ok);
-		if(!ok) idx = -1;
+		if(!ok)
+		    idx = -1;
 		wnd_->setCurrentIndex(idx);
 	}
 	else if ("current-text" == name)
@@ -114,18 +116,33 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 	}
 	else if ("remove-row" == name)
 	{
-		wnd_->removeItem(value.toInt());
+		bool ok = false;
+		int ivalue = value.toInt(&ok);
+		if(ok)
+		    wnd_->removeItem(ivalue);
 		counter_ = wnd_->count();
 	}
 	else if ("row-item-text" == name)
 	{
 		QStringList data = value.split(";");
-		wnd_->setItemText(data[1].toInt(),data[0]);
+		if( data.size() >= 2 )
+		{
+		    bool ok = false;
+		    int ivalue = data[1].toInt(&ok);
+		    if(ok)
+			wnd_->setItemText(ivalue,data[0]);
+		}
 	}
 	else if ("row-item-pixmap" == name)
 	{
 		QStringList data = value.split(";");
-		wnd_->setItemIcon(data[1].toInt(),QIcon(getPixmap(data[0])));
+		if( data.size() >= 2 )
+		{
+		    bool ok = false;
+		    int ivalue = data[1].toInt(&ok);
+		    if(ok)
+			wnd_->setItemIcon(ivalue, getPixmap(data[0]));
+		}
 	}
 	else
 		alWidget::setAttr(name,value);
