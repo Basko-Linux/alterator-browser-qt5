@@ -11,7 +11,8 @@ ATextEdit::ATextEdit(QWidget *parent):
     palet.setBrush(QPalette::Foreground, QColor("red"));
     mark->setPalette(palet);
 
-    edit = new QTextEdit(this);
+    edit = new QTextBrowser(this);
+    edit->setReadOnly(false);
     edit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     edit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -72,6 +73,16 @@ void ATextEdit::showEvent(QShowEvent*)
     edit->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 }
 
+void ATextEdit::setUrl(const QString& url)
+{
+    edit->setSource(QUrl(url,QUrl::StrictMode));
+}
+
+QString ATextEdit::url()
+{
+    return edit->source().toString();
+}
+
 // alTextBox
 alTextBox::alTextBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
 		alWidgetPre<ATextEdit>(attr,WTextBox,id,parent)
@@ -80,7 +91,9 @@ alTextBox::alTextBox(const AlteratorRequestActionAttrs &attr, const QString& id,
 
 void alTextBox::setAttr(const QString& name,const QString& value)
 {
-	if ("text" == name)
+	if ("url" == name)
+		wnd_->setUrl(value);
+	else if ("text" == name)
 		wnd_->setText(value);
 	else if ("text-append" == name)
 		wnd_->append(value);
@@ -103,6 +116,7 @@ QString alTextBox::postData() const
     QString ret;
     if( ! wnd_->isReadOnly() )
 	ret.append(QString(" (text . \"%1\" )").arg(Utils::simpleQuote(wnd_->text())));
+    ret.append(QString(" (url . \"%1\" )").arg(wnd_->url()));
     return ret;
 }
 

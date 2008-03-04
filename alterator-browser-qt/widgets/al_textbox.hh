@@ -1,7 +1,7 @@
 #ifndef QTBROWSER_AL_TEXTBOX_HH
 #define QTBROWSER_AL_TEXTBOX_HH
 
-#include <QTextEdit>
+#include <QTextBrowser>
 #include <QLabel>
 
 #include "al_widget.hh"
@@ -13,11 +13,13 @@ public:
     ATextEdit(QWidget *parent=0);
     ~ATextEdit();
     void markRequired(bool);
+    void setUrl(const QString&);
     void setText(const QString&);
     void append(const QString&);
     void setReadOnly(bool);
     bool isReadOnly();
     QString text();
+    QString url();
 
 signals:
     void textEdited();
@@ -27,7 +29,7 @@ protected:
 
 private:
     QLabel *mark;
-    QTextEdit *edit;
+    QTextBrowser *edit;
     QHBoxLayout *layout_;
 };
 
