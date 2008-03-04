@@ -7,23 +7,36 @@ alSpinBox::alSpinBox(const AlteratorRequestActionAttrs &attr, const QString& id,
 
 void alSpinBox::setAttr(const QString& name,const QString& value)
 {
+	bool dok;
+	double dvalue = value.toInt(&dok);
+
 	if( "minimum" == name )
-	    wnd_->setMinimum( value.toDouble() );
+	{
+	    if(dok)
+		wnd_->setMinimum(dvalue);
+	}
 	else if( "maximum" == name )
 	{
-	    double mx = value.toDouble();
-	    wnd_->setMaximum( mx );
-	    wnd_->setSingleStep( (mx/64) + 1 );
-	    //wnd_->setPageStep( (mx/16) + 1 );
+	    if(dok)
+	    {
+		wnd_->setMaximum( dvalue );
+		wnd_->setSingleStep( (dvalue/64) + 1 );
+		//wnd_->setPageStep( (dvalue/16) + 1 );
+	    }
 	}
 	else if( "step" == name )
 	{
-	    double step = value.toDouble();
-	    wnd_->setSingleStep( step );
-	    //wnd_->setPageStep( step*16 );
+	    if(dok)
+	    {
+		wnd_->setSingleStep( dvalue );
+		//wnd_->setPageStep( dvalue*16 );
+	    }
 	}
 	else if( "value" == name )
-	    wnd_->setValue(value.toDouble());
+	{
+	    if(dok)
+		wnd_->setValue(dvalue);
+	}
 	else
 	    alWidget::setAttr(name,value);
 }
