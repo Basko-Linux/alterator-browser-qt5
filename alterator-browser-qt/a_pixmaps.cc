@@ -8,9 +8,8 @@
 
 #include "a_pixmaps.hh"
 
-#define IMAGES_PATH "/usr/share/alterator/images/"
+#define IMAGES_PATHS "/usr/share/alterator/design/current/images/;/usr/share/alterator/images/"
 
-QString images_path(IMAGES_PATH);
 pix_map_t pix_map;
 bool pix_map_initialised = false;
 
@@ -47,14 +46,27 @@ QPixmap APEButtonPixmapGenerator::operator()()
 QPixmap AFilePixmapGenerator::operator()()
 {
     QPixmap px;
-    if( QFile::exists(":/design/"+name_) )                       px = QPixmap(":/design/"+name_);
-    if( !px.isNull() ) return px;
-    if( QFile::exists(":/design/"+name_+".png") )                px = QPixmap(":/design/"+name_+".png");
-    if( !px.isNull() ) return px;
-    QString path = images_path + name_;
-    if( ::access( (path).toLatin1(), R_OK) == 0 )                px = QPixmap(path);
-    else if( ::access( (path + ".png").toLatin1(), R_OK) == 0 )  px = QPixmap(path + ".png", "PNG");
-    else if( ::access( (path + ".jpg").toLatin1(), R_OK) == 0 )  px = QPixmap(path + ".jpg", "JPEG");
+    if( QFile::exists(":/design/"+name_+".png") )
+	px = QPixmap(":/design/"+name_+".png");
+    if( !px.isNull() )
+	return px;
+    if( QFile::exists(":/design/"+name_) )
+	px = QPixmap(":/design/"+name_);
+    if( !px.isNull() )
+	return px;
+
+    QStringList images_paths = QString(IMAGES_PATHS).split(";", QString::SkipEmptyParts);
+    foreach(QString images_path, images_paths)
+    {
+	if(px.isNull())
+	    px = QPixmap(images_path + name_ + ".png", "PNG");
+	else
+	    break;
+	if(px.isNull())
+	    px = QPixmap(images_path + name_);
+	else
+	    break;
+    }
     return px;
 }
 	
