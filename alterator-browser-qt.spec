@@ -2,8 +2,8 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.69
-Release: alt4
+Version: 2.9.70
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -71,6 +71,14 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Thu Mar 06 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.70-alt1
+- add url attribute to textbox
+- add step (milliseconds) attribute to slideshow (0 == stop)
+- add window-title attribute for all widgets
+- add radiolistbox, mutlilistbox, checklistbox widgets
+- add current-rows and state-rows attributes for
+  listbox radiolistbox mutlilistbox checklistbox
+
 * Tue Feb 12 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.69-alt4
 - fix title in wizardface
 
