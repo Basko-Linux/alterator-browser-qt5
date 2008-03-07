@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.70
+Version: 2.9.71
 Release: alt1
 
 Source:%name-%version.tar
@@ -71,6 +71,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Fri Mar 07 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.71-alt1
+- add /usr/share/alterator/design/images to pixmaps search paths list
+
 * Thu Mar 06 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.70-alt1
 - add url attribute to textbox
 - add step (milliseconds) attribute to slideshow (0 == stop)

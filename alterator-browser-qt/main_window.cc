@@ -70,7 +70,7 @@ MainWindow::MainWindow():
     widgetlist = new WidgetList(this);
     pixmap_paths
 	<< ":/design/"
-	<< "/usr/share/alterator/design/current/images/"
+	<< "/usr/share/alterator/design/images"
 	<< "/usr/share/alterator/images/";
 
     QString language(getenv("LC_ALL"));
