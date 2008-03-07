@@ -8,7 +8,7 @@
 
 #include "a_pixmaps.hh"
 
-#define IMAGES_PATHS "/usr/share/alterator/design/current/images/;/usr/share/alterator/images/"
+QStringList pixmap_paths;
 
 pix_map_t pix_map;
 bool pix_map_initialised = false;
@@ -46,24 +46,18 @@ QPixmap APEButtonPixmapGenerator::operator()()
 QPixmap AFilePixmapGenerator::operator()()
 {
     QPixmap px;
-    if( QFile::exists(":/design/"+name_+".png") )
-	px = QPixmap(":/design/"+name_+".png");
-    if( !px.isNull() )
-	return px;
-    if( QFile::exists(":/design/"+name_) )
-	px = QPixmap(":/design/"+name_);
-    if( !px.isNull() )
-	return px;
-
-    QStringList images_paths = QString(IMAGES_PATHS).split(";", QString::SkipEmptyParts);
-    foreach(QString images_path, images_paths)
+    foreach(QString images_path, pixmap_paths)
     {
 	if(px.isNull())
 	    px = QPixmap(images_path + name_ + ".png", "PNG");
 	else
 	    break;
 	if(px.isNull())
+	{
 	    px = QPixmap(images_path + name_);
+	    if(!px.isNull())
+		qDebug("Using pixmap name \"%s\" with file extension.", qPrintable(name_));
+	}
 	else
 	    break;
     }

@@ -79,4 +79,6 @@ private:
     QString name_;
 };
 
+extern QStringList pixmap_paths;
+
 #endif

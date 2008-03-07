@@ -25,6 +25,7 @@
 #include "constraints.hh"
 #include "mailbox.hh"
 #include "widgetlist.hh"
+#include "a_pixmaps.hh"
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
@@ -67,6 +68,10 @@ MainWindow::MainWindow():
     detect_wm = false;
     help_available = true;
     widgetlist = new WidgetList(this);
+    pixmap_paths
+	<< ":/design/"
+	<< "/usr/share/alterator/design/current/images/"
+	<< "/usr/share/alterator/images/";
 
     QString language(getenv("LC_ALL"));
     if( language.isEmpty() )
