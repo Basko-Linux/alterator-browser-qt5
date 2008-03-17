@@ -149,11 +149,6 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		    delete l->takeAt(i);
 	    }
 	}
-	else if ("children-align" == name)
-	{
-	    // turn off
-	    //setChildrenAlignment(Utils::convertAlign(value));
-	}
 	else if ("align" == name)
 	{
 	    alWidget *aw = widgetlist->alWidgetById(getParentId());

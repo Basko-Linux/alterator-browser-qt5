@@ -8,7 +8,6 @@ class alBox: public alWidgetPre<QWidget>
 {
 public:
 	alBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation);
-	void setAttr(const QString& name,const QString& value);
 };
 
 class alVBox: public alBox

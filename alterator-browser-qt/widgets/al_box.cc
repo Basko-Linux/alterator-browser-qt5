@@ -15,13 +15,3 @@ alBox::alBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QS
     l->setSpacing(5);
     l->setMargin(0);
 }
-
-void alBox::setAttr(const QString& name,const QString& value)
-{
-	if ("background-color" == name)
-	{
-		//wnd_->setBrush(QBrush(QColor(value)));
-	}
-	else
-	    alWidget::setAttr(name,value);
-}

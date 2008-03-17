@@ -20,14 +20,6 @@ void alMainWidget::setAttr(const QString& name,const QString& value)
 	{
 		wnd_->setWindowTitle(value);
 	}
-	else if ("full-screen" == name)
-	{
-	    main_window->setFullScreen("true" == value);
-	}
-	else if ("layout-policy" == name)
-	{
-		//qDebug("don't do layout policy for main widget");
-	}
 	else if ("width" == name)
 	{
 		//wnd_->resize(value.toInt(),wnd_->height());
