@@ -3,7 +3,7 @@
 
 Name: alterator-browser-qt
 Version: 2.9.71
-Release: alt2
+Release: alt3
 
 Source:%name-%version.tar
 
@@ -71,6 +71,10 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Mon Mar 17 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.71-alt3
+- remove window title from wizardface step name area
+- remove unused widget attributes
+
 * Wed Mar 12 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.71-alt2
 - fix typo in /usr/share/alterator/design/images path
 
