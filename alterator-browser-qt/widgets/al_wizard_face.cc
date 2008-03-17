@@ -90,7 +90,7 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     buttons_layout->setMargin(5);
     buttons_layout->setSpacing(5);
 
-//    title_layout->insertStretch(0, 1);
+    title_layout->insertStretch(0, 1);
     title_layout->insertWidget(1, title_icon, 0, Qt::AlignRight);
     title_layout->insertWidget(2, title_text, 0, Qt::AlignLeft);
     title_layout->insertStretch(3, 1);
@@ -497,12 +497,16 @@ void AWizardFace::setCurrentStep( int n )
     int steps_n = steplist.size();
     if( n < steps_n )
     {
+	QPair<QString, QString> item = steplist.value(n, QPair<QString, QString>("",""));
+        title_icon->setPixmap(getPixmap(item.first));
+#if 0
 	QString wtitle = windowTitle();
 	if( !wtitle.isEmpty() )
 	    wtitle.append(". ");
-	QPair<QString, QString> item = steplist.value(n, QPair<QString, QString>("",""));
-        title_icon->setPixmap(getPixmap(item.first));
 	title_text->setText(QString("%1%2(%3/%4).").arg(wtitle).arg(item.second).arg(n+1).arg(steps_n));
+#else
+	title_text->setText(QString("%1/%2: %3").arg(n+1).arg(steps_n).arg(item.second));
+#endif
 	current_step = n;
     }
 }
