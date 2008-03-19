@@ -3,7 +3,7 @@
 
 Name: alterator-browser-qt
 Version: 2.9.71
-Release: alt3
+Release: alt4
 
 Source:%name-%version.tar
 
@@ -71,6 +71,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Wed Mar 19 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.71-alt4
+- fix focus attribute for timeedit dateedit edit and textbox
+
 * Mon Mar 17 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.71-alt3
 - remove window title from wizardface step name area
 - remove unused widget attributes
