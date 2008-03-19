@@ -18,10 +18,22 @@ QString reparentTag(const QString &parent)
 
 Qt::Alignment convertAlign(const QString& value)
 {
-	if ("left" == value) return  Qt::AlignLeft;
-	else if ("right" == value) return Qt::AlignRight;
-	else if ("center" == value) return Qt::AlignCenter;
-	return Qt::AlignJustify;
+    Qt::Alignment a = 0;
+    foreach(QString salign, value.split(";", QString::SkipEmptyParts))
+    {
+	if 	("left" == salign)	a |= Qt::AlignLeft;
+	else if ("right" == salign)	a |= Qt::AlignRight;
+	else if ("middle" == salign)	a |= Qt::AlignVCenter;
+	else if ("hmiddle" == salign)	a |= Qt::AlignHCenter;
+	else if ("center" == salign)	a |= Qt::AlignCenter;
+	else if ("top" == salign)	a |= Qt::AlignTop;
+	else if ("bottom" == salign)	a |= Qt::AlignBottom;
+	else
+	    qDebug("Unknown align value <%s>", qPrintable(value));
+    }
+    if( a == 0)
+	a = Qt::AlignJustify;
+    return a;
 }
 
 QLineEdit::EchoMode convertEchoMode(const QString& value)
