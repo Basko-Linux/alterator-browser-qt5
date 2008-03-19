@@ -3,7 +3,7 @@
 
 Name: alterator-browser-qt
 Version: 2.9.71
-Release: alt4
+Release: alt5
 
 Source:%name-%version.tar
 
@@ -71,6 +71,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %_datadir/%name/
 
 %changelog
+* Wed Mar 19 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.71-alt5
+- allow multivalue for align attribute
+
 * Wed Mar 19 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.71-alt4
 - fix focus attribute for timeedit dateedit edit and textbox
 
