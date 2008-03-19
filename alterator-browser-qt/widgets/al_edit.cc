@@ -23,6 +23,8 @@ AEdit::AEdit(QWidget *parent):
     layout_->setSpacing(0);
     layout_->addWidget(mark);
     layout_->addWidget(edit);
+
+    setFocusProxy(edit);
 }
 
 AEdit::~AEdit() {}

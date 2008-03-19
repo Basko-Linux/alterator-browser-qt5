@@ -248,6 +248,8 @@ ATimeEdit::ATimeEdit(QWidget *parent):
     connect(time_edit_focus, SIGNAL(focusIn()), this, SLOT(onFocusIn()));
     connect(time_edit_focus, SIGNAL(focusOut()), this, SLOT(onFocusOut()));
 
+    setFocusProxy(time_edit);
+
     main_window->addTimeEdit(this);
 
     start();

@@ -27,6 +27,8 @@ ADateEdit::ADateEdit(QWidget *parent):
     connect(calendar, SIGNAL(clicked(const QDate&)), date_edit, SLOT(setDate(const QDate&)));
     connect(calendar, SIGNAL(selectionChanged()), this, SIGNAL(changed()));
     connect(date_edit, SIGNAL(dateChanged(const QDate&)), calendar, SLOT(setSelectedDate(const QDate&)));
+
+    setFocusProxy(date_edit);
 }
 
 ADateEdit::~ADateEdit()
