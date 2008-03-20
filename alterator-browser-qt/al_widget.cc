@@ -257,7 +257,7 @@ QSizePolicy alWidget::adjustSizePolicy(const AlteratorWidgetType type, const QSi
 	}
 	case WButton:
 	{
-	    szpol.setHorizontalPolicy(QSizePolicy::Fixed);
+	    szpol.setHorizontalPolicy(QSizePolicy::Maximum);
 	    break;
 	}
 	case WSeparator:
