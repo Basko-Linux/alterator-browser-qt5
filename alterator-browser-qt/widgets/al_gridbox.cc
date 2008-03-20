@@ -84,9 +84,10 @@ void AGridBox::addChild(QWidget* chld, int rowspan, int colspan)
 	{ // adjustPlacementPolycy
 	    const char *class_name = w->metaObject()->className();
 	    QSizePolicy p = w->sizePolicy();
-	    if( qstrcmp("QPushButton", class_name) )
+	    if( qstrcmp("QPushButton", class_name) == 0 )
 	    {
 		p.setHorizontalPolicy(QSizePolicy::Maximum);
+		layout_->setAlignment(w, Qt::AlignHCenter);
 	    }
 	    w->setSizePolicy(p);
 	}
