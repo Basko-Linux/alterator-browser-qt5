@@ -81,6 +81,15 @@ void AGridBox::addChild(QWidget* chld, int rowspan, int colspan)
 	}
 
 	layout_->addWidget(w, current_row, current_column, rows, cols);
+	{ // adjustPlacementPolycy
+	    const char *class_name = w->metaObject()->className();
+	    QSizePolicy p = w->sizePolicy();
+	    if( qstrcmp("QPushButton", class_name) )
+	    {
+		p.setHorizontalPolicy(QSizePolicy::Maximum);
+	    }
+	    w->setSizePolicy(p);
+	}
 
 	// remember occuped cells
 	if( rows > 1 )
