@@ -603,8 +603,8 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WProxy:
 	case WUnknown:
 	{
-	    qDebug("Unknown widget requested. Make box instead.");
-	    new_widget = new alBox(attr,id,parent_id,orientation);
+	    qDebug("Unknown widget requested. Make gridbox instead.");
+	    new_widget = new alGridBox(attr,id,parent_id, "100");
 	}
 	/* default:
 	    break; */
