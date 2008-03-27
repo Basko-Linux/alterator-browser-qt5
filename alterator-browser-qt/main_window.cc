@@ -555,7 +555,7 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 		    new_widget = new alDialog(attr,id,parent_id,orientation);
 	    }
 	    else
-		new_widget = new alBox(attr,id,parent_id,orientation);
+		new_widget = new alGridBox(attr,id,parent_id, "100");
 	    break;
 	}
 	case WBox: {         new_widget = new alBox(attr,id,parent_id,orientation); break; }
