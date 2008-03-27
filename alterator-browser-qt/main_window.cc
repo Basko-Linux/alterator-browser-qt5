@@ -595,7 +595,7 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WWizardFace:
 	{
 	    if( wizard_face )
-		new_widget = new alBox(attr,id,parent_id,orientation);
+		new_widget = new alGridBox(attr,id,parent_id, "100");
 	    else
 		new_widget = wizard_face = new alWizardFace(attr,id,parent_id,orientation);
 	    break;
