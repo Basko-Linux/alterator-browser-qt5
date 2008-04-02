@@ -63,6 +63,7 @@ MainWindow::MainWindow():
     connection = 0;
     constraints = 0;
     qtranslator = 0;
+    app_translator = 0;
     busy_timer_id = 0;
     started = false;
     detect_wm = false;
@@ -361,15 +362,29 @@ void MainWindow::changeLanguage(const QString& language)
     new QSystemLocale();
     QLocale::setDefault( QLocale(locale) );
 
-    if( qtranslator )
-    {
-	QCoreApplication::removeTranslator(qtranslator);
-	delete qtranslator;
-    }
-    qtranslator = new QTranslator(this);
-    qtranslator->load(QLibraryInfo::location(QLibraryInfo::TranslationsPath) + "/qt_"+QLocale::system().name());
-    QCoreApplication::installTranslator(qtranslator);
+    reloadTranslator(qtranslator, "qt");
+    reloadTranslator(app_translator, "alterator_browser_qt");
+
     emit languageChanged();
+}
+
+void MainWindow::reloadTranslator(QTranslator* translator, const QString &domain)
+{
+    if( translator )
+    {
+	QCoreApplication::removeTranslator(translator);
+	delete translator;
+    }
+    translator = new QTranslator(this);
+    if( translator->load(QLibraryInfo::location(QLibraryInfo::TranslationsPath) + "/" + domain + "_"+QLocale::system().name()) )
+    {
+	QCoreApplication::installTranslator(translator);
+    }
+    else
+    {
+	delete translator;
+	translator = 0;
+    }
 }
 
 void MainWindow::emitEvent(const QString &id,const QString &type, const AlteratorRequestFlags request_flags)

@@ -57,6 +57,7 @@ private:
     Constraints *constraints;
     Connection *connection;
     QTranslator *qtranslator;
+    QTranslator *app_translator;
     QRect geometry_;
     bool started;
     bool have_wm;
@@ -75,6 +76,7 @@ private:
     void splashStop();
     void loadStyleSheet();
     static void collectTabIndex(QList<QString>&, QMap<QString, QMap<int,QWidget*> >&, alWidget* wdg, int);
+    void reloadTranslator(QTranslator* translator, const QString &domain);
 
     void onRetryRequest();
     alWidget* onNewRequest(const AlteratorRequestActionAttrs &attr);
