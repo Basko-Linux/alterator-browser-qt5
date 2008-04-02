@@ -82,6 +82,8 @@ MainWindow::MainWindow():
 	language = "C";
     changeLanguage(language);
 
+    setWindowTitle("alterator");
+
     // startup animation
     startup_splash = new QLabel(this);
     setCentralWidget(startup_splash);
