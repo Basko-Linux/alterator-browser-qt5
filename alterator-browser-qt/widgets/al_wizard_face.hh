@@ -88,7 +88,6 @@ private:
     int findButtonPosition(UserActionType);
     Qt::Alignment newButtonAlignment(UserActionType);
     QPixmap defaultActionIcon(UserActionType);
-    QString translateActionText(const QString&);
     void moveMenuButtonsToMenu();
 };
 

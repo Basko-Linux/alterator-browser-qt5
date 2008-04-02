@@ -60,7 +60,7 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     bottom_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     //bottom_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
 
-    //menu_btn = new QPushButton(translateActionText("Menu"), bottom_widget);
+    //menu_btn = new QPushButton(tr("Menu"), bottom_widget);
     menu_btn = new QPushButton(bottom_widget);
     menu_btn->hide();
     menu_btn->setIcon(QIcon(getPixmap("theme:up")));
@@ -414,18 +414,12 @@ QWidget* AWizardFace::getViewWidget()
     return view_widget;
 }
 
-QString AWizardFace::translateActionText(const QString& txt)
-{
-    QString i18n_text = QApplication::translate("QDialogButtonBox", qPrintable(txt), 0, QApplication::UnicodeUTF8);
-    return QApplication::translate("QAccel", qPrintable(i18n_text), 0, QApplication::UnicodeUTF8);
-}
-
 void AWizardFace::setActionText(const QString &key, const QString &value)
 {
     if( buttons.contains(key) )
-	buttons[key]->setText(translateActionText(value));
+	buttons[key]->setText(value);
     else if( menus.contains(key) )
-	menus[key]->setText(translateActionText(value));
+	menus[key]->setText(value);
 }
 
 void AWizardFace::setActionPixmap(const QString &key, const QString &value)
