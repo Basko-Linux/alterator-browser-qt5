@@ -204,7 +204,7 @@ void MainWindow::quitApp()
 
 void MainWindow::quitAppWarn()
 {
-    if( QMessageBox::warning(this, tr("Quit"),
+    if( QMessageBox::warning(QApplication::activeWindow(), tr("Quit"),
 	tr("Exit Alterator?"),
 	QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Cancel) == QMessageBox::Ok )
     {
