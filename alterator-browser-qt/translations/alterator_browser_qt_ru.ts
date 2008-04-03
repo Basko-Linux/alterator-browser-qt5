@@ -36,6 +36,11 @@
         <source>About Qt</source>
         <translation>О Qt</translation>
     </message>
+    <message>
+        <location filename="../help_browser.cc" line="61"/>
+        <source>No help available.</source>
+        <translation>Справка недоступна.</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>

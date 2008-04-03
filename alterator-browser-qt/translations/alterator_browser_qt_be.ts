@@ -35,6 +35,11 @@
         <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../help_browser.cc" line="61"/>
+        <source>No help available.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
