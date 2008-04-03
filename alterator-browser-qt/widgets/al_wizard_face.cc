@@ -32,7 +32,7 @@ AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
     logo_icon->setPixmap(getPixmap("logo_48"));
 
     title_text = new QLabel(title_widget);
-    title_text->setObjectName("title_text");
+    title_text->setObjectName("wizardface_title_text");
     title_text->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     title_text->setAlignment(Qt::AlignLeft);
     QFont title_text_font = title_text->font();
