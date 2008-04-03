@@ -36,6 +36,13 @@ RESOURCES = images.qrc
 
 FORMS += help_browser.ui
 
+TRANSLATIONS = \
+    translations/alterator_browser_qt_ru.ts \
+    translations/alterator_browser_qt_uk.ts \
+    translations/alterator_browser_qt_be.ts \
+    translations/alterator_browser_qt_tt.ts \
+    translations/alterator_browser_qt_kk.ts
+
 target.path = /usr/bin/
 INSTALLS += target
 
