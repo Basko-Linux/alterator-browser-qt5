@@ -214,7 +214,7 @@ void MainWindow::quitAppWarn()
 
 void MainWindow::about()
 {
-    QMessageBox::information(this, QMessageBox::tr("About"),
+    QMessageBox::information(QApplication::activeWindow(), QMessageBox::tr("About"),
 	tr("Alterator Browser"));
 }
 
@@ -740,8 +740,7 @@ void MainWindow::onEventRequest(const QString& id,const QString& value)
 
 void MainWindow::onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, QMessageBox::StandardButtons buttons)
 {
-    QWidget *parent = QApplication::activeWindow();
-    AMsgBox msgbox(type, title, message, buttons, parent);
+    AMsgBox msgbox(type, title, message, buttons, QApplication::activeWindow());
     //qDebug("AMsgBox exec");
     const QString answer = AMessageBox::unconvertButton((QMessageBox::StandardButton)msgbox.exec());
     connection->getDocument(answer);
