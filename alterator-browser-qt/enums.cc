@@ -12,6 +12,7 @@ Enums::Enums()
     str2action["start"] = AlteratorRequestStart;
     str2action["stop"] = AlteratorRequestStop;
     str2action["messagebox"] = AlteratorRequestMessage;
+    str2action["fileselect"] = AlteratorRequestFile;
     str2action["language"] = AlteratorRequestLanguage;
     str2action["retry"] = AlteratorRequestRetry;
     str2action["constraints-add"]   = AlteratorRequestCnstrAdd;

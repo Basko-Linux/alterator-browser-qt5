@@ -39,7 +39,11 @@ enum AlteratorRequestParamType
     AltReqParamButtons = 21,
     AltReqParamCnstrName = 22,
     AltReqParamCnstrType = 23,
-    AltReqParamCnstrParams = 24
+    AltReqParamCnstrParams = 24,
+    AltReqParamFileType = 25,
+    AltReqParamFileMask = 26,
+    AltReqParamFileTitle = 27,
+    AltReqParamFileDir = 28
 };
 
 enum AlteratorRequestParamDataType

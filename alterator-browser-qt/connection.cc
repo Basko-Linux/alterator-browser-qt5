@@ -304,6 +304,14 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 		act.attr[AltReqParamButtons] = makeRequestParamData(AltReqParamDataButtons, e.value("buttons"));
 		break;
 	    }
+	    case AlteratorRequestFile:
+	    {
+		act.attr[AltReqParamFileTitle] = makeRequestParamData(AltReqParamDataString, e.value("title"));
+		act.attr[AltReqParamFileDir] = makeRequestParamData(AltReqParamDataString, e.value("dir"));
+		act.attr[AltReqParamFileMask] = makeRequestParamData(AltReqParamDataString, e.value("mask"));
+		act.attr[AltReqParamFileType] = makeRequestParamData(AltReqParamDataString, e.value("type"));
+		break;
+	    }
 	    case AlteratorRequestLanguage:
 	    {
 		act.attr[AltReqParamLanguage] = makeRequestParamData(AltReqParamDataString, cmd->value_);

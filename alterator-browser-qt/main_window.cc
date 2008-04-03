@@ -16,6 +16,7 @@
 #include <QStyleFactory>
 #include <QResource>
 #include <QMovie>
+#include <QFileDialog>
 
 #include "global.hh"
 #include "widgets.hh"
@@ -491,6 +492,12 @@ void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
 			request.attr[AltReqParamMessage].s, request.attr[AltReqParamButtons].buttons);
 		break;
 	    }
+	    case AlteratorRequestFile:
+	    {
+		onFileSelectRequest(request.attr[AltReqParamFileTitle].s, request.attr[AltReqParamFileDir].s,
+		    request.attr[AltReqParamFileType].s, request.attr[AltReqParamFileMask].s);
+		break;
+	    }
 	    case AlteratorRequestLanguage:
 	    {
 		changeLanguage(request.attr[AltReqParamLanguage].s);
@@ -738,6 +745,13 @@ void MainWindow::onMessageBoxRequest(const QString& type, const QString& title, 
     //qDebug("AMsgBox exec");
     const QString answer = AMessageBox::unconvertButton((QMessageBox::StandardButton)msgbox.exec());
     connection->getDocument(answer);
+}
+
+void MainWindow::onFileSelectRequest(const QString& title, const QString& dir, const QString& type, const QString& mask)
+{
+    QStringList paths;
+    paths.append( QFileDialog::getOpenFileName(this, title, dir.isEmpty()? QDir::homePath(): dir ) );
+    connection->getDocument(paths.join(";"));
 }
 
 void MainWindow::splashStart()

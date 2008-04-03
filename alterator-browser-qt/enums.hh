@@ -16,11 +16,12 @@ enum AlteratorRequestActionType
     AlteratorRequestStart = 7,
     AlteratorRequestStop = 8,
     AlteratorRequestMessage = 9,
-    AlteratorRequestLanguage = 10,
-    AlteratorRequestCnstrAdd = 11,
-    AlteratorRequestCnstrClear = 12,
-    AlteratorRequestCnstrApply = 13,
-    AlteratorRequestRetry = 14
+    AlteratorRequestFile = 10,
+    AlteratorRequestLanguage = 11,
+    AlteratorRequestCnstrAdd = 12,
+    AlteratorRequestCnstrClear = 13,
+    AlteratorRequestCnstrApply = 14,
+    AlteratorRequestRetry = 15
 };
 
 enum AlteratorWidgetType {
