@@ -2,8 +2,8 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.71
-Release: alt6
+Version: 2.9.72
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -41,11 +41,15 @@ X11 Qt interface driver for alterator
 
 %build
 %make_build
-
+lrelease-qt4 %name.pro
 
 %install
 %make INSTALL_ROOT=%buildroot install
 ln -s %name %buildroot/%_bindir/qtbrowser
+
+# translations
+mkdir -p %buildroot/%_datadir/qt4/translations/
+install -m 0644 translations/*.qm %buildroot/%_datadir/qt4/translations/
 
 mkdir -p %buildroot/%_altdir
 cat >%buildroot/%_altdir/%name <<__EOF__
@@ -69,8 +73,14 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %ghost %config %alterator_cfg/design-browser-qt
 %_bindir/*
 %_datadir/%name/
+%_datadir/qt4/translations/*.qm
+
 
 %changelog
+* Thu Apr 03 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.72-alt1
+- add message translations
+- rename title_text to wizardface_title_text
+
 * Thu Mar 20 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.71-alt6
 - minimize buttons in gridbox
 
