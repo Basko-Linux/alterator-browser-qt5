@@ -58,7 +58,7 @@ void HelpWidget::setHelpSource(const QString& url)
 
 void HelpWidget::setEmptyHelp()
 {
-    ui.textBrowser->setHtml( "<br/><br/><br/><br/><center><b>No help available.</b></center>" );
+    ui.textBrowser->setHtml( QString("<br/><br/><br/><br/><center><b>%1</b></center>").arg(tr("No help available.")) );
 }
 
 
