@@ -24,7 +24,7 @@ HelpWidget::HelpWidget(QWidget *parent):
     menu_bar->addMenu(menu_help);
     menu_session->addAction(QApplication::style()->standardPixmap(QStyle::SP_DialogCancelButton), tr("Quit"), main_window, SLOT(quitAppWarn()));
     menu_help->addAction(getPixmap("logo_16"), tr("About"), main_window, SLOT(about()));
-    menu_help->addAction(QApplication::style()->standardPixmap(QStyle::SP_TitleBarMenuButton), tr("About Qt"), qApp, SLOT(aboutQt()));
+    menu_help->addAction(QApplication::style()->standardPixmap(QStyle::SP_TitleBarMenuButton), tr("About Qt"), QApplication::instance(), SLOT(aboutQt()));
     ui.gridLayout->setMenuBar(menu_bar);
 
     connect(ui.textBrowser, SIGNAL(anchorClicked(const QUrl&)),
