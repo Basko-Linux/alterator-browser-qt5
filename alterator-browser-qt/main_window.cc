@@ -126,7 +126,7 @@ MainWindow::MainWindow():
     else
 	setFullScreen(true);
 
-    connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(stop()));
+    connect(QApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(stop()));
     QTimer::singleShot(0, this, SLOT(start()));
 }
 
