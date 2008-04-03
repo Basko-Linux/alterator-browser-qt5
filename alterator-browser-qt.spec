@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.72
+Version: 2.9.73
 Release: alt1
 
 Source:%name-%version.tar
@@ -77,6 +77,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Thu Apr 03 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.73-alt1
+- add file selection alterator request support
+
 * Thu Apr 03 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.72-alt1
 - add message translations
 - rename title_text to wizardface_title_text
