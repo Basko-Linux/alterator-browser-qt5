@@ -214,8 +214,8 @@ void MainWindow::quitAppWarn()
 
 void MainWindow::about()
 {
-    QMessageBox::information(QApplication::activeWindow(), QMessageBox::tr("About"),
-	tr("Alterator Browser"));
+    AMsgBox msgbox("information", tr("About"), tr("Alterator Browser"), QMessageBox::Ok, QApplication::activeWindow());
+    msgbox.exec();
 }
 
 
