@@ -204,9 +204,13 @@ void MainWindow::quitApp()
 
 void MainWindow::quitAppWarn()
 {
+/*
     if( QMessageBox::warning(QApplication::activeWindow(), tr("Quit"),
 	tr("Exit Alterator?"),
 	QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Cancel) == QMessageBox::Ok )
+*/
+    AMsgBox msgbox("warning", tr("Quit"), tr("Exit Alterator?"), QMessageBox::Ok|QMessageBox::Cancel, QApplication::activeWindow());
+    if( msgbox.exec() == QMessageBox::Ok )
     {
 	quitApp();
     }
