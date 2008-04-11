@@ -181,9 +181,6 @@ void ASuperListBox::setRows(QStringList& data)
 
 void ASuperListBox::onSelectionChanged()
 {
-    QList<QTreeWidgetItem*> items = selectedItems();
-    if( items.size() > 0 )
-    {
 	switch(list_type)
 	{
 	    case CheckListBox:
@@ -212,6 +209,9 @@ void ASuperListBox::onSelectionChanged()
 	    {
 	    }
 	}
+
+    if( selectedItems().size() > 0 )
+    {
 	emit selected();
     }
 }
