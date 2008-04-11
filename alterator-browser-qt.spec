@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.73
+Version: 2.9.74
 Release: alt1
 
 Source:%name-%version.tar
@@ -77,7 +77,10 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
-#- fix set window title
+* Fri Apr 11 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.74-alt1
+- fix setting window title
+- fix checklistbox
+
 * Thu Apr 03 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.73-alt1
 - add file selection alterator request support
 
