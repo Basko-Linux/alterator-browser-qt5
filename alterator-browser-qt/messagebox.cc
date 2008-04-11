@@ -96,7 +96,7 @@ AMsgBox::AMsgBox(
 	i = QMessageBox::Warning;
     setStandardButtons(buttons);
     setIcon(i);
-    setWindowTitle(title);
+    window()->setWindowTitle(title);
     setText(text);
 }
 

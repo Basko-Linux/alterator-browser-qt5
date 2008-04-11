@@ -16,11 +16,7 @@ alMainWidget::alMainWidget(const QString& id,const QString& parent, Qt::Orientat
 
 void alMainWidget::setAttr(const QString& name,const QString& value)
 {
-	if ("title" == name)
-	{
-		wnd_->setWindowTitle(value);
-	}
-	else if ("width" == name)
+	if ("width" == name)
 	{
 		//wnd_->resize(value.toInt(),wnd_->height());
 	}

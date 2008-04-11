@@ -483,7 +483,6 @@ void AWizardFace::setStepActivity(int n, bool a)
 void AWizardFace::setTitle( const QString &value)
 {
     title_text->setText(value);
-    setWindowTitle(value);
 }
 
 void AWizardFace::setCurrentStep( int n )
@@ -662,15 +661,12 @@ QString alWizardFace::postData() const
 
 void alWizardFace::setAttr(const QString& name,const QString& value)
 {
-    /*
     if( "title" == name )
     {
-	// set and continue
 	wnd_->setTitle(value);
+	alWidget::setAttr(name,value);
     }
-    */
-
-    if( "actions" == name )
+    else if( "actions" == name )
     {
 	wnd_->clearActions();
 	QStringList data = value.split(";", QString::KeepEmptyParts);

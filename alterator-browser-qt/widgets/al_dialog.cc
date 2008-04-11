@@ -224,8 +224,6 @@ void alDialog::setAttr(const QString& name,const QString& value)
     {
 	wnd_->setDefaultAction(value);
     }
-    else if ("title" == name)
-	wnd_->setWindowTitle(value);
     else if ("width" == name)
     {
 	bool ok;
