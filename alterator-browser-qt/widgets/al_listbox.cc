@@ -195,7 +195,7 @@ void ASuperListBox::onSelectionChanged()
 		    for(int i = 0; i < n; i++)
 		    {
 			QTreeWidgetItem* item = topLevelItem(i);
-			if( i )
+			if( item )
 			{
 			    if( list_type == CheckListBox )
 				item->setIcon(0, getPixmap(item->isSelected()? "theme:check-on": "theme:check-off"));
