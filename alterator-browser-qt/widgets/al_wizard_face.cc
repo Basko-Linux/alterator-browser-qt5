@@ -733,7 +733,7 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
 	QStringList data = value.split(";", QString::KeepEmptyParts);
 	const int len = data.size();
 	if( len >= 2 )
-	    wnd_->setActionText(data[0], data[1]);
+	    wnd_->setActionPixmap(data[0], data[1]);
     }
     else if( "steps" == name )
     {
