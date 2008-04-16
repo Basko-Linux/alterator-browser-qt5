@@ -760,6 +760,24 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
     {
 	wnd_->clearSteps();
     }
+    else if( "step-text" == name )
+    {
+	QStringList data = value.split(";", QString::KeepEmptyParts);
+	const int len = data.size();
+	if( len >= 2 )
+	{
+	    wnd_->setStepText(data[0].toInt(), data[1]);
+	}
+    }
+    else if( "step-pixmap" == name )
+    {
+	QStringList data = value.split(";", QString::KeepEmptyParts);
+	const int len = data.size();
+	if( len >= 2 )
+	{
+	    wnd_->setStepPixmap(data[0].toInt(), data[1]);
+	}
+    }
     else if ("current-step" == name)
     {
 	int n = value.toInt();
