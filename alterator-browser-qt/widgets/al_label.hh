@@ -5,11 +5,18 @@
 
 #include "al_widget.hh"
 
-class alLabel: public alWidgetPre<QLabel>
+class ALabel: public QLabel
+{
+public:
+    ALabel(QWidget *parent, Qt::Orientation): QLabel(parent) {};
+    ~ALabel() {};
+};
+
+class alLabel: public alWidgetPre<ALabel>
 {
 public:
 	alLabel(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
-		alWidgetPre<QLabel>(attr,WLabel,id,parent)
+		alWidgetPre<ALabel>(attr,WLabel,id,parent)
 		{
 		    //wnd_->setWordWrap( true );
 		    //wnd_->setFrameStyle(QFrame::Sunken|QFrame::StyledPanel);

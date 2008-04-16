@@ -10,7 +10,7 @@ class ADateEdit: public QWidget
 {
 Q_OBJECT
 public:
-    ADateEdit(QWidget *parent = 0);
+    ADateEdit(QWidget *parent, Qt::Orientation);
     ~ADateEdit();
 
     void setExpanded(bool);

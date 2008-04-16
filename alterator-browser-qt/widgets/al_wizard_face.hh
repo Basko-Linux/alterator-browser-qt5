@@ -20,7 +20,7 @@ class AWizardFace: public QWidget
 {
     Q_OBJECT
 public:
-    AWizardFace( QWidget *parent=0, Qt::WFlags f=0 );
+    AWizardFace(QWidget *parent, Qt::Orientation);
     ~AWizardFace();
 
     void addAction(const QString& key, const QString& name, const QString& pixmap);

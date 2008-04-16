@@ -9,11 +9,11 @@
 class AGridBox: public QWidget
 {
 public:
-    AGridBox(QWidget *parent);
+    AGridBox(QWidget *parent, Qt::Orientation);
     ~AGridBox();
 
     void setColumns(const QString&);
-    void addChild(QWidget *chld, int rowspan, int colspan);
+    void postAddChild(QWidget *chld, int rowspan, int colspan);
     QLayout* getViewLayout();
 
 
@@ -31,7 +31,7 @@ public:
     alGridBox(const AlteratorRequestActionAttrs &attr, const QString &id,const QString &parent, const QString &columns);
     void setAttr(const QString &name,const QString &value);
     QLayout* getViewLayout();
-    void addChild(QWidget *chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs &attr);
+    void postAddChild(QWidget *chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs &attr);
 };
 
 #endif

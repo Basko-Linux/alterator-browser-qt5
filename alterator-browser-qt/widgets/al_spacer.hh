@@ -4,7 +4,14 @@
 #include <QWidget>
 #include "al_widget.hh"
 
-class alSpacer: public alWidgetPre<QWidget>
+class ASpacer: public QWidget
+{
+public:
+    ASpacer(QWidget *parent, Qt::Orientation): QWidget(parent) {};
+    ~ASpacer() {};
+};
+
+class alSpacer: public alWidgetPre<ASpacer>
 {
 public:
 	alSpacer(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent);

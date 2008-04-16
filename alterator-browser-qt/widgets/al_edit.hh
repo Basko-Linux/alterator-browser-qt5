@@ -10,7 +10,7 @@ class AEdit: public QWidget
 {
 Q_OBJECT
 public:
-    AEdit(QWidget *parent=0);
+    AEdit(QWidget *parent, Qt::Orientation);
     ~AEdit();
     void markRequired(bool);
     void setText(const QString&);

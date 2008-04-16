@@ -3,7 +3,7 @@
 #include "al_combobox.hh"
 #include "a_pixmaps.hh"
 
-AComboBox::AComboBox(QWidget *parent):
+AComboBox::AComboBox(QWidget *parent, Qt::Orientation):
     QComboBox(parent)
 {
     text_changed_ = false;

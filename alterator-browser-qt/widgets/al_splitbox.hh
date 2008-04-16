@@ -8,10 +8,10 @@
 class ASplitBox: public QSplitter
 {
 public:
-    ASplitBox(QWidget *parent);
+    ASplitBox(QWidget *parent, Qt::Orientation);
     ~ASplitBox();
 
-    void addChild(QWidget *chld);
+    void postAddChild(QWidget *chld);
     void setColumns(const QString &columns);
 
 protected:
@@ -29,7 +29,7 @@ public:
     alSplitBox(const AlteratorRequestActionAttrs &attr, const QString &id,const QString &parent, Qt::Orientation orientation, const QString &columns);
 
     void setAttr(const QString& name,const QString& value);
-    void addChild(QWidget *chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs &attr);
+    void postAddChild(QWidget *chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs &attr);
 };
 
 #endif

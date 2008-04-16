@@ -5,7 +5,14 @@
 
 #include "al_widget.hh"
 
-class alSpinBox: public alWidgetPre<QDoubleSpinBox>
+class ASpinBox: public QDoubleSpinBox
+{
+public:
+    ASpinBox(QWidget *parent, Qt::Orientation): QDoubleSpinBox(parent) {};
+    ~ASpinBox() {};
+};
+
+class alSpinBox: public alWidgetPre<ASpinBox>
 {
 Q_OBJECT
 public:

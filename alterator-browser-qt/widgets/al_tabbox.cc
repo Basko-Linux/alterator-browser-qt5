@@ -2,7 +2,7 @@
 #include "widgetlist.hh"
 
 alTabBox::alTabBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation):
-	alWidgetPre<QTabWidget>(attr,(orientation==Qt::Vertical)?WVTabBox:WHTabBox,id,parent)
+	alWidgetPre<ATabWidget>(attr,(orientation==Qt::Vertical)?WVTabBox:WHTabBox,id,parent)
 {
     orientation_ = orientation;
 }
@@ -31,9 +31,9 @@ QString alTabBox::postData() const
 // alTabPage
 
 alTabPage::alTabPage(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation):
-    alWidgetPre<QWidget>(attr,(orientation==Qt::Vertical)?WVTabPage:WHTabPage,id,":reparent:"+parent),
+    alWidgetPre<ATabPage>(attr,(orientation==Qt::Vertical)?WVTabPage:WHTabPage,id,":reparent:"+parent),
     tabbox_(getParentTabBox(parent)),
-    idx_(tabbox_?static_cast<QTabWidget*>(tabbox_->getWidget())->addTab(wnd_,""):-1)
+    idx_(tabbox_?static_cast<ATabWidget*>(tabbox_->getWidget())->addTab(wnd_,""):-1)
 {
     Qt::Orientation orient;
     if( orientation )
@@ -65,7 +65,7 @@ alTabBox* alTabPage::getParentTabBox(const QString& parent_)
 void alTabPage::setAttr(const QString& name,const QString& value)
 {
 	if ("text" == name)
-		static_cast<QTabWidget*>(tabbox_->getWidget())->setTabText(idx_,value);
+		static_cast<ATabWidget*>(tabbox_->getWidget())->setTabText(idx_,value);
 	else
 		alWidget::setAttr(name,value);
 }

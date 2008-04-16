@@ -214,7 +214,7 @@ void AnalogClock::paintEvent(QPaintEvent*)
 
 // ATimeEdit
 
-ATimeEdit::ATimeEdit(QWidget *parent):
+ATimeEdit::ATimeEdit(QWidget *parent, Qt::Orientation):
     QWidget(parent)
 {
     state_edit = false;

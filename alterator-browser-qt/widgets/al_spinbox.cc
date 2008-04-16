@@ -1,7 +1,7 @@
 
 #include "al_spinbox.hh"
 alSpinBox::alSpinBox(const AlteratorRequestActionAttrs &attr, const QString& id, const QString& parent):
-    alWidgetPre<QDoubleSpinBox>(attr,WSpinBox,id,parent)
+    alWidgetPre<ASpinBox>(attr,WSpinBox,id,parent)
 {
 }
 

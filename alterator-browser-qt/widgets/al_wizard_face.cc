@@ -11,8 +11,8 @@ extern alWizardFace *wizard_face;
 extern Enums *enums;
 
 // AWizardFace
-AWizardFace::AWizardFace(QWidget *parent, Qt::WFlags f):
-    QWidget(parent, f)
+AWizardFace::AWizardFace(QWidget *parent, Qt::Orientation):
+    QWidget(parent)
 {
 
     current_step = 0;

@@ -9,7 +9,7 @@ class ASlider: public QSlider
 {
 Q_OBJECT
 public:
-    ASlider(QWidget *parent);
+    ASlider(QWidget *parent, Qt::Orientation);
     ~ASlider();
 
 signals:

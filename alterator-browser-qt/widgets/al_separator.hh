@@ -4,7 +4,14 @@
 #include <QFrame>
 #include "widgets.hh"
 
-class alSeparator: public alWidgetPre<QFrame>
+class ASeparator: public QFrame
+{
+public:
+    ASeparator(QWidget *parent, Qt::Orientation): QFrame(parent) {};
+    ~ASeparator() {};
+};
+
+class alSeparator: public alWidgetPre<ASeparator>
 {
 Q_OBJECT
 public:

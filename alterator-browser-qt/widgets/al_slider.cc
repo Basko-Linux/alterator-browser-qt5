@@ -3,7 +3,7 @@
 
 #include "al_slider.hh"
 
-ASlider::ASlider(QWidget *parent):
+ASlider::ASlider(QWidget *parent, Qt::Orientation):
     QSlider(parent)
 {
     timeout = 300;

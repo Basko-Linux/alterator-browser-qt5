@@ -55,7 +55,7 @@ class ATimeEdit: public QWidget
 {
 Q_OBJECT
 public:
-    ATimeEdit(QWidget *parent = 0);
+    ATimeEdit(QWidget *parent, Qt::Orientation);
     ~ATimeEdit();
 
     void setExpanded(bool);

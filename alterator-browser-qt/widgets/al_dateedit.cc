@@ -1,7 +1,7 @@
 
 #include "al_dateedit.hh"
 
-ADateEdit::ADateEdit(QWidget *parent):
+ADateEdit::ADateEdit(QWidget *parent, Qt::Orientation):
     QWidget(parent)
 {
     lay = new QVBoxLayout(this);

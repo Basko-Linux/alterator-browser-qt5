@@ -5,7 +5,14 @@
 
 #include "al_widget.hh"
 
-class alCheckBox: public alWidgetPre<QCheckBox>
+class ACheckBox: public QCheckBox
+{
+public:
+    ACheckBox(QWidget *parent, Qt::Orientation): QCheckBox(parent) {};
+    ~ACheckBox() {};
+};
+
+class alCheckBox: public alWidgetPre<ACheckBox>
 {
 public:
 	alCheckBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent);

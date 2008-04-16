@@ -4,7 +4,14 @@
 
 #include "al_widget.hh"
 
-class alBox: public alWidgetPre<QWidget>
+class ASimpleBox: public QWidget
+{
+public:
+    ASimpleBox(QWidget *parent, Qt::Orientation): QWidget(parent) {};
+    ~ASimpleBox() {};
+};
+
+class alBox: public alWidgetPre<ASimpleBox>
 {
 public:
 	alBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation);

@@ -319,7 +319,7 @@ void alWidget::destroyLater()
     deleteLater();
 }
 
-void alWidget::addChild(QWidget* chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs&)
+void alWidget::postAddChild(QWidget* chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs&)
 {
     switch( type )
     {

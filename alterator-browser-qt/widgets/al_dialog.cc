@@ -2,7 +2,7 @@
 
 #include "al_dialog.hh"
 
-ADialog::ADialog(QWidget *parent):
+ADialog::ADialog(QWidget *parent, Qt::Orientation):
     QDialog(0)
 {
     key2btn["ok"]=QDialogButtonBox::Ok;

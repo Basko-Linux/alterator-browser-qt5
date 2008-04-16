@@ -4,7 +4,7 @@
 
 #include "al_slideshow.hh"
 
-ASlideShow::ASlideShow(QWidget *parent):
+ASlideShow::ASlideShow(QWidget *parent, Qt::Orientation):
     QLabel(parent)
 {
     setWordWrap( true );

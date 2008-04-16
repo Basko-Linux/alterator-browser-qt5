@@ -5,7 +5,14 @@
 
 #include "al_widget.hh"
 
-class alGroupBox: public alWidgetPre<QGroupBox>
+class AGroupBox: public QGroupBox
+{
+public:
+    AGroupBox(QWidget *parent, Qt::Orientation): QGroupBox(parent) {};
+    ~AGroupBox() {};
+};
+
+class alGroupBox: public alWidgetPre<AGroupBox>
 {
 public:
 	alGroupBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation, bool checkable);

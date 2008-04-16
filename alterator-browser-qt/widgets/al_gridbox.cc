@@ -1,7 +1,7 @@
 
 #include "al_gridbox.hh"
 
-AGridBox::AGridBox(QWidget *parent):
+AGridBox::AGridBox(QWidget *parent, Qt::Orientation):
     QWidget(parent)
 {
     columns_ = 0;
@@ -49,7 +49,7 @@ void AGridBox::setColumns(const QString &columns)
     //qDebug("gridbox::setColumns: %d columns", columns_);
 }
 
-void AGridBox::addChild(QWidget* chld, int rowspan, int colspan)
+void AGridBox::postAddChild(QWidget* chld, int rowspan, int colspan)
 {
     int rows = rowspan; if ( rows <= 0 ) rows = 1;
     int cols = colspan; if ( cols <= 0 ) cols = 1;
@@ -134,7 +134,7 @@ QLayout* alGridBox::getViewLayout()
     return wnd_->getViewLayout();
 }
 
-void alGridBox::addChild(QWidget *chld, AlteratorWidgetType, const AlteratorRequestActionAttrs& attr)
+void alGridBox::postAddChild(QWidget *chld, AlteratorWidgetType, const AlteratorRequestActionAttrs& attr)
 {
-    wnd_->addChild(chld, attr[AltReqParamWRowSpan].i, attr[AltReqParamWColSpan].i);
+    wnd_->postAddChild(chld, attr[AltReqParamWRowSpan].i, attr[AltReqParamWColSpan].i);
 }

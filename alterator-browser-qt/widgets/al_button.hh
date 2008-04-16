@@ -5,11 +5,18 @@
 
 #include "al_widget.hh"
 
-class alButton: public alWidgetPre<QPushButton>
+class AButton: public QPushButton
+{
+public:
+    AButton(QWidget *parent, Qt::Orientation): QPushButton(parent) {};
+    ~AButton() {};
+};
+
+class alButton: public alWidgetPre<AButton>
 {
 public:
 	alButton(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
-		alWidgetPre<QPushButton>(attr,WButton,id,parent)
+		alWidgetPre<AButton>(attr,WButton,id,parent)
 	{}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);

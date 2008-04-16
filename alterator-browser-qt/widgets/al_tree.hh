@@ -5,7 +5,14 @@
 
 #include "al_widget.hh"
 
-class alTree: public alWidgetPre<QTreeWidget>
+class ATreeWidget: public QTreeWidget
+{
+public:
+    ATreeWidget(QWidget *parent, Qt::Orientation): QTreeWidget(parent) {};
+    ~ATreeWidget() {};
+};
+
+class alTree: public alWidgetPre<ATreeWidget>
 {
 Q_OBJECT
 public:

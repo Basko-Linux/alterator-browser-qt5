@@ -1,7 +1,7 @@
 
 #include "al_splitbox.hh"
 
-ASplitBox::ASplitBox(QWidget *parent):
+ASplitBox::ASplitBox(QWidget *parent, Qt::Orientation):
     QSplitter(parent)
 {
     columns_.clear();
@@ -11,7 +11,7 @@ ASplitBox::ASplitBox(QWidget *parent):
 
 ASplitBox::~ASplitBox() {}
 
-void ASplitBox::addChild(QWidget* chld)
+void ASplitBox::postAddChild(QWidget* chld)
 {
     addWidget(chld);
 
@@ -96,9 +96,9 @@ alSplitBox::alSplitBox(const AlteratorRequestActionAttrs &attr, const QString &i
 	wnd_->setColumns(columns);
 }
 
-void alSplitBox::addChild(QWidget *chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs&)
+void alSplitBox::postAddChild(QWidget *chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs&)
 {
-    wnd_->addChild(chld);
+    wnd_->postAddChild(chld);
 }
 
 void alSplitBox::setAttr(const QString& name,const QString& value)

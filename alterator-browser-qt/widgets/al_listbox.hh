@@ -13,7 +13,7 @@ Q_OBJECT
 public:
 	enum ListType { ListBox, MultiListBox, RadioListBox, CheckListBox };
 	enum RowType { Row, Header };
-	ASuperListBox(QWidget *parent=0);
+	ASuperListBox(QWidget *parent, Qt::Orientation);
 	~ASuperListBox();
 
 	ListType listType();

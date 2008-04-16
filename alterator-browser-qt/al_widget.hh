@@ -33,7 +33,7 @@ public:
 	virtual void registerEvent(const QString&) {}
 	virtual QString postData() const { return ""; }
 
-	virtual void addChild(QWidget* chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs &attr);
+	virtual void postAddChild(QWidget* chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs &attr);
 	virtual QWidget *getWidget(void) = 0;
 	virtual QLayout *getViewLayout(void) = 0;
 	virtual QWidget *getViewWidget(void) = 0;
@@ -99,10 +99,10 @@ public slots:
 alWidget* createWidgetGetParent(const QString& parent);
 
 template <typename Widget>
-Widget *createWidget(const QString& parent)
+Widget *createWidget(const QString& parent = 0, const Qt::Orientation o = Qt::Vertical)
 {
     alWidget *aw = createWidgetGetParent(parent);
-    return new Widget((aw)? aw->getViewWidget(): 0);
+    return new Widget((aw)? aw->getViewWidget(): 0, o);
 }
 
 template <typename Widget>
@@ -114,12 +114,12 @@ private:
     void init(Widget *wnd_, const QString& parent, AlteratorWidgetType type, const AlteratorRequestActionAttrs &attr);
 public:
 	alWidgetPre(const AlteratorRequestActionAttrs &attr, AlteratorWidgetType type, const QString& id,const QString& parent):
-		alWidget(type,id,Utils::reparentTag(parent)),
-		wnd_(createWidget<Widget>(parent))
+		alWidget(type,id,Utils::reparentTag(parent))
 	{
+	    wnd_ = createWidget<Widget>(parent, attr[AltReqParamWOrientation].o);
 	    alWidget *a_parent = createWidgetGetParent(parent);
 	    if( a_parent )
-		a_parent->addChild(wnd_, type, attr);
+		a_parent->postAddChild(wnd_, type, attr);
 	}
 	~alWidgetPre() { wnd_->deleteLater(); }
 

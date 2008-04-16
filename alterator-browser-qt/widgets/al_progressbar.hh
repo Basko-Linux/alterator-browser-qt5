@@ -5,7 +5,14 @@
 
 #include "al_widget.hh"
 
-class alProgressBar: public alWidgetPre<QProgressBar>
+class AProgressBar: public QProgressBar
+{
+public:
+    AProgressBar(QWidget *parent, Qt::Orientation): QProgressBar(parent) {};
+    ~AProgressBar() {};
+};
+
+class alProgressBar: public alWidgetPre<AProgressBar>
 {
 public:
     alProgressBar(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent);

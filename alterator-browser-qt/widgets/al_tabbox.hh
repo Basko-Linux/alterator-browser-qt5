@@ -5,7 +5,21 @@
 
 #include "al_widget.hh"
 
-class alTabBox: public alWidgetPre<QTabWidget>
+class ATabWidget: public QTabWidget
+{
+public:
+    ATabWidget(QWidget *parent, Qt::Orientation): QTabWidget(parent) {};
+    ~ATabWidget() {};
+};
+
+class ATabPage: public QWidget
+{
+public:
+    ATabPage(QWidget *parent, Qt::Orientation): QWidget(parent) {};
+    ~ATabPage() {};
+};
+
+class alTabBox: public alWidgetPre<ATabWidget>
 {
 public:
 	alTabBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation);
@@ -17,7 +31,7 @@ private:
 	Qt::Orientation orientation_;
 };
 
-class alTabPage: public alWidgetPre<QWidget>
+class alTabPage: public alWidgetPre<ATabPage>
 {
 	alTabBox  *tabbox_;
 	int idx_;

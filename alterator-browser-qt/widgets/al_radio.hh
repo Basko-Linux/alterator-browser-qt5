@@ -5,11 +5,18 @@
 
 #include "al_widget.hh"
 
-class alRadio: public alWidgetPre<QRadioButton>
+class ARadio: public QRadioButton
+{
+public:
+    ARadio(QWidget *parent, Qt::Orientation): QRadioButton(parent) {};
+    ~ARadio() {};
+};
+
+class alRadio: public alWidgetPre<ARadio>
 {
 public:
 	alRadio(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
-		alWidgetPre<QRadioButton>(attr,WRadio,id,parent)
+		alWidgetPre<ARadio>(attr,WRadio,id,parent)
 	{}
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
