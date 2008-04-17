@@ -184,33 +184,25 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	}
 }
 
-QSizePolicy alWidget::adjustSizePolicy(const AlteratorWidgetType type, const QSizePolicy policy, const Qt::Orientation parent_orientation)
+QSizePolicy alWidget::adjustSizePolicy(const AlteratorWidgetType type, const QSizePolicy policy, const Qt::Orientation orient, const Qt::Orientation)
 {
     QSizePolicy szpol = policy;
     switch( type )
     {
 	case WBox:
 	case WVBox:
-	{
-	    szpol.setVerticalPolicy(QSizePolicy::Expanding);
-	    break;
-	}
 	case WHBox:
-	{
-	    szpol.setHorizontalPolicy(QSizePolicy::Expanding);
-	    break;
-	}
 	case WTabBox:
 	case WVTabBox:
+	case WHTabBox:
 	case WGroupBox:
 	case WVGroupBox:
-	{
-	    szpol.setVerticalPolicy(QSizePolicy::Expanding);
-	}
-	case WHTabBox:
 	case WHGroupBox:
 	{
-	    szpol.setHorizontalPolicy(QSizePolicy::Expanding);
+	    if( orient == Qt::Horizontal )
+		szpol.setHorizontalPolicy(QSizePolicy::Expanding);
+	    else
+		szpol.setVerticalPolicy(QSizePolicy::Expanding);
 	    break;
 	}
 	case WGridBox:
@@ -263,7 +255,7 @@ QSizePolicy alWidget::adjustSizePolicy(const AlteratorWidgetType type, const QSi
 	case WSeparator:
 	{
 /*
-	    if( parent_orientation == Qt::Horizontal )
+	    if( parent_orient == Qt::Horizontal )
 	    {
 		szpol.setHorizontalPolicy(QSizePolicy::Fixed);
 		szpol.setVerticalPolicy(QSizePolicy::Expanding);
@@ -319,7 +311,7 @@ void alWidget::destroyLater()
     deleteLater();
 }
 
-void alWidget::postAddChild(QWidget* chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs&)
+void alWidget::postAddChild(QWidget* chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs &attr)
 {
     switch( type )
     {
@@ -338,7 +330,7 @@ void alWidget::postAddChild(QWidget* chld, AlteratorWidgetType type, const Alter
 		    Qt::Orientation orientation = Qt::Horizontal;
 		    if( bl->direction() == QBoxLayout::TopToBottom || bl->direction() == QBoxLayout::BottomToTop )
 			orientation = Qt::Vertical;
-		    chld->setSizePolicy(adjustSizePolicy( type, chld->sizePolicy(), orientation ));
+		    chld->setSizePolicy(adjustSizePolicy( type, chld->sizePolicy(), attr[AltReqParamWOrientation].o, orientation ));
 		    if( childrenAlignment() != Qt::AlignJustify )
 			bl->addWidget(chld, 0, childrenAlignment());
 		    else

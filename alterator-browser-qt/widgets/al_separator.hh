@@ -7,7 +7,7 @@
 class ASeparator: public QFrame
 {
 public:
-    ASeparator(QWidget *parent, Qt::Orientation): QFrame(parent) {};
+    ASeparator(QWidget *parent, const Qt::Orientation): QFrame(parent) {};
     ~ASeparator() {};
 };
 

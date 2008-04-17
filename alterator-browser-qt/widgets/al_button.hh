@@ -8,7 +8,7 @@
 class AButton: public QPushButton
 {
 public:
-    AButton(QWidget *parent, Qt::Orientation): QPushButton(parent) {};
+    AButton(QWidget *parent,const Qt::Orientation): QPushButton(parent) {};
     ~AButton() {};
 };
 

@@ -8,7 +8,7 @@
 class AProgressBar: public QProgressBar
 {
 public:
-    AProgressBar(QWidget *parent, Qt::Orientation): QProgressBar(parent) {};
+    AProgressBar(QWidget *parent, const Qt::Orientation): QProgressBar(parent) {};
     ~AProgressBar() {};
 };
 

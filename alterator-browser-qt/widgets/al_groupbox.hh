@@ -8,33 +8,22 @@
 class AGroupBox: public QGroupBox
 {
 public:
-    AGroupBox(QWidget *parent, Qt::Orientation): QGroupBox(parent) {};
-    ~AGroupBox() {};
+    AGroupBox(QWidget *parent, const Qt::Orientation);
+    ~AGroupBox();
+
+    void setMyTitle(const QString&);
+
+private:
+    QBoxLayout *l;
 };
 
 class alGroupBox: public alWidgetPre<AGroupBox>
 {
 public:
-	alGroupBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation, bool checkable);
+	alGroupBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent);
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const ;
-};
-
-class alVGroupBox: public alGroupBox
-{
-public:
-	alVGroupBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, bool checkable):
-		alGroupBox(attr,id,parent,Qt::Vertical, checkable)
-	{}
-};
-
-class alHGroupBox: public alGroupBox
-{
-public:
-	alHGroupBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, bool checkable):
-		alGroupBox(attr,id,parent,Qt::Horizontal, checkable)
-	{}
 };
 
 #endif

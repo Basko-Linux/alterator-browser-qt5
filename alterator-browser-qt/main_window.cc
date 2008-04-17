@@ -586,17 +586,17 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 		new_widget = new alGridBox(attr,id,parent_id, "100");
 	    break;
 	}
-	case WBox: {         new_widget = new alBox(attr,id,parent_id,orientation); break; }
-	case WVBox: {        new_widget = new alVBox(attr,id,parent_id); break; }
-	case WHBox: {        new_widget = new alHBox(attr,id,parent_id); break; }
+	case WBox:
+	case WVBox:
+	case WHBox: {        new_widget = new alBox(attr,id,parent_id); break; }
+	case WVGroupBox:
+	case WHGroupBox:
+	case WGroupBox: {    new_widget = new alGroupBox(attr,id,parent_id); break; }
 	case WButton: {      new_widget = new alButton(attr,id,parent_id); break; }
 	case WRadio: {       new_widget = new alRadio(attr,id,parent_id); break; }
 	case WLabel: {       new_widget = new alLabel(attr,id,parent_id); break; }
 	case WEdit: {        new_widget = new alEdit(attr,id,parent_id); break; }
 	case WTextBox: {     new_widget = new alTextBox(attr,id,parent_id); break; }
-	case WVGroupBox:
-	case WHGroupBox:
-	case WGroupBox: {    new_widget = new alGroupBox(attr,id,parent_id,orientation, attr[AltReqParamWChecked].b); break; }
 	case WGridBox: {     new_widget = new alGridBox(attr,id,parent_id, columns); break; }
 	case WCheckBox: {    new_widget = new alCheckBox(attr,id,parent_id); break; }
 	case WTree: {        new_widget = new alTree(attr,id,parent_id, columns); break; }

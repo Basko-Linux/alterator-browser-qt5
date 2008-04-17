@@ -46,7 +46,7 @@ public:
 
 	virtual void markRequired(bool) {};
 	virtual void show(bool) = 0;
-	static QSizePolicy adjustSizePolicy(const AlteratorWidgetType, const QSizePolicy, const Qt::Orientation parent_orientation);
+	static QSizePolicy adjustSizePolicy(const AlteratorWidgetType, const QSizePolicy, const Qt::Orientation orient, const Qt::Orientation parent_orient);
 	void setChildrenAlignment(Qt::Alignment);
 	Qt::Alignment childrenAlignment();
 

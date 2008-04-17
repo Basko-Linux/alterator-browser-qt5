@@ -8,7 +8,7 @@
 class ASpinBox: public QDoubleSpinBox
 {
 public:
-    ASpinBox(QWidget *parent, Qt::Orientation): QDoubleSpinBox(parent) {};
+    ASpinBox(QWidget *parent, const Qt::Orientation): QDoubleSpinBox(parent) {};
     ~ASpinBox() {};
 };
 

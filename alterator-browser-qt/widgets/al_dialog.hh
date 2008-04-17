@@ -10,7 +10,7 @@ class ADialog: public QDialog
 {
     Q_OBJECT
 public:
-	ADialog(QWidget *parent, Qt::Orientation);
+	ADialog(QWidget *parent, const Qt::Orientation);
 	QWidget* getView();
 
 	void addAction(const QString& key, const QString& name, const QString& pixmap);

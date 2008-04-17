@@ -8,7 +8,7 @@
 class ARadio: public QRadioButton
 {
 public:
-    ARadio(QWidget *parent, Qt::Orientation): QRadioButton(parent) {};
+    ARadio(QWidget *parent, const Qt::Orientation): QRadioButton(parent) {};
     ~ARadio() {};
 };
 

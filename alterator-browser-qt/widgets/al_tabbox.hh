@@ -8,14 +8,14 @@
 class ATabWidget: public QTabWidget
 {
 public:
-    ATabWidget(QWidget *parent, Qt::Orientation): QTabWidget(parent) {};
+    ATabWidget(QWidget *parent, const Qt::Orientation): QTabWidget(parent) {};
     ~ATabWidget() {};
 };
 
 class ATabPage: public QWidget
 {
 public:
-    ATabPage(QWidget *parent, Qt::Orientation): QWidget(parent) {};
+    ATabPage(QWidget *parent, const Qt::Orientation): QWidget(parent) {};
     ~ATabPage() {};
 };
 

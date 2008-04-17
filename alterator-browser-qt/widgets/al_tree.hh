@@ -8,7 +8,7 @@
 class ATreeWidget: public QTreeWidget
 {
 public:
-    ATreeWidget(QWidget *parent, Qt::Orientation): QTreeWidget(parent) {};
+    ATreeWidget(QWidget *parent, const Qt::Orientation): QTreeWidget(parent) {};
     ~ATreeWidget() {};
 };
 

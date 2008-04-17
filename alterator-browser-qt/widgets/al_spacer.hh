@@ -7,7 +7,7 @@
 class ASpacer: public QWidget
 {
 public:
-    ASpacer(QWidget *parent, Qt::Orientation): QWidget(parent) {};
+    ASpacer(QWidget *parent, const Qt::Orientation): QWidget(parent) {};
     ~ASpacer() {};
 };
 

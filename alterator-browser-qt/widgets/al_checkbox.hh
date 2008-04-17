@@ -8,7 +8,7 @@
 class ACheckBox: public QCheckBox
 {
 public:
-    ACheckBox(QWidget *parent, Qt::Orientation): QCheckBox(parent) {};
+    ACheckBox(QWidget *parent, const Qt::Orientation): QCheckBox(parent) {};
     ~ACheckBox() {};
 };
 

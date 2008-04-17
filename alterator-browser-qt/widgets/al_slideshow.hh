@@ -9,7 +9,7 @@ class ASlideShow: public QLabel
 {
 Q_OBJECT
 public:
-    ASlideShow(QWidget *parent, Qt::Orientation);
+    ASlideShow(QWidget *parent, const Qt::Orientation);
     ~ASlideShow();
 
     void setSource(const QString&);

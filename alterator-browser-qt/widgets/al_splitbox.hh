@@ -8,7 +8,7 @@
 class ASplitBox: public QSplitter
 {
 public:
-    ASplitBox(QWidget *parent, Qt::Orientation);
+    ASplitBox(QWidget *parent, const Qt::Orientation);
     ~ASplitBox();
 
     void postAddChild(QWidget *chld);

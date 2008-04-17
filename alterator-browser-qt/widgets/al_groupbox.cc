@@ -1,42 +1,69 @@
 
 #include "al_groupbox.hh"
 
-alGroupBox::alGroupBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation, bool checkable):
-	alWidgetPre<AGroupBox>(attr,(orientation==Qt::Vertical)?WVGroupBox:WHGroupBox,id,parent)
+extern Enums *enums;
+
+AGroupBox::AGroupBox(QWidget *parent, const Qt::Orientation o):
+    QGroupBox(parent)
 {
-    wnd_->setCheckable(checkable);
-    QBoxLayout *l;
-    Qt::Orientation o = Utils::fixOrientation(orientation, Qt::Vertical);
-    if( o == Qt::Horizontal )
-	l = new QHBoxLayout(getViewWidget());
+    setFlat(false);
+    setCheckable(false);
+    Qt::Orientation orient = Utils::fixOrientation(o, Qt::Vertical);
+    if( orient == Qt::Horizontal )
+	l = new QHBoxLayout(this);
     else
-	l = new QVBoxLayout(getViewWidget());
+	l = new QVBoxLayout(this);
     l->setSpacing(5);
     l->setMargin(5);
 }
 
+AGroupBox::~AGroupBox()
+{}
+
+void AGroupBox::setMyTitle(const QString& txt)
+{
+    setTitle(txt);
+}
+
+// alGroupBox
+alGroupBox::alGroupBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
+		alWidgetPre<AGroupBox>(attr,attr[AltReqParamWType].t,id,parent)
+{
+    switch( type() )
+    {
+	case WVGroupBox:
+	case WHGroupBox:
+	case WGroupBox:
+	{
+	    wnd_->setCheckable(attr[AltReqParamWChecked].b);
+	    break;
+	}
+	default:
+	    break;
+    }
+}
+
 void alGroupBox::setAttr(const QString& name,const QString& value)
 {
-	if ("title" == name)
-		wnd_->setTitle(value);
-	else if ("state" == name)
-		wnd_->setChecked("true" ==  value);
-	else
-		alWidget::setAttr(name,value);
+    if ("title" == name)
+	wnd_->setMyTitle(value);
+    else if ("state" == name)
+	wnd_->setChecked("true" ==  value);
+    else
+	alWidget::setAttr(name,value);
 }
 
 void alGroupBox::registerEvent(const QString& name)
 {
-	if ("toggled" == name)
-		connect(wnd_,SIGNAL( toggled(bool) ),SLOT(onToggle(bool)));
+    if ("toggled" == name)
+	connect(wnd_,SIGNAL( toggled(bool) ),SLOT(onToggle(bool)));
 }
 
 
 QString alGroupBox::postData() const
 {
-	if (wnd_->isCheckable())
-		return QString(" (state . %1 )").arg(wnd_->isChecked()?"#t":"#f");
-	else
-		return "";
+    if (wnd_->isCheckable())
+	return QString(" (state . %1 )").arg(wnd_->isChecked()?"#t":"#f");
+    else
+	return "";
 }
-

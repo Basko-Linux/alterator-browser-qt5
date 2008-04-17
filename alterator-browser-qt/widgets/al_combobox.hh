@@ -10,7 +10,7 @@ class AComboBox: public QComboBox
 {
 Q_OBJECT
 public:
-    AComboBox(QWidget *parent, Qt::Orientation);
+    AComboBox(QWidget *parent, const Qt::Orientation);
     ~AComboBox();
 signals:
 	void editingFinished();

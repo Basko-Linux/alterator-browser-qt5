@@ -74,6 +74,11 @@ AlteratorWidgetType Enums::strToWidget(const QString &str)
     return str2widget[str];
 }
 
+QString Enums::widgetToStr(const AlteratorWidgetType t)
+{
+    return str2widget.key(t);
+}
+
 UserActionType Enums::strToUserAction(const QString &str)
 {
     return str2u_action[str];

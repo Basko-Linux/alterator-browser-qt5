@@ -2,7 +2,7 @@
 #include "utils.hh"
 #include "al_textbox.hh"
 
-ATextEdit::ATextEdit(QWidget *parent, Qt::Orientation):
+ATextEdit::ATextEdit(QWidget *parent, const Qt::Orientation):
     QWidget(parent)
 {
     mark = new QLabel("*" ,this);

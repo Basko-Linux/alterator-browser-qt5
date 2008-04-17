@@ -9,7 +9,7 @@
 class AGridBox: public QWidget
 {
 public:
-    AGridBox(QWidget *parent, Qt::Orientation);
+    AGridBox(QWidget *parent, const Qt::Orientation);
     ~AGridBox();
 
     void setColumns(const QString&);

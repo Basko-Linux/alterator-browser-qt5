@@ -10,7 +10,7 @@ class ATextEdit: public QWidget
 {
 Q_OBJECT
 public:
-    ATextEdit(QWidget *parent, Qt::Orientation);
+    ATextEdit(QWidget *parent, const Qt::Orientation);
     ~ATextEdit();
     void markRequired(bool);
     void setUrl(const QString&);

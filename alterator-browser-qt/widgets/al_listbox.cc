@@ -4,7 +4,7 @@
 #include "al_listbox.hh"
 #include "a_pixmaps.hh"
 
-ASuperListBox::ASuperListBox(QWidget *parent, Qt::Orientation):
+ASuperListBox::ASuperListBox(QWidget *parent, const Qt::Orientation):
 		QTreeWidget(parent)
 {
     header()->hide();

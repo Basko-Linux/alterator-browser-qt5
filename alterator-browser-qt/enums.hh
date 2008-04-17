@@ -67,6 +67,7 @@ public:
 
     AlteratorRequestActionType strToRequestAction(const QString&);
     AlteratorWidgetType strToWidget(const QString&);
+    QString widgetToStr(const AlteratorWidgetType);
     UserActionType strToUserAction(const QString&);
 
 private:

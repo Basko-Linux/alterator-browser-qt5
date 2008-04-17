@@ -1,17 +1,44 @@
 
 #include "al_box.hh"
+#include "enums.hh"
 
-alBox::alBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation):
-		alWidgetPre<ASimpleBox>(attr,(orientation==Qt::Vertical)?WVBox:WHBox,id,parent)
+extern Enums *enums;
+
+ABox::ABox(QWidget *parent, const Qt::Orientation o):
+    QWidget(parent)
 {
-    qDebug("vbox, hbox, box widgets are deprecated. Use gridbox and widgets with colspan/rowspan attributes.");
-
-    QBoxLayout *l;
-    Qt::Orientation o = Utils::fixOrientation(orientation, Qt::Vertical);
-    if( o == Qt::Horizontal )
-	l = new QHBoxLayout(wnd_);
+    Qt::Orientation orient = Utils::fixOrientation(o, Qt::Vertical);
+    if( orient == Qt::Horizontal )
+	l = new QHBoxLayout(this);
     else
-	l = new QVBoxLayout(wnd_);
+	l = new QVBoxLayout(this);
     l->setSpacing(5);
     l->setMargin(0);
+}
+
+ABox::~ABox()
+{}
+
+void ABox::setMyTitle(const QString& txt)
+{
+    //setTitle(txt);
+}
+
+// alBox
+alBox::alBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
+		alWidgetPre<ABox>(attr,attr[AltReqParamWType].t,id,parent)
+{
+#if 0
+    switch( type() )
+    {
+	case WVBox:
+	case WHBox:
+	case WVGroupBox:
+	case WHGroupBox:
+	{
+	    wnd_->setMyTitle(enums->widgetToStr(type()));
+	}
+	default: break;
+    }
+#endif
 }

@@ -3,7 +3,7 @@
 #include "utils.hh"
 #include "al_edit.hh"
 
-AEdit::AEdit(QWidget *parent, Qt::Orientation):
+AEdit::AEdit(QWidget *parent, const Qt::Orientation):
     QWidget(parent)
 {
     mark = new QLabel("*" ,this);

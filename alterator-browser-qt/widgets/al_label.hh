@@ -8,7 +8,7 @@
 class ALabel: public QLabel
 {
 public:
-    ALabel(QWidget *parent, Qt::Orientation): QLabel(parent) {};
+    ALabel(QWidget *parent, const Qt::Orientation): QLabel(parent) {};
     ~ALabel() {};
 };
 
