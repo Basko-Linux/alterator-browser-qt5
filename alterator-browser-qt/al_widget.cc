@@ -55,6 +55,7 @@ void alWidget::onToggle(int) { main_window->emitEvent(id_,"toggled", AlteratorRe
 void alWidget::setAttr(const QString& name,const QString& value)
 {
 	QWidget *w = getWidget();
+	QLayout *l = getViewLayout();
 
 	if ("visibility" == name)
 	{
@@ -93,7 +94,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	    if(w)
 		w->setToolTip(tip);
 	}
-	else if ("title" == name)
+	else if ("window-title" == name || "title" == name)
 	{
 	    if(w)
 		w->window()->setWindowTitle(value);
@@ -130,19 +131,16 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	}
 	else if ("margin" == name)
 	{
-	    QLayout *l = getViewLayout();
 	    if( l )
 		l->setMargin(value.toInt());
 	}
 	else if ("spacing" == name)
 	{
-	    QLayout *l = getViewLayout();
 	    if( l )
 		l->setSpacing(value.toInt());
 	}
 	else if("clear-layout" == name)
 	{
-	    QLayout *l = getViewLayout();
 	    if( l )
 	    {
 		for (int i = 0; i < l->count(); ++i)
