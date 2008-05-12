@@ -72,7 +72,7 @@ alEdit::alEdit(const AlteratorRequestActionAttrs &attr, const QString& id,const 
 
 void alEdit::setAttr(const QString& name,const QString& value)
 {
-	if ("text" == name)
+	if ("text" == name || "value" == name)
 		wnd_->setText(value);
 	else if ("echo" == name) 
 		wnd_->setEchoMode(Utils::convertEchoMode(value));
@@ -93,7 +93,10 @@ void alEdit::registerEvent(const QString& name)
 
 QString alEdit::postData() const
 {
-	return QString(" (text . \"%1\" )").arg(Utils::simpleQuote(wnd_->text()));
+    QString ret;
+    ret += QString(" (text . \"%1\" )").arg(Utils::simpleQuote(wnd_->text()));
+    ret += QString(" (value . \"%1\" )").arg(Utils::simpleQuote(wnd_->text()));
+    return ret;
 }
 
 void alEdit::markRequired(bool req)
