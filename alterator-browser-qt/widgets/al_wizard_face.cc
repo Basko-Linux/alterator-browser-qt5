@@ -369,8 +369,11 @@ void AWizardFace::removeAction(const QString &key)
     if( buttons.contains(key) )
     {
 	QAbstractButton *b = buttons.take(key);
-	action_types.remove(key);
-	b->deleteLater();
+	if(b)
+	{
+	    action_types.remove(key);
+	    b->deleteLater();
+	}
     }
     else if( menus.contains(key) )
     {
