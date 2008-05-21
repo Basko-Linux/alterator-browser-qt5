@@ -10,7 +10,7 @@ void alCheckBox::setAttr(const QString& name,const QString& value)
 {
 	if ("text" == name)
 		wnd_->setText(value);
-	else if ("state" == name)
+	else if ("state" == name || "value" == name)
 		wnd_->setChecked("true" ==  value);
 	else
 		alWidget::setAttr(name,value);
@@ -24,6 +24,6 @@ void alCheckBox::registerEvent(const QString& name)
 
 QString alCheckBox::postData() const
 {
-	return QString(" (state . ") + (wnd_->isChecked()?"#t":"#f")+" )";
+	return QString(" (state . %1 )").arg(wnd_->isChecked()?"#t":"#f");
+	return QString(" (value . %1 )").arg(wnd_->isChecked()?"#t":"#f");
 }
-
