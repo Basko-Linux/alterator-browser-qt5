@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.76
+Version: 2.9.77
 Release: alt1
 
 Source:%name-%version.tar
@@ -77,6 +77,10 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Wed May 21 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.77-alt1
+- add value attribute to checkbox
+- initial centerface widget
+
 * Mon May 12 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.76-alt1
 - add value attribute for edit widget
 - add window-title value attribute for all widgets
