@@ -1,0 +1,582 @@
+
+#include <QScrollArea>
+
+#include "global.hh"
+#include "al_center_face.hh"
+#include "a_pixmaps.hh"
+
+extern Enums *enums;
+
+/* CenterSectionModulesList */
+ACenterSectionModulesList::ACenterSectionModulesList(QWidget *parent):
+    QListWidget(parent)
+{
+//    setFlow(LeftToRight);
+    setViewMode(IconMode);
+    setResizeMode(Adjust);
+//    setUniformItemSizes(true);
+    setWrapping(true);
+    setWordWrap(false);
+//    setTextElideMode(Qt::ElideNone);
+    setMovement(Static);
+//    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setAutoScroll(false);
+    setFrameStyle(NoFrame);
+
+    QFont items_font = font();
+    int items_spacing = qMax(items_font.pixelSize(), items_font.pointSize());
+    setSpacing(items_spacing);
+    setSelectionMode(QAbstractItemView::NoSelection);
+
+//    viewport()->installEventFilter(this);
+}
+
+ACenterSectionModulesList::~ACenterSectionModulesList()
+{}
+
+bool ACenterSectionModulesList::eventFilter(QObject *o, QEvent *e)
+{
+    if( o == viewport() && e->type() == QEvent::Resize)
+    {
+	QResizeEvent *re = static_cast<QResizeEvent*>(e);
+	if( re->oldSize() != re->size() )
+	{
+	    QList<QWidget*> chlds = viewport()->findChildren<QWidget*>();
+	    QLayout *vl = viewport()->layout();
+	    if( vl )
+	    {
+		//qDebug("lay count <%d>", vl->count());
+	    }
+	    //qDebug("chlds <%d>", chlds.count());
+	    //qDebug("viewport size<%d,%d>", viewport()->size().height(), viewport()->size().width());
+	    setMinimumHeight(re->size().height());
+	}
+    }
+
+    return QObject::eventFilter(o, e);
+}
+
+/* CenterSection */
+ACenterSection::ACenterSection(QWidget *parent, const QString &title_text):
+    QWidget(parent)
+{
+    setObjectName("module_section");
+    title = new QLabel(title_text, this);
+    title->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
+    QFont title_font( title->font() );
+    title_font.setBold( true );
+    title->setFont(title_font);
+
+    separator = new QFrame(this);
+    separator->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    separator->setFrameStyle(QFrame::HLine|QFrame::Sunken);
+
+    items = new ACenterSectionModulesList(this);
+    items->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+
+    QVBoxLayout *main_layout = new QVBoxLayout(this);
+    main_layout->setMargin(0);
+    main_layout->setSpacing(0);
+    main_layout->addWidget(title);
+    main_layout->addWidget(separator);
+    main_layout->addWidget(items);
+}
+
+ACenterSection::~ACenterSection()
+{}
+QString ACenterSection::getTitle()
+{
+    return title->text();
+}
+
+QListWidget* ACenterSection::getListWidget()
+{
+    return items;
+}
+
+/* ACenterFace */
+ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
+    QWidget(parent)
+{
+    sections_widget = new QWidget(this);
+    //sections_widget->setBackgroundRole(QPalette::Base);
+    module_widget = new QWidget(this);
+    buttonbox = new QDialogButtonBox(module_widget);
+    buttonbox->addButton("Test", QDialogButtonBox::HelpRole);
+
+    QScrollArea *scroll = new QScrollArea(module_widget);
+    //scroll->setBackgroundRole(QPalette::NoRole);
+    //scroll->viewport()->setBackgroundRole(QPalette::NoRole);
+    scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
+    scroll->setWidgetResizable( true );
+
+#if 0
+    view_widget = new QWidget(scroll->viewport());
+    view_widget->setObjectName("view");
+    scroll->setWidget(view_widget);
+#else
+    view_widget = scroll->viewport();
+#endif
+
+    QScrollArea *sections_scroll = new QScrollArea(sections_widget);
+    sections_scroll->setBackgroundRole(QPalette::Base);
+    sections_scroll->viewport()->setBackgroundRole(QPalette::Base);
+    sections_scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
+    sections_scroll->setWidgetResizable( true );
+
+#if 0
+    sections_view_widget = new QWidget(sections_scroll->viewport());
+    sections_view_widget->setObjectName("modules_view");
+    sections_scroll->setWidget(sections_view_widget);
+#else
+    sections_view_widget = sections_scroll->viewport();
+#endif
+
+    Qt::Orientation orient = Utils::fixOrientation(o, Qt::Vertical);
+    if( orient == Qt::Horizontal )
+	view_layout = new QHBoxLayout(view_widget);
+    else
+	view_layout = new QVBoxLayout(view_widget);
+    sections_view_layout = new QVBoxLayout(sections_view_widget);
+//    sections_view_layout->addStretch(1);
+
+    QVBoxLayout *sections_layout = new QVBoxLayout(sections_widget);
+    sections_layout->addWidget(sections_scroll);
+    module_layout = new QVBoxLayout(module_widget);
+    module_layout->addWidget(scroll);
+    module_layout->addWidget(buttonbox);
+
+    toolbox = new QToolBox(this);
+    toolbox->setBackgroundRole(QPalette::NoRole);
+    toolbox->addItem(sections_widget, tr("Modules List"));
+    toolbox->addItem(module_widget, tr("Current Module"));
+    toolbox->setCurrentWidget(sections_widget);
+
+    QVBoxLayout *main_layout = new QVBoxLayout;
+    main_layout->addWidget(toolbox);
+    setLayout(main_layout);
+
+    action_signal_mapper = new QSignalMapper(this);
+    connect(action_signal_mapper, SIGNAL(mapped(const QString &)),
+	this, SIGNAL(actionSelected(const QString &)));
+    connect( this, SIGNAL(actionSelected(const QString&)),
+	this, SLOT(onSelectAction(const QString&)) );
+}
+
+ACenterFace::~ACenterFace()
+{}
+
+void ACenterFace::clearActions()
+{
+    buttons.clear();
+    buttonbox->clear();
+}
+
+QPixmap ACenterFace::defaultActionIcon(UserActionType type)
+{
+    QString name;
+    switch( type )
+    {
+	case UserActionFinish:
+	    {
+		name = "theme:down";
+		break;
+	    }
+	case UserActionAbort:
+	    {
+		name = "theme:cancel";
+		break;
+	    }
+	case UserActionHelp:
+	    {
+		name = "theme:help";
+		break;
+	    }
+	case UserActionApply:
+	    {
+		name = "theme:apply";
+		break;
+	    }
+	case UserActionCancel:
+	    {
+		name = "theme:cancel";
+		break;
+	    }
+	case UserActionForward:
+	    {
+		name = "theme:forward";
+		break;
+	    }
+	case UserActionBackward:
+	    {
+		name = "theme:backward";
+		break;
+	    }
+	default:
+	    break;
+    }
+    return getPixmap(name);
+}
+
+void ACenterFace::addAction(const QString& key, const QString& name, const QString& pixmap)
+{
+    if( !key.isEmpty() )
+    {
+	UserActionType type = enums->strToUserAction(key);
+	addAction(key, type);
+	if( !name.isEmpty() )
+	    setActionText(key, name);
+	if( !pixmap.isEmpty() )
+	    setActionPixmap(key, pixmap);
+    }
+}
+
+void ACenterFace::addAction(const QString &key, UserActionType type)
+{
+    if( buttons.contains(key) )
+	return;
+
+    QPushButton *b = buttonbox->addButton("", QDialogButtonBox::ActionRole);
+    b->setIcon(QIcon(defaultActionIcon(type)));
+    buttons[key] = b;
+    connect(b, SIGNAL(clicked()), action_signal_mapper, SLOT(map()));
+    action_signal_mapper->setMapping(b, key);
+}
+
+void ACenterFace::removeAction(const QString &key)
+{
+    QAbstractButton *b = buttons.take(key);
+    if(b)
+    {
+	buttonbox->removeButton(b);
+    }
+}
+
+void ACenterFace::setActionText(const QString &key, const QString &value)
+{
+    if( buttons.contains(key) )
+	buttons[key]->setText(value);
+}
+
+void ACenterFace::setActionPixmap(const QString &key, const QString &value)
+{
+    if( buttons.contains(key) )
+	buttons[key]->setIcon(getPixmap(value));
+}
+
+void ACenterFace::clearModules()
+{
+    modules.clear();
+    QList<ACenterSection*> sections = sections_view_widget->findChildren<ACenterSection*>("module_section");
+    QListIterator<ACenterSection*> it(sections);
+    while(it.hasNext())
+    {
+        delete it.next();
+    }
+}
+
+void ACenterFace::addModule(const QString& key, const QString& section_title, const QString& name, const QString& pixmap)
+{
+    if( !key.isEmpty() && !section_title.isEmpty() )
+    {
+	ACenterSection *section = 0;
+	QList<ACenterSection*> sections = sections_view_widget->findChildren<ACenterSection*>("module_section");
+	QListIterator<ACenterSection*> it(sections);
+	while(it.hasNext())
+	{
+	    ACenterSection *sect = it.next();
+	    if( sect->getTitle() == section_title )
+		section = sect;
+	}
+	if( !section )
+	{
+	    section = new ACenterSection(sections_view_widget, section_title);
+	    sections_view_layout->addWidget(section);
+	    connect(section->getListWidget(), SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(onSelectModule(QListWidgetItem*)));
+	}
+	QListWidget *listw = section->getListWidget();
+	QListWidgetItem* i = new QListWidgetItem(getPixmap(pixmap), name);
+#if 0
+	{
+	    QStyle *style = listw->style();
+	    QFontMetrics fm(listw->font());
+	    const QRect &rect = fm.boundingRect(0, 0, 100, 1024, Qt::TextWordWrap, i->text());
+	    //i->setData(Qt::SizeHintRole, QSize(100, 32 + style->pixelMetric(QStyle::PM_FocusFrameVMargin) + rect.height()));
+	    //listw->setMinimumHeight(qMax(listw->minimumHeight(),i->data(Qt::SizeHintRole).toSize().height()));
+	    listw->setMinimumHeight(qMax(listw->minimumHeight(), 32 + style->pixelMetric(QStyle::PM_FocusFrameVMargin) + rect.height()));
+	}
+#endif
+	listw->addItem(i);
+	modules[key] = i;
+    }
+}
+
+void ACenterFace::setModuleText(const QString &key, const QString &value)
+{
+    if( modules.contains(key) )
+	modules[key]->setText(value);
+}
+
+void ACenterFace::setModulePixmap(const QString &key, const QString &value)
+{
+    if( modules.contains(key) )
+	modules[key]->setIcon(getPixmap(value));
+}
+
+void ACenterFace::removeModule(const QString &key)
+{
+    QListWidgetItem* i = modules[key];
+    if( i )
+    {
+	QList<ACenterSection*> sections = sections_view_widget->findChildren<ACenterSection*>("module_section");
+	QListIterator<ACenterSection*> it(sections);
+	while(it.hasNext())
+	{
+	    ACenterSection *sect = it.next();
+	    QListWidget *lstw = sect->getListWidget();
+	    if( lstw == i->listWidget() )
+	    {
+		modules.remove(key);
+		lstw->removeItemWidget(i);
+		if(lstw->count() <= 0)
+		    delete sect;
+	    }
+	}
+    }
+}
+
+QWidget* ACenterFace::getViewWidget()
+{
+    return view_widget;
+}
+
+QLayout* ACenterFace::getViewLayout()
+{
+    return view_layout;
+}
+
+void ACenterFace::onSelectAction(const QString& key)
+{
+    UserActionType type = enums->strToUserAction(key);
+    if( type == UserActionHelp )
+    {
+	QHelpEvent *hlp = new QHelpEvent((QEvent::Type)EVENT_HELP, QPoint(), QPoint());
+	QApplication::postEvent(main_window, hlp);
+    }
+    current_action_key = key;
+    emit actionSelected();
+}
+
+void ACenterFace::onSelectModule(QListWidgetItem *i)
+{
+    current_module_key = modules.key(i);
+    toolbox->setCurrentWidget(module_widget);
+    moduleSelected();
+}
+
+QString ACenterFace::currentActionKey()
+{
+    return current_action_key;
+}
+
+QString ACenterFace::currentModuleKey()
+{
+    return current_module_key;
+}
+
+/* alCenterFace */
+alCenterFace::alCenterFace(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
+    alWidgetPre<ACenterFace>(attr,WCenterFace,id,parent)
+{
+#if 0
+    wnd_->addModule("key1", "Section", "Module1", "theme:warning");
+    wnd_->addModule("key2", "Section", "Module Second 2", "theme:up");
+    wnd_->addModule("key3", "Section", "Module Second 3", "theme:left");
+    wnd_->addModule("key21", "Section2", "Module1", "theme:warning");
+    wnd_->addModule("key22", "Section2", "Module Second 2", "theme:up");
+    wnd_->addModule("key23", "Section2", "Module Second 3", "theme:left");
+    wnd_->addModule("key24", "Section2", "Module1", "theme:warning");
+    wnd_->addModule("key25", "Section2", "Module Second 2", "theme:up");
+    wnd_->addModule("key26", "Section2", "Module Second 3", "theme:left");
+    wnd_->addModule("key21", "Section2", "Module1", "theme:warning");
+    wnd_->addModule("key22", "Section2", "Module Second 2", "theme:up");
+    wnd_->addModule("key23", "Section2", "Module Second 3", "theme:left");
+
+    wnd_->addModule("key41", "Section4", "Module1", "theme:warning");
+    wnd_->addModule("key42", "Section4", "Module Second 2", "theme:up");
+    wnd_->addModule("key43", "Section4", "Module Second 3", "theme:left");
+    wnd_->addModule("key521", "Section52", "Module1", "theme:warning");
+    wnd_->addModule("key522", "Section52", "Module Second 2", "theme:up");
+    wnd_->addModule("key523", "Section52", "Module Second 3", "theme:left");
+    wnd_->addModule("key524", "Section52", "Module1", "theme:warning");
+    wnd_->addModule("key625", "Section62", "Module Second 2", "theme:up");
+    wnd_->addModule("key626", "Section62", "Module Second 3", "theme:left");
+    wnd_->addModule("key621", "Section62", "Module1", "theme:warning");
+    wnd_->addModule("key622", "Section62", "Module Second 2", "theme:up");
+    wnd_->addModule("key623", "Section62", "Module Second 3", "theme:left");
+
+    wnd_->addModule("key324", "Section21", "Module1", "theme:warning");
+    wnd_->addModule("key325", "Section21", "Module Second 2", "theme:up");
+    wnd_->addModule("key326", "Section21", "Module Second 3", "theme:left");
+    wnd_->addModule("key321", "Section21", "Module1", "theme:warning");
+    wnd_->addModule("key322", "Section21", "Module Second 2", "theme:up");
+    wnd_->addModule("key323", "Section21", "Module Second 3", "theme:left");
+    wnd_->addModule("key324", "Section21", "Module1", "theme:warning");
+    wnd_->addModule("key325", "Section21", "Module Second 2", "theme:up");
+    wnd_->addModule("key326", "Section21", "Module Second 3", "theme:left");
+    wnd_->addModule("key321", "Section21", "Module1", "theme:warning");
+    wnd_->addModule("key322", "Section21", "Module Second 2", "theme:up");
+    wnd_->addModule("key323", "Section21", "Module Second 3", "theme:left");
+    wnd_->addModule("key324", "Section21", "Module1", "theme:warning");
+    wnd_->addModule("key325", "Section21", "Module Second 2", "theme:up");
+    wnd_->addModule("key326", "Section21", "Module Second 3", "theme:left");
+#endif
+}
+
+alCenterFace::~alCenterFace(){}
+
+QWidget* alCenterFace::getViewWidget()
+{
+    return wnd_->getViewWidget();
+}
+
+QLayout* alCenterFace::getViewLayout()
+{
+    return wnd_->getViewLayout();
+}
+
+void alCenterFace::registerEvent(const QString& name)
+{
+    if ("clicked" == name)
+    {
+	connect(wnd_,SIGNAL(actionSelected()), SLOT(onClick()));
+    }
+    if ("selected" == name)
+	connect(wnd_,SIGNAL(moduleSelected()), SLOT(onSelect()));
+}
+
+QString alCenterFace::postData() const
+{
+    QString ret;
+    QString current_action = wnd_->currentActionKey();
+    if(!current_action.isEmpty())
+	ret += QString(" (current-action . \"%1\")").arg(current_action);
+    QString current_module = wnd_->currentModuleKey();
+    ret += QString(" (current-module . \"%1\")").arg(current_module);
+    return ret;
+}
+
+void alCenterFace::setAttr(const QString& name,const QString& value)
+{
+    if( "actions" == name )
+    {
+	wnd_->clearActions();
+	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringListIterator it(data);
+	forever
+	{
+	    QString key, name, pixmap;
+	    if(it.hasNext())
+		key = it.next();
+	    else
+		break;
+	    if(it.hasNext())
+		name = it.next();
+	    else
+		break;
+	    if(it.hasNext())
+		pixmap = it.next();
+	    else
+		break;
+	    wnd_->addAction(key, name, pixmap);
+	}
+    }
+    else if( "action-add" == name )
+    {
+	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringListIterator it(data);
+	if( data.size() > 0 )
+	{
+	    QString key, name, pixmap;
+	    if(it.hasNext())
+		key = it.next();
+	    if(it.hasNext())
+		name = it.next();
+	    if(it.hasNext())
+		pixmap = it.next();
+	    wnd_->addAction(key, name, pixmap);
+	}
+    }
+    else if( "action-remove" == name )
+    {
+	wnd_->removeAction(value);
+    }
+    else if( "actions-clear" == name )
+    {
+	wnd_->clearActions();
+    }
+    else if( "action-text" == name )
+    {
+	QStringList data = value.split(";", QString::KeepEmptyParts);
+	const int len = data.size();
+	if( len >= 2 )
+	    wnd_->setActionText(data[0], data[1]);
+    }
+    else if( "action-pixmap" == name )
+    {
+	QStringList data = value.split(";", QString::KeepEmptyParts);
+	const int len = data.size();
+	if( len >= 2 )
+	    wnd_->setActionPixmap(data[0], data[1]);
+    }
+    else if( "modules" == name )
+    {
+	wnd_->clearModules();
+	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringListIterator it(data);
+	if( data.size() > 0 )
+	{
+	    QString key, section, name, pixmap;
+	    if(it.hasNext())
+		key = it.next();
+	    if(it.hasNext())
+		section = it.next();
+	    if(it.hasNext())
+		name = it.next();
+	    if(it.hasNext())
+		pixmap = it.next();
+	    wnd_->addModule(key, section, name, pixmap);
+	}
+    }
+    else if( "module-add" == name )
+    {
+	QStringList data = value.split(";", QString::KeepEmptyParts);
+	if( data.size() >= 4 )
+	    wnd_->addModule(data[0], data[1], data[2], data[3]);
+    }
+    else if( "module-remove" == name )
+    {
+	wnd_->removeModule(value);
+    }
+    else if( "modules-clear" == name )
+    {
+	wnd_->clearModules();
+    }
+    else if( "module-text" == name )
+    {
+	QStringList data = value.split(";", QString::KeepEmptyParts);
+	const int len = data.size();
+	if( len >= 2 )
+	    wnd_->setModuleText(data[0], data[1]);
+    }
+    else if( "module-pixmap" == name )
+    {
+	QStringList data = value.split(";", QString::KeepEmptyParts);
+	const int len = data.size();
+	if( len >= 2 )
+	    wnd_->setModulePixmap(data[0], data[1]);
+    }
+    else
+	alWidget::setAttr(name,value);
+}
