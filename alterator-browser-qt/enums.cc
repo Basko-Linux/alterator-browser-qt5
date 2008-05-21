@@ -49,6 +49,7 @@ Enums::Enums()
     str2widget["slideshow"] = WSlideShow;
     str2widget["splitbox"] = WSplitBox;
     str2widget["wizardface"] = WWizardFace;
+    str2widget["centerface"] = WCenterFace;
 
     str2u_action["abort"]    = UserActionAbort;
     str2u_action["finish"]   = UserActionFinish;

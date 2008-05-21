@@ -278,6 +278,7 @@ QSizePolicy alWidget::adjustSizePolicy(const AlteratorWidgetType type, const QSi
 	case WDialog:
 	case WMainWidget:
 	case WWizardFace:
+	case WCenterFace:
 	case WUnknown:
 	    break;
 /*	default:

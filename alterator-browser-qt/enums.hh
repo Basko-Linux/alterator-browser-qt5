@@ -26,6 +26,7 @@ enum AlteratorRequestActionType
 
 enum AlteratorWidgetType {
     WUnknown = 0,       WWizardFace = 10,
+    WCenterFace = 15,
     WMainWidget = 20,    WDialog = 30,
     WLabel = 40,         WButton = 50,
     WRadio = 60,         WEdit = 70,

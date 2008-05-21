@@ -619,9 +619,15 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WMultiListBox:
 	case WCheckListBox: {new_widget = new alListBox(type,attr,id,parent_id,columns.toInt()); break; }
 	case WSlideShow: {   new_widget = new alSlideShow(attr,id,parent_id); break; }
+#if 1
 	case WSplitBox: {    new_widget = new alSplitBox(attr,id,parent_id,orientation,columns); break; }
+#else
+	case WSplitBox: {    new_widget = new alCenterFace(attr,id,parent_id); break; }
+#endif
+	case WCenterFace: {    new_widget = new alCenterFace(attr,id,parent_id); break; }
 	case WWizardFace:
 	{
+	    
 	    if( wizard_face )
 		new_widget = new alGridBox(attr,id,parent_id, "100");
 	    else

@@ -22,6 +22,7 @@
 #include "widgets/al_separator.hh"
 #include "widgets/al_spacer.hh"
 #include "widgets/al_wizard_face.hh"
+#include "widgets/al_center_face.hh"
 #include "widgets/al_gridbox.hh"
 #include "widgets/al_spinbox.hh"
 #include "widgets/al_dateedit.hh"
