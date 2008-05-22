@@ -24,6 +24,8 @@ void alCheckBox::registerEvent(const QString& name)
 
 QString alCheckBox::postData() const
 {
-	return QString(" (state . %1 )").arg(wnd_->isChecked()?"#t":"#f");
-	return QString(" (value . %1 )").arg(wnd_->isChecked()?"#t":"#f");
+    QString ret;
+    ret += QString(" (state . %1 )").arg(wnd_->isChecked()?"#t":"#f");
+    ret += QString(" (value . %1 )").arg(wnd_->isChecked()?"#t":"#f");
+    return ret;
 }
