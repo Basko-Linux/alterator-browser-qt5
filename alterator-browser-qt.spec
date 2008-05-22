@@ -3,7 +3,7 @@
 
 Name: alterator-browser-qt
 Version: 2.9.77
-Release: alt2
+Release: alt3
 
 Source:%name-%version.tar
 
@@ -77,6 +77,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Thu May 22 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.77-alt3
+- don't quote current-action and current-step in wisardface result
+
 * Thu May 22 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.77-alt2
 - fix to return value by checkbox
 
