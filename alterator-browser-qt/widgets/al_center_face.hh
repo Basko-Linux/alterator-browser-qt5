@@ -12,11 +12,15 @@
 
 class ACenterSectionModulesList: public QListWidget
 {
+Q_OBJECT
 public:
     ACenterSectionModulesList(QWidget *parent);
     ~ACenterSectionModulesList();
 
-    bool eventFilter(QObject *obj, QEvent *event);
+protected:
+    virtual bool viewportEvent(QEvent*) ;
+private:
+    QWidget *vp;
 };
 
 class ACenterSection: public QWidget

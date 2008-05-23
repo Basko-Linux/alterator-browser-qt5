@@ -1,5 +1,6 @@
 
 #include <QScrollArea>
+#include <QScrollBar>
 
 #include "global.hh"
 #include "al_center_face.hh"
@@ -11,17 +12,20 @@ extern Enums *enums;
 ACenterSectionModulesList::ACenterSectionModulesList(QWidget *parent):
     QListWidget(parent)
 {
-//    setFlow(LeftToRight);
+    viewport()->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+
+    setFlow(LeftToRight);
     setViewMode(IconMode);
     setResizeMode(Adjust);
-//    setUniformItemSizes(true);
-    setWrapping(true);
     setWordWrap(false);
+    setUniformItemSizes(true);
+    setWrapping(true);
 //    setTextElideMode(Qt::ElideNone);
     setMovement(Static);
 //    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 //    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setAutoScroll(false);
+//    setAutoScroll(false);
+    setDragDropMode(QAbstractItemView::NoDragDrop);
     setFrameStyle(NoFrame);
 
     QFont items_font = font();
@@ -29,32 +33,25 @@ ACenterSectionModulesList::ACenterSectionModulesList(QWidget *parent):
     setSpacing(items_spacing);
     setSelectionMode(QAbstractItemView::NoSelection);
 
-//    viewport()->installEventFilter(this);
+    setMinimumHeight(60);
 }
 
 ACenterSectionModulesList::~ACenterSectionModulesList()
 {}
 
-bool ACenterSectionModulesList::eventFilter(QObject *o, QEvent *e)
+bool ACenterSectionModulesList::viewportEvent(QEvent *e)
 {
-    if( o == viewport() && e->type() == QEvent::Resize)
+#if 0
+    if( e->type() == QEvent::Resize )
     {
-	QResizeEvent *re = static_cast<QResizeEvent*>(e);
-	if( re->oldSize() != re->size() )
-	{
-	    QList<QWidget*> chlds = viewport()->findChildren<QWidget*>();
-	    QLayout *vl = viewport()->layout();
-	    if( vl )
-	    {
-		//qDebug("lay count <%d>", vl->count());
-	    }
-	    //qDebug("chlds <%d>", chlds.count());
-	    //qDebug("viewport size<%d,%d>", viewport()->size().height(), viewport()->size().width());
-	    setMinimumHeight(re->size().height());
-	}
+	qDebug("verticalScrollBar MAX <%d>", verticalScrollBar()->maximum());
+	QList<QWidget *> chldren_list = findChildren<QWidget*>();
+	qDebug("count <%d> ", chldren_list.size());
+	//QResizeEvent *re = static_cast<QResizeEvent*>(e);
+	setMinimumHeight(verticalScrollBar()->maximum()+viewport()->height());
     }
-
-    return QObject::eventFilter(o, e);
+#endif
+    return QAbstractScrollArea::viewportEvent(e);
 }
 
 /* CenterSection */
@@ -62,18 +59,25 @@ ACenterSection::ACenterSection(QWidget *parent, const QString &title_text):
     QWidget(parent)
 {
     setObjectName("module_section");
+
     title = new QLabel(title_text, this);
-    title->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
+    QSizePolicy sp( QSizePolicy::Minimum, QSizePolicy::Preferred );
+    sp.setHeightForWidth( title->sizePolicy().hasHeightForWidth() );
+    title->setSizePolicy(sp);
     QFont title_font( title->font() );
     title_font.setBold( true );
     title->setFont(title_font);
 
     separator = new QFrame(this);
-    separator->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    sp = QSizePolicy( QSizePolicy::Minimum, QSizePolicy::Preferred );
+    sp.setHeightForWidth( separator->sizePolicy().hasHeightForWidth() );
+    separator->setSizePolicy(sp);
     separator->setFrameStyle(QFrame::HLine|QFrame::Sunken);
 
     items = new ACenterSectionModulesList(this);
-    items->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+    sp = QSizePolicy( QSizePolicy::Preferred, QSizePolicy::Expanding );
+    sp.setHeightForWidth( true );
+    items->setSizePolicy(sp);
 
     QVBoxLayout *main_layout = new QVBoxLayout(this);
     main_layout->setMargin(0);
@@ -85,6 +89,7 @@ ACenterSection::ACenterSection(QWidget *parent, const QString &title_text):
 
 ACenterSection::~ACenterSection()
 {}
+
 QString ACenterSection::getTitle()
 {
     return title->text();
@@ -99,6 +104,9 @@ QListWidget* ACenterSection::getListWidget()
 ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     QWidget(parent)
 {
+    current_action_key = "__undefined__";
+    current_module_key = "__undefined__";
+
     sections_widget = new QWidget(this);
     //sections_widget->setBackgroundRole(QPalette::Base);
     module_widget = new QWidget(this);
@@ -292,30 +300,33 @@ void ACenterFace::addModule(const QString& key, const QString& section_title, co
 	if( !section )
 	{
 	    section = new ACenterSection(sections_view_widget, section_title);
+	    section->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
 	    sections_view_layout->addWidget(section);
 	    connect(section->getListWidget(), SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(onSelectModule(QListWidgetItem*)));
 	}
 	QListWidget *listw = section->getListWidget();
-	QListWidgetItem* i = new QListWidgetItem(getPixmap(pixmap), name);
+	QListWidgetItem* i = new QListWidgetItem();
+	listw->addItem(i);
+	modules[key] = i;
+	setModuleText(key,name);
+	setModulePixmap(key,pixmap);
 #if 0
 	{
 	    QStyle *style = listw->style();
-	    QFontMetrics fm(listw->font());
-	    const QRect &rect = fm.boundingRect(0, 0, 100, 1024, Qt::TextWordWrap, i->text());
-	    //i->setData(Qt::SizeHintRole, QSize(100, 32 + style->pixelMetric(QStyle::PM_FocusFrameVMargin) + rect.height()));
-	    //listw->setMinimumHeight(qMax(listw->minimumHeight(),i->data(Qt::SizeHintRole).toSize().height()));
-	    listw->setMinimumHeight(qMax(listw->minimumHeight(), 32 + style->pixelMetric(QStyle::PM_FocusFrameVMargin) + rect.height()));
+	    QFontMetrics fm(i->font());
+	    const QRect &rect = fm.boundingRect(i->text());
+	    i->setData(Qt::SizeHintRole, QSize(rect.width(), 32 + rect.height()));
 	}
 #endif
-	listw->addItem(i);
-	modules[key] = i;
     }
 }
 
 void ACenterFace::setModuleText(const QString &key, const QString &value)
 {
     if( modules.contains(key) )
+    {
 	modules[key]->setText(value);
+    }
 }
 
 void ACenterFace::setModulePixmap(const QString &key, const QString &value)
@@ -389,10 +400,7 @@ QString ACenterFace::currentModuleKey()
 alCenterFace::alCenterFace(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
     alWidgetPre<ACenterFace>(attr,WCenterFace,id,parent)
 {
-#if 0
-    wnd_->addModule("key1", "Section", "Module1", "theme:warning");
-    wnd_->addModule("key2", "Section", "Module Second 2", "theme:up");
-    wnd_->addModule("key3", "Section", "Module Second 3", "theme:left");
+#if CENTERFACE_TEST
     wnd_->addModule("key21", "Section2", "Module1", "theme:warning");
     wnd_->addModule("key22", "Section2", "Module Second 2", "theme:up");
     wnd_->addModule("key23", "Section2", "Module Second 3", "theme:left");
@@ -431,7 +439,12 @@ alCenterFace::alCenterFace(const AlteratorRequestActionAttrs &attr, const QStrin
     wnd_->addModule("key324", "Section21", "Module1", "theme:warning");
     wnd_->addModule("key325", "Section21", "Module Second 2", "theme:up");
     wnd_->addModule("key326", "Section21", "Module Second 3", "theme:left");
+
+    wnd_->addModule("key1", "Section", "Module1", "theme:warning");
+    wnd_->addModule("key2", "Section", "Module Second 2", "theme:up");
+    wnd_->addModule("key3", "Section", "Module Second 3", "theme:left");
 #endif
+
 }
 
 alCenterFace::~alCenterFace(){}
@@ -461,9 +474,9 @@ QString alCenterFace::postData() const
     QString ret;
     QString current_action = wnd_->currentActionKey();
     if(!current_action.isEmpty())
-	ret += QString(" (current-action . \"%1\")").arg(current_action);
+	ret += QString(" (current-action . %1)").arg(current_action);
     QString current_module = wnd_->currentModuleKey();
-    ret += QString(" (current-module . \"%1\")").arg(current_module);
+    ret += QString(" (current-module . %1)").arg(current_module);
     return ret;
 }
 
