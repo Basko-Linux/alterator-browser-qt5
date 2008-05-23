@@ -78,7 +78,7 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 %changelog
 * Fri May 23 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.77-alt4
-- don't quote current-action and current-step in centerface result
+- don't quote current-action and current-module in centerface result
 - remove centerface debug widgets
 
 * Thu May 22 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.77-alt3
