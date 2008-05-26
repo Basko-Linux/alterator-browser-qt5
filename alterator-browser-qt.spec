@@ -2,8 +2,8 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.77
-Release: alt4
+Version: 2.9.78
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -77,6 +77,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Mon May 26 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.78-alt1
+- release centerface widget
+
 * Fri May 23 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.77-alt4
 - don't quote current-action and current-module in centerface result
 - remove centerface debug widgets

@@ -1,26 +1,40 @@
 #ifndef QTBROWSER_AL_CENTERFACE_HH
 #define QTBROWSER_AL_CENTERFACE_HH
 
-#include <QPushButton>
 #include <QLabel>
 #include <QSignalMapper>
-#include <QToolBox>
+#include <QStackedLayout>
 #include <QDialogButtonBox>
+#include <QToolButton>
 
 #include "enums.hh"
 #include "widgets.hh"
+#include "flowlayout.hh"
 
-class ACenterSectionModulesList: public QListWidget
+typedef QToolButton ACenterSectionModulesListItem;
+
+class ACenterSectionModulesList: public QWidget
 {
 Q_OBJECT
 public:
     ACenterSectionModulesList(QWidget *parent);
     ~ACenterSectionModulesList();
+    void addItem(ACenterSectionModulesListItem*);
+    void setItemText(ACenterSectionModulesListItem*, const QString&);
+    void setItemIcon(ACenterSectionModulesListItem*, const QIcon&);
+    void removeItem(ACenterSectionModulesListItem*);
+    int count();
 
-protected:
-    virtual bool viewportEvent(QEvent*) ;
+signals:
+    void itemClicked(ACenterSectionModulesListItem*);
+
+private slots:
+    void onItemClicked(QWidget*);
+
 private:
-    QWidget *vp;
+    FlowLayout *lay;
+    QList<ACenterSectionModulesListItem*> items;
+    QSignalMapper *signal_mapper;
 };
 
 class ACenterSection: public QWidget
@@ -30,11 +44,11 @@ public:
     ~ACenterSection();
 
     QString getTitle();
-    QListWidget *getListWidget();
+    ACenterSectionModulesList *getModulesList();
 private:
     QLabel *title;
     QFrame *separator;
-    ACenterSectionModulesList *items;
+    ACenterSectionModulesList *modlist;
 };
 
 class ACenterFace: public QWidget
@@ -69,7 +83,8 @@ signals:
 
 private slots:
     void onSelectAction(const QString&);
-    void onSelectModule(QListWidgetItem*);
+    void onSelectModule(ACenterSectionModulesListItem*);
+    void onOwerviewClicked();
 
 private:
     QSignalMapper *action_signal_mapper;
@@ -84,11 +99,11 @@ private:
     QVBoxLayout* sections_view_layout;
     QVBoxLayout* module_layout;
     QBoxLayout* view_layout;
-    QToolBox* toolbox;
+    QStackedLayout* stacked_layout;
     QDialogButtonBox* buttonbox;
 
     QMap<QString, QAbstractButton*> buttons;
-    QMap<QString, QListWidgetItem*> modules;
+    QMap<QString, ACenterSectionModulesListItem*> modules;
 
     void addAction(const QString &key, UserActionType);
     QPixmap defaultActionIcon(UserActionType);

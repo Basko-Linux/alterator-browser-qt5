@@ -10,48 +10,70 @@ extern Enums *enums;
 
 /* CenterSectionModulesList */
 ACenterSectionModulesList::ACenterSectionModulesList(QWidget *parent):
-    QListWidget(parent)
+    QWidget(parent)
 {
-    viewport()->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-
-    setFlow(LeftToRight);
-    setViewMode(IconMode);
-    setResizeMode(Adjust);
-    setWordWrap(false);
-    setUniformItemSizes(true);
-    setWrapping(true);
-//    setTextElideMode(Qt::ElideNone);
-    setMovement(Static);
-//    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//    setAutoScroll(false);
-    setDragDropMode(QAbstractItemView::NoDragDrop);
-    setFrameStyle(NoFrame);
-
+    lay = new FlowLayout(this);
     QFont items_font = font();
     int items_spacing = qMax(items_font.pixelSize(), items_font.pointSize());
-    setSpacing(items_spacing);
-    setSelectionMode(QAbstractItemView::NoSelection);
+    lay->setSpacing(items_spacing);
 
-    setMinimumHeight(60);
+    signal_mapper = new QSignalMapper(this);
+    connect(signal_mapper, SIGNAL(mapped(QWidget*)),
+	this, SLOT(onItemClicked(QWidget*)));
 }
 
 ACenterSectionModulesList::~ACenterSectionModulesList()
 {}
 
-bool ACenterSectionModulesList::viewportEvent(QEvent *e)
+void ACenterSectionModulesList::onItemClicked(QWidget *w)
 {
-#if 0
-    if( e->type() == QEvent::Resize )
+    ACenterSectionModulesListItem *i = qobject_cast<ACenterSectionModulesListItem*>(w);
+    if(i)
+	emit itemClicked(i);
+}
+
+void ACenterSectionModulesList::addItem(ACenterSectionModulesListItem *i)
+{
+    i->setParent(this);
+    i->setIconSize(QSize(32,32));
+    i->setAutoRaise(true);
+    i->setBackgroundRole(QPalette::Base);
+    i->setForegroundRole(QPalette::Text);
+    i->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    QFontMetrics mtr = QFontMetrics(i->font());
+    i->setMinimumWidth(mtr.width("w")*20);
+    lay->addWidget(i);
+
+    items.append(i);
+    connect(i, SIGNAL(clicked()), signal_mapper, SLOT(map()));
+    signal_mapper->setMapping(i, i);
+}
+
+void ACenterSectionModulesList::removeItem(ACenterSectionModulesListItem *i)
+{
+    int idx = items.indexOf(i);
+    if( idx >= 0 )
     {
-	qDebug("verticalScrollBar MAX <%d>", verticalScrollBar()->maximum());
-	QList<QWidget *> chldren_list = findChildren<QWidget*>();
-	qDebug("count <%d> ", chldren_list.size());
-	//QResizeEvent *re = static_cast<QResizeEvent*>(e);
-	setMinimumHeight(verticalScrollBar()->maximum()+viewport()->height());
+	signal_mapper->removeMappings(i);
+	delete items.takeAt(idx);
     }
-#endif
-    return QAbstractScrollArea::viewportEvent(e);
+}
+
+void ACenterSectionModulesList::setItemText(ACenterSectionModulesListItem *i, const QString& txt)
+{
+    if( items.contains(i) )
+	i->setText(txt);
+}
+
+void ACenterSectionModulesList::setItemIcon(ACenterSectionModulesListItem *i, const QIcon& ico)
+{
+    if( items.contains(i) )
+	i->setIcon(ico);
+}
+
+int ACenterSectionModulesList::count()
+{
+    return items.count();
 }
 
 /* CenterSection */
@@ -61,7 +83,7 @@ ACenterSection::ACenterSection(QWidget *parent, const QString &title_text):
     setObjectName("module_section");
 
     title = new QLabel(title_text, this);
-    QSizePolicy sp( QSizePolicy::Minimum, QSizePolicy::Preferred );
+    QSizePolicy sp( QSizePolicy::Minimum, QSizePolicy::Maximum );
     sp.setHeightForWidth( title->sizePolicy().hasHeightForWidth() );
     title->setSizePolicy(sp);
     QFont title_font( title->font() );
@@ -69,22 +91,20 @@ ACenterSection::ACenterSection(QWidget *parent, const QString &title_text):
     title->setFont(title_font);
 
     separator = new QFrame(this);
-    sp = QSizePolicy( QSizePolicy::Minimum, QSizePolicy::Preferred );
+    sp = QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
     sp.setHeightForWidth( separator->sizePolicy().hasHeightForWidth() );
     separator->setSizePolicy(sp);
     separator->setFrameStyle(QFrame::HLine|QFrame::Sunken);
 
-    items = new ACenterSectionModulesList(this);
-    sp = QSizePolicy( QSizePolicy::Preferred, QSizePolicy::Expanding );
-    sp.setHeightForWidth( true );
-    items->setSizePolicy(sp);
+    modlist = new ACenterSectionModulesList(this);
+    modlist->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
     QVBoxLayout *main_layout = new QVBoxLayout(this);
     main_layout->setMargin(0);
     main_layout->setSpacing(0);
     main_layout->addWidget(title);
     main_layout->addWidget(separator);
-    main_layout->addWidget(items);
+    main_layout->addWidget(modlist);
 }
 
 ACenterSection::~ACenterSection()
@@ -95,9 +115,9 @@ QString ACenterSection::getTitle()
     return title->text();
 }
 
-QListWidget* ACenterSection::getListWidget()
+ACenterSectionModulesList* ACenterSection::getModulesList()
 {
-    return items;
+    return modlist;
 }
 
 /* ACenterFace */
@@ -111,7 +131,6 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     //sections_widget->setBackgroundRole(QPalette::Base);
     module_widget = new QWidget(this);
     buttonbox = new QDialogButtonBox(module_widget);
-    buttonbox->addButton("Test", QDialogButtonBox::HelpRole);
 
     QScrollArea *scroll = new QScrollArea(module_widget);
     //scroll->setBackgroundRole(QPalette::NoRole);
@@ -119,13 +138,9 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
     scroll->setWidgetResizable( true );
 
-#if 0
     view_widget = new QWidget(scroll->viewport());
     view_widget->setObjectName("view");
     scroll->setWidget(view_widget);
-#else
-    view_widget = scroll->viewport();
-#endif
 
     QScrollArea *sections_scroll = new QScrollArea(sections_widget);
     sections_scroll->setBackgroundRole(QPalette::Base);
@@ -133,13 +148,9 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     sections_scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
     sections_scroll->setWidgetResizable( true );
 
-#if 0
     sections_view_widget = new QWidget(sections_scroll->viewport());
     sections_view_widget->setObjectName("modules_view");
     sections_scroll->setWidget(sections_view_widget);
-#else
-    sections_view_widget = sections_scroll->viewport();
-#endif
 
     Qt::Orientation orient = Utils::fixOrientation(o, Qt::Vertical);
     if( orient == Qt::Horizontal )
@@ -147,7 +158,6 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     else
 	view_layout = new QVBoxLayout(view_widget);
     sections_view_layout = new QVBoxLayout(sections_view_widget);
-//    sections_view_layout->addStretch(1);
 
     QVBoxLayout *sections_layout = new QVBoxLayout(sections_widget);
     sections_layout->addWidget(sections_scroll);
@@ -155,15 +165,22 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     module_layout->addWidget(scroll);
     module_layout->addWidget(buttonbox);
 
-    toolbox = new QToolBox(this);
-    toolbox->setBackgroundRole(QPalette::NoRole);
-    toolbox->addItem(sections_widget, tr("Modules List"));
-    toolbox->addItem(module_widget, tr("Current Module"));
-    toolbox->setCurrentWidget(sections_widget);
+    stacked_layout = new QStackedLayout();
+    stacked_layout->setMargin(0);
+    stacked_layout->setSpacing(0);
+    stacked_layout->addWidget(sections_widget);
+    stacked_layout->addWidget(module_widget);
+    stacked_layout->setCurrentWidget(sections_widget);
 
     QVBoxLayout *main_layout = new QVBoxLayout;
-    main_layout->addWidget(toolbox);
+    main_layout->setMargin(0);
+    main_layout->setSpacing(0);
+    main_layout->addLayout(stacked_layout);
     setLayout(main_layout);
+
+    QPushButton *ow_btn = buttonbox->addButton(tr("Owerview"), QDialogButtonBox::ActionRole);
+    ow_btn->setIcon(getPixmap("theme:left"));
+    connect(ow_btn, SIGNAL(clicked()), this, SLOT(onOwerviewClicked()));
 
     action_signal_mapper = new QSignalMapper(this);
     connect(action_signal_mapper, SIGNAL(mapped(const QString &)),
@@ -174,6 +191,11 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
 
 ACenterFace::~ACenterFace()
 {}
+
+void ACenterFace::onOwerviewClicked()
+{
+    stacked_layout->setCurrentWidget(sections_widget);
+}
 
 void ACenterFace::clearActions()
 {
@@ -300,24 +322,16 @@ void ACenterFace::addModule(const QString& key, const QString& section_title, co
 	if( !section )
 	{
 	    section = new ACenterSection(sections_view_widget, section_title);
-	    section->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+	    //section->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
 	    sections_view_layout->addWidget(section);
-	    connect(section->getListWidget(), SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(onSelectModule(QListWidgetItem*)));
+	    connect(section->getModulesList(), SIGNAL(itemClicked(ACenterSectionModulesListItem*)), this, SLOT(onSelectModule(ACenterSectionModulesListItem*)));
 	}
-	QListWidget *listw = section->getListWidget();
-	QListWidgetItem* i = new QListWidgetItem();
-	listw->addItem(i);
+	ACenterSectionModulesList *mlist = section->getModulesList();
+	ACenterSectionModulesListItem *i = new ACenterSectionModulesListItem();
+	mlist->addItem(i);
 	modules[key] = i;
 	setModuleText(key,name);
 	setModulePixmap(key,pixmap);
-#if 0
-	{
-	    QStyle *style = listw->style();
-	    QFontMetrics fm(i->font());
-	    const QRect &rect = fm.boundingRect(i->text());
-	    i->setData(Qt::SizeHintRole, QSize(rect.width(), 32 + rect.height()));
-	}
-#endif
     }
 }
 
@@ -337,7 +351,7 @@ void ACenterFace::setModulePixmap(const QString &key, const QString &value)
 
 void ACenterFace::removeModule(const QString &key)
 {
-    QListWidgetItem* i = modules[key];
+    ACenterSectionModulesListItem* i = modules[key];
     if( i )
     {
 	QList<ACenterSection*> sections = sections_view_widget->findChildren<ACenterSection*>("module_section");
@@ -345,12 +359,12 @@ void ACenterFace::removeModule(const QString &key)
 	while(it.hasNext())
 	{
 	    ACenterSection *sect = it.next();
-	    QListWidget *lstw = sect->getListWidget();
-	    if( lstw == i->listWidget() )
+	    ACenterSectionModulesList *mlst = sect->getModulesList();
+	    if( mlst == i->parentWidget() )
 	    {
 		modules.remove(key);
-		lstw->removeItemWidget(i);
-		if(lstw->count() <= 0)
+		mlst->removeItem(i);
+		if(mlst->count() <= 0)
 		    delete sect;
 	    }
 	}
@@ -379,10 +393,10 @@ void ACenterFace::onSelectAction(const QString& key)
     emit actionSelected();
 }
 
-void ACenterFace::onSelectModule(QListWidgetItem *i)
+void ACenterFace::onSelectModule(ACenterSectionModulesListItem *i)
 {
     current_module_key = modules.key(i);
-    toolbox->setCurrentWidget(module_widget);
+    stacked_layout->setCurrentWidget(module_widget);
     moduleSelected();
 }
 
@@ -401,6 +415,7 @@ alCenterFace::alCenterFace(const AlteratorRequestActionAttrs &attr, const QStrin
     alWidgetPre<ACenterFace>(attr,WCenterFace,id,parent)
 {
 #if CENTERFACE_TEST
+#if 0
     wnd_->addModule("key21", "Section2", "Module1", "theme:warning");
     wnd_->addModule("key22", "Section2", "Module Second 2", "theme:up");
     wnd_->addModule("key23", "Section2", "Module Second 3", "theme:left");
@@ -423,6 +438,7 @@ alCenterFace::alCenterFace(const AlteratorRequestActionAttrs &attr, const QStrin
     wnd_->addModule("key621", "Section62", "Module1", "theme:warning");
     wnd_->addModule("key622", "Section62", "Module Second 2", "theme:up");
     wnd_->addModule("key623", "Section62", "Module Second 3", "theme:left");
+#endif
 
     wnd_->addModule("key324", "Section21", "Module1", "theme:warning");
     wnd_->addModule("key325", "Section21", "Module Second 2", "theme:up");
