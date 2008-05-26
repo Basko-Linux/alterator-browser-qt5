@@ -79,6 +79,7 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 %changelog
 * Mon May 26 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.78-alt1
 - release centerface widget
+- clean wizarface signal mapper when action removed
 
 * Fri May 23 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.77-alt4
 - don't quote current-action and current-module in centerface result
