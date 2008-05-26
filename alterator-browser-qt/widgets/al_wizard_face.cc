@@ -372,14 +372,17 @@ void AWizardFace::removeAction(const QString &key)
 	QAbstractButton *b = buttons.take(key);
 	if(b)
 	{
+	    action_signal_mapper->removeMappings(b);
 	    action_types.remove(key);
 	    b->deleteLater();
 	}
     }
     else if( menus.contains(key) )
     {
-	menu->removeAction(menus[key]);
+	QAction *a = menus[key];
+	action_signal_mapper->removeMappings(a);
 	action_types.remove(key);
+	menu->removeAction(a);
     }
 }
 
