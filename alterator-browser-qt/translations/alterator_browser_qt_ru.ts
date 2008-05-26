@@ -2,6 +2,14 @@
 <!DOCTYPE TS><TS version="1.1" language="ru_RU">
 <defaultcodec></defaultcodec>
 <context>
+    <name>ACenterFace</name>
+    <message>
+        <location filename="widgets/al_center_face.cc" line="181"/>
+        <source>Owerview</source>
+        <translation>Обзор</translation>
+    </message>
+</context>
+<context>
     <name>HelpBrowserUI</name>
     <message>
         <location filename="../help_browser.ui" line="14"/>
@@ -45,19 +53,24 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../main_window.cc" line="206"/>
+        <location filename="../main_window.cc" line="212"/>
         <source>Quit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../main_window.cc" line="207"/>
+        <location filename="../main_window.cc" line="212"/>
         <source>Exit Alterator?</source>
         <translation>Завершить Alterator?</translation>
     </message>
     <message>
-        <location filename="../main_window.cc" line="217"/>
+        <location filename="../main_window.cc" line="221"/>
         <source>Alterator Browser</source>
         <translation>Alterator Browser</translation>
+    </message>
+    <message>
+        <location filename="../main_window.cc" line="221"/>
+        <source>About</source>
+        <translation>О программе</translation>
     </message>
 </context>
 <context>
@@ -65,7 +78,7 @@
     <message>
         <location filename="../main_window.cc" line="216"/>
         <source>About</source>
-        <translation>О программе</translation>
+        <translation type="obsolete">О программе</translation>
     </message>
     <message>
         <location filename="../utils.cc" line="55"/>
