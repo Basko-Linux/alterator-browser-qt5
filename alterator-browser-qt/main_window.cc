@@ -821,6 +821,7 @@ void MainWindow::getDocument(const QString& request)
 
 void MainWindow::onStartBusySplash()
 {
+    QApplication::activeWindow()->setCursor(Qt::WaitCursor);
     setCursor(Qt::WaitCursor);
 }
 
@@ -835,6 +836,7 @@ void MainWindow::onStopBusySplash()
 {
     killTimer(busy_timer_id);
     busy_timer_id = 0;
+    QApplication::activeWindow()->unsetCursor();
     unsetCursor();
 }
 
