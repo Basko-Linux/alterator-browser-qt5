@@ -205,7 +205,6 @@ void ASuperListBox::onSelectionChanged()
 	    case CheckListBox:
 	    case RadioListBox:
 	    {
-#if 1
 		QList<QTreeWidgetItem*> selected_items = selectedItems();
 		foreach(QTreeWidgetItem *i, selected_items)
 		{
@@ -218,23 +217,6 @@ void ASuperListBox::onSelectionChanged()
 			oi->setIcon(0, getPixmap((list_type == CheckListBox)?"theme:check-off":"theme:radio-off"));
 		}
 		selected_items_old = selected_items;
-#else
-		int n = topLevelItemCount();
-		if( n > 0 )
-		{
-		    for(int i = 0; i < n; i++)
-		    {
-			QTreeWidgetItem* item = topLevelItem(i);
-			if( item )
-			{
-			    if( list_type == CheckListBox )
-				item->setIcon(0, getPixmap(item->isSelected()? "theme:check-on": "theme:check-off"));
-			    else
-				item->setIcon(0, getPixmap(item->isSelected()? "theme:radio-on": "theme:radio-off"));
-			}
-		    }
-		}
-#endif
 		break;
 	    }
 	    case MultiListBox:
