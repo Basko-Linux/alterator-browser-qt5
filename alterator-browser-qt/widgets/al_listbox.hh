@@ -1,11 +1,17 @@
 #ifndef QTBROWSER_AL_LISTBOX_HH
 #define QTBROWSER_AL_LISTBOX_HH
 
-#include <QListWidget>
 #include <QTreeWidget>
 #include <QKeyEvent>
 
 #include "al_widget.hh"
+
+class ASuperListBoxItem: public QTreeWidgetItem
+{
+public:
+    ASuperListBoxItem(QTreeWidget*);
+    ~ASuperListBoxItem();
+};
 
 class ASuperListBox: public QTreeWidget
 {
@@ -23,6 +29,8 @@ public:
 	void setRows(QStringList&);
 	void setHeader(QStringList&);
 
+	void removeFromSelectedItemsListOld(QTreeWidgetItem*);
+
 signals:
 	void spaceBtnPressed();
 	void selected();
@@ -36,6 +44,7 @@ protected slots:
 
 private:
 	ListType list_type;
+	QList<QTreeWidgetItem*> selected_items_old;
 };
 
 class alListBox: public alWidgetPre<ASuperListBox>

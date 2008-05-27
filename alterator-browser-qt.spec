@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.78
+Version: 2.9.79
 Release: alt1
 
 Source:%name-%version.tar
@@ -77,6 +77,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Tue May 27 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.79-alt1
+- fix checklistbox feel
+
 * Mon May 26 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.78-alt1
 - release centerface widget
 - clean wizarface signal mapper when action removed

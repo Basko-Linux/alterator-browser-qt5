@@ -4,6 +4,24 @@
 #include "al_listbox.hh"
 #include "a_pixmaps.hh"
 
+ASuperListBoxItem::ASuperListBoxItem(QTreeWidget *parent):
+    QTreeWidgetItem(parent)
+{
+}
+
+ASuperListBoxItem::~ASuperListBoxItem()
+{
+    QTreeWidget *t = treeWidget();
+    if(t)
+    {
+	ASuperListBox *p = qobject_cast<ASuperListBox*>(treeWidget());
+	if(p)
+	    p->removeFromSelectedItemsListOld(this);
+	else
+	    qWarning("ASuperListBoxItem parent is not ASuperListBox");
+    }
+}
+
 ASuperListBox::ASuperListBox(QWidget *parent, const Qt::Orientation):
 		QTreeWidget(parent)
 {
@@ -20,6 +38,11 @@ ASuperListBox::ASuperListBox(QWidget *parent, const Qt::Orientation):
 
 ASuperListBox::~ASuperListBox()
 {}
+
+void ASuperListBox::removeFromSelectedItemsListOld(QTreeWidgetItem *i)
+{
+    selected_items_old.removeAll(i);
+}
 
 void ASuperListBox::setListType(ListType type)
 {
@@ -93,11 +116,7 @@ void ASuperListBox::addRow(QStringList& data, RowType row_type)
     QStringListIterator it(data);
     int col = 0;
 
-    QTreeWidgetItem *item;
-    if( row_type == Header )
-	item = new QTreeWidgetItem(0);
-    else
-	item = new QTreeWidgetItem(this);
+    ASuperListBoxItem *item = new ASuperListBoxItem(this);
     while( it.hasNext() && col < columns )
     {
 	QString item_text = it.next();
@@ -186,6 +205,20 @@ void ASuperListBox::onSelectionChanged()
 	    case CheckListBox:
 	    case RadioListBox:
 	    {
+#if 1
+		QList<QTreeWidgetItem*> selected_items = selectedItems();
+		foreach(QTreeWidgetItem *i, selected_items)
+		{
+		    if( !selected_items_old.contains(i) )
+			i->setIcon(0, getPixmap((list_type == CheckListBox)?"theme:check-on":"theme:radio-on"));
+		}
+		foreach(QTreeWidgetItem *oi, selected_items_old)
+		{
+		    if( !selected_items.contains(oi) )
+			oi->setIcon(0, getPixmap((list_type == CheckListBox)?"theme:check-off":"theme:radio-off"));
+		}
+		selected_items_old = selected_items;
+#else
 		int n = topLevelItemCount();
 		if( n > 0 )
 		{
@@ -201,6 +234,7 @@ void ASuperListBox::onSelectionChanged()
 			}
 		    }
 		}
+#endif
 		break;
 	    }
 	    case MultiListBox:
