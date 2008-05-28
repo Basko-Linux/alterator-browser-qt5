@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.79
+Version: 2.9.80
 Release: alt1
 
 Source:%name-%version.tar
@@ -77,6 +77,11 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Wed May 28 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.80-alt1
+- send "selected" signal when selection changed to none in listbox
+- don't quote *listbox return
+- set busy cursor on dialogs too
+
 * Tue May 27 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.79-alt1
 - fix checklistbox feel
 
