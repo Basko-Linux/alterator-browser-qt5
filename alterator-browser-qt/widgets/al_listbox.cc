@@ -387,7 +387,7 @@ QString alListBox::postData() const
 		for(int i = 0; i < n; i++)
 		{
 		    QTreeWidgetItem* item = wnd_->topLevelItem(i);
-		    if( i )
+		    if( item )
 			state_rows.append(item->isSelected()? " #t": " #f");
 		}
 		state_rows.append("))");
