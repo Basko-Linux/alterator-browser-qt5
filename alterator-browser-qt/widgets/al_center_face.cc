@@ -414,53 +414,6 @@ QString ACenterFace::currentModuleKey()
 alCenterFace::alCenterFace(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
     alWidgetPre<ACenterFace>(attr,WCenterFace,id,parent)
 {
-#if CENTERFACE_TEST
-#if 0
-    wnd_->addModule("key21", "Section2", "Module1", "theme:warning");
-    wnd_->addModule("key22", "Section2", "Module Second 2", "theme:up");
-    wnd_->addModule("key23", "Section2", "Module Second 3", "theme:left");
-    wnd_->addModule("key24", "Section2", "Module1", "theme:warning");
-    wnd_->addModule("key25", "Section2", "Module Second 2", "theme:up");
-    wnd_->addModule("key26", "Section2", "Module Second 3", "theme:left");
-    wnd_->addModule("key21", "Section2", "Module1", "theme:warning");
-    wnd_->addModule("key22", "Section2", "Module Second 2", "theme:up");
-    wnd_->addModule("key23", "Section2", "Module Second 3", "theme:left");
-
-    wnd_->addModule("key41", "Section4", "Module1", "theme:warning");
-    wnd_->addModule("key42", "Section4", "Module Second 2", "theme:up");
-    wnd_->addModule("key43", "Section4", "Module Second 3", "theme:left");
-    wnd_->addModule("key521", "Section52", "Module1", "theme:warning");
-    wnd_->addModule("key522", "Section52", "Module Second 2", "theme:up");
-    wnd_->addModule("key523", "Section52", "Module Second 3", "theme:left");
-    wnd_->addModule("key524", "Section52", "Module1", "theme:warning");
-    wnd_->addModule("key625", "Section62", "Module Second 2", "theme:up");
-    wnd_->addModule("key626", "Section62", "Module Second 3", "theme:left");
-    wnd_->addModule("key621", "Section62", "Module1", "theme:warning");
-    wnd_->addModule("key622", "Section62", "Module Second 2", "theme:up");
-    wnd_->addModule("key623", "Section62", "Module Second 3", "theme:left");
-#endif
-
-    wnd_->addModule("key324", "Section21", "Module1", "theme:warning");
-    wnd_->addModule("key325", "Section21", "Module Second 2", "theme:up");
-    wnd_->addModule("key326", "Section21", "Module Second 3", "theme:left");
-    wnd_->addModule("key321", "Section21", "Module1", "theme:warning");
-    wnd_->addModule("key322", "Section21", "Module Second 2", "theme:up");
-    wnd_->addModule("key323", "Section21", "Module Second 3", "theme:left");
-    wnd_->addModule("key324", "Section21", "Module1", "theme:warning");
-    wnd_->addModule("key325", "Section21", "Module Second 2", "theme:up");
-    wnd_->addModule("key326", "Section21", "Module Second 3", "theme:left");
-    wnd_->addModule("key321", "Section21", "Module1", "theme:warning");
-    wnd_->addModule("key322", "Section21", "Module Second 2", "theme:up");
-    wnd_->addModule("key323", "Section21", "Module Second 3", "theme:left");
-    wnd_->addModule("key324", "Section21", "Module1", "theme:warning");
-    wnd_->addModule("key325", "Section21", "Module Second 2", "theme:up");
-    wnd_->addModule("key326", "Section21", "Module Second 3", "theme:left");
-
-    wnd_->addModule("key1", "Section", "Module1", "theme:warning");
-    wnd_->addModule("key2", "Section", "Module Second 2", "theme:up");
-    wnd_->addModule("key3", "Section", "Module Second 3", "theme:left");
-#endif
-
 }
 
 alCenterFace::~alCenterFace(){}
