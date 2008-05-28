@@ -49,14 +49,14 @@ QString simpleQuote(const QString &s)
     return ret.replace("\\","\\\\").replace("\"","\\\"");
 }
 
-void errorExit(QWidget *parent, const QString& message)
+void errorMessage(QWidget *parent, const QString& message, bool exit)
 {
     qDebug("error exit:%s",qPrintable(message));
     QMessageBox::critical(parent, QMessageBox::tr("Error"),
 	message,
 	QMessageBox::Abort);
-    //QApplication::closeAllWindows();
-    exit(1);
+    if( exit )
+	QCoreApplication::exit(1);
 }
 
 void widgetCornersRound(QWidget *widget)
