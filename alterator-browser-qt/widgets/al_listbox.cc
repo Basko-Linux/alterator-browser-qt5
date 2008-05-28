@@ -386,7 +386,7 @@ QString alListBox::postData() const
 	    int n = wnd_->topLevelItemCount();
 	    if( n > 0 )
 	    {
-		state_rows.append(" (state-rows . '(");
+		state_rows.append(" (state-rows . (");
 		for(int i = 0; i < n; i++)
 		{
 		    QTreeWidgetItem* item = wnd_->topLevelItem(i);
@@ -398,7 +398,7 @@ QString alListBox::postData() const
 	    QList<QTreeWidgetItem*> items = wnd_->selectedItems();
 	    if( items.size() > 0 )
 	    {
-		current_rows.append(" (current-rows . '(");
+		current_rows.append(" (current-rows . (");
 		foreach(QTreeWidgetItem* item, items)
 		{
 		    current_rows.append(QString(" %1").arg(wnd_->indexOfTopLevelItem(item)));
