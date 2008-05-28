@@ -226,10 +226,7 @@ void ASuperListBox::onSelectionChanged()
 	    }
 	}
 
-    if( selectedItems().size() > 0 )
-    {
-	emit selected();
-    }
+    emit selected();
 }
 
 
