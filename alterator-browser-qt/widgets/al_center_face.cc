@@ -517,19 +517,28 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
 	wnd_->clearModules();
 	QStringList data = value.split(";", QString::KeepEmptyParts);
 	QStringListIterator it(data);
-	if( data.size() > 0 )
+	forever
 	{
 	    QString key, section, name, pixmap;
 	    if(it.hasNext())
 		key = it.next();
+	    else
+		break;
 	    if(it.hasNext())
 		section = it.next();
+	    else
+		break;
 	    if(it.hasNext())
 		name = it.next();
+	    else
+		break;
 	    if(it.hasNext())
 		pixmap = it.next();
+	    else
+		break;
 	    wnd_->addModule(key, section, name, pixmap);
 	}
+
     }
     else if( "module-add" == name )
     {
