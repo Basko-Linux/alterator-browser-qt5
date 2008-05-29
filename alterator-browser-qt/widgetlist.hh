@@ -14,7 +14,8 @@ public:
     ~WidgetList();
 
     void add(const QString& id, alWidget*);
-    void remove(const QString& id);
+    void removeFromListById(const QString& id);
+    void deleteChildrenById(const QString& id);
     QLayout* findViewLayout(const QString& id);
     bool contains(const QString& id);
     alWidget* alWidgetById(const QString& id);

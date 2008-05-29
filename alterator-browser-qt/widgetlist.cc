@@ -102,7 +102,18 @@ void WidgetList::add(const QString& id, alWidget* aw)
 	elements[id] = aw;
 }
 
-void WidgetList::remove(const QString& id)
+void WidgetList::removeFromListById(const QString& id)
 {
     elements.remove(id);
+}
+
+void WidgetList::deleteChildrenById(const QString& id)
+{
+    if(!id.isEmpty())
+    {
+	foreach(alWidget *child, alChildrenById(id))
+	{
+	    delete child;
+	}
+    }
 }

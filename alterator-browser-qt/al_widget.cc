@@ -19,7 +19,7 @@ alWidget::alWidget(AlteratorWidgetType type, const QString& id,const QString& pa
 
 alWidget::~alWidget()
 {
-    widgetlist->remove(id_);
+    widgetlist->removeFromListById(getId());
 }
 
 void alWidget::onUpdate() { emit updated(); }
@@ -141,11 +141,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	}
 	else if("clear-layout" == name)
 	{
-	    if( l )
-	    {
-		for (int i = 0; i < l->count(); ++i)
-		    delete l->takeAt(i);
-	    }
+	    widgetlist->deleteChildrenById(getId());
 	}
 	else if ("align" == name)
 	{
