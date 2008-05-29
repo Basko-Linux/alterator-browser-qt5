@@ -5,7 +5,6 @@
 #include <sys/socket.h>
 #include <sys/stat.h>
 
-#include <QApplication>
 #include <QFile>
 
 #include "utils.hh"
@@ -19,9 +18,8 @@ MailBox::MailBox(const QString& path, QObject *parent):
 	QObject(parent),
 	eater_(0)
 {
-	QWidget *top_window = QApplication::activeWindow();
 	if ((sock_ = ::socket(PF_UNIX, SOCK_STREAM, 0)) == -1)
-		errorMessage(top_window, "socket");
+		errorMessage("socket");
 
 	::memset(socka_.sun_path,0,sizeof(socka_.sun_path)/sizeof(char));
 	socka_.sun_family = AF_UNIX;
@@ -32,17 +30,17 @@ MailBox::MailBox(const QString& path, QObject *parent):
 	if (::bind(sock_, (struct sockaddr *)&socka_, size) == -1) {
 	    if (::connect(sock_, (struct sockaddr*)&socka_, size) == -1) {
 		    if (!QFile::remove(path))
-		    	errorMessage(top_window, "remove");
+		    	errorMessage("remove");
 
 		    if (::bind(sock_, (struct sockaddr *)&socka_, size) == -1)
-		    	errorMessage(top_window, "re-bind");
+		    	errorMessage("re-bind");
 	    }
 	    else
-	    	errorMessage(top_window, "Address already in use");
+	    	errorMessage("Address already in use");
 	}
 
 	if (::listen(sock_, 1) == -1)
-		errorMessage(top_window, "listen");
+		errorMessage("listen");
 
 	notifier_ = new QSocketNotifier(sock_,QSocketNotifier::Read);
 	QObject::connect(notifier_,SIGNAL(activated(int)),this, SLOT(onMessage(int)) );
