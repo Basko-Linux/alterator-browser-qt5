@@ -408,9 +408,11 @@ QString alListBox::postData() const
 	case ASuperListBox::ListBox:
 	default:
 	{
+	    int cur = -1;
 	    QList<QTreeWidgetItem*> items = wnd_->selectedItems();
 	    if( items.size() > 0 )
-		current = QString(" (current . %1 )").arg(wnd_->indexOfTopLevelItem(items.first()));
+		cur = wnd_->indexOfTopLevelItem(items.first());
+	    current = QString(" (current . %1 )").arg(cur);
 	}
     }
 
