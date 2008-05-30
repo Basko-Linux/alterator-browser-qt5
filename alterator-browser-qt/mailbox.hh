@@ -3,29 +3,21 @@
 
 #include <sys/un.h>
 
-#include <QObject>
-#include <QString>
+#include <QLocalServer>
+#include <QLocalSocket>
 #include <QSocketNotifier>
 
 #include "connection.hh"
 
 
-class MailBox: public QObject
+class MailBox: public QLocalServer
 {
 Q_OBJECT
 public:
 	MailBox(const QString& addr, QObject *parent = 0);
 	~MailBox();
 public slots:
-	void onMessage(int);
-	void readMessage(int);
-private:
-	int sock_;
-	sockaddr_un socka_;
-	int size_;
-	QSocketNotifier *notifier_;
-	QSocketNotifier *eater_;
+	void onNewConnection();
 };
-
 
 #endif
