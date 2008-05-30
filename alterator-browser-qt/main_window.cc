@@ -167,7 +167,13 @@ void MainWindow::start()
     	socketPath = "/tmp";
 
     QDir socketDir(socketPath);
-    socketDir.mkdir("alterator");
+    if(!socketDir.exists("alterator"))
+    {
+	if(!socketDir.mkdir("alterator"))
+	{
+	    Utils::errorMessage("Failed to create local socket directory");
+	}
+    }
 
     socketPath += "/alterator/browser-sock";
     qDebug("socket path %s ...",qPrintable(socketPath));
