@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.81
+Version: 2.9.82
 Release: alt1
 
 Source:%name-%version.tar
@@ -77,6 +77,10 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Fri May 30 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.82-alt1
+- fix *listbox state-rows attribute
+- force return *multi*listbox current-rows and state-rows if empty list
+
 * Thu May 29 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.81-alt1
 - fix clear-layout attribute
 - fix centerface modules attribute
