@@ -54,7 +54,6 @@ MailBox::~MailBox()
 
 void MailBox::onMessage(int)
 {
-	qDebug("here...");
 	int fd = ::accept(sock_, NULL, NULL);
 	
 	if (fd == -1)
