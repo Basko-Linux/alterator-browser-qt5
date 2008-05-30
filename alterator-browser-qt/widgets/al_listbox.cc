@@ -372,15 +372,18 @@ void alListBox::registerEvent(const QString& name)
 QString alListBox::postData() const
 {
     QString ret;
-    QString state_rows;
-    QString current_rows;
-    QString current;
     switch(wnd_->listType())
     {
 	case ASuperListBox::MultiListBox:
 	case ASuperListBox::CheckListBox:
 	{
-	    state_rows.append(" (state-rows . (");
+	    QString cur_rows;
+	    QList<QTreeWidgetItem*> selected_items = wnd_->selectedItems();
+	    foreach(QTreeWidgetItem* item, selected_items)
+	    {
+		cur_rows.append(QString(" %1").arg(wnd_->indexOfTopLevelItem(item)));
+	    }
+	    QString st_rows;
 	    int n = wnd_->topLevelItemCount();
 	    if( n > 0 )
 	    {
@@ -388,17 +391,17 @@ QString alListBox::postData() const
 		{
 		    QTreeWidgetItem* item = wnd_->topLevelItem(i);
 		    if( item )
-			state_rows.append(item->isSelected()? " #t": " #f");
+		    {
+			st_rows.append(selected_items.contains(item)? " #t": " #f");
+		    }
 		}
 	    }
-	    state_rows.append("))");
-	    current_rows.append(" (current-rows . (");
-	    QList<QTreeWidgetItem*> items = wnd_->selectedItems();
-	    foreach(QTreeWidgetItem* item, items)
-	    {
-		current_rows.append(QString(" %1").arg(wnd_->indexOfTopLevelItem(item)));
-	    }
-	    current_rows.append("))");
+	    ret.append(" (state-rows . (");
+	    ret.append(st_rows);
+	    ret.append("))");
+	    ret.append(" (current-rows . (");
+	    ret.append(cur_rows);
+	    ret.append("))");
 	    break;
 	}
 	case ASuperListBox::RadioListBox:
@@ -409,17 +412,9 @@ QString alListBox::postData() const
 	    QList<QTreeWidgetItem*> items = wnd_->selectedItems();
 	    if( items.size() > 0 )
 		cur = wnd_->indexOfTopLevelItem(items.first());
-	    current = QString(" (current . %1 )").arg(cur);
+	    ret.append(QString(" (current . %1 )").arg(cur));
 	}
     }
-
-    if(!state_rows.isEmpty())
-	ret.append(state_rows);
-    if(!current_rows.isEmpty())
-	ret.append(current_rows);
-    if(!current.isEmpty())
-	ret.append(current);
-    else
-	ret.append(" (current . -1 )");
+    qDebug("alListBox::postData<%s>", qPrintable(ret));
     return ret;
 }
