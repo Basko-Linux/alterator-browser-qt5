@@ -24,7 +24,7 @@ Requires: libqt4-core >= %{get_version libqt4-core}
 
 Obsoletes: alterator-look-qt
 
-BuildRequires(pre): libqt4-core
+BuildRequires(pre): libqt4-core > 4.4
 BuildRequires: libalternatives-devel
 BuildRequires: fontconfig freetype2 gcc-c++ libqt4-devel libstdc++-devel
 
