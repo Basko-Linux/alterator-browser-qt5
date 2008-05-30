@@ -380,28 +380,25 @@ QString alListBox::postData() const
 	case ASuperListBox::MultiListBox:
 	case ASuperListBox::CheckListBox:
 	{
+	    state_rows.append(" (state-rows . (");
 	    int n = wnd_->topLevelItemCount();
 	    if( n > 0 )
 	    {
-		state_rows.append(" (state-rows . (");
 		for(int i = 0; i < n; i++)
 		{
 		    QTreeWidgetItem* item = wnd_->topLevelItem(i);
 		    if( item )
 			state_rows.append(item->isSelected()? " #t": " #f");
 		}
-		state_rows.append("))");
 	    }
+	    state_rows.append("))");
+	    current_rows.append(" (current-rows . (");
 	    QList<QTreeWidgetItem*> items = wnd_->selectedItems();
-	    if( items.size() > 0 )
+	    foreach(QTreeWidgetItem* item, items)
 	    {
-		current_rows.append(" (current-rows . (");
-		foreach(QTreeWidgetItem* item, items)
-		{
-		    current_rows.append(QString(" %1").arg(wnd_->indexOfTopLevelItem(item)));
-		}
-		current_rows.append("))");
+		current_rows.append(QString(" %1").arg(wnd_->indexOfTopLevelItem(item)));
 	    }
+	    current_rows.append("))");
 	    break;
 	}
 	case ASuperListBox::RadioListBox:
