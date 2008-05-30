@@ -415,6 +415,5 @@ QString alListBox::postData() const
 	    ret.append(QString(" (current . %1 )").arg(cur));
 	}
     }
-    qDebug("alListBox::postData<%s>", qPrintable(ret));
     return ret;
 }
