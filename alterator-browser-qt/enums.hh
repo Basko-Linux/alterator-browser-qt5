@@ -60,6 +60,17 @@ enum UserActionType
     UserActionForward = 7
 };
 
+enum BrowserEventType
+{
+    BrowserEventUnknown = 0,
+    BrowserEventClicked = 1,
+    BrowserEventRreturnPressed = 2,
+    BrowserEventSelected = 3,
+    BrowserEventDoubleClicked = 4,
+    BrowserEventToggled = 5,
+    BrowserEventUpdate = 6
+};
+
 class Enums
 {
 public:
@@ -70,11 +81,14 @@ public:
     AlteratorWidgetType strToWidget(const QString&);
     QString widgetToStr(const AlteratorWidgetType);
     UserActionType strToUserAction(const QString&);
+    BrowserEventType strToBrowserEvent(const QString&);
+    QString browserEventToStr(const BrowserEventType);
 
 private:
     QMap<QString,AlteratorRequestActionType> str2action;
     QMap<QString,AlteratorWidgetType> str2widget;
     QMap<QString,UserActionType> str2u_action;
+    QMap<QString,BrowserEventType> str2event;
 };
 
 #endif

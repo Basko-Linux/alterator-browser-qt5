@@ -52,6 +52,16 @@ void alWidget::onDoubleClick(QListWidgetItem*) { main_window->emitEvent(id_,"dou
 void alWidget::onToggle(bool) { main_window->emitEvent(id_,"toggled", AlteratorRequestDefault); }
 void alWidget::onToggle(int) { main_window->emitEvent(id_,"toggled", AlteratorRequestDefault); }
 
+void alWidget::onEvent(const BrowserEventType e, const AlteratorRequestFlags f)
+{
+    main_window->emitEvent(id_, e, f);
+}
+
+void alWidget::onEvent(const BrowserEventType e)
+{
+    onEvent(e, AlteratorRequestDefault);
+}
+
 void alWidget::setAttr(const QString& name,const QString& value)
 {
 	QWidget *w = getWidget();

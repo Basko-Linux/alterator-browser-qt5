@@ -32,6 +32,7 @@ public:
     void changeLanguage(const QString&);
     void getDocument(const QString& request);
     void emitEvent(const QString &id,const QString &type, const AlteratorRequestFlags);
+    void emitEvent(const QString &id, const BrowserEventType type, const AlteratorRequestFlags);
 
 signals:
     void languageChanged();

@@ -59,6 +59,13 @@ Enums::Enums()
     str2u_action["backward"] = UserActionBackward;
     str2u_action["forward"]  = UserActionForward;
     str2u_action["generic"]  = UserActionGeneric;
+
+    str2event["clicked"]        = BrowserEventClicked;
+    str2event["return-pressed"] = BrowserEventRreturnPressed;
+    str2event["selected"]       = BrowserEventSelected;
+    str2event["double-clicked"] = BrowserEventDoubleClicked;
+    str2event["toggled"]        = BrowserEventToggled;
+    str2event["udpate"]        = BrowserEventUpdate;
 }
 
 Enums::~Enums()
@@ -77,10 +84,24 @@ AlteratorWidgetType Enums::strToWidget(const QString &str)
 
 QString Enums::widgetToStr(const AlteratorWidgetType t)
 {
-    return str2widget.key(t);
+    QString ret = str2widget.key(t);
+    if( ret.isEmpty() ) ret = "__undefined__";
+    return ret;
 }
 
 UserActionType Enums::strToUserAction(const QString &str)
 {
     return str2u_action[str];
+}
+
+BrowserEventType Enums::strToBrowserEvent(const QString &str)
+{
+    return str2event[str];
+}
+
+QString Enums::browserEventToStr(const BrowserEventType t)
+{
+    QString ret = str2event.key(t);
+    if( ret.isEmpty() ) ret = "__undefined__";
+    return ret;
 }

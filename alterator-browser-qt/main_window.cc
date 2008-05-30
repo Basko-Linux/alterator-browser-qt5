@@ -27,6 +27,7 @@
 #include "mailbox.hh"
 #include "widgetlist.hh"
 #include "a_pixmaps.hh"
+#include "enums.hh"
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
@@ -35,9 +36,12 @@
 #include <QX11Info>
 #endif
 
+extern Enums *enums;
+
 alWizardFace *wizard_face = 0;
 MailBox *mailbox = 0;
 WidgetList *widgetlist = 0;
+
 
 bool x_redirect_error;
 bool x_error_occurred;
@@ -392,7 +396,7 @@ void MainWindow::reloadTranslator(QTranslator* translator, const QString &domain
     }
 }
 
-void MainWindow::emitEvent(const QString &id,const QString &type, const AlteratorRequestFlags request_flags)
+void MainWindow::emitEvent(const QString &id, const BrowserEventType type, const AlteratorRequestFlags request_flags)
 {
 	if( emit_locker > 0 ) return;
 	if( request_flags & AlteratorRequestBlocking )
@@ -402,7 +406,7 @@ void MainWindow::emitEvent(const QString &id,const QString &type, const Alterato
 	}
 
 	QString request = "(alterator-request action \"event\"";
-	request += "name \""+type+"\"";//append type
+	request += "name \""+enums->browserEventToStr(type)+"\"";//append type
 	request += "widget-id \""+id+"\"";//append id
 	
 	//now collect a post data
@@ -414,6 +418,13 @@ void MainWindow::emitEvent(const QString &id,const QString &type, const Alterato
 
 	if( request_flags & AlteratorRequestTimeReset )
 	    resetTimeEditAll();
+
+
+}
+
+void MainWindow::emitEvent(const QString &id,const QString &type, const AlteratorRequestFlags request_flags)
+{
+    emitEvent(id, enums->strToBrowserEvent(type), request_flags);
 }
 
 void MainWindow::onAlteratorRequest(const AlteratorRequest& request)

@@ -51,6 +51,9 @@ public:
 	Qt::Alignment childrenAlignment();
 
 public slots:
+	void onEvent(const BrowserEventType, const AlteratorRequestFlags);
+	void onEvent(const BrowserEventType);
+
 	void onUpdate();
 	void onUpdate(int);
 
