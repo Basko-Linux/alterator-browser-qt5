@@ -3,7 +3,7 @@
 
 Name: alterator-browser-qt
 Version: 2.9.83
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -77,6 +77,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Mon Jun 02 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.83-alt2
+- turn on Enter key support in wizardface
+
 * Fri May 30 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.83-alt1
 - fix #15792
 
