@@ -604,7 +604,7 @@ void AWizardFace::keyPressEvent(QKeyEvent* e)
     bool entered = false;
     switch( e->key() )
     {
-#if 0
+#if 1
 	case Qt::Key_Return:
 	case Qt::Key_Enter:
 #endif
