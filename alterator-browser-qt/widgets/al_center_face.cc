@@ -76,11 +76,18 @@ int ACenterSectionModulesList::count()
     return items.count();
 }
 
+bool ACenterSectionModulesList::isOwnerOfItem(ACenterSectionModulesListItem *i)
+{
+    return i->parentWidget() == this;
+}
+
 /* CenterSection */
 ACenterSection::ACenterSection(QWidget *parent, const QString &title_text):
     QWidget(parent)
 {
     setObjectName("module_section");
+
+    pixmap = new QLabel(this);
 
     title = new QLabel(title_text, this);
     QSizePolicy sp( QSizePolicy::Minimum, QSizePolicy::Maximum );
@@ -102,6 +109,7 @@ ACenterSection::ACenterSection(QWidget *parent, const QString &title_text):
     QVBoxLayout *main_layout = new QVBoxLayout(this);
     main_layout->setMargin(0);
     main_layout->setSpacing(0);
+    main_layout->addWidget(pixmap);
     main_layout->addWidget(title);
     main_layout->addWidget(separator);
     main_layout->addWidget(modlist);
@@ -110,7 +118,17 @@ ACenterSection::ACenterSection(QWidget *parent, const QString &title_text):
 ACenterSection::~ACenterSection()
 {}
 
-QString ACenterSection::getTitle()
+void ACenterSection::setPixmap(const QPixmap &pix)
+{
+    pixmap->setPixmap(pix);
+}
+
+void ACenterSection::setText(const QString &txt)
+{
+    title->setText(txt);
+}
+
+QString ACenterSection::getText()
 {
     return title->text();
 }
@@ -297,41 +315,27 @@ void ACenterFace::setActionPixmap(const QString &key, const QString &value)
 
 void ACenterFace::clearModules()
 {
+    QList<ACenterSectionModulesListItem*> dead_modules = modules.values();
     modules.clear();
-    QList<ACenterSection*> sections = sections_view_widget->findChildren<ACenterSection*>("module_section");
-    QListIterator<ACenterSection*> it(sections);
+    QListIterator<ACenterSectionModulesListItem*> it(dead_modules);
     while(it.hasNext())
     {
-        delete it.next();
+	ACenterSectionModulesListItem *dead = it.next();
+        delete dead;
+        dead = 0;
     }
 }
 
-void ACenterFace::addModule(const QString& key, const QString& section_title, const QString& name, const QString& pixmap)
+void ACenterFace::addModule(const QString& section_key, const QString& key, const QString& name)
 {
-    if( !key.isEmpty() && !section_title.isEmpty() )
+    if( !key.isEmpty() && sections.contains(section_key) )
     {
-	ACenterSection *section = 0;
-	QList<ACenterSection*> sections = sections_view_widget->findChildren<ACenterSection*>("module_section");
-	QListIterator<ACenterSection*> it(sections);
-	while(it.hasNext())
-	{
-	    ACenterSection *sect = it.next();
-	    if( sect->getTitle() == section_title )
-		section = sect;
-	}
-	if( !section )
-	{
-	    section = new ACenterSection(sections_view_widget, section_title);
-	    //section->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
-	    sections_view_layout->addWidget(section);
-	    connect(section->getModulesList(), SIGNAL(itemClicked(ACenterSectionModulesListItem*)), this, SLOT(onSelectModule(ACenterSectionModulesListItem*)));
-	}
+	ACenterSection *section = sections[section_key];
 	ACenterSectionModulesList *mlist = section->getModulesList();
 	ACenterSectionModulesListItem *i = new ACenterSectionModulesListItem();
 	mlist->addItem(i);
 	modules[key] = i;
 	setModuleText(key,name);
-	setModulePixmap(key,pixmap);
     }
 }
 
@@ -345,29 +349,85 @@ void ACenterFace::setModuleText(const QString &key, const QString &value)
 
 void ACenterFace::setModulePixmap(const QString &key, const QString &value)
 {
+#if 0
     if( modules.contains(key) )
 	modules[key]->setIcon(getPixmap(value));
+#endif
 }
 
 void ACenterFace::removeModule(const QString &key)
 {
-    ACenterSectionModulesListItem* i = modules[key];
-    if( i )
+    if( modules.contains(key) )
     {
-	QList<ACenterSection*> sections = sections_view_widget->findChildren<ACenterSection*>("module_section");
-	QListIterator<ACenterSection*> it(sections);
+	ACenterSectionModulesListItem* i = modules[key];
+	QMapIterator<QString,ACenterSection*> it(sections);
 	while(it.hasNext())
 	{
-	    ACenterSection *sect = it.next();
+	    ACenterSection *sect = it.next().value();
 	    ACenterSectionModulesList *mlst = sect->getModulesList();
-	    if( mlst == i->parentWidget() )
+	    if( mlst->isOwnerOfItem(i) )
 	    {
 		modules.remove(key);
 		mlst->removeItem(i);
-		if(mlst->count() <= 0)
-		    delete sect;
 	    }
 	}
+    }
+}
+
+void ACenterFace::clearSections()
+{
+    clearModules();
+    QMap<QString,ACenterSection*> dead_sections = sections;
+    sections.clear();
+
+    QMapIterator<QString,ACenterSection*> it(dead_sections);
+    while(it.hasNext())
+    {
+	delete it.next().value();
+	dead_sections[it.key()] = 0;
+    }
+}
+
+void ACenterFace::addSection(const QString& key, const QString& name, const QString& pixmap)
+{
+    ACenterSection *section = new ACenterSection(sections_view_widget, name);
+    //section->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
+    sections_view_layout->addWidget(section);
+    sections[key] = section;
+    if(!pixmap.isEmpty())
+	setSectionPixmap(key, pixmap);
+    connect(section->getModulesList(), SIGNAL(itemClicked(ACenterSectionModulesListItem*)), this, SLOT(onSelectModule(ACenterSectionModulesListItem*)));
+}
+
+void ACenterFace::setSectionText(const QString &key, const QString &value)
+{
+    if( sections.contains(key) )
+	sections[key]->setText(value);
+}
+
+void ACenterFace::setSectionPixmap(const QString &key, const QString &value)
+{
+    if( sections.contains(key) )
+	sections[key]->setPixmap(getPixmap(value));
+}
+
+void ACenterFace::removeSection(const QString& key)
+{
+    if( sections.contains(key) )
+    {
+	ACenterSection *section = sections.take(key);
+	ACenterSectionModulesList *mlistw = section->getModulesList();
+	QList<QString> mod_keys;
+	QMapIterator<QString,ACenterSectionModulesListItem*> it(modules);
+	while(it.hasNext())
+	{
+	    if( mlistw->isOwnerOfItem(it.next().value()) )
+		mod_keys.append(it.key());
+	}
+	QListIterator<QString> mit(mod_keys);
+	while(mit.hasNext())
+	    removeModule(mit.next());
+	delete section;
     }
 }
 
@@ -519,32 +579,28 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
 	QStringListIterator it(data);
 	forever
 	{
-	    QString key, section, name, pixmap;
+	    QString section_key, key, name;
 	    if(it.hasNext())
-		key = it.next();
+		section_key = it.next();
 	    else
 		break;
 	    if(it.hasNext())
-		section = it.next();
+		key = it.next();
 	    else
 		break;
 	    if(it.hasNext())
 		name = it.next();
 	    else
 		break;
-	    if(it.hasNext())
-		pixmap = it.next();
-	    else
-		break;
-	    wnd_->addModule(key, section, name, pixmap);
+	    wnd_->addModule(section_key, key, name);
 	}
 
     }
     else if( "module-add" == name )
     {
 	QStringList data = value.split(";", QString::KeepEmptyParts);
-	if( data.size() >= 4 )
-	    wnd_->addModule(data[0], data[1], data[2], data[3]);
+	if( data.size() >= 3 )
+	    wnd_->addModule(data[0], data[1], data[2]);
     }
     else if( "module-remove" == name )
     {
@@ -568,6 +624,65 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
 	if( len >= 2 )
 	    wnd_->setModulePixmap(data[0], data[1]);
     }
+
+
+
+
+    else if( "sections" == name )
+    {
+	wnd_->clearSections();
+	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringListIterator it(data);
+	forever
+	{
+	    QString key, name, pixmap;
+	    if(it.hasNext())
+		key = it.next();
+	    else
+		break;
+	    if(it.hasNext())
+		name = it.next();
+	    else
+		break;
+	    if(it.hasNext())
+		pixmap = it.next();
+	    else
+		break;
+	    wnd_->addSection(key, name, pixmap);
+	}
+
+    }
+    else if( "sections-clear" == name )
+    {
+	wnd_->clearSections();
+    }
+    else if( "section-add" == name )
+    {
+	QStringList data = value.split(";", QString::KeepEmptyParts);
+	if( data.size() >= 3 )
+	    wnd_->addSection(data[0], data[1], data[2]);
+    }
+    else if( "section-remove" == name )
+    {
+	wnd_->removeSection(value);
+    }
+    else if( "section-text" == name )
+    {
+	QStringList data = value.split(";", QString::KeepEmptyParts);
+	const int len = data.size();
+	if( len >= 2 )
+	    wnd_->setSectionText(data[0], data[1]);
+    }
+    else if( "section-pixmap" == name )
+    {
+	QStringList data = value.split(";", QString::KeepEmptyParts);
+	const int len = data.size();
+	if( len >= 2 )
+	    wnd_->setSectionPixmap(data[0], data[1]);
+    }
+
+
+
     else
 	alWidget::setAttr(name,value);
 }

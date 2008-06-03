@@ -19,11 +19,14 @@ Q_OBJECT
 public:
     ACenterSectionModulesList(QWidget *parent);
     ~ACenterSectionModulesList();
+
     void addItem(ACenterSectionModulesListItem*);
     void setItemText(ACenterSectionModulesListItem*, const QString&);
     void setItemIcon(ACenterSectionModulesListItem*, const QIcon&);
     void removeItem(ACenterSectionModulesListItem*);
+
     int count();
+    bool isOwnerOfItem(ACenterSectionModulesListItem*);
 
 signals:
     void itemClicked(ACenterSectionModulesListItem*);
@@ -43,9 +46,13 @@ public:
     ACenterSection(QWidget *parent, const QString &title_text = "");
     ~ACenterSection();
 
-    QString getTitle();
+    void setPixmap(const QPixmap&);
+    void setText(const QString&);
+    QString getText();
+
     ACenterSectionModulesList *getModulesList();
 private:
+    QLabel *pixmap;
     QLabel *title;
     QFrame *separator;
     ACenterSectionModulesList *modlist;
@@ -65,10 +72,16 @@ public:
     void setActionPixmap(const QString &key, const QString &value);
 
     void clearModules();
-    void addModule(const QString& key, const QString& section, const QString& name, const QString& pixmap);
+    void addModule(const QString& section_key, const QString& key, const QString& name);
     void removeModule(const QString &key);
     void setModuleText(const QString &key, const QString &value);
     void setModulePixmap(const QString &key, const QString &value);
+
+    void clearSections();
+    void addSection(const QString& key, const QString& name, const QString& pixmap);
+    void setSectionText(const QString &key, const QString &value);
+    void setSectionPixmap(const QString &key, const QString &value);
+    void removeSection(const QString& key);
 
     QString currentActionKey();
     QString currentModuleKey();
@@ -89,7 +102,6 @@ private slots:
 private:
     QSignalMapper *action_signal_mapper;
     QSignalMapper *module_signal_mapper;
-    QList<ACenterSection*> sections;
     QString current_module_key;
     QString current_action_key;
     QWidget* module_widget;
@@ -102,8 +114,9 @@ private:
     QStackedLayout* stacked_layout;
     QDialogButtonBox* buttonbox;
 
-    QMap<QString, QAbstractButton*> buttons;
+    QMap<QString, ACenterSection*> sections;
     QMap<QString, ACenterSectionModulesListItem*> modules;
+    QMap<QString, QAbstractButton*> buttons;
 
     void addAction(const QString &key, UserActionType);
     QPixmap defaultActionIcon(UserActionType);
