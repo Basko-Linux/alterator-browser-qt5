@@ -581,8 +581,8 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	alWidget *new_widget = 0;
 
     /*
-	qDebug("%s: id<%s> type<%d> parent_id<%s> orientation<%s> sub-type<%s> width<%d> height<%d> columns<%s>", __FUNCTION__,
-	    qPrintable(id), attr[AltReqParamWType].t, qPrintable(parent_id),
+	qDebug("%s: id<%s> type<%s> parent_id<%s> orientation<%s> sub-type<%s> width<%d> height<%d> columns<%s>", __FUNCTION__,
+	    qPrintable(id), qPrintable(enums->widgetToStr(attr[AltReqParamWType].t)), qPrintable(parent_id),
 	    orientation == Qt::Horizontal ? "-":"|", qPrintable(attr[AltReqParamWSubType].s),
 	    attr[AltReqParamWWidth].i, attr[AltReqParamWHeight].i, qPrintable(columns) );
 	*/
