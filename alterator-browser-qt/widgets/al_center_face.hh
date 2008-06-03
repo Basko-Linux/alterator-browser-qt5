@@ -48,12 +48,13 @@ public:
 
     void setPixmap(const QPixmap&);
     void setText(const QString&);
-    QString getText();
+    void setDesc(const QString&);
 
     ACenterSectionModulesList *getModulesList();
 private:
     QLabel *pixmap;
     QLabel *title;
+    QLabel *desc;
     QFrame *separator;
     ACenterSectionModulesList *modlist;
 };
@@ -78,8 +79,9 @@ public:
     void setModulePixmap(const QString &key, const QString &value);
 
     void clearSections();
-    void addSection(const QString& key, const QString& name, const QString& pixmap);
+    void addSection(const QString& key, const QString& name, const QString& desc, const QString& pixmap);
     void setSectionText(const QString &key, const QString &value);
+    void setSectionDesc(const QString &key, const QString &value);
     void setSectionPixmap(const QString &key, const QString &value);
     void removeSection(const QString& key);
 

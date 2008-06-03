@@ -97,6 +97,14 @@ ACenterSection::ACenterSection(QWidget *parent, const QString &title_text):
     title_font.setBold( true );
     title->setFont(title_font);
 
+    desc = new QLabel(this);
+    sp = QSizePolicy( QSizePolicy::Minimum, QSizePolicy::Maximum );
+    sp.setHeightForWidth( desc->sizePolicy().hasHeightForWidth() );
+    desc->setSizePolicy(sp);
+    //QFont desc_font( decs->font() );
+    //desc_font.setBold( true );
+    //desc->setFont(decs_font);
+
     separator = new QFrame(this);
     sp = QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
     sp.setHeightForWidth( separator->sizePolicy().hasHeightForWidth() );
@@ -111,6 +119,7 @@ ACenterSection::ACenterSection(QWidget *parent, const QString &title_text):
     main_layout->setSpacing(0);
     main_layout->addWidget(pixmap);
     main_layout->addWidget(title);
+    main_layout->addWidget(desc);
     main_layout->addWidget(separator);
     main_layout->addWidget(modlist);
 }
@@ -128,9 +137,9 @@ void ACenterSection::setText(const QString &txt)
     title->setText(txt);
 }
 
-QString ACenterSection::getText()
+void ACenterSection::setDesc(const QString &txt)
 {
-    return title->text();
+    desc->setText(txt);
 }
 
 ACenterSectionModulesList* ACenterSection::getModulesList()
@@ -388,12 +397,14 @@ void ACenterFace::clearSections()
     }
 }
 
-void ACenterFace::addSection(const QString& key, const QString& name, const QString& pixmap)
+void ACenterFace::addSection(const QString& key, const QString& name, const QString& desc, const QString& pixmap)
 {
     ACenterSection *section = new ACenterSection(sections_view_widget, name);
     //section->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
     sections_view_layout->addWidget(section);
     sections[key] = section;
+    if(!desc.isEmpty())
+	setSectionDesc(key, desc);
     if(!pixmap.isEmpty())
 	setSectionPixmap(key, pixmap);
     connect(section->getModulesList(), SIGNAL(itemClicked(ACenterSectionModulesListItem*)), this, SLOT(onSelectModule(ACenterSectionModulesListItem*)));
@@ -403,6 +414,12 @@ void ACenterFace::setSectionText(const QString &key, const QString &value)
 {
     if( sections.contains(key) )
 	sections[key]->setText(value);
+}
+
+void ACenterFace::setSectionDesc(const QString &key, const QString &value)
+{
+    if( sections.contains(key) )
+	sections[key]->setDesc(value);
 }
 
 void ACenterFace::setSectionPixmap(const QString &key, const QString &value)
@@ -624,10 +641,6 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
 	if( len >= 2 )
 	    wnd_->setModulePixmap(data[0], data[1]);
     }
-
-
-
-
     else if( "sections" == name )
     {
 	wnd_->clearSections();
@@ -635,7 +648,7 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
 	QStringListIterator it(data);
 	forever
 	{
-	    QString key, name, pixmap;
+	    QString key, name, desc, pixmap;
 	    if(it.hasNext())
 		key = it.next();
 	    else
@@ -645,12 +658,15 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
 	    else
 		break;
 	    if(it.hasNext())
+		desc = it.next();
+	    else
+		break;
+	    if(it.hasNext())
 		pixmap = it.next();
 	    else
 		break;
-	    wnd_->addSection(key, name, pixmap);
+	    wnd_->addSection(key, name, desc, pixmap);
 	}
-
     }
     else if( "sections-clear" == name )
     {
@@ -659,8 +675,8 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
     else if( "section-add" == name )
     {
 	QStringList data = value.split(";", QString::KeepEmptyParts);
-	if( data.size() >= 3 )
-	    wnd_->addSection(data[0], data[1], data[2]);
+	if( data.size() >= 4 )
+	    wnd_->addSection(data[0], data[1], data[2], data[3]);
     }
     else if( "section-remove" == name )
     {
@@ -680,9 +696,6 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
 	if( len >= 2 )
 	    wnd_->setSectionPixmap(data[0], data[1]);
     }
-
-
-
     else
 	alWidget::setAttr(name,value);
 }
