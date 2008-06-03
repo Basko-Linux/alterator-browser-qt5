@@ -2,8 +2,8 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.83
-Release: alt2
+Version: 2.9.84
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -77,6 +77,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Tue Jun 03 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.84-alt1
+- new centerface widget API
+
 * Mon Jun 02 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.83-alt2
 - turn on Enter key support in wizardface
 
