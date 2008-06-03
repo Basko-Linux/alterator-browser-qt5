@@ -11,7 +11,25 @@
 #include "widgets.hh"
 #include "flowlayout.hh"
 
-typedef QToolButton ACenterSectionModulesListItem;
+class ACenterModuleButton: public QLabel
+{
+Q_OBJECT
+public:
+    ACenterModuleButton(QWidget *parent = 0);
+    ~ACenterModuleButton();
+
+    void setText(const QString&);
+    void setPixmap(const QPixmap&);
+    void setIcon(const QIcon&);
+
+signals:
+    void clicked();
+
+private slots:
+    void onLinkActivated(const QString&);
+};
+
+typedef ACenterModuleButton ACenterSectionModulesListItem;
 
 class ACenterSectionModulesList: public QWidget
 {

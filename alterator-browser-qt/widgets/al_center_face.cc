@@ -8,6 +8,33 @@
 
 extern Enums *enums;
 
+ACenterModuleButton::ACenterModuleButton(QWidget *parent):
+    QLabel(parent)
+{
+    setTextFormat(Qt::RichText);
+    setWordWrap(false);
+    connect(this, SIGNAL(linkActivated(const QString&)), this, SLOT(onLinkActivated(const QString&)));
+}
+
+ACenterModuleButton::~ACenterModuleButton()
+{}
+
+void ACenterModuleButton::onLinkActivated(const QString&)
+{
+    emit clicked();
+}
+
+void ACenterModuleButton::setText(const QString &txt)
+{
+    QLabel::setText("<a href=\"/\">" + txt + "</a>");
+}
+
+void ACenterModuleButton::setPixmap(const QPixmap&)
+{}
+
+void ACenterModuleButton::setIcon(const QIcon&)
+{}
+
 /* CenterSectionModulesList */
 ACenterSectionModulesList::ACenterSectionModulesList(QWidget *parent):
     QWidget(parent)
@@ -35,13 +62,6 @@ void ACenterSectionModulesList::onItemClicked(QWidget *w)
 void ACenterSectionModulesList::addItem(ACenterSectionModulesListItem *i)
 {
     i->setParent(this);
-    i->setIconSize(QSize(32,32));
-    i->setAutoRaise(true);
-    i->setBackgroundRole(QPalette::Base);
-    i->setForegroundRole(QPalette::Text);
-    i->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    QFontMetrics mtr = QFontMetrics(i->font());
-    i->setMinimumWidth(mtr.width("w")*20);
     lay->addWidget(i);
 
     items.append(i);
@@ -114,14 +134,18 @@ ACenterSection::ACenterSection(QWidget *parent, const QString &title_text):
     modlist = new ACenterSectionModulesList(this);
     modlist->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
+    QVBoxLayout *txt_layout = new QVBoxLayout();
+    txt_layout->addWidget(title);
+    txt_layout->addWidget(desc);
+    txt_layout->addWidget(modlist);
+
+    QHBoxLayout *h_layout = new QHBoxLayout();
+    h_layout->addWidget(pixmap);
+    h_layout->addLayout(txt_layout);
+
     QVBoxLayout *main_layout = new QVBoxLayout(this);
-    main_layout->setMargin(0);
-    main_layout->setSpacing(0);
-    main_layout->addWidget(pixmap);
-    main_layout->addWidget(title);
-    main_layout->addWidget(desc);
+    main_layout->addLayout(h_layout);
     main_layout->addWidget(separator);
-    main_layout->addWidget(modlist);
 }
 
 ACenterSection::~ACenterSection()
@@ -205,15 +229,13 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     main_layout->addLayout(stacked_layout);
     setLayout(main_layout);
 
-    QPushButton *ow_btn = buttonbox->addButton(tr("Owerview"), QDialogButtonBox::ActionRole);
-    ow_btn->setIcon(getPixmap("theme:left"));
-    connect(ow_btn, SIGNAL(clicked()), this, SLOT(onOwerviewClicked()));
-
     action_signal_mapper = new QSignalMapper(this);
     connect(action_signal_mapper, SIGNAL(mapped(const QString &)),
 	this, SIGNAL(actionSelected(const QString &)));
     connect( this, SIGNAL(actionSelected(const QString&)),
 	this, SLOT(onSelectAction(const QString&)) );
+
+    clearActions();
 }
 
 ACenterFace::~ACenterFace()
@@ -228,6 +250,10 @@ void ACenterFace::clearActions()
 {
     buttons.clear();
     buttonbox->clear();
+
+    QPushButton *ow_btn = buttonbox->addButton(tr("Owerview"), QDialogButtonBox::ActionRole);
+    ow_btn->setIcon(getPixmap("theme:left"));
+    connect(ow_btn, SIGNAL(clicked()), this, SLOT(onOwerviewClicked()));
 }
 
 QPixmap ACenterFace::defaultActionIcon(UserActionType type)
