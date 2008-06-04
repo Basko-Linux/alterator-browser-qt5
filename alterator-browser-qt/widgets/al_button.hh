@@ -1,29 +1,15 @@
 #ifndef QTBROWSER_AL_BUTTON_HH
 #define QTBROWSER_AL_BUTTON_HH
 
-#include <QLabel>
+#include <QPushButton>
 
 #include "al_widget.hh"
 
-class AButton: public QWidget
+class AButton: public QPushButton
 {
-Q_OBJECT
 public:
-    AButton(QWidget *parent, const Qt::Orientation);
-    ~AButton();
-
-    void setText(const QString&);
-    void setPixmap(const QPixmap&);
-
-signals:
-    void clicked();
-
-private slots:
-    void onLinkActivated(const QString&);
-
-private:
-    QLabel *txt_lbl;
-    QLabel *pix_lbl;
+    AButton(QWidget *parent,const Qt::Orientation): QPushButton(parent) {};
+    ~AButton() {};
 };
 
 class alButton: public alWidgetPre<AButton>
