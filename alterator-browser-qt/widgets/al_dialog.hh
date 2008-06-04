@@ -19,6 +19,9 @@ public:
 	void setDefaultAction(const QString& key);
 	QString currentAction();
 
+signals:
+	void actionSelected();
+
 protected:
 	void closeEvent(QCloseEvent*);
 	void keyPressEvent(QKeyEvent*);
@@ -42,6 +45,7 @@ class alDialog: public alWidgetPre<ADialog>
 public:
 	alDialog(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation);
 	void setAttr(const QString& name,const QString& value);
+	void registerEvent(const QString&);
 	QString postData() const ;
 	void start() { wnd_->exec(); }
 	void stop()  { wnd_->done(0); }

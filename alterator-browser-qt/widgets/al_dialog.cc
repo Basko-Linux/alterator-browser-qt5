@@ -5,6 +5,8 @@
 ADialog::ADialog(QWidget *parent, const Qt::Orientation):
     QDialog(0)
 {
+    current_action = "__undefined__";
+
     key2btn["ok"]=QDialogButtonBox::Ok;
     key2btn["open"]=QDialogButtonBox::Open;
     key2btn["save"]=QDialogButtonBox::Save;
@@ -98,10 +100,13 @@ void ADialog::addAction(const QString& key, const QString& name, const QString& 
 {
     if( !key.isEmpty() && !buttons.contains(key) )
     {
+	QPushButton *b = 0;
 	if( key2btn.contains(key) )
-	    buttons[key] = btnbox->addButton(key2btn[key]);
+	    b = btnbox->addButton(key2btn[key]);
         else
-	    buttons[key] = btnbox->addButton(name, QDialogButtonBox::ActionRole);
+	    b = btnbox->addButton(name, QDialogButtonBox::ActionRole);
+	if( b )
+	    buttons[key] = b;
     }
 }
 
@@ -109,8 +114,9 @@ void ADialog::removeAction(const QString &key)
 {
     if( buttons.contains(key) )
     {
-	buttons.remove(key);
-	btnbox->removeButton(buttons[key]);
+	QAbstractButton *b = buttons.take(key);
+	if( b )
+	    btnbox->removeButton(b);
     }
 }
 
@@ -122,11 +128,17 @@ void ADialog::clearActions()
 
 void ADialog::onButtonClicked(QAbstractButton* btn)
 {
-    QMapIterator<QString, QAbstractButton*> it(buttons);
-    while(it.hasNext() )
+    if( btn )
     {
-	if( btn == it.next().value() )
-	    current_action = it.key();
+	QMapIterator<QString, QAbstractButton*> it(buttons);
+	while(it.hasNext() )
+	{
+	    if( btn == it.next().value() )
+	    {
+		current_action = it.key();
+		emit actionSelected();
+	    }
+	}
     }
 }
 
@@ -169,6 +181,14 @@ QWidget* alDialog::getViewWidget()
 QLayout* alDialog::getViewLayout()
 {
     return wnd_->getView()->layout();
+}
+
+void alDialog::registerEvent(const QString& name)
+{
+    if ("clicked" == name)
+    {
+	connect(wnd_,SIGNAL(actionSelected()), SLOT(onClick()));
+    }
 }
 
 void alDialog::setAttr(const QString& name,const QString& value)
