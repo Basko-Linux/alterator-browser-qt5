@@ -252,6 +252,7 @@ QSizePolicy alWidget::adjustSizePolicy(const AlteratorWidgetType type, const QSi
 	    break;
 	}
 	case WButton:
+	case WLinkButton:
 	{
 	    szpol.setHorizontalPolicy(QSizePolicy::Maximum);
 	    break;

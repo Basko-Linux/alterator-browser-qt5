@@ -24,6 +24,7 @@ Enums::Enums()
     str2widget["vbox"] = WVBox;
     str2widget["hbox"] = WHBox;
     str2widget["button"] = WButton;
+    str2widget["linkbutton"] = WLinkButton;
     str2widget["radio"] = WRadio;
     str2widget["label"] = WLabel;
     str2widget["edit"] = WEdit;

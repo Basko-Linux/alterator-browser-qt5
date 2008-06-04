@@ -6,6 +6,7 @@
 #include "widgets/al_main_widget.hh"
 #include "widgets/al_label.hh"
 #include "widgets/al_button.hh"
+#include "widgets/al_linkbutton.hh"
 #include "widgets/al_radio.hh"
 #include "widgets/al_edit.hh"
 #include "widgets/al_textbox.hh"

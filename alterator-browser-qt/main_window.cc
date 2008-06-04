@@ -610,6 +610,7 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WHGroupBox:
 	case WGroupBox: {    new_widget = new alGroupBox(attr,id,parent_id); break; }
 	case WButton: {      new_widget = new alButton(attr,id,parent_id); break; }
+	case WLinkButton: {  new_widget = new alLinkButton(attr,id,parent_id); break; }
 	case WRadio: {       new_widget = new alRadio(attr,id,parent_id); break; }
 	case WLabel: {       new_widget = new alLabel(attr,id,parent_id); break; }
 	case WEdit: {        new_widget = new alEdit(attr,id,parent_id); break; }
