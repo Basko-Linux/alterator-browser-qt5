@@ -48,6 +48,9 @@ void MailBox::onNewConnection()
 		main_window->getDocument(QString("(mailbox-request %1 )").arg(message));
 		//qDebug("end of processing....");
 	}
-	delete local_sock;
+	else if (len <= 0)
+	{
+	    delete local_sock;
+	}
     }
 }
