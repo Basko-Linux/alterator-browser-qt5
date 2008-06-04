@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.84
+Version: 2.9.85
 Release: alt1
 
 Source:%name-%version.tar
@@ -24,7 +24,7 @@ Requires: libqt4-core >= %{get_version libqt4-core}
 
 Obsoletes: alterator-look-qt
 
-BuildRequires(pre): libqt4-core > 4.4
+BuildRequires(pre): libqt4-core > 4.3
 BuildRequires: libalternatives-devel
 BuildRequires: fontconfig freetype2 gcc-c++ libqt4-devel libstdc++-devel
 
@@ -77,6 +77,12 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Wed Jun 04 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.85-alt1
+- add linkbutton widget
+- fix mailbox
+- fix dialog actions support
+- fix centerface look
+
 * Tue Jun 03 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.84-alt1
 - new centerface widget API
 
