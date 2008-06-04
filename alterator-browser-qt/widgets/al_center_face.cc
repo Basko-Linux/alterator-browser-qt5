@@ -108,6 +108,7 @@ ACenterSection::ACenterSection(QWidget *parent, const QString &title_text):
     setObjectName("module_section");
 
     pixmap = new QLabel(this);
+    pixmap->setAlignment(Qt::AlignTop);
 
     title = new QLabel(title_text, this);
     QSizePolicy sp( QSizePolicy::Minimum, QSizePolicy::Maximum );
@@ -115,6 +116,12 @@ ACenterSection::ACenterSection(QWidget *parent, const QString &title_text):
     title->setSizePolicy(sp);
     QFont title_font( title->font() );
     title_font.setBold( true );
+    int title_font_pt_size = (int)(title_font.pointSize()*1.5);
+    int title_font_px_size = (int)(title_font.pixelSize()*1.5);
+    if( title_font_pt_size > title_font_px_size )
+	title_font.setPointSize(title_font_pt_size);
+    else
+	title_font.setPixelSize(title_font_px_size);
     title->setFont(title_font);
 
     desc = new QLabel(this);
@@ -208,7 +215,10 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
 	view_layout = new QHBoxLayout(view_widget);
     else
 	view_layout = new QVBoxLayout(view_widget);
-    sections_view_layout = new QVBoxLayout(sections_view_widget);
+    QVBoxLayout *sections_view_main_layout = new QVBoxLayout(sections_view_widget);
+    sections_view_layout = new QVBoxLayout();
+    sections_view_main_layout->addLayout(sections_view_layout);
+    sections_view_main_layout->addStretch(1);
 
     QVBoxLayout *sections_layout = new QVBoxLayout(sections_widget);
     sections_layout->addWidget(sections_scroll);
