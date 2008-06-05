@@ -61,6 +61,7 @@ enum UserActionType
     UserActionForward = 7
 };
 
+typedef int BrowserEventTypes;
 enum BrowserEventType
 {
     BrowserEventUnknown = 0,

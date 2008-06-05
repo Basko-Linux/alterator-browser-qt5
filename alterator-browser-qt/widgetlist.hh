@@ -25,6 +25,21 @@ public:
     QString makeRequestData();
     void destroyLater(const QString& id);
 
+template <typename T>
+    QList<QWidget*> viewVidgetsByQWidgetType() {
+	QList<QWidget*> ret;
+	foreach(alWidget *aw, elements) {
+	    QWidget *w = aw->getWidget();
+	    if( qobject_cast<T>(w) )
+	    {
+		QWidget *vw = aw->getViewWidget();
+		if( vw )
+		    ret.append(vw);
+	    }
+	}
+	return ret;
+}
+
 private:
     QMap<QString,alWidget*> elements;
 };

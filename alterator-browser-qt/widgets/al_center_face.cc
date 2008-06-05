@@ -182,6 +182,7 @@ ACenterSectionModulesList* ACenterSection::getModulesList()
 ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     QWidget(parent)
 {
+    reg_events = BrowserEventUnknown;
     current_action_key = "__undefined__";
     current_module_key = "__undefined__";
 
@@ -196,7 +197,7 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
     scroll->setWidgetResizable( true );
 
-    view_widget = new QWidget(scroll->viewport());
+    view_widget = new QWidget();
     view_widget->setObjectName("view");
     scroll->setWidget(view_widget);
 
@@ -206,7 +207,7 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     sections_scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
     sections_scroll->setWidgetResizable( true );
 
-    sections_view_widget = new QWidget(sections_scroll->viewport());
+    sections_view_widget = new QWidget();
     sections_view_widget->setObjectName("modules_view");
     sections_scroll->setWidget(sections_view_widget);
 
@@ -250,6 +251,17 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
 
 ACenterFace::~ACenterFace()
 {}
+
+void ACenterFace::setEventRegistered(const QString &id_, BrowserEventType e)
+{
+    id = id_;
+    reg_events |= e;
+}
+
+bool ACenterFace::eventRegistered(BrowserEventType e)
+{
+    return reg_events & e;
+}
 
 void ACenterFace::onOwerviewClicked()
 {
@@ -503,14 +515,17 @@ void ACenterFace::onSelectAction(const QString& key)
 	QApplication::postEvent(main_window, hlp);
     }
     current_action_key = key;
-    emit actionSelected();
+    if( eventRegistered(BrowserEventClicked) )
+	main_window->emitEvent(id, BrowserEventClicked, AlteratorRequestDefault);
 }
 
 void ACenterFace::onSelectModule(ACenterSectionModulesListItem *i)
 {
     current_module_key = modules.key(i);
+    view_widget->hide();
     stacked_layout->setCurrentWidget(module_widget);
-    moduleSelected();
+    if( eventRegistered(BrowserEventSelected) )
+	main_window->emitEvent(id, BrowserEventSelected, AlteratorRequestCenterFaceModuleSelected);
 }
 
 QString ACenterFace::currentActionKey()
@@ -544,11 +559,9 @@ QLayout* alCenterFace::getViewLayout()
 void alCenterFace::registerEvent(const QString& name)
 {
     if ("clicked" == name)
-    {
-	connect(wnd_,SIGNAL(actionSelected()), SLOT(onClick()));
-    }
+	wnd_->setEventRegistered(id_, BrowserEventClicked);
     if ("selected" == name)
-	connect(wnd_,SIGNAL(moduleSelected()), SLOT(onSelect()));
+	wnd_->setEventRegistered(id_, BrowserEventSelected);
 }
 
 QString alCenterFace::postData() const

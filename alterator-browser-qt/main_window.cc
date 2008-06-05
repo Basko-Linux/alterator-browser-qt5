@@ -569,6 +569,14 @@ void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
 	    }
 	}
     }
+
+    if( request.flags & AlteratorRequestCenterFaceModuleSelected )
+    {
+	QList<QWidget*> cf_views = widgetlist->viewVidgetsByQWidgetType<ACenterFace*>();
+	foreach(QWidget *w, cf_views )
+	    w->show();
+    }
+
 }
 
 alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)

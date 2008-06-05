@@ -86,7 +86,8 @@ enum AlteratorRequestFlag
     AlteratorRequestDefault = 0,
     AlteratorRequestBlocking = 1,
     AlteratorRequestInit = 2,
-    AlteratorRequestTimeReset = 4
+    AlteratorRequestTimeReset = 4,
+    AlteratorRequestCenterFaceModuleSelected = 8
 };
 
 typedef QMap<AlteratorRequestParamType, AlteratorRequestParamData> AlteratorRequestActionAttrs;

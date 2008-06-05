@@ -84,6 +84,9 @@ public:
     ACenterFace(QWidget *parent, const Qt::Orientation);
     ~ACenterFace();
 
+    void setEventRegistered(const QString&, BrowserEventType);
+    bool eventRegistered(BrowserEventType);
+
     void clearActions();
     void addAction(const QString& key, const QString& name, const QString& pixmap);
     void removeAction(const QString &key);
@@ -110,9 +113,7 @@ public:
     QLayout* getViewLayout();
 
 signals:
-    void actionSelected();
     void actionSelected(const QString& key);
-    void moduleSelected();
 
 private slots:
     void onSelectAction(const QString&);
@@ -120,6 +121,8 @@ private slots:
     void onOwerviewClicked();
 
 private:
+    QString id;
+    BrowserEventTypes reg_events;
     QSignalMapper *action_signal_mapper;
     QSignalMapper *module_signal_mapper;
     QString current_module_key;
