@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.85
+Version: 2.9.86
 Release: alt1
 
 Source:%name-%version.tar
@@ -77,6 +77,10 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Fri Jun 06 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.86-alt1
+- fix to make splash a non-window to avoid crash
+- hide old module while new is not shown in centerface
+
 * Wed Jun 04 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.85-alt1
 - add linkbutton widget
 - fix mailbox
