@@ -1,5 +1,4 @@
-#include <QGridLayout>
-#include <QPaintEvent>
+#include <QHBoxLayout>
 
 #include "splashscreen.hh"
 #include "utils.hh"
@@ -8,20 +7,25 @@
 extern MainWindow *main_window;
 
 SplashScreen::SplashScreen(QWidget *parent):
-    QWidget(parent, Qt::FramelessWindowHint|Qt::CustomizeWindowHint|Qt::Window)
+    QFrame(parent)
 {
-    if( !main_window->haveWindowManager() )
-	setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
-    setWindowModality(Qt::ApplicationModal);
     setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
 
-    QGridLayout *lay = new QGridLayout(this);
-    lay->setMargin(10);
+    QHBoxLayout *lay = new QHBoxLayout(this);
+    lay->setMargin(0);
 
-    label = new QLabel(this);
+    label = new QLineEdit(this);
     label->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     label->setAlignment(Qt::AlignCenter);
-    lay->addWidget(label, 0, 0, Qt::AlignCenter);
+    label->setFrame(false);
+    label->setReadOnly(true);
+    label->setDragEnabled(false);
+    lay->addWidget(label);
+
+    move(parent->geometry().center() - geometry().center());
+    raise();
+    show();
 }
 
 SplashScreen::~SplashScreen()
@@ -31,12 +35,10 @@ SplashScreen::~SplashScreen()
 void SplashScreen::setText(const QString &txt)
 {
     label->setText(txt);
-}
-
-void SplashScreen::paintEvent(QPaintEvent* e)
-{
-//    if( !main_window->haveWindowManager() )
-//    {
-	Utils::widgetCornersRound(this);
-//    }
+    QFontMetrics m(label->font());
+    setMinimumWidth(m.boundingRect(txt).width() + 25);
+    QRect pg(parentWidget()->geometry());
+    int w = width();
+    int h = height();
+    setGeometry((pg.width()-w)/2, (pg.height()-h)/2,w ,h);
 }

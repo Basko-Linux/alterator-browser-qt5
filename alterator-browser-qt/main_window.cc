@@ -788,18 +788,13 @@ void MainWindow::onFileSelectRequest(const QString& title, const QString& dir, c
 void MainWindow::splashStart()
 {
 	if (splash) return;
-
-	splash = new SplashScreen(QApplication::activeWindow());
-	QRect pr(0,0,width(),height());
-	QRect sr(0,0,splash->width(),splash->height());
-	splash->move(mapToGlobal(pr.center()) - sr.center());
-	splash->show();
+	splash = new SplashScreen(this);
 }
 
 void MainWindow::splashStop()
 {
     if( !splash ) return;
-    delete splash;
+    splash->deleteLater();
     splash = 0;
 }
 
@@ -843,8 +838,8 @@ void MainWindow::getDocument(const QString& request)
 
 void MainWindow::onStartBusySplash()
 {
-    QWidget *active_window = QApplication::activeWindow();
     QWidget *this_window = window();
+    QWidget *active_window = QApplication::activeWindow();
     if( active_window != this_window )
 	active_window->setCursor(Qt::WaitCursor);
     this_window->setCursor(Qt::WaitCursor);
@@ -861,11 +856,7 @@ void MainWindow::onStopBusySplash()
 {
     killTimer(busy_timer_id);
     busy_timer_id = 0;
-    QWidget *active_window = QApplication::activeWindow();
-    QWidget *this_window = window();
-    if( active_window != this_window )
-	active_window->unsetCursor();
-    this_window->unsetCursor();
+    window()->unsetCursor();
 }
 
 void MainWindow::timerEvent(QTimerEvent *e)

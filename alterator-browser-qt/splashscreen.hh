@@ -1,25 +1,19 @@
 #ifndef QT_BROWSER_SPLASHSCREEN_HH
 #define QT_BROWSER_SPLASHSCREEN_HH
 
-#include <QLabel>
+#include <QFrame>
+#include <QLineEdit>
 
-class SplashScreen: public QWidget
+class SplashScreen: public QFrame
 {
 public:
     SplashScreen(QWidget *parent);
     ~SplashScreen();
 
-
     void setText(const QString&);
 
-protected:
-	void paintEvent(QPaintEvent*);
-
 private:
-    QLabel *label;
-
-    void applyMask();
+    QLineEdit *label;
 };
 
 #endif
-
