@@ -278,12 +278,14 @@ void alListBox::setAttr(const QString& name,const QString& value)
 	}
 	else if ("current" == name)
 	{
+	    wnd_->setNonUserSelectionChange(true);
 		QTreeWidgetItem *i = wnd_->topLevelItem(value.toInt());
 		wnd_->clearSelection();
 		wnd_->setCurrentItem(i);
 		if( wnd_->selectionMode() != QAbstractItemView::SingleSelection )
 		    i->setSelected(i);
 		wnd_->scrollToItem(i);
+	    wnd_->setNonUserSelectionChange(false);
 	}
 	else if ("current-rows" == name)
 	{
