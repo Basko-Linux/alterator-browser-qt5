@@ -25,6 +25,7 @@ ASuperListBoxItem::~ASuperListBoxItem()
 ASuperListBox::ASuperListBox(QWidget *parent, const Qt::Orientation):
 		QTreeWidget(parent)
 {
+    nonuser_selection_change = false;
     header()->hide();
     setUniformRowHeights(true);
     setItemsExpandable(false);
@@ -198,8 +199,14 @@ void ASuperListBox::setRows(QStringList& data)
     adjustAllColumnsWidth();
 }
 
+void ASuperListBox::setNonUserSelectionChange(bool is)
+{
+    nonuser_selection_change = is;
+}
+
 void ASuperListBox::onSelectionChanged()
 {
+
 	switch(list_type)
 	{
 	    case CheckListBox:
@@ -226,7 +233,10 @@ void ASuperListBox::onSelectionChanged()
 	    }
 	}
 
-    emit selected();
+    if( !nonuser_selection_change )
+    {
+	emit selected();
+    }
 }
 
 
@@ -277,11 +287,13 @@ void alListBox::setAttr(const QString& name,const QString& value)
 	}
 	else if ("current-rows" == name)
 	{
+	    wnd_->setNonUserSelectionChange(true);
+	    wnd_->clearSelection();
 	    QStringList data = value.split(";");
 	    int n = data.size();
 	    if( n > 0 )
 	    {
-		if( wnd_->selectionMode() != QAbstractItemView::SingleSelection )
+		if( wnd_->selectionMode() == QAbstractItemView::SingleSelection )
 		{
 		    QString sfirst = data.first();
 		    data.clear();
@@ -299,11 +311,11 @@ void alListBox::setAttr(const QString& name,const QString& value)
 		    }
 		}
 	    }
-	    else
-		wnd_->clearSelection();
+	    wnd_->setNonUserSelectionChange(false);
 	}
 	else if ("state-rows" == name)
 	{
+	    wnd_->setNonUserSelectionChange(true);
 	    QStringList data = value.split(";");
 	    int n = wnd_->topLevelItemCount();
 	    if( n == data.size() )
@@ -318,6 +330,7 @@ void alListBox::setAttr(const QString& name,const QString& value)
 		    i++;
 		}
 	    }
+	    wnd_->setNonUserSelectionChange(false);
 	}
 	else if ("rows-clear" == name)
 	{

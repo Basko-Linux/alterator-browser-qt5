@@ -29,22 +29,28 @@ public:
 	void setRows(QStringList&);
 	void setHeader(QStringList&);
 
-	void removeFromSelectedItemsListOld(QTreeWidgetItem*);
+	void setNonUserSelectionChange(bool);
+
+	friend class ASuperListBoxItem;
 
 signals:
 	void spaceBtnPressed();
 	void selected();
 
+public slots:
+	void onSelectionChanged();
+
 protected:
 	void keyPressEvent(QKeyEvent * e) ;
 	void showEvent(QShowEvent *e);
+	void removeFromSelectedItemsListOld(QTreeWidgetItem*);
 
-protected slots:
-	void onSelectionChanged();
 
 private:
+	bool nonuser_selection_change;
 	ListType list_type;
 	QList<QTreeWidgetItem*> selected_items_old;
+
 };
 
 class alListBox: public alWidgetPre<ASuperListBox>
