@@ -40,6 +40,20 @@ template <typename T>
 	return ret;
 }
 
+template <typename T>
+    QList<T> aWidgetsByType(AlteratorWidgetType t = WUnknown) {
+	QList<T> ret;
+	foreach(alWidget *aw, elements) {
+	    if( t == WUnknown || t == aw->type() )
+	    {
+		T w = qobject_cast<T>(aw->getWidget());
+		if( w )
+		    ret.append(w);
+	    }
+	}
+	return ret;
+}
+
 private:
     QMap<QString,alWidget*> elements;
 };

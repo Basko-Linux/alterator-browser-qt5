@@ -966,7 +966,8 @@ void MainWindow::removeTimeEdit(ATimeEdit *te)
 
 void MainWindow::resetTimeEditAll()
 {
-    QListIterator<ATimeEdit*> it(time_edits);
+    QList<ATimeEdit*> tm_edits = widgetlist->aWidgetsByType<ATimeEdit*>(WTimeEdit);
+    QListIterator<ATimeEdit*> it(tm_edits);
     while(it.hasNext())
 	it.next()->reset();
 }
