@@ -26,15 +26,18 @@ public:
     void destroyLater(const QString& id);
 
 template <typename T>
-    QList<QWidget*> viewVidgetsByQWidgetType() {
+    QList<QWidget*> viewVidgetsByQWidgetType(AlteratorWidgetType t = WUnknown) {
 	QList<QWidget*> ret;
 	foreach(alWidget *aw, elements) {
-	    QWidget *w = aw->getWidget();
-	    if( qobject_cast<T>(w) )
+	    if( t == WUnknown || t == aw->type() )
 	    {
-		QWidget *vw = aw->getViewWidget();
-		if( vw )
-		    ret.append(vw);
+		QWidget *w = aw->getWidget();
+		if( qobject_cast<T>(w) )
+		{
+		    QWidget *vw = aw->getViewWidget();
+		    if( vw )
+			ret.append(vw);
+		}
 	    }
 	}
 	return ret;
