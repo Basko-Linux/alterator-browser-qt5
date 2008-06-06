@@ -648,7 +648,7 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WCheckListBox: {new_widget = new alListBox(type,attr,id,parent_id,columns.toInt()); break; }
 	case WSlideShow: {   new_widget = new alSlideShow(attr,id,parent_id); break; }
 	case WSplitBox: {    new_widget = new alSplitBox(attr,id,parent_id,orientation,columns); break; }
-	case WCenterFace: {    new_widget = new alCenterFace(attr,id,parent_id); break; }
+	case WCenterFace: {  new_widget = new alCenterFace(attr,id,parent_id); break; }
 	case WWizardFace: {  new_widget = new alWizardFace(attr,id,parent_id,orientation); }
 	case WProxy:
 	case WUnknown:
