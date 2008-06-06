@@ -423,9 +423,12 @@ void MainWindow::emitEvent(const QString &id, const BrowserEventType type, const
 	connection->getDocument(request, request_flags);
 
 	if( request_flags & AlteratorRequestTimeReset )
-	    resetTimeEditAll();
-
-
+	{
+	    QList<ATimeEdit*> tm_edits = widgetlist->aWidgetsByType<ATimeEdit*>(WTimeEdit);
+	    QListIterator<ATimeEdit*> it(tm_edits);
+	    while(it.hasNext())
+		it.next()->reset();
+	}
 }
 
 void MainWindow::emitEvent(const QString &id,const QString &type, const AlteratorRequestFlags request_flags)
@@ -952,24 +955,6 @@ void MainWindow::loadStyleSheet()
 	    return;
 	}
     }
-}
-
-void MainWindow::addTimeEdit(ATimeEdit *te)
-{
-    time_edits.append(te);
-}
-
-void MainWindow::removeTimeEdit(ATimeEdit *te)
-{
-    time_edits.removeAll(te);
-}
-
-void MainWindow::resetTimeEditAll()
-{
-    QList<ATimeEdit*> tm_edits = widgetlist->aWidgetsByType<ATimeEdit*>(WTimeEdit);
-    QListIterator<ATimeEdit*> it(tm_edits);
-    while(it.hasNext())
-	it.next()->reset();
 }
 
 void MainWindow::collectTabIndex(QList<QString>& parents, QMap<QString, QMap<int,QWidget*> >& order, alWidget *wdg, int tab_index)

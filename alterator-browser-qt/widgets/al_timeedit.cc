@@ -5,9 +5,6 @@
 
 #include "al_timeedit.hh"
 
-#include "main_window.hh"
-extern MainWindow *main_window;
-
 // TimeEditFocusEventHandler
 
 TimeEditFocusEventHandler::TimeEditFocusEventHandler(QObject *parent):
@@ -250,14 +247,11 @@ ATimeEdit::ATimeEdit(QWidget *parent, const Qt::Orientation):
 
     setFocusProxy(time_edit);
 
-    main_window->addTimeEdit(this);
-
     start();
 }
 
 ATimeEdit::~ATimeEdit()
 {
-    main_window->removeTimeEdit(this);
 }
 
 void ATimeEdit::start()

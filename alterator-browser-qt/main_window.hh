@@ -16,7 +16,6 @@
 
 
 typedef QMainWindow MainWindow_t;
-class ATimeEdit;
 
 class MainWindow: public MainWindow_t
 {
@@ -45,9 +44,6 @@ public slots:
     void about();
 
 protected:
-    void addTimeEdit(ATimeEdit*);
-    void removeTimeEdit(ATimeEdit*);
-    void resetTimeEditAll();
 //    virtual void childEvent(QChildEvent*);
     virtual bool event(QEvent*);
     void timerEvent(QTimerEvent*);
@@ -70,7 +66,6 @@ private:
     SplashScreen *splash;//single splash screen
     int busy_timer_id;
     QLabel *startup_splash;
-    QList<ATimeEdit*> time_edits;
     bool help_available;
 
     void splashStart();
@@ -99,6 +94,5 @@ private slots:
 
     void doRetry();
     void onAlteratorRequest(const AlteratorRequest&);
-    friend class ATimeEdit;
 };
 #endif
