@@ -7,7 +7,6 @@
 #include "al_wizard_face.hh"
 #include "a_pixmaps.hh"
 
-extern alWizardFace *wizard_face;
 extern Enums *enums;
 
 // AWizardFace

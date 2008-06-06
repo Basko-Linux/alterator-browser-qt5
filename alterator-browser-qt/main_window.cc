@@ -38,7 +38,6 @@
 
 extern Enums *enums;
 
-alWizardFace *wizard_face = 0;
 MailBox *mailbox = 0;
 WidgetList *widgetlist = 0;
 
@@ -650,15 +649,7 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WSlideShow: {   new_widget = new alSlideShow(attr,id,parent_id); break; }
 	case WSplitBox: {    new_widget = new alSplitBox(attr,id,parent_id,orientation,columns); break; }
 	case WCenterFace: {    new_widget = new alCenterFace(attr,id,parent_id); break; }
-	case WWizardFace:
-	{
-	    
-	    if( wizard_face )
-		new_widget = new alGridBox(attr,id,parent_id, "100");
-	    else
-		new_widget = wizard_face = new alWizardFace(attr,id,parent_id,orientation);
-	    break;
-	}
+	case WWizardFace: {  new_widget = new alWizardFace(attr,id,parent_id,orientation); }
 	case WProxy:
 	case WUnknown:
 	{
