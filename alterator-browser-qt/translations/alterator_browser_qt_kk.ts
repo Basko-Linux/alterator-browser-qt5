@@ -3,8 +3,13 @@
 <context>
     <name>ACenterFace</name>
     <message>
-        <location filename="widgets/al_center_face.cc" line="181"/>
+        <location filename="widgets/al_center_face.cc" line="189"/>
         <source>Owerview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/al_center_face.cc" line="195"/>
+        <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -52,22 +57,22 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../main_window.cc" line="212"/>
+        <location filename="../main_window.cc" line="221"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main_window.cc" line="212"/>
+        <location filename="../main_window.cc" line="221"/>
         <source>Exit Alterator?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main_window.cc" line="221"/>
+        <location filename="../main_window.cc" line="230"/>
         <source>Alterator Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main_window.cc" line="221"/>
+        <location filename="../main_window.cc" line="230"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
@@ -75,7 +80,7 @@
 <context>
     <name>QMessageBox</name>
     <message>
-        <location filename="../utils.cc" line="55"/>
+        <location filename="../utils.cc" line="56"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>

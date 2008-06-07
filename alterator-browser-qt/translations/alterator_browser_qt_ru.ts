@@ -4,9 +4,14 @@
 <context>
     <name>ACenterFace</name>
     <message>
-        <location filename="widgets/al_center_face.cc" line="181"/>
+        <location filename="widgets/al_center_face.cc" line="189"/>
         <source>Owerview</source>
         <translation>Обзор</translation>
+    </message>
+    <message>
+        <location filename="widgets/al_center_face.cc" line="195"/>
+        <source>Help</source>
+        <translation>Справка</translation>
     </message>
 </context>
 <context>
@@ -53,22 +58,22 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../main_window.cc" line="212"/>
+        <location filename="../main_window.cc" line="221"/>
         <source>Quit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../main_window.cc" line="212"/>
+        <location filename="../main_window.cc" line="221"/>
         <source>Exit Alterator?</source>
         <translation>Завершить Alterator?</translation>
     </message>
     <message>
-        <location filename="../main_window.cc" line="221"/>
+        <location filename="../main_window.cc" line="230"/>
         <source>Alterator Browser</source>
         <translation>Alterator Browser</translation>
     </message>
     <message>
-        <location filename="../main_window.cc" line="221"/>
+        <location filename="../main_window.cc" line="230"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
@@ -81,7 +86,7 @@
         <translation type="obsolete">О программе</translation>
     </message>
     <message>
-        <location filename="../utils.cc" line="55"/>
+        <location filename="../utils.cc" line="56"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
