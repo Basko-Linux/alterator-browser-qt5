@@ -602,15 +602,10 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WDialog:
 	case WMainWidget:
 	{
-	    if ("popup" == attr[AltReqParamWSubType].s) //this is a dialog
-	    {
-	    	if(parent_id.isEmpty())
-		    new_widget = new alMainWidget(id,"",orientation);
-	    	else
-		    new_widget = new alDialog(attr,id,parent_id,orientation);
-	    }
+	    if(parent_id.isEmpty())
+	        new_widget = new alMainWidget(id,"",orientation);
 	    else
-		new_widget = new alGridBox(attr,id,parent_id, "100");
+	        new_widget = new alDialog(attr,id,parent_id,orientation);
 	    break;
 	}
 	case WBox:
