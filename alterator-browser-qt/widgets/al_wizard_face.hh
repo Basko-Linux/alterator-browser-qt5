@@ -58,6 +58,7 @@ private slots:
 
 protected:
     void keyPressEvent(QKeyEvent*);
+    bool eventFilter(QObject*, QEvent*);
 
 private:
     AWizardFaceStepList steplist;

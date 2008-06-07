@@ -1,6 +1,7 @@
 
 #include <QScrollArea>
 #include <QHelpEvent>
+#include <QScrollBar>
 
 #include "global.hh"
 #include "widgets.hh"
@@ -49,6 +50,15 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     //scroll->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
     scroll->setWidgetResizable( true );
+
+    { // install event filter for scroll
+	QScrollBar *vs = scroll->verticalScrollBar();
+	if( vs )
+	    vs->installEventFilter(this);
+	QScrollBar *hs = scroll->horizontalScrollBar();
+	if( hs )
+	    hs->installEventFilter(this);
+    }
 
     view_widget = new QWidget(scroll->viewport());
     view_widget->setBackgroundRole(QPalette::NoRole);
@@ -114,6 +124,23 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
 
 AWizardFace::~AWizardFace()
 {}
+
+bool AWizardFace::eventFilter(QObject *o, QEvent *e)
+{
+#if 0
+    if( e->type() == QEvent::Show || e->type() == QEvent::Hide )
+    {
+	if( o == scroll->verticalScrollBar() )
+	{
+	
+	}
+	else if( o == scroll->horizontalScrollBar() )
+	{
+	}
+    }
+#endif
+    return QWidget::eventFilter(o, e);
+}
 
 int AWizardFace::findButtonPosition(UserActionType type)
 {
