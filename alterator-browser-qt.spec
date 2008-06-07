@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.87
+Version: 2.9.88
 Release: alt1
 
 Source:%name-%version.tar
@@ -77,6 +77,11 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Sat Jun 07 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.88-alt1
+- fix typo when wizardface create requested
+- don't use sub-type to determine dialog or main window
+- make help and owerview buttons visible on top in centerface
+
 * Fri Jun 06 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.87-alt1
 - fix set *listbox current-rows attribute
 - no signal selected from *listbox when
