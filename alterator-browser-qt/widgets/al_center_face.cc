@@ -186,6 +186,18 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     current_action_key = "__undefined__";
     current_module_key = "__undefined__";
 
+    QPushButton *owerview_btn = new QPushButton(tr("Owerview"), this);
+    owerview_btn->setFlat(true);
+    owerview_btn->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Fixed);
+    owerview_btn->setIcon(getPixmap("theme:left"));
+    connect(owerview_btn, SIGNAL(clicked()), this, SLOT(onOwerviewClicked()));
+
+    QPushButton *help_btn = new QPushButton(tr("Help"), this);
+    help_btn->setFlat(true);
+    help_btn->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Fixed);
+    help_btn->setIcon(getPixmap("theme:help"));
+    connect(help_btn, SIGNAL(clicked()), this, SLOT(onHelpClicked()));
+
     sections_widget = new QWidget(this);
     //sections_widget->setBackgroundRole(QPalette::Base);
     module_widget = new QWidget(this);
@@ -223,9 +235,18 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
 
     QVBoxLayout *sections_layout = new QVBoxLayout(sections_widget);
     sections_layout->addWidget(sections_scroll);
+    sections_layout->setMargin(0);
+    sections_layout->setSpacing(0);
     module_layout = new QVBoxLayout(module_widget);
+    module_layout->setMargin(0);
+    module_layout->setSpacing(0);
     module_layout->addWidget(scroll);
     module_layout->addWidget(buttonbox);
+
+    QHBoxLayout *top_buttons_layout = new QHBoxLayout();
+    top_buttons_layout->addWidget(owerview_btn);
+    top_buttons_layout->addWidget(help_btn);
+    top_buttons_layout->addStretch(1);
 
     stacked_layout = new QStackedLayout();
     stacked_layout->setMargin(0);
@@ -237,6 +258,7 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     QVBoxLayout *main_layout = new QVBoxLayout;
     main_layout->setMargin(0);
     main_layout->setSpacing(0);
+    main_layout->addLayout(top_buttons_layout);
     main_layout->addLayout(stacked_layout);
     setLayout(main_layout);
 
@@ -245,8 +267,6 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
 	this, SIGNAL(actionSelected(const QString &)));
     connect( this, SIGNAL(actionSelected(const QString&)),
 	this, SLOT(onSelectAction(const QString&)) );
-
-    clearActions();
 }
 
 ACenterFace::~ACenterFace()
@@ -268,14 +288,16 @@ void ACenterFace::onOwerviewClicked()
     stacked_layout->setCurrentWidget(sections_widget);
 }
 
+void ACenterFace::onHelpClicked()
+{
+    QHelpEvent *hlp = new QHelpEvent((QEvent::Type)EVENT_HELP, QPoint(), QPoint());
+    QApplication::postEvent(main_window, hlp);
+}
+
 void ACenterFace::clearActions()
 {
     buttons.clear();
     buttonbox->clear();
-
-    QPushButton *ow_btn = buttonbox->addButton(tr("Owerview"), QDialogButtonBox::ActionRole);
-    ow_btn->setIcon(getPixmap("theme:left"));
-    connect(ow_btn, SIGNAL(clicked()), this, SLOT(onOwerviewClicked()));
 }
 
 QPixmap ACenterFace::defaultActionIcon(UserActionType type)
