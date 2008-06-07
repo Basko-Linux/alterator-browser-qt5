@@ -35,6 +35,7 @@ ADialog::ADialog(QWidget *parent, const Qt::Orientation):
 	main_layout->setMargin(10);
 
     scroll = new QScrollArea(this);
+    scroll->setFocusPolicy(Qt::NoFocus);
     { // install event filter for scroll area
 	QScrollBar *vs = scroll->verticalScrollBar();
 	if( vs )
@@ -43,7 +44,6 @@ ADialog::ADialog(QWidget *parent, const Qt::Orientation):
 	if( hs )
 	    hs->installEventFilter(this);
     }
-    scroll->setFocusPolicy(Qt::NoFocus);
     scroll->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
     scroll->setWidgetResizable( true );
