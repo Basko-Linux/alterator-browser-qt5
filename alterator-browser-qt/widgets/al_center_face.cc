@@ -186,15 +186,19 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     current_action_key = "__undefined__";
     current_module_key = "__undefined__";
 
-    QPushButton *owerview_btn = new QPushButton(tr("Owerview"), this);
-    owerview_btn->setFlat(true);
+    QToolButton *owerview_btn = new QToolButton(this);
+    owerview_btn->setAutoRaise(true);
+    owerview_btn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     owerview_btn->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Fixed);
+    owerview_btn->setText(tr("Owerview"));
     owerview_btn->setIcon(getPixmap("theme:left"));
     connect(owerview_btn, SIGNAL(clicked()), this, SLOT(onOwerviewClicked()));
 
-    QPushButton *help_btn = new QPushButton(tr("Help"), this);
-    help_btn->setFlat(true);
+    QToolButton *help_btn = new QToolButton(this);
+    help_btn->setAutoRaise(true);
+    help_btn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     help_btn->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Fixed);
+    help_btn->setText(tr("Help"));
     help_btn->setIcon(getPixmap("theme:help"));
     connect(help_btn, SIGNAL(clicked()), this, SLOT(onHelpClicked()));
 
