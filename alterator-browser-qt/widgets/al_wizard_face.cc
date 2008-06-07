@@ -1,5 +1,4 @@
 
-#include <QScrollArea>
 #include <QHelpEvent>
 #include <QScrollBar>
 
@@ -44,13 +43,8 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     title_text_font.setPointSize(title_text_font_pt_size);
     title_text->setFont(title_text_font);
 
-    QScrollArea *scroll = new QScrollArea(this);
-    scroll->setBackgroundRole(QPalette::NoRole);
-    scroll->viewport()->setBackgroundRole(QPalette::NoRole);
-    //scroll->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
-    scroll->setWidgetResizable( true );
-
+    scroll = new QScrollArea(this);
+    scroll->setFocusPolicy(Qt::NoFocus);
     { // install event filter for scroll
 	QScrollBar *vs = scroll->verticalScrollBar();
 	if( vs )
@@ -59,6 +53,12 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
 	if( hs )
 	    hs->installEventFilter(this);
     }
+    scroll->setBackgroundRole(QPalette::NoRole);
+    scroll->viewport()->setBackgroundRole(QPalette::NoRole);
+    //scroll->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
+    scroll->setWidgetResizable( true );
+
 
     view_widget = new QWidget(scroll->viewport());
     view_widget->setBackgroundRole(QPalette::NoRole);
@@ -127,18 +127,30 @@ AWizardFace::~AWizardFace()
 
 bool AWizardFace::eventFilter(QObject *o, QEvent *e)
 {
-#if 0
-    if( e->type() == QEvent::Show || e->type() == QEvent::Hide )
+    if( e->type() == QEvent::Show )
     {
-	if( o == scroll->verticalScrollBar() )
+	QScrollBar *hs = scroll->horizontalScrollBar();
+	QScrollBar *vs = scroll->verticalScrollBar();
+	if( (o == hs || o == vs) && scroll->focusPolicy() == Qt::NoFocus )
 	{
-	
-	}
-	else if( o == scroll->horizontalScrollBar() )
-	{
+	    scroll->setFocusPolicy(Qt::StrongFocus);
 	}
     }
-#endif
+    else if( e->type() == QEvent::Hide )
+    {
+	QScrollBar *hs = scroll->horizontalScrollBar();
+	QScrollBar *vs = scroll->verticalScrollBar();
+	if( ((o == hs && !vs->isVisible()) || ( o == vs && !hs->isVisible() )) && scroll->focusPolicy() != Qt::NoFocus )
+	{
+	    scroll->setFocusPolicy(Qt::NoFocus);
+	    if(scroll->hasFocus())
+	    {
+		QKeyEvent *k = new QKeyEvent(QEvent::KeyPress, Qt::Key_Tab, Qt::NoModifier);
+		QApplication::postEvent(scroll, k);
+	    }
+	}
+    }
+
     return QWidget::eventFilter(o, e);
 }
 

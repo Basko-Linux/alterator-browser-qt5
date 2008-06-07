@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QSignalMapper>
 #include <QMenu>
+#include <QScrollArea>
 
 #include "enums.hh"
 #include "widgets.hh"
@@ -69,6 +70,7 @@ private:
     QHBoxLayout* title_layout;
     QHBoxLayout* buttons_layout;
     QHBoxLayout* menu_layout;
+    QScrollArea *scroll;
     QFrame* bottom_widget;
     QWidget* view_widget;
     QLabel *logo_icon;
