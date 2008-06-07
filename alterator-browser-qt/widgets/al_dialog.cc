@@ -1,4 +1,4 @@
-#include <QScrollArea>
+#include <QScrollBar>
 
 #include "al_dialog.hh"
 
@@ -34,7 +34,16 @@ ADialog::ADialog(QWidget *parent, const Qt::Orientation):
     else
 	main_layout->setMargin(10);
 
-    QScrollArea *scroll = new QScrollArea(this);
+    scroll = new QScrollArea(this);
+    { // install event filter for scroll area
+	QScrollBar *vs = scroll->verticalScrollBar();
+	if( vs )
+	    vs->installEventFilter(this);
+	QScrollBar *hs = scroll->horizontalScrollBar();
+	if( hs )
+	    hs->installEventFilter(this);
+    }
+    scroll->setFocusPolicy(Qt::NoFocus);
     scroll->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
     scroll->setWidgetResizable( true );
@@ -54,6 +63,35 @@ ADialog::ADialog(QWidget *parent, const Qt::Orientation):
 QWidget* ADialog::getView()
 {
     return view_widget;
+}
+
+bool ADialog::eventFilter(QObject *o, QEvent *e)
+{
+    if( e->type() == QEvent::Show )
+    {
+	QScrollBar *hs = scroll->horizontalScrollBar();
+	QScrollBar *vs = scroll->verticalScrollBar();
+	if( (o == hs || o == vs) && scroll->focusPolicy() == Qt::NoFocus )
+	{
+	    scroll->setFocusPolicy(Qt::StrongFocus);
+	}
+    }
+    else if( e->type() == QEvent::Hide )
+    {
+	QScrollBar *hs = scroll->horizontalScrollBar();
+	QScrollBar *vs = scroll->verticalScrollBar();
+	if( ((o == hs && !vs->isVisible()) || ( o == vs && !hs->isVisible() )) && scroll->focusPolicy() != Qt::NoFocus )
+	{
+	    scroll->setFocusPolicy(Qt::NoFocus);
+	    if(scroll->hasFocus())
+	    {
+		QKeyEvent *k = new QKeyEvent(QEvent::KeyPress, Qt::Key_Tab, Qt::NoModifier);
+		QApplication::postEvent(scroll, k);
+	    }
+	}
+    }
+
+    return QWidget::eventFilter(o, e);
 }
 
 void ADialog::showEvent(QShowEvent *e)

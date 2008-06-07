@@ -2,6 +2,7 @@
 #define QTBROWSER_AL_DIALOG_HH
 
 #include <QDialog>
+#include <QScrollArea>
 #include "widgets.hh"
 
 //hack to access protected done() slot
@@ -27,11 +28,13 @@ protected:
 	void keyPressEvent(QKeyEvent*);
 	void showEvent(QShowEvent*);
 	void paintEvent(QPaintEvent*);
+	bool eventFilter(QObject*, QEvent*);
 
 private slots:
 	void onButtonClicked(QAbstractButton*);
 
 private:
+	QScrollArea *scroll;
 	QWidget *view_widget;
 	QDialogButtonBox *btnbox;
 	QString current_action;
