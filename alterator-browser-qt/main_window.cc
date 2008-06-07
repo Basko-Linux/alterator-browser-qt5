@@ -585,7 +585,6 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 {
 	QString id = attr[AltReqParamWId].s;
 	QString parent_id = attr[AltReqParamWParentId].s;
-	AlteratorWidgetType type = attr[AltReqParamWType].t;
 	Qt::Orientation orientation = attr[AltReqParamWOrientation].o;
 	QString columns = attr[AltReqParamWColumns].s;
 	alWidget *new_widget = 0;
@@ -597,7 +596,7 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	    attr[AltReqParamWWidth].i, attr[AltReqParamWHeight].i, qPrintable(columns) );
 	*/
 
-    switch( type )
+    switch( attr[AltReqParamWType].t )
     {
 	case WDialog:
 	case WMainWidget:
@@ -640,15 +639,15 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WListBox:
 	case WRadioListBox:
 	case WMultiListBox:
-	case WCheckListBox: {new_widget = new alListBox(type,attr,id,parent_id,columns.toInt()); break; }
+	case WCheckListBox: {new_widget = new alListBox(attr[AltReqParamWType].t,attr,id,parent_id,columns.toInt()); break; }
 	case WSlideShow: {   new_widget = new alSlideShow(attr,id,parent_id); break; }
 	case WSplitBox: {    new_widget = new alSplitBox(attr,id,parent_id,orientation,columns); break; }
 	case WCenterFace: {  new_widget = new alCenterFace(attr,id,parent_id); break; }
-	case WWizardFace: {  new_widget = new alWizardFace(attr,id,parent_id,orientation); }
+	case WWizardFace: {  new_widget = new alWizardFace(attr,id,parent_id,orientation); break; }
 	case WProxy:
 	case WUnknown:
 	{
-	    qDebug("Unknown widget requested. Make gridbox instead.");
+	    qDebug("Unknown widget <%s> requested. Make gridbox instead.", qPrintable(enums->widgetToStr(attr[AltReqParamWType].t)));
 	    new_widget = new alGridBox(attr,id,parent_id, "100");
 	}
 	/* default:
