@@ -373,6 +373,8 @@ void alListBox::registerEvent(const QString& name)
 {
 	if ("selected" == name)
 		connect(wnd_,SIGNAL(selected()),SLOT(onSelect()));
+	else if ("changed" == name)
+		connect(wnd_,SIGNAL(selected()),SLOT(onChange()));
 	else if ("clicked" == name)
 	{
 		connect(wnd_,SIGNAL(itemPressed(QTreeWidgetItem*,int)), SLOT(onClick(QTreeWidgetItem*,int)));
