@@ -61,6 +61,8 @@ void alDateEdit::setAttr(const QString& name,const QString& value)
 {
     if ("text" == name)
         wnd_->setDate(value);
+    else if ("value" == name)
+        wnd_->setDate(value);
     else if ("expanded" == name)
         wnd_->setExpanded(value == "true");
     else
@@ -76,5 +78,8 @@ void alDateEdit::registerEvent(const QString& name)
 
 QString alDateEdit::postData() const
 {
-	return QString(" (text . \"%1\" )").arg(wnd_->date());
+    QString ret;
+    ret.append(" (text . \"%1\" )").arg(wnd_->date());
+    ret.append(" (value . \"%1\" )").arg(wnd_->date());
+    return ret;
 }
