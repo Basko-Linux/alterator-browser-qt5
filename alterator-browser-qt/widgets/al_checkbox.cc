@@ -20,6 +20,8 @@ void alCheckBox::registerEvent(const QString& name)
 {
 	if ("toggled" == name)
 		connect(wnd_,SIGNAL( stateChanged(int) ),SLOT(onToggle(int)));
+	else if ("changed" == name)
+		connect(wnd_,SIGNAL( stateChanged(int) ),SLOT(onChange(int)));
 }
 
 QString alCheckBox::postData() const
