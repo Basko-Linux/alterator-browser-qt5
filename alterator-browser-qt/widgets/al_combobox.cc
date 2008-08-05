@@ -154,10 +154,11 @@ void alComboBox::registerEvent(const QString& name)
 {
     if ("selected" == name)
     {
-        //connect(wnd_,SIGNAL( activated(int) ),SLOT(onSelect(int)));
-        //connect(wnd_,SIGNAL( editTextChanged(const QString&) ),SLOT(onSelect(const QString&)));
-        //connect(wnd_,SIGNAL( activated(const QString&) ),SLOT(onSelect(const QString&)));
         connect(wnd_,SIGNAL( editingFinished() ),SLOT(onSelect()));
+    }
+    else if ("changed" == name)
+    {
+        connect(wnd_,SIGNAL( editingFinished() ),SLOT(onChange()));
     }
 }
 
