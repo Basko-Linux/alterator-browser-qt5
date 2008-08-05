@@ -342,11 +342,13 @@ void alTimeEdit::setAttr(const QString& name,const QString& value)
 {
     if ("text" == name)
         wnd_->setTime(value);
-    if ("start" == name)
+    else if ("value" == name)
+        wnd_->setTime(value);
+    else if ("start" == name)
         wnd_->start();
-    if ("stop" == name)
+    else if ("stop" == name)
         wnd_->stop();
-    if ("reset" == name)
+    else if ("reset" == name)
         wnd_->reset();
     else if ("expanded" == name)
         wnd_->setExpanded("true" == value);
@@ -363,5 +365,8 @@ void alTimeEdit::registerEvent(const QString& name)
 
 QString alTimeEdit::postData() const
 {
-	return QString(" (text . \"%1\" )").arg(wnd_->time());
+    QString ret;
+    ret.append(" (text . \"%1\" )").arg(wnd_->time());
+    ret.append(" (value . \"%1\" )").arg(wnd_->time());
+    return ret;
 }
