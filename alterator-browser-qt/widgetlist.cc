@@ -113,7 +113,8 @@ void WidgetList::deleteChildrenById(const QString& id)
     {
 	foreach(alWidget *child, alChildrenById(id))
 	{
-	    delete child;
+	    child->show(false);
+	    child->destroyLater();
 	}
     }
 }

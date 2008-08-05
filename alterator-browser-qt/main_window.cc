@@ -678,25 +678,19 @@ void MainWindow::onCleanRequest(const QString& id)
 
 	if( !el ) return;
 
+	widgetlist->deleteChildrenById(id);
+
 	QLayout* layout = el->getViewLayout();
 	if( layout )
 	{
 	    for (int i = 0; i < layout->count(); ++i)
-		delete layout->takeAt(i);
-	}
-	
-//	QList<alWidget*> children = el->findChildren<alWidget*>();
-	QList<alWidget*> children = widgetlist->alChildrenById(id);
-	if( children.size() > 0 )
-	{
-	    QListIterator<alWidget *> it(children);
-	    while( it.hasNext() )
 	    {
-		alWidget *aw = it.next();
-		aw->show(false);
-		aw->destroyLater();
+		QLayoutItem *li=layout->takeAt(i);
+		if( li )
+		    delete li;
 	    }
 	}
+	
 }
 
 void MainWindow::onSetRequest(const QString& id,const QString& attr,const QString& value)
