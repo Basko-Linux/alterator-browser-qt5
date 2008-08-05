@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.89
+Version: 2.9.90
 Release: alt1
 
 Source:%name-%version.tar
@@ -77,6 +77,10 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Tue Aug 05 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.90-alt1
+- add event changed to listbox, combobox, checkbox
+- add value attribute to timeedit, dateedit
+
 * Sat Jun 07 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.89-alt1
 - improve wizardface and dialog scroll area focus handling
 
