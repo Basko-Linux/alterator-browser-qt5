@@ -190,7 +190,7 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     owerview_btn->setAutoRaise(true);
     owerview_btn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     owerview_btn->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Fixed);
-    owerview_btn->setText(tr("Owerview"));
+    owerview_btn->setText(tr("Contents"));
     owerview_btn->setIcon(getPixmap("theme:left"));
     connect(owerview_btn, SIGNAL(clicked()), this, SLOT(onOwerviewClicked()));
 

@@ -6,12 +6,17 @@
     <message>
         <location filename="widgets/al_center_face.cc" line="189"/>
         <source>Owerview</source>
-        <translation>Обзор</translation>
+        <translation type="obsolete">Обзор</translation>
     </message>
     <message>
-        <location filename="widgets/al_center_face.cc" line="195"/>
+        <location filename="widgets/al_center_face.cc" line="201"/>
         <source>Help</source>
         <translation>Справка</translation>
+    </message>
+    <message>
+        <location filename="widgets/al_center_face.cc" line="193"/>
+        <source>Contents</source>
+        <translation>Содержание</translation>
     </message>
 </context>
 <context>

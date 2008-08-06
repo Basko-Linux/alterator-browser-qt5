@@ -3,13 +3,13 @@
 <context>
     <name>ACenterFace</name>
     <message>
-        <location filename="widgets/al_center_face.cc" line="189"/>
-        <source>Owerview</source>
+        <location filename="widgets/al_center_face.cc" line="201"/>
+        <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/al_center_face.cc" line="195"/>
-        <source>Help</source>
+        <location filename="widgets/al_center_face.cc" line="193"/>
+        <source>Contents</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
