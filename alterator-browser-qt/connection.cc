@@ -11,7 +11,6 @@
 #include "enums.hh"
 
 #include "main_window.hh"
-extern MainWindow *main_window;
 Connection::Connection(QObject *parent):
     QThread(parent)
 {

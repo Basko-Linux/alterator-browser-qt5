@@ -4,8 +4,6 @@
 #include "utils.hh"
 #include "main_window.hh"
 
-extern MainWindow *main_window;
-
 SplashScreen::SplashScreen(QWidget *parent):
     QFrame(parent)
 {

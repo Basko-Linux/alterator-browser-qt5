@@ -2,6 +2,7 @@
 #include <QApplication>
 #include "main_window.hh"
 #include "enums.hh"
+
 MainWindow *main_window = 0;
 Enums *enums = 0;
 

@@ -5,8 +5,6 @@
 #include "utils.hh"
 #include "widgetlist.hh"
 
-extern MainWindow *main_window;
-
 alWidget::alWidget(AlteratorWidgetType type, const QString& id,const QString& parent):
     QObject(widgetlist->qWidgetById(parent)),
     type_(type),

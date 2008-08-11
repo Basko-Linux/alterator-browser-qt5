@@ -12,8 +12,6 @@
 
 using namespace Utils;
 
-extern MainWindow *main_window;
-
 MailBox::MailBox(const QString& path, QObject *parent):
 	QObject(parent),
 	eater_(0)

@@ -8,8 +8,6 @@
 
 #include "help_browser.hh"
 
-extern MainWindow *main_window;
-
 HelpWidget::HelpWidget(QWidget *parent):
     QDialog(parent)
 {

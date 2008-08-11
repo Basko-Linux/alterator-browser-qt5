@@ -95,4 +95,7 @@ private slots:
     void doRetry();
     void onAlteratorRequest(const AlteratorRequest&);
 };
+
+extern MainWindow *main_window;
+
 #endif

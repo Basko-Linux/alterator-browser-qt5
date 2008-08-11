@@ -4,8 +4,6 @@
 #include "main_window.hh"
 #include "utils.hh"
 
-extern MainWindow *main_window;
-
 namespace AMessageBox {
 	typedef QMap<QString,QMessageBox::StandardButton> buttonMapType;
 	buttonMapType buttonMap;
