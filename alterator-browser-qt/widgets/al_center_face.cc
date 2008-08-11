@@ -209,12 +209,14 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
 
     QScrollArea *scroll = new QScrollArea(module_widget);
     //scroll->setBackgroundRole(QPalette::NoRole);
+    //scroll->setBackgroundRole(QPalette::Base);
     //scroll->viewport()->setBackgroundRole(QPalette::NoRole);
     scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
     scroll->setWidgetResizable( true );
 
     view_widget = new QWidget();
     view_widget->setObjectName("view");
+    //view_widget->setBackgroundRole(QPalette::Base);
     scroll->setWidget(view_widget);
 
     QScrollArea *sections_scroll = new QScrollArea(sections_widget);
@@ -224,6 +226,7 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     sections_scroll->setWidgetResizable( true );
 
     sections_view_widget = new QWidget();
+    //sections_view_widget->setBackgroundRole(QPalette::Base);
     sections_view_widget->setObjectName("modules_view");
     sections_scroll->setWidget(sections_view_widget);
 
@@ -475,6 +478,7 @@ void ACenterFace::addSection(const QString& key, const QString& name, const QStr
 {
     ACenterSection *section = new ACenterSection(sections_view_widget, name);
     //section->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
+    //section->setBackgroundRole(QPalette::Base);
     sections_view_layout->addWidget(section);
     sections[key] = section;
     if(!desc.isEmpty())
