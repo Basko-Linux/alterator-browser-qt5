@@ -7,8 +7,6 @@
 #include "al_wizard_face.hh"
 #include "a_pixmaps.hh"
 
-extern Enums *enums;
-
 // AWizardFace
 AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     QWidget(parent)

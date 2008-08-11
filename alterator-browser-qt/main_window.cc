@@ -36,8 +36,6 @@
 #include <QX11Info>
 #endif
 
-extern Enums *enums;
-
 MailBox *mailbox = 0;
 WidgetList *widgetlist = 0;
 

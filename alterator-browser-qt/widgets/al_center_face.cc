@@ -6,8 +6,6 @@
 #include "al_center_face.hh"
 #include "a_pixmaps.hh"
 
-extern Enums *enums;
-
 ACenterModuleButton::ACenterModuleButton(QWidget *parent):
     QLabel(parent)
 {

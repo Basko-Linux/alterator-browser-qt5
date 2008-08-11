@@ -2,8 +2,6 @@
 #include "al_box.hh"
 #include "enums.hh"
 
-extern Enums *enums;
-
 ABox::ABox(QWidget *parent, const Qt::Orientation o):
     QWidget(parent)
 {

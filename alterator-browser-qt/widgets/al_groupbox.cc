@@ -1,8 +1,6 @@
 
 #include "al_groupbox.hh"
 
-extern Enums *enums;
-
 AGroupBox::AGroupBox(QWidget *parent, const Qt::Orientation o):
     QGroupBox(parent)
 {

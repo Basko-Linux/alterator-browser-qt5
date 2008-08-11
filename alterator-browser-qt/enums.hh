@@ -93,4 +93,6 @@ private:
     QMap<QString,BrowserEventType> str2event;
 };
 
+extern Enums *enums;
+
 #endif
