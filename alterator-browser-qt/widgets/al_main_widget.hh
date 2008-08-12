@@ -6,36 +6,20 @@
 #include "al_widget.hh"
 #include "main_window.hh"
 
-extern MainWindow *main_window;
-
-template <typename Widget>
-class alMainWidgetPre: public alWidget
+class AMainWidget: public QWidget
 {
-protected:
-	Widget *wnd_;
 public:
-	alMainWidgetPre(AlteratorWidgetType type, const QString& id,const QString& parent):
-		alWidget(type, id,parent)
-	{
-	    wnd_ = new Widget(main_window);
-	    wnd_->setObjectName("main_widget");
-	    main_window->setCentralWidget(getWidget());
-	}
-
-	~alMainWidgetPre() { wnd_->deleteLater(); }
-	Widget* getWidget() { return wnd_; }	
-	virtual QWidget* getViewWidget() { return wnd_; }	
-	virtual QLayout* getViewLayout() { return wnd_->layout(); }	
-	void show(bool b) { if(b && wnd_) wnd_->show(); else wnd_->hide(); };
+    AMainWidget(QWidget *parent, const Qt::Orientation);
+    ~AMainWidget();
 };
 
-class alMainWidget: public alMainWidgetPre<QWidget>
+class alMainWidget: public alWidgetPre<AMainWidget>
 {
 public:
-	alMainWidget(const QString& id,const QString& parent, Qt::Orientation orientation);
+	alMainWidget(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent);
 	void setAttr(const QString& name,const QString& value);
-	void start() {}
-	void stop()  { QApplication::closeAllWindows(); }
+	void popUp() {}
+	void popDown()  { QApplication::closeAllWindows(); }
 };
 
 #endif

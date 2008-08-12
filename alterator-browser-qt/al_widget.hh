@@ -46,6 +46,9 @@ public:
 
 	virtual void markRequired(bool) {};
 	virtual void show(bool) = 0;
+	virtual void popUp() {};
+	virtual void popDown() {};
+
 	static QSizePolicy adjustSizePolicy(const AlteratorWidgetType, const QSizePolicy, const Qt::Orientation orient, const Qt::Orientation parent_orient);
 	void setChildrenAlignment(Qt::Alignment);
 	Qt::Alignment childrenAlignment();
@@ -99,12 +102,12 @@ public slots:
 	}
 };
 
-alWidget* createWidgetGetParent(const QString& parent);
+alWidget* alWidgetCreateWidgetGetParent(const QString& parent);
 
 template <typename Widget>
-Widget *createWidget(const QString& parent = 0, const Qt::Orientation o = Qt::Vertical)
+Widget *alWidgetCreateWidget(const QString& parent = 0, const Qt::Orientation o = Qt::Vertical)
 {
-    alWidget *aw = createWidgetGetParent(parent);
+    alWidget *aw = alWidgetCreateWidgetGetParent(parent);
     return new Widget((aw)? aw->getViewWidget(): 0, o);
 }
 
@@ -119,8 +122,8 @@ public:
 	alWidgetPre(const AlteratorRequestActionAttrs &attr, AlteratorWidgetType type, const QString& id,const QString& parent):
 		alWidget(type,id,Utils::reparentTag(parent))
 	{
-	    wnd_ = createWidget<Widget>(parent, attr[AltReqParamWOrientation].o);
-	    alWidget *a_parent = createWidgetGetParent(parent);
+	    wnd_ = alWidgetCreateWidget<Widget>(parent, attr[AltReqParamWOrientation].o);
+	    alWidget *a_parent = alWidgetCreateWidgetGetParent(parent);
 	    if( a_parent )
 		a_parent->postAddChild(wnd_, type, attr);
 	}

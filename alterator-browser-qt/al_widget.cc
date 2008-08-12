@@ -347,7 +347,7 @@ void alWidget::postAddChild(QWidget* chld, AlteratorWidgetType type, const Alter
     }
 }
 
-alWidget* createWidgetGetParent(const QString& parent)
+alWidget* alWidgetCreateWidgetGetParent(const QString& parent)
 {
     return widgetlist->alWidgetById(parent);
 }

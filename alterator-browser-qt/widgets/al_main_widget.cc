@@ -1,17 +1,23 @@
 
 #include "al_main_widget.hh"
 
-alMainWidget::alMainWidget(const QString& id,const QString& parent, Qt::Orientation orientation):
-	alMainWidgetPre<QWidget>(WMainWidget, id, parent)
+AMainWidget::AMainWidget(QWidget *parent, const Qt::Orientation):
+    QWidget(parent)
 {
-    QBoxLayout *bl;
-    Qt::Orientation o = Utils::fixOrientation(orientation, Qt::Vertical);
-    if( o == Qt::Horizontal )
-	bl = new QHBoxLayout(getViewWidget());
-    else
-	bl = new QVBoxLayout(getViewWidget());
+    setObjectName("main_widget");
+    QVBoxLayout *bl = new QVBoxLayout(this);
     bl->setSpacing(5);
     bl->setMargin(5);
+    main_window->setCentralWidget(this);
+}
+
+AMainWidget::~AMainWidget()
+{}
+
+// alMainWidget
+alMainWidget::alMainWidget(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
+	alWidgetPre<AMainWidget>(attr,WMainWidget,id,parent)
+{
 }
 
 void alMainWidget::setAttr(const QString& name,const QString& value)

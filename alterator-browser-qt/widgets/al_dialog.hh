@@ -46,12 +46,12 @@ private:
 class alDialog: public alWidgetPre<ADialog>
 {
 public:
-	alDialog(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation);
+	alDialog(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent);
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const ;
-	void start() { wnd_->exec(); }
-	void stop()  { wnd_->done(0); }
+	void popUp() { wnd_->exec(); }
+	void popDown()  { wnd_->done(0); }
 	QWidget* getViewWidget();
 	QLayout* getViewLayout();
 };

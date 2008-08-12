@@ -600,9 +600,9 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WMainWidget:
 	{
 	    if(parent_id.isEmpty())
-	        new_widget = new alMainWidget(id,"",orientation);
+	        new_widget = new alMainWidget(attr, id, "");
 	    else
-	        new_widget = new alDialog(attr,id,parent_id,orientation);
+	        new_widget = new alDialog(attr,id,parent_id);
 	    break;
 	}
 	case WBox:
@@ -709,36 +709,14 @@ void MainWindow::onStartRequest(const QString& id)
 {
 	alWidget *aw = widgetlist->alWidgetById(id);
 	if( aw )
-	{
-	    if( aw->type() == WMainWidget  )
-	    {
-		alMainWidget *m = dynamic_cast<alMainWidget*>(aw);
-		if(m)  m->start();
-	    }
-	    else if ( aw->type() == WDialog  )
-	    {
-		alDialog *d = dynamic_cast<alDialog*>(aw);
-		if(d) d->start();
-	    }
-	}
+	    aw->popUp();
 }
 
 void MainWindow::onStopRequest(const QString& id)
 {
 	alWidget *aw = widgetlist->alWidgetById(id);
 	if( aw )
-	{
-	    if( aw->type() == WMainWidget  )
-	    {
-		alMainWidget *m = dynamic_cast<alMainWidget*>(aw);
-		if(m)  m->stop();
-	    }
-	    else if ( aw->type() == WDialog  )
-	    {
-		alDialog *d = dynamic_cast<alDialog*>(aw);
-		if(d) d->stop();
-	    }
-	}
+	    aw->popDown();
 }
 
 void MainWindow::onEventRequest(const QString& id,const QString& value)

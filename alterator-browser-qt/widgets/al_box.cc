@@ -24,7 +24,7 @@ void ABox::setMyTitle(const QString& txt)
 
 // alBox
 alBox::alBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
-		alWidgetPre<ABox>(attr,attr[AltReqParamWType].t,id,parent)
+		alWidgetPre<ABox>(attr,WBox,id,parent)
 {
 #if 0
     switch( type() )

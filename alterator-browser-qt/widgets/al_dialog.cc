@@ -2,7 +2,7 @@
 
 #include "al_dialog.hh"
 
-ADialog::ADialog(QWidget *parent, const Qt::Orientation):
+ADialog::ADialog(QWidget *parent, const Qt::Orientation orient):
     QDialog(0)
 {
     current_action = "__undefined__";
@@ -51,6 +51,16 @@ ADialog::ADialog(QWidget *parent, const Qt::Orientation):
     view_widget = new QWidget(this);
 //    view_widget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     scroll->setWidget(view_widget);
+
+    Qt::Orientation o = Utils::fixOrientation(orient, Qt::Vertical);
+    QBoxLayout *view_layout;
+    if( o == Qt::Horizontal )
+	view_layout = new QHBoxLayout(view_widget);
+    else
+	view_layout = new QVBoxLayout(view_widget);
+
+    view_layout->setSpacing(5);
+    view_layout->setMargin(5);
 
     btnbox = new QDialogButtonBox(this);
 
@@ -197,17 +207,9 @@ QString ADialog::currentAction()
 }
 
 // alDialog
-alDialog::alDialog(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation):
+alDialog::alDialog(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
     alWidgetPre<ADialog>(attr,WDialog,id,parent)
 {
-    QBoxLayout *bl;
-    Qt::Orientation o = Utils::fixOrientation(orientation, Qt::Vertical);
-    if( o == Qt::Horizontal )
-	bl = new QHBoxLayout(getViewWidget());
-    else
-	bl = new QVBoxLayout(getViewWidget());
-    bl->setSpacing(5);
-    bl->setMargin(5);
 }
 
 
