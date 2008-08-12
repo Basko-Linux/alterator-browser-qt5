@@ -19,7 +19,7 @@ public:
 	{
 	    wnd_ = new Widget(main_window);
 	    wnd_->setObjectName("main_widget");
-	    main_window->setCentralWidget(getViewWidget());
+	    main_window->setCentralWidget(getWidget());
 	}
 
 	~alMainWidgetPre() { wnd_->deleteLater(); }
