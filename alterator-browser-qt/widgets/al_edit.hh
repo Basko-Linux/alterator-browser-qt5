@@ -17,6 +17,7 @@ public:
     void setEchoMode(QLineEdit::EchoMode);
     void setReadOnly(bool);
     QString text();
+    void setAutocompleteRows(const QString&);
 
 signals:
     void textEdited(const QString&);

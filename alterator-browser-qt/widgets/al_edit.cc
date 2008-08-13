@@ -1,4 +1,6 @@
 #include <QPainter>
+#include <QCompleter>
+#include <QStringListModel>
 
 #include "utils.hh"
 #include "al_edit.hh"
@@ -64,6 +66,18 @@ void AEdit::markRequired(bool req)
     }
 }
 
+void AEdit::setAutocompleteRows(const QString& strrows)
+{
+    QStringList rows = strrows.split(";", QString::SkipEmptyParts);
+    QCompleter *completer = new QCompleter(edit);
+    QStringListModel *model = new QStringListModel(rows, completer);
+    completer->setModel(model);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+    edit->setCompleter(completer);
+}
+
 // alEdit
 alEdit::alEdit(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
 		alWidgetPre<AEdit>(attr,WEdit,id,parent)
@@ -78,6 +92,8 @@ void alEdit::setAttr(const QString& name,const QString& value)
 		wnd_->setEchoMode(Utils::convertEchoMode(value));
 	else if ("alterability" == name)
 		wnd_->setReadOnly("false" == value);
+	else if ("autocompletion-rows" == name)
+		wnd_->setAutocompleteRows(value);
 	else
 		alWidget::setAttr(name,value);
 }
