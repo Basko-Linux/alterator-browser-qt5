@@ -44,11 +44,9 @@ public slots:
     void about();
 
 protected:
-//    virtual void childEvent(QChildEvent*);
     virtual bool event(QEvent*);
     void timerEvent(QTimerEvent*);
     void keyPressEvent(QKeyEvent*);
-//    void showEvent(QShowEvent*);
 
 private:
     Constraints *constraints;

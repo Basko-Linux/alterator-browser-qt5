@@ -211,11 +211,6 @@ void MainWindow::quitApp()
 
 void MainWindow::quitAppWarn()
 {
-/*
-    if( QMessageBox::warning(QApplication::activeWindow(), tr("Quit"),
-	tr("Exit Alterator?"),
-	QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Cancel) == QMessageBox::Ok )
-*/
     AMsgBox msgbox("warning", tr("Quit"), tr("Exit Alterator?"), QMessageBox::Ok|QMessageBox::Cancel, QApplication::activeWindow());
     if( msgbox.exec() == QMessageBox::Ok )
     {
@@ -228,15 +223,6 @@ void MainWindow::about()
     AMsgBox msgbox("information", tr("About"), tr("Alterator Browser"), QMessageBox::Ok, QApplication::activeWindow());
     msgbox.exec();
 }
-
-
-/*
-void MainWindow::showEvent(QShowEvent*)
-{
-    if( !started )
-	QTimer::singleShot(0, this, SLOT(start()));
-}
-*/
 
 bool MainWindow::haveWindowManager()
 {
@@ -287,24 +273,6 @@ void MainWindow::setHelpAvailable(bool avail)
     if(help_available && !avail)
         help_available = false;
 }
-
-/*
-void MainWindow::childEvent(QChildEvent *e)
-{
-    if( e->added() )
-    {
-	QObject *o = e->child();
-	if( o->isWidgetType() )
-	{
-	    QWidget *w = qobject_cast<QWidget*>(e->child());
-	    if( w )
-	    {
-		qDebug("MainWindow: child widget inserted");
-	    }
-	}
-    }
-}
-*/
 
 bool MainWindow::event(QEvent* e)
 {
