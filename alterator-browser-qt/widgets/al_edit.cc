@@ -68,13 +68,17 @@ void AEdit::markRequired(bool req)
 
 void AEdit::setAutocompleteRows(const QString& strrows)
 {
-    QStringList rows = strrows.split(";", QString::SkipEmptyParts);
-    QCompleter *completer = new QCompleter(edit);
-    QStringListModel *model = new QStringListModel(rows, completer);
-    completer->setModel(model);
-    completer->setCaseSensitivity(Qt::CaseInsensitive);
-    completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
-    completer->setCompletionMode(QCompleter::PopupCompletion);
+    QCompleter *completer = 0;
+    if( strrows.split(";", QString::SkipEmptyParts).size() > 0 )
+    {
+	QStringList rows = strrows.split(";", QString::KeepEmptyParts);
+	completer = new QCompleter(edit);
+	QStringListModel *model = new QStringListModel(rows, completer);
+	completer->setModel(model);
+	completer->setCaseSensitivity(Qt::CaseInsensitive);
+	completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
+	completer->setCompletionMode(QCompleter::PopupCompletion);
+    }
     edit->setCompleter(completer);
 }
 
