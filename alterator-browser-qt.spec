@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.90
+Version: 2.9.91
 Release: alt1
 
 Source:%name-%version.tar
@@ -77,6 +77,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Mon Aug 18 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.91-alt1
+- add autocompletion support for edit widget
+
 * Tue Aug 05 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.90-alt1
 - add event changed to listbox, combobox, checkbox
 - add value attribute to timeedit, dateedit
