@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.91
+Version: 2.9.92
 Release: alt1
 
 Source:%name-%version.tar
@@ -77,6 +77,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Fri Aug 22 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.92-alt1
+- fix timeedit dateedit return values
+
 * Mon Aug 18 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.91-alt1
 - add autocompletion support for edit widget
 

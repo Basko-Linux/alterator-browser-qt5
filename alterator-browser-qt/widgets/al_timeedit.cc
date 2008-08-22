@@ -366,7 +366,7 @@ void alTimeEdit::registerEvent(const QString& name)
 QString alTimeEdit::postData() const
 {
     QString ret;
-    ret.append(" (text . \"%1\" )").arg(wnd_->time());
-    ret.append(" (value . \"%1\" )").arg(wnd_->time());
+    ret.append(QString(" (text . \"%1\" )").arg(wnd_->time()));
+    ret.append(QString(" (value . \"%1\" )").arg(wnd_->time()));
     return ret;
 }

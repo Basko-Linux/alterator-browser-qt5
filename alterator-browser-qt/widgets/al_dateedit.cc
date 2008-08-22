@@ -79,7 +79,7 @@ void alDateEdit::registerEvent(const QString& name)
 QString alDateEdit::postData() const
 {
     QString ret;
-    ret.append(" (text . \"%1\" )").arg(wnd_->date());
-    ret.append(" (value . \"%1\" )").arg(wnd_->date());
+    ret.append(QString(" (text . \"%1\" )").arg(wnd_->date()));
+    ret.append(QString(" (value . \"%1\" )").arg(wnd_->date()));
     return ret;
 }
