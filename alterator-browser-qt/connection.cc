@@ -30,22 +30,6 @@ Connection::~Connection()
     wait();
 }
 
-#if 0
-void Connection::init()
-{
-	std::cout<<"(auth-request user \"qtbrowser\" password \"\" "
-	<<"language \""<<createLangList().toLatin1().data()<<"\""
-	<<")"<<std::endl;
-	std::auto_ptr<alRequest> dom(readRequest());
-	
-	sessionId = dom->attrs_.value("session-id");
-	userId = dom->attrs_.value("user");
-//	std::cerr<<"session-id="<<sessionId.toLatin1().data()<<std::endl;
-	
-	parseAnswer(dom.get());
-}
-#endif
-
 void Connection::init()
 {
 	getDocument("", AlteratorRequestInit);
