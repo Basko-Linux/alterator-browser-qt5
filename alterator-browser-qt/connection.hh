@@ -135,6 +135,7 @@ protected:
 private slots:
     void startDelayedFinish();
     void endDelayedFinish();
+    void prepareQuit();
 
 private:
     AlteratorAskList requests;

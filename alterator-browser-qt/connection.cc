@@ -19,15 +19,11 @@ Connection::Connection(QObject *parent):
 
     connect(this, SIGNAL(started()), this, SLOT(startDelayedFinish()));
     connect(this, SIGNAL(finished()), this, SLOT(endDelayedFinish()));
+    connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(prepareQuit()));
 }
 
 Connection::~Connection()
 {
-    destruction = true;
-    disconnect();
-    if( islong_timer_id > 0 )
-	killTimer(islong_timer_id);
-    wait();
 }
 
 void Connection::init()
@@ -120,6 +116,7 @@ void Connection::run()
 {
     while(!requests.isEmpty())
     {
+	if( destruction ) break;
 	AlteratorAskInfo ask = requests.takeFirst();
 	std::cout<< ask.request.toUtf8().data() << std::endl << std::flush;
 	std::auto_ptr<alRequest> dom(readRequest());
@@ -328,4 +325,12 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 */
 	}
 	return act;
+}
+
+void Connection::prepareQuit()
+{
+    destruction = true;
+    if( islong_timer_id > 0 )
+	killTimer(islong_timer_id);
+    quit();
 }
