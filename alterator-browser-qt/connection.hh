@@ -113,12 +113,28 @@ struct AlteratorAskInfo
 
 typedef QList<AlteratorAskInfo> AlteratorAskList;
 
+#ifndef USE_CONN_NO_THREAD
 class Connection: public QThread
+#else
+class Connection: public QObject
+#endif
 {
     Q_OBJECT
 public:
     Connection(QObject *parent = 0);
     ~Connection();
+
+#ifndef USE_CONN_NO_THREAD
+#else
+signals:
+    void started();
+    void finished();
+public:
+    bool is_running;
+    bool isRunning() { return is_running; };
+    void quit() { destruction = true; };
+    void start() { run(); };
+#endif
 
     void init();
     void getDocument(const QString& content = "(alterator-request action \"get\")",

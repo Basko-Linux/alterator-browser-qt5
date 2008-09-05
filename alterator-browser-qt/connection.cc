@@ -11,9 +11,18 @@
 #include "enums.hh"
 
 #include "main_window.hh"
+
 Connection::Connection(QObject *parent):
+#ifndef USE_CONN_NO_THREAD
     QThread(parent)
+#else
+    QObject(parent)
+#endif
 {
+#ifndef USE_CONN_NO_THREAD
+#else
+    is_running = false;
+#endif
     destruction = false;
     islong_timer_id = 0;
 
@@ -114,6 +123,10 @@ QString Connection::createLangList()
 
 void Connection::run()
 {
+#ifndef USE_CONN_NO_THREAD
+#else
+    is_running = true;
+#endif
     while(!requests.isEmpty())
     {
 	if( destruction ) break;
@@ -128,6 +141,10 @@ void Connection::run()
 	}
 	parseAnswer(dom.get(), ask.flags);
     }
+#ifndef USE_CONN_NO_THREAD
+#else
+    is_running = false;
+#endif
 }
 
 void Connection::parseAnswer(alRequest *dom, AlteratorRequestFlags request_flags)
