@@ -86,7 +86,10 @@ void MailBox::readMessage(int fd)
 	{
 		::close(fd);
 		notifier_->setEnabled(true);
-		eater_->deleteLater();
-		eater_ = 0;
+		if( eater_ )
+		{
+		    eater_->deleteLater();
+		    eater_ = 0;
+		}
 	}
 }
