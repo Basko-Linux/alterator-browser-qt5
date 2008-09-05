@@ -40,14 +40,13 @@ MailBox::MailBox(const QString& path, QObject *parent):
 	if (::listen(sock_, 1) == -1)
 		errorMessage("listen");
 
-	notifier_ = new QSocketNotifier(sock_,QSocketNotifier::Read);
+	notifier_ = new QSocketNotifier(sock_,QSocketNotifier::Read,this);
 	QObject::connect(notifier_,SIGNAL(activated(int)),this, SLOT(onMessage(int)) );
 }
 
 MailBox::~MailBox()
 {
 	::close(sock_);
-	delete notifier_;
 }
 
 void MailBox::onMessage(int)
@@ -61,7 +60,7 @@ void MailBox::onMessage(int)
 	}
 
 	notifier_->setEnabled(false);
-	eater_ = new QSocketNotifier(fd, QSocketNotifier::Read);
+	eater_ = new QSocketNotifier(fd, QSocketNotifier::Read, this);
 	connect(eater_, SIGNAL(activated(int)), this, SLOT(readMessage(int)));
 	readMessage(fd);
 }
