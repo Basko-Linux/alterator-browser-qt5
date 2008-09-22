@@ -12,7 +12,7 @@ RPM_SRPMSDIR=$$RPM_TOPDIR/SRPMS
 
 TEMPLATE = app
 QT += xml network
-QMAKE_CXXFLAGS += -pedantic $(RPM_OPT_FLAGS)
+QMAKE_CXXFLAGS += -pedantic -g -O0 -march=i586 $(RPM_OPT_FLAGS)
 PRECOMPILED_DIR = .pch/
 OBJECTS_DIR = .obj
 MOC_DIR = .moc
@@ -22,14 +22,14 @@ UI_DIR = .uic
 SOURCES =  main.cc
 SOURCES += flowlayout.cpp
 SOURCES += mailbox.cc connection.cc sax.cc messagebox.cc
-SOURCES += main_window.cc a_pixmaps.cc utils.cc constraints.cc help_browser.cc
+SOURCES += browser.cc a_pixmaps.cc utils.cc constraints.cc help_browser.cc
 SOURCES += enums.cc splashscreen.cc widgetlist.cc
 SOURCES += al_widget.cc widgets/al_*.cc
 
 HEADERS =  global.hh
 HEADERS += flowlayout.hh
 HEADERS += mailbox.hh connection.hh widgets.hh sax.hh messagebox.hh
-HEADERS += main_window.hh a_pixmaps.hh utils.hh constraints.hh help_browser.hh
+HEADERS += browser.hh a_pixmaps.hh utils.hh constraints.hh help_browser.hh
 HEADERS += enums.hh splashscreen.hh widgetlist.hh
 HEADERS += al_widget.hh widgets/al_*.hh
 

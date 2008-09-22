@@ -4,7 +4,7 @@
 #include <QApplication>
 
 #include "al_widget.hh"
-#include "main_window.hh"
+#include "browser.hh"
 
 class AMainWidget: public QWidget
 {

@@ -21,7 +21,7 @@
 #include "global.hh"
 #include "widgets.hh"
 #include "connection.hh"
-#include "main_window.hh"
+#include "browser.hh"
 #include "messagebox.hh"
 #include "constraints.hh"
 #include "mailbox.hh"
@@ -51,8 +51,8 @@ int x_catchRedirectError(Display *, XErrorEvent *event)
     return 0;
 }
 
-MainWindow::MainWindow():
-    MainWindow_t(0)
+Browser::Browser():
+    Browser_t(0)
 {
     qRegisterMetaType<Qt::Orientation>("Qt::Orientation");
     qRegisterMetaType<AlteratorRequest>("AlteratorRequest");
@@ -131,11 +131,11 @@ MainWindow::MainWindow():
     QTimer::singleShot(0, this, SLOT(start()));
 }
 
-MainWindow::~MainWindow()
+Browser::~Browser()
 {
 }
 
-void MainWindow::start()
+void Browser::start()
 {
     if( started ) return;
     started = true;
@@ -187,7 +187,7 @@ void MainWindow::start()
     connection->init();
 }
 
-void MainWindow::stop()
+void Browser::stop()
 {
     if( have_wm )
     {
@@ -204,12 +204,12 @@ void MainWindow::stop()
     }
 }
 
-void MainWindow::quitApp()
+void Browser::quitApp()
 {
     QApplication::closeAllWindows();
 }
 
-void MainWindow::quitAppWarn()
+void Browser::quitAppWarn()
 {
     AMsgBox msgbox("warning", tr("Quit"), tr("Exit Alterator?"), QMessageBox::Ok|QMessageBox::Cancel, QApplication::activeWindow());
     if( msgbox.exec() == QMessageBox::Ok )
@@ -218,13 +218,13 @@ void MainWindow::quitAppWarn()
     }
 }
 
-void MainWindow::about()
+void Browser::about()
 {
     AMsgBox msgbox("information", tr("About"), tr("Alterator Browser"), QMessageBox::Ok, QApplication::activeWindow());
     msgbox.exec();
 }
 
-bool MainWindow::haveWindowManager()
+bool Browser::haveWindowManager()
 {
     if( detect_wm )
 	return have_wm;
@@ -252,7 +252,7 @@ bool MainWindow::haveWindowManager()
     return have_wm;
 }
 
-void MainWindow::setFullScreen(bool full)
+void Browser::setFullScreen(bool full)
 {
     if( full )
     {
@@ -263,18 +263,18 @@ void MainWindow::setFullScreen(bool full)
 	setGeometry(geometry_);
 }
 
-void MainWindow::setHelpSource(const QString& str)
+void Browser::setHelpSource(const QString& str)
 {
     help_browser->setHelpSource(str);
 }
 
-void MainWindow::setHelpAvailable(bool avail)
+void Browser::setHelpAvailable(bool avail)
 {
     if(help_available && !avail)
         help_available = false;
 }
 
-bool MainWindow::event(QEvent* e)
+bool Browser::event(QEvent* e)
 {
     if( e->type() == EVENT_HELP )
     {
@@ -284,7 +284,7 @@ bool MainWindow::event(QEvent* e)
     return QMainWindow::event(e);
 }
 
-void MainWindow::keyPressEvent(QKeyEvent* e)
+void Browser::keyPressEvent(QKeyEvent* e)
 {
     switch( e->key() )
     {
@@ -327,7 +327,7 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
 #endif
 }
 
-void MainWindow::changeLanguage(const QString& language)
+void Browser::changeLanguage(const QString& language)
 {
     QString locale = language;
     if( locale.contains("_")
@@ -348,7 +348,7 @@ void MainWindow::changeLanguage(const QString& language)
     emit languageChanged();
 }
 
-void MainWindow::reloadTranslator(QTranslator* translator, const QString &domain)
+void Browser::reloadTranslator(QTranslator* translator, const QString &domain)
 {
     if( translator )
     {
@@ -367,7 +367,7 @@ void MainWindow::reloadTranslator(QTranslator* translator, const QString &domain
     }
 }
 
-void MainWindow::emitEvent(const QString &id, const BrowserEventType type, const AlteratorRequestFlags request_flags)
+void Browser::emitEvent(const QString &id, const BrowserEventType type, const AlteratorRequestFlags request_flags)
 {
 	if( emit_locker > 0 ) return;
 	if( request_flags & AlteratorRequestBlocking )
@@ -396,12 +396,12 @@ void MainWindow::emitEvent(const QString &id, const BrowserEventType type, const
 	}
 }
 
-void MainWindow::emitEvent(const QString &id,const QString &type, const AlteratorRequestFlags request_flags)
+void Browser::emitEvent(const QString &id,const QString &type, const AlteratorRequestFlags request_flags)
 {
     emitEvent(id, enums->strToBrowserEvent(type), request_flags);
 }
 
-void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
+void Browser::onAlteratorRequest(const AlteratorRequest& request)
 {
     QList<QString> tab_order_parents;
     QMap<QString, QMap<int,QWidget*> > tab_order_list;
@@ -547,7 +547,7 @@ void MainWindow::onAlteratorRequest(const AlteratorRequest& request)
 
 }
 
-alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
+alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 {
 	QString id = attr[AltReqParamWId].s;
 	QString parent_id = attr[AltReqParamWParentId].s;
@@ -633,12 +633,12 @@ alWidget* MainWindow::onNewRequest(const AlteratorRequestActionAttrs &attr)
     return new_widget;
 }
 
-void MainWindow::onCloseRequest(const QString& id)
+void Browser::onCloseRequest(const QString& id)
 {
     widgetlist->destroyLater(id);
 }
 
-void MainWindow::onCleanRequest(const QString& id)
+void Browser::onCleanRequest(const QString& id)
 {
 	alWidget *el = widgetlist->alWidgetById(id);
 
@@ -659,7 +659,7 @@ void MainWindow::onCleanRequest(const QString& id)
 	
 }
 
-void MainWindow::onSetRequest(const QString& id,const QString& attr,const QString& value)
+void Browser::onSetRequest(const QString& id,const QString& attr,const QString& value)
 {
     /*
     qDebug("%s: id<%s> attr<%s> value<%s>", __FUNCTION__, qPrintable(id), qPrintable(attr), qPrintable(value));
@@ -673,21 +673,21 @@ void MainWindow::onSetRequest(const QString& id,const QString& attr,const QStrin
     }
 }
 
-void MainWindow::onStartRequest(const QString& id)
+void Browser::onStartRequest(const QString& id)
 {
 	alWidget *aw = widgetlist->alWidgetById(id);
 	if( aw )
 	    aw->popUp();
 }
 
-void MainWindow::onStopRequest(const QString& id)
+void Browser::onStopRequest(const QString& id)
 {
 	alWidget *aw = widgetlist->alWidgetById(id);
 	if( aw )
 	    aw->popDown();
 }
 
-void MainWindow::onEventRequest(const QString& id,const QString& value)
+void Browser::onEventRequest(const QString& id,const QString& value)
 {
     alWidget *aw = widgetlist->alWidgetById(id);
     if( aw )
@@ -696,7 +696,7 @@ void MainWindow::onEventRequest(const QString& id,const QString& value)
     }
 }
 
-void MainWindow::onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, QMessageBox::StandardButtons buttons)
+void Browser::onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, QMessageBox::StandardButtons buttons)
 {
     AMsgBox msgbox(type, title, message, buttons, QApplication::activeWindow());
     //qDebug("AMsgBox exec");
@@ -704,27 +704,27 @@ void MainWindow::onMessageBoxRequest(const QString& type, const QString& title, 
     connection->getDocument(answer);
 }
 
-void MainWindow::onFileSelectRequest(const QString& title, const QString& dir, const QString& type, const QString& mask)
+void Browser::onFileSelectRequest(const QString& title, const QString& dir, const QString& type, const QString& mask)
 {
     QStringList paths;
     paths.append( QFileDialog::getOpenFileName(this, title, dir.isEmpty()? QDir::homePath(): dir ) );
     connection->getDocument(paths.join(";"));
 }
 
-void MainWindow::splashStart()
+void Browser::splashStart()
 {
 	if (splash) return;
 	splash = new SplashScreen(this);
 }
 
-void MainWindow::splashStop()
+void Browser::splashStop()
 {
     if( !splash ) return;
     splash->deleteLater();
     splash = 0;
 }
 
-void MainWindow::onSplashMessageRequest(const QString& msg)
+void Browser::onSplashMessageRequest(const QString& msg)
 {
 	if (msg.isEmpty())
 	{
@@ -740,7 +740,7 @@ void MainWindow::onSplashMessageRequest(const QString& msg)
 	}
 }
 
-void MainWindow::onInternalSplashMessage(const QString& msg)
+void Browser::onInternalSplashMessage(const QString& msg)
 {
 	if (msg.isEmpty())
 	{
@@ -757,12 +757,12 @@ void MainWindow::onInternalSplashMessage(const QString& msg)
 	}
 }
 
-void MainWindow::getDocument(const QString& request)
+void Browser::getDocument(const QString& request)
 {
     connection->getDocument(request);
 }
 
-void MainWindow::onStartBusySplash()
+void Browser::onStartBusySplash()
 {
     QWidget *this_window = window();
     QWidget *active_window = QApplication::activeWindow();
@@ -771,37 +771,37 @@ void MainWindow::onStartBusySplash()
     this_window->setCursor(Qt::WaitCursor);
 }
 
-void MainWindow::onCheckBusySplash()
+void Browser::onCheckBusySplash()
 {
     if( busy_timer_id > 0 )
 	killTimer(busy_timer_id);
     busy_timer_id = startTimer(500);
 }
 
-void MainWindow::onStopBusySplash()
+void Browser::onStopBusySplash()
 {
     killTimer(busy_timer_id);
     busy_timer_id = 0;
     window()->unsetCursor();
 }
 
-void MainWindow::timerEvent(QTimerEvent *e)
+void Browser::timerEvent(QTimerEvent *e)
 {
     if( e->timerId() == busy_timer_id )
 	onStopBusySplash();
 }
 
-void MainWindow::onRetryRequest()
+void Browser::onRetryRequest()
 {
     QTimer::singleShot(50, this,SLOT(doRetry()));
 }
 
-void MainWindow::doRetry()
+void Browser::doRetry()
 {
     connection->getDocument("(alterator-request action \"re-get\")");
 }
 
-void MainWindow::loadStyleSheet()
+void Browser::loadStyleSheet()
 {
     QResource::unregisterResource("/etc/alterator/design-browser-qt");
     QResource::registerResource("/etc/alterator/design-browser-qt");
@@ -880,7 +880,7 @@ void MainWindow::loadStyleSheet()
     }
 }
 
-void MainWindow::collectTabIndex(QList<QString>& parents, QMap<QString, QMap<int,QWidget*> >& order, alWidget *wdg, int tab_index)
+void Browser::collectTabIndex(QList<QString>& parents, QMap<QString, QMap<int,QWidget*> >& order, alWidget *wdg, int tab_index)
 {
     if( tab_index >= 0 && wdg )
     {

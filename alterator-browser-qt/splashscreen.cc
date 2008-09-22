@@ -2,7 +2,6 @@
 
 #include "splashscreen.hh"
 #include "utils.hh"
-#include "main_window.hh"
 
 SplashScreen::SplashScreen(QWidget *parent):
     QFrame(parent)

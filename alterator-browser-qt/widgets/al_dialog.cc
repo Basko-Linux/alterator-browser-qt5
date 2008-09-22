@@ -29,7 +29,7 @@ ADialog::ADialog(QWidget *parent, const Qt::Orientation orient):
     //qDebug("new ADialog");
 //    setWindowModality(Qt::ApplicationModal);
     QGridLayout *main_layout = new QGridLayout(this);
-    if( main_window->haveWindowManager() )
+    if( browser->haveWindowManager() )
 	main_layout->setMargin(1);
     else
 	main_layout->setMargin(10);
@@ -108,7 +108,7 @@ void ADialog::showEvent(QShowEvent *e)
 {
     //qDebug("ADialog::showEvent");
     //QDialog::showEvent(e);
-    if( !main_window->haveWindowManager() )
+    if( !browser->haveWindowManager() )
     {
 	Utils::fixWmlessPopup(this);
     }
@@ -117,7 +117,7 @@ void ADialog::showEvent(QShowEvent *e)
 void ADialog::paintEvent(QPaintEvent* e)
 {
     //QDialog::paintEvent(e);
-    if( !main_window->haveWindowManager() )
+    if( !browser->haveWindowManager() )
     {
 	Utils::widgetCornersRound(this);
     }

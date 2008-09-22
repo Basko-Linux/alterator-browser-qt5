@@ -15,14 +15,14 @@
 #include "splashscreen.hh"
 
 
-typedef QMainWindow MainWindow_t;
+typedef QMainWindow Browser_t;
 
-class MainWindow: public MainWindow_t
+class Browser: public Browser_t
 {
     Q_OBJECT
 public:
-    MainWindow();
-    ~MainWindow();
+    Browser();
+    ~Browser();
 
     bool haveWindowManager();
     void setFullScreen(bool);
@@ -94,6 +94,6 @@ private slots:
     void onAlteratorRequest(const AlteratorRequest&);
 };
 
-extern MainWindow *main_window;
+extern Browser *browser;
 
 #endif

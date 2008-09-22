@@ -8,7 +8,7 @@ AMainWidget::AMainWidget(QWidget *parent, const Qt::Orientation):
     QVBoxLayout *bl = new QVBoxLayout(this);
     bl->setSpacing(5);
     bl->setMargin(5);
-    main_window->setCentralWidget(this);
+    browser->setCentralWidget(this);
 }
 
 AMainWidget::~AMainWidget()
@@ -32,7 +32,7 @@ void alMainWidget::setAttr(const QString& name,const QString& value)
 	}
         else if ("has-help" == name)
         {
-            main_window->setHelpAvailable(value != "false");
+            browser->setHelpAvailable(value != "false");
         }
 	else
 		alWidget::setAttr(name,value);

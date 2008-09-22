@@ -1,8 +1,8 @@
 
 #include <QScrollBar>
 
-#include "main_window.hh"
-#include "main_window.hh"
+#include "browser.hh"
+#include "browser.hh"
 #include "utils.hh"
 #include "a_pixmaps.hh"
 
@@ -20,8 +20,8 @@ HelpWidget::HelpWidget(QWidget *parent):
     QMenu *menu_help = new QMenu(tr("Help"), menu_bar);
     menu_bar->addMenu(menu_session);
     menu_bar->addMenu(menu_help);
-    menu_session->addAction(QApplication::style()->standardPixmap(QStyle::SP_DialogCancelButton), tr("Quit"), main_window, SLOT(quitAppWarn()));
-    menu_help->addAction(getPixmap("logo_16"), tr("About"), main_window, SLOT(about()));
+    menu_session->addAction(QApplication::style()->standardPixmap(QStyle::SP_DialogCancelButton), tr("Quit"), browser, SLOT(quitAppWarn()));
+    menu_help->addAction(getPixmap("logo_16"), tr("About"), browser, SLOT(about()));
     menu_help->addAction(QApplication::style()->standardPixmap(QStyle::SP_TitleBarMenuButton), tr("About Qt"), QApplication::instance(), SLOT(aboutQt()));
     ui.gridLayout->setMenuBar(menu_bar);
 
@@ -63,7 +63,7 @@ void HelpWidget::setEmptyHelp()
 void HelpWidget::paintEvent(QPaintEvent* e)
 {
     //QDialog::paintEvent(e);
-    if( !main_window->haveWindowManager() )
+    if( !browser->haveWindowManager() )
     {
 	Utils::widgetCornersRound(this);
     }
@@ -73,7 +73,7 @@ void HelpWidget::showEvent(QShowEvent *e)
 {
     //qDebug("HelpWidget::showEvent");
     //HelpWidget::showEvent(e);
-    if( !main_window->haveWindowManager() )
+    if( !browser->haveWindowManager() )
     {
 	Utils::fixWmlessPopup(this);
     }
@@ -116,10 +116,10 @@ int HelpBrowser::exec()
     if( !help_widget )
     {
 	help_widget = new HelpWidget(QApplication::activeWindow());
-	int w = main_window->width()*0.8;
-	int h = main_window->height()*0.8;
+	int w = browser->width()*0.8;
+	int h = browser->height()*0.8;
 	if( w > 400 && h > 300 )
-	    help_widget->resize(main_window->width()*0.8, main_window->height()*0.8);
+	    help_widget->resize(browser->width()*0.8, browser->height()*0.8);
 	help_widget->setHelpSource(help_url);
 	help_widget->setVerticalScrollPosition(vscroll_position);
 	ret = help_widget->exec();

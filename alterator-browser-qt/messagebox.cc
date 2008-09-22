@@ -1,7 +1,7 @@
 #include <QMap>
 
 #include "messagebox.hh"
-#include "main_window.hh"
+#include "browser.hh"
 #include "utils.hh"
 
 namespace AMessageBox {
@@ -102,7 +102,7 @@ AMsgBox::~AMsgBox() {}
 
 void AMsgBox::showEvent(QShowEvent*)
 {
-    if( !main_window->haveWindowManager() )
+    if( !browser->haveWindowManager() )
     {
 	Utils::fixWmlessPopupWindow(this);
 	QTimer::singleShot(0, this, SLOT(onShownFix()));
@@ -117,7 +117,7 @@ void AMsgBox::onShownFix()
 void AMsgBox::paintEvent(QPaintEvent*)
 {
     //QMessageBox::paintEvent(e);
-    if( !main_window->haveWindowManager() )
+    if( !browser->haveWindowManager() )
     {
 	Utils::widgetCornersRound(this);
     }

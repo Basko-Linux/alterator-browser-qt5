@@ -296,7 +296,7 @@ void ACenterFace::onOwerviewClicked()
 void ACenterFace::onHelpClicked()
 {
     QHelpEvent *hlp = new QHelpEvent((QEvent::Type)EVENT_HELP, QPoint(), QPoint());
-    QApplication::postEvent(main_window, hlp);
+    QApplication::postEvent(browser, hlp);
 }
 
 void ACenterFace::clearActions()
@@ -540,11 +540,11 @@ void ACenterFace::onSelectAction(const QString& key)
     if( type == UserActionHelp )
     {
 	QHelpEvent *hlp = new QHelpEvent((QEvent::Type)EVENT_HELP, QPoint(), QPoint());
-	QApplication::postEvent(main_window, hlp);
+	QApplication::postEvent(browser, hlp);
     }
     current_action_key = key;
     if( eventRegistered(BrowserEventClicked) )
-	main_window->emitEvent(id, BrowserEventClicked, AlteratorRequestDefault);
+	browser->emitEvent(id, BrowserEventClicked, AlteratorRequestDefault);
 }
 
 void ACenterFace::onSelectModule(ACenterSectionModulesListItem *i)
@@ -553,7 +553,7 @@ void ACenterFace::onSelectModule(ACenterSectionModulesListItem *i)
     view_widget->hide();
     stacked_layout->setCurrentWidget(module_widget);
     if( eventRegistered(BrowserEventSelected) )
-	main_window->emitEvent(id, BrowserEventSelected, AlteratorRequestCenterFaceModuleSelected);
+	browser->emitEvent(id, BrowserEventSelected, AlteratorRequestCenterFaceModuleSelected);
 }
 
 QString ACenterFace::currentActionKey()

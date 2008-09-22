@@ -1,9 +1,9 @@
 
 #include <QApplication>
-#include "main_window.hh"
+#include "browser.hh"
 #include "enums.hh"
 
-MainWindow *main_window = 0;
+Browser *browser = 0;
 Enums *enums = 0;
 
 int main(int argc,char **argv)
@@ -14,12 +14,12 @@ int main(int argc,char **argv)
     Enums enums_;
     enums = &enums_;
 
-    MainWindow mw;
+    Browser mw;
     mw.show();
-    main_window = &mw;
+    browser = &mw;
 
     int ret = app.exec();
-    main_window = 0;
+    browser = 0;
     enums = 0;
 
     return ret;

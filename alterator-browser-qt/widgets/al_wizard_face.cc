@@ -580,7 +580,7 @@ void AWizardFace::onSelectAction(const QString& key)
     if( type == UserActionHelp )
     {
 	QHelpEvent *hlp = new QHelpEvent((QEvent::Type)EVENT_HELP, QPoint(), QPoint());
-	QApplication::postEvent(main_window, hlp);
+	QApplication::postEvent(browser, hlp);
     }
     current_action = key;
 

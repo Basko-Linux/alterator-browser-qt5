@@ -10,7 +10,7 @@
 #include "utils.hh"
 #include "enums.hh"
 
-#include "main_window.hh"
+#include "browser.hh"
 
 Connection::Connection(QObject *parent):
 #ifndef USE_CONN_NO_THREAD
