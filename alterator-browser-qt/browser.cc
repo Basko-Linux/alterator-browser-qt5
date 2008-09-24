@@ -764,11 +764,9 @@ void Browser::getDocument(const QString& request)
 
 void Browser::onStartBusySplash()
 {
-    QWidget *this_window = window();
-    QWidget *active_window = QApplication::activeWindow();
-    if( active_window != this_window )
-	active_window->setCursor(Qt::WaitCursor);
-    this_window->setCursor(Qt::WaitCursor);
+    foreach (QWidget *widget, QApplication::topLevelWidgets()) {
+	widget->setCursor(Qt::WaitCursor);
+    }
 }
 
 void Browser::onCheckBusySplash()
@@ -782,7 +780,9 @@ void Browser::onStopBusySplash()
 {
     killTimer(busy_timer_id);
     busy_timer_id = 0;
-    window()->unsetCursor();
+    foreach (QWidget *widget, QApplication::topLevelWidgets()) {
+	widget->unsetCursor();
+    }
 }
 
 void Browser::timerEvent(QTimerEvent *e)
