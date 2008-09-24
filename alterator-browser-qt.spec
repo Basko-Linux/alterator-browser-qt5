@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.92
+Version: 2.9.93
 Release: alt1
 
 Source:%name-%version.tar
@@ -77,6 +77,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Wed Sep 24 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.93-alt1
+- fix crash when set busy cursor with no active window
+
 * Fri Aug 22 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.92-alt1
 - fix timeedit dateedit return values
 
