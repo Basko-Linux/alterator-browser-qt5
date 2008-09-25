@@ -12,7 +12,8 @@ RPM_SRPMSDIR=$$RPM_TOPDIR/SRPMS
 
 TEMPLATE = app
 QT += xml network
-QMAKE_CXXFLAGS += -pedantic -g -O0 -march=i586 $(RPM_OPT_FLAGS)
+QMAKE_CXXFLAGS += -pedantic $(RPM_OPT_FLAGS)
+#CXXFLAGS_DEBUG += -g -O0 -march=i586
 PRECOMPILED_DIR = .pch/
 OBJECTS_DIR = .obj
 MOC_DIR = .moc

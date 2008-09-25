@@ -3,7 +3,7 @@
 
 Name: alterator-browser-qt
 Version: 2.9.93
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -77,6 +77,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Thu Sep 25 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.93-alt2
+- fix build on x86_64
+
 * Wed Sep 24 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.93-alt1
 - fix crash when set busy cursor with no active window
 
