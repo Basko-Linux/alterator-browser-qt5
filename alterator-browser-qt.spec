@@ -2,8 +2,8 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.93
-Release: alt2
+Version: 2.9.94
+Release: alt1
 
 Source:%name-%version.tar
 
