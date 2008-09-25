@@ -11,6 +11,7 @@
 AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     QWidget(parent)
 {
+    setObjectName("wizardface");
 
     current_step = -1;
     current_action = "__undefined__";
@@ -51,16 +52,18 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
 	if( hs )
 	    hs->installEventFilter(this);
     }
-    scroll->setBackgroundRole(QPalette::NoRole);
-    scroll->viewport()->setBackgroundRole(QPalette::NoRole);
-    //scroll->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
     scroll->setWidgetResizable( true );
+    QPalette scr_palette = scroll->palette();
+    scr_palette.setBrush(QPalette::Window, QBrush(QColor(0,0,0,0)));
+    scroll->setPalette(scr_palette);
 
 
     view_widget = new QWidget(scroll->viewport());
-    view_widget->setBackgroundRole(QPalette::NoRole);
     view_widget->setObjectName("view");
+    QPalette vw_palette = view_widget->palette();
+    vw_palette.setBrush(QPalette::Window, QBrush(QColor(0,0,0,0)));
+    view_widget->setPalette(vw_palette);
 
     scroll->setWidget(view_widget);
 

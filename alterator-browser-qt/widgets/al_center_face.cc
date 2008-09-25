@@ -206,26 +206,33 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     buttonbox = new QDialogButtonBox(module_widget);
 
     QScrollArea *scroll = new QScrollArea(module_widget);
-    //scroll->setBackgroundRole(QPalette::NoRole);
-    //scroll->setBackgroundRole(QPalette::Base);
-    //scroll->viewport()->setBackgroundRole(QPalette::NoRole);
     scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
     scroll->setWidgetResizable( true );
+    QPalette scroll_palette = scroll->palette();
+    scroll_palette.setBrush(QPalette::Window, QBrush(QColor(0,0,0,0)));
+    scroll->setPalette(scroll_palette);
 
     view_widget = new QWidget();
     view_widget->setObjectName("view");
-    //view_widget->setBackgroundRole(QPalette::Base);
+    QPalette vw_palette = view_widget->palette();
+    vw_palette.setBrush(QPalette::Window, QBrush(QColor(0,0,0,0)));
+    view_widget->setPalette(vw_palette);
+
     scroll->setWidget(view_widget);
 
     QScrollArea *sections_scroll = new QScrollArea(sections_widget);
-    sections_scroll->setBackgroundRole(QPalette::Base);
-    sections_scroll->viewport()->setBackgroundRole(QPalette::Base);
     sections_scroll->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
     sections_scroll->setWidgetResizable( true );
+    QPalette ss_palette = sections_scroll->palette();
+    ss_palette.setBrush(QPalette::Window, QBrush(QColor(0,0,0,0)));
+    sections_scroll->setPalette(ss_palette);
 
     sections_view_widget = new QWidget();
-    //sections_view_widget->setBackgroundRole(QPalette::Base);
     sections_view_widget->setObjectName("modules_view");
+    QPalette svw_palette = sections_view_widget->palette();
+    svw_palette.setBrush(QPalette::Window, QBrush(QColor(0,0,0,0)));
+    sections_view_widget->setPalette(svw_palette);
+
     sections_scroll->setWidget(sections_view_widget);
 
     Qt::Orientation orient = Utils::fixOrientation(o, Qt::Vertical);
