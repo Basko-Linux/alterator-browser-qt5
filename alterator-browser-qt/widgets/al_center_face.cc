@@ -180,6 +180,8 @@ ACenterSectionModulesList* ACenterSection::getModulesList()
 ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     QWidget(parent)
 {
+    setObjectName("centerface");
+
     reg_events = BrowserEventUnknown;
     current_action_key = "__undefined__";
     current_module_key = "__undefined__";
@@ -201,7 +203,6 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     connect(help_btn, SIGNAL(clicked()), this, SLOT(onHelpClicked()));
 
     sections_widget = new QWidget(this);
-    //sections_widget->setBackgroundRole(QPalette::Base);
     module_widget = new QWidget(this);
     buttonbox = new QDialogButtonBox(module_widget);
 
@@ -482,8 +483,6 @@ void ACenterFace::clearSections()
 void ACenterFace::addSection(const QString& key, const QString& name, const QString& desc, const QString& pixmap)
 {
     ACenterSection *section = new ACenterSection(sections_view_widget, name);
-    //section->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
-    //section->setBackgroundRole(QPalette::Base);
     sections_view_layout->addWidget(section);
     sections[key] = section;
     if(!desc.isEmpty())
