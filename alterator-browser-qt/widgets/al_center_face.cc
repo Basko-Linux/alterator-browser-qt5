@@ -178,9 +178,11 @@ ACenterSectionModulesList* ACenterSection::getModulesList()
 
 /* ACenterFace */
 ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
-    QWidget(parent)
+    QFrame(parent)
 {
     setObjectName("centerface");
+    setLineWidth(0);
+    setFrameStyle(QFrame::Plain | QFrame::NoFrame);
 
     reg_events = BrowserEventUnknown;
     current_action_key = "__undefined__";

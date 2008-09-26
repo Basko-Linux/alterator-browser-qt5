@@ -77,7 +77,7 @@ private:
     ACenterSectionModulesList *modlist;
 };
 
-class ACenterFace: public QWidget
+class ACenterFace: public QFrame
 {
     Q_OBJECT
 public:

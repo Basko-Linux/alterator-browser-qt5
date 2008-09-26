@@ -2,12 +2,14 @@
 #include "al_main_widget.hh"
 
 AMainWidget::AMainWidget(QWidget *parent, const Qt::Orientation):
-    QWidget(parent)
+    QFrame(parent)
 {
     setObjectName("main_widget");
+    setLineWidth(0);
+    setFrameStyle(QFrame::Plain | QFrame::NoFrame);
     QVBoxLayout *bl = new QVBoxLayout(this);
     bl->setSpacing(5);
-    bl->setMargin(5);
+    bl->setMargin(0);
     browser->setCentralWidget(this);
 }
 

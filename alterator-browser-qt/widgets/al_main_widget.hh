@@ -6,8 +6,9 @@
 #include "al_widget.hh"
 #include "browser.hh"
 
-class AMainWidget: public QWidget
+class AMainWidget: public QFrame
 {
+Q_OBJECT
 public:
     AMainWidget(QWidget *parent, const Qt::Orientation);
     ~AMainWidget();

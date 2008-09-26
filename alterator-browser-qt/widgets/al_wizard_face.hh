@@ -17,7 +17,7 @@ public:
     ~AWizardFaceStepList() {};
 };
 
-class AWizardFace: public QWidget
+class AWizardFace: public QFrame
 {
     Q_OBJECT
 public:

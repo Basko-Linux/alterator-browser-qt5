@@ -9,9 +9,11 @@
 
 // AWizardFace
 AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
-    QWidget(parent)
+    QFrame(parent)
 {
     setObjectName("wizardface");
+    setLineWidth(0);
+    setFrameStyle(QFrame::Plain | QFrame::NoFrame);
 
     current_step = -1;
     current_action = "__undefined__";
