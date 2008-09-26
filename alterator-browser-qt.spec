@@ -77,6 +77,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Fri Sep 26 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.94-alt1
+- fix to use parent background of wizardface and centerface views
+
 * Thu Sep 25 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.93-alt2
 - fix build on x86_64
 
