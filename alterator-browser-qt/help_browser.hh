@@ -23,6 +23,8 @@ protected:
     virtual void paintEvent(QPaintEvent*);
     virtual void keyPressEvent(QKeyEvent*);
 
+private slots:
+    void execLink(const QUrl&);
 
 private:
     Ui::HelpBrowserUI ui;
