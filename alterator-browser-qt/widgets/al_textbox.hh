@@ -24,8 +24,12 @@ public:
 signals:
     void textEdited();
 
+
 protected:
     void showEvent(QShowEvent*);
+
+private slots:
+    void execLink(const QUrl&);
 
 private:
     QLabel *mark;

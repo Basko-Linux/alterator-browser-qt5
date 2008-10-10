@@ -16,6 +16,7 @@ ATextEdit::ATextEdit(QWidget *parent, const Qt::Orientation):
     edit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     edit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    connect( edit, SIGNAL( anchorClicked(const QUrl&) ), this, SLOT( execLink( const QUrl& ) ) );
     connect(edit, SIGNAL(textChanged()), this, SIGNAL(textEdited()));
 
     layout_ = new QHBoxLayout(this);
@@ -28,6 +29,11 @@ ATextEdit::ATextEdit(QWidget *parent, const Qt::Orientation):
 }
 
 ATextEdit::~ATextEdit() {}
+
+void ATextEdit::execLink(const QUrl&)
+{
+    edit->reload();
+}
 
 void ATextEdit::setText(const QString& txt)
 {
