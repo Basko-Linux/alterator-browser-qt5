@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.95
+Version: 2.9.96
 Release: alt1
 
 Source:%name-%version.tar
@@ -77,6 +77,10 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Fri Oct 10 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.96-alt1
+- add URL handler to help browser
+- add dummy URL handler to textbox
+
 * Fri Sep 26 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.95-alt1
 - allow to set background image to AMainWidget AWizardFace ACenterface via QSS
 
