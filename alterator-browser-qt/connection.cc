@@ -132,14 +132,14 @@ void Connection::run()
 	if( destruction ) break;
 	AlteratorAskInfo ask = requests.takeFirst();
 	std::cout<< ask.request.toUtf8().data() << std::endl << std::flush;
-	std::auto_ptr<alRequest> dom(readRequest());
+	alRequest dom = readRequest();
 	if( ask.flags & AlteratorRequestInit )
 	{
-	    sessionId = dom->attrs_.value("session-id");
-	    userId = dom->attrs_.value("user");
+	    sessionId = dom.attrs_.value("session-id");
+	    userId = dom.attrs_.value("user");
 	    //qDebug("session-id=%s", qPrintable(sessionId);
 	}
-	parseAnswer(dom.get(), ask.flags);
+	parseAnswer(dom, ask.flags);
     }
 #ifndef USE_CONN_NO_THREAD
 #else
@@ -147,11 +147,11 @@ void Connection::run()
 #endif
 }
 
-void Connection::parseAnswer(alRequest *dom, AlteratorRequestFlags request_flags)
+void Connection::parseAnswer(const alRequest &dom, AlteratorRequestFlags request_flags)
 {
     AlteratorRequest request;
     request.flags = request_flags;
-    QListIterator<alCommand*> it(dom->commands_);
+    QListIterator<alCommand*> it(dom.commands_);
     while(it.hasNext())
     {
 	request.actions.append( getDocParser(it.next()) );
@@ -209,8 +209,8 @@ AlteratorRequestParamData Connection::makeRequestParamData(AlteratorRequestParam
 	}
 	case AltReqParamDataButtons:
 	{
-	    QMessageBox::StandardButtons btns = AMessageBox::convertButtonList(str);
-	    if(!btns) btns = QMessageBox::Ok;
+	    QDialogButtonBox::StandardButtons btns = MsgBox::convertButtonList(str);
+	    if(!btns) btns = QDialogButtonBox::Ok;
 	    data.buttons = btns;
 	    break;
 	}

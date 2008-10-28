@@ -81,7 +81,7 @@ private:
     void onStopRequest(const QString& id);
     void onEventRequest(const QString& id,const QString& value);
     void onSplashMessageRequest(const QString& msg);
-    void onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, QMessageBox::StandardButtons buttons);
+    void onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, QDialogButtonBox::StandardButtons buttons);
     void onFileSelectRequest(const QString& title, const QString& dir, const QString& type, const QString& mask);
 
 private slots:

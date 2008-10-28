@@ -77,7 +77,7 @@ public:
     bool b;
     int i;
     Qt::Orientation o;
-    QMessageBox::StandardButtons buttons;
+    QDialogButtonBox::StandardButtons buttons;
 };
 
 typedef int AlteratorRequestFlags;
@@ -164,7 +164,7 @@ private:
     AlteratorRequestAction getDocParser(alCommand *cmd);
     QString makeRequest(const QString& content);
     QString makeInitRequest();
-    void parseAnswer(alRequest *dom,
+    void parseAnswer(const alRequest &dom,
 	AlteratorRequestFlags request_flags = AlteratorRequestDefault);
     QString createLangList();
     void run();

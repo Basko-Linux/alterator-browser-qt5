@@ -24,6 +24,6 @@ struct alRequest
 	QXmlAttributes attrs_;
 };
 
-alRequest *readRequest();
+alRequest readRequest();
 
 #endif

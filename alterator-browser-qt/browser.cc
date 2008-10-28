@@ -140,7 +140,7 @@ void Browser::start()
     if( started ) return;
     started = true;
 
-    AMessageBox::initButtonMap();
+    MsgBox::initButtonMap();
 
     if(!constraints)
 	constraints = new Constraints(this);
@@ -211,8 +211,8 @@ void Browser::quitApp()
 
 void Browser::quitAppWarn()
 {
-    AMsgBox msgbox("warning", tr("Quit"), tr("Exit Alterator?"), QMessageBox::Ok|QMessageBox::Cancel, QApplication::activeWindow());
-    if( msgbox.exec() == QMessageBox::Ok )
+    MessageBox msgbox("warning", tr("Quit"), tr("Exit Alterator?"), QDialogButtonBox::Ok|QDialogButtonBox::Cancel, QApplication::activeWindow());
+    if( msgbox.exec() == QDialog::Accepted )
     {
 	quitApp();
     }
@@ -220,7 +220,7 @@ void Browser::quitAppWarn()
 
 void Browser::about()
 {
-    AMsgBox msgbox("information", tr("About"), tr("Alterator Browser"), QMessageBox::Ok, QApplication::activeWindow());
+    MessageBox msgbox("information", tr("About"), tr("Alterator Browser"), QDialogButtonBox::Ok, QApplication::activeWindow());
     msgbox.exec();
 }
 
@@ -696,11 +696,11 @@ void Browser::onEventRequest(const QString& id,const QString& value)
     }
 }
 
-void Browser::onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, QMessageBox::StandardButtons buttons)
+void Browser::onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, QDialogButtonBox::StandardButtons buttons)
 {
-    AMsgBox msgbox(type, title, message, buttons, QApplication::activeWindow());
-    //qDebug("AMsgBox exec");
-    const QString answer = AMessageBox::unconvertButton((QMessageBox::StandardButton)msgbox.exec());
+    MessageBox msgbox(type, title, message, buttons, QApplication::activeWindow());
+    //qDebug("MessageBox exec");
+    const QString answer = MsgBox::unconvertButton((QDialogButtonBox::StandardButton)msgbox.exec());
     connection->getDocument(answer);
 }
 

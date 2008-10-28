@@ -108,7 +108,7 @@ bool alHandler::characters(const QString& str)
 
 
 
-alRequest *readRequest()
+alRequest readRequest()
 {
 	QXmlSimpleReader reader;
 	alHandler handler;
@@ -116,7 +116,7 @@ alRequest *readRequest()
 	reader.setContentHandler(&handler);
 	reader.parse(&source);
 
-	return handler.request_;
+	return *(handler.request_);
 }
 
 

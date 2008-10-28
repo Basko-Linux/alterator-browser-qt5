@@ -4,67 +4,48 @@
 #include "browser.hh"
 #include "utils.hh"
 
-namespace AMessageBox {
-	typedef QMap<QString,QMessageBox::StandardButton> buttonMapType;
+namespace MsgBox {
+	typedef QMap<QString,QDialogButtonBox::StandardButton> buttonMapType;
 	buttonMapType buttonMap;
 
 
-	typedef QMessageBox::StandardButton (*msgfunc)(QWidget *,
-                                       const QString &,
-				       const QString &,
-				       QMessageBox::StandardButtons,
-				       QMessageBox::StandardButton);
-
-	msgfunc selectMessageBox(const QString& type)
-	{
-		if ("critical" == type)
-			return &QMessageBox::critical;
-		else if ("question" == type)
-			return &QMessageBox::question;
-		else if ("warning" == type)
-			return &QMessageBox::warning;
-		else
-			return &QMessageBox::information;
-	}
-
-	
 	void initButtonMap()
 	{
-		buttonMap.insert("ok", QMessageBox::Ok);
-		buttonMap.insert("open", QMessageBox::Open);
-		buttonMap.insert("save",QMessageBox::Save);
-		buttonMap.insert("cancel",QMessageBox::Cancel);
-		buttonMap.insert("close",QMessageBox::Close);
-		buttonMap.insert("discard",QMessageBox::Discard);
-		buttonMap.insert("apply",QMessageBox::Apply);
-		buttonMap.insert("reset",QMessageBox::Reset);
-		buttonMap.insert("restore-defaults",QMessageBox::RestoreDefaults);
-		buttonMap.insert("help",QMessageBox::Help);
-		buttonMap.insert("save-all",QMessageBox::SaveAll);
-		buttonMap.insert("yes",QMessageBox::Yes);
-		buttonMap.insert("yes-to-all",QMessageBox::YesToAll);
-		buttonMap.insert("no",QMessageBox::No);
-		buttonMap.insert("not-to-all",QMessageBox::NoToAll);
-		buttonMap.insert("abort",QMessageBox::Abort);
-		buttonMap.insert("retry",QMessageBox::Retry);
-		buttonMap.insert("ignore",QMessageBox::Ignore);
-		buttonMap.insert("no-button",QMessageBox::NoButton);
+		buttonMap.insert("ok", QDialogButtonBox::Ok);
+		buttonMap.insert("open", QDialogButtonBox::Open);
+		buttonMap.insert("save",QDialogButtonBox::Save);
+		buttonMap.insert("cancel",QDialogButtonBox::Cancel);
+		buttonMap.insert("close",QDialogButtonBox::Close);
+		buttonMap.insert("discard",QDialogButtonBox::Discard);
+		buttonMap.insert("apply",QDialogButtonBox::Apply);
+		buttonMap.insert("reset",QDialogButtonBox::Reset);
+		buttonMap.insert("restore-defaults",QDialogButtonBox::RestoreDefaults);
+		buttonMap.insert("help",QDialogButtonBox::Help);
+		buttonMap.insert("save-all",QDialogButtonBox::SaveAll);
+		buttonMap.insert("yes",QDialogButtonBox::Yes);
+		buttonMap.insert("yes-to-all",QDialogButtonBox::YesToAll);
+		buttonMap.insert("no",QDialogButtonBox::No);
+		buttonMap.insert("not-to-all",QDialogButtonBox::NoToAll);
+		buttonMap.insert("abort",QDialogButtonBox::Abort);
+		buttonMap.insert("retry",QDialogButtonBox::Retry);
+		buttonMap.insert("ignore",QDialogButtonBox::Ignore);
+		buttonMap.insert("no-button",QDialogButtonBox::NoButton);
 	}
 
 	
-	QMessageBox::StandardButton convertButton(const QString& button)
+	QDialogButtonBox::StandardButton convertButton(const QString& button)
 	{
-		return buttonMap.value(button,QMessageBox::NoButton);
+		return buttonMap.value(button,QDialogButtonBox::NoButton);
 	}
 	
-	QString	unconvertButton(QMessageBox::StandardButton button)
+	QString	unconvertButton(QDialogButtonBox::StandardButton button)
 	{
 		return buttonMap.key(button);
 	}
 	
-	QMessageBox::StandardButtons convertButtonList(const QString& buttons)
+	QDialogButtonBox::StandardButtons convertButtonList(const QString& buttons)
 	{
-		QMessageBox::StandardButtons result = 0;
+		QDialogButtonBox::StandardButtons result = 0;
 		QStringList data = buttons.split(";");
 		const int len = data.size();
 		for(int i = 0;i<len;++i)
@@ -74,51 +55,43 @@ namespace AMessageBox {
 
 }
 
-AMsgBox::AMsgBox(
+MessageBox::MessageBox(
 	const QString &type,
 	const QString &title,
 	const QString &text,
-	QMessageBox::StandardButtons buttons,
+	QDialogButtonBox::StandardButtons buttons,
 	QWidget *parent
     ):
-    QMessageBox(parent)
+    Popup(parent)
 {
-    //qDebug("new AMsgBox");
-//    setWindowModality(Qt::ApplicationModal);
-    QMessageBox::Icon i = QMessageBox::Information;
-    if ("critical" == type)
-	i = QMessageBox::Critical;
-    else if ("question" == type)
-	i = QMessageBox::Question;
-    else if ("warning" == type)
-	i = QMessageBox::Warning;
-    setStandardButtons(buttons);
-    setIcon(i);
-    window()->setWindowTitle(title);
-    setText(text);
+    //qDebug("new MessageBox");
+    QStyle::StandardPixmap pix_id = QStyle::SP_MessageBoxInformation;
+    if ("critical" == type) pix_id = QStyle::SP_MessageBoxCritical;
+    else if ("question" == type) pix_id = QStyle::SP_MessageBoxCritical;
+    else if ("warning" == type) pix_id = QStyle::SP_MessageBoxWarning;
+    iconlabel = new QLabel(this);
+    iconlabel->setPixmap(QApplication::style()->standardPixmap(pix_id));
+    textlabel = new QLabel(this);
+    textlabel->setText(text);
+    buttonbox = new QDialogButtonBox(this);
+    buttonbox->setStandardButtons(buttons);
+
+    layout_main = new QGridLayout(this);
+    layout_main->addWidget(iconlabel,0,0);
+    layout_main->addWidget(textlabel,0,1);
+    layout_main->addWidget(buttonbox,1,0,1,2,Qt::AlignCenter);
+
+    // FIXME
+    //window()->setWindowTitle(title);
+
+    connect(buttonbox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(onButtonPressed(QAbstractButton*)));
 }
 
-AMsgBox::~AMsgBox() {}
-
-void AMsgBox::showEvent(QShowEvent*)
+MessageBox::~MessageBox()
 {
-    if( !browser->haveWindowManager() )
-    {
-	Utils::fixWmlessPopupWindow(this);
-	QTimer::singleShot(0, this, SLOT(onShownFix()));
-    }
 }
 
-void AMsgBox::onShownFix()
+void MessageBox::onButtonPressed(QAbstractButton *btn)
 {
-    Utils::fixWmlessPopupCursor(this);
-}
-
-void AMsgBox::paintEvent(QPaintEvent*)
-{
-    //QMessageBox::paintEvent(e);
-    if( !browser->haveWindowManager() )
-    {
-	Utils::widgetCornersRound(this);
-    }
+    done(buttonbox->standardButton(btn));
 }

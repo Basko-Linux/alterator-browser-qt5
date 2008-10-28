@@ -1,8 +1,9 @@
-#include <QMessageBox>
 #include <QApplication>
 #include <QPainter>
 #include <QColorGroup>
 #include <QDesktopWidget>
+
+#include "messagebox.hh"
 
 #include "utils.hh"
 
@@ -53,9 +54,8 @@ void errorMessage(const QString& message, bool exit)
 {
     QWidget *parent = QApplication::activeWindow();
     qWarning("error: %s",qPrintable(message));
-    QMessageBox::critical(parent, QMessageBox::tr("Error"),
-	message,
-	QMessageBox::Abort);
+    MessageBox msgbox("critical", MessageBox::tr("Error"), message, QDialogButtonBox::Abort, parent);
+    msgbox.exec();
     if( exit )
     {
 	qWarning("exiting by error");
