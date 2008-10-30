@@ -1,10 +1,11 @@
 #ifndef QT_BROWSER_SPLASHSCREEN_HH
 #define QT_BROWSER_SPLASHSCREEN_HH
 
-#include <QFrame>
 #include <QLineEdit>
 
-class SplashScreen: public QFrame
+#include "popup.hh"
+
+class SplashScreen: public Popup
 {
 public:
     SplashScreen(QWidget *parent);

@@ -27,7 +27,7 @@ protected:
 
 public:
 	alWidget(AlteratorWidgetType type, const QString& id,const QString& parent);
-	virtual ~alWidget();
+	~alWidget();
 
 	virtual void setAttr(const QString& name,const QString& value);
 	virtual void registerEvent(const QString&) {}
@@ -52,8 +52,11 @@ public:
 	static QSizePolicy adjustSizePolicy(const AlteratorWidgetType, const QSizePolicy, const Qt::Orientation orient, const Qt::Orientation parent_orient);
 	void setChildrenAlignment(Qt::Alignment);
 	Qt::Alignment childrenAlignment();
+	void setWndObject(QObject*);
 
 public slots:
+	void onWndDestroyed(QObject*);
+
 	void onEvent(const BrowserEventType, const AlteratorRequestFlags);
 	void onEvent(const BrowserEventType);
 
@@ -100,6 +103,9 @@ public slots:
 	{
 		QTimer::singleShot(0,this, SLOT(onDoubleClick()));
 	}
+private:
+	QObject *o_wnd_;
+	bool wnd_destroyed;
 };
 
 alWidget* alWidgetCreateWidgetGetParent(const QString& parent);
@@ -123,11 +129,12 @@ public:
 		alWidget(type,id,Utils::reparentTag(parent))
 	{
 	    wnd_ = alWidgetCreateWidget<Widget>(parent, attr[AltReqParamWOrientation].o);
+	    setWndObject(wnd_);
 	    alWidget *a_parent = alWidgetCreateWidgetGetParent(parent);
 	    if( a_parent )
 		a_parent->postAddChild(wnd_, type, attr);
 	}
-	~alWidgetPre() { wnd_->deleteLater(); }
+	~alWidgetPre() {}
 
 	Widget* getWidget() { return wnd_; }
 	virtual QWidget* getViewWidget() { return wnd_; }

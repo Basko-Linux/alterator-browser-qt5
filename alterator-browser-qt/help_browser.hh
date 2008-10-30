@@ -3,10 +3,12 @@
 
 #include <QMenuBar>
 #include <QKeyEvent>
+#include <QTextBrowser>
+#include <QDialogButtonBox>
 
-#include "ui_help_browser.h"
+#include "popup.hh"
 
-class HelpWidget: public QDialog
+class HelpWidget: public Popup
 {
 Q_OBJECT
 public:
@@ -18,16 +20,24 @@ public:
     int verticalScrollPosition();
     void setVerticalScrollPosition(int);
 
+signals:
+    void buttonPressed(int);
+
 protected:
+#if 0
     virtual void showEvent(QShowEvent*);
     virtual void paintEvent(QPaintEvent*);
+#endif
     virtual void keyPressEvent(QKeyEvent*);
 
 private slots:
     void execLink(const QUrl&);
+    void onButtonPressed(QAbstractButton*);
 
 private:
-    Ui::HelpBrowserUI ui;
+    QGridLayout *gridLayout;
+    QTextBrowser *textBrowser;
+    QDialogButtonBox *buttonBox;
     int vscroll_position;
     QMenuBar *menu_bar;
 };
@@ -43,6 +53,7 @@ public:
 
 public slots:
     int exec();
+    void onButtonPressed(int);
 
 private:
     HelpWidget *help_widget;

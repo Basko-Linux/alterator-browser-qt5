@@ -1,4 +1,5 @@
 #include <QMap>
+#include <QApplication>
 
 #include "messagebox.hh"
 #include "browser.hh"
@@ -62,7 +63,7 @@ MessageBox::MessageBox(
 	QDialogButtonBox::StandardButtons buttons,
 	QWidget *parent
     ):
-    Popup(parent)
+    Popup(parent, true)
 {
     //qDebug("new MessageBox");
     QStyle::StandardPixmap pix_id = QStyle::SP_MessageBoxInformation;
@@ -76,13 +77,12 @@ MessageBox::MessageBox(
     buttonbox = new QDialogButtonBox(this);
     buttonbox->setStandardButtons(buttons);
 
-    layout_main = new QGridLayout(this);
+    layout_main = new QGridLayout(view());
     layout_main->addWidget(iconlabel,0,0);
     layout_main->addWidget(textlabel,0,1);
     layout_main->addWidget(buttonbox,1,0,1,2,Qt::AlignCenter);
 
-    // FIXME
-    //window()->setWindowTitle(title);
+    setPopupTitle(title);
 
     connect(buttonbox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(onButtonPressed(QAbstractButton*)));
 }

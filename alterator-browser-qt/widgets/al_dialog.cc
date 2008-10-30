@@ -3,7 +3,7 @@
 #include "al_dialog.hh"
 
 ADialog::ADialog(QWidget *parent, const Qt::Orientation orient):
-    QDialog(0)
+    Popup(parent)
 {
     current_action = "__undefined__";
 
@@ -28,7 +28,7 @@ ADialog::ADialog(QWidget *parent, const Qt::Orientation orient):
     key2btn["nobutton"]=QDialogButtonBox::NoButton;
     //qDebug("new ADialog");
 //    setWindowModality(Qt::ApplicationModal);
-    QGridLayout *main_layout = new QGridLayout(this);
+    QGridLayout *main_layout = new QGridLayout(view());
     if( browser->haveWindowManager() )
 	main_layout->setMargin(1);
     else
@@ -104,6 +104,7 @@ bool ADialog::eventFilter(QObject *o, QEvent *e)
     return QWidget::eventFilter(o, e);
 }
 
+#if 0
 void ADialog::showEvent(QShowEvent *e)
 {
     //qDebug("ADialog::showEvent");
@@ -123,6 +124,12 @@ void ADialog::paintEvent(QPaintEvent* e)
     }
 }
 
+void ADialog::closeEvent(QCloseEvent *e)
+{
+    e->ignore();
+}
+#endif
+
 void ADialog::keyPressEvent ( QKeyEvent * e ) 
 {
     switch( e->key() )
@@ -135,13 +142,8 @@ void ADialog::keyPressEvent ( QKeyEvent * e )
 	    break;
 	}
 	default:
-	    QDialog::keyPressEvent(e);
+	    Popup::keyPressEvent(e);
     }
-}
-
-void ADialog::closeEvent(QCloseEvent *e)
-{
-    e->ignore();
 }
 
 void ADialog::addAction(const QString& key, const QString& name, const QString& pixmap)

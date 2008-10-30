@@ -10,7 +10,8 @@ AMainWidget::AMainWidget(QWidget *parent, const Qt::Orientation):
     QVBoxLayout *bl = new QVBoxLayout(this);
     bl->setSpacing(5);
     bl->setMargin(0);
-    browser->setCentralWidget(this);
+
+    browser->popupExecExpanded(this);
 }
 
 AMainWidget::~AMainWidget()

@@ -37,7 +37,7 @@ HEADERS += al_widget.hh widgets/al_*.hh
 DATA = *.pro *.spec
 RESOURCES = images.qrc
 
-FORMS += help_browser.ui
+#FORMS += help_browser.ui
 
 TRANSLATIONS = \
     translations/alterator_browser_qt_ru.ts \

@@ -12,12 +12,19 @@ alWidget::alWidget(AlteratorWidgetType type, const QString& id,const QString& pa
     parent_(parent),
     children_alignment(Qt::AlignJustify)
 {
+    o_wnd_ = 0;
+    wnd_destroyed = true;
     widgetlist->add(id, this);
 }
 
 alWidget::~alWidget()
 {
     widgetlist->removeFromListById(getId());
+    if( o_wnd_ && !wnd_destroyed)
+    {
+	o_wnd_->deleteLater();
+	o_wnd_ = 0;
+    }
 }
 
 void alWidget::onUpdate() { emit updated(); }
@@ -105,7 +112,13 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	else if ("window-title" == name || "title" == name)
 	{
 	    if(w)
-		w->window()->setWindowTitle(value);
+	    {
+		Popup *p = qobject_cast<Popup*>(w);
+		if( p )
+		    p->setPopupTitle(value);
+		else
+		    w->window()->setWindowTitle(value);
+	    }
 	}
 	else if ("max-width" == name)
 	{
@@ -347,6 +360,25 @@ void alWidget::postAddChild(QWidget* chld, AlteratorWidgetType type, const Alter
     }
 }
 
+void alWidget::setWndObject(QObject *wnd)
+{
+    if( wnd && !o_wnd_ )
+    {
+	o_wnd_ = wnd;
+	wnd_destroyed = false;
+	connect(o_wnd_, SIGNAL(destroyed(QObject*)), this, SLOT(onWndDestroyed(QObject*)));
+    }
+}
+
+void alWidget::onWndDestroyed(QObject *dead)
+{
+    if( dead == o_wnd_ ) {
+	wnd_destroyed = true;
+	deleteLater();
+    }
+}
+
+// non-object
 alWidget* alWidgetCreateWidgetGetParent(const QString& parent)
 {
     return widgetlist->alWidgetById(parent);

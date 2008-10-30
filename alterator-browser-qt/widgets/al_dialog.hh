@@ -1,13 +1,13 @@
 #ifndef QTBROWSER_AL_DIALOG_HH
 #define QTBROWSER_AL_DIALOG_HH
 
-#include <QDialog>
 #include <QScrollArea>
+
+#include "popup.hh"
+
 #include "widgets.hh"
 
-//hack to access protected done() slot
-//also ignore escape button press and some other features
-class ADialog: public QDialog
+class ADialog: public Popup
 {
     Q_OBJECT
 public:
@@ -24,10 +24,12 @@ signals:
 	void actionSelected();
 
 protected:
+#if 0
 	void closeEvent(QCloseEvent*);
-	void keyPressEvent(QKeyEvent*);
 	void showEvent(QShowEvent*);
 	void paintEvent(QPaintEvent*);
+#endif
+	void keyPressEvent(QKeyEvent*);
 	bool eventFilter(QObject*, QEvent*);
 
 private slots:
@@ -50,7 +52,11 @@ public:
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const ;
-	void popUp() { wnd_->exec(); }
+	void popUp()
+	{
+	    connect(wnd_, SIGNAL(finished(int)), browser, SLOT(popupRemoveCurrent(int)));
+	    wnd_->exec();
+	}
 	void popDown()  { wnd_->done(0); }
 	QWidget* getViewWidget();
 	QLayout* getViewLayout();

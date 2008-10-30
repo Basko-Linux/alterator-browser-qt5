@@ -3,10 +3,11 @@
 
 #include <QDialog>
 #include <QMainWindow>
-#include <QGridLayout>
+#include <QStackedLayout>
 #include <QEvent>
 #include <QPointer>
 #include <QLabel>
+#include <QTranslator>
 
 #include "help_browser.hh"
 #include "connection.hh"
@@ -32,6 +33,8 @@ public:
     void getDocument(const QString& request);
     void emitEvent(const QString &id,const QString &type, const AlteratorRequestFlags);
     void emitEvent(const QString &id, const BrowserEventType type, const AlteratorRequestFlags);
+    void popupExec(QWidget*);
+    void popupExecExpanded(QWidget*);
 
 signals:
     void languageChanged();
@@ -39,9 +42,12 @@ signals:
 public slots:
     void start();
     void stop();
-    void quitApp();
+    void quitAppAnyway(int answ = QDialogButtonBox::NoButton);
+    void quitApp(int answ = QDialogButtonBox::NoButton);
     void quitAppWarn();
+    void quitAppError(const QString&);
     void about();
+    void popupRemoveCurrent(int);
 
 protected:
     virtual bool event(QEvent*);
@@ -65,6 +71,8 @@ private:
     int busy_timer_id;
     QLabel *startup_splash;
     bool help_available;
+    QWidget *central_widget;
+    QStackedLayout *central_layout;
 
     void splashStart();
     void splashStop();
@@ -89,6 +97,7 @@ private slots:
     void onCheckBusySplash();
     void onStopBusySplash();
     void onInternalSplashMessage(const QString& msg);
+    void onMessageBoxRequestFinished(int);
 
     void doRetry();
     void onAlteratorRequest(const AlteratorRequest&);

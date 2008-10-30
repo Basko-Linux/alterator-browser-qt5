@@ -1,6 +1,7 @@
 
 #include <QScrollBar>
 #include <QProcess>
+#include <QApplication>
 
 #include "browser.hh"
 #include "browser.hh"
@@ -10,10 +11,23 @@
 #include "help_browser.hh"
 
 HelpWidget::HelpWidget(QWidget *parent):
-    QDialog(parent)
+    Popup(parent, true)
 {
     vscroll_position = 0;
-    ui.setupUi(this);
+    setPopupTitle(tr("Help"));
+    setObjectName("HelpWidget");
+
+    gridLayout = new QGridLayout(view());
+    gridLayout->setSpacing(5);
+    gridLayout->setMargin(5);
+    textBrowser = new QTextBrowser(this);
+
+    buttonBox = new QDialogButtonBox(this);
+    buttonBox->setOrientation(Qt::Horizontal);
+    buttonBox->setStandardButtons(QDialogButtonBox::Close);
+
+    gridLayout->addWidget(textBrowser, 0, 0, 1, 1);
+    gridLayout->addWidget(buttonBox, 1, 0, 1, 1);
 
     menu_bar = new QMenuBar(this);
     menu_bar->hide();
@@ -24,10 +38,11 @@ HelpWidget::HelpWidget(QWidget *parent):
     menu_session->addAction(QApplication::style()->standardPixmap(QStyle::SP_DialogCancelButton), tr("Quit"), browser, SLOT(quitAppWarn()));
     menu_help->addAction(getPixmap("logo_16"), tr("About"), browser, SLOT(about()));
     menu_help->addAction(QApplication::style()->standardPixmap(QStyle::SP_TitleBarMenuButton), tr("About Qt"), QApplication::instance(), SLOT(aboutQt()));
-    ui.gridLayout->setMenuBar(menu_bar);
+    gridLayout->setMenuBar(menu_bar);
 
-    connect(ui.textBrowser, SIGNAL(anchorClicked(const QUrl&)),
-	    ui.textBrowser, SLOT(setSource(const QUrl&)));
+    connect(buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(onButtonPressed(QAbstractButton*)));
+    connect(textBrowser, SIGNAL(anchorClicked(const QUrl&)),
+	    textBrowser, SLOT(setSource(const QUrl&)));
 }
 
 HelpWidget::~HelpWidget() {}
@@ -44,7 +59,7 @@ void HelpWidget::keyPressEvent(QKeyEvent* e)
 	default:
 	    break;
     }
-    QDialog::keyPressEvent(e);
+    QWidget::keyPressEvent(e);
 }
 
 void HelpWidget::setHelpSource(const QString& url)
@@ -52,15 +67,15 @@ void HelpWidget::setHelpSource(const QString& url)
     if(url.isEmpty())
 	setEmptyHelp();
     else
-	ui.textBrowser->setSource(url);
+	textBrowser->setSource(url);
 }
 
 void HelpWidget::setEmptyHelp()
 {
-    ui.textBrowser->setHtml( QString("<br/><br/><br/><br/><center><b>%1</b></center>").arg(tr("No help available.")) );
+    textBrowser->setHtml( QString("<br/><br/><br/><br/><center><b>%1</b></center>").arg(tr("No help available.")) );
 }
 
-
+#if 0
 void HelpWidget::paintEvent(QPaintEvent* e)
 {
     //QDialog::paintEvent(e);
@@ -79,12 +94,13 @@ void HelpWidget::showEvent(QShowEvent *e)
 	Utils::fixWmlessPopup(this);
     }
     if( vscroll_position > 0 )
-	ui.textBrowser->verticalScrollBar()->setValue(vscroll_position);
+	textBrowser->verticalScrollBar()->setValue(vscroll_position);
 }
+#endif
 
 int HelpWidget::verticalScrollPosition()
 {
-    return ui.textBrowser->verticalScrollBar()->value();
+    return textBrowser->verticalScrollBar()->value();
 }
 
 void HelpWidget::setVerticalScrollPosition(int pos)
@@ -112,7 +128,7 @@ void HelpWidget::execLink(const QUrl &url)
 	if( prog_command.isEmpty() )
 	    qWarning("%s", qPrintable(tr("MAILER environment variable is empty")));
     }
-    ui.textBrowser->reload();
+    textBrowser->reload();
     
     if( prog_command.isEmpty() )
     {
@@ -125,6 +141,11 @@ void HelpWidget::execLink(const QUrl &url)
     prog_args << url.toString() ;
     QString prog_name = prog_args.takeFirst();
     prog_proc->start(prog_name, prog_args);
+}
+
+void HelpWidget::onButtonPressed(QAbstractButton *btn)
+{
+    emit buttonPressed( buttonBox->standardButton(btn) );
 }
 
 // HelpBrowser
@@ -148,20 +169,30 @@ void HelpBrowser::setHelpSource(const QString& url)
 
 int HelpBrowser::exec()
 {
-    int ret = -1;
     if( !help_widget )
     {
-	help_widget = new HelpWidget(QApplication::activeWindow());
+	//help_widget = new HelpWidget(QApplication::activeWindow());
+	help_widget = new HelpWidget(0);
 	int w = browser->width()*0.8;
 	int h = browser->height()*0.8;
 	if( w > 400 && h > 300 )
-	    help_widget->resize(browser->width()*0.8, browser->height()*0.8);
+	    help_widget->setMinimumSize(browser->width()*0.8, browser->height()*0.8);
 	help_widget->setHelpSource(help_url);
 	help_widget->setVerticalScrollPosition(vscroll_position);
-	ret = help_widget->exec();
-	vscroll_position = help_widget->verticalScrollPosition();
-	delete help_widget;
-	help_widget = 0;
+	connect(help_widget, SIGNAL(buttonPressed(int)), this, SLOT(onButtonPressed(int)));
+	help_widget->exec();
     }
-    return ret;
+    return 0;
+}
+
+void HelpBrowser::onButtonPressed(int btn)
+{
+    vscroll_position = help_widget->verticalScrollPosition();
+    if( btn == QDialogButtonBox::Close )
+    {
+	//HelpWidget *dead = help_widget;
+	help_widget = 0;
+	//dead->done(btn);
+	browser->popupRemoveCurrent(btn);
+    }
 }

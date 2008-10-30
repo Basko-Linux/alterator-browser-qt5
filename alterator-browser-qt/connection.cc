@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QStringList>
+#include <QCoreApplication>
 
 #include "connection.hh"
 #include "global.hh"

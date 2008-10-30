@@ -4,6 +4,7 @@
 #include <QDesktopWidget>
 
 #include "messagebox.hh"
+#include "browser.hh"
 
 #include "utils.hh"
 
@@ -48,19 +49,6 @@ QString simpleQuote(const QString &s)
 {
     QString ret(s);
     return ret.replace("\\","\\\\").replace("\"","\\\"");
-}
-
-void errorMessage(const QString& message, bool exit)
-{
-    QWidget *parent = QApplication::activeWindow();
-    qWarning("error: %s",qPrintable(message));
-    MessageBox msgbox("critical", MessageBox::tr("Error"), message, QDialogButtonBox::Abort, parent);
-    msgbox.exec();
-    if( exit )
-    {
-	qWarning("exiting by error");
-	QCoreApplication::exit(1);
-    }
 }
 
 void widgetCornersRound(QWidget *widget)

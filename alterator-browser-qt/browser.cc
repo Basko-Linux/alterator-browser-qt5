@@ -70,6 +70,8 @@ Browser::Browser():
     started = false;
     detect_wm = false;
     help_available = true;
+    central_widget = 0;
+    central_layout = 0;
     widgetlist = new WidgetList(this);
     pixmap_paths
 	<< ":/design/"
@@ -87,12 +89,17 @@ Browser::Browser():
 
     window()->setWindowTitle("alterator");
 
+    central_widget = new QWidget(this);
+    central_layout = new QStackedLayout(central_widget);
+    central_layout->setStackingMode(QStackedLayout::StackAll);
+    setCentralWidget(central_widget);
+
     // startup animation
     startup_splash = new QLabel(this);
-    setCentralWidget(startup_splash);
     startup_splash->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
     startup_splash->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     startup_splash->setAlignment( Qt::AlignCenter );
+    central_layout->addWidget(startup_splash);
 
     QString startup_splash_file = ":/design/whirl.mng";
     if( !QFile::exists(startup_splash_file) )
@@ -168,7 +175,7 @@ void Browser::start()
     {
 	if(!socketDir.mkdir("alterator"))
 	{
-	    Utils::errorMessage("Failed to create local socket directory");
+	    quitAppError("Failed to create local socket directory");
 	}
     }
 
@@ -204,24 +211,39 @@ void Browser::stop()
     }
 }
 
-void Browser::quitApp()
+void Browser::quitApp(int answ)
 {
-    QApplication::closeAllWindows();
+    if( answ == QDialogButtonBox::Ok )
+	QApplication::closeAllWindows();
+    else
+	popupRemoveCurrent(answ);
+}
+
+void Browser::quitAppAnyway(int)
+{
+    qWarning("exiting by error");
+    QCoreApplication::exit(1);
 }
 
 void Browser::quitAppWarn()
 {
-    MessageBox msgbox("warning", tr("Quit"), tr("Exit Alterator?"), QDialogButtonBox::Ok|QDialogButtonBox::Cancel, QApplication::activeWindow());
-    if( msgbox.exec() == QDialog::Accepted )
-    {
-	quitApp();
-    }
+    MessageBox *msgbox = new MessageBox("warning", tr("Quit"), tr("Exit Alterator?"), QDialogButtonBox::Ok|QDialogButtonBox::Cancel, this);
+    connect(msgbox, SIGNAL(finished(int)), this, SLOT(quitApp(int)));
+    msgbox->exec();
+}
+
+void Browser::quitAppError(const QString &msg)
+{
+    MessageBox *msgbox = new MessageBox("critical", tr("Quit"), msg, QDialogButtonBox::Ok|QDialogButtonBox::Cancel, this);
+    connect(msgbox, SIGNAL(finished(int)), this, SLOT(quitAppAnyway(int)));
+    msgbox->exec();
 }
 
 void Browser::about()
 {
-    MessageBox msgbox("information", tr("About"), tr("Alterator Browser"), QDialogButtonBox::Ok, QApplication::activeWindow());
-    msgbox.exec();
+    MessageBox *msgbox = new MessageBox("information", tr("About"), tr("Alterator Browser"), QDialogButtonBox::Ok, this);
+    connect(msgbox, SIGNAL(finished(int)), this, SLOT(popupRemoveCurrent(int)));
+    msgbox->exec();
 }
 
 bool Browser::haveWindowManager()
@@ -698,10 +720,15 @@ void Browser::onEventRequest(const QString& id,const QString& value)
 
 void Browser::onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, QDialogButtonBox::StandardButtons buttons)
 {
-    MessageBox msgbox(type, title, message, buttons, QApplication::activeWindow());
-    //qDebug("MessageBox exec");
-    const QString answer = MsgBox::unconvertButton((QDialogButtonBox::StandardButton)msgbox.exec());
-    connection->getDocument(answer);
+    MessageBox *msgbox = new MessageBox(type, title, message, buttons, this);
+    connect(msgbox, SIGNAL(finished(int)), this, SLOT(onMessageBoxRequestFinished(int)));
+    popupExec(msgbox);
+}
+
+void Browser::onMessageBoxRequestFinished(int answ)
+{
+    popupRemoveCurrent(answ);
+    connection->getDocument(MsgBox::unconvertButton((QDialogButtonBox::StandardButton)answ));
 }
 
 void Browser::onFileSelectRequest(const QString& title, const QString& dir, const QString& type, const QString& mask)
@@ -715,13 +742,14 @@ void Browser::splashStart()
 {
 	if (splash) return;
 	splash = new SplashScreen(this);
+	popupExec(splash);
 }
 
 void Browser::splashStop()
 {
     if( !splash ) return;
-    splash->deleteLater();
     splash = 0;
+    popupRemoveCurrent(0);
 }
 
 void Browser::onSplashMessageRequest(const QString& msg)
@@ -891,5 +919,55 @@ void Browser::collectTabIndex(QList<QString>& parents, QMap<QString, QMap<int,QW
 		parents.append(parent_id);
 	    order[parent_id].insert(tab_index, wdg->getWidget());
 	}
+    }
+}
+
+void Browser::popupExecExpanded(QWidget *pop)
+{
+    if( !pop ) return;
+    QWidget *cw = central_layout->currentWidget();
+    if( cw )
+	cw->setEnabled(false);
+
+    central_layout->addWidget(pop);
+    central_layout->setCurrentWidget(pop);
+    pop->setEnabled(true);
+}
+
+void Browser::popupExec(QWidget *pop)
+{
+
+    if( !pop ) return;
+    QWidget *cw = central_layout->currentWidget();
+    if( cw )
+	cw->setEnabled(false);
+
+    //QWidget *stacked = new QWidget(central_widget);
+    QWidget *stacked = new QWidget(0);
+    QHBoxLayout *hl = new QHBoxLayout(stacked);
+    QVBoxLayout *vl = new QVBoxLayout();
+    hl->addStretch(1);
+    hl->addLayout(vl);
+    hl->addStretch(1);
+    vl->addStretch(1);
+    vl->addWidget(pop);
+    vl->addStretch(1);
+
+    central_layout->addWidget(stacked);
+    central_layout->setCurrentWidget(stacked);
+    stacked->setEnabled(true);
+}
+
+void Browser::popupRemoveCurrent(int res)
+{
+    int ci = central_layout->currentIndex();
+    QWidget *cw = central_layout->currentWidget();
+    if( cw )
+	cw->deleteLater();
+    if( --ci >= 0 )
+    {
+	QWidget *cw = central_layout->widget(ci);
+	if( cw )
+	    cw->setEnabled(true);
     }
 }

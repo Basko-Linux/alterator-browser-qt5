@@ -17,7 +17,7 @@ MailBox::MailBox(const QString& path, QObject *parent):
 	eater_(0)
 {
 	if ((sock_ = ::socket(PF_UNIX, SOCK_STREAM, 0)) == -1)
-		errorMessage("socket");
+		browser->quitAppError("socket");
 
 	::memset(socka_.sun_path,0,sizeof(socka_.sun_path)/sizeof(char));
 	socka_.sun_family = AF_UNIX;
@@ -28,17 +28,17 @@ MailBox::MailBox(const QString& path, QObject *parent):
 	if (::bind(sock_, (struct sockaddr *)&socka_, size) == -1) {
 	    if (::connect(sock_, (struct sockaddr*)&socka_, size) == -1) {
 		    if (!QFile::remove(path))
-		    	errorMessage("remove");
+		    	browser->quitAppError("remove");
 
 		    if (::bind(sock_, (struct sockaddr *)&socka_, size) == -1)
-		    	errorMessage("re-bind");
+		    	browser->quitAppError("re-bind");
 	    }
 	    else
-	    	errorMessage("Address already in use");
+	    	browser->quitAppError("Address already in use");
 	}
 
 	if (::listen(sock_, 1) == -1)
-		errorMessage("listen");
+		browser->quitAppError("listen");
 
 	notifier_ = new QSocketNotifier(sock_,QSocketNotifier::Read,this);
 	QObject::connect(notifier_,SIGNAL(activated(int)),this, SLOT(onMessage(int)) );
