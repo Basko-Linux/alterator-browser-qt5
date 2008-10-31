@@ -3,7 +3,7 @@
 
 #include <QDialogButtonBox>
 #include <QLabel>
-#include <QGridLayout>
+#include <QVBoxLayout>
 #include "popup.hh"
 
 
@@ -36,7 +36,7 @@ public slots:
 
 private:
     QDialogButtonBox *buttonbox;
-    QGridLayout *layout_main;
+    QVBoxLayout *layout_main;
     QLabel *iconlabel;
     QLabel *textlabel;
 };

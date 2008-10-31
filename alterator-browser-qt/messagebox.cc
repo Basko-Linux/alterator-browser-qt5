@@ -1,5 +1,6 @@
 #include <QMap>
 #include <QApplication>
+#include <QHBoxLayout>
 
 #include "messagebox.hh"
 #include "browser.hh"
@@ -71,16 +72,20 @@ MessageBox::MessageBox(
     else if ("question" == type) pix_id = QStyle::SP_MessageBoxCritical;
     else if ("warning" == type) pix_id = QStyle::SP_MessageBoxWarning;
     iconlabel = new QLabel(this);
+    iconlabel->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
     iconlabel->setPixmap(QApplication::style()->standardPixmap(pix_id));
     textlabel = new QLabel(this);
     textlabel->setText(text);
+    textlabel->setAlignment(Qt::AlignCenter);
     buttonbox = new QDialogButtonBox(this);
     buttonbox->setStandardButtons(buttons);
 
-    layout_main = new QGridLayout(view());
-    layout_main->addWidget(iconlabel,0,0);
-    layout_main->addWidget(textlabel,0,1);
-    layout_main->addWidget(buttonbox,1,0,1,2,Qt::AlignCenter);
+    layout_main = new QVBoxLayout(view());
+    QHBoxLayout *msg_layout = new QHBoxLayout();
+    layout_main->addLayout(msg_layout);
+    msg_layout->addWidget(iconlabel);
+    msg_layout->addWidget(textlabel);
+    layout_main->addWidget(buttonbox);
 
     setPopupTitle(title);
 
