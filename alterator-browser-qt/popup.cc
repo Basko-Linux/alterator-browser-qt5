@@ -6,26 +6,26 @@
 Popup::Popup(QWidget *parent, bool title, bool winexpand, bool winclose):
     QFrame(parent)
 {
+    has_title = title;
+    has_winexpand = winexpand;
+    has_winclose = winclose;
+
     setAutoFillBackground(true);
     setFrameStyle(QFrame::StyledPanel| QFrame::Raised);
     vlayout = new QVBoxLayout(this);
     //vlayout->setMargin(0);
-    if( title )
-    {
-	title_lbl = new QLabel(this);
-	title_lbl->setWordWrap(false);
-	title_separator = new QFrame(this);
-	title_separator->setFrameStyle(QFrame::HLine|QFrame::Sunken);
-	vlayout->addWidget(title_lbl);
-	vlayout->addWidget(title_separator);
-    }
-    else
-    {
-	title_lbl = 0;
-	title_separator = 0;
-    }
+    title_txt = new QLabel(this);
+    title_txt->setWordWrap(false);
+    title_separator = new QFrame(this);
+    title_separator->setFrameStyle(QFrame::HLine|QFrame::Sunken);
     view_widget = new QWidget(this);
     view_widget->setObjectName("popup_view");
+
+    title_txt->setVisible(has_title);
+    title_separator->setVisible(has_title || has_winexpand || has_winclose);
+
+    vlayout->addWidget(title_txt);
+    vlayout->addWidget(title_separator);
     vlayout->addWidget(view_widget);
 }
 
@@ -67,8 +67,13 @@ int Popup::exec()
     return 0;
 }
 
-void Popup::setPopupTitle(const QString &title)
+void Popup::setPopupTitle(const QString &txt)
 {
-    if( title_lbl )
-	title_lbl->setText(title);
+    title_txt->setText(txt);
+    if( txt.isEmpty() )
+	has_title = false;
+    else
+	has_title = true;
+    title_txt->setVisible(has_title);
+    title_separator->setVisible(has_title || has_winexpand || has_winclose);
 }

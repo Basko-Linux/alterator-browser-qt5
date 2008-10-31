@@ -30,9 +30,12 @@ protected:
     virtual void keyPressEvent(QKeyEvent*);
 
 private:
+    bool has_title;
+    bool has_winexpand;
+    bool has_winclose;
     QLayout *vlayout;
     QWidget *view_widget;
-    QLabel *title_lbl;
+    QLabel *title_txt;
     QFrame *title_separator;
 };
 
