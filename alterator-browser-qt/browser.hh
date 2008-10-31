@@ -91,6 +91,7 @@ private:
     void onSplashMessageRequest(const QString& msg);
     void onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, QDialogButtonBox::StandardButtons buttons);
     void onFileSelectRequest(const QString& title, const QString& dir, const QString& type, const QString& mask);
+    void onFileSelectRequestFinished(const QStringList &paths);
 
 private slots:
     void onStartBusySplash();

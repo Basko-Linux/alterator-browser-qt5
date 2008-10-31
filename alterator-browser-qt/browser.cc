@@ -749,6 +749,12 @@ void Browser::onFileSelectRequest(const QString& title, const QString& dir, cons
     connection->getDocument(paths.join(";"));
 }
 
+void Browser::onFileSelectRequestFinished(const QStringList &paths)
+{
+    popupRemoveCurrent(QDialogButtonBox::Close);
+    connection->getDocument(paths.join(";"));
+}
+
 void Browser::splashStart()
 {
 	if (splash) return;
@@ -760,7 +766,7 @@ void Browser::splashStop()
 {
     if( !splash ) return;
     splash = 0;
-    popupRemoveCurrent(0);
+    popupRemoveCurrent(QDialogButtonBox::Close);
 }
 
 void Browser::onSplashMessageRequest(const QString& msg)
@@ -972,7 +978,7 @@ void Browser::popupExec(QWidget *pop)
     pop->setFocus();
 }
 
-void Browser::popupRemoveCurrent(int res)
+void Browser::popupRemoveCurrent(int)
 {
     int ci = central_layout->currentIndex();
     QWidget *cw = central_layout->currentWidget();
