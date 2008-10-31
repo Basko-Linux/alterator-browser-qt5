@@ -16,6 +16,9 @@ Popup::Popup(QWidget *parent, bool title, bool winexpand, bool winclose):
     //vlayout->setMargin(0);
     title_txt = new QLabel(this);
     title_txt->setWordWrap(false);
+    QFont title_txt_font = title_txt->font();
+    title_txt_font.setBold(true);
+    title_txt->setFont(title_txt_font);
     title_separator = new QFrame(this);
     title_separator->setFrameStyle(QFrame::HLine|QFrame::Sunken);
     view_widget = new QWidget(this);
@@ -38,11 +41,13 @@ void Popup::keyPressEvent(QKeyEvent* e)
 	case Qt::Key_Enter:
 	case Qt::Key_Return:
 	{
+	    qDebug("Popup::keyPressEvent<Qt::Key_Enter>");
 	    //e->accept();
 	    break;
 	}
 	case Qt::Key_Escape:
 	{
+	    qDebug("Popup::keyPressEvent<Qt::Key_Escape>");
 	    //e->accept();
 	    break;
 	}
