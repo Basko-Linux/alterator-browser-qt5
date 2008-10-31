@@ -53,10 +53,9 @@ void Popup::keyPressEvent(QKeyEvent* e)
 		QList<QAbstractButton*> btnlist = bbox->buttons();
 		foreach(QAbstractButton* btn, btnlist)
 		{
-		    QPushButton *pbtn = qobject_cast<QPushButton*>(btn);
-		    if( pbtn && pbtn->isDefault() )
+		    if( btn->hasFocus() )
 		    {
-			pbtn->click();
+			btn->click();
 			btn_clicked = true;
 		    }
 		}
@@ -64,8 +63,9 @@ void Popup::keyPressEvent(QKeyEvent* e)
 		{
 		    foreach(QAbstractButton* btn, btnlist)
 		    {
-			if( btn->hasFocus() )
-			    btn->click();
+			QPushButton *pbtn = qobject_cast<QPushButton*>(btn);
+			if( pbtn && pbtn->isDefault() )
+			    pbtn->click();
 		    }
 		}
 	    }
