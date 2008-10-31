@@ -213,10 +213,21 @@ void Browser::stop()
 
 void Browser::quitApp(int answ)
 {
-    if( answ == QDialogButtonBox::Ok )
-	QApplication::closeAllWindows();
-    else
-	popupRemoveCurrent(answ);
+    switch( answ )
+    {
+	case QDialogButtonBox::Ok:
+	case QDialogButtonBox::Yes:
+	case QDialogButtonBox::YesToAll:
+	{
+	    QApplication::closeAllWindows();
+	    break;
+	}
+	default:
+	{
+	    popupRemoveCurrent(answ);
+	    break;
+	}
+    }
 }
 
 void Browser::quitAppAnyway(int)

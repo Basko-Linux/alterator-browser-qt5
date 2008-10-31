@@ -1,4 +1,7 @@
 
+//#include <QAbstractButton>
+#include <QPushButton>
+
 #include "browser.hh"
 
 #include "popup.hh"
@@ -30,6 +33,8 @@ Popup::Popup(QWidget *parent, bool title, bool winexpand, bool winclose):
     vlayout->addWidget(title_txt);
     vlayout->addWidget(title_separator);
     vlayout->addWidget(view_widget);
+
+    setFocus();
 }
 
 Popup::~Popup() {}
@@ -41,14 +46,35 @@ void Popup::keyPressEvent(QKeyEvent* e)
 	case Qt::Key_Enter:
 	case Qt::Key_Return:
 	{
-	    qDebug("Popup::keyPressEvent<Qt::Key_Enter>");
-	    //e->accept();
+	    QDialogButtonBox *bbox = findChild<QDialogButtonBox*>();
+	    if(bbox)
+	    {
+		bool btn_clicked = false;
+		QList<QAbstractButton*> btnlist = bbox->buttons();
+		foreach(QAbstractButton* btn, btnlist)
+		{
+		    QPushButton *pbtn = qobject_cast<QPushButton*>(btn);
+		    if( pbtn && pbtn->isDefault() )
+		    {
+			pbtn->click();
+			btn_clicked = true;
+		    }
+		}
+		if( !btn_clicked )
+		{
+		    foreach(QAbstractButton* btn, btnlist)
+		    {
+			if( btn->hasFocus() )
+			    btn->click();
+		    }
+		}
+	    }
 	    break;
 	}
 	case Qt::Key_Escape:
 	{
-	    qDebug("Popup::keyPressEvent<Qt::Key_Escape>");
-	    //e->accept();
+	    if( has_winclose )
+		done(QDialogButtonBox::Close);
 	    break;
 	}
 	default:

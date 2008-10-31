@@ -20,9 +20,6 @@ public:
     int verticalScrollPosition();
     void setVerticalScrollPosition(int);
 
-signals:
-    void buttonPressed(int);
-
 protected:
 #if 0
     virtual void showEvent(QShowEvent*);

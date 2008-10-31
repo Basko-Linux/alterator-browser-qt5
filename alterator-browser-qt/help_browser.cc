@@ -11,7 +11,7 @@
 #include "help_browser.hh"
 
 HelpWidget::HelpWidget(QWidget *parent):
-    Popup(parent, true)
+    Popup(parent, true, true, true)
 {
     vscroll_position = 0;
     setPopupTitle(tr("Help"));
@@ -59,7 +59,7 @@ void HelpWidget::keyPressEvent(QKeyEvent* e)
 	default:
 	    break;
     }
-    QWidget::keyPressEvent(e);
+    Popup::keyPressEvent(e);
 }
 
 void HelpWidget::setHelpSource(const QString& url)
@@ -145,7 +145,7 @@ void HelpWidget::execLink(const QUrl &url)
 
 void HelpWidget::onButtonPressed(QAbstractButton *btn)
 {
-    emit buttonPressed( buttonBox->standardButton(btn) );
+    emit finished( buttonBox->standardButton(btn) );
 }
 
 // HelpBrowser
@@ -172,6 +172,7 @@ int HelpBrowser::exec()
     if( !help_widget )
     {
 	//help_widget = new HelpWidget(QApplication::activeWindow());
+	//help_widget = new HelpWidget(main_window);
 	help_widget = new HelpWidget(0);
 	int w = browser->width()*0.8;
 	int h = browser->height()*0.8;
@@ -179,7 +180,7 @@ int HelpBrowser::exec()
 	    help_widget->setMinimumSize(browser->width()*0.8, browser->height()*0.8);
 	help_widget->setHelpSource(help_url);
 	help_widget->setVerticalScrollPosition(vscroll_position);
-	connect(help_widget, SIGNAL(buttonPressed(int)), this, SLOT(onButtonPressed(int)));
+	connect(help_widget, SIGNAL(finished(int)), this, SLOT(onButtonPressed(int)));
 	help_widget->exec();
     }
     return 0;
