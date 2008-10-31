@@ -128,7 +128,6 @@ void ADialog::closeEvent(QCloseEvent *e)
 {
     e->ignore();
 }
-#endif
 
 void ADialog::keyPressEvent ( QKeyEvent * e ) 
 {
@@ -145,6 +144,7 @@ void ADialog::keyPressEvent ( QKeyEvent * e )
 	    Popup::keyPressEvent(e);
     }
 }
+#endif
 
 void ADialog::addAction(const QString& key, const QString& name, const QString& pixmap)
 {

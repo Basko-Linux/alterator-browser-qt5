@@ -28,8 +28,8 @@ protected:
 	void closeEvent(QCloseEvent*);
 	void showEvent(QShowEvent*);
 	void paintEvent(QPaintEvent*);
-#endif
 	void keyPressEvent(QKeyEvent*);
+#endif
 	bool eventFilter(QObject*, QEvent*);
 
 private slots:
