@@ -936,6 +936,7 @@ void Browser::collectTabIndex(QList<QString>& parents, QMap<QString, QMap<int,QW
 void Browser::popupExecExpanded(QWidget *pop)
 {
     if( !pop ) return;
+
     QWidget *cw = central_layout->currentWidget();
     if( cw )
 	cw->setEnabled(false);
@@ -947,8 +948,8 @@ void Browser::popupExecExpanded(QWidget *pop)
 
 void Browser::popupExec(QWidget *pop)
 {
-
     if( !pop ) return;
+
     QWidget *cw = central_layout->currentWidget();
     if( cw )
 	cw->setEnabled(false);
@@ -967,6 +968,8 @@ void Browser::popupExec(QWidget *pop)
     central_layout->addWidget(stacked);
     central_layout->setCurrentWidget(stacked);
     stacked->setEnabled(true);
+
+    pop->setFocus();
 }
 
 void Browser::popupRemoveCurrent(int res)

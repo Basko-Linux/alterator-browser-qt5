@@ -33,8 +33,6 @@ Popup::Popup(QWidget *parent, bool title, bool winexpand, bool winclose):
     vlayout->addWidget(title_txt);
     vlayout->addWidget(title_separator);
     vlayout->addWidget(view_widget);
-
-    setFocus();
 }
 
 Popup::~Popup() {}
