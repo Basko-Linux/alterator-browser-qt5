@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.96
+Version: 2.9.97
 Release: alt1
 
 Source:%name-%version.tar
