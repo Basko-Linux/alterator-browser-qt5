@@ -27,7 +27,7 @@ namespace MsgBox {
 		buttonMap.insert("yes",QDialogButtonBox::Yes);
 		buttonMap.insert("yes-to-all",QDialogButtonBox::YesToAll);
 		buttonMap.insert("no",QDialogButtonBox::No);
-		buttonMap.insert("not-to-all",QDialogButtonBox::NoToAll);
+		buttonMap.insert("no-to-all",QDialogButtonBox::NoToAll);
 		buttonMap.insert("abort",QDialogButtonBox::Abort);
 		buttonMap.insert("retry",QDialogButtonBox::Retry);
 		buttonMap.insert("ignore",QDialogButtonBox::Ignore);
