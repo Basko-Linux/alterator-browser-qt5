@@ -28,6 +28,7 @@
 #include "widgetlist.hh"
 #include "a_pixmaps.hh"
 #include "enums.hh"
+#include "fileselect.hh"
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
@@ -744,9 +745,9 @@ void Browser::onMessageBoxRequestFinished(int answ)
 
 void Browser::onFileSelectRequest(const QString& title, const QString& dir, const QString& type, const QString& mask)
 {
-    QStringList paths;
-    paths.append( QFileDialog::getOpenFileName(this, title, dir.isEmpty()? QDir::homePath(): dir ) );
-    connection->getDocument(paths.join(";"));
+    FileSelect *file_select = new FileSelect(this, title, dir);
+    connect(file_select, SIGNAL(filesSelected(const QStringList&)), this, SLOT(onFileSelectRequestFinished(const QStringList&)));
+    popupExec(file_select);
 }
 
 void Browser::onFileSelectRequestFinished(const QStringList &paths)

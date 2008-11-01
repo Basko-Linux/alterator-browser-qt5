@@ -25,6 +25,7 @@ HelpWidget::HelpWidget(QWidget *parent):
     buttonBox = new QDialogButtonBox(this);
     buttonBox->setOrientation(Qt::Horizontal);
     buttonBox->setStandardButtons(QDialogButtonBox::Close);
+    buttonBox->setVisible(false);
 
     gridLayout->addWidget(textBrowser, 0, 0, 1, 1);
     gridLayout->addWidget(buttonBox, 1, 0, 1, 1);

@@ -21,14 +21,14 @@ RCC_DIR = .rcc
 UI_DIR = .uic
 
 SOURCES =  main.cc
-SOURCES += flowlayout.cpp popup.cc
+SOURCES += flowlayout.cpp popup.cc fileselect.cc
 SOURCES += mailbox.cc connection.cc sax.cc messagebox.cc
 SOURCES += browser.cc a_pixmaps.cc utils.cc constraints.cc help_browser.cc
 SOURCES += enums.cc splashscreen.cc widgetlist.cc
 SOURCES += al_widget.cc widgets/al_*.cc
 
 HEADERS =  global.hh
-HEADERS += flowlayout.hh popup.hh
+HEADERS += flowlayout.hh popup.hh fileselect.hh
 HEADERS += mailbox.hh connection.hh widgets.hh sax.hh messagebox.hh
 HEADERS += browser.hh a_pixmaps.hh utils.hh constraints.hh help_browser.hh
 HEADERS += enums.hh splashscreen.hh widgetlist.hh
