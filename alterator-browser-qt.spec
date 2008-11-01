@@ -77,6 +77,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Sat Nov 01 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.97-alt1
+- make all popups windowless
+
 * Fri Oct 10 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.96-alt1
 - add URL handler to help browser
 - add dummy URL handler to textbox
