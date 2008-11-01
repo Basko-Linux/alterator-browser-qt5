@@ -11,7 +11,7 @@ class Popup: public QFrame
 {
 Q_OBJECT
 public:
-    Popup(QWidget *parent, bool title = false, bool winexpand = false, bool winclose = false);
+    Popup(QWidget *parent, bool title = false, bool winexpand = false, bool winclose = false, bool winshrink = false);
     ~Popup();
 
     void setPopupTitle(const QString&);
@@ -29,14 +29,21 @@ public slots:
 protected:
     virtual void keyPressEvent(QKeyEvent*);
 
+private slots:
+    void onWinCloseClicked();
+    void onWinExpandClicked();
+    void onWinShrinkClicked();
+
 private:
     bool has_title;
-    bool has_winexpand;
     bool has_winclose;
-    QLayout *vlayout;
+    bool has_winexpand;
+    bool has_winshrink;
+    QVBoxLayout *vlayout;
     QWidget *view_widget;
     QLabel *title_txt;
     QFrame *title_separator;
+    QSizePolicy szpol;
 };
 
 #endif

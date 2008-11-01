@@ -11,7 +11,7 @@
 #include "help_browser.hh"
 
 HelpWidget::HelpWidget(QWidget *parent):
-    Popup(parent, true, true, true)
+    Popup(parent, true, true, true, true)
 {
     vscroll_position = 0;
     setPopupTitle(tr("Help"));
