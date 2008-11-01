@@ -98,6 +98,11 @@ void HelpWidget::showEvent(QShowEvent *e)
 	textBrowser->verticalScrollBar()->setValue(vscroll_position);
 }
 #endif
+void HelpWidget::showEvent(QShowEvent *e)
+{
+    if( vscroll_position > 0 )
+	textBrowser->verticalScrollBar()->setValue(vscroll_position);
+}
 
 int HelpWidget::verticalScrollPosition()
 {
@@ -190,6 +195,7 @@ int HelpBrowser::exec()
 void HelpBrowser::onButtonPressed(int btn)
 {
     vscroll_position = help_widget->verticalScrollPosition();
+    qDebug("vscroll_position<%d>", vscroll_position);
     if( btn == QDialogButtonBox::Close )
     {
 	//HelpWidget *dead = help_widget;

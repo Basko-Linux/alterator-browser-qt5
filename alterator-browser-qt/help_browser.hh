@@ -25,6 +25,7 @@ protected:
     virtual void showEvent(QShowEvent*);
     virtual void paintEvent(QPaintEvent*);
 #endif
+    virtual void showEvent(QShowEvent*);
     virtual void keyPressEvent(QKeyEvent*);
 
 private slots:
