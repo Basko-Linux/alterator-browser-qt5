@@ -76,28 +76,6 @@ void HelpWidget::setEmptyHelp()
     textBrowser->setHtml( QString("<br/><br/><br/><br/><center><b>%1</b></center>").arg(tr("No help available.")) );
 }
 
-#if 0
-void HelpWidget::paintEvent(QPaintEvent* e)
-{
-    //QDialog::paintEvent(e);
-    if( !browser->haveWindowManager() )
-    {
-	Utils::widgetCornersRound(this);
-    }
-}
-
-void HelpWidget::showEvent(QShowEvent *e)
-{
-    //qDebug("HelpWidget::showEvent");
-    //HelpWidget::showEvent(e);
-    if( !browser->haveWindowManager() )
-    {
-	Utils::fixWmlessPopup(this);
-    }
-    if( vscroll_position > 0 )
-	textBrowser->verticalScrollBar()->setValue(vscroll_position);
-}
-#endif
 void HelpWidget::showEvent(QShowEvent *e)
 {
     if( vscroll_position > 0 )
