@@ -173,7 +173,6 @@ int HelpBrowser::exec()
 void HelpBrowser::onButtonPressed(int btn)
 {
     vscroll_position = help_widget->verticalScrollPosition();
-    qDebug("vscroll_position<%d>", vscroll_position);
     if( btn == QDialogButtonBox::Close )
     {
 	//HelpWidget *dead = help_widget;
