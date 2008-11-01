@@ -78,7 +78,7 @@ void HelpWidget::setEmptyHelp()
 
 void HelpWidget::showEvent(QShowEvent *e)
 {
-    if( vscroll_position > 0 )
+    if( vscroll_position > 1 )
 	textBrowser->verticalScrollBar()->setValue(vscroll_position);
 }
 
