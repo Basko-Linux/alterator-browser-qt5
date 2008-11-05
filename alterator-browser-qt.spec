@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.97
+Version: 2.9.98
 Release: alt1
 
 Source:%name-%version.tar
@@ -77,6 +77,10 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Wed Nov 05 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.98-alt1
+- allow to push any focused/default button by Enter in any dialog
+- fix to restore help browser vertical scroll position
+
 * Sat Nov 01 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.97-alt1
 - make all popups windowless
 
