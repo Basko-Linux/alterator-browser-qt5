@@ -75,6 +75,7 @@ MessageBox::MessageBox(
     iconlabel->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
     iconlabel->setPixmap(QApplication::style()->standardPixmap(pix_id));
     textlabel = new QLabel(this);
+    textlabel->setWordWrap(true);
     textlabel->setText(text);
     textlabel->setAlignment(Qt::AlignCenter);
     buttonbox = new QDialogButtonBox(this);

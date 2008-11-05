@@ -3,7 +3,7 @@
 
 Name: alterator-browser-qt
 Version: 2.9.98
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -77,6 +77,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Wed Nov 05 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.98-alt2
+- fix to word wrap messageboxes text by default
+
 * Wed Nov 05 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.98-alt1
 - allow to push any focused/default button by Enter in any dialog
 - fix to restore help browser vertical scroll position
