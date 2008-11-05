@@ -126,27 +126,23 @@ void Popup::keyPressEvent(QKeyEvent* e)
 	case Qt::Key_Enter:
 	case Qt::Key_Return:
 	{
-	    QDialogButtonBox *bbox = findChild<QDialogButtonBox*>();
-	    if(bbox)
+	    bool btn_clicked = false;
+	    QList<QAbstractButton*> abuttons = findChildren<QAbstractButton*>();
+	    foreach(QAbstractButton* btn, abuttons)
 	    {
-		bool btn_clicked = false;
-		QList<QAbstractButton*> btnlist = bbox->buttons();
-		foreach(QAbstractButton* btn, btnlist)
+		if( btn->hasFocus() )
 		{
-		    if( btn->hasFocus() )
-		    {
-			btn->click();
-			btn_clicked = true;
-		    }
+		    btn_clicked = true;
+		    btn->click();
 		}
-		if( !btn_clicked )
+	    }
+	    if( !btn_clicked )
+	    {
+		QList<QPushButton*> pbuttons = findChildren<QPushButton*>();
+		foreach(QPushButton *pbtn, pbuttons)
 		{
-		    foreach(QAbstractButton* btn, btnlist)
-		    {
-			QPushButton *pbtn = qobject_cast<QPushButton*>(btn);
-			if( pbtn && pbtn->isDefault() )
-			    pbtn->click();
-		    }
+		    if( pbtn->isDefault() )
+			pbtn->click();
 		}
 	    }
 	    break;
