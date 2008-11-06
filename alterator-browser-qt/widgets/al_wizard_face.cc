@@ -60,7 +60,6 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     scr_palette.setBrush(QPalette::Window, QBrush(QColor(0,0,0,0)));
     scroll->setPalette(scr_palette);
 
-
     view_widget = new QWidget(scroll->viewport());
     view_widget->setObjectName("view");
     QPalette vw_palette = view_widget->palette();
