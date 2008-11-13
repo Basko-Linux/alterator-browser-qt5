@@ -6,13 +6,13 @@
 
 #include "al_widget.hh"
 
-class ATextEdit: public AWidget<QWidget>
+class ATextBox: public AWidget<QWidget>
 {
 Q_OBJECT
 Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
-    ATextEdit(QWidget *parent, const Qt::Orientation);
-    ~ATextEdit();
+    ATextBox(QWidget *parent, const Qt::Orientation);
+    ~ATextBox();
     void markRequired(bool);
     void setUrl(const QString&);
     void setText(const QString&);
@@ -38,7 +38,7 @@ private:
     QHBoxLayout *layout_;
 };
 
-class alTextBox: public alWidgetPre<ATextEdit>
+class alTextBox: public alWidgetPre<ATextBox>
 {
 public:
 	alTextBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent);

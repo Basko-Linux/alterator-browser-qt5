@@ -2,7 +2,7 @@
 #include "utils.hh"
 #include "al_textbox.hh"
 
-ATextEdit::ATextEdit(QWidget *parent, const Qt::Orientation):
+ATextBox::ATextBox(QWidget *parent, const Qt::Orientation):
     AWidget<QWidget>(parent)
 {
     mark = new QLabel("*" ,this);
@@ -28,40 +28,40 @@ ATextEdit::ATextEdit(QWidget *parent, const Qt::Orientation):
     setFocusProxy(edit);
 }
 
-ATextEdit::~ATextEdit() {}
+ATextBox::~ATextBox() {}
 
-void ATextEdit::execLink(const QUrl&)
+void ATextBox::execLink(const QUrl&)
 {
     edit->reload();
 }
 
-void ATextEdit::setText(const QString& txt)
+void ATextBox::setText(const QString& txt)
 {
     edit->setText(txt);
 }
 
-void ATextEdit::append(const QString& txt)
+void ATextBox::append(const QString& txt)
 {
     edit->append(txt);
 }
 
-void ATextEdit::setReadOnly(bool ro)
+void ATextBox::setReadOnly(bool ro)
 {
     edit->setReadOnly(ro);
 }
 
-bool ATextEdit::isReadOnly()
+bool ATextBox::isReadOnly()
 {
     return edit->isReadOnly();
 }
 
-QString ATextEdit::text()
+QString ATextBox::text()
 {
     return edit->toPlainText();
 }
 
 
-void ATextEdit::markRequired(bool req)
+void ATextBox::markRequired(bool req)
 {
     if(req)
     {
@@ -75,25 +75,25 @@ void ATextEdit::markRequired(bool req)
     }
 }
 
-void ATextEdit::showEvent(QShowEvent*)
+void ATextBox::showEvent(QShowEvent*)
 {
     edit->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     edit->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 }
 
-void ATextEdit::setUrl(const QString& url)
+void ATextBox::setUrl(const QString& url)
 {
     edit->setSource(QUrl(url,QUrl::StrictMode));
 }
 
-QString ATextEdit::url()
+QString ATextBox::url()
 {
     return edit->source().toString();
 }
 
 // alTextBox
 alTextBox::alTextBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
-		alWidgetPre<ATextEdit>(attr,WTextBox,id,parent)
+		alWidgetPre<ATextBox>(attr,WTextBox,id,parent)
 {
 }
 
