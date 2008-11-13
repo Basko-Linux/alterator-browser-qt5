@@ -9,7 +9,7 @@
 
 class ADialog: public Popup
 {
-    Q_OBJECT
+Q_OBJECT
 public:
 	ADialog(QWidget *parent, const Qt::Orientation);
 	QWidget* getView();

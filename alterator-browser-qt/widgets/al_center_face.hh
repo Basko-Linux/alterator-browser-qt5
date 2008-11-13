@@ -79,7 +79,7 @@ private:
 
 class ACenterFace: public QFrame
 {
-    Q_OBJECT
+Q_OBJECT
 public:
     ACenterFace(QWidget *parent, const Qt::Orientation);
     ~ACenterFace();
