@@ -6,8 +6,10 @@
 
 #include "al_widget.hh"
 
-class AGridBox: public QWidget
+class AGridBox: public AWidget<QWidget>
 {
+Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
     AGridBox(QWidget *parent, const Qt::Orientation);
     ~AGridBox();

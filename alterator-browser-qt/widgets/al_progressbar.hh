@@ -5,10 +5,12 @@
 
 #include "al_widget.hh"
 
-class AProgressBar: public QProgressBar
+class AProgressBar: public AWidget<QProgressBar>
 {
+Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
-    AProgressBar(QWidget *parent, const Qt::Orientation): QProgressBar(parent) {};
+    AProgressBar(QWidget *parent, const Qt::Orientation): AWidget<QProgressBar>(parent) {};
     ~AProgressBar() {};
 };
 

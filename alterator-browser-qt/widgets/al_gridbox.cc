@@ -2,7 +2,7 @@
 #include "al_gridbox.hh"
 
 AGridBox::AGridBox(QWidget *parent, const Qt::Orientation):
-    QWidget(parent)
+    AWidget<QWidget>(parent)
 {
     columns_ = 0;
     current_row = 0;

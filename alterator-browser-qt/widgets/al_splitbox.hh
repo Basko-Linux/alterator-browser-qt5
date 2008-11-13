@@ -5,8 +5,10 @@
 
 #include "al_widget.hh"
 
-class ASplitBox: public QSplitter
+class ASplitBox: public AWidget<QSplitter>
 {
+Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
     ASplitBox(QWidget *parent, const Qt::Orientation);
     ~ASplitBox();

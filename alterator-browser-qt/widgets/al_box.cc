@@ -3,7 +3,7 @@
 #include "enums.hh"
 
 ABox::ABox(QWidget *parent, const Qt::Orientation o):
-    QWidget(parent)
+    AWidget<QWidget>(parent)
 {
     Qt::Orientation orient = Utils::fixOrientation(o, Qt::Vertical);
     if( orient == Qt::Horizontal )

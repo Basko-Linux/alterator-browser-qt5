@@ -9,6 +9,7 @@
 
 #include "connection.hh"
 #include "utils.hh"
+#include "awidget.hh"
 
 //Note: I need QObject inheritanse for correct deffered object deletion
 // cause I need to destruct objects from it's callbacks

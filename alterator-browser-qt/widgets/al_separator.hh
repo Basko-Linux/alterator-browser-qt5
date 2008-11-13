@@ -4,10 +4,12 @@
 #include <QFrame>
 #include "widgets.hh"
 
-class ASeparator: public QFrame
+class ASeparator: public AWidget<QFrame>
 {
+Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
-    ASeparator(QWidget *parent, const Qt::Orientation): QFrame(parent) {};
+    ASeparator(QWidget *parent, const Qt::Orientation): AWidget<QFrame>(parent) {};
     ~ASeparator() {};
 };
 

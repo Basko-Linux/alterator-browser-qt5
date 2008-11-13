@@ -3,7 +3,7 @@
 #include "al_dialog.hh"
 
 ADialog::ADialog(QWidget *parent, const Qt::Orientation orient):
-    Popup(parent)
+    AWidget<Popup>(parent)
 {
     current_action = "__undefined__";
 

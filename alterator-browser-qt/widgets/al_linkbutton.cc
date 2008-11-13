@@ -2,7 +2,7 @@
 #include "a_pixmaps.hh"
 
 ALinkButton::ALinkButton(QWidget *parent, const Qt::Orientation):
-    QWidget(parent)
+    AWidget<QWidget>(parent)
 {
     pix_lbl = new QLabel(this);
     pix_lbl->setFixedSize(16,16);

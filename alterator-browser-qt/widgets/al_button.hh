@@ -3,12 +3,15 @@
 
 #include <QPushButton>
 
+#include "awidget.hh"
 #include "al_widget.hh"
 
-class AButton: public QPushButton
+class AButton: public AWidget<QPushButton>
 {
+Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
-    AButton(QWidget *parent,const Qt::Orientation): QPushButton(parent) {};
+    AButton(QWidget *parent,const Qt::Orientation): AWidget<QPushButton>(parent) {};
     ~AButton() {};
 };
 

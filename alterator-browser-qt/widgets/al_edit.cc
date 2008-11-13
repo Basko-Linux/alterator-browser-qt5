@@ -6,7 +6,7 @@
 #include "al_edit.hh"
 
 AEdit::AEdit(QWidget *parent, const Qt::Orientation):
-    QWidget(parent)
+    AWidget<QWidget>(parent)
 {
     mark = new QLabel("*" ,this);
     mark->hide();

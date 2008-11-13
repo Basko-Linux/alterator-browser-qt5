@@ -6,9 +6,10 @@
 #include "al_widget.hh"
 #include "browser.hh"
 
-class AMainWidget: public QFrame
+class AMainWidget: public AWidget<QFrame>
 {
 Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
     AMainWidget(QWidget *parent, const Qt::Orientation);
     ~AMainWidget();

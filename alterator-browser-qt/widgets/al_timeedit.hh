@@ -51,9 +51,10 @@ private:
     void setup();
 };
 
-class ATimeEdit: public QWidget
+class ATimeEdit: public AWidget<QWidget>
 {
 Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
     ATimeEdit(QWidget *parent, const Qt::Orientation);
     ~ATimeEdit();

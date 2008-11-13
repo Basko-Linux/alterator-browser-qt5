@@ -23,7 +23,7 @@ ASuperListBoxItem::~ASuperListBoxItem()
 }
 
 ASuperListBox::ASuperListBox(QWidget *parent, const Qt::Orientation):
-		QTreeWidget(parent)
+    AWidget<QTreeWidget>(parent)
 {
     nonuser_selection_change = false;
     header()->hide();

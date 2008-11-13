@@ -5,10 +5,12 @@
 
 #include "al_widget.hh"
 
-class ASpinBox: public QDoubleSpinBox
+class ASpinBox: public AWidget<QDoubleSpinBox>
 {
+Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
-    ASpinBox(QWidget *parent, const Qt::Orientation): QDoubleSpinBox(parent) {};
+    ASpinBox(QWidget *parent, const Qt::Orientation): AWidget<QDoubleSpinBox>(parent) {};
     ~ASpinBox() {};
 };
 

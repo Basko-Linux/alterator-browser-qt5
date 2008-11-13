@@ -3,7 +3,7 @@
 #include "al_textbox.hh"
 
 ATextEdit::ATextEdit(QWidget *parent, const Qt::Orientation):
-    QWidget(parent)
+    AWidget<QWidget>(parent)
 {
     mark = new QLabel("*" ,this);
     mark->hide();

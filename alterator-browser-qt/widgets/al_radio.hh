@@ -5,10 +5,12 @@
 
 #include "al_widget.hh"
 
-class ARadio: public QRadioButton
+class ARadio: public AWidget<QRadioButton>
 {
+Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
-    ARadio(QWidget *parent, const Qt::Orientation): QRadioButton(parent) {};
+    ARadio(QWidget *parent, const Qt::Orientation): AWidget<QRadioButton>(parent) {};
     ~ARadio() {};
 };
 

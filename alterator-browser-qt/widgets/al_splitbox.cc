@@ -2,7 +2,7 @@
 #include "al_splitbox.hh"
 
 ASplitBox::ASplitBox(QWidget *parent, const Qt::Orientation):
-    QSplitter(parent)
+    AWidget<QSplitter>(parent)
 {
     columns_.clear();
     columns_.append(100);

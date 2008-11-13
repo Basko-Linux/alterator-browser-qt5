@@ -3,12 +3,15 @@
 
 #include <QCheckBox>
 
+#include "awidget.hh"
 #include "al_widget.hh"
 
-class ACheckBox: public QCheckBox
+class ACheckBox: public AWidget<QCheckBox>
 {
+Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
-    ACheckBox(QWidget *parent, const Qt::Orientation): QCheckBox(parent) {};
+    ACheckBox(QWidget *parent, const Qt::Orientation): AWidget<QCheckBox>(parent) {};
     ~ACheckBox() {};
 };
 

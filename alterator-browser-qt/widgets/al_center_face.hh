@@ -10,6 +10,7 @@
 #include "enums.hh"
 #include "widgets.hh"
 #include "flowlayout.hh"
+#include "awidget.hh"
 
 class ACenterModuleButton: public QLabel
 {
@@ -77,9 +78,10 @@ private:
     ACenterSectionModulesList *modlist;
 };
 
-class ACenterFace: public QFrame
+class ACenterFace: public AWidget<QFrame>
 {
 Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
     ACenterFace(QWidget *parent, const Qt::Orientation);
     ~ACenterFace();

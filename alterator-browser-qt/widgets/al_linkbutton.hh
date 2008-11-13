@@ -5,9 +5,10 @@
 
 #include "al_widget.hh"
 
-class ALinkButton: public QWidget
+class ALinkButton: public AWidget<QWidget>
 {
 Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
     ALinkButton(QWidget *parent, const Qt::Orientation);
     ~ALinkButton();

@@ -2,7 +2,7 @@
 #include "al_main_widget.hh"
 
 AMainWidget::AMainWidget(QWidget *parent, const Qt::Orientation):
-    QFrame(parent)
+    AWidget<QFrame>(parent)
 {
     setObjectName("main_widget");
     setLineWidth(0);

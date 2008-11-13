@@ -13,9 +13,10 @@ public:
     ~ASuperListBoxItem();
 };
 
-class ASuperListBox: public QTreeWidget
+class ASuperListBox: public AWidget<QTreeWidget>
 {
 Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
 	enum ListType { ListBox, MultiListBox, RadioListBox, CheckListBox };
 	enum RowType { Row, Header };

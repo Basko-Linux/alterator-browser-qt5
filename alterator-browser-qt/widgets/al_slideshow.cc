@@ -5,7 +5,7 @@
 #include "al_slideshow.hh"
 
 ASlideShow::ASlideShow(QWidget *parent, const Qt::Orientation):
-    QLabel(parent)
+    AWidget<QLabel>(parent)
 {
     setWordWrap( true );
     setAlignment( Qt::AlignCenter );

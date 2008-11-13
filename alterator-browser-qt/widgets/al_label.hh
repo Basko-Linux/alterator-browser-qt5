@@ -5,10 +5,12 @@
 
 #include "al_widget.hh"
 
-class ALabel: public QLabel
+class ALabel: public AWidget<QLabel>
 {
+Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
-    ALabel(QWidget *parent, const Qt::Orientation): QLabel(parent) {};
+    ALabel(QWidget *parent, const Qt::Orientation): AWidget<QLabel>(parent) {};
     ~ALabel() {};
 };
 

@@ -4,10 +4,13 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
+#include "awidget.hh"
 #include "al_widget.hh"
 
-class ABox: public QWidget
+class ABox: public AWidget<QWidget>
 {
+Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
     ABox(QWidget *parent, const Qt::Orientation);
     ~ABox();

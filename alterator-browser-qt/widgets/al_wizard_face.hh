@@ -17,9 +17,10 @@ public:
     ~AWizardFaceStepList() {};
 };
 
-class AWizardFace: public QFrame
+class AWizardFace: public AWidget<QFrame>
 {
-    Q_OBJECT
+Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
     AWizardFace(QWidget *parent, const Qt::Orientation);
     ~AWizardFace();

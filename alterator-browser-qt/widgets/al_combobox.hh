@@ -6,9 +6,10 @@
 
 #include "al_widget.hh"
 
-class AComboBox: public QComboBox
+class AComboBox: public AWidget<QComboBox>
 {
 Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
     AComboBox(QWidget *parent, const Qt::Orientation);
     ~AComboBox();

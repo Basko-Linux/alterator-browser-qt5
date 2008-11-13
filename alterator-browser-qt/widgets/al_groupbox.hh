@@ -5,8 +5,10 @@
 
 #include "al_widget.hh"
 
-class AGroupBox: public QGroupBox
+class AGroupBox: public AWidget<QGroupBox>
 {
+Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
     AGroupBox(QWidget *parent, const Qt::Orientation);
     ~AGroupBox();

@@ -2,7 +2,7 @@
 #include "al_groupbox.hh"
 
 AGroupBox::AGroupBox(QWidget *parent, const Qt::Orientation o):
-    QGroupBox(parent)
+    AWidget<QGroupBox>(parent)
 {
     setFlat(false);
     setCheckable(false);

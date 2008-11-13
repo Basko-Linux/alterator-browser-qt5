@@ -5,9 +5,10 @@
 
 #include "al_widget.hh"
 
-class ASlider: public QSlider
+class ASlider: public AWidget<QSlider>
 {
 Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
     ASlider(QWidget *parent, const Qt::Orientation);
     ~ASlider();

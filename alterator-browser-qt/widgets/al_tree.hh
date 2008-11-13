@@ -5,10 +5,12 @@
 
 #include "al_widget.hh"
 
-class ATreeWidget: public QTreeWidget
+class ATreeWidget: public AWidget<QTreeWidget>
 {
+Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
-    ATreeWidget(QWidget *parent, const Qt::Orientation): QTreeWidget(parent) {};
+    ATreeWidget(QWidget *parent, const Qt::Orientation): AWidget<QTreeWidget>(parent) {};
     ~ATreeWidget() {};
 };
 

@@ -4,7 +4,7 @@
 #include "al_slider.hh"
 
 ASlider::ASlider(QWidget *parent, const Qt::Orientation):
-    QSlider(parent)
+    AWidget<QSlider>(parent)
 {
     timeout = 300;
     timer = -1;

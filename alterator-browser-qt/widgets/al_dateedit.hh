@@ -6,9 +6,10 @@
 
 #include "al_widget.hh"
 
-class ADateEdit: public QWidget
+class ADateEdit: public AWidget<QWidget>
 {
 Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
     ADateEdit(QWidget *parent, const Qt::Orientation);
     ~ADateEdit();

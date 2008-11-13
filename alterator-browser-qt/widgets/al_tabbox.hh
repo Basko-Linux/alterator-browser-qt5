@@ -5,17 +5,21 @@
 
 #include "al_widget.hh"
 
-class ATabWidget: public QTabWidget
+class ATabWidget: public AWidget<QTabWidget>
 {
+Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
-    ATabWidget(QWidget *parent, const Qt::Orientation): QTabWidget(parent) {};
+    ATabWidget(QWidget *parent, const Qt::Orientation): AWidget<QTabWidget>(parent) {};
     ~ATabWidget() {};
 };
 
-class ATabPage: public QWidget
+class ATabPage: public AWidget<QWidget>
 {
+Q_OBJECT
+Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
-    ATabPage(QWidget *parent, const Qt::Orientation): QWidget(parent) {};
+    ATabPage(QWidget *parent, const Qt::Orientation): AWidget<QWidget>(parent) {};
     ~ATabPage() {};
 };
 
