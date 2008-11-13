@@ -2,8 +2,8 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.98
-Release: alt2
+Version: 2.9.99
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -77,6 +77,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Thu Nov 13 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.99-alt1
+- handle alterator attribute "name" as Q_PROPERTY(altgroup)
+
 * Wed Nov 05 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.98-alt2
 - fix to word wrap messageboxes text by default
 
