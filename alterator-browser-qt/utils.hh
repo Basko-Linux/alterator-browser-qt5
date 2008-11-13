@@ -10,7 +10,7 @@ namespace Utils
     Qt::Alignment convertAlign(const QString& value);
     QLineEdit::EchoMode convertEchoMode(const QString& value);
     QString simpleQuote(const QString&);
-    void widgetCornersRound(QWidget*);
+    void widgetCornersRound(QWidget *widget);
     void fixWmlessPopup(QWidget*);
     void fixWmlessPopupWindow(QWidget*);
     void fixWmlessPopupCursor(QWidget*);
