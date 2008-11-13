@@ -4,25 +4,25 @@
 #include "al_listbox.hh"
 #include "a_pixmaps.hh"
 
-ASuperListBoxItem::ASuperListBoxItem(QTreeWidget *parent):
+AListBoxItem::AListBoxItem(QTreeWidget *parent):
     QTreeWidgetItem(parent)
 {
 }
 
-ASuperListBoxItem::~ASuperListBoxItem()
+AListBoxItem::~AListBoxItem()
 {
     QTreeWidget *t = treeWidget();
     if(t)
     {
-	ASuperListBox *p = qobject_cast<ASuperListBox*>(treeWidget());
+	AListBox *p = qobject_cast<AListBox*>(treeWidget());
 	if(p)
 	    p->removeFromSelectedItemsListOld(this);
 	else
-	    qWarning("ASuperListBoxItem parent is not ASuperListBox");
+	    qWarning("AListBoxItem parent is not AListBox");
     }
 }
 
-ASuperListBox::ASuperListBox(QWidget *parent, const Qt::Orientation):
+AListBox::AListBox(QWidget *parent, const Qt::Orientation):
     AWidget<QTreeWidget>(parent)
 {
     nonuser_selection_change = false;
@@ -37,15 +37,15 @@ ASuperListBox::ASuperListBox(QWidget *parent, const Qt::Orientation):
     connect(this, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged())) ;
 }
 
-ASuperListBox::~ASuperListBox()
+AListBox::~AListBox()
 {}
 
-void ASuperListBox::removeFromSelectedItemsListOld(QTreeWidgetItem *i)
+void AListBox::removeFromSelectedItemsListOld(QTreeWidgetItem *i)
 {
     selected_items_old.removeAll(i);
 }
 
-void ASuperListBox::setListType(ListType type)
+void AListBox::setListType(ListType type)
 {
     list_type = type;
     QAbstractItemView::SelectionMode selection_mode = QAbstractItemView::SingleSelection;
@@ -71,25 +71,25 @@ void ASuperListBox::setListType(ListType type)
     setSelectionMode(selection_mode);
 }
 
-ASuperListBox::ListType ASuperListBox::listType()
+AListBox::ListType AListBox::listType()
 {
     return list_type;
 }
 
-void ASuperListBox::keyPressEvent(QKeyEvent * e) 
+void AListBox::keyPressEvent(QKeyEvent * e) 
 {
     if ((e->key() == Qt::Key_Space))
         emit spaceBtnPressed();
     QTreeWidget::keyPressEvent(e);
 }
 
-void ASuperListBox::showEvent(QShowEvent*)
+void AListBox::showEvent(QShowEvent*)
 {
     //QTreeWidget::showEvent(e);
     scrollTo(currentIndex());
 }
 
-void ASuperListBox::adjustAllColumnsWidth()
+void AListBox::adjustAllColumnsWidth()
 {
     int n_columns = columnCount();
     if( n_columns > 0 )
@@ -101,7 +101,7 @@ void ASuperListBox::adjustAllColumnsWidth()
     }
 }
 
-void ASuperListBox::setHeader(QStringList& data)
+void AListBox::setHeader(QStringList& data)
 {
     if( data.size() > columnCount() )
 	addRow(data, Header);
@@ -109,7 +109,7 @@ void ASuperListBox::setHeader(QStringList& data)
 	setHeaderLabels(data);
 }
 
-void ASuperListBox::addRow(QStringList& data, RowType row_type)
+void AListBox::addRow(QStringList& data, RowType row_type)
 {
     if (data.size() < 2 ) return;
 
@@ -117,7 +117,7 @@ void ASuperListBox::addRow(QStringList& data, RowType row_type)
     QStringListIterator it(data);
     int col = 0;
 
-    ASuperListBoxItem *item = new ASuperListBoxItem(this);
+    AListBoxItem *item = new AListBoxItem(this);
     while( it.hasNext() && col < columns )
     {
 	QString item_text = it.next();
@@ -176,7 +176,7 @@ void ASuperListBox::addRow(QStringList& data, RowType row_type)
 	setHeaderItem(item);
 }
 
-void ASuperListBox::setRows(QStringList& data)
+void AListBox::setRows(QStringList& data)
 {
     clear();
     const int columns = columnCount();
@@ -199,12 +199,12 @@ void ASuperListBox::setRows(QStringList& data)
     adjustAllColumnsWidth();
 }
 
-void ASuperListBox::setNonUserSelectionChange(bool is)
+void AListBox::setNonUserSelectionChange(bool is)
 {
     nonuser_selection_change = is;
 }
 
-void ASuperListBox::onSelectionChanged()
+void AListBox::onSelectionChanged()
 {
 
 	switch(list_type)
@@ -243,22 +243,22 @@ void ASuperListBox::onSelectionChanged()
 // alListBox
 
 alListBox::alListBox(const AlteratorWidgetType awtype, const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, int cols):
-	alWidgetPre<ASuperListBox>(attr,awtype,id,parent)
+	alWidgetPre<AListBox>(attr,awtype,id,parent)
 {
     if( cols < 1 ) cols = 1;
     wnd_->setColumnCount(cols);
     if( cols > 1 )
 	wnd_->setAlternatingRowColors(true);
-    ASuperListBox::ListType list_type = ASuperListBox::ListBox;
+    AListBox::ListType list_type = AListBox::ListBox;
     switch(awtype)
     {
-	case WMultiListBox: {list_type = ASuperListBox::MultiListBox; break;}
-	case WCheckListBox: {list_type = ASuperListBox::CheckListBox; break;}
-	case WRadioListBox: {list_type = ASuperListBox::RadioListBox; break;}
+	case WMultiListBox: {list_type = AListBox::MultiListBox; break;}
+	case WCheckListBox: {list_type = AListBox::CheckListBox; break;}
+	case WRadioListBox: {list_type = AListBox::RadioListBox; break;}
 	case WListBox:
 	default:
 	{
-	    list_type = ASuperListBox::ListBox;
+	    list_type = AListBox::ListBox;
 	}
     }
     wnd_->setListType(list_type);
@@ -391,8 +391,8 @@ QString alListBox::postData() const
     QString ret;
     switch(wnd_->listType())
     {
-	case ASuperListBox::MultiListBox:
-	case ASuperListBox::CheckListBox:
+	case AListBox::MultiListBox:
+	case AListBox::CheckListBox:
 	{
 	    QString cur_rows;
 	    QList<QTreeWidgetItem*> selected_items = wnd_->selectedItems();
@@ -421,8 +421,8 @@ QString alListBox::postData() const
 	    ret.append("))");
 	    break;
 	}
-	case ASuperListBox::RadioListBox:
-	case ASuperListBox::ListBox:
+	case AListBox::RadioListBox:
+	case AListBox::ListBox:
 	default:
 	{
 	    int cur = -1;

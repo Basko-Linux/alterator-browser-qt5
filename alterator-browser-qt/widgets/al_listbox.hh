@@ -6,22 +6,22 @@
 
 #include "al_widget.hh"
 
-class ASuperListBoxItem: public QTreeWidgetItem
+class AListBoxItem: public QTreeWidgetItem
 {
 public:
-    ASuperListBoxItem(QTreeWidget*);
-    ~ASuperListBoxItem();
+    AListBoxItem(QTreeWidget*);
+    ~AListBoxItem();
 };
 
-class ASuperListBox: public AWidget<QTreeWidget>
+class AListBox: public AWidget<QTreeWidget>
 {
 Q_OBJECT
 Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
 	enum ListType { ListBox, MultiListBox, RadioListBox, CheckListBox };
 	enum RowType { Row, Header };
-	ASuperListBox(QWidget *parent, const Qt::Orientation);
-	~ASuperListBox();
+	AListBox(QWidget *parent, const Qt::Orientation);
+	~AListBox();
 
 	ListType listType();
 	void setListType(ListType);
@@ -32,7 +32,7 @@ public:
 
 	void setNonUserSelectionChange(bool);
 
-	friend class ASuperListBoxItem;
+	friend class AListBoxItem;
 
 signals:
 	void spaceBtnPressed();
@@ -54,7 +54,7 @@ private:
 
 };
 
-class alListBox: public alWidgetPre<ASuperListBox>
+class alListBox: public alWidgetPre<AListBox>
 {
 public:
 	alListBox(const AlteratorWidgetType awtype, const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, int cols);
