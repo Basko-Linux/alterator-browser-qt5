@@ -85,7 +85,10 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	else if ("widget-name" == name)
 		setObjectName(value);
 	else if ("name" == name)
-	    setProperty("altgroup", value);
+	{
+	    if(w)
+		w->setProperty("altgroup", value);
+	}
 	else if ("tooltip" == name)
 	{
 	    QStringList args = value.split(";");
