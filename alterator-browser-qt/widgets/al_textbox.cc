@@ -103,6 +103,8 @@ void alTextBox::setAttr(const QString& name,const QString& value)
 		wnd_->setUrl(value);
 	else if ("text" == name)
 		wnd_->setText(value);
+	else if ("value" == name)
+		wnd_->setText(value);
 	else if ("text-append" == name)
 		wnd_->append(value);
 	else if ("append-text" == name)
@@ -123,7 +125,10 @@ QString alTextBox::postData() const
 {
     QString ret;
     if( ! wnd_->isReadOnly() )
+    {
 	ret.append(QString(" (text . \"%1\" )").arg(Utils::simpleQuote(wnd_->text())));
+	ret.append(QString(" (value . \"%1\" )").arg(Utils::simpleQuote(wnd_->text())));
+    }
     ret.append(QString(" (url . \"%1\" )").arg(wnd_->url()));
     return ret;
 }

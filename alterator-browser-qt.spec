@@ -2,8 +2,8 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.99
-Release: alt2
+Version: 2.9.100
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -77,6 +77,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Fri Nov 14 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.100-alt1
+- add value attribute to textbox
+
 * Fri Nov 14 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.99-alt2
 - fix to set altgroup to proper widget
 
