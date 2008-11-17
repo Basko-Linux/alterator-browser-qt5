@@ -139,6 +139,7 @@ private:
     QBoxLayout* view_layout;
     QStackedLayout* stacked_layout;
     QDialogButtonBox* buttonbox;
+    QToolButton *owerview_btn;
 
     QMap<QString, ACenterSection*> sections;
     QMap<QString, ACenterSectionModulesListItem*> modules;

@@ -188,7 +188,8 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     current_action_key = "__undefined__";
     current_module_key = "__undefined__";
 
-    QToolButton *owerview_btn = new QToolButton(this);
+    owerview_btn = new QToolButton(this);
+    owerview_btn->setEnabled(false);
     owerview_btn->setAutoRaise(true);
     owerview_btn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     owerview_btn->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Fixed);
@@ -301,6 +302,7 @@ bool ACenterFace::eventRegistered(BrowserEventType e)
 void ACenterFace::onOwerviewClicked()
 {
     stacked_layout->setCurrentWidget(sections_widget);
+    owerview_btn->setEnabled(false);
 }
 
 void ACenterFace::onHelpClicked()
@@ -559,9 +561,10 @@ void ACenterFace::onSelectModule(ACenterSectionModulesListItem *i)
 {
     current_module_key = modules.key(i);
     view_widget->hide();
-    stacked_layout->setCurrentWidget(module_widget);
     if( eventRegistered(BrowserEventSelected) )
 	browser->emitEvent(id, BrowserEventSelected, AlteratorRequestCenterFaceModuleSelected);
+    stacked_layout->setCurrentWidget(module_widget);
+    owerview_btn->setEnabled(true);
 }
 
 QString ACenterFace::currentActionKey()
