@@ -65,7 +65,6 @@ void HelpWidget::keyPressEvent(QKeyEvent* e)
 
 void HelpWidget::setHelpSource(const QString& url)
 {
-    QString new_url;
     if(!url.isEmpty())
     {
 	textBrowser->setSource(url);
