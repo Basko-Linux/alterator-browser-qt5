@@ -303,6 +303,7 @@ void ACenterFace::onOwerviewClicked()
 {
     stacked_layout->setCurrentWidget(sections_widget);
     owerview_btn->setEnabled(false);
+    browser->setHelpSource(help_source);
 }
 
 void ACenterFace::onHelpClicked()
@@ -575,6 +576,12 @@ QString ACenterFace::currentActionKey()
 QString ACenterFace::currentModuleKey()
 {
     return current_module_key;
+}
+
+void ACenterFace::setHelpSource(const QString &url)
+{
+    if( stacked_layout->currentWidget() == sections_widget )
+	help_source = url;
 }
 
 /* alCenterFace */

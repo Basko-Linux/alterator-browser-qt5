@@ -16,9 +16,11 @@ public:
     ~HelpWidget();
 
     void setHelpSource(const QString&);
-    void setEmptyHelp();
     int verticalScrollPosition();
     void setVerticalScrollPosition(int);
+
+signals:
+    void helpSourceChanged(const QString&);
 
 protected:
     virtual void showEvent(QShowEvent*);
@@ -44,6 +46,9 @@ public:
     ~HelpBrowser();
 
     void setHelpSource(const QString&);
+
+signals:
+    void helpSourceChanged(const QString&);
 
 public slots:
     int exec();

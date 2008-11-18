@@ -86,6 +86,8 @@ public:
     ACenterFace(QWidget *parent, const Qt::Orientation);
     ~ACenterFace();
 
+    void setHelpSource(const QString&);
+
     void setEventRegistered(const QString&, BrowserEventType);
     bool eventRegistered(BrowserEventType);
 
@@ -140,6 +142,7 @@ private:
     QStackedLayout* stacked_layout;
     QDialogButtonBox* buttonbox;
     QToolButton *owerview_btn;
+    QString help_source;
 
     QMap<QString, ACenterSection*> sections;
     QMap<QString, ACenterSectionModulesListItem*> modules;

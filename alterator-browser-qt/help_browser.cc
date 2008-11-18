@@ -65,15 +65,17 @@ void HelpWidget::keyPressEvent(QKeyEvent* e)
 
 void HelpWidget::setHelpSource(const QString& url)
 {
-    if(url.isEmpty())
-	setEmptyHelp();
-    else
+    QString new_url;
+    if(!url.isEmpty())
+    {
 	textBrowser->setSource(url);
-}
-
-void HelpWidget::setEmptyHelp()
-{
-    textBrowser->setHtml( QString("<br/><br/><br/><br/><center><b>%1</b></center>").arg(tr("No help available.")) );
+	emit helpSourceChanged(url);
+    }
+    else
+    {
+	textBrowser->setHtml( QString("<br/><br/><br/><br/><center><b>%1</b></center>").arg(tr("No help available.")) );
+	emit helpSourceChanged("");
+    }
 }
 
 void HelpWidget::showEvent(QShowEvent *e)
@@ -149,21 +151,22 @@ void HelpBrowser::setHelpSource(const QString& url)
     if( help_url != url )
 	vscroll_position = 0;
     help_url = url;
+    if(help_widget)
+	help_widget->setHelpSource(help_url);
 }
 
 int HelpBrowser::exec()
 {
     if( !help_widget )
     {
-	//help_widget = new HelpWidget(QApplication::activeWindow());
-	//help_widget = new HelpWidget(main_window);
-	help_widget = new HelpWidget(0);
+	help_widget = new HelpWidget(browser);
 	int w = browser->width()*0.8;
 	int h = browser->height()*0.8;
 	if( w > 400 && h > 300 )
 	    help_widget->setMinimumSize(browser->width()*0.8, browser->height()*0.8);
 	help_widget->setHelpSource(help_url);
 	help_widget->setVerticalScrollPosition(vscroll_position);
+	connect(help_widget, SIGNAL(helpSourceChanged(const QString&)), this, SIGNAL(helpSourceChanged(const QString&)));
 	connect(help_widget, SIGNAL(finished(int)), this, SLOT(onButtonPressed(int)));
 	help_widget->exec();
     }
@@ -175,9 +178,7 @@ void HelpBrowser::onButtonPressed(int btn)
     vscroll_position = help_widget->verticalScrollPosition();
     if( btn == QDialogButtonBox::Close )
     {
-	//HelpWidget *dead = help_widget;
 	help_widget = 0;
-	//dead->done(btn);
 	browser->popupRemoveCurrent(btn);
     }
 }

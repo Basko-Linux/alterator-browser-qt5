@@ -300,6 +300,10 @@ void Browser::setFullScreen(bool full)
 void Browser::setHelpSource(const QString& str)
 {
     help_browser->setHelpSource(str);
+    QList<ACenterFace*> cfaces = widgetlist->aWidgetsByType<ACenterFace*>(WCenterFace);
+    QListIterator<ACenterFace*> it(cfaces);
+    while(it.hasNext())
+	it.next()->setHelpSource(str);
 }
 
 void Browser::setHelpAvailable(bool avail)
