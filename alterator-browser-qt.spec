@@ -78,7 +78,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 %changelog
 * Wed Nov 19 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.101-alt1
-- 
+- activate window of already running browser when start new
+- save current help for centerface modules list
+- disable centerface Main button during modules list view
 
 * Fri Nov 14 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.100-alt1
 - add value attribute to textbox
