@@ -9,14 +9,19 @@
         <translation type="obsolete">Обзор</translation>
     </message>
     <message>
-        <location filename="widgets/al_center_face.cc" line="203"/>
+        <location filename="widgets/al_center_face.cc" line="204"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
         <location filename="widgets/al_center_face.cc" line="195"/>
         <source>Contents</source>
-        <translation>Содержание</translation>
+        <translation type="obsolete">Содержание</translation>
+    </message>
+    <message>
+        <location filename="widgets/al_center_face.cc" line="196"/>
+        <source>Main</source>
+        <translation>Главная</translation>
     </message>
 </context>
 <context>
@@ -78,22 +83,22 @@
         <translation>О Qt</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="76"/>
+        <location filename="../help_browser.cc" line="75"/>
         <source>No help available.</source>
         <translation>Справка недоступна.</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="120"/>
+        <location filename="../help_browser.cc" line="104"/>
         <source>HELP_BROWSER environment variable is empty</source>
         <translation>Переменная HELP_BROWSER пуста</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="123"/>
+        <location filename="../help_browser.cc" line="107"/>
         <source>BROWSER environment variable is empty</source>
         <translation>Переменная BROWSER пуста</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="130"/>
+        <location filename="../help_browser.cc" line="114"/>
         <source>MAILER environment variable is empty</source>
         <translation>Переменная MAILER пуста</translation>
     </message>
