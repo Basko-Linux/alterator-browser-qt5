@@ -19,9 +19,6 @@ public:
     int verticalScrollPosition();
     void setVerticalScrollPosition(int);
 
-signals:
-    void helpSourceChanged(const QString&);
-
 protected:
     virtual void showEvent(QShowEvent*);
     virtual void keyPressEvent(QKeyEvent*);
@@ -46,9 +43,6 @@ public:
     ~HelpBrowser();
 
     void setHelpSource(const QString&);
-
-signals:
-    void helpSourceChanged(const QString&);
 
 public slots:
     int exec();

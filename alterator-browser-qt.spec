@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.100
+Version: 2.9.101
 Release: alt1
 
 Source:%name-%version.tar
@@ -77,6 +77,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Wed Nov 19 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.101-alt1
+- 
+
 * Fri Nov 14 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.100-alt1
 - add value attribute to textbox
 

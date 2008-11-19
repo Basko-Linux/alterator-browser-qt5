@@ -68,12 +68,10 @@ void HelpWidget::setHelpSource(const QString& url)
     if(!url.isEmpty())
     {
 	textBrowser->setSource(url);
-	emit helpSourceChanged(url);
     }
     else
     {
 	textBrowser->setHtml( QString("<br/><br/><br/><br/><center><b>%1</b></center>").arg(tr("No help available.")) );
-	emit helpSourceChanged("");
     }
 }
 
@@ -165,7 +163,6 @@ int HelpBrowser::exec()
 	    help_widget->setMinimumSize(browser->width()*0.8, browser->height()*0.8);
 	help_widget->setHelpSource(help_url);
 	help_widget->setVerticalScrollPosition(vscroll_position);
-	connect(help_widget, SIGNAL(helpSourceChanged(const QString&)), this, SIGNAL(helpSourceChanged(const QString&)));
 	connect(help_widget, SIGNAL(finished(int)), this, SLOT(onButtonPressed(int)));
 	help_widget->exec();
     }
