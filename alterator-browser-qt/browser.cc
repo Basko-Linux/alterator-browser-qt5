@@ -996,3 +996,24 @@ void Browser::popupRemoveCurrent(int)
 	    cw->setEnabled(true);
     }
 }
+
+void Browser::onUnixSignal(int sig)
+{
+    switch(sig)
+    {
+	case SIGUSR1:
+	    {
+		QWidget *wnd = window();
+		if( wnd->isMaximized() )
+		    wnd->showMaximized();
+		else
+		    wnd->showNormal();
+		wnd->show();
+		wnd->activateWindow();
+		wnd->raise();
+		break;
+	    }
+	default:
+	    break;
+    }
+}

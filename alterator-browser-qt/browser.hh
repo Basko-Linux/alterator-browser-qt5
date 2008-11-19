@@ -48,6 +48,7 @@ public slots:
     void quitAppError(const QString&);
     void about();
     void popupRemoveCurrent(int);
+    void onUnixSignal(int);
 
 protected:
     virtual bool event(QEvent*);
