@@ -240,22 +240,21 @@ void Browser::quitAppAnyway(int)
 void Browser::quitAppWarn()
 {
     MessageBox *msgbox = new MessageBox("warning", tr("Quit"), tr("Exit Alterator?"), QDialogButtonBox::Ok|QDialogButtonBox::Cancel, this);
-    connect(msgbox, SIGNAL(finished(int)), this, SLOT(quitApp(int)));
-    msgbox->exec();
+    quitApp(msgbox->exec());
 }
 
 void Browser::quitAppError(const QString &msg)
 {
     MessageBox *msgbox = new MessageBox("critical", tr("Quit"), msg, QDialogButtonBox::Ok|QDialogButtonBox::Cancel, this);
-    connect(msgbox, SIGNAL(finished(int)), this, SLOT(quitAppAnyway(int)));
     msgbox->exec();
+    quitAppAnyway();
 }
 
 void Browser::about()
 {
     MessageBox *msgbox = new MessageBox("information", tr("About"), tr("Alterator Browser"), QDialogButtonBox::Ok, this);
-    connect(msgbox, SIGNAL(finished(int)), this, SLOT(popupRemoveCurrent(int)));
     msgbox->exec();
+    popupRemoveCurrent(QDialogButtonBox::Close);
 }
 
 bool Browser::haveWindowManager()
@@ -737,34 +736,24 @@ void Browser::onEventRequest(const QString& id,const QString& value)
 void Browser::onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, QDialogButtonBox::StandardButtons buttons)
 {
     MessageBox *msgbox = new MessageBox(type, title, message, buttons, this);
-    connect(msgbox, SIGNAL(finished(int)), this, SLOT(onMessageBoxRequestFinished(int)));
-    msgbox->exec();
-}
-
-void Browser::onMessageBoxRequestFinished(int answ)
-{
-    popupRemoveCurrent(answ);
+    int answ = msgbox->exec();
     connection->getDocument(MsgBox::unconvertButton((QDialogButtonBox::StandardButton)answ));
+    popupRemoveCurrent(answ);
 }
 
 void Browser::onFileSelectRequest(const QString& title, const QString& dir, const QString& type, const QString& mask)
 {
     FileSelect *file_select = new FileSelect(this, title, dir);
-    connect(file_select, SIGNAL(filesSelected(const QStringList&)), this, SLOT(onFileSelectRequestFinished(const QStringList&)));
     file_select->exec();
-}
-
-void Browser::onFileSelectRequestFinished(const QStringList &paths)
-{
+    connection->getDocument(file_select->selectedFiles().join(";"));
     popupRemoveCurrent(QDialogButtonBox::Close);
-    connection->getDocument(paths.join(";"));
 }
 
 void Browser::splashStart()
 {
 	if (splash) return;
 	splash = new SplashScreen(this);
-	splash->exec();
+	popupAdd(splash);
 }
 
 void Browser::splashStop()
@@ -944,7 +933,7 @@ void Browser::collectTabIndex(QList<QString>& parents, QMap<QString, QMap<int,QW
     }
 }
 
-void Browser::popupExecExpanded(QWidget *pop)
+void Browser::popupAdd(QWidget *pop, bool simple)
 {
     if( !pop ) return;
 
@@ -952,35 +941,27 @@ void Browser::popupExecExpanded(QWidget *pop)
     if( cw )
 	cw->setEnabled(false);
 
-    central_layout->addWidget(pop);
-    central_layout->setCurrentWidget(pop);
-    pop->setEnabled(true);
-}
+    QWidget *widget_to_add = pop;
 
-void Browser::popupExec(QWidget *pop)
-{
-    if( !pop ) return;
+    if( !simple )
+    {
+	widget_to_add = new QWidget(central_widget);
+	QHBoxLayout *hl = new QHBoxLayout(widget_to_add);
+	QVBoxLayout *vl = new QVBoxLayout();
+	hl->addStretch(1);
+	hl->addLayout(vl);
+	hl->addStretch(1);
+	vl->addStretch(1);
+	vl->addWidget(pop);
+	vl->addStretch(1);
+    }
 
-    QWidget *cw = central_layout->currentWidget();
-    if( cw )
-	cw->setEnabled(false);
+    central_layout->addWidget(widget_to_add);
+    central_layout->setCurrentWidget(widget_to_add);
+    widget_to_add->setEnabled(true);
 
-    //QWidget *stacked = new QWidget(central_widget);
-    QWidget *stacked = new QWidget(0);
-    QHBoxLayout *hl = new QHBoxLayout(stacked);
-    QVBoxLayout *vl = new QVBoxLayout();
-    hl->addStretch(1);
-    hl->addLayout(vl);
-    hl->addStretch(1);
-    vl->addStretch(1);
-    vl->addWidget(pop);
-    vl->addStretch(1);
-
-    central_layout->addWidget(stacked);
-    central_layout->setCurrentWidget(stacked);
-    stacked->setEnabled(true);
-
-    pop->setFocus();
+    if( !simple )
+	widget_to_add->setFocus();
 }
 
 void Browser::popupRemoveCurrent(int)

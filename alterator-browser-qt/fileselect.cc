@@ -1,4 +1,6 @@
 
+#include <QDialogButtonBox>
+
 #include "fileselect.hh"
 
 FileSelect::FileSelect(QWidget *parent, const QString &title, const QString &dir):
@@ -15,9 +17,20 @@ FileSelect::FileSelect(QWidget *parent, const QString &title, const QString &dir
     QVBoxLayout *vlayout = new QVBoxLayout(this);
     vlayout->addWidget(file_dialog);
 
-    connect(file_dialog, SIGNAL(filesSelected(const QStringList&)), this, SIGNAL(filesSelected(const QStringList&)));
+    connect(file_dialog, SIGNAL(filesSelected(const QStringList&)), this, SLOT(onSelectFiles(const QStringList&)));
 }
 
 FileSelect::~FileSelect()
 {
+}
+
+void FileSelect::onSelectFiles(const QStringList &flist)
+{
+    selected_files = flist;
+    done(QDialogButtonBox::Close);
+}
+
+QStringList FileSelect::selectedFiles()
+{
+    return selected_files;
 }

@@ -33,8 +33,7 @@ public:
     void getDocument(const QString& request);
     void emitEvent(const QString &id,const QString &type, const AlteratorRequestFlags);
     void emitEvent(const QString &id, const BrowserEventType type, const AlteratorRequestFlags);
-    void popupExec(QWidget*);
-    void popupExecExpanded(QWidget*);
+    void popupAdd(QWidget *pop, bool simple=false);
 
 signals:
     void languageChanged();
@@ -92,14 +91,12 @@ private:
     void onSplashMessageRequest(const QString& msg);
     void onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, QDialogButtonBox::StandardButtons buttons);
     void onFileSelectRequest(const QString& title, const QString& dir, const QString& type, const QString& mask);
-    void onFileSelectRequestFinished(const QStringList &paths);
 
 private slots:
     void onStartBusySplash();
     void onCheckBusySplash();
     void onStopBusySplash();
     void onInternalSplashMessage(const QString& msg);
-    void onMessageBoxRequestFinished(int);
 
     void doRetry();
     void onAlteratorRequest(const AlteratorRequest&);

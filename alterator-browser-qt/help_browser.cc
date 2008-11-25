@@ -156,25 +156,16 @@ int HelpBrowser::exec()
 {
     if( !help_widget )
     {
-	help_widget = new HelpWidget(browser);
+	HelpWidget helpw(browser);
+	help_widget = &helpw;
 	int w = browser->width()*0.8;
 	int h = browser->height()*0.8;
 	if( w > 400 && h > 300 )
-	    help_widget->setMinimumSize(browser->width()*0.8, browser->height()*0.8);
-	help_widget->setHelpSource(help_url);
-	help_widget->setVerticalScrollPosition(vscroll_position);
-	connect(help_widget, SIGNAL(finished(int)), this, SLOT(onButtonPressed(int)));
-	help_widget->exec();
+	    helpw.setMinimumSize(browser->width()*0.8, browser->height()*0.8);
+	helpw.setHelpSource(help_url);
+	helpw.setVerticalScrollPosition(vscroll_position);
+	browser->popupRemoveCurrent(helpw.exec());
+	help_widget = 0;
     }
     return 0;
-}
-
-void HelpBrowser::onButtonPressed(int btn)
-{
-    vscroll_position = help_widget->verticalScrollPosition();
-    if( btn == QDialogButtonBox::Close )
-    {
-	help_widget = 0;
-	browser->popupRemoveCurrent(btn);
-    }
 }

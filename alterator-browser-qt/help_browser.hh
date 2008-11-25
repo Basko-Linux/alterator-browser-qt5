@@ -46,7 +46,6 @@ public:
 
 public slots:
     int exec();
-    void onButtonPressed(int);
 
 private:
     HelpWidget *help_widget;

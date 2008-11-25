@@ -12,11 +12,14 @@ public:
     FileSelect(QWidget *parent, const QString &title, const QString &dir);
     ~FileSelect();
 
-signals:
-    void filesSelected(const QStringList&);
+    QStringList selectedFiles();
+
+private slots:
+    void onSelectFiles(const QStringList&);
 
 private:
     QFileDialog *file_dialog;
+    QStringList selected_files;
 };
 
 #endif

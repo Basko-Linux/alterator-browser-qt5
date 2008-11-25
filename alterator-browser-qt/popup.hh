@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QKeyEvent>
 #include <QChildEvent>
+#include <QEventLoop>
 
 class Popup: public QFrame
 {
@@ -35,10 +36,12 @@ private slots:
     void onWinShrinkClicked();
 
 private:
+    int result_code;
     bool has_title;
     bool has_winclose;
     bool has_winexpand;
     bool has_winshrink;
+    QEventLoop *event_loop;
     QVBoxLayout *vlayout;
     QWidget *view_widget;
     QLabel *title_txt;

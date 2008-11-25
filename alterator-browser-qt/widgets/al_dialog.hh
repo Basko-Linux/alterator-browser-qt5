@@ -55,8 +55,8 @@ public:
 	QString postData() const ;
 	void popUp()
 	{
-	    connect(wnd_, SIGNAL(finished(int)), browser, SLOT(popupRemoveCurrent(int)));
 	    wnd_->exec();
+	    wnd_->deleteLater();
 	}
 	void popDown()  { wnd_->done(0); }
 	QWidget* getViewWidget();

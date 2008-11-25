@@ -16,6 +16,8 @@ Popup::Popup(QWidget *parent, bool title, bool winexpand, bool winclose, bool wi
     has_winexpand = winexpand;
     has_winshrink = winshrink;
     QSizePolicy szpol = sizePolicy();
+    result_code = 0;
+    event_loop = 0;
 
     setAutoFillBackground(true);
     setFrameStyle(QFrame::StyledPanel| QFrame::Raised);
@@ -165,13 +167,29 @@ QWidget* Popup::view()
 
 void Popup::done(int res)
 {
+    result_code = res;
+    if(event_loop)
+	event_loop->exit();
     emit finished(res);
 }
 
 int Popup::exec()
 {
-    browser->popupExec(this);
-    return 0;
+    if(event_loop)
+    {
+        qWarning("Popup::exec: Recursive call detected");
+        return -1;
+    }
+
+    result_code = 0;
+    browser->popupAdd(this);
+
+    QEventLoop evloop;
+    event_loop = &evloop;
+    (void) evloop.exec();
+    event_loop = 0;
+
+    return result_code;
 }
 
 void Popup::setPopupTitle(const QString &txt)

@@ -28,8 +28,8 @@ SplashScreen::SplashScreen(QWidget *parent):
     setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
     move(parent->geometry().center() - geometry().center());
     raise();
-    show();
 #endif
+    show();
 }
 
 SplashScreen::~SplashScreen()
