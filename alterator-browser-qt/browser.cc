@@ -738,7 +738,7 @@ void Browser::onMessageBoxRequest(const QString& type, const QString& title,  co
 {
     MessageBox *msgbox = new MessageBox(type, title, message, buttons, this);
     connect(msgbox, SIGNAL(finished(int)), this, SLOT(onMessageBoxRequestFinished(int)));
-    popupExec(msgbox);
+    msgbox->exec();
 }
 
 void Browser::onMessageBoxRequestFinished(int answ)
@@ -751,7 +751,7 @@ void Browser::onFileSelectRequest(const QString& title, const QString& dir, cons
 {
     FileSelect *file_select = new FileSelect(this, title, dir);
     connect(file_select, SIGNAL(filesSelected(const QStringList&)), this, SLOT(onFileSelectRequestFinished(const QStringList&)));
-    popupExec(file_select);
+    file_select->exec();
 }
 
 void Browser::onFileSelectRequestFinished(const QStringList &paths)
@@ -764,7 +764,7 @@ void Browser::splashStart()
 {
 	if (splash) return;
 	splash = new SplashScreen(this);
-	popupExec(splash);
+	splash->exec();
 }
 
 void Browser::splashStop()
