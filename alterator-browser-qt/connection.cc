@@ -317,21 +317,6 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 	    {
 		break;
 	    }
-	    case AlteratorRequestCnstrAdd:
-	    {
-		act.attr[AltReqParamCnstrName] = makeRequestParamData(AltReqParamDataString, e.value("name"));
-		act.attr[AltReqParamCnstrType] = makeRequestParamData(AltReqParamDataString, e.value("type"));
-		act.attr[AltReqParamCnstrParams] = makeRequestParamData(AltReqParamDataString, e.value("params"));
-		break;
-	    }
-	    case AlteratorRequestCnstrClear:
-	    {
-		break;
-	    }
-	    case AlteratorRequestCnstrApply:
-	    {
-		break;
-	    }
 	    case AlteratorRequestUnknown:
 	    {
 		qDebug("Unknown alterator request action \"%s\".", qPrintable(e.value("action")));

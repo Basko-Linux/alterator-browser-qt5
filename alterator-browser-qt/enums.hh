@@ -18,10 +18,7 @@ enum AlteratorRequestActionType
     AlteratorRequestMessage = 9,
     AlteratorRequestFile = 10,
     AlteratorRequestLanguage = 11,
-    AlteratorRequestCnstrAdd = 12,
-    AlteratorRequestCnstrClear = 13,
-    AlteratorRequestCnstrApply = 14,
-    AlteratorRequestRetry = 15
+    AlteratorRequestRetry = 12
 };
 
 enum AlteratorWidgetType {

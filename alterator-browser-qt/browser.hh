@@ -11,7 +11,6 @@
 
 #include "help_browser.hh"
 #include "connection.hh"
-#include "constraints.hh"
 #include "al_widget.hh"
 #include "splashscreen.hh"
 
@@ -56,7 +55,6 @@ protected:
     virtual void closeEvent(QCloseEvent*);
 
 private:
-    Constraints *constraints;
     Connection *connection;
     QTranslator *qtranslator;
     QTranslator *app_translator;

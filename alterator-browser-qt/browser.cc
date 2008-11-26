@@ -23,7 +23,6 @@
 #include "connection.hh"
 #include "browser.hh"
 #include "messagebox.hh"
-#include "constraints.hh"
 #include "mailbox.hh"
 #include "widgetlist.hh"
 #include "a_pixmaps.hh"
@@ -64,7 +63,6 @@ Browser::Browser():
     splash = 0;
     emit_locker = 0; //wrong emit protector
     connection = 0;
-    constraints = 0;
     qtranslator = 0;
     app_translator = 0;
     busy_timer_id = 0;
@@ -150,11 +148,6 @@ void Browser::start()
     started = true;
 
     MsgBox::initButtonMap();
-
-    if(!constraints)
-	constraints = new Constraints(this);
-    else
-	constraints->disconnect();
 
     if(!connection)
 	connection = new Connection(this);
@@ -541,23 +534,6 @@ void Browser::onAlteratorRequest(const AlteratorRequest& request)
 	    case AlteratorRequestRetry:
 	    {
 		onRetryRequest();
-		break;
-	    }
-	    case AlteratorRequestCnstrAdd:
-	    {
-		constraints->add(request.attr[AltReqParamCnstrName].s,
-		    request.attr[AltReqParamCnstrType].s,
-		    request.attr[AltReqParamCnstrParams].s);
-		break;
-	    }
-	    case AlteratorRequestCnstrClear:
-	    {
-		constraints->clear();
-		break;
-	    }
-	    case AlteratorRequestCnstrApply:
-	    {
-		constraints->apply();
 		break;
 	    }
 	    case AlteratorRequestUnknown:

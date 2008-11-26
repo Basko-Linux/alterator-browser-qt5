@@ -15,9 +15,6 @@ Enums::Enums()
     str2action["fileselect"] = AlteratorRequestFile;
     str2action["language"] = AlteratorRequestLanguage;
     str2action["retry"] = AlteratorRequestRetry;
-    str2action["constraints-add"]   = AlteratorRequestCnstrAdd;
-    str2action["constraints-clear"] = AlteratorRequestCnstrClear;
-    str2action["constraints-apply"] = AlteratorRequestCnstrApply;
 
     str2widget["root"] = WMainWidget;
     str2widget["box"] = WBox;
