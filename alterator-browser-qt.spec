@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.9.101
+Version: 2.10.0
 Release: alt1
 
 Source:%name-%version.tar
@@ -61,12 +61,13 @@ ln -s /dev/null %buildroot/%alterator_cfg/design-browser-qt
 mkdir -p %buildroot/%_datadir/%name/design
 ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
+%if 0
 %post
 %post_register_alternatives %name -- %name
 %update_alternatives
 %preun
 %preun_unregister_alternatives %name
-
+%endif
 
 %files
 %config %_altdir/%name
@@ -77,6 +78,10 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Wed Nov 26 2008 Sergey V Turchin <zerg at altlinux dot org> 2.10.0-alt1
+- fix crash at quit (#14490)
+- remove constraints support (#16120)
+
 * Wed Nov 19 2008 Sergey V Turchin <zerg at altlinux dot org> 2.9.101-alt1
 - activate window of already running browser when start new
 - save current help for centerface modules list
