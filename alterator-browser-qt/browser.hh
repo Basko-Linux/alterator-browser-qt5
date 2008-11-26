@@ -34,6 +34,9 @@ public:
     void emitEvent(const QString &id,const QString &type, const AlteratorRequestFlags);
     void emitEvent(const QString &id, const BrowserEventType type, const AlteratorRequestFlags);
     void popupAdd(QWidget *pop, bool simple=false);
+    void quitAppManaged(int);
+    void quitApp(int answ = QDialogButtonBox::NoButton);
+    void quitAppError(const QString&);
 
 signals:
     void languageChanged();
@@ -41,18 +44,16 @@ signals:
 public slots:
     void start();
     void stop();
-    void quitAppAnyway(int answ = QDialogButtonBox::NoButton);
-    void quitApp(int answ = QDialogButtonBox::NoButton);
-    void quitAppWarn();
-    void quitAppError(const QString&);
+    void quitAppAsk();
     void about();
     void popupRemoveCurrent(int);
     void onUnixSignal(int);
 
 protected:
     virtual bool event(QEvent*);
-    void timerEvent(QTimerEvent*);
-    void keyPressEvent(QKeyEvent*);
+    virtual void timerEvent(QTimerEvent*);
+    virtual void keyPressEvent(QKeyEvent*);
+    virtual void closeEvent(QCloseEvent*);
 
 private:
     Constraints *constraints;
@@ -61,6 +62,7 @@ private:
     QTranslator *app_translator;
     QRect geometry_;
     bool started;
+    bool in_quit;
     bool have_wm;
     bool detect_wm;
     HelpBrowser *help_browser;

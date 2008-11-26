@@ -69,6 +69,7 @@ Browser::Browser():
     app_translator = 0;
     busy_timer_id = 0;
     started = false;
+    in_quit = false;
     detect_wm = false;
     help_available = true;
     central_widget = 0;
@@ -220,7 +221,7 @@ void Browser::quitApp(int answ)
 	case QDialogButtonBox::Yes:
 	case QDialogButtonBox::YesToAll:
 	{
-	    QApplication::closeAllWindows();
+	    quitAppManaged(0);
 	    break;
 	}
 	default:
@@ -231,13 +232,14 @@ void Browser::quitApp(int answ)
     }
 }
 
-void Browser::quitAppAnyway(int)
+void Browser::quitAppManaged(int res)
 {
-    qWarning("exiting by error");
-    QCoreApplication::exit(1);
+    widgetlist->destroyAll();
+    in_quit = true;
+    QCoreApplication::exit(res);
 }
 
-void Browser::quitAppWarn()
+void Browser::quitAppAsk()
 {
     MessageBox *msgbox = new MessageBox("warning", tr("Quit"), tr("Exit Alterator?"), QDialogButtonBox::Ok|QDialogButtonBox::Cancel, this);
     quitApp(msgbox->exec());
@@ -247,7 +249,14 @@ void Browser::quitAppError(const QString &msg)
 {
     MessageBox *msgbox = new MessageBox("critical", tr("Quit"), msg, QDialogButtonBox::Ok|QDialogButtonBox::Cancel, this);
     msgbox->exec();
-    quitAppAnyway();
+    quitAppManaged(1);
+}
+
+void Browser::closeEvent(QCloseEvent *e)
+{
+    if( !in_quit )
+	quitAppManaged(0);
+    e->ignore();
 }
 
 void Browser::about()

@@ -24,6 +24,7 @@ public:
     QWidget* qWidgetById(const QString& id);
     QString makeRequestData();
     void destroyLater(const QString& id);
+    void destroyAll();
 
 template <typename T>
     QList<QWidget*> viewVidgetsByQWidgetType(AlteratorWidgetType t = WUnknown) {

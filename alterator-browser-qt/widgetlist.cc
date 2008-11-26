@@ -123,3 +123,13 @@ void WidgetList::deleteChildrenById(const QString& id)
 	}
     }
 }
+
+void WidgetList::destroyAll()
+{
+    QMapIterator<QString,alWidget*> i(elements);
+    while(i.hasNext())
+    {
+	i.next();
+	destroyLater(i.key());
+    }
+}
