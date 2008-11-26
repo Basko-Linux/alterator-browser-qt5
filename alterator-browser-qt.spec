@@ -3,7 +3,7 @@
 
 Name: alterator-browser-qt
 Version: 2.10.0
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -78,6 +78,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Wed Nov 26 2008 Sergey V Turchin <zerg at altlinux dot org> 2.10.0-alt2
+- fix to set sefault focus to new popup
+
 * Wed Nov 26 2008 Sergey V Turchin <zerg at altlinux dot org> 2.10.0-alt1
 - fix crash at quit (#14490)
 - remove constraints support (#16120)
