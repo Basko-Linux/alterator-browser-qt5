@@ -322,17 +322,6 @@ Qt::Alignment alWidget::childrenAlignment()
     return children_alignment;
 }
 
-void alWidget::destroyLater()
-{
-    setObjectName("");
-//    QList<alWidget*> childs = findChildren<alWidget*>();
-    QList<alWidget*> children = widgetlist->alChildrenById(id_);
-    QListIterator<alWidget*> it(children);
-    while(it.hasNext())
-            it.next()->destroyLater();
-    deleteLater();
-}
-
 void alWidget::postAddChild(QWidget* chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs &attr)
 {
     switch( type )

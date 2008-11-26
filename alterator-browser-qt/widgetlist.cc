@@ -83,7 +83,12 @@ void WidgetList::destroyLater(const QString& id)
 {
     if( contains(id) )
     {
-	elements.take(id)->destroyLater();
+	alWidget *dead = elements.take(id);
+	if( dead )
+	{
+	    deleteChildrenById(dead->getId());
+	    dead->deleteLater();
+	}
     }
 }
 
@@ -114,7 +119,7 @@ void WidgetList::deleteChildrenById(const QString& id)
 	foreach(alWidget *child, alChildrenById(id))
 	{
 	    child->show(false);
-	    child->destroyLater();
+	    destroyLater(child->getId());
 	}
     }
 }

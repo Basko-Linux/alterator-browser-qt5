@@ -43,7 +43,6 @@ public:
 	virtual QString getValue() { return ""; };
 
 	AlteratorWidgetType type() { return type_; };
-	void destroyLater();
 
 	virtual void markRequired(bool) {};
 	virtual void show(bool) = 0;
