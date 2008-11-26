@@ -946,7 +946,7 @@ void Browser::popupAdd(QWidget *pop, bool simple)
     widget_to_add->setEnabled(true);
 
     if( !simple )
-	widget_to_add->setFocus();
+	pop->setFocus();
 }
 
 void Browser::popupRemoveCurrent(int)
