@@ -1,17 +1,41 @@
 #ifndef QTBROWSER_AL_SPINBOX_HH
 #define QTBROWSER_AL_SPINBOX_HH
 
-#include <QDoubleSpinBox>
+#include <QSpinBox>
 
 #include "al_widget.hh"
 
-class ASpinBox: public AWidget<QDoubleSpinBox>
+class ASpinBox: public AWidget<QWidget>
 {
 Q_OBJECT
 Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
-    ASpinBox(QWidget *parent, const Qt::Orientation): AWidget<QDoubleSpinBox>(parent) {};
-    ~ASpinBox() {};
+    ASpinBox(QWidget *parent, const Qt::Orientation);
+    ~ASpinBox();
+
+    void setValue(int);
+    void setMinimum(int);
+    void setMaximum(int);
+    void setStep(int);
+
+    void setSliderVisibility(bool);
+    int value();
+
+signals:
+    void editingFinished();
+
+private slots:
+    void onUserSliderRelease();
+    void onUserSpinBoxRelease();
+    void onSliderValueChange(int);
+    void onSpinBoxValueChange(int);
+
+private:
+    QBoxLayout *blayout;
+    QSlider *slider;
+    QSpinBox *spinbox;
+    bool slider_own_changes;
+    bool spinbox_own_changes;
 };
 
 class alSpinBox: public alWidgetPre<ASpinBox>
