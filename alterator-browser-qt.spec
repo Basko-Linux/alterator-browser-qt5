@@ -2,8 +2,8 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.10.0
-Release: alt2
+Version: 2.10.1
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -78,6 +78,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Thu Nov 27 2008 Sergey V Turchin <zerg at altlinux dot org> 2.10.1-alt1
+- add attribute 'expanded' to spinbox (shows slider)
+
 * Wed Nov 26 2008 Sergey V Turchin <zerg at altlinux dot org> 2.10.0-alt2
 - fix to set sefault focus to new popup
 
