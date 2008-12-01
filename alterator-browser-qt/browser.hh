@@ -47,9 +47,9 @@ public slots:
     void about();
     void popupRemoveCurrent(int);
     void onUnixSignal(int);
+    void showHelp();
 
 protected:
-    virtual bool event(QEvent*);
     virtual void timerEvent(QTimerEvent*);
     virtual void keyPressEvent(QKeyEvent*);
     virtual void closeEvent(QCloseEvent*);

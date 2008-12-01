@@ -123,7 +123,6 @@ private slots:
     void onSelectAction(const QString&);
     void onSelectModule(ACenterSectionModulesListItem*);
     void onOwerviewClicked();
-    void onHelpClicked();
 
 private:
     QString id;

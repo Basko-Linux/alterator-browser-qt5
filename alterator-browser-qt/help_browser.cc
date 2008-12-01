@@ -58,9 +58,8 @@ void HelpWidget::keyPressEvent(QKeyEvent* e)
 	    break;
 	}
 	default:
-	    break;
+	    Popup::keyPressEvent(e);
     }
-    Popup::keyPressEvent(e);
 }
 
 void HelpWidget::setHelpSource(const QString& url)

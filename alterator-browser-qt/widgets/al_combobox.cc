@@ -19,7 +19,6 @@ AComboBox::~AComboBox() {}
 
 void AComboBox::keyPressEvent(QKeyEvent *e)
 {
-    QComboBox::keyPressEvent(e);
     switch( e->key() )
     {
 	case Qt::Key_Enter:
@@ -29,7 +28,7 @@ void AComboBox::keyPressEvent(QKeyEvent *e)
 	    break;
 	}
 	default:
-	    break;
+	    QComboBox::keyPressEvent(e);
     }
 }
 

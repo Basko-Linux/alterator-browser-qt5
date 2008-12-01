@@ -2,7 +2,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.10.1
+Version: 2.10.2
 Release: alt1
 
 Source:%name-%version.tar
@@ -78,6 +78,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Mon Dec 01 2008 Sergey V Turchin <zerg at altlinux dot org> 2.10.2-alt1
+- fix loop QEvents
+
 * Thu Nov 27 2008 Sergey V Turchin <zerg at altlinux dot org> 2.10.1-alt1
 - add attribute 'expanded' to spinbox (shows slider)
 

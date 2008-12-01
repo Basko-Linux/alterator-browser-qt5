@@ -313,14 +313,10 @@ void Browser::setHelpAvailable(bool avail)
         help_available = false;
 }
 
-bool Browser::event(QEvent* e)
+void Browser::showHelp()
 {
-    if( e->type() == EVENT_HELP )
-    {
-	if( help_available )
-	    QTimer::singleShot(0, help_browser, SLOT(exec()));
-    }
-    return QMainWindow::event(e);
+    if( help_available )
+        QTimer::singleShot(0, help_browser, SLOT(exec()));
 }
 
 void Browser::keyPressEvent(QKeyEvent* e)
@@ -334,36 +330,8 @@ void Browser::keyPressEvent(QKeyEvent* e)
 	    break;
 	}
 	default:
-	    break;
+	    Browser_t::keyPressEvent(e);
     }
-#if 0
-    if(e->key() == Qt::Key_Return)
-    {
-#if 1
-	qDebug("%s: Key_Return released", __FUNCTION__);
-	if( current_step && current_step->info()->isNextEnabled() )
-	    QTimer::singleShot(0, current_step, SLOT(next()));
-#else
-	QObjectList *list = queryList( "QPushButton" );
-	QObjectListIt it( *list );
-	QPushButton *pb;
-	while ( (pb = (QPushButton*)it.current()) )
-	{
-	    if ( pb->isDefault() && pb->isVisible() )
-	    {
-	        delete list;
-		if ( pb->isEnabled() )
-		{
-		    emit pb->clicked();
-		}
-	    return;
-	    }
-	    ++it;
-	}
-	delete list;
-#endif
-    }
-#endif
 }
 
 void Browser::changeLanguage(const QString& language)

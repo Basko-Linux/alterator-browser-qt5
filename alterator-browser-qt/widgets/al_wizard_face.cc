@@ -582,10 +582,8 @@ void AWizardFace::onSelectAction(const QString& key)
     AlteratorRequestFlags flags = AlteratorRequestDefault;
     UserActionType type = enums->strToUserAction(key);
     if( type == UserActionHelp )
-    {
-	QHelpEvent *hlp = new QHelpEvent((QEvent::Type)EVENT_HELP, QPoint(), QPoint());
-	QApplication::postEvent(browser, hlp);
-    }
+	browser->showHelp();
+
     current_action = key;
 
     if( type == UserActionForward )
@@ -644,10 +642,8 @@ void AWizardFace::keyPressEvent(QKeyEvent* e)
     bool entered = false;
     switch( e->key() )
     {
-#if 1
 	case Qt::Key_Return:
 	case Qt::Key_Enter:
-#endif
 	case Qt::Key_F12:
 	{
 	    entered = onEnter();

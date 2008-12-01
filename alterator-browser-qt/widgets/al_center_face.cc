@@ -203,7 +203,7 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     help_btn->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Fixed);
     help_btn->setText(tr("Help"));
     help_btn->setIcon(getPixmap("theme:help"));
-    connect(help_btn, SIGNAL(clicked()), this, SLOT(onHelpClicked()));
+    connect(help_btn, SIGNAL(clicked()), browser, SLOT(showHelp()));
 
     sections_widget = new QWidget(this);
     module_widget = new QWidget(this);
@@ -304,12 +304,6 @@ void ACenterFace::onOwerviewClicked()
     stacked_layout->setCurrentWidget(sections_widget);
     owerview_btn->setEnabled(false);
     browser->setHelpSource(help_source);
-}
-
-void ACenterFace::onHelpClicked()
-{
-    QHelpEvent *hlp = new QHelpEvent((QEvent::Type)EVENT_HELP, QPoint(), QPoint());
-    QApplication::postEvent(browser, hlp);
 }
 
 void ACenterFace::clearActions()
@@ -549,10 +543,7 @@ void ACenterFace::onSelectAction(const QString& key)
 {
     UserActionType type = enums->strToUserAction(key);
     if( type == UserActionHelp )
-    {
-	QHelpEvent *hlp = new QHelpEvent((QEvent::Type)EVENT_HELP, QPoint(), QPoint());
-	QApplication::postEvent(browser, hlp);
-    }
+	browser->showHelp();
     current_action_key = key;
     if( eventRegistered(BrowserEventClicked) )
 	browser->emitEvent(id, BrowserEventClicked, AlteratorRequestDefault);

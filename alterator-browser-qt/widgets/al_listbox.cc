@@ -80,7 +80,8 @@ void AListBox::keyPressEvent(QKeyEvent * e)
 {
     if ((e->key() == Qt::Key_Space))
         emit spaceBtnPressed();
-    QTreeWidget::keyPressEvent(e);
+    else
+	QTreeWidget::keyPressEvent(e);
 }
 
 void AListBox::showEvent(QShowEvent*)

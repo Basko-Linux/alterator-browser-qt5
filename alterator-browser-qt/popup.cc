@@ -156,7 +156,7 @@ void Popup::keyPressEvent(QKeyEvent* e)
 	    break;
 	}
 	default:
-	    break;
+	    QFrame::keyPressEvent(e);
     }
 }
 
