@@ -68,6 +68,7 @@ ADialog::ADialog(QWidget *parent, const Qt::Orientation orient):
     main_layout->addWidget(btnbox, 1, 0);
 
     connect(btnbox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(onButtonClicked(QAbstractButton*)));
+    connect(this, SIGNAL(finished(int)), browser, SLOT(popupRemoveCurrent(int)));
 }
 
 QWidget* ADialog::getView()

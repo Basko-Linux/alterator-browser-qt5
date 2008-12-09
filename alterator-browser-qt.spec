@@ -3,7 +3,7 @@
 
 Name: alterator-browser-qt
 Version: 2.10.2
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -78,6 +78,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Tue Dec 09 2008 Sergey V Turchin <zerg at altlinux dot org> 2.10.2-alt2
+- fix closing dialogs
+
 * Mon Dec 01 2008 Sergey V Turchin <zerg at altlinux dot org> 2.10.2-alt1
 - fix loop QEvents
 
