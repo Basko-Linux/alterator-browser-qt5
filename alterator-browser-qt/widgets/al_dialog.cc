@@ -71,6 +71,10 @@ ADialog::ADialog(QWidget *parent, const Qt::Orientation orient):
     connect(this, SIGNAL(finished(int)), browser, SLOT(popupRemoveCurrent(int)));
 }
 
+ADialog::~ADialog()
+{
+}
+
 QWidget* ADialog::getView()
 {
     return view_widget;
@@ -215,6 +219,17 @@ alDialog::alDialog(const AlteratorRequestActionAttrs &attr, const QString& id,co
 {
 }
 
+void alDialog::popUp()
+{
+    wnd_->show();
+    QTimer::singleShot(0, wnd_, SLOT(exec()));
+}
+
+void alDialog::popDown()
+{
+    wnd_->hide();
+    wnd_->done(0);
+}
 
 QWidget* alDialog::getViewWidget()
 {
@@ -292,14 +307,14 @@ void alDialog::setAttr(const QString& name,const QString& value)
 	bool ok;
 	int wdth = value.toInt(&ok);
 	if( ok && wdth > 0 )
-	    wnd_->resize(wdth,wnd_->height());
+	    wnd_->setFixedWidth(wdth);
     }
     else if ("height" == name)
     {
 	bool ok;
 	int h = value.toInt(&ok);
 	if( ok && h > 0 )
-	    wnd_->resize(wnd_->width(),h);
+	    wnd_->setFixedHeight(h);
     }
     else
 	alWidget::setAttr(name,value);

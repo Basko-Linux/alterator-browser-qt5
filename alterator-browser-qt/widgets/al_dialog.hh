@@ -13,6 +13,7 @@ Q_OBJECT
 Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
 public:
 	ADialog(QWidget *parent, const Qt::Orientation);
+	~ADialog();
 	QWidget* getView();
 
 	void addAction(const QString& key, const QString& name, const QString& pixmap);
@@ -53,12 +54,8 @@ public:
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const ;
-	void popUp()
-	{
-	    wnd_->exec();
-	    wnd_->deleteLater();
-	}
-	void popDown()  { wnd_->done(0); }
+	void popUp();
+	void popDown();
 	QWidget* getViewWidget();
 	QLayout* getViewLayout();
 };
