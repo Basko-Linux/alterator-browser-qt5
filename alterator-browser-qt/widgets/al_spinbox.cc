@@ -21,6 +21,7 @@ ASpinBox::ASpinBox(QWidget *parent, const Qt::Orientation o):
     slider->setPageStep(SPIN_SLIDER_MAX/16);
     slider->setVisible(false);
     spinbox = new QSpinBox(this);
+    setFocusProxy(spinbox);
     Qt::Orientation orient = Utils::fixOrientation(o, Qt::Horizontal);
     if( orient == Qt::Horizontal )
     {

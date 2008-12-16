@@ -3,7 +3,7 @@
 
 Name: alterator-browser-qt
 Version: 2.10.2
-Release: alt3
+Release: alt2.M41.1
 
 Source:%name-%version.tar
 
@@ -78,6 +78,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Wed Dec 10 2008 Sergey V Turchin <zerg at altlinux dot org> 2.10.2-alt2.M41.1
+- built for M41
+
 * Wed Dec 10 2008 Sergey V Turchin <zerg at altlinux dot org> 2.10.2-alt3
 - fix to hide dialogs before closing
 
