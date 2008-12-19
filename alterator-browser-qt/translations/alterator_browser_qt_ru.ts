@@ -19,30 +19,35 @@
         <translation type="obsolete">Содержание</translation>
     </message>
     <message>
-        <location filename="widgets/al_center_face.cc" line="196"/>
+        <location filename="widgets/al_center_face.cc" line="568"/>
         <source>Main</source>
         <translation>Главная</translation>
+    </message>
+    <message>
+        <location filename="widgets/al_center_face.cc" line="312"/>
+        <source>Module</source>
+        <translation>Модуль</translation>
     </message>
 </context>
 <context>
     <name>Browser</name>
     <message>
-        <location filename="../browser.cc" line="249"/>
+        <location filename="../browser.cc" line="243"/>
         <source>Quit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="242"/>
+        <location filename="../browser.cc" line="237"/>
         <source>Exit Alterator?</source>
         <translation>Завершить Alterator?</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="256"/>
+        <location filename="../browser.cc" line="257"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="256"/>
+        <location filename="../browser.cc" line="257"/>
         <source>Alterator Browser</source>
         <translation>Alterator Browser</translation>
     </message>
@@ -83,22 +88,22 @@
         <translation>О Qt</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="75"/>
+        <location filename="../help_browser.cc" line="73"/>
         <source>No help available.</source>
         <translation>Справка недоступна.</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="104"/>
+        <location filename="../help_browser.cc" line="101"/>
         <source>HELP_BROWSER environment variable is empty</source>
         <translation>Переменная HELP_BROWSER пуста</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="107"/>
+        <location filename="../help_browser.cc" line="104"/>
         <source>BROWSER environment variable is empty</source>
         <translation>Переменная BROWSER пуста</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="114"/>
+        <location filename="../help_browser.cc" line="111"/>
         <source>MAILER environment variable is empty</source>
         <translation>Переменная MAILER пуста</translation>
     </message>
