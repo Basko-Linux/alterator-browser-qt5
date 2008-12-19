@@ -6,6 +6,28 @@
 #include "al_center_face.hh"
 #include "a_pixmaps.hh"
 
+#if 1
+ACenterModuleButton::ACenterModuleButton(QWidget *parent):
+    QToolButton(parent)
+{
+    setAutoRaise(true);
+    setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    QPalette btn_palette = palette();
+    btn_palette.setBrush(QPalette::ButtonText, btn_palette.link());
+    setPalette(btn_palette);
+    connect(this, SIGNAL(clicked()), this, SLOT(onClicked()));
+}
+
+ACenterModuleButton::~ACenterModuleButton()
+{}
+
+void ACenterModuleButton::onClicked()
+{
+    QPalette btn_palette = palette();
+    btn_palette.setBrush(QPalette::ButtonText, btn_palette.linkVisited());
+    setPalette(btn_palette);
+}
+#else
 ACenterModuleButton::ACenterModuleButton(QWidget *parent):
     QLabel(parent)
 {
@@ -32,15 +54,18 @@ void ACenterModuleButton::setPixmap(const QPixmap&)
 
 void ACenterModuleButton::setIcon(const QIcon&)
 {}
+#endif
 
 /* CenterSectionModulesList */
 ACenterSectionModulesList::ACenterSectionModulesList(QWidget *parent):
     QWidget(parent)
 {
     lay = new FlowLayout(this);
+#if 0
     QFont items_font = font();
     int items_spacing = qMax(items_font.pixelSize(), items_font.pointSize());
     lay->setSpacing(items_spacing);
+#endif
 
     signal_mapper = new QSignalMapper(this);
     connect(signal_mapper, SIGNAL(mapped(QWidget*)),

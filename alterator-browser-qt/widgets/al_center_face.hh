@@ -12,6 +12,17 @@
 #include "flowlayout.hh"
 #include "awidget.hh"
 
+#if 1
+class ACenterModuleButton: public QToolButton
+{
+Q_OBJECT
+public:
+    ACenterModuleButton(QWidget *parent = 0);
+    ~ACenterModuleButton();
+private slots:
+    void onClicked();
+};
+#else
 class ACenterModuleButton: public QLabel
 {
 Q_OBJECT
@@ -29,6 +40,7 @@ signals:
 private slots:
     void onLinkActivated(const QString&);
 };
+#endif
 
 typedef ACenterModuleButton ACenterSectionModulesListItem;
 
