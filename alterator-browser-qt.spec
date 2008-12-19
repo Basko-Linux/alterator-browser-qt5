@@ -86,6 +86,7 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 * Fri Dec 19 2008 Sergey V Turchin <zerg at altlinux dot org> 2.10.3-alt1
 - allow keyboard navigation in centerface
 - handle alterator attribute "type" as Q_PROPERTY(alttype)
+- fox focus proxy for spinbox
 
 * Wed Dec 17 2008 Sergey V Turchin <zerg at altlinux dot org> 2.10.2-alt2.M41.2
 - turn on own alternatives handling macroses
