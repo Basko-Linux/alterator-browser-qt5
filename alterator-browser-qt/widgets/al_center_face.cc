@@ -193,8 +193,8 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     owerview_btn->setAutoRaise(true);
     owerview_btn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     owerview_btn->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Fixed);
-    owerview_btn->setText(tr("Main"));
-    owerview_btn->setIcon(getPixmap("theme:up"));
+    owerview_btn->setText(tr("Module"));
+    owerview_btn->setIcon(getPixmap("theme:down"));
     connect(owerview_btn, SIGNAL(clicked()), this, SLOT(onOwerviewClicked()));
 
     QToolButton *help_btn = new QToolButton(this);
@@ -301,8 +301,18 @@ bool ACenterFace::eventRegistered(BrowserEventType e)
 
 void ACenterFace::onOwerviewClicked()
 {
-    stacked_layout->setCurrentWidget(sections_widget);
-    owerview_btn->setEnabled(false);
+    if( stacked_layout->currentWidget() == sections_widget )
+    {
+	owerview_btn->setText(tr("Main"));
+	owerview_btn->setIcon(getPixmap("theme:up"));
+	stacked_layout->setCurrentWidget(module_widget);
+    }
+    else
+    {
+	owerview_btn->setText(tr("Module"));
+	owerview_btn->setIcon(getPixmap("theme:down"));
+	stacked_layout->setCurrentWidget(sections_widget);
+    }
     browser->setHelpSource(help_source);
 }
 
@@ -555,6 +565,8 @@ void ACenterFace::onSelectModule(ACenterSectionModulesListItem *i)
     view_widget->hide();
     if( eventRegistered(BrowserEventSelected) )
 	browser->emitEvent(id, BrowserEventSelected, AlteratorRequestCenterFaceModuleSelected);
+    owerview_btn->setText(tr("Main"));
+    owerview_btn->setIcon(getPixmap("theme:up"));
     stacked_layout->setCurrentWidget(module_widget);
     owerview_btn->setEnabled(true);
 }
