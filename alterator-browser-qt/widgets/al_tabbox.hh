@@ -8,7 +8,7 @@
 class ATabWidget: public AWidget<QTabWidget>
 {
 Q_OBJECT
-Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
+#include "awidget_properties.hh"
 public:
     ATabWidget(QWidget *parent, const Qt::Orientation): AWidget<QTabWidget>(parent) {};
     ~ATabWidget() {};

@@ -9,7 +9,7 @@
 class AButton: public AWidget<QPushButton>
 {
 Q_OBJECT
-Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
+#include "awidget_properties.hh"
 public:
     AButton(QWidget *parent,const Qt::Orientation): AWidget<QPushButton>(parent) {};
     ~AButton() {};

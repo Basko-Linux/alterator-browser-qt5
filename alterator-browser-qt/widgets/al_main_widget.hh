@@ -9,7 +9,7 @@
 class AMainWidget: public AWidget<QFrame>
 {
 Q_OBJECT
-Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
+#include "awidget_properties.hh"
 public:
     AMainWidget(QWidget *parent, const Qt::Orientation);
     ~AMainWidget();

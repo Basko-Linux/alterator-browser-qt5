@@ -8,7 +8,7 @@
 class AProgressBar: public AWidget<QProgressBar>
 {
 Q_OBJECT
-Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
+#include "awidget_properties.hh"
 public:
     AProgressBar(QWidget *parent, const Qt::Orientation): AWidget<QProgressBar>(parent) {};
     ~AProgressBar() {};

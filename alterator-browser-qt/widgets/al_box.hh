@@ -10,7 +10,7 @@
 class ABox: public AWidget<QWidget>
 {
 Q_OBJECT
-Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
+#include "awidget_properties.hh"
 public:
     ABox(QWidget *parent, const Qt::Orientation);
     ~ABox();

@@ -7,7 +7,7 @@
 class ASpacer: public AWidget<QWidget>
 {
 Q_OBJECT
-Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
+#include "awidget_properties.hh"
 public:
     ASpacer(QWidget *parent, const Qt::Orientation): AWidget<QWidget>(parent) {};
     ~ASpacer() {};

@@ -7,7 +7,7 @@
 class ASeparator: public AWidget<QFrame>
 {
 Q_OBJECT
-Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
+#include "awidget_properties.hh"
 public:
     ASeparator(QWidget *parent, const Qt::Orientation): AWidget<QFrame>(parent) {};
     ~ASeparator() {};

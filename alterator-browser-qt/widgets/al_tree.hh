@@ -8,7 +8,7 @@
 class ATreeWidget: public AWidget<QTreeWidget>
 {
 Q_OBJECT
-Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
+#include "awidget_properties.hh"
 public:
     ATreeWidget(QWidget *parent, const Qt::Orientation): AWidget<QTreeWidget>(parent) {};
     ~ATreeWidget() {};

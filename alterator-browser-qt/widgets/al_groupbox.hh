@@ -8,7 +8,7 @@
 class AGroupBox: public AWidget<QGroupBox>
 {
 Q_OBJECT
-Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
+#include "awidget_properties.hh"
 public:
     AGroupBox(QWidget *parent, const Qt::Orientation);
     ~AGroupBox();

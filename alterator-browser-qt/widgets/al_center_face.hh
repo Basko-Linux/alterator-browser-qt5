@@ -93,7 +93,7 @@ private:
 class ACenterFace: public AWidget<QFrame>
 {
 Q_OBJECT
-Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
+#include "awidget_properties.hh"
 public:
     ACenterFace(QWidget *parent, const Qt::Orientation);
     ~ACenterFace();

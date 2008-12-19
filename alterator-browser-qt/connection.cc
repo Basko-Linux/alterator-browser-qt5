@@ -190,7 +190,9 @@ AlteratorRequestParamData Connection::makeRequestParamData(AlteratorRequestParam
     {
 	case AltReqParamDataType:
 	{
-	    data.t = enums->strToWidget(str); break;
+	    data.t = enums->strToWidget(str);
+	    data.s = str;
+	    break;
 	}
 	case AltReqParamDataString:
 	{

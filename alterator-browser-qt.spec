@@ -1,9 +1,14 @@
+%define qbIF_ver_gt() %if "%(rpmvercmp '%1' '%2')" > "0"
+%define qbIF_ver_gteq() %if "%(rpmvercmp '%1' '%2')" >= "0"
+%define qbIF_ver_lt() %if "%(rpmvercmp '%2' '%1')" > "0"
+%define qbIF_ver_lteq() %if "%(rpmvercmp '%2' '%1')" >= "0"
 
+%define alternatives_ver %{get_version alternatives}
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.10.2
-Release: alt2.M41.2
+Version: 2.10.3
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -61,11 +66,13 @@ ln -s /dev/null %buildroot/%alterator_cfg/design-browser-qt
 mkdir -p %buildroot/%_datadir/%name/design
 ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
+%qbIF_ver_lt "%alternatives_ver" "0.3.5"
 %post
 %post_register_alternatives %name -- %name
 %update_alternatives
 %preun
 %preun_unregister_alternatives %name
+%endif
 
 %files
 %config %_altdir/%name
@@ -76,6 +83,10 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Fri Dec 19 2008 Sergey V Turchin <zerg at altlinux dot org> 2.10.3-alt1
+- allow keyboard navigation in centerface
+- handle alterator attribute "type" as Q_PROPERTY(alttype)
+
 * Wed Dec 17 2008 Sergey V Turchin <zerg at altlinux dot org> 2.10.2-alt2.M41.2
 - turn on own alternatives handling macroses
 

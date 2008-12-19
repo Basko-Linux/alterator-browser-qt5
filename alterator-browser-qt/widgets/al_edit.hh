@@ -9,7 +9,7 @@
 class AEdit: public AWidget<QWidget>
 {
 Q_OBJECT
-Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
+#include "awidget_properties.hh"
 public:
     AEdit(QWidget *parent, const Qt::Orientation);
     ~AEdit();

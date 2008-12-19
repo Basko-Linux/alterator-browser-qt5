@@ -9,7 +9,7 @@
 class AComboBox: public AWidget<QComboBox>
 {
 Q_OBJECT
-Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
+#include "awidget_properties.hh"
 public:
     AComboBox(QWidget *parent, const Qt::Orientation);
     ~AComboBox();

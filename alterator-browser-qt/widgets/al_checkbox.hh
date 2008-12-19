@@ -9,7 +9,7 @@
 class ACheckBox: public AWidget<QCheckBox>
 {
 Q_OBJECT
-Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
+#include "awidget_properties.hh"
 public:
     ACheckBox(QWidget *parent, const Qt::Orientation): AWidget<QCheckBox>(parent) {};
     ~ACheckBox() {};

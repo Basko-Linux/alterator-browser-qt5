@@ -613,6 +613,7 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	//
 	if( new_widget )
 	{
+	    new_widget->getWidget()->setProperty("alttype", attr[AltReqParamWType].s);
 	    int width = attr[AltReqParamWWidth].i;
 	    if( width  > 0 )
 		new_widget->setAttr("width",  QString("%1").arg(width));

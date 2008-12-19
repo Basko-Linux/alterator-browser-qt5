@@ -8,7 +8,7 @@
 class ASlider: public AWidget<QSlider>
 {
 Q_OBJECT
-Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
+#include "awidget_properties.hh"
 public:
     ASlider(QWidget *parent, const Qt::Orientation);
     ~ASlider();

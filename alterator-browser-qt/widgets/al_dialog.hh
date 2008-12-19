@@ -10,7 +10,7 @@
 class ADialog: public AWidget<Popup>
 {
 Q_OBJECT
-Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
+#include "awidget_properties.hh"
 public:
 	ADialog(QWidget *parent, const Qt::Orientation);
 	~ADialog();

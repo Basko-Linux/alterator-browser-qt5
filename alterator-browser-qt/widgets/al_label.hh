@@ -8,7 +8,7 @@
 class ALabel: public AWidget<QLabel>
 {
 Q_OBJECT
-Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
+#include "awidget_properties.hh"
 public:
     ALabel(QWidget *parent, const Qt::Orientation): AWidget<QLabel>(parent) {};
     ~ALabel() {};

@@ -20,7 +20,7 @@ public:
 class AWizardFace: public AWidget<QFrame>
 {
 Q_OBJECT
-Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
+#include "awidget_properties.hh"
 public:
     AWizardFace(QWidget *parent, const Qt::Orientation);
     ~AWizardFace();
