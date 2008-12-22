@@ -45,7 +45,7 @@ public slots:
     void stop();
     void quitAppAsk();
     void about();
-    void popupRemoveCurrent(int);
+    void popupRemove(QWidget*);
     void onUnixSignal(int);
     void showHelp();
 
@@ -73,6 +73,7 @@ private:
     bool help_available;
     QWidget *central_widget;
     QStackedLayout *central_layout;
+    QMap<QWidget*,QWidget*> popups;
 
     void splashStart();
     void splashStop();

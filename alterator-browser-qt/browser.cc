@@ -218,10 +218,7 @@ void Browser::quitApp(int answ)
 	    break;
 	}
 	default:
-	{
-	    popupRemoveCurrent(answ);
 	    break;
-	}
     }
 }
 
@@ -236,12 +233,14 @@ void Browser::quitAppAsk()
 {
     MessageBox *msgbox = new MessageBox("warning", tr("Quit"), tr("Exit Alterator?"), QDialogButtonBox::Ok|QDialogButtonBox::Cancel, this);
     quitApp(msgbox->exec());
+    popupRemove(msgbox);
 }
 
 void Browser::quitAppError(const QString &msg)
 {
     MessageBox *msgbox = new MessageBox("critical", tr("Quit"), msg, QDialogButtonBox::Ok|QDialogButtonBox::Cancel, this);
     msgbox->exec();
+    popupRemove(msgbox);
     quitAppManaged(1);
 }
 
@@ -256,7 +255,7 @@ void Browser::about()
 {
     MessageBox *msgbox = new MessageBox("information", tr("About"), tr("Alterator Browser"), QDialogButtonBox::Ok, this);
     msgbox->exec();
-    popupRemoveCurrent(QDialogButtonBox::Close);
+    popupRemove(msgbox);
 }
 
 bool Browser::haveWindowManager()
@@ -692,7 +691,7 @@ void Browser::onMessageBoxRequest(const QString& type, const QString& title,  co
     MessageBox *msgbox = new MessageBox(type, title, message, buttons, this);
     int answ = msgbox->exec();
     connection->getDocument(MsgBox::unconvertButton((QDialogButtonBox::StandardButton)answ));
-    popupRemoveCurrent(answ);
+    popupRemove(msgbox);
 }
 
 void Browser::onFileSelectRequest(const QString& title, const QString& dir, const QString& type, const QString& mask)
@@ -700,7 +699,7 @@ void Browser::onFileSelectRequest(const QString& title, const QString& dir, cons
     FileSelect *file_select = new FileSelect(this, title, dir);
     file_select->exec();
     connection->getDocument(file_select->selectedFiles().join(";"));
-    popupRemoveCurrent(QDialogButtonBox::Close);
+    popupRemove(file_select);
 }
 
 void Browser::splashStart()
@@ -713,8 +712,8 @@ void Browser::splashStart()
 void Browser::splashStop()
 {
     if( !splash ) return;
+    popupRemove(splash);
     splash = 0;
-    popupRemoveCurrent(QDialogButtonBox::Close);
 }
 
 void Browser::onSplashMessageRequest(const QString& msg)
@@ -913,23 +912,26 @@ void Browser::popupAdd(QWidget *pop, bool simple)
     central_layout->addWidget(widget_to_add);
     central_layout->setCurrentWidget(widget_to_add);
     widget_to_add->setEnabled(true);
+    popups[pop] = widget_to_add;
 
     if( !simple )
 	pop->setFocus();
 }
 
-void Browser::popupRemoveCurrent(int)
+void Browser::popupRemove(QWidget *p)
 {
-    int ci = central_layout->currentIndex();
+    if( !popups.contains(p) )
+    {
+	qWarning("Failed to remove unexistent popup.");
+	return;
+    }
+    QWidget *stacked = popups.take(p);
+    central_layout->removeWidget(stacked);
+    stacked->deleteLater();
+
     QWidget *cw = central_layout->currentWidget();
     if( cw )
-	cw->deleteLater();
-    if( --ci >= 0 )
-    {
-	QWidget *cw = central_layout->widget(ci);
-	if( cw )
-	    cw->setEnabled(true);
-    }
+	cw->setEnabled(true);
 }
 
 void Browser::onUnixSignal(int sig)

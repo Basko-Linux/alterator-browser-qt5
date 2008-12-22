@@ -163,7 +163,8 @@ int HelpBrowser::exec()
 	    helpw.setMinimumSize(browser->width()*0.8, browser->height()*0.8);
 	helpw.setHelpSource(help_url);
 	helpw.setVerticalScrollPosition(vscroll_position);
-	browser->popupRemoveCurrent(helpw.exec());
+	helpw.exec();
+	browser->popupRemove(&helpw);
 	help_widget = 0;
     }
     return 0;

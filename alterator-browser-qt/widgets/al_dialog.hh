@@ -36,6 +36,7 @@ protected:
 
 private slots:
 	void onButtonClicked(QAbstractButton*);
+	void onFinish(int);
 
 private:
 	QScrollArea *scroll;
