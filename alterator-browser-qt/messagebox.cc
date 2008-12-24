@@ -69,7 +69,7 @@ MessageBox::MessageBox(
     //qDebug("new MessageBox");
     QStyle::StandardPixmap pix_id = QStyle::SP_MessageBoxInformation;
     if ("critical" == type) pix_id = QStyle::SP_MessageBoxCritical;
-    else if ("question" == type) pix_id = QStyle::SP_MessageBoxCritical;
+    else if ("question" == type) pix_id = QStyle::SP_MessageBoxQuestion;
     else if ("warning" == type) pix_id = QStyle::SP_MessageBoxWarning;
     iconlabel = new QLabel(this);
     iconlabel->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
