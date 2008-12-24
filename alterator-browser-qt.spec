@@ -8,7 +8,7 @@
 
 Name: alterator-browser-qt
 Version: 2.10.3
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -83,6 +83,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Wed Dec 24 2008 Sergey V Turchin <zerg at altlinux dot org> 2.10.3-alt2
+- fix question messagebox icon
+
 * Fri Dec 19 2008 Sergey V Turchin <zerg at altlinux dot org> 2.10.3-alt1
 - allow keyboard navigation in centerface
 - handle alterator attribute "type" as Q_PROPERTY(alttype)
