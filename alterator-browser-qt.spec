@@ -8,7 +8,7 @@
 
 Name: alterator-browser-qt
 Version: 2.10.3
-Release: alt2
+Release: alt3
 
 Source:%name-%version.tar
 
@@ -83,6 +83,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Mon Dec 29 2008 Sergey V Turchin <zerg at altlinux dot org> 2.10.3-alt3
+- handle focused "Prev" button when Enter pressed in wizardface
+
 * Wed Dec 24 2008 Sergey V Turchin <zerg at altlinux dot org> 2.10.3-alt2
 - fix question messagebox icon
 
