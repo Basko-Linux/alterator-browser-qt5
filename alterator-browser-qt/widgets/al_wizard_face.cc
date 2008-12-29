@@ -612,21 +612,40 @@ void AWizardFace::onSelectStep(QListWidgetItem*)
 bool AWizardFace::onEnter()
 {
     bool ret = false;
-    UserActionType action;
     QString key;
     QAbstractButton *btn = 0;
 
+    bool break_while = false;
     QMapIterator<QString, QAbstractButton*> it(buttons);
     while( it.hasNext() )
     {
 	it.next();
-	action = enums->strToUserAction(it.key());
-	if( action == UserActionFinish
-	    || action == UserActionForward )
+	switch( enums->strToUserAction(it.key()) )
 	{
-	    key = it.key();
-	    btn = it.value();
+	    case UserActionFinish:
+	    case UserActionForward:
+	    {
+		btn = it.value();
+		key = it.key();
+		if( btn->hasFocus() )
+		    break_while = true;
+		break;
+	    }
+	    case UserActionBackward:
+	    {
+		QAbstractButton *btn_backward = it.value();
+		if( btn_backward->hasFocus() )
+		{
+		    key = it.key();
+		    break_while = true;
+		}
+		break;
+	    }
+	    default:
+		break;
 	}
+	if( break_while )
+	    break;
     }
 
     if( btn && btn->isVisible() && btn->isEnabled() && !key.isEmpty() )
