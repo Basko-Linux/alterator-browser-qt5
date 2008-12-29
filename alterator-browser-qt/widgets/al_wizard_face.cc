@@ -636,6 +636,7 @@ bool AWizardFace::onEnter()
 		QAbstractButton *btn_backward = it.value();
 		if( btn_backward->hasFocus() )
 		{
+		    btn = btn_backward;
 		    key = it.key();
 		    break_while = true;
 		}
