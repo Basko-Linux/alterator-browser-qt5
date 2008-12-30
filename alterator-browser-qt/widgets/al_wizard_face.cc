@@ -617,7 +617,7 @@ bool AWizardFace::onEnter()
 
     bool break_while = false;
     QMapIterator<QString, QAbstractButton*> it(buttons);
-    while( it.hasNext() )
+    while( it.hasNext() && !break_while )
     {
 	it.next();
 	switch( enums->strToUserAction(it.key()) )
@@ -645,8 +645,6 @@ bool AWizardFace::onEnter()
 	    default:
 		break;
 	}
-	if( break_while )
-	    break;
     }
 
     if( btn && btn->isVisible() && btn->isEnabled() && !key.isEmpty() )
