@@ -209,7 +209,6 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     setLineWidth(0);
     setFrameStyle(QFrame::Plain | QFrame::NoFrame);
 
-    reg_events = BrowserEventUnknown;
     current_action_key = "__undefined__";
     current_module_key = "__undefined__";
 
@@ -312,17 +311,6 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
 
 ACenterFace::~ACenterFace()
 {}
-
-void ACenterFace::setEventRegistered(const QString &id_, BrowserEventType e)
-{
-    id = id_;
-    reg_events |= e;
-}
-
-bool ACenterFace::eventRegistered(BrowserEventType e)
-{
-    return reg_events & e;
-}
 
 void ACenterFace::onOwerviewClicked()
 {

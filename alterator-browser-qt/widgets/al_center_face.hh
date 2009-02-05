@@ -100,9 +100,6 @@ public:
 
     void setHelpSource(const QString&);
 
-    void setEventRegistered(const QString&, BrowserEventType);
-    bool eventRegistered(BrowserEventType);
-
     void clearActions();
     void addAction(const QString& key, const QString& name, const QString& pixmap);
     void removeAction(const QString &key);
@@ -138,7 +135,6 @@ private slots:
 
 private:
     QString id;
-    BrowserEventTypes reg_events;
     QSignalMapper *action_signal_mapper;
     QSignalMapper *module_signal_mapper;
     QString current_module_key;
