@@ -10,8 +10,8 @@ class ARadio: public AWidget<QRadioButton>
 Q_OBJECT
 #include "awidget_properties.hh"
 public:
-    ARadio(QWidget *parent, const Qt::Orientation): AWidget<QRadioButton>(parent) {};
-    ~ARadio() {};
+    ARadio(QWidget *parent, const Qt::Orientation);
+    ~ARadio();
 };
 
 class alRadio: public alWidgetPre<ARadio>

@@ -1,5 +1,12 @@
 #include "al_radio.hh"
 
+ARadio::ARadio(QWidget *parent, const Qt::Orientation):
+    AWidget<QRadioButton>(parent)
+{}
+
+ARadio::~ARadio()
+{}
+
 void alRadio::setAttr(const QString& name,const QString& value)
 {
 	if ("text" == name)
