@@ -215,6 +215,7 @@ ATimeEdit::ATimeEdit(QWidget *parent, const Qt::Orientation):
     AWidget<QWidget>(parent)
 {
     state_edit = false;
+    state_stop = false;
     offset = 0;
     tmr_id = 0;
     setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
@@ -256,10 +257,12 @@ ATimeEdit::~ATimeEdit()
 
 void ATimeEdit::start()
 {
-    clock->start();
-    if( tmr_id > 0 )
-	return;
-    tmr_id = startTimer(1000);
+    if( !state_stop )
+    {
+	clock->start();
+	if( tmr_id <= 0 )
+	    tmr_id = startTimer(1000);
+    }
 }
 
 void ATimeEdit::stop()
@@ -274,6 +277,18 @@ void ATimeEdit::reset()
 {
     offset = 0;
     clock->reset();
+}
+
+void ATimeEdit::startForce()
+{
+    state_stop = false;
+    start();
+}
+
+void ATimeEdit::stopForce()
+{
+    state_stop = true;
+    stop();
 }
 
 void ATimeEdit::timerEvent(QTimerEvent* e)
@@ -345,9 +360,9 @@ void alTimeEdit::setAttr(const QString& name,const QString& value)
     else if ("value" == name)
         wnd_->setTime(value);
     else if ("start" == name)
-        wnd_->start();
+        wnd_->startForce();
     else if ("stop" == name)
-        wnd_->stop();
+        wnd_->stopForce();
     else if ("reset" == name)
         wnd_->reset();
     else if ("expanded" == name)

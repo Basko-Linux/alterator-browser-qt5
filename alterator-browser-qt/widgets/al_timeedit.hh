@@ -63,8 +63,8 @@ public:
     void setTime(const QString&);
     QString time();
 
-    void start();
-    void stop();
+    void startForce();
+    void stopForce();
     void reset();
 
 signals:
@@ -76,6 +76,7 @@ protected:
 
 private:
     bool state_edit;
+    bool state_stop;
     int tmr_id;
     AnalogClock *clock;
     QTimeEdit *time_edit;
@@ -84,6 +85,8 @@ private:
     TimeEditFocusEventHandler *time_edit_focus;
 
 private slots:
+    void start();
+    void stop();
     void showTime();
     void onChange(const QTime&);
     void onFocusIn();
