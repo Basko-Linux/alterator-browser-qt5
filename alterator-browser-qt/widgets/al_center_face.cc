@@ -569,7 +569,7 @@ void ACenterFace::onSelectAction(const QString& key)
 	browser->showHelp();
     current_action_key = key;
     if( eventRegistered(BrowserEventClicked) )
-	browser->emitEvent(id, BrowserEventClicked, AlteratorRequestDefault);
+	browser->emitEvent(getId(), BrowserEventClicked, AlteratorRequestDefault);
 }
 
 void ACenterFace::onSelectModule(ACenterSectionModulesListItem *i)
@@ -577,7 +577,7 @@ void ACenterFace::onSelectModule(ACenterSectionModulesListItem *i)
     current_module_key = modules.key(i);
     view_widget->hide();
     if( eventRegistered(BrowserEventSelected) )
-	browser->emitEvent(id, BrowserEventSelected, AlteratorRequestCenterFaceModuleSelected);
+	browser->emitEvent(getId(), BrowserEventSelected, AlteratorRequestCenterFaceModuleSelected);
     owerview_btn->setText(tr("Main"));
     owerview_btn->setIcon(getPixmap("theme:up"));
     stacked_layout->setCurrentWidget(module_widget);

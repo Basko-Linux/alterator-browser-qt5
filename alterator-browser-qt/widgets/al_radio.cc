@@ -1,11 +1,20 @@
 #include "al_radio.hh"
 
+#include "browser.hh"
+
 ARadio::ARadio(QWidget *parent, const Qt::Orientation):
     AWidget<QRadioButton>(parent)
-{}
+{
+}
 
 ARadio::~ARadio()
 {}
+
+void ARadio::whenToggled(bool)
+{
+    if( eventRegistered(BrowserEventToggled) )
+	browser->emitEvent(getId(), BrowserEventToggled, AlteratorRequestDefault);
+}
 
 void alRadio::setAttr(const QString& name,const QString& value)
 {
@@ -19,8 +28,11 @@ void alRadio::setAttr(const QString& name,const QString& value)
 
 void alRadio::registerEvent(const QString& name)
 {
-	if ("toggled" == name)
-		connect(wnd_,SIGNAL( toggled(bool) ),SLOT(onToggle(bool)));
+    if ("toggled" == name)
+	wnd_->setEventRegistered(id_, BrowserEventToggled);
+
+    if( wnd_->eventRegistered(BrowserEventToggled) )
+	connect(this, SIGNAL(onToggle(bool)), this, SLOT(whenToggled(bool)));
 }
 
 QString alRadio::postData() const

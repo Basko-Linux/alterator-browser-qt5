@@ -134,7 +134,6 @@ private slots:
     void onOwerviewClicked();
 
 private:
-    QString id;
     QSignalMapper *action_signal_mapper;
     QSignalMapper *module_signal_mapper;
     QString current_module_key;

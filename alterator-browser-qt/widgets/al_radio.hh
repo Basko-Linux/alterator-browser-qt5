@@ -12,6 +12,9 @@ Q_OBJECT
 public:
     ARadio(QWidget *parent, const Qt::Orientation);
     ~ARadio();
+
+public slots:
+    void whenToggled(bool);
 };
 
 class alRadio: public alWidgetPre<ARadio>
