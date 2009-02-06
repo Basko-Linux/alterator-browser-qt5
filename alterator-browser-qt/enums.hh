@@ -62,12 +62,13 @@ typedef int BrowserEventTypes;
 enum BrowserEventType
 {
     BrowserEventUnknown = 0,
-    BrowserEventClicked = 1,
-    BrowserEventRreturnPressed = 2,
-    BrowserEventSelected = 3,
-    BrowserEventDoubleClicked = 4,
-    BrowserEventToggled = 5,
-    BrowserEventUpdate = 6
+    BrowserEventUpdate = 1,
+    BrowserEventClicked = 2,
+    BrowserEventRreturnPressed = 3,
+    BrowserEventSelected = 4,
+    BrowserEventDoubleClicked = 5,
+    BrowserEventToggled = 6,
+    BrowserEventChanged = 7
 };
 
 class Enums
