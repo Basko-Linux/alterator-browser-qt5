@@ -58,12 +58,13 @@ Enums::Enums()
     str2u_action["forward"]  = UserActionForward;
     str2u_action["generic"]  = UserActionGeneric;
 
+    str2event["udpate"]        = BrowserEventUpdate;
     str2event["clicked"]        = BrowserEventClicked;
     str2event["return-pressed"] = BrowserEventRreturnPressed;
     str2event["selected"]       = BrowserEventSelected;
     str2event["double-clicked"] = BrowserEventDoubleClicked;
     str2event["toggled"]        = BrowserEventToggled;
-    str2event["udpate"]        = BrowserEventUpdate;
+    str2event["changed"]        = BrowserEventChanged;
 }
 
 Enums::~Enums()
