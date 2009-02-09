@@ -7,8 +7,8 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.10.3
-Release: alt3
+Version: 2.10.4
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -83,6 +83,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Mon Feb 09 2009 Sergey V Turchin <zerg at altlinux dot org> 2.10.4-alt1
+- fix to don't start timeedit on focus out when stopped
+
 * Mon Dec 29 2008 Sergey V Turchin <zerg at altlinux dot org> 2.10.3-alt3
 - handle focused "Prev" button when Enter pressed in wizardface
 
