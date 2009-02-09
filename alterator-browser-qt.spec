@@ -83,6 +83,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Mon Feb 09 2009 Sergey V Turchin <zerg at altlinux dot org> 2.10.4-alt2
+- fix pidfile path
+
 * Mon Feb 09 2009 Sergey V Turchin <zerg at altlinux dot org> 2.10.4-alt1
 - fix to don't start timeedit on focus out when stopped
 
