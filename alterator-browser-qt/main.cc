@@ -14,7 +14,7 @@ int main(int argc,char **argv)
     QString tmpdir(getenv("TMPDIR"));
     if( tmpdir.isEmpty() )
 	tmpdir = "/tmp";
-    QString pidfile_path = QString("%1/alterator-browser-qt-%2.pid").arg(getenv("TMPDIR")).arg(getuid());
+    QString pidfile_path = QString("%1/alterator-browser-qt-%2.pid").arg(tmpdir).arg(getuid());
     { // check browser is running
 	QFile pidfile(pidfile_path);
 	if( pidfile.open(QIODevice::ReadOnly) )
