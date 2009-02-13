@@ -67,7 +67,7 @@ mkdir -p %buildroot/%_datadir/%name/design
 ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 %post
-%post_register_alternatives %name -- %name
+%post_register_alternatives %name
 %preun
 %preun_unregister_alternatives %name
 
