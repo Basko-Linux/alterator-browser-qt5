@@ -10,7 +10,7 @@ ARadio::ARadio(QWidget *parent, const Qt::Orientation):
 ARadio::~ARadio()
 {}
 
-void ARadio::whenToggled(bool)
+void ARadio::onToggle(bool)
 {
     if( eventRegistered(BrowserEventToggled) )
 	browser->emitEvent(getId(), BrowserEventToggled, AlteratorRequestDefault);
@@ -32,7 +32,7 @@ void alRadio::registerEvent(const QString& name)
 	wnd_->setEventRegistered(id_, BrowserEventToggled);
 
     if( wnd_->eventRegistered(BrowserEventToggled) )
-	connect(this, SIGNAL(onToggle(bool)), this, SLOT(whenToggled(bool)));
+	connect(wnd_, SIGNAL(toggled(bool)), wnd_, SLOT(onToggle(bool)));
 }
 
 QString alRadio::postData() const

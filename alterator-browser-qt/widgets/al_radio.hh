@@ -14,7 +14,7 @@ public:
     ~ARadio();
 
 public slots:
-    void whenToggled(bool);
+    void onToggle(bool);
 };
 
 class alRadio: public alWidgetPre<ARadio>

@@ -7,8 +7,8 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.10.4
-Release: alt2
+Version: 2.10.5
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -66,13 +66,10 @@ ln -s /dev/null %buildroot/%alterator_cfg/design-browser-qt
 mkdir -p %buildroot/%_datadir/%name/design
 ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
-%qbIF_ver_lt "%alternatives_ver" "0.3.5"
 %post
 %post_register_alternatives %name -- %name
-%update_alternatives
 %preun
 %preun_unregister_alternatives %name
-%endif
 
 %files
 %config %_altdir/%name
@@ -83,6 +80,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Sat Feb 14 2009 Sergey V Turchin <zerg at altlinux dot org> 2.10.5-alt1
+- fix radio event toggled
+
 * Mon Feb 09 2009 Sergey V Turchin <zerg at altlinux dot org> 2.10.4-alt2
 - fix pidfile path
 
