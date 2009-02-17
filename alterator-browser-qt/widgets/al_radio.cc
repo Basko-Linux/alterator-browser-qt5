@@ -5,6 +5,7 @@
 ARadio::ARadio(QWidget *parent, const Qt::Orientation):
     AWidget<QRadioButton>(parent)
 {
+    setAutoExclusive(false);
 }
 
 ARadio::~ARadio()

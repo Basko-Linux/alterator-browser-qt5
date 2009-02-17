@@ -25,6 +25,7 @@ protected:
 	QString id_;
 	QString parent_;
 	Qt::Alignment children_alignment;
+	QString group_;
 
 public:
 	alWidget(AlteratorWidgetType type, const QString& id,const QString& parent);
@@ -41,6 +42,7 @@ public:
 	virtual QString getParentId(void) { return parent_; };
 	virtual QString getId(void) { return id_; };
 	virtual QString getValue() { return ""; };
+	QString getGroup() { return group_; };
 
 	AlteratorWidgetType type() { return type_; };
 

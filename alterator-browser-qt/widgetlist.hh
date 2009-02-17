@@ -3,8 +3,10 @@
 
 #include <QObject>
 #include <QString>
+#include <QButtonGroup>
 
 #include "al_widget.hh"
+
 
 class WidgetList: public QObject
 {
@@ -14,6 +16,8 @@ public:
     ~WidgetList();
 
     void add(const QString& id, alWidget*);
+    void groupAdd(alWidget*);
+    void groupRemove(alWidget*);
     void removeFromListById(const QString& id);
     void deleteChildrenById(const QString& id);
     QLayout* findViewLayout(const QString& id);
@@ -60,6 +64,8 @@ template <typename T>
 
 private:
     QMap<QString,alWidget*> elements;
+    QMultiMap<QString,alWidget*> groups;
+    QMap<QString,QButtonGroup*> buttongroups;
 };
 
 extern WidgetList *widgetlist;

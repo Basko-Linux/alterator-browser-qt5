@@ -1,4 +1,6 @@
 
+#include <QAbstractButton>
+
 #include "widgetlist.hh"
 
 WidgetList::WidgetList(QObject* parent):
@@ -79,6 +81,11 @@ QString WidgetList::makeRequestData()
     return request;
 }
 
+void WidgetList::removeFromListById(const QString& id)
+{
+    elements.remove(id);
+}
+
 void WidgetList::destroyLater(const QString& id)
 {
     if( contains(id) )
@@ -86,6 +93,7 @@ void WidgetList::destroyLater(const QString& id)
 	alWidget *dead = elements.take(id);
 	if( dead )
 	{
+	    groupRemove(dead);
 	    deleteChildrenById(dead->getId());
 	    dead->deleteLater();
 	}
@@ -107,9 +115,73 @@ void WidgetList::add(const QString& id, alWidget* aw)
 	elements[id] = aw;
 }
 
-void WidgetList::removeFromListById(const QString& id)
+void WidgetList::groupAdd(alWidget *aw)
 {
-    elements.remove(id);
+    if( aw )
+    {
+	QString altgroup = aw->getGroup();
+	if( !altgroup.isEmpty() )
+	{
+	    groups.insert(altgroup, aw);
+	    //qDebug("Add widget<%s> to group<%s>", qPrintable(aw->getId()), qPrintable(altgroup));
+	    switch( aw->type() ) {
+		case WRadio:
+		{
+		    if( !buttongroups.contains( altgroup ) )
+		    {
+			QButtonGroup *bgrp = new QButtonGroup(this);
+			buttongroups[altgroup] = bgrp;
+		    }
+		    QAbstractButton *ab = qobject_cast<QAbstractButton*>(aw->getWidget());
+		    if( ab )
+			buttongroups[altgroup]->addButton(ab);
+		    else
+			qWarning("Widget is not an QAbstractButton");
+		    break;
+		}
+		default:
+		    break;
+	    }
+	}
+    }
+}
+
+void WidgetList::groupRemove(alWidget *aw)
+{
+    if( aw )
+    {
+	QString altgroup = aw->getGroup();
+	if( !altgroup.isEmpty() )
+	{
+	    if( groups.contains(altgroup) )
+	    {
+		groups.remove(altgroup, aw);
+		//qDebug("Remove widget<%s> from group <%s>", qPrintable(aw->getId()), qPrintable(altgroup));
+		switch( aw->type() )
+		{
+		    case WRadio:
+		    {
+			if( buttongroups.contains(altgroup) )
+			{
+			    QButtonGroup *bgrp = buttongroups[altgroup];
+			    QWidget *w = aw->getWidget();
+			    if( w )
+			    {
+				QAbstractButton *ab = qobject_cast<QAbstractButton*>(w);
+				if( ab )
+				    bgrp->removeButton(ab);
+				if( bgrp->buttons().size() <= 0 )
+				    buttongroups.remove(altgroup);
+			    }
+			}
+			break;
+		    }
+		    default:
+			break;
+		}
+	    }
+	}
+    }
 }
 
 void WidgetList::deleteChildrenById(const QString& id)

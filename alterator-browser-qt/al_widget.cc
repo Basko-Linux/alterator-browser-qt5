@@ -22,6 +22,7 @@ alWidget::~alWidget()
     widgetlist->removeFromListById(getId());
     if( o_wnd_ && !wnd_destroyed)
     {
+	widgetlist->groupRemove(this);
 	o_wnd_->deleteLater();
 	o_wnd_ = 0;
     }
@@ -87,7 +88,11 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	else if ("name" == name)
 	{
 	    if(w)
+	    {
+		group_ = value;
 		w->setProperty("altgroup", value);
+		widgetlist->groupAdd(this);
+	    }
 	}
 	else if ("tooltip" == name)
 	{
@@ -368,6 +373,7 @@ void alWidget::onWndDestroyed(QObject *dead)
 {
     if( dead == o_wnd_ ) {
 	wnd_destroyed = true;
+	widgetlist->groupRemove(this);
 	deleteLater();
     }
 }
