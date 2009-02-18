@@ -1,0 +1,12 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+   <file>design/design.qss</file>
+   <file>design/design.ini</file>
+
+   <file>design/logo_48.png</file>
+   <file>design/bg.png</file>
+   <file>design/bg-steplist.png</file>
+   <file>design/forward.png</file>
+   <file>design/backward.png</file>
+</qresource>
+</RCC>
