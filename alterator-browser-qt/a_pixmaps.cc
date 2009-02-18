@@ -96,8 +96,8 @@ void initPixmaps()
 	pix_map["theme:directory"] = new AStdPixmapGenerator(QStyle::SP_DirOpenIcon);
 	pix_map["theme:file"] = new AStdPixmapGenerator(QStyle::SP_FileIcon);
 
-//	pix_map["theme:unknown"] = new AStdPixmapGenerator(QStyle::SP_TitleBarMenuButton);
-	pix_map["theme:unknown"] = new AFilePixmapGenerator("logo_48");
+	pix_map["theme:unknown"] = new AStdPixmapGenerator(QStyle::SP_TitleBarMenuButton);
+	//pix_map["theme:unknown"] = new AFilePixmapGenerator("logo_48");
 
     	pix_map["theme:check-on"] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorCheckBox,
 	                                          QStyle::SE_CheckBoxIndicator,

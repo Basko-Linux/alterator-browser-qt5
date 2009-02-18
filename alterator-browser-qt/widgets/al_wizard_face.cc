@@ -7,6 +7,178 @@
 #include "al_wizard_face.hh"
 #include "a_pixmaps.hh"
 
+// AWizardFaceStepListItem
+AWizardFaceStepListItem::AWizardFaceStepListItem(QWidget *parent):
+    QLabel(parent)
+{
+}
+
+AWizardFaceStepListItem::~AWizardFaceStepListItem()
+{}
+
+// AWizardFaceStepList
+AWizardFaceStepList::AWizardFaceStepList(QWidget *parent):
+    QFrame(parent)
+{
+    current = -1;
+
+    setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
+    setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
+
+    QVBoxLayout *mlay = new QVBoxLayout(this);
+    QHBoxLayout *toplay = new QHBoxLayout();
+    lay = new QVBoxLayout();
+    QVBoxLayout *bottomlay = new QVBoxLayout();
+    mlay->addLayout(toplay);
+    mlay->addLayout(lay);
+    mlay->addLayout(bottomlay);
+    bottomlay->addStretch(1);
+
+    QLabel *logo_icon = new QLabel(this);
+    logo_icon->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    logo_icon->setAlignment(Qt::AlignCenter);
+    logo_icon->setPixmap(getPixmap("logo_48"));
+    toplay->addWidget(logo_icon, Qt::AlignHCenter);
+}
+
+AWizardFaceStepList::~AWizardFaceStepList()
+{}
+
+void AWizardFaceStepList::setLookDone(AWizardFaceStepListItem *i)
+{
+    i->setEnabled(false);
+    QFont font = i->font();
+    font.setBold(false);
+    font.setUnderline(false);
+    i->setFont(font);
+}
+
+void AWizardFaceStepList::setLookCurrent(AWizardFaceStepListItem *i)
+{
+    i->setEnabled(true);
+    QFont font = i->font();
+    font.setBold(true);
+    font.setUnderline(true);
+    i->setFont(font);
+}
+
+void AWizardFaceStepList::setLookUndone(AWizardFaceStepListItem *i)
+{
+    i->setEnabled(true);
+    QFont font = i->font();
+    font.setBold(false);
+    font.setUnderline(false);
+    i->setFont(font);
+}
+
+void AWizardFaceStepList::setCurrent(int new_current)
+{
+    if( new_current == current )
+	return;
+
+    if( new_current > current )
+    {
+	int i = -1;
+	QListIterator<AWizardFaceListItemPriv> it(lst);
+	while( it.hasNext() )
+	{
+	    i++;
+	    AWizardFaceListItemPriv litem = it.next();
+	    if( i < current )
+		continue;
+	    else if( i >= current && i < new_current )
+		setLookDone(litem.second);
+	    else if( i == new_current )
+		setLookCurrent(litem.second);
+	    else
+		break;
+	}
+    }
+    else
+    {
+	int i = lst.size();
+	QListIterator<AWizardFaceListItemPriv> it(lst);
+	it.toBack();
+	while( it.hasPrevious() )
+	{
+	    i--;
+	    AWizardFaceListItemPriv litem = it.previous();
+	    if( i > current )
+		continue;
+	    else if( i <= current && i > new_current )
+		setLookUndone(litem.second);
+	    else if( i == new_current )
+		setLookCurrent(litem.second);
+	    else
+		break;
+	}
+    }
+    current = new_current;
+}
+
+void AWizardFaceStepList::append(QPair<QString, QString> item)
+{
+    AWizardFaceStepListItem *witem = new AWizardFaceStepListItem(this);
+    witem->setText(item.second);
+    setLookUndone(witem);
+    lay->addWidget(witem);
+    lst.append(qMakePair(item.first,witem));
+}
+
+int AWizardFaceStepList::size()
+{
+    return lst.size();
+}
+
+QPair<QString,QString> AWizardFaceStepList::value(int n)
+{
+    AWizardFaceStepListItem *wdummy = 0;
+    QString second;
+    AWizardFaceListItemPriv litem = lst.value(n, qMakePair(QString(), wdummy));
+    if( litem.second )
+	second = litem.second->text();
+    return qMakePair(litem.first,second);
+}
+
+void AWizardFaceStepList::removeAt(int n)
+{
+    AWizardFaceStepListItem *wdummy = 0;
+    AWizardFaceListItemPriv litem = lst.value(n, qMakePair(QString(), wdummy));
+    lst.removeAt(n);
+    if( litem.second )
+    {
+	delete litem.second;
+	litem.second = 0;
+    }
+}
+
+void AWizardFaceStepList::clear()
+{
+    foreach( AWizardFaceListItemPriv litem, lst)
+    {
+	if( litem.second )
+	{
+	    delete litem.second;
+	    litem.second = 0;
+	}
+    }
+    lst.clear();
+}
+
+void AWizardFaceStepList::replace(int n, QPair<QString, QString> item)
+{
+    if( n > 0 && n < lst.size() )
+    {
+	AWizardFaceStepListItem *wdummy = 0;
+	QPair<QString,AWizardFaceStepListItem*> litem = lst.value(n, qMakePair(QString(), wdummy));
+	if( litem.second )
+	{
+	    litem.second->setText(item.second);
+	    lst.replace(n, qMakePair(item.first, litem.second));
+	}
+    }
+}
+
 // AWizardFace
 AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     AWidget<QFrame>(parent)
@@ -18,6 +190,8 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     current_step = -1;
     current_action = "__undefined__";
 
+    steplist = new AWizardFaceStepList(this);
+
     title_widget = new QFrame(this);
     title_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     //title_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
@@ -25,12 +199,6 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     title_icon = new QLabel(title_widget);
     title_icon->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     //title_icon->setAlignment(Qt::AlignCenter);
-
-    logo_icon = new QLabel(this);
-    logo_icon->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    logo_icon->setAlignment(Qt::AlignLeft);
-    //logo_icon->setPixmap(getPixmap("theme:logo_32"));
-    logo_icon->setPixmap(getPixmap("logo_48"));
 
     title_text = new QLabel(title_widget);
     title_text->setObjectName("wizardface_title_text");
@@ -87,12 +255,18 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     bottom_layout->setMargin(0);
     bottom_layout->setSpacing(0);
 
-    main_layout = new QGridLayout(this);
-    main_layout->setMargin(5);
-    main_layout->setSpacing(5);
-    main_layout->addWidget( title_widget, 0, 0 );
-    main_layout->addWidget( scroll, 1, 0);
-    main_layout->addWidget( bottom_widget, 2, 0);
+    QHBoxLayout *main_layout = new QHBoxLayout(this);
+    QVBoxLayout *left_layout = new QVBoxLayout();
+    QVBoxLayout *right_layout = new QVBoxLayout();
+    right_layout->setMargin(15);
+    right_layout->setSpacing(15);
+
+    main_layout->addLayout(left_layout);
+    main_layout->addLayout(right_layout);
+    left_layout->addWidget(steplist);
+    right_layout->addWidget(title_widget);
+    right_layout->addWidget(scroll);
+    right_layout->addWidget(bottom_widget);
 
     menu_layout = new QHBoxLayout();
     menu_layout->setMargin(5);
@@ -107,7 +281,6 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     title_layout->insertWidget(2, title_text, 0, Qt::AlignLeft);
     title_layout->insertStretch(3, 1);
 
-    bottom_layout->addWidget(logo_icon, Qt::AlignLeft);
     bottom_layout->addLayout(menu_layout, Qt::AlignLeft);
     bottom_layout->addLayout(buttons_layout, Qt::AlignRight);
 
@@ -443,17 +616,17 @@ void AWizardFace::clearActions()
 void AWizardFace::addStep(const QString& name, const QString& pixmap)
 {
     //qDebug("AWizardFace::addStep(%s,%s)", name.toLatin1().data(), pixmap.toLatin1().data() );
-    steplist.push_back(QPair<QString, QString>(pixmap, name));
+    steplist->append(QPair<QString, QString>(pixmap, name));
 }
 
 void AWizardFace::removeStep(int n)
 {
-    steplist.removeAt(n);
+    steplist->removeAt(n);
 }
 
 void AWizardFace::clearSteps()
 {
-    steplist.clear();    
+    steplist->clear();
 }
 
 QWidget* AWizardFace::getViewWidget()
@@ -495,21 +668,21 @@ void AWizardFace::setActionActivity(const QString &key, bool enable)
 
 void AWizardFace::setStepText(int n, const QString &value)
 {
-    if( n < steplist.size() )
+    if( n < steplist->size() )
     {
-	QPair<QString, QString> item = steplist.value(n);
+	QPair<QString, QString> item = steplist->value(n);
 	item.second = value;
-	steplist.replace(n, item);
+	steplist->replace(n, item);
     }
 }
 
 void AWizardFace::setStepPixmap(int n, const QString &value)
 {
-    if( n < steplist.size() )
+    if( n < steplist->size() )
     {
-	QPair<QString, QString> item = steplist.value(n);
+	QPair<QString, QString> item = steplist->value(n);
 	item.first = value;
-	steplist.replace(n, item);
+	steplist->replace(n, item);
     }
 }
 
@@ -534,19 +707,13 @@ void AWizardFace::setTitle( const QString &value)
 
 void AWizardFace::setCurrentStep( int n )
 {
-    int steps_n = steplist.size();
+    int steps_n = steplist->size();
     if( n < steps_n )
     {
-	QPair<QString, QString> item = steplist.value(n, QPair<QString, QString>("",""));
+	QPair<QString, QString> item = steplist->value(n);
         title_icon->setPixmap(getPixmap(item.first));
-#if 0
-	QString wtitle = windowTitle();
-	if( !wtitle.isEmpty() )
-	    wtitle.append(". ");
-	title_text->setText(QString("%1%2(%3/%4).").arg(wtitle).arg(item.second).arg(n+1).arg(steps_n));
-#else
 	title_text->setText(QString("%1/%2: %3").arg(n+1).arg(steps_n).arg(item.second));
-#endif
+	steplist->setCurrent(n);
 	current_step = n;
     }
 }

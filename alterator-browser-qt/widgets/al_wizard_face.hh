@@ -10,11 +10,39 @@
 #include "enums.hh"
 #include "widgets.hh"
 
-class AWizardFaceStepList: public QList< QPair<QString, QString> >
+
+class AWizardFaceStepListItem: public QLabel
 {
 public:
-    AWizardFaceStepList() {};
-    ~AWizardFaceStepList() {};
+    AWizardFaceStepListItem(QWidget *parent);
+    ~AWizardFaceStepListItem();
+};
+
+typedef QPair<QString,AWizardFaceStepListItem*> AWizardFaceListItemPriv;
+
+class AWizardFaceStepList: public QFrame
+{
+Q_OBJECT
+public:
+    AWizardFaceStepList(QWidget *parent);
+    ~AWizardFaceStepList();
+
+    void append(QPair<QString,QString>);
+    int size();
+    QPair<QString,QString> value(int);
+    void removeAt(int);
+    void clear();
+    void replace(int, QPair<QString, QString>);
+    void setCurrent(int);
+
+private:
+    QList<AWizardFaceListItemPriv> lst;
+    QVBoxLayout *lay;
+    int current;
+
+    void setLookDone(AWizardFaceStepListItem*);
+    void setLookCurrent(AWizardFaceStepListItem*);
+    void setLookUndone(AWizardFaceStepListItem*);
 };
 
 class AWizardFace: public AWidget<QFrame>
@@ -63,18 +91,16 @@ protected:
     bool eventFilter(QObject*, QEvent*);
 
 private:
-    AWizardFaceStepList steplist;
+    AWizardFaceStepList *steplist;
     int current_step;
     QString current_action;
     QSignalMapper *action_signal_mapper;
-    QGridLayout* main_layout;
     QHBoxLayout* title_layout;
     QHBoxLayout* buttons_layout;
     QHBoxLayout* menu_layout;
     QScrollArea *scroll;
     QFrame* bottom_widget;
     QWidget* view_widget;
-    QLabel *logo_icon;
     QFrame* title_widget;
     QLabel* title_icon;
     QLabel* title_text;
