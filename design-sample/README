@@ -4,7 +4,7 @@
 
 В .qss можно использовать почти любые виджеты, имеюшиеся в исходниках browser,
 являющиеся наследниками виджетов из списка:
-`assistant-qt4 -showUrl qthelp://com.trolltech.qt.442/qdoc/stylesheet-reference.html#list-of-stylable-widgets`.
+`assistant-qt4 -showUrl qthelp://com.trolltech.qt.443/qdoc/stylesheet-reference.html#list-of-stylable-widgets`.
 Т.е. наследники QWidget нельзя, но можно сделать по запросу при необходимости.
 Использовать можно по имени класса виджета или по Qt-шному имени объекта.
 Qt-шные имена найти можно поиском функции setObjectName("конкретное_имя").
@@ -16,6 +16,5 @@ Qt-шные имена найти можно поиском функции setOb
 Упаковка:
 ---------
 Дизайн располагается в файле /usr/share/alterator-browser-qt/design/name_of_design.rcc
-Создается ссылка на него /etc/alterator/design-browser-qt
-/etc/alterator/design-browser-qt должна делаться при помощи alternatives
+При помощи alternatives сздается ссылка на него в /etc/alterator/design-browser-qt
 Примеры в пакетах design-alterator-browser-qt-*
