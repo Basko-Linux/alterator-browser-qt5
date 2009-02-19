@@ -8,13 +8,69 @@
 #include "a_pixmaps.hh"
 
 // AWizardFaceStepListItem
-AWizardFaceStepListItem::AWizardFaceStepListItem(QWidget *parent):
-    QLabel(parent)
+AWizardFaceStepListItem::AWizardFaceStepListItem(QWidget *parent, const QPixmap &pxdone, const QPixmap &pxcurrent, const QPixmap &pxundone):
+    QWidget(parent),
+    pix_done(pxdone),
+    pix_current(pxcurrent),
+    pix_undone(pxundone)
 {
+    lbl_img = new QLabel(this);
+    lbl_img->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    lbl_txt = new QLabel(this);
+    lbl_txt->setAlignment(Qt::AlignLeft);
+
+    QHBoxLayout *main_lay = new QHBoxLayout(this);
+    main_lay->setMargin(0);
+    main_lay->addWidget(lbl_img);
+    main_lay->addWidget(lbl_txt);
 }
 
 AWizardFaceStepListItem::~AWizardFaceStepListItem()
 {}
+
+QString AWizardFaceStepListItem::AWizardFaceStepListItem::text()
+{
+    return lbl_txt->text();
+}
+
+void AWizardFaceStepListItem::setText(const QString &txt)
+{
+    lbl_txt->setText(txt);
+}
+
+void AWizardFaceStepListItem::setLookDone()
+{
+#if 0
+    setEnabled(false);
+    QFont font = lbl_txt->font();
+    font.setBold(false);
+    lbl_txt->setFont(font);
+#endif
+    lbl_img->setPixmap(pix_done);
+}
+
+void AWizardFaceStepListItem::setLookCurrent()
+{
+#if 0
+    setEnabled(true);
+    QFont font = lbl_txt->font();
+    font.setBold(true);
+    lbl_txt->setFont(font);
+#endif
+    lbl_img->setPixmap(pix_current);
+}
+
+void AWizardFaceStepListItem::setLookUndone()
+{
+#if 0
+    setEnabled(true);
+    QFont font = lbl_txt->font();
+    font.setBold(false);
+    lbl_txt->setFont(font);
+#endif
+    lbl_img->setPixmap(pix_undone);
+}
+
 
 // AWizardFaceStepList
 AWizardFaceStepList::AWizardFaceStepList(QWidget *parent):
@@ -39,37 +95,18 @@ AWizardFaceStepList::AWizardFaceStepList(QWidget *parent):
     logo_icon->setAlignment(Qt::AlignCenter);
     logo_icon->setPixmap(getPixmap("logo_48"));
     toplay->addWidget(logo_icon, Qt::AlignHCenter);
+
+    pix_done = getPixmap("wzface-step-done");
+    if( pix_done.isNull() )
+	pix_done = getPixmap("theme:check-on");
+    pix_current = getPixmap("wzface-step-current");
+    if( pix_current.isNull() )
+	pix_current = getPixmap("theme:radio-on");
+    pix_undone = getPixmap("theme:null");
 }
 
 AWizardFaceStepList::~AWizardFaceStepList()
 {}
-
-void AWizardFaceStepList::setLookDone(AWizardFaceStepListItem *i)
-{
-    i->setEnabled(false);
-    QFont font = i->font();
-    font.setBold(false);
-    font.setUnderline(false);
-    i->setFont(font);
-}
-
-void AWizardFaceStepList::setLookCurrent(AWizardFaceStepListItem *i)
-{
-    i->setEnabled(true);
-    QFont font = i->font();
-    font.setBold(true);
-    font.setUnderline(true);
-    i->setFont(font);
-}
-
-void AWizardFaceStepList::setLookUndone(AWizardFaceStepListItem *i)
-{
-    i->setEnabled(true);
-    QFont font = i->font();
-    font.setBold(false);
-    font.setUnderline(false);
-    i->setFont(font);
-}
 
 void AWizardFaceStepList::setCurrent(int new_current)
 {
@@ -87,9 +124,9 @@ void AWizardFaceStepList::setCurrent(int new_current)
 	    if( i < current )
 		continue;
 	    else if( i >= current && i < new_current )
-		setLookDone(litem.second);
+		litem.second->setLookDone();
 	    else if( i == new_current )
-		setLookCurrent(litem.second);
+		litem.second->setLookCurrent();
 	    else
 		break;
 	}
@@ -106,9 +143,9 @@ void AWizardFaceStepList::setCurrent(int new_current)
 	    if( i > current )
 		continue;
 	    else if( i <= current && i > new_current )
-		setLookUndone(litem.second);
+		litem.second->setLookUndone();
 	    else if( i == new_current )
-		setLookCurrent(litem.second);
+		litem.second->setLookCurrent();
 	    else
 		break;
 	}
@@ -118,9 +155,9 @@ void AWizardFaceStepList::setCurrent(int new_current)
 
 void AWizardFaceStepList::append(QPair<QString, QString> item)
 {
-    AWizardFaceStepListItem *witem = new AWizardFaceStepListItem(this);
+    AWizardFaceStepListItem *witem = new AWizardFaceStepListItem(this, pix_done, pix_current, pix_undone);
     witem->setText(item.second);
-    setLookUndone(witem);
+    witem->setLookUndone();
     lay->addWidget(witem);
     lst.append(qMakePair(item.first,witem));
 }
@@ -269,11 +306,11 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     right_layout->addWidget(bottom_widget);
 
     menu_layout = new QHBoxLayout();
-    menu_layout->setMargin(5);
+    menu_layout->setMargin(0);
     menu_layout->setSpacing(5);
 
     buttons_layout = new QHBoxLayout();
-    buttons_layout->setMargin(5);
+    buttons_layout->setMargin(0);
     buttons_layout->setSpacing(5);
 
     title_layout->insertStretch(0, 1);

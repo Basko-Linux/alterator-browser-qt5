@@ -11,11 +11,25 @@
 #include "widgets.hh"
 
 
-class AWizardFaceStepListItem: public QLabel
+class AWizardFaceStepListItem: public QWidget
 {
 public:
-    AWizardFaceStepListItem(QWidget *parent);
+    AWizardFaceStepListItem(QWidget *parent, const QPixmap &pxdone, const QPixmap &pxcurrent, const QPixmap &pxundone);
     ~AWizardFaceStepListItem();
+
+    QString text();
+    void setText(const QString&);
+    void setLookDone();
+    void setLookCurrent();
+    void setLookUndone();
+
+private:
+    QLabel *lbl_img;
+    QLabel *lbl_txt;
+
+    const QPixmap &pix_done;
+    const QPixmap &pix_current;
+    const QPixmap &pix_undone;
 };
 
 typedef QPair<QString,AWizardFaceStepListItem*> AWizardFaceListItemPriv;
@@ -40,9 +54,9 @@ private:
     QVBoxLayout *lay;
     int current;
 
-    void setLookDone(AWizardFaceStepListItem*);
-    void setLookCurrent(AWizardFaceStepListItem*);
-    void setLookUndone(AWizardFaceStepListItem*);
+    QPixmap pix_done;
+    QPixmap pix_current;
+    QPixmap pix_undone;
 };
 
 class AWizardFace: public AWidget<QFrame>
