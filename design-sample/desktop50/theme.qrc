@@ -6,6 +6,8 @@
    <file>design/logo_48.png</file>
    <file>design/bg.png</file>
    <file>design/bg-steplist.png</file>
+   <file>design/wzface-step-done.png</file>
+   <file>design/wzface-step-current.png</file>
    <file>design/forward.png</file>
    <file>design/backward.png</file>
 </qresource>

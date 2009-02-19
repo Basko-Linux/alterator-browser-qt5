@@ -22,6 +22,11 @@ AWizardFace > QScrollArea {
     background-image: url(:/design/bg-steplist.png);
 }
 
+AWizardFaceStepList QLabel {
+    font-weight: bold;
+    color: white;
+}
+
 .ACenterFace {
     border-style: none;
 }
