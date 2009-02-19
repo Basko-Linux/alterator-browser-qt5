@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.10.5
+Version: 2.11.1
 Release: alt1
 
 Source:%name-%version.tar
@@ -80,6 +80,12 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Thu Feb 19 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.1-alt1
+- new wizardface layout
+- add widget grouping support
+- add automatic grouping radios via widget grouping support
+- fix to find unexistent pixmaps
+
 * Sat Feb 14 2009 Sergey V Turchin <zerg at altlinux dot org> 2.10.5-alt1
 - fix radio event toggled
 
