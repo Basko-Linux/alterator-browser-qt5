@@ -96,11 +96,12 @@ AWizardFaceStepList::AWizardFaceStepList(QWidget *parent):
     logo_icon->setPixmap(getPixmap("logo_48"));
     toplay->addWidget(logo_icon, Qt::AlignHCenter);
 
+    QPixmap pix_unknown = getPixmap("theme:unknown");
     pix_done = getPixmap("wzface-step-done");
-    if( pix_done.isNull() )
+    if( pix_done.toImage() == pix_unknown.toImage() )
 	pix_done = getPixmap("theme:check-on");
     pix_current = getPixmap("wzface-step-current");
-    if( pix_current.isNull() )
+    if( pix_current.toImage() == pix_unknown.toImage() )
 	pix_current = getPixmap("theme:radio-on");
     pix_undone = getPixmap("theme:null");
 }
