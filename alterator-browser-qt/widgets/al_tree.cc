@@ -4,6 +4,15 @@
 #include "al_tree.hh"
 #include "a_pixmaps.hh"
 
+ATreeWidget::ATreeWidget(QWidget *parent, const Qt::Orientation):
+    AWidget<QTreeWidget>(parent)
+{
+}
+
+ATreeWidget::~ATreeWidget()
+{}
+
+// alTree
 alTree::alTree(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent,const QString& columns):
 	alWidgetPre<ATreeWidget>(attr,WTree,id,parent)
 {

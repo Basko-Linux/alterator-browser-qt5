@@ -10,8 +10,8 @@ class ATreeWidget: public AWidget<QTreeWidget>
 Q_OBJECT
 #include "awidget_properties.hh"
 public:
-    ATreeWidget(QWidget *parent, const Qt::Orientation): AWidget<QTreeWidget>(parent) {};
-    ~ATreeWidget() {};
+    ATreeWidget(QWidget *parent, const Qt::Orientation);
+    ~ATreeWidget();
 };
 
 class alTree: public alWidgetPre<ATreeWidget>
