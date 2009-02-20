@@ -78,10 +78,13 @@ void alTree::setAttr(const QString& name,const QString& value)
 		}
 	}
 	else if ("header" == name) 
-	{ 
+	{
+	    if( value.isEmpty() )
+		wnd_->header()->hide(); 
+	    else
 		wnd_->header()->show(); 
-        	wnd_->setHeaderLabels(value.split(";")); 
-	} 
+	    wnd_->setHeaderLabels(value.split(";"));
+	}
 	else if ("expanded" == name) 
 	{
 	    expanded_ = value == "true";
