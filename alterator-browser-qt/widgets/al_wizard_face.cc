@@ -314,7 +314,7 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     buttons_layout->setMargin(0);
     buttons_layout->setSpacing(5);
 
-    title_layout->insertStretch(0, 1);
+    //title_layout->insertStretch(0, 1);
     title_layout->insertWidget(1, title_icon, 0, Qt::AlignRight);
     title_layout->insertWidget(2, title_text, 0, Qt::AlignLeft);
     title_layout->insertStretch(3, 1);
