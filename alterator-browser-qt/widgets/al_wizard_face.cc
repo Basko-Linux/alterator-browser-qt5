@@ -102,7 +102,7 @@ AWizardFaceStepList::AWizardFaceStepList(QWidget *parent):
 	pix_done = getPixmap("theme:check-on");
     pix_current = getPixmap("wzface-step-current");
     if( pix_current.toImage() == pix_unknown.toImage() )
-	pix_current = getPixmap("theme:radio-on");
+	pix_current = getPixmap("theme:check-off");
     pix_undone = getPixmap("theme:null");
 }
 
