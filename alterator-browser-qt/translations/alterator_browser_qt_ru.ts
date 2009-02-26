@@ -9,7 +9,7 @@
         <translation type="obsolete">Обзор</translation>
     </message>
     <message>
-        <location filename="widgets/al_center_face.cc" line="204"/>
+        <location filename="widgets/al_center_face.cc" line="228"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
@@ -19,35 +19,48 @@
         <translation type="obsolete">Содержание</translation>
     </message>
     <message>
-        <location filename="widgets/al_center_face.cc" line="568"/>
+        <location filename="widgets/al_center_face.cc" line="581"/>
         <source>Main</source>
         <translation>Главная</translation>
     </message>
     <message>
-        <location filename="widgets/al_center_face.cc" line="312"/>
+        <location filename="widgets/al_center_face.cc" line="325"/>
         <source>Module</source>
         <translation>Модуль</translation>
     </message>
 </context>
 <context>
+    <name>AWizardFace</name>
+    <message>
+        <location filename="widgets/al_wizard_face.cc" line="892"/>
+        <source>Show steps list</source>
+        <translation>Показать список шагов</translation>
+    </message>
+    <message>
+        <location filename="widgets/al_wizard_face.cc" line="894"/>
+        <source>Hide steps list</source>
+        <translation>Скрыть список шагов</translation>
+    </message>
+</context>
+<context>
     <name>Browser</name>
     <message>
-        <location filename="../browser.cc" line="243"/>
+        <location filename="../browser.cc" line="241"/>
         <source>Quit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="237"/>
+        <location filename="../browser.cc" line="234"/>
         <source>Exit Alterator?</source>
         <translation>Завершить Alterator?</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="257"/>
+        <location filename="../browser.cc" line="256"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="257"/>
+        <location filename="../browser.cc" line="256"/>
         <source>Alterator Browser</source>
         <translation>Alterator Browser</translation>
     </message>

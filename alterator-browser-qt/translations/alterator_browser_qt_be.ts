@@ -3,40 +3,53 @@
 <context>
     <name>ACenterFace</name>
     <message>
-        <location filename="widgets/al_center_face.cc" line="204"/>
+        <location filename="widgets/al_center_face.cc" line="228"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/al_center_face.cc" line="568"/>
+        <location filename="widgets/al_center_face.cc" line="581"/>
         <source>Main</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/al_center_face.cc" line="312"/>
+        <location filename="widgets/al_center_face.cc" line="325"/>
         <source>Module</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AWizardFace</name>
+    <message>
+        <location filename="widgets/al_wizard_face.cc" line="892"/>
+        <source>Show steps list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/al_wizard_face.cc" line="894"/>
+        <source>Hide steps list</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Browser</name>
     <message>
-        <location filename="../browser.cc" line="243"/>
+        <location filename="../browser.cc" line="241"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="237"/>
+        <location filename="../browser.cc" line="234"/>
         <source>Exit Alterator?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="257"/>
+        <location filename="../browser.cc" line="256"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="257"/>
+        <location filename="../browser.cc" line="256"/>
         <source>Alterator Browser</source>
         <translation type="unfinished"></translation>
     </message>
