@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.11.1
+Version: 2.11.2
 Release: alt1
 
 Source:%name-%version.tar
@@ -80,6 +80,10 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Thu Feb 26 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.2-alt1
+- hide wizardface steps list by default
+- small wizardface lookout improvements
+
 * Thu Feb 19 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.1-alt1
 - new wizardface layout
 - add widget grouping support
