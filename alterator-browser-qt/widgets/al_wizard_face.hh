@@ -99,6 +99,7 @@ signals:
 private slots:
     void onSelectAction(const QString&);
     void onSelectStep(QListWidgetItem*);
+    void onStepListSwitchVisibility(bool);
 
 protected:
     void keyPressEvent(QKeyEvent*);
@@ -123,6 +124,7 @@ private:
     QMap<QString, QAction*> menus;
     QMenu *menu;
     QPushButton *menu_btn;
+    QAction *menu_act_steplist;
 
     void setActionIcon(const QString &key, const QIcon &icon);
     void addAction(const QString &key, UserActionType);

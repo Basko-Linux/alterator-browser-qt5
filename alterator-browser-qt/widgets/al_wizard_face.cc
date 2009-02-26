@@ -229,6 +229,7 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     current_action = "__undefined__";
 
     steplist = new AWizardFaceStepList(this);
+    steplist->setVisible(false);
 
     title_widget = new QFrame(this);
     title_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
@@ -278,10 +279,12 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
 
     //menu_btn = new QPushButton(tr("Menu"), bottom_widget);
     menu_btn = new QPushButton(bottom_widget);
-    menu_btn->hide();
+    //menu_btn->setVisible(false);
     menu_btn->setIcon(QIcon(getPixmap("theme:up")));
     menu = new QMenu();
     menu_btn->setMenu(menu);
+    menu_act_steplist = menu->addAction(tr("Show steps list"));
+    connect(menu_act_steplist, SIGNAL(triggered(bool)), this, SLOT(onStepListSwitchVisibility(bool)));
 
     title_layout = new QHBoxLayout( title_widget );
     title_layout->setMargin(0);
@@ -877,6 +880,16 @@ void AWizardFace::keyPressEvent(QKeyEvent* e)
     }
     if( !entered )
 	 QWidget::keyPressEvent(e);
+}
+
+void AWizardFace::onStepListSwitchVisibility(bool)
+{
+    bool sl_visible = steplist->isVisible();
+    steplist->setVisible(!sl_visible);
+    if( sl_visible )
+	menu_act_steplist->setText(tr("Show steps list"));
+    else
+	menu_act_steplist->setText(tr("Hide steps list"));
 }
 
 // alWizardFace
