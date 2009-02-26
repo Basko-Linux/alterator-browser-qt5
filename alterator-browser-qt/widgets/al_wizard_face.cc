@@ -319,7 +319,7 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     buttons_layout->setMargin(0);
     buttons_layout->setSpacing(5);
 
-    //title_layout->insertStretch(0, 1);
+    title_layout->insertStretch(0, 1);
     title_layout->insertWidget(1, title_icon, 0, Qt::AlignRight);
     title_layout->insertWidget(2, title_text, 0, Qt::AlignLeft);
     title_layout->insertStretch(3, 1);
@@ -892,6 +892,15 @@ void AWizardFace::onStepListSwitchVisibility(bool)
 	menu_act_steplist->setText(tr("Show steps list"));
     else
 	menu_act_steplist->setText(tr("Hide steps list"));
+    QLayoutItem *stretch0 = title_layout->itemAt(0);
+    if( stretch0->spacerItem() )
+    {
+	title_layout->removeItem(stretch0);
+	if( sl_visible )
+	    title_layout->insertStretch(0, 1);
+	else
+	    title_layout->insertStretch(0, 0);
+    }
 }
 
 // alWizardFace
