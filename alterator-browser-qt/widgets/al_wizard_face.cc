@@ -93,7 +93,6 @@ AWizardFaceStepList::AWizardFaceStepList(QWidget *parent):
     QLabel *logo_icon = new QLabel(this);
     logo_icon->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     logo_icon->setAlignment(Qt::AlignCenter);
-    logo_icon->setPixmap(getPixmap("logo_48"));
     toplay->addWidget(logo_icon, Qt::AlignHCenter);
 
     QPixmap pix_unknown = getPixmap("theme:unknown");
@@ -104,6 +103,9 @@ AWizardFaceStepList::AWizardFaceStepList(QWidget *parent):
     if( pix_current.toImage() == pix_unknown.toImage() )
 	pix_current = getPixmap("theme:check-off");
     pix_undone = getPixmap("theme:null");
+    QPixmap logo_icon_pix = getPixmap("logo_48");
+    if( logo_icon_pix.toImage() != pix_unknown.toImage() )
+	logo_icon->setPixmap(logo_icon_pix);
 }
 
 AWizardFaceStepList::~AWizardFaceStepList()
