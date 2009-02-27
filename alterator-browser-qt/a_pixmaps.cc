@@ -51,7 +51,7 @@ QPixmap AFilePixmapGenerator::operator()()
 	QString pixpath;
 	if(px.isNull())
 	{
-	    pixpath = images_path + name_ + ".png", "PNG";
+	    pixpath = images_path + name_ + ".png";
 	    if( QFile::exists(pixpath) )
 		px = QPixmap(pixpath);
 	}
