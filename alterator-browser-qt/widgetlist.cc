@@ -156,7 +156,7 @@ void WidgetList::groupRemove(alWidget *aw)
 	QString altgroup = aw->getGroup();
 	if( !altgroup.isEmpty() )
 	{
-	    if( groups.contains(altgroup) )
+	    if( groups.contains(altgroup, aw) )
 	    {
 		groups.remove(altgroup, aw);
 		//qDebug("Remove widget<%s> from group <%s>", qPrintable(aw->getId()), qPrintable(altgroup));
