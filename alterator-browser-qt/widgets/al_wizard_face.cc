@@ -90,9 +90,10 @@ AWizardFaceStepList::AWizardFaceStepList(QWidget *parent):
     mlay->addLayout(bottomlay);
     bottomlay->addStretch(1);
 
-    QLabel *logo_icon = new QLabel(this);
+    QToolButton *logo_icon = new QToolButton(this);
+    logo_icon->setAutoRaise(true);
+    logo_icon->setToolButtonStyle(Qt::ToolButtonIconOnly);
     logo_icon->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    logo_icon->setAlignment(Qt::AlignCenter);
     toplay->addWidget(logo_icon, Qt::AlignHCenter);
 
     QPixmap pix_unknown = getPixmap("theme:unknown");
@@ -105,7 +106,10 @@ AWizardFaceStepList::AWizardFaceStepList(QWidget *parent):
     pix_undone = getPixmap("theme:null");
     QPixmap logo_icon_pix = getPixmap("logo_48");
     if( logo_icon_pix.toImage() != pix_unknown.toImage() )
-	logo_icon->setPixmap(logo_icon_pix);
+    {
+	logo_icon->setIcon(logo_icon_pix);
+	logo_icon->setIconSize(logo_icon_pix.size());
+    }
 }
 
 AWizardFaceStepList::~AWizardFaceStepList()
