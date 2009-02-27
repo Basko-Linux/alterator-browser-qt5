@@ -7,23 +7,21 @@
 }
 
 AWizardFace > QScrollArea {
-    border-radius: 10px;
-    border-style: inset;
-    border-width: 1px;
-    border-color: white;
+    border-radius: 1ex;
+    border-style: none;
     background-color: rgba(234, 232, 226, 50%);
 }
 
 .AWizardFaceStepList {
-    border-radius: 10px;
-    border-style: inset;
-    border-width: 1px;
-    border-color: white;
+    border-style: none;
+    border-top-right-radius: 1ex;
+    border-bottom-right-radius: 1ex;
     background-image: url(:/design/bg-steplist.png);
 }
 
 AWizardFaceStepList QLabel {
     font-weight: bold;
+    font-size: 10px;
     color: white;
 }
 
