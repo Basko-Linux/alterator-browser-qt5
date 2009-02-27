@@ -6,6 +6,7 @@
 #include <QSignalMapper>
 #include <QMenu>
 #include <QScrollArea>
+#include <QToolButton>
 
 #include "enums.hh"
 #include "widgets.hh"
@@ -48,10 +49,12 @@ public:
     void clear();
     void replace(int, QPair<QString, QString>);
     void setCurrent(int);
+    QWidget *logo();
 
 private:
     QList<AWizardFaceListItemPriv> lst;
     QVBoxLayout *lay;
+    QToolButton *logo_icon;
     int current;
 
     QPixmap pix_done;
@@ -100,6 +103,7 @@ private slots:
     void onSelectAction(const QString&);
     void onSelectStep(QListWidgetItem*);
     void onStepListSwitchVisibility(bool);
+    void onStepListSwitchVisibility();
 
 protected:
     void keyPressEvent(QKeyEvent*);
@@ -125,6 +129,8 @@ private:
     QMenu *menu;
     QPushButton *menu_btn;
     QAction *menu_act_steplist;
+    QToolButton *logo_icon;
+    bool has_logo_icon_pix;
 
     void setActionIcon(const QString &key, const QIcon &icon);
     void addAction(const QString &key, UserActionType);

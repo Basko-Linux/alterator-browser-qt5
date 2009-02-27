@@ -90,7 +90,7 @@ AWizardFaceStepList::AWizardFaceStepList(QWidget *parent):
     mlay->addLayout(bottomlay);
     bottomlay->addStretch(1);
 
-    QToolButton *logo_icon = new QToolButton(this);
+    logo_icon = new QToolButton(this);
     logo_icon->setAutoRaise(true);
     logo_icon->setToolButtonStyle(Qt::ToolButtonIconOnly);
     logo_icon->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
@@ -104,7 +104,7 @@ AWizardFaceStepList::AWizardFaceStepList(QWidget *parent):
     if( pix_current.toImage() == pix_unknown.toImage() )
 	pix_current = getPixmap("theme:check-off");
     pix_undone = getPixmap("theme:null");
-    QPixmap logo_icon_pix = getPixmap("logo_48");
+    QPixmap logo_icon_pix = getPixmap("logo_width");
     if( logo_icon_pix.toImage() != pix_unknown.toImage() )
     {
 	logo_icon->setIcon(logo_icon_pix);
@@ -114,6 +114,11 @@ AWizardFaceStepList::AWizardFaceStepList(QWidget *parent):
 
 AWizardFaceStepList::~AWizardFaceStepList()
 {}
+
+QWidget* AWizardFaceStepList::logo()
+{
+    return logo_icon;
+}
 
 void AWizardFaceStepList::setCurrent(int new_current)
 {
@@ -233,9 +238,11 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
 
     current_step = -1;
     current_action = "__undefined__";
+    has_logo_icon_pix = false;
 
     steplist = new AWizardFaceStepList(this);
     steplist->setVisible(false);
+    connect(steplist->logo(), SIGNAL(clicked()), this, SLOT(onStepListSwitchVisibility()));
 
     title_widget = new QFrame(this);
     title_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
@@ -283,14 +290,34 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     bottom_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     //bottom_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
 
+    logo_icon = new QToolButton(bottom_widget);
+    logo_icon->setAutoRaise(true);
+    logo_icon->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    logo_icon->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    connect(logo_icon, SIGNAL(clicked()), this, SLOT(onStepListSwitchVisibility()));
+
     //menu_btn = new QPushButton(tr("Menu"), bottom_widget);
     menu_btn = new QPushButton(bottom_widget);
-    //menu_btn->setVisible(false);
+    menu_btn->setVisible(false);
     menu_btn->setIcon(QIcon(getPixmap("theme:up")));
     menu = new QMenu();
     menu_btn->setMenu(menu);
     menu_act_steplist = menu->addAction(tr("Show steps list"));
     connect(menu_act_steplist, SIGNAL(triggered(bool)), this, SLOT(onStepListSwitchVisibility(bool)));
+
+    QPixmap pix_unknown = getPixmap("theme:unknown");
+    QPixmap logo_icon_pix = getPixmap("logo_48");
+    if( logo_icon_pix.toImage() != pix_unknown.toImage() )
+    {
+	logo_icon->setIcon(logo_icon_pix);
+	logo_icon->setIconSize(logo_icon_pix.size());
+	has_logo_icon_pix = true;
+    }
+    else
+    {
+	menu_btn->setVisible(true);
+	logo_icon->setVisible(false);
+    }
 
     title_layout = new QHBoxLayout( title_widget );
     title_layout->setMargin(0);
@@ -328,6 +355,7 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     title_layout->insertWidget(2, title_text, 0, Qt::AlignLeft);
     title_layout->insertStretch(3, 1);
 
+    bottom_layout->addWidget(logo_icon, Qt::AlignLeft);
     bottom_layout->addLayout(menu_layout, Qt::AlignLeft);
     bottom_layout->addLayout(buttons_layout, Qt::AlignRight);
 
@@ -888,23 +916,30 @@ void AWizardFace::keyPressEvent(QKeyEvent* e)
 	 QWidget::keyPressEvent(e);
 }
 
+void AWizardFace::onStepListSwitchVisibility()
+{
+    onStepListSwitchVisibility(true);
+}
+
 void AWizardFace::onStepListSwitchVisibility(bool)
 {
-    bool sl_visible = steplist->isVisible();
-    steplist->setVisible(!sl_visible);
+    bool sl_visible = !steplist->isVisible();
+    steplist->setVisible(sl_visible);
     if( sl_visible )
-	menu_act_steplist->setText(tr("Show steps list"));
-    else
 	menu_act_steplist->setText(tr("Hide steps list"));
+    else
+	menu_act_steplist->setText(tr("Show steps list"));
     QLayoutItem *stretch0 = title_layout->itemAt(0);
     if( stretch0->spacerItem() )
     {
 	title_layout->removeItem(stretch0);
 	if( sl_visible )
-	    title_layout->insertStretch(0, 1);
-	else
 	    title_layout->insertStretch(0, 0);
+	else
+	    title_layout->insertStretch(0, 1);
     }
+    if( has_logo_icon_pix )
+	logo_icon->setVisible(!sl_visible);
 }
 
 // alWizardFace
