@@ -226,13 +226,11 @@ alDialog::alDialog(const AlteratorRequestActionAttrs &attr, const QString& id,co
 
 void alDialog::popUp()
 {
-    wnd_->show();
     QTimer::singleShot(0, wnd_, SLOT(exec()));
 }
 
 void alDialog::popDown()
 {
-    wnd_->hide();
     wnd_->done(0);
 }
 
