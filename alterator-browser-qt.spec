@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.11.3
+Version: 2.11.4
 Release: alt1
 
 Source:%name-%version.tar
@@ -80,6 +80,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Tue Mar 03 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.4-alt1
+- don't use buttons for logo icons in wizardface
+
 * Fri Feb 27 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.3-alt1
 - fix crash via check group contains widget before remove it from group
 - allow to switch wizardface steps list via clicking a logo
