@@ -317,7 +317,7 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
 
     QHBoxLayout *bottom_layout = new QHBoxLayout(bottom_widget);
     bottom_layout->setMargin(0);
-    bottom_layout->setSpacing(0);
+    bottom_layout->setSpacing(5);
 
     QHBoxLayout *main_layout = new QHBoxLayout(this);
     main_layout->setMargin(0);
