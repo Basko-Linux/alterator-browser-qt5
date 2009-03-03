@@ -10,6 +10,7 @@
 
 #include "enums.hh"
 #include "widgets.hh"
+#include "logo_icon.hh"
 
 
 class AWizardFaceStepListItem: public QWidget
@@ -54,7 +55,7 @@ public:
 private:
     QList<AWizardFaceListItemPriv> lst;
     QVBoxLayout *lay;
-    QToolButton *logo_icon;
+    LogoIcon *logo_icon;
     int current;
 
     QPixmap pix_done;
@@ -129,7 +130,7 @@ private:
     QMenu *menu;
     QPushButton *menu_btn;
     QAction *menu_act_steplist;
-    QToolButton *logo_icon;
+    LogoIcon *logo_icon;
     bool has_logo_icon_pix;
 
     void setActionIcon(const QString &key, const QIcon &icon);

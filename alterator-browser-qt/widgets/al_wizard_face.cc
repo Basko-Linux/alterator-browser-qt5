@@ -90,9 +90,7 @@ AWizardFaceStepList::AWizardFaceStepList(QWidget *parent):
     mlay->addLayout(bottomlay);
     bottomlay->addStretch(1);
 
-    logo_icon = new QToolButton(this);
-    logo_icon->setAutoRaise(true);
-    logo_icon->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    logo_icon = new LogoIcon(this, true);
     logo_icon->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     toplay->addWidget(logo_icon, Qt::AlignHCenter);
 
@@ -106,10 +104,7 @@ AWizardFaceStepList::AWizardFaceStepList(QWidget *parent):
     pix_undone = getPixmap("theme:null");
     QPixmap logo_icon_pix = getPixmap("logo_width");
     if( logo_icon_pix.toImage() != pix_unknown.toImage() )
-    {
-	logo_icon->setIcon(logo_icon_pix);
-	logo_icon->setIconSize(logo_icon_pix.size());
-    }
+	logo_icon->setPixmap(logo_icon_pix);
 }
 
 AWizardFaceStepList::~AWizardFaceStepList()
@@ -290,9 +285,7 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     bottom_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     //bottom_widget->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
 
-    logo_icon = new QToolButton(bottom_widget);
-    logo_icon->setAutoRaise(true);
-    logo_icon->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    logo_icon = new LogoIcon(bottom_widget, true);
     logo_icon->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     connect(logo_icon, SIGNAL(clicked()), this, SLOT(onStepListSwitchVisibility()));
 
@@ -309,8 +302,7 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     QPixmap logo_icon_pix = getPixmap("logo_48");
     if( logo_icon_pix.toImage() != pix_unknown.toImage() )
     {
-	logo_icon->setIcon(logo_icon_pix);
-	logo_icon->setIconSize(logo_icon_pix.size());
+	logo_icon->setPixmap(logo_icon_pix);
 	has_logo_icon_pix = true;
     }
     else
