@@ -84,7 +84,7 @@ alSlideShow::alSlideShow(const AlteratorRequestActionAttrs &attr, const QString&
 
 void alSlideShow::setAttr(const QString& name,const QString& value)
 {
-    if( "text" == name )
+    if( "url" == name || "text" == name )
         wnd_->setSource(value);
     if( "step" == name )
     {
