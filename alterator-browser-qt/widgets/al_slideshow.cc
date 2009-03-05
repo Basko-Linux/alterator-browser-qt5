@@ -19,16 +19,19 @@ ASlideShow::~ASlideShow() {}
 
 void ASlideShow::setInterval(int step)
 {
-    if(step > 1000 )
+    if( step == 0 )
     {
-	interval = step;
+	tm->stop();
+    }
+    else
+    {
+	if(step > 1000)
+	    interval = step;
 	if(tm->isActive())
-	    setInterval(step);
+	    tm->setInterval(step);
 	else
 	    setSource(src);
     }
-    else if( step <= 0 )
-	tm->stop();
 }
 
 void ASlideShow::setSource(const QString& new_src)
@@ -44,6 +47,8 @@ void ASlideShow::setSource(const QString& new_src)
 	QStringList name_filters;
 	name_filters << "*.jpg" << "*.png";
 	images = imgdir.entryList(name_filters, QDir::Files|QDir::NoDotAndDotDot|QDir::Readable, QDir::Name);
+	if( current_img )
+	    delete current_img;
 	current_img = new QStringListIterator(images);
 	current_img->toFront();
     }
@@ -86,6 +91,10 @@ void alSlideShow::setAttr(const QString& name,const QString& value)
 {
     if( "url" == name || "text" == name )
         wnd_->setSource(value);
+    if( "start" == name )
+	wnd_->setInterval(-1);
+    if( "stop" == name )
+	wnd_->setInterval(0);
     if( "step" == name )
     {
 	bool iok;
