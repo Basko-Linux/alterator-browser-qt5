@@ -4,8 +4,8 @@
 
 #include "al_spinbox.hh"
 
-#define SPIN_SLIDER_MAX 1024
-#define SPIN_SLIDER_MIN 0
+#define SP_SLIDER_MAX 1024
+#define SP_SLIDER_MIN 0
 
 ASpinBox::ASpinBox(QWidget *parent, const Qt::Orientation o):
     AWidget<QWidget>(parent)
@@ -15,10 +15,10 @@ ASpinBox::ASpinBox(QWidget *parent, const Qt::Orientation o):
     slider = new QSlider(this);
     slider->setOrientation(Qt::Horizontal);
     slider->setTracking(true);
-    slider->setMinimum(SPIN_SLIDER_MIN);
-    slider->setMaximum(SPIN_SLIDER_MAX);
+    slider->setMinimum(SP_SLIDER_MIN);
+    slider->setMaximum(SP_SLIDER_MAX);
     slider->setSingleStep(1);
-    slider->setPageStep(SPIN_SLIDER_MAX/16);
+    slider->setPageStep(SP_SLIDER_MAX/16);
     slider->setVisible(false);
     spinbox = new QSpinBox(this);
     setFocusProxy(spinbox);
@@ -61,9 +61,9 @@ void ASpinBox::onSliderValueChange(int newval)
 	spin_sign = -1;
     int spin_min = spinbox->minimum();
     int spin_range = abs(spinbox->maximum()-spin_min);
-    double slider_val = newval - SPIN_SLIDER_MIN;
+    double slider_val = newval - SP_SLIDER_MIN;
     double spin_step = spinbox->singleStep();
-    double k = sinh((slider_val/(SPIN_SLIDER_MAX-SPIN_SLIDER_MIN))*8);
+    double k = sinh((slider_val/(SP_SLIDER_MAX-SP_SLIDER_MIN))*8);
     double spin_new = (((double)spin_range/1490)*k+spin_min)*spin_sign;
     int spin_finished = floor(spin_new/spin_step+0.5)*spin_step;
     spinbox_own_changes = true;
@@ -78,7 +78,7 @@ void ASpinBox::onSpinBoxValueChange(int newval)
     double spin_val = abs(newval-spinbox->minimum());
     double spin_range = abs(spinbox->maximum()-spinbox->minimum());
     double k = asinh((spin_val/spin_range)*1491)/8;
-    double slider_new = ((double)SPIN_SLIDER_MAX-SPIN_SLIDER_MIN)*k+SPIN_SLIDER_MIN;
+    double slider_new = ((double)SP_SLIDER_MAX-SP_SLIDER_MIN)*k+SP_SLIDER_MIN;
     slider_own_changes = true;
     slider->setValue(slider_new);
     slider_own_changes = false;
