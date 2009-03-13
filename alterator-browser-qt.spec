@@ -66,10 +66,12 @@ ln -s /dev/null %buildroot/%alterator_cfg/design-browser-qt
 mkdir -p %buildroot/%_datadir/%name/design
 ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
+%if 0
 %post
 %post_register_alternatives %name
 %preun
 %preun_unregister_alternatives %name
+%endif
 
 %files
 %config %_altdir/%name
@@ -80,6 +82,8 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+#- don't use deprecated macroses
+
 * Tue Mar 03 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.4-alt1
 - don't use buttons for logo icons in wizardface
 
