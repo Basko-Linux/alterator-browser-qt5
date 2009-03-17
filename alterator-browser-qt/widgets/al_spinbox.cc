@@ -1,11 +1,11 @@
 
-#include <limits>
 #include <cmath>
 
 #include "al_spinbox.hh"
 
-#define SP_SLIDER_MAX 1024
+#define SP_SLIDER_MAX 65535
 #define SP_SLIDER_MIN 0
+#define SP_POW 1.3
 
 ASpinBox::ASpinBox(QWidget *parent, const Qt::Orientation o):
     AWidget<QWidget>(parent)
@@ -55,17 +55,18 @@ ASpinBox::~ASpinBox()
 void ASpinBox::onSliderValueChange(int newval)
 {
     if( slider_own_changes ) return;
-    
-    int spin_sign = 1;
-    if(spinbox->maximum() < 0)
-	spin_sign = -1;
+
+    int slider_min = slider->minimum();
+    int slider_range = slider->maximum() - slider_min;
+    int slider_val = newval - slider_min;
+
+    int spin_step = spinbox->singleStep();
     int spin_min = spinbox->minimum();
-    int spin_range = abs(spinbox->maximum()-spin_min);
-    double slider_val = newval - SP_SLIDER_MIN;
-    double spin_step = spinbox->singleStep();
-    double k = sinh((slider_val/(SP_SLIDER_MAX-SP_SLIDER_MIN))*8);
-    double spin_new = (((double)spin_range/1490)*k+spin_min)*spin_sign;
+    int spin_range = spinbox->maximum() - spin_min;
+
+    double spin_new = ((double)slider_val/slider_range)*spin_range+spin_min;
     int spin_finished = floor(spin_new/spin_step+0.5)*spin_step;
+
     spinbox_own_changes = true;
     spinbox->setValue(spin_finished);
     spinbox_own_changes = false;
@@ -75,10 +76,15 @@ void ASpinBox::onSpinBoxValueChange(int newval)
 {
     if( spinbox_own_changes ) return;
 
-    double spin_val = abs(newval-spinbox->minimum());
-    double spin_range = abs(spinbox->maximum()-spinbox->minimum());
-    double k = asinh((spin_val/spin_range)*1491)/8;
-    double slider_new = ((double)SP_SLIDER_MAX-SP_SLIDER_MIN)*k+SP_SLIDER_MIN;
+    int slider_min = slider->minimum();
+    int slider_range = slider->maximum() - slider_min;
+
+    int spin_min = spinbox->minimum();
+    int spin_range = spinbox->maximum() - spin_min;
+    int spin_val = newval - spin_min;
+
+    int slider_new = ((double)spin_val/spin_range)*slider_range+slider_min;
+
     slider_own_changes = true;
     slider->setValue(slider_new);
     slider_own_changes = false;
