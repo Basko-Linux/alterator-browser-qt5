@@ -1,4 +1,6 @@
 
+#include <QMouseEvent>
+
 #include "logo_icon.hh"
 
 LogoIcon::LogoIcon(QWidget *parent, bool clickable_):
@@ -12,8 +14,11 @@ LogoIcon::LogoIcon(QWidget *parent, bool clickable_):
 LogoIcon::~LogoIcon()
 {}
 
-void LogoIcon::mousePressEvent(QMouseEvent*)
+void LogoIcon::mousePressEvent(QMouseEvent *e)
 {
     if( clickable )
+    {
+	e->accept();
 	emit clicked();
+    }
 }
