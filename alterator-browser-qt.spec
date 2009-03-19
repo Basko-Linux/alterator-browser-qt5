@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.11.4
+Version: 2.11.5
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,7 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
-#- don't use deprecated macroses
+* Thu Mar 19 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.5-alt1
+- improve spinbox extended slider-spinbox dependency
+- don't use deprecated macroses
 
 * Tue Mar 03 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.4-alt1
 - don't use buttons for logo icons in wizardface
