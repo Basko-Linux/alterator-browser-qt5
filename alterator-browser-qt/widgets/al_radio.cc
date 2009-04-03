@@ -14,6 +14,8 @@ void ARadio::onToggle(bool)
 {
     if( eventRegistered(BrowserEventToggled) )
 	browser->emitEvent(getId(), BrowserEventToggled, AlteratorRequestDefault);
+    if( eventRegistered(BrowserEventChanged) )
+	browser->emitEvent(getId(), BrowserEventChanged, AlteratorRequestDefault);
 }
 
 void alRadio::setAttr(const QString& name,const QString& value)
@@ -30,8 +32,10 @@ void alRadio::registerEvent(const QString& name)
 {
     if ("toggled" == name)
 	wnd_->setEventRegistered(id_, BrowserEventToggled);
+    else if ("changed" == name)
+	wnd_->setEventRegistered(id_, BrowserEventChanged);
 
-    if( wnd_->eventRegistered(BrowserEventToggled) )
+    if( wnd_->eventRegistered(BrowserEventToggled) || wnd_->eventRegistered(BrowserEventChanged) )
 	connect(wnd_, SIGNAL(toggled(bool)), wnd_, SLOT(onToggle(bool)));
 }
 
