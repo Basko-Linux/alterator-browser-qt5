@@ -132,6 +132,7 @@ private slots:
     void onSelectAction(const QString&);
     void onSelectModule(ACenterSectionModulesListItem*);
     void onOwerviewClicked();
+    void onExpertModeToggled(bool);
 
 private:
     QSignalMapper *action_signal_mapper;

@@ -229,6 +229,15 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     help_btn->setIcon(getPixmap("theme:help"));
     connect(help_btn, SIGNAL(clicked()), browser, SLOT(showHelp()));
 
+    QToolButton *expert_btn = new QToolButton(this);
+    expert_btn->setCheckable(true);
+    expert_btn->setAutoRaise(true);
+    expert_btn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    expert_btn->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Fixed);
+    expert_btn->setText(tr("Expert mode"));
+    expert_btn->setIcon(getPixmap("theme:computer"));
+    connect(expert_btn, SIGNAL(toggled(bool)), this, SLOT(onExpertModeToggled(bool)));
+
     sections_widget = new QWidget(this);
     module_widget = new QWidget(this);
     buttonbox = new QDialogButtonBox(module_widget);
@@ -286,6 +295,7 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     QHBoxLayout *top_buttons_layout = new QHBoxLayout();
     top_buttons_layout->addWidget(owerview_btn);
     top_buttons_layout->addWidget(help_btn);
+    top_buttons_layout->addWidget(expert_btn);
     top_buttons_layout->addStretch(1);
 
     stacked_layout = new QStackedLayout();
@@ -598,6 +608,13 @@ void ACenterFace::setHelpSource(const QString &url)
 {
     if( stacked_layout->currentWidget() == sections_widget )
 	help_source = url;
+}
+
+void ACenterFace::onExpertModeToggled(bool on)
+{
+    current_action_key = on? "expert_mode": "base_mode";
+    if( eventRegistered(BrowserEventClicked) )
+	browser->emitEvent(getId(), BrowserEventClicked, AlteratorRequestDefault);
 }
 
 /* alCenterFace */
