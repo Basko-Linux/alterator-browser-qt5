@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="1.1">
+<!DOCTYPE TS>
+<TS version="2.0">
 <context>
     <name>ACenterFace</name>
     <message>
@@ -8,12 +9,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/al_center_face.cc" line="581"/>
+        <location filename="widgets/al_center_face.cc" line="237"/>
+        <source>Expert mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/al_center_face.cc" line="329"/>
+        <location filename="widgets/al_center_face.cc" line="591"/>
         <source>Main</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/al_center_face.cc" line="325"/>
+        <location filename="widgets/al_center_face.cc" line="220"/>
+        <location filename="widgets/al_center_face.cc" line="335"/>
         <source>Module</source>
         <translation type="unfinished"></translation>
     </message>
@@ -21,12 +29,13 @@
 <context>
     <name>AWizardFace</name>
     <message>
-        <location filename="widgets/al_wizard_face.cc" line="892"/>
+        <location filename="widgets/al_wizard_face.cc" line="298"/>
+        <location filename="widgets/al_wizard_face.cc" line="923"/>
         <source>Show steps list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/al_wizard_face.cc" line="894"/>
+        <location filename="widgets/al_wizard_face.cc" line="921"/>
         <source>Hide steps list</source>
         <translation type="unfinished"></translation>
     </message>
@@ -34,6 +43,7 @@
 <context>
     <name>Browser</name>
     <message>
+        <location filename="../browser.cc" line="234"/>
         <location filename="../browser.cc" line="241"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
@@ -62,6 +72,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../help_browser.cc" line="17"/>
         <location filename="../help_browser.cc" line="36"/>
         <source>Help</source>
         <translation type="unfinished"></translation>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="1.1" language="ru_RU">
+<!DOCTYPE TS>
+<TS version="2.0" language="ru_RU">
 <defaultcodec></defaultcodec>
 <context>
     <name>ACenterFace</name>
     <message>
-        <location filename="widgets/al_center_face.cc" line="189"/>
         <source>Owerview</source>
         <translation type="obsolete">Обзор</translation>
     </message>
@@ -14,17 +14,23 @@
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="widgets/al_center_face.cc" line="195"/>
+        <location filename="widgets/al_center_face.cc" line="237"/>
+        <source>Expert mode</source>
+        <translation>Режим эксперта</translation>
+    </message>
+    <message>
         <source>Contents</source>
         <translation type="obsolete">Содержание</translation>
     </message>
     <message>
-        <location filename="widgets/al_center_face.cc" line="581"/>
+        <location filename="widgets/al_center_face.cc" line="329"/>
+        <location filename="widgets/al_center_face.cc" line="591"/>
         <source>Main</source>
         <translation>Главная</translation>
     </message>
     <message>
-        <location filename="widgets/al_center_face.cc" line="325"/>
+        <location filename="widgets/al_center_face.cc" line="220"/>
+        <location filename="widgets/al_center_face.cc" line="335"/>
         <source>Module</source>
         <translation>Модуль</translation>
     </message>
@@ -32,12 +38,13 @@
 <context>
     <name>AWizardFace</name>
     <message>
-        <location filename="widgets/al_wizard_face.cc" line="892"/>
+        <location filename="widgets/al_wizard_face.cc" line="298"/>
+        <location filename="widgets/al_wizard_face.cc" line="923"/>
         <source>Show steps list</source>
         <translation>Показать список шагов</translation>
     </message>
     <message>
-        <location filename="widgets/al_wizard_face.cc" line="894"/>
+        <location filename="widgets/al_wizard_face.cc" line="921"/>
         <source>Hide steps list</source>
         <translation>Скрыть список шагов</translation>
     </message>
@@ -45,6 +52,7 @@
 <context>
     <name>Browser</name>
     <message>
+        <location filename="../browser.cc" line="234"/>
         <location filename="../browser.cc" line="241"/>
         <source>Quit</source>
         <translation>Выход</translation>
@@ -68,7 +76,6 @@
 <context>
     <name>HelpBrowserUI</name>
     <message>
-        <location filename="../help_browser.ui" line="14"/>
         <source>Help</source>
         <translation type="obsolete">Справка</translation>
     </message>
@@ -81,6 +88,7 @@
         <translation>Сессия</translation>
     </message>
     <message>
+        <location filename="../help_browser.cc" line="17"/>
         <location filename="../help_browser.cc" line="36"/>
         <source>Help</source>
         <translation>Справка</translation>
@@ -124,22 +132,18 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../main_window.cc" line="221"/>
         <source>Quit</source>
         <translation type="obsolete">Выход</translation>
     </message>
     <message>
-        <location filename="../main_window.cc" line="221"/>
         <source>Exit Alterator?</source>
         <translation type="obsolete">Завершить Alterator?</translation>
     </message>
     <message>
-        <location filename="../main_window.cc" line="230"/>
         <source>Alterator Browser</source>
         <translation type="obsolete">Alterator Browser</translation>
     </message>
     <message>
-        <location filename="../main_window.cc" line="230"/>
         <source>About</source>
         <translation type="obsolete">О программе</translation>
     </message>
@@ -147,12 +151,10 @@
 <context>
     <name>QMessageBox</name>
     <message>
-        <location filename="../main_window.cc" line="216"/>
         <source>About</source>
         <translation type="obsolete">О программе</translation>
     </message>
     <message>
-        <location filename="../utils.cc" line="56"/>
         <source>Error</source>
         <translation type="obsolete">Ошибка</translation>
     </message>
