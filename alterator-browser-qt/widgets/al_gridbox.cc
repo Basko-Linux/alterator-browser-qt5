@@ -70,11 +70,11 @@ void AGridBox::postAddChild(QWidget* chld, int rowspan, int colspan)
 	    {
 		while( occuped.contains(qMakePair(current_column+c,current_row+r)) )
 		{
-		    current_column++; c++;
-		    if( current_column > columns_ )
+		    current_column++;
+		    if( current_column >= columns_ )
 		    {
-			current_column = 0; c = 0;
-			current_row++; r++;
+			current_column = 0; current_row++;
+			c = 0; r++;
 		    }
 		}
 	    }
