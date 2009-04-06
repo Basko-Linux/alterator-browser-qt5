@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.11.5
+Version: 2.11.6
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,11 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Mon Apr 06 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.6-alt1
+- fix gridbox widgets placement
+- add 'changed' event to radio
+- add 'expert' button to centerface
+
 * Thu Mar 19 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.5-alt1
 - improve spinbox extended slider-spinbox dependency
 - don't use deprecated macroses
