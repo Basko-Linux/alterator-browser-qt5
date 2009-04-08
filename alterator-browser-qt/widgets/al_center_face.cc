@@ -209,7 +209,7 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     setLineWidth(0);
     setFrameStyle(QFrame::Plain | QFrame::NoFrame);
 
-    current_action_key = "__undefined__";
+    current_action_key = "base_mode";
     current_module_key = "__undefined__";
 
     owerview_btn = new QToolButton(this);
