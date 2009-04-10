@@ -8,7 +8,7 @@
 
 Name: alterator-browser-qt
 Version: 2.11.6
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -82,6 +82,10 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Fri Apr 10 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.6-alt2
+- fix default currant_action_key in centerface
+- update Russian translation
+
 * Mon Apr 06 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.6-alt1
 - fix gridbox widgets placement
 - add 'changed' event to radio
