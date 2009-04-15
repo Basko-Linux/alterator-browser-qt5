@@ -18,6 +18,7 @@ public:
     void postAddChild(QWidget *chld, int rowspan, int colspan);
     QLayout* getViewLayout();
 
+    void setExpanded(bool);
 
 private:
     QGridLayout *layout_;
@@ -25,6 +26,7 @@ private:
     int current_row;
     int current_column;
     QList< QPair<int,int> > occuped;
+    QVBoxLayout *layout_main;
 };
 
 class alGridBox: public alWidgetPre<AGridBox>

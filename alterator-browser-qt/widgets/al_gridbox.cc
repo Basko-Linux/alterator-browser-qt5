@@ -8,7 +8,7 @@ AGridBox::AGridBox(QWidget *parent, const Qt::Orientation):
     current_row = 0;
     current_column = 0;
 
-    QVBoxLayout *layout_main = new QVBoxLayout(this);
+    layout_main = new QVBoxLayout(this);
     layout_main->setSpacing(0);
     layout_main->setMargin(0);
 
@@ -113,6 +113,22 @@ void AGridBox::postAddChild(QWidget* chld, int rowspan, int colspan)
     }
 }
 
+void AGridBox::setExpanded(bool expand)
+{
+    int n = layout_main->count();
+    for(int i=0; i<n; i++)
+    {
+	QLayoutItem *item = layout_main->itemAt(i);
+	if( item && item->spacerItem() )
+	    layout_main->removeItem(item);
+    }
+    if( !expand )
+    {
+	layout_main->insertStretch(0);
+	layout_main->insertStretch(-1);
+    }
+}
+
 // alGridBox
 alGridBox::alGridBox(const AlteratorRequestActionAttrs &attr, const QString &id,const QString &parent, const QString &columns):
 	alWidgetPre<AGridBox>(attr,WGridBox,id,parent)
@@ -125,6 +141,8 @@ void alGridBox::setAttr(const QString &name,const QString &value)
 {
     if ("columns" == name)
 	wnd_->setColumns(value);
+    else if ("expanded" == name)
+	wnd_->setExpanded(value == "#t");
     else
 	alWidget::setAttr(name,value);
 }
