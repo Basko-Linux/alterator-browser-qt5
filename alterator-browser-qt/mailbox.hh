@@ -1,30 +1,46 @@
 #ifndef QTBROWSER_AL_MAILBOX_HH
 #define QTBROWSER_AL_MAILBOX_HH
 
-#include <sys/un.h>
-
-#include <QObject>
-#include <QString>
+#include <QLocalServer>
 #include <QSocketNotifier>
+#include <QSignalMapper>
+#include <QLocalSocket>
 
 #include "connection.hh"
 
+class MbSocketNotifier: public QSocketNotifier
+{
+Q_OBJECT
+public:
+    MbSocketNotifier(int socket, QSocketNotifier::Type, QObject *parent = 0);
+    ~MbSocketNotifier();
+public slots:
+    void enable();
+    void disable();
+};
 
-class MailBox: public QObject
+class MbLocalServer: public QLocalServer
+{
+Q_OBJECT
+public:
+    MbLocalServer(QObject *parent);
+    ~MbLocalServer();
+signals:
+    void newConnection(int);
+protected:
+    virtual void incomingConnection(quintptr);
+};
+
+class MailBox: public MbLocalServer
 {
 Q_OBJECT
 public:
 	MailBox(const QString& addr, QObject *parent = 0);
 	~MailBox();
+
 public slots:
-	void onMessage(int);
+	void onNewConnection(int);
 	void readMessage(int);
-private:
-	int sock_;
-	sockaddr_un socka_;
-	int size_;
-	QSocketNotifier *notifier_;
-	QSocketNotifier *eater_;
 };
 
 

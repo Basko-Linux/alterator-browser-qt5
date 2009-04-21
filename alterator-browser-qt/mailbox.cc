@@ -1,95 +1,113 @@
 #include "mailbox.hh"
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/stat.h>
-
-#include <QFile>
-
 #include "utils.hh"
 #include "browser.hh"
 
 using namespace Utils;
 
-MailBox::MailBox(const QString& path, QObject *parent):
-	QObject(parent),
-	eater_(0)
+MbSocketNotifier::MbSocketNotifier(int socket, QSocketNotifier::Type tp, QObject *parent):
+    QSocketNotifier(socket, tp, parent)
 {
-	if ((sock_ = ::socket(PF_UNIX, SOCK_STREAM, 0)) == -1)
-		browser->quitAppError("socket");
+}
 
-	::memset(socka_.sun_path,0,sizeof(socka_.sun_path)/sizeof(char));
-	socka_.sun_family = AF_UNIX;
-	::strncpy(socka_.sun_path,path.toLatin1().data(),sizeof(socka_.sun_path)/sizeof(char)-1);
+MbSocketNotifier::~MbSocketNotifier()
+{
+}
 
-	int size = SUN_LEN(&socka_);
+void MbSocketNotifier::enable()
+{
+    setEnabled(true);
+}
 
-	if (::bind(sock_, (struct sockaddr *)&socka_, size) == -1) {
-	    if (::connect(sock_, (struct sockaddr*)&socka_, size) == -1) {
-		    if (!QFile::remove(path))
-		    	browser->quitAppError("remove");
+void MbSocketNotifier::disable()
+{
+    setEnabled(false);
+}
 
-		    if (::bind(sock_, (struct sockaddr *)&socka_, size) == -1)
-		    	browser->quitAppError("re-bind");
-	    }
-	    else
-	    	browser->quitAppError("Address already in use");
-	}
 
-	if (::listen(sock_, 1) == -1)
-		browser->quitAppError("listen");
+MbLocalServer::MbLocalServer(QObject *parent):
+    QLocalServer(parent)
+{}
 
-	notifier_ = new QSocketNotifier(sock_,QSocketNotifier::Read,this);
-	QObject::connect(notifier_,SIGNAL(activated(int)),this, SLOT(onMessage(int)) );
+MbLocalServer::~MbLocalServer()
+{}
+
+void MbLocalServer::incomingConnection(quintptr fd)
+{
+    emit newConnection(fd);
+}
+
+
+MailBox::MailBox(const QString& path, QObject *parent):
+	MbLocalServer(parent)
+{
+    if( QFile::exists(path) )
+	QFile::remove(path);
+
+    setMaxPendingConnections(8);
+    if( !listen(path) )
+    {
+	browser->quitAppError(errorString());
+    }
+
+    QObject::connect(this, SIGNAL(newConnection(int)), this, SLOT(onNewConnection(int)));
 }
 
 MailBox::~MailBox()
 {
-	::close(sock_);
 }
 
-void MailBox::onMessage(int)
+void MailBox::onNewConnection(int fd)
 {
-	int fd = ::accept(sock_, NULL, NULL);
-	
-	if (fd == -1)
-	{
-		qDebug("invalid connection");
-		return;
-	}
-
-	notifier_->setEnabled(false);
-	eater_ = new QSocketNotifier(fd, QSocketNotifier::Read, this);
-	connect(eater_, SIGNAL(activated(int)), this, SLOT(readMessage(int)));
 	readMessage(fd);
+
+	QLocalSocket *localsock = new QLocalSocket(this);
+	localsock->setSocketDescriptor(fd, QLocalSocket::ConnectedState, QIODevice::ReadOnly);
+
+	bool has_notifier = false;
+	foreach(QObject *child, localsock->children())
+	{
+	    if( QSocketNotifier *notifier = qobject_cast<QSocketNotifier*>(child) )
+	    {
+	        notifier->setEnabled(true);
+	        has_notifier = true;
+	    }
+	}
+	if( !has_notifier )
+	{
+	    MbSocketNotifier *notifier = new MbSocketNotifier(fd, QSocketNotifier::Read, localsock);
+	    connect(notifier, SIGNAL(activated(int)), this, SLOT(readMessage(int)));
+	    connect(localsock, SIGNAL(disconnected()), notifier, SLOT(disable()));
+	}
+	connect(localsock, SIGNAL(disconnected()), localsock, SLOT(deleteLater()));
 }
 
 void MailBox::readMessage(int fd)
 {
-	QString message = "";
-	char ch;
-	int len;
+	QString message;
+	char ch = 0;
+	int len = 0;
 	while ((len = read(fd,&ch,1)) > 0)
 	{
-		if (!ch) break;
+	    if(ch == '\0')
+	    {
+		if(!message.isEmpty())
+		{
+		    //qDebug("MailBox::readMessage mailbox message:%s",qPrintable(message));
+		    browser->getDocument(QString("(mailbox-request %1 )").arg(message));
+		    //qDebug("MailBox::readMessage end of processing....");
+
+		    message = "";
+		}
+	    }
+	    else
 		message += ch;
 	}
-	
-	if (!message.isEmpty())
+
+	if(!message.isEmpty())
 	{
-		//qDebug("mailbox message:%s",qPrintable(message));
-		browser->getDocument(QString("(mailbox-request %1 )").arg(message));
-		//qDebug("end of processing....");
-	}
-	else if (len <= 0)
-	{
-		::close(fd);
-		notifier_->setEnabled(true);
-		if( eater_ )
-		{
-		    eater_->deleteLater();
-		    eater_ = 0;
-		}
+	    //qDebug("MailBox::readMessage mailbox message:%s",qPrintable(message));
+	    browser->getDocument(QString("(mailbox-request %1 )").arg(message));
+	    //qDebug("MailBox::readMessage end of processing....");
 	}
 }
