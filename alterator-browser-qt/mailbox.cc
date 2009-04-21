@@ -64,21 +64,10 @@ void MailBox::onNewConnection(int fd)
 	QLocalSocket *localsock = new QLocalSocket(this);
 	localsock->setSocketDescriptor(fd, QLocalSocket::ConnectedState, QIODevice::ReadOnly);
 
-	bool has_notifier = false;
-	foreach(QObject *child, localsock->children())
-	{
-	    if( QSocketNotifier *notifier = qobject_cast<QSocketNotifier*>(child) )
-	    {
-	        notifier->setEnabled(true);
-	        has_notifier = true;
-	    }
-	}
-	if( !has_notifier )
-	{
-	    MbSocketNotifier *notifier = new MbSocketNotifier(fd, QSocketNotifier::Read, localsock);
-	    connect(notifier, SIGNAL(activated(int)), this, SLOT(readMessage(int)));
-	    connect(localsock, SIGNAL(disconnected()), notifier, SLOT(disable()));
-	}
+	MbSocketNotifier *notifier = new MbSocketNotifier(fd, QSocketNotifier::Read, localsock);
+	connect(notifier, SIGNAL(activated(int)), this, SLOT(readMessage(int)));
+	connect(localsock, SIGNAL(disconnected()), notifier, SLOT(disable()));
+
 	connect(localsock, SIGNAL(disconnected()), localsock, SLOT(deleteLater()));
 }
 
