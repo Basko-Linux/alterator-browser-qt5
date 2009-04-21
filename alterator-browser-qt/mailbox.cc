@@ -67,7 +67,6 @@ void MailBox::onNewConnection(int fd)
 	MbSocketNotifier *notifier = new MbSocketNotifier(fd, QSocketNotifier::Read, localsock);
 	connect(notifier, SIGNAL(activated(int)), this, SLOT(readMessage(int)));
 	connect(localsock, SIGNAL(disconnected()), notifier, SLOT(disable()));
-
 	connect(localsock, SIGNAL(disconnected()), localsock, SLOT(deleteLater()));
 }
 
