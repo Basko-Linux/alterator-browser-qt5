@@ -91,11 +91,11 @@ void alSlideShow::setAttr(const QString& name,const QString& value)
 {
     if( "url" == name || "text" == name )
         wnd_->setSource(value);
-    if( "start" == name )
+    else if( "start" == name )
 	wnd_->setInterval(-1);
-    if( "stop" == name )
+    else if( "stop" == name )
 	wnd_->setInterval(0);
-    if( "step" == name )
+    else if( "step" == name )
     {
 	bool iok;
 	int step = value.toInt(&iok);
