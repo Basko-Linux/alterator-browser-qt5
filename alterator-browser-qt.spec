@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.11.7
+Version: 2.11.8
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Tue Apr 28 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.8-alt1
+- load slideshow images from separate thread
+
 * Tue Apr 21 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.7-alt1
 - disable QSocketNotifier before Qt warning
 - add attribte 'expanded' to gridbox

@@ -2,8 +2,35 @@
 #define QTBROWSER_AL_SLIDESHOW_HH
 
 #include <QLabel>
+#include <QPixmap>
+#include <QMovie>
 
 #include "al_widget.hh"
+
+class SlideLoader: public QThread
+{
+Q_OBJECT
+public:
+    SlideLoader(QWidget*);
+    ~SlideLoader();
+
+    void run();
+    void setSource(const QString&);
+    void setInterval(int);
+
+signals:
+    void gotPixmap(const QPixmap&);
+    void gotMovie(const QMovie&);
+
+private:
+    QWidget *parent_;
+    QString src_dir_;
+    QStringList images_;
+    QStringListIterator *current_img_;
+    QTimer *tm_;
+    int interval_;
+    bool stop_;
+};
 
 class ASlideShow: public AWidget<QLabel>
 {
@@ -15,15 +42,8 @@ public:
 
     void setSource(const QString&);
     void setInterval(int);
-
-private slots:
-    void showNextSlide();
 private:
-    QString src;
-    QStringList images;
-    QStringListIterator *current_img;
-    QTimer *tm;
-    int interval;
+    SlideLoader *loader;
 };
 
 class alSlideShow: public alWidgetPre<ASlideShow>
