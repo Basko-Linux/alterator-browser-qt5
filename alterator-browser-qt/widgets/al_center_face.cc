@@ -165,6 +165,8 @@ ACenterSection::ACenterSection(QWidget *parent, const QString &title_text):
     modlist->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
     QVBoxLayout *txt_layout = new QVBoxLayout();
+    txt_layout->setMargin(0);
+    txt_layout->setSpacing(0);
     txt_layout->addWidget(title);
     txt_layout->addWidget(desc);
     txt_layout->addWidget(modlist);
