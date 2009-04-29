@@ -7,9 +7,9 @@
 #include <QDialogButtonBox>
 #include <QToolButton>
 
+#include "flowlayout.h"
 #include "enums.hh"
 #include "widgets.hh"
-#include "flowlayout.hh"
 #include "awidget.hh"
 
 #if 1

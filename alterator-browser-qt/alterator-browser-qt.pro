@@ -28,7 +28,7 @@ SOURCES += enums.cc splashscreen.cc widgetlist.cc
 SOURCES += al_widget.cc awidget.cc widgets/al_*.cc
 
 HEADERS =  global.hh awidget_properties.hh
-HEADERS += flowlayout.hh popup.hh fileselect.hh logo_icon.hh
+HEADERS += flowlayout.h popup.hh fileselect.hh logo_icon.hh
 HEADERS += mailbox.hh connection.hh widgets.hh sax.hh messagebox.hh
 HEADERS += browser.hh a_pixmaps.hh utils.hh help_browser.hh
 HEADERS += enums.hh splashscreen.hh widgetlist.hh
