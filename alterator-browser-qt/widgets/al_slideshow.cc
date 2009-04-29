@@ -44,6 +44,7 @@ void SlideLoader::setSource(const QString &new_src_dir)
     }
     stop_ = true;
     while( !wait() ) {}
+    stop_ = false;
     start();
     tm_->start(interval_);
 }
