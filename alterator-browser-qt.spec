@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.11.9
+Version: 2.11.10
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Wed Apr 29 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.10-alt1
+- reduce widget spacing in controlface
+
 * Wed Apr 29 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.9-alt1
 - fix to slideshow startup
 
