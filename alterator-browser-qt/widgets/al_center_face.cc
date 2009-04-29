@@ -172,10 +172,14 @@ ACenterSection::ACenterSection(QWidget *parent, const QString &title_text):
     txt_layout->addWidget(modlist);
 
     QHBoxLayout *h_layout = new QHBoxLayout();
-    h_layout->addWidget(pixmap);
+    h_layout->setMargin(0);
+    h_layout->setSpacing(10);
+    h_layout->addWidget(pixmap,0,Qt::AlignTop);
     h_layout->addLayout(txt_layout);
 
     QVBoxLayout *main_layout = new QVBoxLayout(this);
+    main_layout->setMargin(0);
+    main_layout->setSpacing(0);
     main_layout->addLayout(h_layout);
     main_layout->addWidget(separator);
 }
