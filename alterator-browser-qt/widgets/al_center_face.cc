@@ -60,7 +60,7 @@ void ACenterModuleButton::setIcon(const QIcon&)
 ACenterSectionModulesList::ACenterSectionModulesList(QWidget *parent):
     QWidget(parent)
 {
-    lay = new FlowLayout(this);
+    lay = new FlowLayout(this,0,0,0);
 #if 0
     QFont items_font = font();
     int items_spacing = qMax(items_font.pixelSize(), items_font.pointSize());
