@@ -17,10 +17,10 @@ public:
     void run();
     void setSource(const QString&);
     void setInterval(int);
+    QImage image();
 
 signals:
-    void gotPixmap(const QPixmap&);
-    void gotMovie(const QMovie&);
+    void gotImage();
 
 private:
     QWidget *parent_;
@@ -30,6 +30,7 @@ private:
     QTimer *tm_;
     int interval_;
     bool stop_;
+    QImage current_image_;
 };
 
 class ASlideShow: public AWidget<QLabel>
@@ -42,6 +43,10 @@ public:
 
     void setSource(const QString&);
     void setInterval(int);
+
+public slots:
+    void setPixmap();
+
 private:
     SlideLoader *loader;
 };

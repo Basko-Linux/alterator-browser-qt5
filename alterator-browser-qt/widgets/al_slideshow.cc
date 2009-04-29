@@ -12,13 +12,14 @@ SlideLoader::SlideLoader(QWidget *parent):
     current_img_ = 0;
     tm_ = new QTimer(this);
     stop_ = false;
+    //current_image_ = 0;
 
     connect(tm_, SIGNAL(timeout()), this, SLOT(quit()));
 }
 
 SlideLoader::~SlideLoader()
 {
-    tm_->stop();
+    //tm_->stop();
     stop_ = true;
     quit();
 }
@@ -31,22 +32,22 @@ void SlideLoader::setSource(const QString &new_src_dir)
     if( imgdir.exists() )
     {
 	QStringList name_filters;
-	name_filters << "*.jpg" << "*.png" << "*.gif" << "*.mng";
+	name_filters << "*.jpg" << "*.png" << "*.gif";
 	images_ = imgdir.entryList(name_filters, QDir::Files|QDir::NoDotAndDotDot|QDir::Readable, QDir::Name);
 	if( current_img_ )
-	{
-	    QStringListIterator *current_img_old = current_img_;
-	    current_img_ = new QStringListIterator(images_);
-	    current_img_->toFront();
-	    delete current_img_old;
-	    current_img_old = 0;
-	}
+	    delete current_img_;
+	current_img_ = new QStringListIterator(images_);
+	current_img_->toFront();
     }
     stop_ = true;
+    quit();
     while( !wait() ) {}
-    stop_ = false;
-    start();
-    tm_->start(interval_);
+    if( images_.size() > 0 )
+    {
+	stop_ = false;
+	start(QThread::LowPriority);
+	tm_->start(interval_);
+    }
 }
 
 void SlideLoader::setInterval(int new_interval)
@@ -63,6 +64,11 @@ void SlideLoader::setInterval(int new_interval)
     }
 }
 
+QImage SlideLoader::image()
+{
+    return current_image_;
+}
+
 void SlideLoader::run()
 {
     while( !stop_ )
@@ -73,22 +79,14 @@ void SlideLoader::run()
 	    if( !current_img_->hasNext() )
 		current_img_->toFront();
 	    QString imgfile = src_dir_ + QDir::separator() + current_img_->next();
-	    if( imgfile.endsWith("*.gif") || imgfile.endsWith("*.mng") )
 	    {
-		QMovie movie(imgfile);
-		if( movie.isValid() )
-		    emit gotMovie(movie);
-		else
-		    qDebug("Unable to load movie: %s", qPrintable(imgfile));
-	    }
-	    else
-	    {
-		QPixmap pixmap(imgfile);
-		if( !pixmap.isNull() )
+		QImage image(imgfile);
+		if( !image.isNull() )
 		{
-		    if( pixmap.width() > parent_->width() || pixmap.height() > parent_->height() )
-			pixmap = pixmap.scaled(parent_->width(), parent_->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-		    emit gotPixmap(pixmap);
+		    if( image.width() > parent_->width() || image.height() > parent_->height() )
+			image = image.scaled(parent_->width(), parent_->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+		    current_image_ = image;
+		    emit gotImage();
 		}
 		else
 		    qDebug("Unable to load picture: %s", qPrintable(imgfile));
@@ -107,6 +105,7 @@ void SlideLoader::run()
     }
 }
 
+
 // ASlideShow
 ASlideShow::ASlideShow(QWidget *parent, const Qt::Orientation):
     AWidget<QLabel>(parent)
@@ -115,8 +114,7 @@ ASlideShow::ASlideShow(QWidget *parent, const Qt::Orientation):
     setAlignment( Qt::AlignCenter );
 
     loader = new SlideLoader(this);
-    connect(loader, SIGNAL(gotPixmap(const QPixmap&)), this, SLOT(setPixmap(const QPixmap&)));
-    connect(loader, SIGNAL(gotMovie(const QMovie&)), this, SLOT(setMovie(const QMovie&)));
+    connect(loader, SIGNAL(gotImage()), this, SLOT(setPixmap()));
 }
 
 ASlideShow::~ASlideShow() {}
@@ -129,6 +127,11 @@ void ASlideShow::setInterval(int step)
 void ASlideShow::setSource(const QString& new_src)
 {
     loader->setSource(new_src);
+}
+
+void ASlideShow::setPixmap()
+{
+    QLabel::setPixmap(QPixmap::fromImage(loader->image()));
 }
 
 alSlideShow::alSlideShow(const AlteratorRequestActionAttrs &attr, const QString& id, const QString& parent):
