@@ -696,7 +696,41 @@ void Browser::onMessageBoxRequest(const QString& type, const QString& title,  co
 
 void Browser::onFileSelectRequest(const QString& title, const QString& dir, const QString& type, const QString& mask)
 {
-    FileSelect *file_select = new FileSelect(this, title, dir);
+    FileSelect *file_select = new FileSelect(this, title, dir, mask);
+    QFileDialog::Options options = 0;
+    QFileDialog::ViewMode view_mode = QFileDialog::Detail;
+    QFileDialog::FileMode file_mode = QFileDialog::AnyFile;
+    QFileDialog::AcceptMode accept_mode = QFileDialog::AcceptOpen;
+    foreach(QString option, type.split(";",QString::SkipEmptyParts))
+    {
+	if( option == "show_dirs_only" )
+	    { options = options | QFileDialog::ShowDirsOnly; }
+	else if( option == "dont_resolve_symlinks" )
+	    { options = options | QFileDialog::DontResolveSymlinks; }
+	else if( option == "dont_confirm_overwrite" )
+	    { options = options | QFileDialog::DontConfirmOverwrite; }
+	else if( option == "read_only" )
+	    { options = options | QFileDialog::ReadOnly; }
+	else if( option == "hide_name_filter_details" )
+	    { options = options | QFileDialog::HideNameFilterDetails; }
+	else if( option == "detail" )
+	    { view_mode = QFileDialog::Detail; }
+	else if( option == "list" )
+	    { view_mode = QFileDialog::List; }
+	else if( option == "any_file" )
+	    { file_mode = QFileDialog::AnyFile; }
+	else if( option == "existing_file" )
+	    { file_mode = QFileDialog::ExistingFile; }
+	else if( option == "directory" )
+	    { file_mode = QFileDialog::Directory; }
+	else if( option == "existing_files" )
+	    { file_mode = QFileDialog::ExistingFiles; }
+	else if( option == "accept_open" )
+	    { accept_mode = QFileDialog::AcceptOpen; }
+	else if( option == "accept_save" )
+	    { accept_mode = QFileDialog::AcceptSave; }
+    }
+    file_select->setOptions(title, options, view_mode, file_mode, accept_mode);
     file_select->exec();
     connection->getDocument(file_select->selectedFiles().join(";"));
     popupRemove(file_select);

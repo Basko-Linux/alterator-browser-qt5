@@ -3,16 +3,13 @@
 
 #include "fileselect.hh"
 
-FileSelect::FileSelect(QWidget *parent, const QString &title, const QString &dir):
+FileSelect::FileSelect(QWidget *parent, const QString &title, const QString &dir, const QString &filter):
     Popup(parent)
 {
     setPopupTitle(title);
     file_dialog = new QFileDialog(this);
-    file_dialog->setFileMode(QFileDialog::AnyFile);
-    file_dialog->setReadOnly(true);
-    file_dialog->setAcceptMode(QFileDialog::AcceptOpen);
     file_dialog->setDirectory(dir.isEmpty()? QDir::homePath(): dir);
-    file_dialog->setViewMode(QFileDialog::Detail);
+    file_dialog->setNameFilter(filter);
 
     QVBoxLayout *vlayout = new QVBoxLayout(this);
     vlayout->addWidget(file_dialog);
@@ -33,4 +30,13 @@ void FileSelect::onSelectFiles(const QStringList &flist)
 QStringList FileSelect::selectedFiles()
 {
     return selected_files;
+}
+
+void FileSelect::setOptions(const QString &label, QFileDialog::Options opts, QFileDialog::ViewMode view_mode, QFileDialog::FileMode file_mode, QFileDialog::AcceptMode accept_mode)
+{
+    file_dialog->setLabelText(QFileDialog::LookIn, label);
+    file_dialog->setOptions(opts);
+    file_dialog->setViewMode(view_mode);
+    file_dialog->setFileMode(file_mode);
+    file_dialog->setAcceptMode(accept_mode);
 }
