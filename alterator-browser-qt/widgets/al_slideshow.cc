@@ -19,7 +19,6 @@ SlideLoader::SlideLoader(QWidget *parent):
 
 SlideLoader::~SlideLoader()
 {
-    //tm_->stop();
     stop_ = true;
     quit();
 }
@@ -103,6 +102,7 @@ void SlideLoader::run()
 	    exec();
 	}
     }
+    tm_->stop();
 }
 
 
