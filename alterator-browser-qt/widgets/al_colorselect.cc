@@ -35,7 +35,7 @@ void AColorSelect::showDialog()
     dialog.setCurrentColor(QColor(lineedit->text()));
     if( dialog.exec() == QDialog::Accepted )
     {
-	lineedit->setText(dialog.selectedColor().name().toUpper());
+	setSelected(dialog.selectedColor().name().toUpper());
 	emit selected();
     }
 }
