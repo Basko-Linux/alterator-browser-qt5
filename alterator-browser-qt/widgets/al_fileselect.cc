@@ -9,7 +9,7 @@ AFileSelect::AFileSelect(QWidget *parent, const Qt::Orientation):
     lay = new QHBoxLayout(this);
     lineedit = new QLineEdit(this);
     btn = new QPushButton(this);
-    btn->setIcon(getPixmap("theme:file"));
+    btn->setIcon(getPixmap("theme:directory"));
 
     lay->addWidget(lineedit);
     lay->addWidget(btn);
