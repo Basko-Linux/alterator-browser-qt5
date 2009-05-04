@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.11.12
+Version: 2.11.13
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,10 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Mon May 04 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.13-alt1
+- use value attribute for fileselect and colorselect
+- colorize button in colorselect
+
 * Mon May 04 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.12-alt1
 - add fileselect and colorselect widgets
 

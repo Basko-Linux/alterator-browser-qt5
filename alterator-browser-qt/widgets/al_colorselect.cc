@@ -48,6 +48,9 @@ void AColorSelect::setTitle(const QString &title)
 void AColorSelect::setSelected(const QString &sel)
 {
     lineedit->setText(sel);
+    QPalette pal = btn->palette();
+    pal.setColor(QPalette::Button, QColor(sel));
+    btn->setPalette(pal);
 }
 
 QString  AColorSelect::selectedColor()
