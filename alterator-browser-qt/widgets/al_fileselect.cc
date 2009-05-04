@@ -10,6 +10,9 @@ AFileSelect::AFileSelect(QWidget *parent, const Qt::Orientation):
     lineedit = new QLineEdit(this);
     btn = new QPushButton(this);
     btn->setIcon(getPixmap("theme:directory"));
+    QSizePolicy pol = btn->sizePolicy();
+    pol.setHorizontalPolicy(QSizePolicy::Maximum);
+    btn->setSizePolicy(pol);
 
     lay->addWidget(lineedit);
     lay->addWidget(btn);
@@ -37,6 +40,11 @@ void AFileSelect::setDir(const QString &dir)
 void AFileSelect::setFilter(const QString &filter)
 {
     dlg_filter = filter;
+}
+
+void AFileSelect::setSelected(const QString &sel)
+{
+    lineedit->setText(sel);
 }
 
 QString AFileSelect::selectedFiles()
@@ -117,6 +125,10 @@ void alFileSelect::setAttr(const QString& name,const QString& value)
     else if ("hints" == name)
     {
 	wnd_->setOptions(value);
+    }
+    else if ("selected" == name)
+    {
+	wnd_->setSelected(value);
     }
     else
 	alWidget::setAttr(name,value);
