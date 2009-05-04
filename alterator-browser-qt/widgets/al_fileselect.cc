@@ -126,7 +126,7 @@ void alFileSelect::setAttr(const QString& name,const QString& value)
     {
 	wnd_->setOptions(value);
     }
-    else if ("selected" == name)
+    else if ("value" == name)
     {
 	wnd_->setSelected(value);
     }
@@ -144,5 +144,5 @@ void alFileSelect::registerEvent(const QString& name)
 
 QString alFileSelect::postData() const
 {
-    return QString(" (selected . \"%1\" )").arg(Utils::simpleQuote(wnd_->selectedFiles()));
+    return QString(" (value . \"%1\" )").arg(Utils::simpleQuote(wnd_->selectedFiles()));
 }
