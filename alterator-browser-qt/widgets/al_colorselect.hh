@@ -13,12 +13,20 @@ Q_OBJECT
 public:
     AColorSelect(QWidget *parent, const Qt::Orientation);
     ~AColorSelect();
+
+    void setTitle(const QString&);
+    void setSelected(const QString&);
+    QString selectedColor();
+
 signals:
 	void selected();
 private:
+    QHBoxLayout *lay;
     QLineEdit *lineedit;
     QPushButton *btn;
+    QString dlg_title;
 
+private slots:
     void showDialog();
 };
 

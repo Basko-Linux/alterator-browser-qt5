@@ -6,13 +6,53 @@
 AColorSelect::AColorSelect(QWidget *parent, const Qt::Orientation):
     AWidget<QWidget>(parent)
 {
+    setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
+
+    lay = new QHBoxLayout(this);
+    lineedit = new QLineEdit(this);
+    lineedit->setMaxLength(7);
+    QSizePolicy pol = lineedit->sizePolicy();
+    pol.setHorizontalPolicy(QSizePolicy::Maximum);
+    lineedit->setSizePolicy(pol);
+    btn = new QPushButton(this);
+    btn->setIcon(getPixmap("theme:up"));
+    pol = btn->sizePolicy();
+    pol.setHorizontalPolicy(QSizePolicy::Maximum);
+    btn->setSizePolicy(pol);
+
+    lay->addWidget(lineedit);
+    lay->addWidget(btn);
+
+    connect(btn, SIGNAL(clicked()), this, SLOT(showDialog()));
 }
 
 AColorSelect::~AColorSelect() {}
 
 void AColorSelect::showDialog()
 {
-    //QColorDialog dialog()
+    QColorDialog dialog(this);
+    dialog.setWindowTitle(dlg_title);
+    dialog.setCurrentColor(QColor(lineedit->text()));
+    if( dialog.exec() == QDialog::Accepted )
+    {
+	lineedit->setText(dialog.selectedColor().name().toUpper());
+	emit selected();
+    }
+}
+
+void AColorSelect::setTitle(const QString &title)
+{
+    dlg_title = title;
+}
+
+void AColorSelect::setSelected(const QString &sel)
+{
+    lineedit->setText(sel);
+}
+
+QString  AColorSelect::selectedColor()
+{
+    return lineedit->text();
 }
 
 // alColorSelect
@@ -23,11 +63,13 @@ alColorSelect::alColorSelect(const AlteratorRequestActionAttrs &attr, const QStr
 
 void alColorSelect::setAttr(const QString& name,const QString& value)
 {
-    if ("text" == name)
+    if ("selected" == name)
     {
+	wnd_->setSelected(value);
     }
     else if ("title" == name)
     {
+	wnd_->setTitle(value);
     }
     else
 	alWidget::setAttr(name,value);
@@ -43,17 +85,5 @@ void alColorSelect::registerEvent(const QString& name)
 
 QString alColorSelect::postData() const
 {
-	QString post;
-/*
-	post = QString(" (current . %1 )").arg(wnd_->currentIndex());
-	if (wnd_->isEditable() && (counter_ != wnd_->count()))
-	{//reset items on alterator
-	    post += "( rows . (";
-	    for (int i=0;i<wnd_->count();++i)
-		post += " #(( \""+ Utils::simpleQuote(wnd_->itemText(i))+ "\" . \"\"))";
-	    post += "))";
-	}
-	post += QString(" (current-text . \"%1\" )").arg(Utils::simpleQuote(wnd_->currentText()));
-*/
-	return post;
+    return QString(" (selected . \"%1\" )").arg(Utils::simpleQuote(wnd_->selectedColor()));
 }
