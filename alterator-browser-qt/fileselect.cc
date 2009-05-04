@@ -7,11 +7,13 @@ FileSelect::FileSelect(QWidget *parent, const QString &title, const QString &dir
     Popup(parent)
 {
     setPopupTitle(title);
-    file_dialog = new QFileDialog(this);
+    file_dialog = new QFileDialog(view());
+    file_dialog->setOptions(QFileDialog::DontUseNativeDialog);
     file_dialog->setDirectory(dir.isEmpty()? QDir::homePath(): dir);
     file_dialog->setNameFilter(filter);
+    file_dialog->setVisible(true);
 
-    QVBoxLayout *vlayout = new QVBoxLayout(this);
+    QVBoxLayout *vlayout = new QVBoxLayout(view());
     vlayout->addWidget(file_dialog);
 
     connect(file_dialog, SIGNAL(filesSelected(const QStringList&)), this, SLOT(onSelectFiles(const QStringList&)));
@@ -34,8 +36,8 @@ QStringList FileSelect::selectedFiles()
 
 void FileSelect::setOptions(const QString &label, QFileDialog::Options opts, QFileDialog::ViewMode view_mode, QFileDialog::FileMode file_mode, QFileDialog::AcceptMode accept_mode)
 {
-    file_dialog->setLabelText(QFileDialog::LookIn, label);
-    file_dialog->setOptions(opts);
+    file_dialog->setWindowTitle(label);
+    file_dialog->setOptions(opts|QFileDialog::DontUseNativeDialog);
     file_dialog->setViewMode(view_mode);
     file_dialog->setFileMode(file_mode);
     file_dialog->setAcceptMode(accept_mode);
