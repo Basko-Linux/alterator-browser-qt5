@@ -97,7 +97,7 @@ void AFileSelect::showDialog()
     dialog.setAcceptMode(accept_mode);
     if( dialog.exec() == QDialog::Accepted )
     {
-	lineedit->setText(dialog.selectedFiles().join(";"));
+	setSelected(dialog.selectedFiles().join(";"));
 	emit selected();
     }
 }
