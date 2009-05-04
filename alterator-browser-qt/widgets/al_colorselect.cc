@@ -63,7 +63,7 @@ alColorSelect::alColorSelect(const AlteratorRequestActionAttrs &attr, const QStr
 
 void alColorSelect::setAttr(const QString& name,const QString& value)
 {
-    if ("selected" == name)
+    if ("value" == name)
     {
 	wnd_->setSelected(value);
     }
@@ -85,5 +85,5 @@ void alColorSelect::registerEvent(const QString& name)
 
 QString alColorSelect::postData() const
 {
-    return QString(" (selected . \"%1\" )").arg(Utils::simpleQuote(wnd_->selectedColor()));
+    return QString(" (value . \"%1\" )").arg(Utils::simpleQuote(wnd_->selectedColor()));
 }
