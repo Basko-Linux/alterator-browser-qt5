@@ -18,6 +18,7 @@ public:
     void setTitle(const QString&);
     void setDir(const QString&);
     void setFilter(const QString&);
+    void setSelected(const QString&);
     QString selectedFiles();
 
 signals:
