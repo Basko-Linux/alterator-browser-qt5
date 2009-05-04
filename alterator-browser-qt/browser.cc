@@ -599,6 +599,8 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WSplitBox: {    new_widget = new alSplitBox(attr,id,parent_id,orientation,columns); break; }
 	case WCenterFace: {  new_widget = new alCenterFace(attr,id,parent_id); break; }
 	case WWizardFace: {  new_widget = new alWizardFace(attr,id,parent_id,orientation); break; }
+	case WColorSelect: {  new_widget = new alColorSelect(attr,id,parent_id); break; }
+	case WFileSelect: {  new_widget = new alFileSelect(attr,id,parent_id); break; }
 	case WProxy:
 	case WUnknown:
 	{

@@ -30,5 +30,7 @@
 #include "widgets/al_timeedit.hh"
 #include "widgets/al_slideshow.hh"
 #include "widgets/al_splitbox.hh"
+#include "widgets/al_colorselect.hh"
+#include "widgets/al_fileselect.hh"
 
 #endif

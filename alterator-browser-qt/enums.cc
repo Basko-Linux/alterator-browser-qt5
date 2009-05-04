@@ -48,6 +48,8 @@ Enums::Enums()
     str2widget["splitbox"] = WSplitBox;
     str2widget["wizardface"] = WWizardFace;
     str2widget["centerface"] = WCenterFace;
+    str2widget["colorselect"] = WColorSelect;
+    str2widget["fileselect"] = WFileSelect;
 
     str2u_action["abort"]    = UserActionAbort;
     str2u_action["finish"]   = UserActionFinish;
