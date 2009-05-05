@@ -11,6 +11,7 @@ AColorSelect::AColorSelect(QWidget *parent, const Qt::Orientation):
     lay = new QHBoxLayout(this);
     lineedit = new QLineEdit(this);
     lineedit->setMaxLength(7);
+    lineedit->setInputMask(">\\#HHHHHH");
     QSizePolicy pol = lineedit->sizePolicy();
     pol.setHorizontalPolicy(QSizePolicy::Maximum);
     lineedit->setSizePolicy(pol);
@@ -24,9 +25,21 @@ AColorSelect::AColorSelect(QWidget *parent, const Qt::Orientation):
     lay->addWidget(btn);
 
     connect(btn, SIGNAL(clicked()), this, SLOT(showDialog()));
+    connect(lineedit, SIGNAL(textEdited(const QString&)), this, SLOT(setBtnColor(const QString&)));
 }
 
 AColorSelect::~AColorSelect() {}
+
+void AColorSelect::setBtnColor(const QString &txtcolor)
+{
+    QColor clr(txtcolor);
+    if(clr.isValid())
+    {
+	QPalette pal = btn->palette();
+	pal.setColor(QPalette::Button, clr);
+	btn->setPalette(pal);
+    }
+}
 
 void AColorSelect::showDialog()
 {
@@ -48,9 +61,7 @@ void AColorSelect::setTitle(const QString &title)
 void AColorSelect::setSelected(const QString &sel)
 {
     lineedit->setText(sel);
-    QPalette pal = btn->palette();
-    pal.setColor(QPalette::Button, QColor(sel));
-    btn->setPalette(pal);
+    setBtnColor(sel);
 }
 
 QString  AColorSelect::selectedColor()

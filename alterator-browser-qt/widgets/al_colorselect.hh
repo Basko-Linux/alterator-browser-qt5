@@ -28,6 +28,7 @@ private:
 
 private slots:
     void showDialog();
+    void setBtnColor(const QString&);
 };
 
 class alColorSelect: public alWidgetPre<AColorSelect>
