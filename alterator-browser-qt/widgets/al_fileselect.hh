@@ -23,6 +23,9 @@ public:
 
 signals:
 	void selected();
+	void changed();
+	void editingFinished();
+
 private:
     QHBoxLayout *lay;
     QLineEdit *lineedit;
@@ -31,9 +34,11 @@ private:
     QString dlg_title;
     QString dlg_dir;
     QString dlg_filter;
+    QString old_txt;
 
 private slots:
     void showDialog();
+    void onUserEdited(const QString&);
 };
 
 class alFileSelect: public alWidgetPre<AFileSelect>

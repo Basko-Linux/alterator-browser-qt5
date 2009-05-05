@@ -18,9 +18,20 @@ AFileSelect::AFileSelect(QWidget *parent, const Qt::Orientation):
     lay->addWidget(btn);
 
     connect(btn, SIGNAL(clicked()), this, SLOT(showDialog()));
+    connect(lineedit, SIGNAL(textEdited(const QString&)), this, SLOT(onUserEdited(const QString&)));
+    connect(lineedit, SIGNAL(editingFinished()), this, SIGNAL(editingFinished()));
 }
 
 AFileSelect::~AFileSelect() {}
+
+void AFileSelect::onUserEdited(const QString &sel)
+{
+    if( !sel.isEmpty() && sel != old_txt )
+    {
+	old_txt = sel;
+	emit changed();
+    }
+}
 
 void AFileSelect::setOptions(const QString &opts)
 {
@@ -137,9 +148,11 @@ void alFileSelect::setAttr(const QString& name,const QString& value)
 void alFileSelect::registerEvent(const QString& name)
 {
     if ("selected" == name)
-    {
-        connect(wnd_,SIGNAL( selected() ),SLOT(onSelect()));
-    }
+	connect(wnd_,SIGNAL( selected() ),SLOT(onSelect()));
+    else if( "changed" == name )
+	connect(wnd_, SIGNAL(changed()), this, SLOT(onChange()));
+    else if( "return-pressed" == name )
+	connect(wnd_, SIGNAL(editingFinished()), this, SLOT(onReturn()));
 }
 
 QString alFileSelect::postData() const
