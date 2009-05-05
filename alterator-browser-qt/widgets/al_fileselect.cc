@@ -53,9 +53,11 @@ void AFileSelect::setFilter(const QString &filter)
     dlg_filter = filter;
 }
 
-void AFileSelect::setSelected(const QString &sel)
+void AFileSelect::setSelected(const QString &sel, bool user)
 {
     lineedit->setText(sel);
+    if( user )
+	emit selected();
 }
 
 QString AFileSelect::selectedFiles()
@@ -109,7 +111,6 @@ void AFileSelect::showDialog()
     if( dialog.exec() == QDialog::Accepted )
     {
 	setSelected(dialog.selectedFiles().join(";"));
-	emit selected();
     }
 }
 
@@ -139,7 +140,7 @@ void alFileSelect::setAttr(const QString& name,const QString& value)
     }
     else if ("value" == name)
     {
-	wnd_->setSelected(value);
+	wnd_->setSelected(value, false);
     }
     else
 	alWidget::setAttr(name,value);
