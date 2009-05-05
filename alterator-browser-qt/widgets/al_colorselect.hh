@@ -15,20 +15,26 @@ public:
     ~AColorSelect();
 
     void setTitle(const QString&);
-    void setSelected(const QString&);
+    void setSelected(const QString &strcolor, bool user = true);
     QString selectedColor();
 
 signals:
 	void selected();
+	void changed();
+	void editingFinished();
+
 private:
     QHBoxLayout *lay;
     QLineEdit *lineedit;
     QPushButton *btn;
     QString dlg_title;
+    QString old_txt;
+
+    void setBtnColor(const QString&);
 
 private slots:
     void showDialog();
-    void setBtnColor(const QString&);
+    void onUserEdited(const QString&);
 };
 
 class alColorSelect: public alWidgetPre<AColorSelect>

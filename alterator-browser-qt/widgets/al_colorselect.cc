@@ -25,7 +25,8 @@ AColorSelect::AColorSelect(QWidget *parent, const Qt::Orientation):
     lay->addWidget(btn);
 
     connect(btn, SIGNAL(clicked()), this, SLOT(showDialog()));
-    connect(lineedit, SIGNAL(textEdited(const QString&)), this, SLOT(setBtnColor(const QString&)));
+    connect(lineedit, SIGNAL(textEdited(const QString&)), this, SLOT(onUserEdited(const QString&)));
+    connect(lineedit, SIGNAL(editingFinished()), this, SIGNAL(editingFinished()));
 }
 
 AColorSelect::~AColorSelect() {}
@@ -49,7 +50,6 @@ void AColorSelect::showDialog()
     if( dialog.exec() == QDialog::Accepted )
     {
 	setSelected(dialog.selectedColor().name().toUpper());
-	emit selected();
     }
 }
 
@@ -58,10 +58,27 @@ void AColorSelect::setTitle(const QString &title)
     dlg_title = title;
 }
 
-void AColorSelect::setSelected(const QString &sel)
+void AColorSelect::onUserEdited(const QString &sel)
 {
-    lineedit->setText(sel);
     setBtnColor(sel);
+    if( sel != old_txt )
+    {
+	old_txt = sel;
+	emit changed();
+    }
+}
+
+void AColorSelect::setSelected(const QString &sel, bool user)
+{
+    QString old_text = lineedit->text();
+    lineedit->setText(sel);
+    QString new_text = lineedit->text();
+    setBtnColor(sel);
+    if( user && old_text != new_text )
+    {
+	emit selected();
+	emit changed();
+    }
 }
 
 QString  AColorSelect::selectedColor()
@@ -79,7 +96,7 @@ void alColorSelect::setAttr(const QString& name,const QString& value)
 {
     if ("value" == name)
     {
-	wnd_->setSelected(value);
+	wnd_->setSelected(value, false);
     }
     else if ("title" == name)
     {
@@ -92,9 +109,11 @@ void alColorSelect::setAttr(const QString& name,const QString& value)
 void alColorSelect::registerEvent(const QString& name)
 {
     if ("selected" == name)
-    {
-        connect(wnd_,SIGNAL( selected() ),SLOT(onSelect()));
-    }
+        connect(wnd_, SIGNAL(selected()), this, SLOT(onSelect()));
+    else if( "changed" == name )
+	connect(wnd_, SIGNAL(changed()), this, SLOT(onChange()));
+    else if( "return-pressed" == name )
+	connect(wnd_, SIGNAL(editingFinished()), this, SLOT(onReturn()));
 }
 
 QString alColorSelect::postData() const
