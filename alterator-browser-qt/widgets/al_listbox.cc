@@ -79,7 +79,12 @@ AListBox::ListType AListBox::listType()
 void AListBox::keyPressEvent(QKeyEvent * e) 
 {
     if ((e->key() == Qt::Key_Space))
+    {
+	QTreeWidgetItem *ci = currentItem();
+	if( ci )
+	    ci->setSelected(!ci->isSelected());
         emit spaceBtnPressed();
+    }
     else
 	QTreeWidget::keyPressEvent(e);
 }
