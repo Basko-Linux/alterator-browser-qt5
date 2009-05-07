@@ -129,7 +129,7 @@ Browser::Browser():
 	settings.endGroup();
 
 	geometry_ = QRect(wnd_x, wnd_y, wnd_width, wnd_height);
-	setGeometry(geometry_);
+	resize(wnd_width,wnd_height);
     }
     else
 	setFullScreen(true);
@@ -294,7 +294,7 @@ void Browser::setFullScreen(bool full)
 	setGeometry(QApplication::desktop()->geometry());
     }
     else
-	setGeometry(geometry_);
+	resize(geometry_.width(), geometry_.height());
 }
 
 void Browser::setHelpSource(const QString& str)
