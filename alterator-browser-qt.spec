@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.11.15
+Version: 2.11.16
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,11 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Thu May 07 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.16-alt1
+- fix to change selection in listbox when space pressed
+- don't set window position when have window manager
+- allow to stop slideshow thread via (slideshow url "")
+
 * Tue May 05 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.15-alt1
 - add changed and return-pressed events for fileselect and colorselect
 
