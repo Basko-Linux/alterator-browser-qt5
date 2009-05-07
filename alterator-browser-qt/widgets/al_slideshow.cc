@@ -26,6 +26,7 @@ SlideLoader::~SlideLoader()
 void SlideLoader::setSource(const QString &new_src_dir)
 {
     src_dir_ = new_src_dir;
+    images_.clear();
     tm_->stop();
     QDir imgdir(new_src_dir);
     if( imgdir.exists() )
