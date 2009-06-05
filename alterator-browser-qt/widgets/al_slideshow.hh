@@ -15,7 +15,8 @@ public:
     ~SlideLoader();
 
     void run();
-    void setSource(const QString&);
+    void setSource(const QString&); // start
+    void stop();
     void setInterval(int);
     QImage image();
 
@@ -41,7 +42,8 @@ public:
     ASlideShow(QWidget *parent, const Qt::Orientation);
     ~ASlideShow();
 
-    void setSource(const QString&);
+    void setSource(const QString&); // start
+    void stop();
     void setInterval(int);
 
 public slots:
@@ -56,6 +58,7 @@ class alSlideShow: public alWidgetPre<ASlideShow>
 Q_OBJECT
 public:
     alSlideShow(const AlteratorRequestActionAttrs &attr, const QString& id, const QString& parent);
+    ~alSlideShow();
     void setAttr(const QString& name,const QString& value);
 };
 

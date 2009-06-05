@@ -19,6 +19,11 @@ SlideLoader::SlideLoader(QWidget *parent):
 
 SlideLoader::~SlideLoader()
 {
+    stop();
+}
+
+void SlideLoader::stop()
+{
     stop_ = true;
     quit();
 }
@@ -118,7 +123,10 @@ ASlideShow::ASlideShow(QWidget *parent, const Qt::Orientation):
     connect(loader, SIGNAL(gotImage()), this, SLOT(setPixmap()));
 }
 
-ASlideShow::~ASlideShow() {}
+ASlideShow::~ASlideShow()
+{
+    loader->stop();
+}
 
 void ASlideShow::setInterval(int step)
 {
@@ -130,17 +138,27 @@ void ASlideShow::setSource(const QString& new_src)
     loader->setSource(new_src);
 }
 
+void ASlideShow::stop()
+{
+    loader->stop();
+}
+
 void ASlideShow::setPixmap()
 {
     QLabel::setPixmap(QPixmap::fromImage(loader->image()));
 }
 
+// alSlideShow
 alSlideShow::alSlideShow(const AlteratorRequestActionAttrs &attr, const QString& id, const QString& parent):
 	alWidgetPre<ASlideShow>(attr,WSlideShow,id,parent)
 {
 }
 
-// alSlideShow
+alSlideShow::~alSlideShow()
+{
+    wnd_->stop();
+}
+
 void alSlideShow::setAttr(const QString& name,const QString& value)
 {
     if( "url" == name || "text" == name )
