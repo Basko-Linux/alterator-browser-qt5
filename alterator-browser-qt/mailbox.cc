@@ -72,30 +72,35 @@ void MailBox::onNewConnection(int fd)
 
 void MailBox::readMessage(int fd)
 {
-	QString message;
-	char ch = 0;
-	int len = 0;
-	while ((len = read(fd,&ch,1)) > 0)
-	{
-	    if(ch == '\0')
+    FILE *fl = fdopen(fd, "r");
+    if( fl )
+    {
+	QString msgremain;
+	QTextStream fs(fl,QIODevice::ReadOnly);
+	fs.setCodec("UTF-8");
+	do {
+	    QString msgdata(msgremain);
+	    msgdata.append(fs.readLine(1024));
+	    QStringList msglist(msgdata.split(QChar('\0'),QString::KeepEmptyParts));
+	    QStringListIterator is(msglist);
+	    while( is.hasNext() )
 	    {
+		QString message = is.next();
 		if(!message.isEmpty())
 		{
 		    //qDebug("MailBox::readMessage mailbox message:%s",qPrintable(message));
-		    browser->getDocument(QString("(mailbox-request %1 )").arg(message));
+		    if( is.hasNext() || fs.atEnd() )
+		    {
+			browser->getDocument(QString("(mailbox-request %1 )").arg(message));
+			msgremain.clear();
+		    }
+		    else
+		    {
+			msgremain = message;
+		    }
 		    //qDebug("MailBox::readMessage end of processing....");
-
-		    message = "";
 		}
 	    }
-	    else
-		message += ch;
-	}
-
-	if(!message.isEmpty())
-	{
-	    //qDebug("MailBox::readMessage mailbox message:%s",qPrintable(message));
-	    browser->getDocument(QString("(mailbox-request %1 )").arg(message));
-	    //qDebug("MailBox::readMessage end of processing....");
-	}
+	} while( !fs.atEnd() );
+    }
 }
