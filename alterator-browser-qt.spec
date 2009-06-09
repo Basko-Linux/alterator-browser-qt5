@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.11.17
+Version: 2.11.18
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Tue Jun 09 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.18-alt1
+- fix mailbox data encoding
+
 * Fri Jun 05 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.17-alt1
 - fix to terminate slideshow thread
 
