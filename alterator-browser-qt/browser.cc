@@ -38,7 +38,7 @@
 
 MailBox *mailbox = 0;
 WidgetList *widgetlist = 0;
-
+Browser *__browser_instance = 0;
 
 bool x_redirect_error;
 bool x_error_occurred;
@@ -136,6 +136,8 @@ Browser::Browser():
 
     connect(QApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(stop()));
     QTimer::singleShot(0, this, SLOT(start()));
+
+    __browser_instance = this;
 }
 
 Browser::~Browser()
@@ -970,20 +972,31 @@ void Browser::popupRemove(QWidget *p)
 	cw->setEnabled(true);
 }
 
+void Browser::raiseBrowserWindow()
+{
+	QWidget *wnd = window();
+	bool was_maximized = wnd->isMaximized();
+	if( was_maximized )
+	    wnd->showMaximized();
+	else
+	    wnd->showNormal();
+	wnd->activateWindow();
+	wnd->raise();
+}
+
 void Browser::onUnixSignal(int sig)
+{
+    unixSignalHandler(sig);
+}
+
+void Browser::unixSignalHandler(int sig)
 {
     switch(sig)
     {
 	case SIGUSR1:
 	    {
-		QWidget *wnd = window();
-		if( wnd->isMaximized() )
-		    wnd->showMaximized();
-		else
-		    wnd->showNormal();
-		wnd->show();
-		wnd->activateWindow();
-		wnd->raise();
+		if( __browser_instance )
+		    __browser_instance->raiseBrowserWindow();
 		break;
 	    }
 	default:

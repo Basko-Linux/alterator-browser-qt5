@@ -36,6 +36,7 @@ public:
     void quitAppManaged(int);
     void quitApp(int answ = QDialogButtonBox::NoButton);
     void quitAppError(const QString&);
+    static void unixSignalHandler(int);
 
 signals:
     void languageChanged();
@@ -81,6 +82,7 @@ private:
     static void collectTabIndex(QList<QString>&, QMap<QString, QMap<int,QWidget*> >&, alWidget* wdg, int);
     void reloadTranslator(QTranslator* translator, const QString &domain);
 
+    void raiseBrowserWindow();
     void onRetryRequest();
     alWidget* onNewRequest(const AlteratorRequestActionAttrs &attr);
     void onCloseRequest(const QString& id);

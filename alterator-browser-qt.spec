@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.11.18
+Version: 2.11.19
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Tue Jun 23 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.19-alt1
+- fix activating window when second browser instance started with Qt-4.5
+
 * Tue Jun 09 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.18-alt1
 - fix mailbox data encoding
 

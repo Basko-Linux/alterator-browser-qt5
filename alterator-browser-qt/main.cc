@@ -60,7 +60,6 @@ int main(int argc,char **argv)
 
 	    Q_INIT_RESOURCE(images);
 	    QApplication app(argc, argv);
-	    app.watchUnixSignal(SIGUSR1, true);
 
 	    Enums enums_;
 	    enums = &enums_;
@@ -68,7 +67,16 @@ int main(int argc,char **argv)
 	    Browser mw;
 	    mw.show();
 	    browser = &mw;
+#if 0
+	    app.watchUnixSignal(SIGUSR1, true);
 	    QObject::connect(QCoreApplication::instance(), SIGNAL(unixSignal(int)), browser, SLOT(onUnixSignal(int)));
+#else
+            struct sigaction sa;
+            sigemptyset(&(sa.sa_mask));
+            sa.sa_flags = 0;
+            sa.sa_handler = Browser::unixSignalHandler;
+            sigaction(SIGUSR1, &sa, 0);
+#endif
 
 	    ret = app.exec();
 	    browser = 0;
