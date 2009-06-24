@@ -975,13 +975,9 @@ void Browser::popupRemove(QWidget *p)
 void Browser::raiseBrowserWindow()
 {
 	QWidget *wnd = window();
-	bool was_maximized = wnd->isMaximized();
-	if( was_maximized )
-	    wnd->showMaximized();
-	else
-	    wnd->showNormal();
-	wnd->activateWindow();
+	wnd->setWindowState(wnd->windowState() & ~Qt::WindowMinimized);
 	wnd->raise();
+	wnd->activateWindow();
 }
 
 void Browser::onUnixSignal(int sig)
