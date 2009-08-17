@@ -976,8 +976,8 @@ void Browser::raiseBrowserWindow()
 {
 	QWidget *wnd = window();
 	wnd->setWindowState(wnd->windowState() & ~Qt::WindowMinimized);
-	wnd->raise();
 	wnd->activateWindow();
+	wnd->raise();
 }
 
 void Browser::onUnixSignal(int sig)

@@ -8,7 +8,7 @@
 
 Name: alterator-browser-qt
 Version: 2.11.19
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Mon Aug 17 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.19-alt2
+- fix raise window when minimized and second browser instance started
+
 * Tue Jun 23 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.19-alt1
 - fix activating window when second browser instance started with Qt-4.5
 
