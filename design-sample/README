@@ -10,8 +10,8 @@
 Qt-шные имена найти можно поиском функции setObjectName("конкретное_имя").
 
 Палитру можно сделать при помоши `kcmshell4 colors`
-из пакета kde4base-workspace. Результат будет в ~/.config/Trolltech.conf и
-~/.kde4/share/apps/color-schemes/ .
+из пакета kde4base-runtime-core. Результат будет в ~/.config/Trolltech.conf , секция [qt]
+параметры Palette* и в файлах ~/.kde4/share/apps/color-schemes/*
 
 Упаковка:
 ---------
