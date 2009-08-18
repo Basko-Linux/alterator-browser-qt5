@@ -4,12 +4,12 @@
 
 В .qss можно использовать почти любые виджеты, имеюшиеся в исходниках browser,
 являющиеся наследниками виджетов из списка:
-`assistant-qt4 -showUrl qthelp://com.trolltech.qt.443/qdoc/stylesheet-reference.html#list-of-stylable-widgets`.
+`assistant-qt4 -showUrl qthelp://com.trolltech.qt.452/qdoc/stylesheet-reference.html#list-of-stylable-widgets`.
 Т.е. наследники QWidget нельзя, но можно сделать по запросу при необходимости.
 Использовать можно по имени класса виджета или по Qt-шному имени объекта.
 Qt-шные имена найти можно поиском функции setObjectName("конкретное_имя").
 
-Палитру можно сделать при помоши `/usr/lib/kde4bin/kcmshell4 colors`
+Палитру можно сделать при помоши `kcmshell4 colors`
 из пакета kde4base-workspace. Результат будет в ~/.config/Trolltech.conf и
 ~/.kde4/share/apps/color-schemes/ .
 
