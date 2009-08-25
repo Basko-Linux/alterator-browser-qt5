@@ -8,7 +8,7 @@
 
 Name: alterator-browser-qt
 Version: 2.11.19
-Release: alt2
+Release: alt3
 
 Source:%name-%version.tar
 
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Tue Aug 25 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.19-alt3
+- hide cursor over startup animation
+
 * Mon Aug 17 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.19-alt2
 - fix raise window when minimized and second browser instance started
 
