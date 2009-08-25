@@ -99,6 +99,7 @@ Browser::Browser():
     startup_splash->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
     startup_splash->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     startup_splash->setAlignment( Qt::AlignCenter );
+    startup_splash->setCursor(Qt::BlankCursor);
     central_layout->addWidget(startup_splash);
 
     QString startup_splash_file = ":/design/whirl.mng";
