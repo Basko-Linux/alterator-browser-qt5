@@ -103,8 +103,7 @@ void initPixmaps()
 	pix_map["theme:directory"] = new AStdPixmapGenerator(QStyle::SP_DirOpenIcon);
 	pix_map["theme:file"] = new AStdPixmapGenerator(QStyle::SP_FileIcon);
 
-	pix_map["theme:unknown"] = new AStdPixmapGenerator(QStyle::SP_TitleBarMenuButton);
-	//pix_map["theme:unknown"] = new AFilePixmapGenerator("logo_48");
+	pix_map["theme:unknown"] = pix_map["theme:unknown"] = new AStdPixmapGenerator(QStyle::SP_TitleBarMenuButton);
 
     	pix_map["theme:check-on"] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorCheckBox,
 	                                          QStyle::SE_CheckBoxIndicator,
@@ -153,7 +152,7 @@ QPixmap getPixmap(QString id)
 	    pixmap = AFilePixmapGenerator(id)();
 
 	if( pixmap.isNull() )
-	    pixmap = (*pix_map["theme:unknown"])();
+	    pixmap = QPixmap(":/images/altlinux_16");
 	else if( (pixgen && pixgen->type() == APixmapGenerator::Generated )
 		|| (pixmap.width() < 48 && pixmap.height() < 48) )
     	    QPixmapCache::insert(id, pixmap);
