@@ -103,6 +103,8 @@ AWizardFaceStepList::AWizardFaceStepList(QWidget *parent):
 	pix_current = getPixmap("theme:check-off");
     pix_undone = getPixmap("theme:null");
     QPixmap logo_icon_pix = getPixmap("logo_width");
+    if( logo_icon_pix.toImage() == pix_unknown.toImage() )
+	logo_icon_pix = getPixmap("logo_48");
     if( logo_icon_pix.toImage() != pix_unknown.toImage() )
 	logo_icon->setPixmap(logo_icon_pix);
 }
