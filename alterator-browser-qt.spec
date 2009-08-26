@@ -7,8 +7,8 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.11.19
-Release: alt3
+Version: 2.11.20
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Wed Aug 26 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.20-alt1
+- use altlinux icon for unknown pixmaps
+
 * Tue Aug 25 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.19-alt3
 - hide cursor over startup animation
 
