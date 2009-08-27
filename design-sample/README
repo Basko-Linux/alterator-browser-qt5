@@ -9,7 +9,7 @@
 Использовать можно по имени класса виджета или по Qt-шному имени объекта.
 Qt-шные имена найти можно поиском функции setObjectName("конкретное_имя").
 
-Палитру можно сделать при помоши `kcmshell4 colors`из пакета kde4base-runtime-core.
+Палитру можно сделать при помоши `kcmshell4 colors`из пакета kde4base-workspace-core.
 Результат будет в ~/.config/Trolltech.conf , секция [qt] параметры Palette*
 и в файлах ~/.kde4/share/apps/color-schemes/*
 Примеры цветовых схем можно взять в пакете kde4artwork-color-schemes и на http://kde-look.org/
