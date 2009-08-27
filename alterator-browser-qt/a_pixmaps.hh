@@ -48,6 +48,15 @@ public:
     QPixmap operator()();
 };
 
+class AUnknownPixmapGenerator: public APixmapGenerator
+{
+public:
+    AUnknownPixmapGenerator():
+	APixmapGenerator(APixmapGenerator::Generated)
+	{};
+    QPixmap operator()();
+};
+
 class APEButtonPixmapGenerator: public APixmapGenerator
 {
 public:
