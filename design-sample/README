@@ -2,14 +2,18 @@
 -----------
 Все компоненты: QSS, style, font, Palette - опциональные.
 
+QSS:
+----
 В .qss можно использовать почти любые виджеты, имеюшиеся в исходниках browser,
 являющиеся наследниками виджетов из списка:
 `assistant-qt4 -showUrl qthelp://com.trolltech.qt.452/qdoc/stylesheet-reference.html#list-of-stylable-widgets`.
-Т.е. наследники QWidget нельзя, но можно сделать по запросу при необходимости.
+Т.е. наследники QWidget нельзя, но можно сделать индивидульно по запросу при необходимости.
 Использовать можно по имени класса виджета или по Qt-шному имени объекта.
-Qt-шные имена найти можно поиском функции setObjectName("конкретное_имя").
+Qt-шные имена найти можно поиском функции setObjectName("имя_объекта").
 
-Палитру можно сделать при помоши `kcmshell4 colors`из пакета kde4base-workspace-core.
+Цветовая схема:
+---------------
+Цветовую схему можно сделать при помоши `kcmshell4 colors` из пакета kde4base-workspace-core.
 Результат будет в ~/.config/Trolltech.conf , секция [qt] параметры Palette*
 и в файлах ~/.kde4/share/apps/color-schemes/*
 Примеры цветовых схем можно взять в пакете kde4artwork-color-schemes и на http://kde-look.org/
