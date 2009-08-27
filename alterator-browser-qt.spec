@@ -8,7 +8,7 @@
 
 Name: alterator-browser-qt
 Version: 2.11.20
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Thu Aug 27 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.20-alt2
+- fix retrieve unknown pixmap
+
 * Wed Aug 26 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.20-alt1
 - use altlinux icon for unknown pixmaps
 
