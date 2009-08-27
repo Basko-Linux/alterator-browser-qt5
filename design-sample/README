@@ -13,6 +13,7 @@ Qt-шные имена найти можно поиском функции setOb
 Результат будет в ~/.config/Trolltech.conf , секция [qt] параметры Palette*
 и в файлах ~/.kde4/share/apps/color-schemes/*
 Примеры цветовых схем можно взять в пакете kde4artwork-color-schemes и на http://kde-look.org/
+Хранить цветовые схемы удобнее в формате KDE.
 
 Упаковка:
 ---------
