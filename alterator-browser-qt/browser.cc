@@ -521,9 +521,13 @@ void Browser::onAlteratorRequest(const AlteratorRequest& request)
 	if( it.hasNext() )
 	{
 	    QWidget *from = it.next().value();
+	    if( from->focusProxy() )
+		from = from->focusProxy();
 	    while( it.hasNext() )
 	    {
 		QWidget *to = it.next().value();
+		if( to->focusProxy() )
+		    to = to->focusProxy();
 		setTabOrder(from, to);
 		from = to;
 	    }
