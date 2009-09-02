@@ -83,7 +83,7 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 %changelog
 * Wed Sep 02 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.21-alt1
-- fix tab-index on complex widgets
+- fix tab-index and tab-index on complex widgets
 
 * Thu Aug 27 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.20-alt2
 - fix retrieve unknown pixmap
