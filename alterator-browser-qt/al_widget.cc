@@ -205,7 +205,13 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	    if( aw )
 		first = aw->getWidget();
 	    if( w && first )
+	    {
+		if( first->focusProxy() )
+		    first = first->focusProxy();
+		if( w->focusProxy() )
+		    w = w->focusProxy();
 		w->setTabOrder(first, w);
+	    }
 	}
 }
 
