@@ -192,10 +192,13 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	{
 	    if(w)
 	    {
+		QWidget *wf = w;
+		if( wf->focusProxy() )
+		    wf = wf->focusProxy();
 		if( "true" == value )
-		    w->setFocus();
+		    wf->setFocus();
 		else
-		    w->clearFocus();
+		    wf->clearFocus();
 	    }
 	}
 	else if ("tab-order" == name)
