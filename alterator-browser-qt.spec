@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.11.21
+Version: 2.11.22
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Thu Sep 03 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.22-alt1
+- fix possible broken initial focus order (ALT#21198)
+
 * Wed Sep 02 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.21-alt1
 - fix tab-index and tab-index on complex widgets
 
