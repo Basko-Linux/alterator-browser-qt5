@@ -135,7 +135,7 @@ void WidgetList::groupAdd(alWidget *aw)
 		    QAbstractButton *ab = qobject_cast<QAbstractButton*>(aw->getWidget());
 		    if( ab )
 		    {
-			ab->setAutoExclusive(false);
+			//ab->setAutoExclusive(false);
 			buttongroups[altgroup]->addButton(ab);
 		    }
 		    else
