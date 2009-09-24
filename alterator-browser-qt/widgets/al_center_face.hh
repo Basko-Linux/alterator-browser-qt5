@@ -12,7 +12,6 @@
 #include "widgets.hh"
 #include "awidget.hh"
 
-#if 1
 class ACenterModuleButton: public QToolButton
 {
 Q_OBJECT
@@ -22,25 +21,6 @@ public:
 private slots:
     void onClicked();
 };
-#else
-class ACenterModuleButton: public QLabel
-{
-Q_OBJECT
-public:
-    ACenterModuleButton(QWidget *parent = 0);
-    ~ACenterModuleButton();
-
-    void setText(const QString&);
-    void setPixmap(const QPixmap&);
-    void setIcon(const QIcon&);
-
-signals:
-    void clicked();
-
-private slots:
-    void onLinkActivated(const QString&);
-};
-#endif
 
 typedef ACenterModuleButton ACenterSectionModulesListItem;
 

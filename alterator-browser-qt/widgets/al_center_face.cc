@@ -6,7 +6,6 @@
 #include "al_center_face.hh"
 #include "a_pixmaps.hh"
 
-#if 1
 ACenterModuleButton::ACenterModuleButton(QWidget *parent):
     QToolButton(parent)
 {
@@ -27,34 +26,6 @@ void ACenterModuleButton::onClicked()
     btn_palette.setBrush(QPalette::ButtonText, btn_palette.linkVisited());
     setPalette(btn_palette);
 }
-#else
-ACenterModuleButton::ACenterModuleButton(QWidget *parent):
-    QLabel(parent)
-{
-    setTextFormat(Qt::RichText);
-    setWordWrap(false);
-    connect(this, SIGNAL(linkActivated(const QString&)), this, SLOT(onLinkActivated(const QString&)));
-}
-
-ACenterModuleButton::~ACenterModuleButton()
-{}
-
-void ACenterModuleButton::onLinkActivated(const QString&)
-{
-    emit clicked();
-}
-
-void ACenterModuleButton::setText(const QString &txt)
-{
-    QLabel::setText("<a href=\"/\">" + txt + "</a>");
-}
-
-void ACenterModuleButton::setPixmap(const QPixmap&)
-{}
-
-void ACenterModuleButton::setIcon(const QIcon&)
-{}
-#endif
 
 /* CenterSectionModulesList */
 ACenterSectionModulesList::ACenterSectionModulesList(QWidget *parent):
