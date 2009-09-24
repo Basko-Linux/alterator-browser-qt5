@@ -41,7 +41,6 @@
 
 //#include <QtGui>
 #include <QWidget>
-#include <QStyle>
 
 #include "flowlayout.h"
 //! [1]
