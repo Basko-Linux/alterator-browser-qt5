@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.11.23
+Version: 2.11.24
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Thu Sep 24 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.24-alt1
+- sort Tab order in centerface
+
 * Thu Sep 10 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.23-alt1
 - fix switching focus between radios by arrows (ALT#21390)
 
