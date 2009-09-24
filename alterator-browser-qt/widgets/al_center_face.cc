@@ -1,6 +1,7 @@
 
 #include <QScrollArea>
 #include <QScrollBar>
+#include <QPair>
 
 #include "global.hh"
 #include "al_center_face.hh"
@@ -95,6 +96,11 @@ bool ACenterSectionModulesList::isOwnerOfItem(ACenterSectionModulesListItem *i)
     return i->parentWidget() == this;
 }
 
+QList<ACenterSectionModulesListItem*> ACenterSectionModulesList::getItems()
+{
+    return items;
+}
+
 /* CenterSection */
 ACenterSection::ACenterSection(QWidget *parent, const QString &title_text):
     QWidget(parent)
@@ -171,6 +177,11 @@ void ACenterSection::setText(const QString &txt)
 void ACenterSection::setDesc(const QString &txt)
 {
     desc->setText(txt);
+}
+
+QString ACenterSection::text()
+{
+    return title->text();
 }
 
 ACenterSectionModulesList* ACenterSection::getModulesList()
@@ -431,11 +442,11 @@ void ACenterFace::addModule(const QString& section_key, const QString& key, cons
 {
     if( !key.isEmpty() && sections.contains(section_key) )
     {
-	ACenterSection *section = sections[section_key];
+	ACenterSection *section = sections.value(section_key);
 	ACenterSectionModulesList *mlist = section->getModulesList();
 	ACenterSectionModulesListItem *i = new ACenterSectionModulesListItem();
 	mlist->addItem(i);
-	modules[key] = i;
+	modules.insert(key,i);
 	setModuleText(key,name);
     }
 }
@@ -444,7 +455,7 @@ void ACenterFace::setModuleText(const QString &key, const QString &value)
 {
     if( modules.contains(key) )
     {
-	modules[key]->setText(value);
+	modules.value(key)->setText(value);
     }
 }
 
@@ -452,7 +463,7 @@ void ACenterFace::setModulePixmap(const QString &key, const QString &value)
 {
 #if 0
     if( modules.contains(key) )
-	modules[key]->setIcon(getPixmap(value));
+	modules.value(key)->setIcon(getPixmap(value));
 #endif
 }
 
@@ -460,8 +471,8 @@ void ACenterFace::removeModule(const QString &key)
 {
     if( modules.contains(key) )
     {
-	ACenterSectionModulesListItem* i = modules[key];
-	QMapIterator<QString,ACenterSection*> it(sections);
+	ACenterSectionModulesListItem* i = modules.value(key);
+	QHashIterator<QString,ACenterSection*> it(sections);
 	while(it.hasNext())
 	{
 	    ACenterSection *sect = it.next().value();
@@ -478,14 +489,14 @@ void ACenterFace::removeModule(const QString &key)
 void ACenterFace::clearSections()
 {
     clearModules();
-    QMap<QString,ACenterSection*> dead_sections = sections;
+    QHash<QString,ACenterSection*> dead_sections = sections;
     sections.clear();
+    sections_list.clear();
 
-    QMapIterator<QString,ACenterSection*> it(dead_sections);
-    while(it.hasNext())
+    foreach(ACenterSection *dead, dead_sections)
     {
-	delete it.next().value();
-	dead_sections[it.key()] = 0;
+	delete dead;
+	dead = 0;
     }
 }
 
@@ -493,7 +504,8 @@ void ACenterFace::addSection(const QString& key, const QString& name, const QStr
 {
     ACenterSection *section = new ACenterSection(sections_view_widget, name);
     sections_view_layout->addWidget(section);
-    sections[key] = section;
+    sections.insert(key,section);
+    sections_list.append(section);
     if(!desc.isEmpty())
 	setSectionDesc(key, desc);
     if(!pixmap.isEmpty())
@@ -504,19 +516,19 @@ void ACenterFace::addSection(const QString& key, const QString& name, const QStr
 void ACenterFace::setSectionText(const QString &key, const QString &value)
 {
     if( sections.contains(key) )
-	sections[key]->setText(value);
+	sections.value(key)->setText(value);
 }
 
 void ACenterFace::setSectionDesc(const QString &key, const QString &value)
 {
     if( sections.contains(key) )
-	sections[key]->setDesc(value);
+	sections.value(key)->setDesc(value);
 }
 
 void ACenterFace::setSectionPixmap(const QString &key, const QString &value)
 {
     if( sections.contains(key) )
-	sections[key]->setPixmap(getPixmap(value));
+	sections.value(key)->setPixmap(getPixmap(value));
 }
 
 void ACenterFace::removeSection(const QString& key)
@@ -526,7 +538,7 @@ void ACenterFace::removeSection(const QString& key)
 	ACenterSection *section = sections.take(key);
 	ACenterSectionModulesList *mlistw = section->getModulesList();
 	QList<QString> mod_keys;
-	QMapIterator<QString,ACenterSectionModulesListItem*> it(modules);
+	QHashIterator<QString,ACenterSectionModulesListItem*> it(modules);
 	while(it.hasNext())
 	{
 	    if( mlistw->isOwnerOfItem(it.next().value()) )
@@ -535,6 +547,8 @@ void ACenterFace::removeSection(const QString& key)
 	QListIterator<QString> mit(mod_keys);
 	while(mit.hasNext())
 	    removeModule(mit.next());
+
+	sections_list.removeAll(section);
 	delete section;
     }
 }
@@ -592,6 +606,24 @@ void ACenterFace::onExpertModeToggled(bool on)
     current_action_key = on? "expert_mode": "base_mode";
     if( eventRegistered(BrowserEventClicked) )
 	browser->emitEvent(getId(), BrowserEventClicked, AlteratorRequestDefault);
+}
+
+void ACenterFace::sortTabOrder()
+{
+    QWidget *first = 0;
+    foreach(ACenterSection *section, sections_list)
+    {
+	ACenterSectionModulesList *modlist = section->getModulesList();
+	foreach(ACenterSectionModulesListItem *module_item, modlist->getItems())
+	{
+	    QWidget *second = module_item;
+	    if( second->focusProxy() )
+		second = second->focusProxy();
+	    if( first )
+		setTabOrder(first, second);
+	    first = second;
+	}
+    }
 }
 
 /* alCenterFace */
@@ -716,7 +748,7 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
 		break;
 	    wnd_->addModule(section_key, key, name);
 	}
-
+	wnd_->sortTabOrder();
     }
     else if( "module-add" == name )
     {

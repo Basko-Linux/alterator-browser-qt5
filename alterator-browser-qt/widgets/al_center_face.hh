@@ -38,6 +38,7 @@ public:
 
     int count();
     bool isOwnerOfItem(ACenterSectionModulesListItem*);
+    QList<ACenterSectionModulesListItem*> getItems();
 
 signals:
     void itemClicked(ACenterSectionModulesListItem*);
@@ -61,6 +62,8 @@ public:
     void setText(const QString&);
     void setDesc(const QString&);
 
+    QString text();
+
     ACenterSectionModulesList *getModulesList();
 private:
     QLabel *pixmap;
@@ -79,6 +82,7 @@ public:
     ~ACenterFace();
 
     void setHelpSource(const QString&);
+    void sortTabOrder();
 
     void clearActions();
     void addAction(const QString& key, const QString& name, const QString& pixmap);
@@ -131,9 +135,10 @@ private:
     QToolButton *owerview_btn;
     QString help_source;
 
-    QMap<QString, ACenterSection*> sections;
-    QMap<QString, ACenterSectionModulesListItem*> modules;
-    QMap<QString, QAbstractButton*> buttons;
+    QHash<QString, ACenterSection*> sections;
+    QList<ACenterSection*> sections_list;
+    QHash<QString, ACenterSectionModulesListItem*> modules;
+    QHash<QString, QAbstractButton*> buttons;
 
     void addAction(const QString &key, UserActionType);
     QPixmap defaultActionIcon(UserActionType);
