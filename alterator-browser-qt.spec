@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.11.24
+Version: 2.11.25
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Tue Sep 29 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.25-alt1
+- fix switch help in centerface (ALT#21466)
+
 * Thu Sep 24 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.24-alt1
 - sort Tab order in centerface
 
