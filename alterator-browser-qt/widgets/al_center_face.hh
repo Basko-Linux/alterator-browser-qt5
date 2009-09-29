@@ -134,6 +134,7 @@ private:
     QDialogButtonBox* buttonbox;
     QToolButton *owerview_btn;
     QString help_source;
+    QString help_source_module;
 
     QHash<QString, ACenterSection*> sections;
     QList<ACenterSection*> sections_list;

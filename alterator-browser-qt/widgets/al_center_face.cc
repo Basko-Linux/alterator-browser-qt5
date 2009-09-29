@@ -317,14 +317,15 @@ void ACenterFace::onOwerviewClicked()
 	owerview_btn->setText(tr("Main"));
 	owerview_btn->setIcon(getPixmap("theme:up"));
 	stacked_layout->setCurrentWidget(module_widget);
+	browser->setHelpSource(help_source_module);
     }
     else
     {
 	owerview_btn->setText(tr("Module"));
 	owerview_btn->setIcon(getPixmap("theme:down"));
 	stacked_layout->setCurrentWidget(sections_widget);
+	browser->setHelpSource(help_source);
     }
-    browser->setHelpSource(help_source);
 }
 
 void ACenterFace::clearActions()
@@ -597,8 +598,10 @@ QString ACenterFace::currentModuleKey()
 
 void ACenterFace::setHelpSource(const QString &url)
 {
-    if( stacked_layout->currentWidget() == sections_widget )
+    if( help_source.isEmpty() )
 	help_source = url;
+    if( url != help_source )
+	help_source_module = url;
 }
 
 void ACenterFace::onExpertModeToggled(bool on)
