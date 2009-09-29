@@ -186,17 +186,19 @@ void Connection::endDelayedFinish()
 AlteratorRequestParamData Connection::makeRequestParamData(AlteratorRequestParamDataType type, const QString& str)
 {
     AlteratorRequestParamData data;
+    data.s = str;
     switch( type )
     {
 	case AltReqParamDataType:
 	{
 	    data.t = enums->strToWidget(str);
-	    data.s = str;
 	    break;
 	}
 	case AltReqParamDataString:
 	{
-	    data.s = str; break;
+	    if( data.s.isEmpty() )
+		data.s = str;
+	    break;
 	}
 	case AltReqParamDataBool:
 	{
