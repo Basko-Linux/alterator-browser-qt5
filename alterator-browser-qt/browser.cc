@@ -437,8 +437,11 @@ void Browser::onAlteratorRequest(const AlteratorRequest& request)
 	    case AlteratorRequestNew:
 	    {
 		alWidget *new_wdg = onNewRequest(request.attr);
-		collectTabIndex(tab_order_parents, tab_order_list, new_wdg,
-		    request.attr[AltReqParamWTabIndex].i);
+		if( request.attr.contains(AltReqParamWTabIndex) )
+		{
+		    collectTabIndex(tab_order_parents, tab_order_list, new_wdg,
+			request.attr[AltReqParamWTabIndex].i);
+		}
 		break;
 	    }
 	    case AlteratorRequestSet:
@@ -451,7 +454,7 @@ void Browser::onAlteratorRequest(const AlteratorRequest& request)
 		else
 		    collectTabIndex(tab_order_parents, tab_order_list,
 			widgetlist->alWidgetById(request.attr[AltReqParamWId].s),
-			    request.attr[AltReqParamWTabIndex].i);
+			    request.attr[AltReqParamWAttrValue].s.toInt());
 		break;
 	    }
 	    case AlteratorRequestClose:

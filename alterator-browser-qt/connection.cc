@@ -150,12 +150,57 @@ void Connection::run()
 
 void Connection::parseAnswer(const alRequest &dom, AlteratorRequestFlags request_flags)
 {
+    QList<QString> params_for_new;
+    params_for_new << "type" << "parent" << "width" << "height" << "orientation" << "sub-type" << "checked" << "columns" << "rowspan" << "colspan" << "tab-index";
     AlteratorRequest request;
     request.flags = request_flags;
     QListIterator<alCommand*> it(dom.commands_);
     while(it.hasNext())
     {
-	request.actions.append( getDocParser(it.next()) );
+	AlteratorRequestAction action = getDocParser(it.next());
+	QList<AlteratorRequestAction> next_actions;
+	if( action.action == AlteratorRequestNew )
+	{
+	    while( it.hasNext() )
+	    {
+		AlteratorRequestAction action_next = getDocParser(it.next());
+		if(action_next.action == AlteratorRequestSet
+		    && action.attr[AltReqParamWId].s == action_next.attr[AltReqParamWId].s
+		    && params_for_new.contains(action_next.attr[AltReqParamWAttrName].s) )
+		{
+		    if( action_next.attr[AltReqParamWAttrName].s == "type" )
+			action.attr[AltReqParamWType] = makeRequestParamData(AltReqParamDataType, action_next.attr[AltReqParamWAttrValue].s);
+		    else if( action_next.attr[AltReqParamWAttrName].s == "parent" )
+			action.attr[AltReqParamWParentId] = makeRequestParamData(AltReqParamDataString, action_next.attr[AltReqParamWAttrValue].s);
+		    else if( action_next.attr[AltReqParamWAttrName].s == "width" )
+			action.attr[AltReqParamWWidth] = makeRequestParamData(AltReqParamDataInt, action_next.attr[AltReqParamWAttrValue].s);
+		    else if( action_next.attr[AltReqParamWAttrName].s == "height" )
+			action.attr[AltReqParamWHeight] = makeRequestParamData(AltReqParamDataInt, action_next.attr[AltReqParamWAttrValue].s);
+		    else if( action_next.attr[AltReqParamWAttrName].s == "orientation" )
+			action.attr[AltReqParamWOrientation] = makeRequestParamData(AltReqParamDataOrientation, action_next.attr[AltReqParamWAttrValue].s);
+		    else if( action_next.attr[AltReqParamWAttrName].s == "sub-type" )
+			action.attr[AltReqParamWSubType] = makeRequestParamData(AltReqParamDataString, action_next.attr[AltReqParamWAttrValue].s);
+		    else if( action_next.attr[AltReqParamWAttrName].s == "checked" )
+			action.attr[AltReqParamWChecked] = makeRequestParamData(AltReqParamDataBool, action_next.attr[AltReqParamWAttrValue].s);
+		    else if( action_next.attr[AltReqParamWAttrName].s == "columns" )
+			action.attr[AltReqParamWColumns] = makeRequestParamData(AltReqParamDataString, action_next.attr[AltReqParamWAttrValue].s);
+		    else if( action_next.attr[AltReqParamWAttrName].s == "rowspan" )
+			action.attr[AltReqParamWRowSpan] = makeRequestParamData(AltReqParamDataInt, action_next.attr[AltReqParamWAttrValue].s);
+		    else if( action_next.attr[AltReqParamWAttrName].s == "colspan" )
+			action.attr[AltReqParamWColSpan] = makeRequestParamData(AltReqParamDataInt, action_next.attr[AltReqParamWAttrValue].s);
+		    else if( action_next.attr[AltReqParamWAttrName].s == "tab-index" )
+			action.attr[AltReqParamWTabIndex] = makeRequestParamData(AltReqParamDataInt, action_next.attr[AltReqParamWAttrValue].s);
+		}
+		else
+		{
+		    next_actions.append( action_next );
+		    break;
+		}
+	    }
+	}
+	request.actions.append( action );
+	foreach( AlteratorRequestAction act, next_actions )
+	    request.actions.append( act );
     }
     emit alteratorRequest(request);
 }
@@ -182,6 +227,15 @@ void Connection::endDelayedFinish()
 {
     emit stopLongRequest();
 }
+
+/*
+void Connection::setRequestActionParamData(QXmlAttributes &xmlattrs, AlteratorRequestAction &action, AlteratorRequestParamType ptype,AlteratorRequestParamDataType dtype, const QString &str)
+{
+    int pos = xmlattrs.index(str);
+    if( pos >= 0 )
+	action.attr[ptype] = makeRequestParamData(dtype, xmlattrs.value(pos));
+}
+*/
 
 AlteratorRequestParamData Connection::makeRequestParamData(AlteratorRequestParamDataType type, const QString& str)
 {
@@ -269,10 +323,7 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 		act.attr[AltReqParamWId] = makeRequestParamData(AltReqParamDataString, e.value("widget-id"));
 		QString attr_name = e.value("name");
 		act.attr[AltReqParamWAttrName] = makeRequestParamData(AltReqParamDataString, attr_name);
-		if( attr_name != "tab-index" )
-		    act.attr[AltReqParamWAttrValue] = makeRequestParamData(AltReqParamDataString, cmd->value_);
-		else
-		    act.attr[AltReqParamWTabIndex] = makeRequestParamData(AltReqParamDataInt, cmd->value_);
+		act.attr[AltReqParamWAttrValue] = makeRequestParamData(AltReqParamDataString, cmd->value_);
 		break;
 	    }
 	    case AlteratorRequestEvent:
