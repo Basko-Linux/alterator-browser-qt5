@@ -290,6 +290,7 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 	AlteratorRequestAction act;
 	act.action = enums->strToRequestAction(e.value("action"));
 
+	int pos = -1;
 	switch( act.action )
 	{
 	    case AlteratorRequestNew:
@@ -305,7 +306,8 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 		act.attr[AltReqParamWColumns] = makeRequestParamData(AltReqParamDataString, e.value("columns"));
 		act.attr[AltReqParamWRowSpan] = makeRequestParamData(AltReqParamDataInt, e.value("rowspan"));
 		act.attr[AltReqParamWColSpan] = makeRequestParamData(AltReqParamDataInt, e.value("colspan"));
-		act.attr[AltReqParamWTabIndex] = makeRequestParamData(AltReqParamDataInt, e.value("tab-index"));
+		if( pos = e.value("tab-index") >= 0 )
+		    act.attr[AltReqParamWTabIndex] = makeRequestParamData(AltReqParamDataInt, e.value("tab-index"));
 		break;
 	    }
 	    case AlteratorRequestClose:
