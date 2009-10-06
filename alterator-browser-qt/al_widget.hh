@@ -130,7 +130,10 @@ public:
 	alWidgetPre(const AlteratorRequestActionAttrs &attr, AlteratorWidgetType type, const QString& id,const QString& parent):
 		alWidget(type,id,Utils::reparentTag(parent))
 	{
-	    wnd_ = alWidgetCreateWidget<Widget>(parent, attr.value(AltReqParamWOrientation).o);
+	    Qt::Orientation orientation = Qt::Horizontal;
+	    if( attr.contains("orientation") )
+		orientation =  attr.value("orientation").o;
+	    wnd_ = alWidgetCreateWidget<Widget>(parent, orientation);
 	    setWndObject(wnd_);
 	    alWidget *a_parent = alWidgetCreateWidgetGetParent(parent);
 	    if( a_parent )

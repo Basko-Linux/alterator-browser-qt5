@@ -25,7 +25,7 @@ void AGroupBox::setMyTitle(const QString& txt)
 
 // alGroupBox
 alGroupBox::alGroupBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
-		alWidgetPre<AGroupBox>(attr,attr[AltReqParamWType].t,id,parent)
+		alWidgetPre<AGroupBox>(attr,attr.value("widget-type").t,id,parent)
 {
     switch( type() )
     {
@@ -33,7 +33,8 @@ alGroupBox::alGroupBox(const AlteratorRequestActionAttrs &attr, const QString& i
 	case WHGroupBox:
 	case WGroupBox:
 	{
-	    wnd_->setCheckable(attr[AltReqParamWChecked].b);
+	    if( attr.contains("checked") )
+		wnd_->setCheckable(attr.value("checked").b);
 	    break;
 	}
 	default:

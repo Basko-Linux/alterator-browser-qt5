@@ -157,50 +157,7 @@ void Connection::parseAnswer(const alRequest &dom, AlteratorRequestFlags request
     QListIterator<alCommand*> it(dom.commands_);
     while(it.hasNext())
     {
-	AlteratorRequestAction action = getDocParser(it.next());
-	QList<AlteratorRequestAction> next_actions;
-	if( action.action == AlteratorRequestNew )
-	{
-	    while( it.hasNext() )
-	    {
-		AlteratorRequestAction action_next = getDocParser(it.next());
-		if(action_next.action == AlteratorRequestSet
-		    && action.attr.value(AltReqParamWId).s == action_next.attr.value(AltReqParamWId).s
-		    && params_for_new.contains(action_next.attr.value(AltReqParamWAttrName).s) )
-		{
-		    if( action_next.attr.value(AltReqParamWAttrName).s == "type" )
-			action.attr.insert(AltReqParamWType, makeRequestParamData(AltReqParamDataType, action_next.attr.value(AltReqParamWAttrValue).s));
-		    else if( action_next.attr.value(AltReqParamWAttrName).s == "parent" )
-			action.attr.insert(AltReqParamWParentId, makeRequestParamData(AltReqParamDataString, action_next.attr.value(AltReqParamWAttrValue).s));
-		    else if( action_next.attr.value(AltReqParamWAttrName).s == "width" )
-			action.attr.insert(AltReqParamWWidth, makeRequestParamData(AltReqParamDataInt, action_next.attr.value(AltReqParamWAttrValue).s));
-		    else if( action_next.attr.value(AltReqParamWAttrName).s == "height" )
-			action.attr.insert(AltReqParamWHeight, makeRequestParamData(AltReqParamDataInt, action_next.attr.value(AltReqParamWAttrValue).s));
-		    else if( action_next.attr.value(AltReqParamWAttrName).s == "orientation" )
-			action.attr.insert(AltReqParamWOrientation, makeRequestParamData(AltReqParamDataOrientation, action_next.attr.value(AltReqParamWAttrValue).s));
-		    else if( action_next.attr.value(AltReqParamWAttrName).s == "sub-type" )
-			action.attr.insert(AltReqParamWSubType, makeRequestParamData(AltReqParamDataString, action_next.attr.value(AltReqParamWAttrValue).s));
-		    else if( action_next.attr.value(AltReqParamWAttrName).s == "checked" )
-			action.attr.insert(AltReqParamWChecked, makeRequestParamData(AltReqParamDataBool, action_next.attr.value(AltReqParamWAttrValue).s));
-		    else if( action_next.attr.value(AltReqParamWAttrName).s == "columns" )
-			action.attr.insert(AltReqParamWColumns, makeRequestParamData(AltReqParamDataString, action_next.attr.value(AltReqParamWAttrValue).s));
-		    else if( action_next.attr.value(AltReqParamWAttrName).s == "rowspan" )
-			action.attr.insert(AltReqParamWRowSpan, makeRequestParamData(AltReqParamDataInt, action_next.attr.value(AltReqParamWAttrValue).s));
-		    else if( action_next.attr.value(AltReqParamWAttrName).s == "colspan" )
-			action.attr.insert(AltReqParamWColSpan, makeRequestParamData(AltReqParamDataInt, action_next.attr.value(AltReqParamWAttrValue).s));
-		    else if( action_next.attr.value(AltReqParamWAttrName).s == "tab-index" )
-			action.attr.insert(AltReqParamWTabIndex, makeRequestParamData(AltReqParamDataInt, action_next.attr.value(AltReqParamWAttrValue).s));
-		}
-		else
-		{
-		    next_actions.append( action_next );
-		    break;
-		}
-	    }
-	}
-	request.actions.append( action );
-	foreach( AlteratorRequestAction act, next_actions )
-	    request.actions.append( act );
+	request.actions.append( getDocParser(it.next()) );
     }
     emit alteratorRequest(request);
 }
@@ -228,14 +185,12 @@ void Connection::endDelayedFinish()
     emit stopLongRequest();
 }
 
-/*
-void Connection::setRequestActionParamData(QXmlAttributes &xmlattrs, AlteratorRequestAction &action, AlteratorRequestParamType ptype,AlteratorRequestParamDataType dtype, const QString &str)
+void Connection::setRequestActionParamData(QXmlAttributes &xmlattrs, const QString &xmlattrname, AlteratorRequestAction &action, const QString &attrname, AlteratorRequestParamDataType dtype)
 {
-    int pos = xmlattrs.index(str);
+    int pos = xmlattrs.index(xmlattrname);
     if( pos >= 0 )
-	action.attr.value(ptype) = makeRequestParamData(dtype, xmlattrs.value(pos));
+	action.attr.insert(attrname, makeRequestParamData(dtype, xmlattrs.value(pos)));
 }
-*/
 
 AlteratorRequestParamData Connection::makeRequestParamData(AlteratorRequestParamDataType type, const QString& str)
 {
@@ -290,83 +245,81 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 	AlteratorRequestAction act;
 	act.action = enums->strToRequestAction(e.value("action"));
 
-	int pos = -1;
 	switch( act.action )
 	{
 	    case AlteratorRequestNew:
 	    {
-		act.attr.insert(AltReqParamWId, makeRequestParamData(AltReqParamDataString, e.value("widget-id")));
-		act.attr.insert(AltReqParamWType, makeRequestParamData(AltReqParamDataType, e.value("type")));
-		act.attr.insert(AltReqParamWParentId, makeRequestParamData(AltReqParamDataString, e.value("parent")));
-		act.attr.insert(AltReqParamWWidth, makeRequestParamData(AltReqParamDataInt, e.value("width")));
-		act.attr.insert(AltReqParamWHeight, makeRequestParamData(AltReqParamDataInt, e.value("height")));
-		act.attr.insert(AltReqParamWOrientation, makeRequestParamData(AltReqParamDataOrientation, e.value("orientation")));
-		act.attr.insert(AltReqParamWSubType, makeRequestParamData(AltReqParamDataString, e.value("sub-type")));
-		act.attr.insert(AltReqParamWChecked, makeRequestParamData(AltReqParamDataBool, e.value("checked")));
-		act.attr.insert(AltReqParamWColumns, makeRequestParamData(AltReqParamDataString, e.value("columns")));
-		act.attr.insert(AltReqParamWRowSpan, makeRequestParamData(AltReqParamDataInt, e.value("rowspan")));
-		act.attr.insert(AltReqParamWColSpan, makeRequestParamData(AltReqParamDataInt, e.value("colspan")));
-		if( pos = e.value("tab-index") >= 0 )
-		    act.attr.insert(AltReqParamWTabIndex, makeRequestParamData(AltReqParamDataInt, e.value("tab-index")));
+		act.attr.insert("widget-id", makeRequestParamData(AltReqParamDataString, e.value("widget-id")));
+		act.attr.insert("widget-type", makeRequestParamData(AltReqParamDataType, e.value("type")));
+		act.attr.insert("parent-id", makeRequestParamData(AltReqParamDataString, e.value("parent")));
+		act.attr.insert("width", makeRequestParamData(AltReqParamDataInt, e.value("width")));
+		act.attr.insert("height", makeRequestParamData(AltReqParamDataInt, e.value("height")));
+		act.attr.insert("orientation", makeRequestParamData(AltReqParamDataOrientation, e.value("orientation")));
+		act.attr.insert("sub-type", makeRequestParamData(AltReqParamDataString, e.value("sub-type")));
+		act.attr.insert("checked", makeRequestParamData(AltReqParamDataBool, e.value("checked")));
+		act.attr.insert("columns", makeRequestParamData(AltReqParamDataString, e.value("columns")));
+		act.attr.insert("rowspan", makeRequestParamData(AltReqParamDataInt, e.value("rowspan")));
+		act.attr.insert("colspan", makeRequestParamData(AltReqParamDataInt, e.value("colspan")));
+		setRequestActionParamData(e, "tab-index", act, "tab-index", AltReqParamDataInt);
 		break;
 	    }
 	    case AlteratorRequestClose:
 	    {
-		act.attr.insert(AltReqParamWId, makeRequestParamData(AltReqParamDataString, e.value("widget-id")));
+		act.attr.insert("widget-id", makeRequestParamData(AltReqParamDataString, e.value("widget-id")));
 		break;
 	    }
 	    case AlteratorRequestClean:
 	    {
-		act.attr.insert(AltReqParamWId, makeRequestParamData(AltReqParamDataString, e.value("widget-id")));
+		act.attr.insert("widget-id", makeRequestParamData(AltReqParamDataString, e.value("widget-id")));
 		break;
 	    }
 	    case AlteratorRequestSet:
 	    {
-		act.attr.insert(AltReqParamWId, makeRequestParamData(AltReqParamDataString, e.value("widget-id")));
-		act.attr.insert(AltReqParamWAttrName, makeRequestParamData(AltReqParamDataString, e.value("name")));
-		act.attr.insert(AltReqParamWAttrValue, makeRequestParamData(AltReqParamDataString, cmd->value_));
+		act.attr.insert("widget-id", makeRequestParamData(AltReqParamDataString, e.value("widget-id")));
+		act.attr.insert("attr-name", makeRequestParamData(AltReqParamDataString, e.value("name")));
+		act.attr.insert("attr-value", makeRequestParamData(AltReqParamDataString, cmd->value_));
 		break;
 	    }
 	    case AlteratorRequestEvent:
 	    {
-		act.attr.insert(AltReqParamWId, makeRequestParamData(AltReqParamDataString, e.value("widget-id")));
-		act.attr.insert(AltReqParamEventValue, makeRequestParamData(AltReqParamDataString, cmd->value_));
+		act.attr.insert("widget-id", makeRequestParamData(AltReqParamDataString, e.value("widget-id")));
+		act.attr.insert("event-value", makeRequestParamData(AltReqParamDataString, cmd->value_));
 		break;
 	    }
 	    case AlteratorRequestSplash:
 	    {
-		act.attr.insert(AltReqParamSplashMessage, makeRequestParamData(AltReqParamDataString, cmd->value_));
+		act.attr.insert("splash-message", makeRequestParamData(AltReqParamDataString, cmd->value_));
 		break;
 	    }
 	    case AlteratorRequestStart:
 	    {
-		act.attr.insert(AltReqParamWId, makeRequestParamData(AltReqParamDataString, e.value("widget-id")));
+		act.attr.insert("widget-id", makeRequestParamData(AltReqParamDataString, e.value("widget-id")));
 		break;
 	    }
 	    case AlteratorRequestStop:
 	    {
-		act.attr.insert(AltReqParamWId, makeRequestParamData(AltReqParamDataString, e.value("widget-id")));
+		act.attr.insert("widget-id", makeRequestParamData(AltReqParamDataString, e.value("widget-id")));
 		break;
 	    }
 	    case AlteratorRequestMessage:
 	    {
-		act.attr.insert(AltReqParamMessageType, makeRequestParamData(AltReqParamDataString, e.value("type")));
-		act.attr.insert(AltReqParamMessageTitle, makeRequestParamData(AltReqParamDataString, e.value("title")));
-		act.attr.insert(AltReqParamMessage, makeRequestParamData(AltReqParamDataString, e.value("message")));
-		act.attr.insert(AltReqParamButtons, makeRequestParamData(AltReqParamDataButtons, e.value("buttons")));
+		act.attr.insert("message-type", makeRequestParamData(AltReqParamDataString, e.value("type")));
+		act.attr.insert("message-title", makeRequestParamData(AltReqParamDataString, e.value("title")));
+		act.attr.insert("message", makeRequestParamData(AltReqParamDataString, e.value("message")));
+		act.attr.insert("buttons", makeRequestParamData(AltReqParamDataButtons, e.value("buttons")));
 		break;
 	    }
 	    case AlteratorRequestFile:
 	    {
-		act.attr.insert(AltReqParamFileTitle, makeRequestParamData(AltReqParamDataString, e.value("title")));
-		act.attr.insert(AltReqParamFileDir, makeRequestParamData(AltReqParamDataString, e.value("dir")));
-		act.attr.insert(AltReqParamFileMask, makeRequestParamData(AltReqParamDataString, e.value("mask")));
-		act.attr.insert(AltReqParamFileType, makeRequestParamData(AltReqParamDataString, e.value("type")));
+		act.attr.insert("file-title", makeRequestParamData(AltReqParamDataString, e.value("title")));
+		act.attr.insert("file-dir", makeRequestParamData(AltReqParamDataString, e.value("dir")));
+		act.attr.insert("file-mask", makeRequestParamData(AltReqParamDataString, e.value("mask")));
+		act.attr.insert("file-type", makeRequestParamData(AltReqParamDataString, e.value("type")));
 		break;
 	    }
 	    case AlteratorRequestLanguage:
 	    {
-		act.attr.insert(AltReqParamLanguage, makeRequestParamData(AltReqParamDataString, cmd->value_));
+		act.attr.insert("language", makeRequestParamData(AltReqParamDataString, cmd->value_));
 		break;
 	    }
 	    case AlteratorRequestRetry:

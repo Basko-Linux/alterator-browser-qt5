@@ -14,36 +14,6 @@
 
 typedef void (*parserfunc)(alCommand*);
 
-enum AlteratorRequestParamType
-{
-    AltReqParamUnknown = 0,
-    AltReqParamWId = 1,
-    AltReqParamWType = 2,
-    AltReqParamWParentId = 3,
-    AltReqParamWWidth = 4,
-    AltReqParamWHeight = 5,
-    AltReqParamWOrientation = 6,
-    AltReqParamWSubType = 7,
-    AltReqParamWChecked = 8,
-    AltReqParamWColumns = 9,
-    AltReqParamWRowSpan = 10,
-    AltReqParamWColSpan = 11,
-    AltReqParamWTabIndex = 12,
-    AltReqParamWAttrName = 13,
-    AltReqParamWAttrValue = 14,
-    AltReqParamEventValue = 15,
-    AltReqParamSplashMessage = 16,
-    AltReqParamMessageTitle = 17,
-    AltReqParamMessageType = 18,
-    AltReqParamMessage = 19,
-    AltReqParamLanguage = 20,
-    AltReqParamButtons = 21,
-    AltReqParamFileType = 21,
-    AltReqParamFileMask = 22,
-    AltReqParamFileTitle = 23,
-    AltReqParamFileDir = 24
-};
-
 enum AlteratorRequestParamDataType
 {
     AltReqParamDataUnknown = 0,
@@ -88,7 +58,7 @@ enum AlteratorRequestFlag
     AlteratorRequestCenterFaceModuleSelected = 8
 };
 
-typedef QHash<AlteratorRequestParamType, AlteratorRequestParamData> AlteratorRequestActionAttrs;
+typedef QHash<QString, AlteratorRequestParamData> AlteratorRequestActionAttrs;
 struct AlteratorRequestAction
 {
     AlteratorRequestActionType action;
@@ -159,7 +129,7 @@ private:
     bool destruction;
 
     AlteratorRequestParamData makeRequestParamData(AlteratorRequestParamDataType type, const QString& str);
-//    void setRequestActionParamData(QXmlAttributes &xmlattrs, AlteratorRequestAction &action, AlteratorRequestParamType ptype,AlteratorRequestParamDataType dtype, const QString &str);
+    void setRequestActionParamData(QXmlAttributes &xmlattrs, const QString &xmlattrname, AlteratorRequestAction &action, const QString &attrname, AlteratorRequestParamDataType dtype);
     AlteratorRequestAction getDocParser(alCommand *cmd);
     QString makeRequest(const QString& content);
     QString makeInitRequest();

@@ -357,7 +357,7 @@ void alWidget::postAddChild(QWidget* chld, AlteratorWidgetType type, const Alter
 		    Qt::Orientation orientation = Qt::Horizontal;
 		    if( bl->direction() == QBoxLayout::TopToBottom || bl->direction() == QBoxLayout::BottomToTop )
 			orientation = Qt::Vertical;
-		    chld->setSizePolicy(adjustSizePolicy( type, chld->sizePolicy(), attr.value(AltReqParamWOrientation).o, orientation ));
+		    chld->setSizePolicy(adjustSizePolicy( type, chld->sizePolicy(), attr.value("orientation").o, orientation ));
 		    if( childrenAlignment() != Qt::AlignJustify )
 			bl->addWidget(chld, 0, childrenAlignment());
 		    else
