@@ -276,6 +276,8 @@ QSizePolicy alWidget::adjustSizePolicy(const AlteratorWidgetType type, const QSi
 	    szpol.setVerticalPolicy(QSizePolicy::Fixed);
 	    break;
 	}
+	case WColorSelect:
+	case WFileSelect:
 	case WEdit:
 	{
 	    szpol.setHorizontalPolicy(QSizePolicy::Expanding);
