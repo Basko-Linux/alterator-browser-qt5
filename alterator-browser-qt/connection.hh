@@ -5,6 +5,7 @@
 #include <QThread>
 #include <QTimer>
 #include <QMap>
+#include <QHash>
 #include <QMessageBox>
 
 #include "sax.hh"
@@ -87,7 +88,7 @@ enum AlteratorRequestFlag
     AlteratorRequestCenterFaceModuleSelected = 8
 };
 
-typedef QMap<AlteratorRequestParamType, AlteratorRequestParamData> AlteratorRequestActionAttrs;
+typedef QHash<AlteratorRequestParamType, AlteratorRequestParamData> AlteratorRequestActionAttrs;
 struct AlteratorRequestAction
 {
     AlteratorRequestActionType action;
