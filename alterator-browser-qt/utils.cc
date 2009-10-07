@@ -197,13 +197,15 @@ Qt::Orientation fixOrientation(Qt::Orientation o, Qt::Orientation def)
 	}
 	default:
 	{
-	    // ! need ensure all variants of Orientation
-	    if( def == Qt::Vertical || def == Qt::Horizontal )
-		return def;
-	    else
-		return Qt::Vertical;
+	    switch( def )
+	    {
+		case Qt::Horizontal:
+		case Qt::Vertical:
+		    return def;
+		default:
+		    return Qt::Vertical;
+	    }
 	}
-	
     }
 }
 
