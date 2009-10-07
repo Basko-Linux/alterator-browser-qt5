@@ -129,7 +129,8 @@ private:
     bool destruction;
 
     AlteratorRequestParamData makeRequestParamData(AlteratorRequestParamDataType type, const QString& str);
-    void setRequestActionParamData(QXmlAttributes &xmlattrs, const QString &xmlattrname, AlteratorRequestAction &action, const QString &attrname, AlteratorRequestParamDataType dtype);
+    bool setRequestActionParamData(QXmlAttributes &xmlattrs, const QString &xmlattrname, AlteratorRequestAction &action, const QString &attrname, AlteratorRequestParamDataType dtype);
+    void setRequestActionParamString(const QString &value, AlteratorRequestAction &action, const QString &attrname);
     AlteratorRequestAction getDocParser(alCommand *cmd);
     QString makeRequest(const QString& content);
     QString makeInitRequest();

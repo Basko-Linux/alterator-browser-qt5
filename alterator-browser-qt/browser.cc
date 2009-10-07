@@ -548,12 +548,15 @@ void Browser::onAlteratorRequest(const AlteratorRequest& request)
 
 alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 {
+	AlteratorWidgetType widget_type = WUnknown;
 	QString id;
 	QString parent_id;
-	Qt::Orientation orientation((Qt::Orientation)-1);
+	Qt::Orientation orientation((Qt::Orientation)0);
 	QString columns;
 	if(  attr.contains("widget-id") )
 	    id = attr.value("widget-id").s;
+	if(  attr.contains("widget-type") )
+	    widget_type = attr.value("widget-type").t;
 	else
 	    qWarning("Error! no attribue id");
 	if( attr.contains("parent-id") )
@@ -566,14 +569,14 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	    columns = attr.value("columns").s;
 
     /*
-	qDebug("%s: id<%s> type<%s> parent_id<%s> orientation<%s> sub-type<%s> width<%d> height<%d> columns<%s>", __FUNCTION__,
+	qDebug("%s: id<%s> type<%s> parent_id<%s> orientation<%d> sub-type<%s> width<%d> height<%d> columns<%s>", __FUNCTION__,
 	    qPrintable(id), qPrintable(enums->widgetToStr(attr.value("widget-type").t)), qPrintable(parent_id),
-	    orientation == Qt::Horizontal ? "-":"|", qPrintable(attr.value("sub-type").s),
+	    orientation, qPrintable(attr.value("sub-type").s),
 	    attr.value("width").i, attr.value("height").i, qPrintable(columns) );
 	*/
 
     alWidget *new_widget = 0;
-    switch( attr.value("widget-type").t )
+    switch( widget_type )
     {
 	case WDialog:
 	case WMainWidget:
@@ -616,7 +619,7 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WListBox:
 	case WRadioListBox:
 	case WMultiListBox:
-	case WCheckListBox: {new_widget = new alListBox(attr.value("widget-type").t,attr,id,parent_id,columns.toInt()); break; }
+	case WCheckListBox: {new_widget = new alListBox(widget_type,attr,id,parent_id,columns.toInt()); break; }
 	case WSlideShow: {   new_widget = new alSlideShow(attr,id,parent_id); break; }
 	case WSplitBox: {    new_widget = new alSplitBox(attr,id,parent_id,orientation,columns); break; }
 	case WCenterFace: {  new_widget = new alCenterFace(attr,id,parent_id); break; }
