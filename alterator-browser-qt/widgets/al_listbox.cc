@@ -277,7 +277,7 @@ void alListBox::setAttr(const QString& name,const QString& value)
 	    QStringList data(value.split(";", QString::KeepEmptyParts));
 	    wnd_->addRow(data);
 	}
-	if ("rows" == name)
+	else if ("rows" == name)
 	{
 	    QStringList data(value.split(";", QString::KeepEmptyParts));
 	    wnd_->setRows(data);
