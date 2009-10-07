@@ -150,8 +150,6 @@ void Connection::run()
 
 void Connection::parseAnswer(const alRequest &dom, AlteratorRequestFlags request_flags)
 {
-    QList<QString> params_for_new;
-    params_for_new << "type" << "parent" << "width" << "height" << "orientation" << "sub-type" << "checked" << "columns" << "rowspan" << "colspan" << "tab-index";
     AlteratorRequest request;
     request.flags = request_flags;
     QListIterator<alCommand*> it(dom.commands_);
