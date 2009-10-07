@@ -82,8 +82,8 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
-* Mon Oct 05 2009 Sergey V Turchin <zerg at altlinux dot org> 2.12.0-alt0.1
-- collect new widget attributes from next set requests
+* Mon Oct 05 2009 Sergey V Turchin <zerg at altlinux dot org> 2.12.0-alt0.2
+- allow to set misc widget attributes in new request
 
 * Tue Sep 29 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.25-alt1
 - fix switch help in centerface (ALT#21466)
