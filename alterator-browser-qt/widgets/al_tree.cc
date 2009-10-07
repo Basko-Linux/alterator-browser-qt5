@@ -48,7 +48,7 @@ void alTree::setAttr(const QString& name,const QString& value)
 		    items_ = coords_ = "";
 		}
 	}
-	if ("coordinates" == name)
+	else if ("coordinates" == name)
 	{
 		coords_ = value;
 		if (!items_.isEmpty())
@@ -60,7 +60,7 @@ void alTree::setAttr(const QString& name,const QString& value)
 		expandOrCollapseAllTree();
 		adjustAllColumnsWidth();
 	}
-	if ("current" == name)
+	else if ("current" == name)
 	{
 		QTreeWidgetItem *item = 0;
 		QStringList coords = value.split(";");
