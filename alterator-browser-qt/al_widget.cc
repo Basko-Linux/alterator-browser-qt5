@@ -216,6 +216,8 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		w->setTabOrder(first, w);
 	    }
 	}
+	else
+	    qDebug("Ignore unknown attribute for widget <%s> <%s>=<%s>", qPrintable(enums->widgetToStr(type())), qPrintable(name), qPrintable(value));
 }
 
 QSizePolicy alWidget::adjustSizePolicy(const AlteratorWidgetType type, const QSizePolicy policy, const Qt::Orientation orient, const Qt::Orientation)

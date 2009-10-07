@@ -439,8 +439,22 @@ void Browser::onAlteratorRequest(const AlteratorRequest& request)
 		alWidget *new_wdg = onNewRequest(request.attr);
 		if( request.attr.contains("tab-index") )
 		{
+		    int tab_index = request.attr.take("tab-index").i;
 		    collectTabIndex(tab_order_parents, tab_order_list, new_wdg,
-			request.attr.value("tab-index").i);
+			tab_index);
+		}
+		request.attr.take("widget-id");
+		request.attr.take("widget-type");
+		request.attr.take("parent-id");
+		request.attr.take("orientation");
+		request.attr.take("columns");
+		request.attr.take("colspan");
+		request.attr.take("rowspan");
+		AlteratorRequestActionAttrs::iterator it;
+		for(it = request.attr.begin(); it != request.attr.end(); it++ )
+		{
+		    //onSetRequest(new_wdg->getId(), it.key(), it.value().s);
+		    new_wdg->setAttr(it.key(), it.value().s);
 		}
 		break;
 	    }
@@ -636,23 +650,6 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	    break; */
     }
 
-	//
-	if( new_widget )
-	{
-	    new_widget->getWidget()->setProperty("alttype", attr.value("widget-type").s);
-	    if( attr.contains("width") )
-	    {
-		int width = attr.value("width").i;
-		if( width  > 0 )
-		    new_widget->setAttr("width",  QString("%1").arg(width));
-	    }
-	    if( attr.contains("height") )
-	    {
-		int height = attr.value("height").i;
-		if( height > 0 )
-		    new_widget->setAttr("height", QString("%1").arg(height));
-	    }
-	}
     return new_widget;
 }
 
