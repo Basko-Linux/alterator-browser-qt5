@@ -443,13 +443,15 @@ void Browser::onAlteratorRequest(const AlteratorRequest& request)
 		    collectTabIndex(tab_order_parents, tab_order_list, new_wdg,
 			tab_index);
 		}
-		request.attr.take("widget-id");
-		request.attr.take("widget-type");
-		request.attr.take("parent-id");
-		request.attr.take("orientation");
-		request.attr.take("columns");
-		request.attr.take("colspan");
-		request.attr.take("rowspan");
+		request.attr.remove("widget-id");
+		request.attr.remove("widget-type");
+		request.attr.remove("parent-id");
+		request.attr.remove("orientation");
+		request.attr.remove("columns");
+		request.attr.remove("colspan");
+		request.attr.remove("rowspan");
+		request.attr.remove("sub-type");
+		request.attr.remove("checked");
 		AlteratorRequestActionAttrs::iterator it;
 		for(it = request.attr.begin(); it != request.attr.end(); it++ )
 		{
