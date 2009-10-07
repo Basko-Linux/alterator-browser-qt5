@@ -551,7 +551,7 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	AlteratorWidgetType widget_type = WUnknown;
 	QString id;
 	QString parent_id;
-	Qt::Orientation orientation((Qt::Orientation)0);
+	Qt::Orientation orientation = ORIENTATION_INITIAL;
 	QString columns;
 	if(  attr.contains("widget-id") )
 	    id = attr.value("widget-id").s;

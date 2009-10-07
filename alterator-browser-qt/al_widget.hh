@@ -7,6 +7,7 @@
 #include <QTreeWidgetItem>
 #include <QTimer>
 
+#include "global.hh"
 #include "connection.hh"
 #include "utils.hh"
 #include "awidget.hh"
@@ -130,7 +131,7 @@ public:
 	alWidgetPre(const AlteratorRequestActionAttrs &attr, AlteratorWidgetType type, const QString& id,const QString& parent):
 		alWidget(type,id,Utils::reparentTag(parent))
 	{
-	    Qt::Orientation orientation = (Qt::Orientation)0;
+	    Qt::Orientation orientation = ORIENTATION_INITIAL;
 	    if( attr.contains("orientation") )
 		orientation =  attr.value("orientation").o;
 	    wnd_ = alWidgetCreateWidget<Widget>(parent, orientation);
