@@ -14,21 +14,14 @@
 #include "browser.hh"
 
 Connection::Connection(QObject *parent):
-#ifndef USE_CONN_NO_THREAD
     QThread(parent)
-#else
-    QObject(parent)
-#endif
 {
-#ifndef USE_CONN_NO_THREAD
-#else
-    is_running = false;
-#endif
     destruction = false;
+    is_processing = false;
     islong_timer_id = 0;
 
-    connect(this, SIGNAL(started()), this, SLOT(startDelayedFinish()));
-    connect(this, SIGNAL(finished()), this, SLOT(endDelayedFinish()));
+    //connect(this, SIGNAL(started()), this, SLOT(startDelayedFinish()));
+    //connect(this, SIGNAL(finished()), this, SLOT(endDelayedFinish()));
     connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(prepareQuit()));
 }
 
@@ -71,7 +64,9 @@ void Connection::getDocument(const QString &content, AlteratorRequestFlags reque
     else
 	ask.request = makeRequest(content);
     requests.append(ask);
-    if(!isRunning())
+    if(isRunning())
+	quit();
+    else
 	start();
 }
 
@@ -124,28 +119,33 @@ QString Connection::createLangList()
 
 void Connection::run()
 {
-#ifndef USE_CONN_NO_THREAD
-#else
-    is_running = true;
-#endif
-    while(!requests.isEmpty())
+    while( !destruction )
     {
-	if( destruction ) break;
-	AlteratorAskInfo ask = requests.takeFirst();
-	std::cout<< ask.request.toUtf8().data() << std::endl << std::flush;
-	alRequest dom = readRequest();
-	if( ask.flags & AlteratorRequestInit )
+	startDelayedFinish();
+	is_processing = true;
+	while(!requests.isEmpty())
 	{
-	    sessionId = dom.attrs_.value("session-id");
-	    userId = dom.attrs_.value("user");
-	    //qDebug("session-id=%s", qPrintable(sessionId);
+	    if( destruction ) break;
+	    AlteratorAskInfo ask = requests.takeFirst();
+	    std::cout<< ask.request.toUtf8().data() << std::endl << std::flush;
+	    alRequest dom = readRequest();
+	    if( ask.flags & AlteratorRequestInit )
+	    {
+		sessionId = dom.attrs_.value("session-id");
+		userId = dom.attrs_.value("user");
+		//qDebug("session-id=%s", qPrintable(sessionId);
+	    }
+	    parseAnswer(dom, ask.flags);
 	}
-	parseAnswer(dom, ask.flags);
+	is_processing = false;
+	if( !destruction )
+	    endDelayedFinish();
+	if( exec() != 0 )
+	{
+	    destruction = true;
+	    break;
+	}
     }
-#ifndef USE_CONN_NO_THREAD
-#else
-    is_running = false;
-#endif
 }
 
 void Connection::parseAnswer(const alRequest &dom, AlteratorRequestFlags request_flags)
@@ -173,7 +173,7 @@ void Connection::timerEvent(QTimerEvent *e)
     {
 	killTimer(islong_timer_id);
 	islong_timer_id = 0;
-	if( isRunning() )
+	if( is_processing )
 	    emit startLongRequest();
     }
 }
@@ -350,7 +350,7 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 void Connection::prepareQuit()
 {
     destruction = true;
+    exit(1);
     if( islong_timer_id > 0 )
 	killTimer(islong_timer_id);
-    quit();
 }
