@@ -12,7 +12,7 @@ void alTabBox::setAttr(const QString& name,const QString& value)
 	{
 	    wnd_->setCurrentIndex(value.toInt());
 	}
-	if ("text" == name)
+	else if ("text" == name)
 	{
 	    QStringList values = value.split(";", QString::KeepEmptyParts);
 	    if( values.size() >= 2 )
@@ -31,4 +31,9 @@ void alTabBox::registerEvent(const QString& name)
 QString alTabBox::postData() const
 {
     return QString(" (current . %1 )").arg(wnd_->currentIndex());
+}
+
+void alTabBox::postAddChild(QWidget *chld, AlteratorWidgetType, const AlteratorRequestActionAttrs& attr)
+{
+    wnd_->addTab(chld, "");
 }
