@@ -257,18 +257,34 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 	{
 	    case AlteratorRequestNew:
 	    {
-		setRequestActionParamData(e, "widget-id", act, "widget-id", AltReqParamDataString);
-		setRequestActionParamData(e, "type", act, "widget-type", AltReqParamDataType);
-		setRequestActionParamData(e, "parent", act, "parent-id", AltReqParamDataString);
-		setRequestActionParamData(e, "width", act, "width", AltReqParamDataInt);
-		setRequestActionParamData(e, "height", act, "height", AltReqParamDataInt);
-		setRequestActionParamData(e, "sub-type", act, "sub-type", AltReqParamDataString);
-		setRequestActionParamData(e, "checked", act, "checked", AltReqParamDataBool);
-		setRequestActionParamData(e, "columns", act, "columns", AltReqParamDataString);
-		setRequestActionParamData(e, "rowspan", act, "rowspan", AltReqParamDataInt);
-		setRequestActionParamData(e, "colspan", act, "colspan", AltReqParamDataInt);
-		setRequestActionParamData(e, "tab-index", act, "tab-index", AltReqParamDataInt);
-		setRequestActionParamData(e, "orientation", act, "orientation", AltReqParamDataOrientation);
+		int ecount = e.count();
+		for(int i=0; i < ecount; i++)
+		{
+		    if( e.type(i) == "CDATA" )
+		    {
+			QString name= e.qName(i);
+			     if( "type" == name )
+			    act.attr.insert(name, makeRequestParamData(AltReqParamDataType, e.value(i)));
+			else if( "width" == name )
+			    act.attr.insert(name, makeRequestParamData(AltReqParamDataInt, e.value(i)));
+			else if( "height" == name )
+			    act.attr.insert(name, makeRequestParamData(AltReqParamDataInt, e.value(i)));
+			else if( "rowspan" == name )
+			    act.attr.insert(name, makeRequestParamData(AltReqParamDataInt, e.value(i)));
+			else if( "colspan" == name )
+			    act.attr.insert(name, makeRequestParamData(AltReqParamDataInt, e.value(i)));
+			else if( "tab-index" == name )
+			    act.attr.insert(name, makeRequestParamData(AltReqParamDataInt, e.value(i)));
+			else if( "checked" == name )
+			    act.attr.insert(name, makeRequestParamData(AltReqParamDataBool, e.value(i)));
+			else if( "orientation" == name )
+			    act.attr.insert(name, makeRequestParamData(AltReqParamDataOrientation, e.value(i)));
+			else
+			    act.attr.insert(name, makeRequestParamData(AltReqParamDataString, e.value(i)));
+		    }
+		}
+		act.attr.remove("action");
+		act.attr.remove("xml:space");
 		if( !act.attr.contains("orientation") )
 		    act.attr.insert("orientation", makeRequestParamData(AltReqParamDataOrientation, "__undefined__"));
 		break;

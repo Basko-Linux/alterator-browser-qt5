@@ -25,7 +25,7 @@ void AGroupBox::setMyTitle(const QString& txt)
 
 // alGroupBox
 alGroupBox::alGroupBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
-		alWidgetPre<AGroupBox>(attr,attr.value("widget-type").t,id,parent)
+		alWidgetPre<AGroupBox>(attr,attr.value("type").t,id,parent)
 {
     switch( type() )
     {

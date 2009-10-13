@@ -444,8 +444,8 @@ void Browser::onAlteratorRequest(const AlteratorRequest& request)
 			tab_index);
 		}
 		request.attr.remove("widget-id");
-		request.attr.remove("widget-type");
-		request.attr.remove("parent-id");
+		request.attr.remove("type");
+		request.attr.remove("parent");
 		request.attr.remove("orientation");
 		request.attr.remove("columns");
 		request.attr.remove("colspan");
@@ -570,20 +570,20 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	QString columns;
 	if(  attr.contains("widget-id") )
 	    id = attr.value("widget-id").s;
-	if(  attr.contains("widget-type") )
-	    widget_type = attr.value("widget-type").t;
+	if(  attr.contains("type") )
+	    widget_type = attr.value("type").t;
 	else
 	    qWarning("Error! no attribue id");
-	if( attr.contains("parent-id") )
-	    parent_id = attr.value("parent-id").s;
+	if( attr.contains("parent") )
+	    parent_id = attr.value("parent").s;
 	else
-	    qWarning("Error! no attribue parent-id");
+	    qWarning("Error! no attribue parent id");
 	if( attr.contains("columns") )
 	    columns = attr.value("columns").s;
 
     /*
 	qDebug("%s: id<%s> type<%s> parent_id<%s> sub-type<%s> width<%d> height<%d> columns<%s>", __FUNCTION__,
-	    qPrintable(id), qPrintable(enums->widgetToStr(attr.value("widget-type").t)), qPrintable(parent_id),
+	    qPrintable(id), qPrintable(enums->widgetToStr(attr.value("type").t)), qPrintable(parent_id),
 	    qPrintable(attr.value("sub-type").s),
 	    attr.value("width").i, attr.value("height").i, qPrintable(columns) );
 	*/
@@ -637,7 +637,7 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WProxy:
 	case WUnknown:
 	{
-	    qDebug("Unknown widget <%s> requested. Make gridbox instead.", qPrintable(enums->widgetToStr(attr.value("widget-type").t)));
+	    qDebug("Unknown widget <%s> requested. Make gridbox instead.", qPrintable(enums->widgetToStr(attr.value("type").t)));
 	    new_widget = new alGridBox(attr,id,parent_id, "100");
 	}
 	/* default:
