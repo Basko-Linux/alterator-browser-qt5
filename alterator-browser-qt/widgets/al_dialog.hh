@@ -22,7 +22,7 @@ public:
 	void setDefaultAction(const QString& key);
 	QString currentAction();
 
-signals:
+Q_SIGNALS:
 	void actionSelected();
 
 protected:
@@ -34,7 +34,7 @@ protected:
 #endif
 	bool eventFilter(QObject*, QEvent*);
 
-private slots:
+private Q_SLOTS:
 	void onButtonClicked(QAbstractButton*);
 	void onFinish(int);
 

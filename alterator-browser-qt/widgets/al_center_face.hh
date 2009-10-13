@@ -18,7 +18,7 @@ Q_OBJECT
 public:
     ACenterModuleButton(QWidget *parent = 0);
     ~ACenterModuleButton();
-private slots:
+private Q_SLOTS:
     void onClicked();
 };
 
@@ -40,10 +40,10 @@ public:
     bool isOwnerOfItem(ACenterSectionModulesListItem*);
     QList<ACenterSectionModulesListItem*> getItems();
 
-signals:
+Q_SIGNALS:
     void itemClicked(ACenterSectionModulesListItem*);
 
-private slots:
+private Q_SLOTS:
     void onItemClicked(QWidget*);
 
 private:
@@ -109,10 +109,10 @@ public:
     QWidget* getViewWidget();
     QLayout* getViewLayout();
 
-signals:
+Q_SIGNALS:
     void actionSelected(const QString& key);
 
-private slots:
+private Q_SLOTS:
     void onSelectAction(const QString&);
     void onSelectModule(ACenterSectionModulesListItem*);
     void onOwerviewClicked();

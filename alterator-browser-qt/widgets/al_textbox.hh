@@ -22,14 +22,14 @@ public:
     QString text();
     QString url();
 
-signals:
+Q_SIGNALS:
     void textEdited();
 
 
 protected:
     void showEvent(QShowEvent*);
 
-private slots:
+private Q_SLOTS:
     void execLink(const QUrl&);
 
 private:

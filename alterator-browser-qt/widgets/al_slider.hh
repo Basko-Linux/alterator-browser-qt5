@@ -13,7 +13,7 @@ public:
     ASlider(QWidget *parent, const Qt::Orientation);
     ~ASlider();
 
-signals:
+Q_SIGNALS:
     void valueReallyChanged();
 
 private:
@@ -26,7 +26,7 @@ private:
     void timerEvent(QTimerEvent*);
     void checkValueReallyChanged();
 
-private slots:
+private Q_SLOTS:
     void onValueChange(int);
 };
 

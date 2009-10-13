@@ -18,7 +18,7 @@ public:
     void setSelected(const QString &strcolor, bool user = true);
     QString selectedColor();
 
-signals:
+Q_SIGNALS:
 	void selected();
 	void changed();
 	void editingFinished();
@@ -32,7 +32,7 @@ private:
 
     void setBtnColor(const QString&);
 
-private slots:
+private Q_SLOTS:
     void showDialog();
     void onUserEdited(const QString&);
 };

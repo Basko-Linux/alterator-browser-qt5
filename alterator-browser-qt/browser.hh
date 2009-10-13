@@ -38,10 +38,10 @@ public:
     void quitAppError(const QString&);
     static void unixSignalHandler(int);
 
-signals:
+Q_SIGNALS:
     void languageChanged();
 
-public slots:
+public Q_SLOTS:
     void start();
     void stop();
     void quitAppAsk();
@@ -95,7 +95,7 @@ private:
     void onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, QDialogButtonBox::StandardButtons buttons);
     void onFileSelectRequest(const QString& title, const QString& dir, const QString& type, const QString& mask);
 
-private slots:
+private Q_SLOTS:
     void onStartBusySplash();
     void onCheckBusySplash();
     void onStopBusySplash();

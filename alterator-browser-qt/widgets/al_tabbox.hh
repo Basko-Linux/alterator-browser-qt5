@@ -21,9 +21,6 @@ public:
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const ;
-	Qt::Orientation getOrientation() { return orientation_; };
-private:
-	Qt::Orientation orientation_;
 };
 
 #endif

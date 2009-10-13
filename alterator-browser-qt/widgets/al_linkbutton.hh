@@ -16,10 +16,10 @@ public:
     void setText(const QString&);
     void setPixmap(const QPixmap&);
 
-signals:
+Q_SIGNALS:
     void clicked();
 
-private slots:
+private Q_SLOTS:
     void onLinkActivated(const QString&);
 
 private:

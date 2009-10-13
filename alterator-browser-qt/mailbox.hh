@@ -14,7 +14,7 @@ Q_OBJECT
 public:
     MbSocketNotifier(int socket, QSocketNotifier::Type, QObject *parent = 0);
     ~MbSocketNotifier();
-public slots:
+public Q_SLOTS:
     void enable();
     void disable();
 };
@@ -25,7 +25,7 @@ Q_OBJECT
 public:
     MbLocalServer(QObject *parent);
     ~MbLocalServer();
-signals:
+Q_SIGNALS:
     void newConnection(int);
 protected:
     virtual void incomingConnection(quintptr);
@@ -38,7 +38,7 @@ public:
 	MailBox(const QString& addr, QObject *parent = 0);
 	~MailBox();
 
-public slots:
+public Q_SLOTS:
 	void onNewConnection(int);
 	void readMessage(int);
 };

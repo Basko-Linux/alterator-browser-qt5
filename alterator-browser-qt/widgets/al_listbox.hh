@@ -34,11 +34,11 @@ public:
 
 	friend class AListBoxItem;
 
-signals:
+Q_SIGNALS:
 	void spaceBtnPressed();
 	void selected();
 
-public slots:
+public Q_SLOTS:
 	void onSelectionChanged();
 
 protected:

@@ -93,14 +93,14 @@ public:
     int currentStep();
     bool onEnter();
 
-signals:
+Q_SIGNALS:
     void stepSelected();
     void actionSelected();
     void blockingActionSelected(const AlteratorRequestFlags);
 // private
     void actionSelected(const QString&);
 
-private slots:
+private Q_SLOTS:
     void onSelectAction(const QString&);
     void onSelectStep(QListWidgetItem*);
     void onStepListSwitchVisibility(bool);

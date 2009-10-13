@@ -92,7 +92,7 @@ public:
     void getDocument(const QString& content = "(alterator-request action \"get\")",
 	AlteratorRequestFlags request_flags = AlteratorRequestDefault);
 
-signals:
+Q_SIGNALS:
     void alteratorRequest(const AlteratorRequest&);
     void startLongRequest();
     void stopLongRequest();
@@ -100,7 +100,7 @@ signals:
 protected:
     void timerEvent(QTimerEvent*);
 
-private slots:
+private Q_SLOTS:
     void startDelayedFinish();
     void endDelayedFinish();
     void prepareQuit();

@@ -27,7 +27,7 @@ protected:
 	void registerEvent(const QString&);
 	QString postData() const ;
 
-private slots:
+private Q_SLOTS:
 	void adjustFirstColumnWidth(QTreeWidgetItem*);
 
 private:

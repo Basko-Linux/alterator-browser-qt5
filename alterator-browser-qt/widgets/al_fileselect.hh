@@ -21,7 +21,7 @@ public:
     void setSelected(const QString&, bool user = true);
     QString selectedFiles();
 
-signals:
+Q_SIGNALS:
 	void selected();
 	void changed();
 	void editingFinished();
@@ -36,7 +36,7 @@ private:
     QString dlg_filter;
     QString old_txt;
 
-private slots:
+private Q_SLOTS:
     void showDialog();
     void onUserEdited(const QString&);
 };

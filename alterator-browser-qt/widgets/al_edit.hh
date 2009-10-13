@@ -20,7 +20,7 @@ public:
     QString text();
     void setAutocompleteRows(const QString&);
 
-signals:
+Q_SIGNALS:
     void textEdited(const QString&);
     void editingFinished();
     void returnPressed();

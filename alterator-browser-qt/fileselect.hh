@@ -15,7 +15,7 @@ public:
     QStringList selectedFiles();
     void setOptions(const QString&, QFileDialog::Options, QFileDialog::ViewMode, QFileDialog::FileMode, QFileDialog::AcceptMode);
 
-private slots:
+private Q_SLOTS:
     void onSelectFiles(const QStringList&);
 
 private:

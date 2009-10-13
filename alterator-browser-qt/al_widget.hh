@@ -18,7 +18,7 @@ class alWidget: public QObject
 {
 	Q_OBJECT
 public:
-signals:
+Q_SIGNALS:
 	void updated();
 
 protected:
@@ -57,7 +57,7 @@ public:
 	Qt::Alignment childrenAlignment();
 	void setWndObject(QObject*);
 
-public slots:
+public Q_SLOTS:
 	void onWndDestroyed(QObject*);
 
 	void onEvent(const BrowserEventType, const AlteratorRequestFlags);

@@ -18,19 +18,19 @@ public:
     void setPopupTitle(const QString&);
     QWidget* view();
 
-signals:
+Q_SIGNALS:
     void finished(int);
     void accepted();
     void rejected();
 
-public slots:
+public Q_SLOTS:
     virtual void done(int);
     virtual int exec();
 
 protected:
     virtual void keyPressEvent(QKeyEvent*);
 
-private slots:
+private Q_SLOTS:
     void onWinCloseClicked();
     void onWinExpandClicked();
     void onWinShrinkClicked();

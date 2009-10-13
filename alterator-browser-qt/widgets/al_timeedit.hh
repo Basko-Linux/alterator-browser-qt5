@@ -14,7 +14,7 @@ public:
     TimeEditFocusEventHandler(QObject*);
     ~TimeEditFocusEventHandler();
 
-signals:
+Q_SIGNALS:
     void focusIn();
     void focusOut();
 
@@ -67,7 +67,7 @@ public:
     void stopForce();
     void reset();
 
-signals:
+Q_SIGNALS:
     void changed();
 
 
@@ -84,7 +84,7 @@ private:
     int offset;
     TimeEditFocusEventHandler *time_edit_focus;
 
-private slots:
+private Q_SLOTS:
     void start();
     void stop();
     void showTime();

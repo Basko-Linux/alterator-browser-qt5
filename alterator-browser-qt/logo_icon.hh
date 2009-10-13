@@ -12,8 +12,9 @@ public:
 
     virtual void mousePressEvent(QMouseEvent*);
 
-signals:
+Q_SIGNALS:
     void clicked();
+
 private:
     bool clickable;
 };

@@ -31,7 +31,7 @@ public:
     );
     ~MessageBox();
 
-public slots:
+public Q_SLOTS:
     void onButtonPressed(QAbstractButton*);
 
 private:

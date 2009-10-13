@@ -18,7 +18,7 @@ public:
     void setDate(const QString&);
     QString date();
 
-signals:
+Q_SIGNALS:
     void changed();
 
 private:

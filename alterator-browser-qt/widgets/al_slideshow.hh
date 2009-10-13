@@ -20,7 +20,7 @@ public:
     void setInterval(int);
     QImage image();
 
-signals:
+Q_SIGNALS:
     void gotImage();
 
 private:
@@ -46,7 +46,7 @@ public:
     void stop();
     void setInterval(int);
 
-public slots:
+public Q_SLOTS:
     void setPixmap();
 
 private:

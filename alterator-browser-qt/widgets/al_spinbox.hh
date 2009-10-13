@@ -21,10 +21,10 @@ public:
     void setSliderVisibility(bool);
     int value();
 
-signals:
+Q_SIGNALS:
     void editingFinished();
 
-private slots:
+private Q_SLOTS:
     void onUserSliderRelease();
     void onUserSpinBoxRelease();
     void onSliderValueChange(int);

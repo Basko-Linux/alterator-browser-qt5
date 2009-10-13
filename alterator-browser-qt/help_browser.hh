@@ -23,7 +23,7 @@ protected:
     virtual void showEvent(QShowEvent*);
     virtual void keyPressEvent(QKeyEvent*);
 
-private slots:
+private Q_SLOTS:
     void execLink(const QUrl&);
     void onButtonPressed(QAbstractButton*);
 
@@ -44,7 +44,7 @@ public:
 
     void setHelpSource(const QString&);
 
-public slots:
+public Q_SLOTS:
     int exec();
 
 private:

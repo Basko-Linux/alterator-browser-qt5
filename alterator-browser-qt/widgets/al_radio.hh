@@ -13,7 +13,7 @@ public:
     ARadio(QWidget *parent, const Qt::Orientation);
     ~ARadio();
 
-public slots:
+public Q_SLOTS:
     void onToggle(bool);
 };
 

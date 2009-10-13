@@ -13,7 +13,7 @@ Q_OBJECT
 public:
     AComboBox(QWidget *parent, const Qt::Orientation);
     ~AComboBox();
-signals:
+Q_SIGNALS:
 	void editingFinished();
 
 protected:
@@ -23,7 +23,7 @@ protected:
 
 private:
 	bool text_changed_;
-private slots:
+private Q_SLOTS:
 	void onTextChange(const QString&);
 	void onActivate(const QString&);
 };
