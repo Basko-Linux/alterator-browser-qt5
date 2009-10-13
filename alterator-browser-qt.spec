@@ -8,7 +8,7 @@
 
 Name: alterator-browser-qt
 Version: 2.12.0
-Release: alt0.2
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -82,8 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
-* Mon Oct 05 2009 Sergey V Turchin <zerg at altlinux dot org> 2.12.0-alt0.2
+* Tue Oct 13 2009 Sergey V Turchin <zerg at altlinux dot org> 2.12.0-alt1
 - allow to set misc widget attributes in new request
+- remove tabpage widget; tabbox autopageable now
 
 * Tue Sep 29 2009 Sergey V Turchin <zerg at altlinux dot org> 2.11.25-alt1
 - fix switch help in centerface (ALT#21466)
