@@ -937,11 +937,11 @@ void AWizardFace::onStepListSwitchVisibility(bool)
 }
 
 // alWizardFace
-alWizardFace::alWizardFace(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation):
+alWizardFace::alWizardFace(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
     alWidgetPre<AWizardFace>(attr,WWizardFace,id,parent)
 {
     QBoxLayout *bl;
-    Qt::Orientation o = Utils::fixOrientation(orientation, Qt::Vertical);
+    Qt::Orientation o = Utils::fixOrientation(attr.value("orientation").o, Qt::Vertical);
     if( o == Qt::Horizontal )
 	bl = new QHBoxLayout(wnd_->getViewWidget());
     else

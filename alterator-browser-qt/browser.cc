@@ -567,7 +567,6 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	AlteratorWidgetType widget_type = WUnknown;
 	QString id;
 	QString parent_id;
-	Qt::Orientation orientation = ORIENTATION_INITIAL;
 	QString columns;
 	if(  attr.contains("widget-id") )
 	    id = attr.value("widget-id").s;
@@ -579,15 +578,13 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	    parent_id = attr.value("parent-id").s;
 	else
 	    qWarning("Error! no attribue parent-id");
-	if( attr.contains("orientation") )
-	    orientation = attr.value("orientation").o;
 	if( attr.contains("columns") )
 	    columns = attr.value("columns").s;
 
     /*
-	qDebug("%s: id<%s> type<%s> parent_id<%s> orientation<%d> sub-type<%s> width<%d> height<%d> columns<%s>", __FUNCTION__,
+	qDebug("%s: id<%s> type<%s> parent_id<%s> sub-type<%s> width<%d> height<%d> columns<%s>", __FUNCTION__,
 	    qPrintable(id), qPrintable(enums->widgetToStr(attr.value("widget-type").t)), qPrintable(parent_id),
-	    orientation, qPrintable(attr.value("sub-type").s),
+	    qPrintable(attr.value("sub-type").s),
 	    attr.value("width").i, attr.value("height").i, qPrintable(columns) );
 	*/
 
@@ -619,10 +616,10 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WCheckBox: {    new_widget = new alCheckBox(attr,id,parent_id); break; }
 	case WTree: {        new_widget = new alTree(attr,id,parent_id, columns); break; }
 	case WComboBox: {    new_widget = new alComboBox(attr,id,parent_id); break; }
-	case WTabBox: {      new_widget = new alTabBox(attr,id,parent_id,orientation); break; }
+	case WTabBox: {      new_widget = new alTabBox(attr,id,parent_id); break; }
 	case WProgressBar: { new_widget = new alProgressBar(attr,id,parent_id); break; }
 	case WSlider: {      new_widget = new alSlider(attr,id,parent_id); break; }
-	case WSeparator: {   new_widget = new alSeparator(attr,id,parent_id,orientation); break; }
+	case WSeparator: {   new_widget = new alSeparator(attr,id,parent_id); break; }
 	case WSpacer: {      new_widget = new alSpacer(attr,id,parent_id); break; }
 	case WSpinBox: {     new_widget = new alSpinBox(attr,id,parent_id); break; }
 	case WDateEdit: {    new_widget = new alDateEdit(attr,id,parent_id); break; }
@@ -632,9 +629,9 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WMultiListBox:
 	case WCheckListBox: {new_widget = new alListBox(widget_type,attr,id,parent_id,columns.toInt()); break; }
 	case WSlideShow: {   new_widget = new alSlideShow(attr,id,parent_id); break; }
-	case WSplitBox: {    new_widget = new alSplitBox(attr,id,parent_id,orientation,columns); break; }
+	case WSplitBox: {    new_widget = new alSplitBox(attr,id,parent_id,columns); break; }
 	case WCenterFace: {  new_widget = new alCenterFace(attr,id,parent_id); break; }
-	case WWizardFace: {  new_widget = new alWizardFace(attr,id,parent_id,orientation); break; }
+	case WWizardFace: {  new_widget = new alWizardFace(attr,id,parent_id); break; }
 	case WColorSelect: {  new_widget = new alColorSelect(attr,id,parent_id); break; }
 	case WFileSelect: {  new_widget = new alFileSelect(attr,id,parent_id); break; }
 	case WProxy:

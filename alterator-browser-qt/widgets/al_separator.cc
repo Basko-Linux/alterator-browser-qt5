@@ -1,8 +1,9 @@
 #include "al_separator.hh"
 
-alSeparator::alSeparator(const AlteratorRequestActionAttrs &attr, const QString& id, const QString& parent, Qt::Orientation orientation):
+alSeparator::alSeparator(const AlteratorRequestActionAttrs &attr, const QString& id, const QString& parent):
     alWidgetPre<ASeparator>(attr,WSeparator,id,parent)
 {
+    Qt::Orientation orientation = attr.value("orientation").o;
     QFrame::Shape orient;
     if( orientation == Qt::Vertical )
 	orient = QFrame::VLine;

@@ -1,7 +1,7 @@
 #include "al_tabbox.hh"
 #include "widgetlist.hh"
 
-alTabBox::alTabBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation):
+alTabBox::alTabBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
 	alWidgetPre<ATabWidget>(attr,WTabBox,id,parent)
 {
 }

@@ -216,7 +216,7 @@ Qt::Orientation convertOrientation(const QString& str_value)
     else if(str_value == "horizontal")
 	return Qt::Horizontal;
     else
-	return (Qt::Orientation)-1;
+	return ORIENTATION_INITIAL;
 }
 
 }

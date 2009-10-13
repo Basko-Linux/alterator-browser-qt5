@@ -262,13 +262,15 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 		setRequestActionParamData(e, "parent", act, "parent-id", AltReqParamDataString);
 		setRequestActionParamData(e, "width", act, "width", AltReqParamDataInt);
 		setRequestActionParamData(e, "height", act, "height", AltReqParamDataInt);
-		setRequestActionParamData(e, "orientation", act, "orientation", AltReqParamDataOrientation);
 		setRequestActionParamData(e, "sub-type", act, "sub-type", AltReqParamDataString);
 		setRequestActionParamData(e, "checked", act, "checked", AltReqParamDataBool);
 		setRequestActionParamData(e, "columns", act, "columns", AltReqParamDataString);
 		setRequestActionParamData(e, "rowspan", act, "rowspan", AltReqParamDataInt);
 		setRequestActionParamData(e, "colspan", act, "colspan", AltReqParamDataInt);
 		setRequestActionParamData(e, "tab-index", act, "tab-index", AltReqParamDataInt);
+		setRequestActionParamData(e, "orientation", act, "orientation", AltReqParamDataOrientation);
+		if( !act.attr.contains("orientation") )
+		    act.attr.insert("orientation", makeRequestParamData(AltReqParamDataOrientation, "__undefined__"));
 		break;
 	    }
 	    case AlteratorRequestClose:

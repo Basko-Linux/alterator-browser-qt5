@@ -17,7 +17,7 @@ class alSeparator: public alWidgetPre<ASeparator>
 {
 Q_OBJECT
 public:
-    alSeparator(const AlteratorRequestActionAttrs &attr, const QString& id, const QString& parent, Qt::Orientation orientation);
+    alSeparator(const AlteratorRequestActionAttrs &attr, const QString& id, const QString& parent);
     void setAttr(const QString& name,const QString& value);
 };
 

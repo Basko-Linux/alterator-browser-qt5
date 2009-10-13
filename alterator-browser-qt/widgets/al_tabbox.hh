@@ -17,7 +17,7 @@ public:
 class alTabBox: public alWidgetPre<ATabWidget>
 {
 public:
-	alTabBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation);
+	alTabBox(const AlteratorRequestActionAttrs &attr, const QString& id, const QString& parent);
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const ;
