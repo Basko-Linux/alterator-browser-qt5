@@ -32,7 +32,6 @@ Enums::Enums()
     str2widget["tree"] = WTree;
     str2widget["combobox"] = WComboBox;
     str2widget["tabbox"] = WTabBox;
-    str2widget["tab-page"] = WTabPage;
     str2widget["progressbar"] = WProgressBar;
     str2widget["slider"] = WSlider;
     str2widget["separator"] = WSeparator;

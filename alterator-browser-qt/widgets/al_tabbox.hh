@@ -14,15 +14,6 @@ public:
     ~ATabWidget() {};
 };
 
-class ATabPage: public AWidget<QWidget>
-{
-Q_OBJECT
-Q_PROPERTY(QString altgroup READ alteratorGroup WRITE setAlteratorGroup)
-public:
-    ATabPage(QWidget *parent, const Qt::Orientation): AWidget<QWidget>(parent) {};
-    ~ATabPage() {};
-};
-
 class alTabBox: public alWidgetPre<ATabWidget>
 {
 public:
@@ -33,17 +24,6 @@ public:
 	Qt::Orientation getOrientation() { return orientation_; };
 private:
 	Qt::Orientation orientation_;
-};
-
-class alTabPage: public alWidgetPre<ATabPage>
-{
-	alTabBox  *tabbox_;
-	int idx_;
-public:
-	alTabPage(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, Qt::Orientation orientation);
-	void setAttr(const QString& name,const QString& value);
-private:
-	static alTabBox* getParentTabBox(const QString& parent);
 };
 
 #endif

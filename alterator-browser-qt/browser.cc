@@ -619,12 +619,7 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WCheckBox: {    new_widget = new alCheckBox(attr,id,parent_id); break; }
 	case WTree: {        new_widget = new alTree(attr,id,parent_id, columns); break; }
 	case WComboBox: {    new_widget = new alComboBox(attr,id,parent_id); break; }
-	case WHTabBox:
-	case WVTabBox:
 	case WTabBox: {      new_widget = new alTabBox(attr,id,parent_id,orientation); break; }
-	case WVTabPage:
-	case WHTabPage:
-	case WTabPage: {     new_widget = new alTabPage(attr,id,parent_id,orientation); break; }
 	case WProgressBar: { new_widget = new alProgressBar(attr,id,parent_id); break; }
 	case WSlider: {      new_widget = new alSlider(attr,id,parent_id); break; }
 	case WSeparator: {   new_widget = new alSeparator(attr,id,parent_id,orientation); break; }

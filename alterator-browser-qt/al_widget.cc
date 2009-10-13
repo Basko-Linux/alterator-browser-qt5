@@ -229,8 +229,6 @@ QSizePolicy alWidget::adjustSizePolicy(const AlteratorWidgetType type, const QSi
 	case WVBox:
 	case WHBox:
 	case WTabBox:
-	case WVTabBox:
-	case WHTabBox:
 	case WGroupBox:
 	case WVGroupBox:
 	case WHGroupBox:
@@ -307,9 +305,6 @@ QSizePolicy alWidget::adjustSizePolicy(const AlteratorWidgetType type, const QSi
 */
 	    break;
 	}
-	case WTabPage:
-	case WVTabPage:
-	case WHTabPage:
 	case WSlideShow:
 	case WTimeEdit:
 	case WDateEdit:
