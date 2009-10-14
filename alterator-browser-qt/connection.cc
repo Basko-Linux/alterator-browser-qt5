@@ -330,9 +330,9 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 	    case AlteratorRequestMessage:
 	    {
 		if( setRequestActionParamData(e, "message", act, "message", AltReqParamDataString)
-		    && setRequestActionParamData(e, "type", act, "message-type", AltReqParamDataString)
-		    && setRequestActionParamData(e, "title", act, "message-title", AltReqParamDataString))
-			setRequestActionParamData(e, "buttons", act, "buttons", AltReqParamDataString);
+		    && setRequestActionParamData(e, "buttons", act, "buttons", AltReqParamDataButtons)
+		    && setRequestActionParamData(e, "type", act, "message-type", AltReqParamDataString) )
+			setRequestActionParamData(e, "title", act, "message-title", AltReqParamDataString);
 		break;
 	    }
 	    case AlteratorRequestFile:
