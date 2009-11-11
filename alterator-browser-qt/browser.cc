@@ -862,11 +862,9 @@ void Browser::loadStyleSheet()
 	settings.setFallbacksEnabled(false);
 
 	// set Qt style
-	QString styleName = settings.value("style", "Plastique").toString();
-	if( !QStyleFactory::keys().contains(styleName) )
-	    styleName = "Plastique";
-	qApp->setStyle(styleName);
-
+	QString styleName = settings.value("style").toString();
+	if( QStyleFactory::keys().contains(styleName) )
+	    qApp->setStyle(styleName);
 
 	// set palette
 	QStringList strlist;
