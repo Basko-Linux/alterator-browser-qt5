@@ -455,8 +455,7 @@ void Browser::onAlteratorRequest(const AlteratorRequest& request)
 		AlteratorRequestActionAttrs::iterator it;
 		for(it = request.attr.begin(); it != request.attr.end(); it++ )
 		{
-		    //onSetRequest(new_wdg->getId(), it.key(), it.value().s);
-		    new_wdg->setAttr(it.key(), it.value().s);
+		    onSetRequest(new_wdg->getId(), it.key(), it.value().s);
 		}
 		break;
 	    }
