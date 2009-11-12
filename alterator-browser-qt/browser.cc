@@ -452,6 +452,7 @@ void Browser::onAlteratorRequest(const AlteratorRequest& request)
 		request.attr.remove("rowspan");
 		request.attr.remove("sub-type");
 		request.attr.remove("checked");
+		request.attr.remove("value");
 		AlteratorRequestActionAttrs::iterator it;
 		for(it = request.attr.begin(); it != request.attr.end(); it++ )
 		{
