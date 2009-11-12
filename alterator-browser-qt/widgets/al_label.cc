@@ -3,7 +3,7 @@
 
 void alLabel::setAttr(const QString& name,const QString& value)
 {
-	if ("text" == name)
+	if ("value" == name || "text" == name)
 		wnd_->setText(value);
 	else if ("text-wrap" == name)
 		wnd_->setWordWrap(value == "true");
