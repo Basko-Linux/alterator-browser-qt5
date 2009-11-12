@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.12.1
+Version: 2.12.2
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,11 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Thu Nov 12 2009 Sergey V Turchin <zerg at altlinux dot org> 2.12.2-alt1
+- don't force default style to Plastique
+- don't spawn events when set additional attributes during new widget request
+- more cleanup attributes during new widget request
+
 * Wed Oct 14 2009 Sergey V Turchin <zerg at altlinux dot org> 2.12.1-alt1
 - fix lost messagebox buttons (ALT#21934)
 
