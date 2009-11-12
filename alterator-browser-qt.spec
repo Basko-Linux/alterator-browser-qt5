@@ -8,7 +8,7 @@
 
 Name: alterator-browser-qt
 Version: 2.12.2
-Release: alt2
+Release: alt1.M51.1
 
 Source:%name-%version.tar
 
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Thu Nov 12 2009 Sergey V Turchin <zerg at altlinux dot org> 2.12.2-alt1.M51.1
+- built for M51
+
 * Thu Nov 12 2009 Sergey V Turchin <zerg at altlinux dot org> 2.12.2-alt2
 - fix cleanup attributes during new widget request
 
