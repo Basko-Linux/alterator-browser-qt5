@@ -6,6 +6,7 @@
 SplashScreen::SplashScreen(QWidget *parent):
     Popup(parent)
 {
+    setObjectName("splash_screen");
 
     QHBoxLayout *lay = new QHBoxLayout(view());
     lay->setMargin(0);
