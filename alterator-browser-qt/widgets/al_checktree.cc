@@ -5,7 +5,7 @@
 
 /* TODO:
     + delayed parent bind
-    - stateChanged signal
+    + stateChanged signal
 */
 
 ACheckTree::ACheckTree(QWidget *parent, const Qt::Orientation):
@@ -16,6 +16,10 @@ ACheckTree::ACheckTree(QWidget *parent, const Qt::Orientation):
     setItemsExpandable(true);
     setAllColumnsShowFocus(true);
     setSortingEnabled(false);
+    
+    // Connect to itemChanged signal
+    connect(this, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(onStateChanged(QTreeWidgetItem *, int))) ;
+    
 }
 
 ACheckTree::~ACheckTree()
@@ -149,6 +153,20 @@ QString ACheckTree::getSelected()
     return selected;
 }
 
+// Slot for item state changed
+void ACheckTree::onStateChanged(QTreeWidgetItem *item, int column)
+{
+    QString name;
+    bool state;
+    
+    qDebug("Item is changed");
+    if( item && column == 0 ) {
+	name  = item->data(0, 1000).toString();
+	state = item->checkState(0) == Qt::Checked;
+	qDebug(qPrintable(QString("%1: %2").arg(name).arg((state ? "checked" : "unchecked"))));
+    }
+}
+
 // Toggle checking via Space key pressed on current item
 void ACheckTree::keyPressEvent(QKeyEvent * e) 
 {
@@ -162,7 +180,7 @@ void ACheckTree::keyPressEvent(QKeyEvent * e)
 		ci->setCheckState(0, Qt::Unchecked);
 	    ci->setSelected(true);
 	}
-        emit spaceBtnPressed();
+        //emit spaceBtnPressed();
     }
     else
 	QTreeWidget::keyPressEvent(e);

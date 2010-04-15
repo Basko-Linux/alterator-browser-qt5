@@ -32,12 +32,11 @@ public:
 	void setRows(QStringList data);
 	QString getSelected();
 
-Q_SIGNALS:
-	void spaceBtnPressed();
-	void selected();
+public Q_SLOTS:
+	void onStateChanged(QTreeWidgetItem *item, int column);
 
 protected:
-	void keyPressEvent(QKeyEvent * e) ;
+	void keyPressEvent(QKeyEvent *e) ;
 	void showEvent(QShowEvent *e);
 
 private:
