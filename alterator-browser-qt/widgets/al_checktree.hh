@@ -15,6 +15,11 @@
      |-[x] Item_2_1
 */
 
+typedef struct OrphanedTreeItem {
+    QString parent;
+    QTreeWidgetItem *item;
+}OrphanedTreeItem;
+
 class ACheckTree: public AWidget<QTreeWidget>
 {
 	Q_OBJECT
@@ -37,7 +42,7 @@ protected:
 
 private:
 	QTreeWidgetItem *lookupItem(const QString& name);
-	QMap<QString, QStringList> orphaned;
+	QList<OrphanedTreeItem> orphaned;
 	
 };
 

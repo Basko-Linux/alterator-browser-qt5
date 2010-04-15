@@ -3,6 +3,11 @@
 
 #include "al_checktree.hh"
 
+/* TODO:
+    + delayed parent bind
+    - stateChanged signal
+*/
+
 ACheckTree::ACheckTree(QWidget *parent, const Qt::Orientation):
     AWidget<QTreeWidget>(parent)
 {
@@ -62,7 +67,29 @@ void ACheckTree::addRow(QStringList data)
     if ( p ) {
 	p->addChild(item);
     } else {
-	addTopLevelItem(item);
+	if (item_parent.isEmpty())
+	    addTopLevelItem(item);
+	else {
+	    OrphanedTreeItem orphan;
+	    orphan.parent = item_parent;
+	    orphan.item = item;
+	    orphaned.append(orphan);
+	    //qDebug(qPrintable(QString("Parent '%1' not found.").arg(item_parent)));
+	}
+    }
+
+    // Check for other orphan
+    if ( ! item_name.isEmpty() && orphaned.count() > 0) {
+	QListIterator<OrphanedTreeItem> i(orphaned);
+	int pos=0;
+	while (i.hasNext()) {
+	    OrphanedTreeItem orphan = i.next();
+	    if (orphan.parent == item_name) {
+		item->addChild(orphan.item);
+		orphaned.removeAt(pos);
+	    }
+	    pos++;
+	}
     }
 
     // Set expanded state
@@ -112,7 +139,7 @@ QString ACheckTree::getSelected()
 	    selected.append(iName);
 	    selected.append(" ");
 	}
-         ++it;
+        ++it;
     }
     if ( ! selected.isEmpty())
 	selected.chop(1);

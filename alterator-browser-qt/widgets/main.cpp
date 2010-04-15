@@ -13,9 +13,9 @@ int main( int argc, char *argv[] ) {
     
     ACheckTree *w = new ACheckTree( (QWidget *)dialog );
         
+    w->addRow( QStringList(QString("true;Leaf 1;;group_1").split(";")) );
     w->addRow( QStringList(QString("true;Group_1;group_1;").split(";")) );
     w->addRow( QStringList(QString("false;Group_2").split(";")) );
-    w->addRow( QStringList(QString("true;Leaf 1;;group_1").split(";")) );
     w->addRow( QStringList(QString("false;Group_3;group_2;;false").split(";")) );
     w->addRow( QStringList(QString("false;Leaf 2;;group_2").split(";")) );
     
