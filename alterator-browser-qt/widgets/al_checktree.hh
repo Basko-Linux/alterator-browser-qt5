@@ -30,7 +30,7 @@ public:
 
 	void addRow(QStringList data); // checked,label,name,parent,expanded,...
 	void setRows(QStringList data);
-	QString getSelected();
+	QStringList getSelected();
 
 public Q_SLOTS:
 	void onStateChanged(QTreeWidgetItem *item, int column);
@@ -48,7 +48,7 @@ private:
 class alCheckTree: public alWidgetPre<ACheckTree>
 {
 public:
-	alCheckTree(const AlteratorWidgetType awtype, const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, int cols);
+	alCheckTree(const AlteratorWidgetType awtype, const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent);
 protected:
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);

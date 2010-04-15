@@ -11,6 +11,7 @@
 #include "widgets/al_edit.hh"
 #include "widgets/al_textbox.hh"
 #include "widgets/al_checkbox.hh"
+#include "widgets/al_checktree.hh"
 #include "widgets/al_listbox.hh"
 #include "widgets/al_combobox.hh"
 #include "widgets/al_tabbox.hh"

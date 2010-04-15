@@ -5,7 +5,7 @@
 
 /* TODO:
     + delayed parent bind
-    + stateChanged signal
+    + state changed signal
 */
 
 ACheckTree::ACheckTree(QWidget *parent, const Qt::Orientation):
@@ -128,9 +128,9 @@ void ACheckTree::setRows(QStringList data)
     }
 }
 
-QString ACheckTree::getSelected() 
+QStringList ACheckTree::getSelected() 
 {
-    QString selected;
+    QStringList selected;
     QString iName;
 
     // Iterate across all items to tree
@@ -138,18 +138,13 @@ QString ACheckTree::getSelected()
     while (*it) 
     {
 	iName = (*it)->data(0, 1000).toString();
-	if ((*it)->checkState(0) == Qt::Checked)
+	if ((*it)->checkState(0) == Qt::Checked && ! iName.isEmpty())
 	{
 	    selected.append(iName);
-	    selected.append(" ");
 	}
         ++it;
     }
-    if ( ! selected.isEmpty())
-	selected.chop(1);
-    
-    //qDebug(selected.toLatin1());
-    
+
     return selected;
 }
 
@@ -159,11 +154,11 @@ void ACheckTree::onStateChanged(QTreeWidgetItem *item, int column)
     QString name;
     bool state;
     
-    qDebug("Item is changed");
+    //qDebug("Item is changed");
     if( item && column == 0 ) {
 	name  = item->data(0, 1000).toString();
 	state = item->checkState(0) == Qt::Checked;
-	qDebug(qPrintable(QString("%1: %2").arg(name).arg((state ? "checked" : "unchecked"))));
+	//qDebug(qPrintable(QString("%1: %2").arg(name).arg((state ? "checked" : "unchecked"))));
     }
 }
 
@@ -215,14 +210,10 @@ QTreeWidgetItem *ACheckTree::lookupItem(const QString& name)
 }
 
 // alCheckTree
-/*
-alCheckTree::alCheckTree(const AlteratorWidgetType awtype, const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, int cols):
+
+alCheckTree::alCheckTree(const AlteratorWidgetType awtype, const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
 	alWidgetPre<ACheckTree>(attr,awtype,id,parent)
 {
-    if( cols < 1 ) cols = 1;
-    wnd_->setColumnCount(cols);
-    if( cols > 1 )
-	wnd_->setAlternatingRowColors(true);
 }
 
 void alCheckTree::setAttr(const QString& name,const QString& value)
@@ -237,82 +228,12 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	    QStringList data(value.split(";", QString::KeepEmptyParts));
 	    wnd_->setRows(data);
 	}
-	else if ("current" == name)
-	{
-	    QTreeWidgetItem *i = wnd_->topLevelItem(value.toInt());
-	    wnd_->clearSelection();
-	    wnd_->setCurrentItem(i);
-	    if( wnd_->selectionMode() != QAbstractItemView::SingleSelection )
-		i->setSelected(i);
-	    wnd_->scrollToItem(i);
-	}
-	else if ("current-rows" == name)
-	{
-	    wnd_->clearSelection();
-	    QStringList data = value.split(";");
-	    int n = data.size();
-	    if( n > 0 )
-	    {
-		if( wnd_->selectionMode() == QAbstractItemView::SingleSelection )
-		{
-		    QString sfirst = data.first();
-		    data.clear();
-		    data << sfirst;
-		}
-		foreach(QString sidx, data)
-		{
-		    bool ok;
-		    int idx = sidx.toInt(&ok);
-		    if(ok && idx >= 0)
-		    {
-		        QTreeWidgetItem *item = wnd_->topLevelItem(idx);
-		        if( item )
-			    item->setSelected(true);
-		    }
-		}
-	    }
-	}
-	else if ("state-rows" == name)
-	{
-	    // TODO Only top-level items are counted
-	    QStringList data = value.split(";");
-	    int n = wnd_->topLevelItemCount();
-	    if( n == data.size() )
-	    {
-		int i = 0;
-		foreach(QString sidx, data)
-		{
-		    QTreeWidgetItem* item = wnd_->topLevelItem(i);
-		    if( item )
-			item->setSelected((sidx=="true")? true: false);
-		    if(i >= n) break;
-		    i++;
-		}
-	    }
-	}
 	else if ("rows-clear" == name)
 	{
 	    wnd_->clear();
 	}
-	else if ("remove-row" == name)
-	{
-	    QTreeWidgetItem *i = wnd_->takeTopLevelItem(value.toInt());
-	    if(i) delete i;
-	}
-	else if ("row-item-text" == name)
-	{
-	    QStringList data = value.split(";");
-	    int column = data.size()<3? 0: data[2].toInt();
-	    wnd_->topLevelItem(data[1].toInt())->setText(column,data[0]);
-	}
-	else if ("row-item-pixmap" == name)
-	{
-	    QStringList data = value.split(";");
-	    int column = data.size()<3? 0: data[2].toInt();
-	    wnd_->topLevelItem(data[1].toInt())->setIcon(column,QIcon(getPixmap(data[0])));
-	}
-	else
-	    alWidget::setAttr(name,value);
+	//TODO else
+	//    alWidget::setAttr(name,value);
 }
 
 void alCheckTree::registerEvent(const QString& name)
@@ -320,7 +241,7 @@ void alCheckTree::registerEvent(const QString& name)
 	if ("selected" == name)
 		connect(wnd_,SIGNAL(selected()),SLOT(onSelect()));
 	else if ("changed" == name)
-		connect(wnd_,SIGNAL(selected()),SLOT(onChange()));
+		connect(wnd_,SIGNAL(itemChanged()),SLOT(onChange()));
 	else if ("clicked" == name)
 	{
 		connect(wnd_,SIGNAL(itemPressed(QTreeWidgetItem*,int)), SLOT(onClick(QTreeWidgetItem*,int)));
@@ -335,36 +256,16 @@ void alCheckTree::registerEvent(const QString& name)
 QString alCheckTree::postData() const
 {
     QString ret;
-    QString cur_rows;
-
-    QList<QTreeWidgetItem*> selected_items = wnd_->selectedItems();
-    foreach(QTreeWidgetItem* item, selected_items)
-    {
-	cur_rows.append(QString(" %1").arg(wnd_->indexOfTopLevelItem(item)));
-    }
-    QString st_rows;
     
-    
-    // TODO Only top-level items are counted
-    int n = wnd_->topLevelItemCount();
-    if( n > 0 )
+    ret.append(" ( groups . (");
+    foreach(QString item, wnd_->getSelected())
     {
-	for(int i = 0; i < n; i++)
-	{
-	    QTreeWidgetItem* item = wnd_->topLevelItem(i);
-	    if( item )
-	    {
-		st_rows.append(selected_items.contains(item)? " #t": " #f");
-	    }
-	}
+	ret.append("\"");
+	ret.append(item);
+	ret.append("\" ");
     }
-    ret.append(" (state-rows . (");
-    ret.append(st_rows);
-    ret.append("))");
-    ret.append(" (current-rows . (");
-    ret.append(cur_rows);
+    ret.chop(1);
     ret.append("))");
     return ret;
 }
-*/
 
