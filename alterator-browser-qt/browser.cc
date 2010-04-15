@@ -627,6 +627,7 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WRadioListBox:
 	case WMultiListBox:
 	case WCheckListBox: {new_widget = new alListBox(widget_type,attr,id,parent_id,columns.toInt()); break; }
+	case WCheckTree: {new_widget = new alCheckTree(widget_type,attr,id,parent_id); break; }
 	case WSlideShow: {   new_widget = new alSlideShow(attr,id,parent_id); break; }
 	case WSplitBox: {    new_widget = new alSplitBox(attr,id,parent_id,columns); break; }
 	case WCenterFace: {  new_widget = new alCenterFace(attr,id,parent_id); break; }

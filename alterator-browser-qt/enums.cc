@@ -29,6 +29,7 @@ Enums::Enums()
     str2widget["groupbox"] = WGroupBox;
     str2widget["gridbox"] = WGridBox;
     str2widget["checkbox"] = WCheckBox;
+    str2widget["checktree"] = WCheckTree;
     str2widget["tree"] = WTree;
     str2widget["combobox"] = WComboBox;
     str2widget["tabbox"] = WTabBox;

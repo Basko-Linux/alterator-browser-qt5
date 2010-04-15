@@ -42,7 +42,8 @@ enum AlteratorWidgetType {
     WTimeEdit = 360,     WSlideShow = 370,
     WBox = 380,          WVBox = 390,
     WHBox = 400,         WGridBox = 410,
-    WColorSelect = 420,  WFileSelect = 430
+    WColorSelect = 420,  WFileSelect = 430,
+    WCheckTree = 440
 };
 
 enum UserActionType
