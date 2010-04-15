@@ -232,8 +232,8 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	{
 	    wnd_->clear();
 	}
-	//TODO else
-	//    alWidget::setAttr(name,value);
+	else
+	    alWidget::setAttr(name,value);
 }
 
 void alCheckTree::registerEvent(const QString& name)
