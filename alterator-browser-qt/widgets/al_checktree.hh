@@ -32,6 +32,10 @@ public:
 	void setRows(QStringList data);
 	QStringList getSelected();
 
+Q_SIGNALS:
+	void itemChanged();
+	void changed();
+
 public Q_SLOTS:
 	void onStateChanged(QTreeWidgetItem *item, int column);
 

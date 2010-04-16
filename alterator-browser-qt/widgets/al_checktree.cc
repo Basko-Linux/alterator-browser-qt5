@@ -3,11 +3,6 @@
 
 #include "al_checktree.hh"
 
-/* TODO:
-    + delayed parent bind
-    + state changed signal
-*/
-
 ACheckTree::ACheckTree(QWidget *parent, const Qt::Orientation):
     AWidget<QTreeWidget>(parent)
 {
@@ -159,6 +154,7 @@ void ACheckTree::onStateChanged(QTreeWidgetItem *item, int column)
 	name  = item->data(0, 1000).toString();
 	state = item->checkState(0) == Qt::Checked;
 	//qDebug(qPrintable(QString("%1: %2").arg(name).arg((state ? "checked" : "unchecked"))));
+	emit changed();
     }
 }
 
@@ -175,7 +171,6 @@ void ACheckTree::keyPressEvent(QKeyEvent * e)
 		ci->setCheckState(0, Qt::Unchecked);
 	    ci->setSelected(true);
 	}
-        //emit spaceBtnPressed();
     }
     else
 	QTreeWidget::keyPressEvent(e);
@@ -241,7 +236,7 @@ void alCheckTree::registerEvent(const QString& name)
 	if ("selected" == name)
 		connect(wnd_,SIGNAL(selected()),SLOT(onSelect()));
 	else if ("changed" == name)
-		connect(wnd_,SIGNAL(itemChanged()),SLOT(onChange()));
+		connect(wnd_,SIGNAL(changed()),SLOT(onChange()));
 	else if ("clicked" == name)
 	{
 		connect(wnd_,SIGNAL(itemPressed(QTreeWidgetItem*,int)), SLOT(onClick(QTreeWidgetItem*,int)));
