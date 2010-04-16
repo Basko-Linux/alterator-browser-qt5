@@ -227,6 +227,16 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	{
 	    wnd_->clear();
 	}
+	else if ("state-rows" == name)
+	{
+	    QStringList data = value.split(";");
+	    foreach(QString iName, data)
+	    {
+		QTreeWidgetItem* item = wnd_->lookupItem(iName);
+		if( item )
+		    item->setCheckState(0, Qt::Checked);
+	    }
+	}
 	else
 	    alWidget::setAttr(name,value);
 }
@@ -252,14 +262,11 @@ QString alCheckTree::postData() const
 {
     QString ret;
     
-    ret.append(" ( groups . (");
+    ret.append(" (state-rows . (");
     foreach(QString item, wnd_->getSelected())
     {
-	ret.append("\"");
-	ret.append(item);
-	ret.append("\" ");
+	ret.append(QString(" %1").arg(item));
     }
-    ret.chop(1);
     ret.append("))");
     return ret;
 }

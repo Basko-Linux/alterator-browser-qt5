@@ -31,6 +31,7 @@ public:
 	void addRow(QStringList data); // checked,label,name,parent,expanded,...
 	void setRows(QStringList data);
 	QStringList getSelected();
+	QTreeWidgetItem *lookupItem(const QString& name);
 
 Q_SIGNALS:
 	void itemChanged();
@@ -44,7 +45,6 @@ protected:
 	void showEvent(QShowEvent *e);
 
 private:
-	QTreeWidgetItem *lookupItem(const QString& name);
 	QList<OrphanedTreeItem> orphaned;
 	
 };
