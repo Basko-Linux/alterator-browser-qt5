@@ -133,42 +133,82 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	else if ("max-width" == name)
 	{
 	    if(w)
-		w->setMaximumWidth(value.toInt());
+	    {
+		bool ok;
+		int val = value.toInt(&ok);
+		if( ok )
+		    w->setMaximumWidth(val);
+	    }
 	}
 	else if ("max-height" == name)
 	{
 	    if(w)
-		w->setMaximumHeight(value.toInt());
+	    {
+		bool ok;
+		int val = value.toInt(&ok);
+		if( ok )
+		    w->setMaximumHeight(val);
+	    }
 	}
 	else if ("min-width" == name)
 	{
 	    if(w)
-		w->setMinimumWidth(value.toInt());
+	    {
+		bool ok;
+		int val = value.toInt(&ok);
+		if( ok )
+		    w->setMinimumWidth(val);
+	    }
 	}
 	else if ("min-height" == name)
 	{
 	    if(w)
-		w->setMinimumHeight(value.toInt());
+	    {
+		bool ok;
+		int val = value.toInt(&ok);
+		if( ok )
+		    w->setMinimumHeight(val);
+	    }
 	}
 	else if ("width" == name)
 	{
 	    if(w)
-		w->setFixedWidth(value.toInt());
+	    {
+		bool ok;
+		int val = value.toInt(&ok);
+		if( ok )
+		    w->setFixedWidth(val);
+	    }
 	}
 	else if ("height" == name)
 	{
 	    if(w)
-		w->setFixedHeight(value.toInt());
+	    {
+		bool ok;
+		int val = value.toInt(&ok);
+		if( ok )
+		    w->setFixedHeight(val);
+	    }
 	}
 	else if ("margin" == name)
 	{
 	    if( l )
-		l->setMargin(value.toInt());
+	    {
+		bool ok;
+		int val = value.toInt(&ok);
+		if( ok )
+		    l->setMargin(val);
+	    }
 	}
 	else if ("spacing" == name)
 	{
 	    if( l )
-		l->setSpacing(value.toInt());
+	    {
+		bool ok;
+		int val = value.toInt(&ok);
+		if( ok )
+		    l->setSpacing(val);
+	    }
 	}
 	else if("clear-layout" == name)
 	{
