@@ -13,7 +13,7 @@ ATreeWidget::~ATreeWidget()
 {}
 
 // alTree
-alTree::alTree(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent,const QString& columns):
+alTree::alTree(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
 	alWidgetPre<ATreeWidget>(attr,WTree,id,parent)
 {
     expanded_ = false;
@@ -22,7 +22,8 @@ alTree::alTree(const AlteratorRequestActionAttrs &attr, const QString& id,const 
     wnd_->setAllColumnsShowFocus(true);
     wnd_->setItemsExpandable(true);
     wnd_->setSelectionBehavior(QAbstractItemView::SelectRows);
-    int col_count = columns.toInt();
+    int col_count = 1;
+    if( attr.contains("columns") ) col_count = attr.value("columns").i;
     if( col_count <1 ) col_count = 1;
     if( col_count > 1 )
 	wnd_->setAlternatingRowColors(true);

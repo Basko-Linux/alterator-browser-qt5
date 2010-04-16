@@ -133,42 +133,82 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	else if ("max-width" == name)
 	{
 	    if(w)
-		w->setMaximumWidth(value.toInt());
+	    {
+		bool ok;
+		int val = value.toInt(&ok);
+		if( ok )
+		    w->setMaximumWidth(val);
+	    }
 	}
 	else if ("max-height" == name)
 	{
 	    if(w)
-		w->setMaximumHeight(value.toInt());
+	    {
+		bool ok;
+		int val = value.toInt(&ok);
+		if( ok )
+		    w->setMaximumHeight(val);
+	    }
 	}
 	else if ("min-width" == name)
 	{
 	    if(w)
-		w->setMinimumWidth(value.toInt());
+	    {
+		bool ok;
+		int val = value.toInt(&ok);
+		if( ok )
+		    w->setMinimumWidth(val);
+	    }
 	}
 	else if ("min-height" == name)
 	{
 	    if(w)
-		w->setMinimumHeight(value.toInt());
+	    {
+		bool ok;
+		int val = value.toInt(&ok);
+		if( ok )
+		    w->setMinimumHeight(val);
+	    }
 	}
 	else if ("width" == name)
 	{
 	    if(w)
-		w->setFixedWidth(value.toInt());
+	    {
+		bool ok;
+		int val = value.toInt(&ok);
+		if( ok )
+		    w->setFixedWidth(val);
+	    }
 	}
 	else if ("height" == name)
 	{
 	    if(w)
-		w->setFixedHeight(value.toInt());
+	    {
+		bool ok;
+		int val = value.toInt(&ok);
+		if( ok )
+		    w->setFixedHeight(val);
+	    }
 	}
 	else if ("margin" == name)
 	{
 	    if( l )
-		l->setMargin(value.toInt());
+	    {
+		bool ok;
+		int val = value.toInt(&ok);
+		if( ok )
+		    l->setMargin(val);
+	    }
 	}
 	else if ("spacing" == name)
 	{
 	    if( l )
-		l->setSpacing(value.toInt());
+	    {
+		bool ok;
+		int val = value.toInt(&ok);
+		if( ok )
+		    l->setSpacing(val);
+	    }
 	}
 	else if("clear-layout" == name)
 	{
@@ -220,7 +260,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	    qDebug("Ignore unknown attribute for widget <%s> <%s>=<%s>", qPrintable(enums->widgetToStr(type())), qPrintable(name), qPrintable(value));
 }
 
-QSizePolicy alWidget::adjustSizePolicy(const AlteratorWidgetType type, const QSizePolicy policy, const Qt::Orientation orient, const Qt::Orientation)
+QSizePolicy alWidget::adjustSizePolicy(const AlteratorWidgetType type, const QSizePolicy policy, const Qt::Orientation orient)
 {
     QSizePolicy szpol = policy;
     switch( type )
@@ -355,7 +395,7 @@ void alWidget::postAddChild(QWidget* chld, AlteratorWidgetType type, const Alter
 		    Qt::Orientation orientation = Qt::Horizontal;
 		    if( bl->direction() == QBoxLayout::TopToBottom || bl->direction() == QBoxLayout::BottomToTop )
 			orientation = Qt::Vertical;
-		    chld->setSizePolicy(adjustSizePolicy( type, chld->sizePolicy(), attr.value("orientation").o, orientation ));
+		    chld->setSizePolicy(adjustSizePolicy( type, chld->sizePolicy(), attr.value("orientation").o));
 		    if( childrenAlignment() != Qt::AlignJustify )
 			bl->addWidget(chld, 0, childrenAlignment());
 		    else

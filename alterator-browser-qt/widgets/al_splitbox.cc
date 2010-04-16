@@ -88,12 +88,12 @@ void ASplitBox::setColumns(const QString &columns)
 }
 
 // alSplitBox
-alSplitBox::alSplitBox(const AlteratorRequestActionAttrs &attr, const QString &id,const QString &parent, const QString &columns):
+alSplitBox::alSplitBox(const AlteratorRequestActionAttrs &attr, const QString &id,const QString &parent):
 	alWidgetPre<ASplitBox>(attr,WSplitBox,id,parent)
 {
     wnd_->setOrientation(Utils::fixOrientation(attr.value("orientation").o, Qt::Horizontal));
-    if( !columns.isEmpty() )
-	wnd_->setColumns(columns);
+    if( attr.contains("columns") )
+	wnd_->setColumns(attr.value("columns").s);
 }
 
 void alSplitBox::postAddChild(QWidget *chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs&)

@@ -18,7 +18,7 @@ class alTree: public alWidgetPre<ATreeWidget>
 {
 Q_OBJECT
 public:
-	alTree(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent,const QString& columns);
+	alTree(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent);
 	void adjustFirstColumnWidth();
 	void adjustAllColumnsWidth();
 

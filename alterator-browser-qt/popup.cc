@@ -76,7 +76,11 @@ Popup::Popup(QWidget *parent, bool title, bool winexpand, bool winclose, bool wi
 	win_close->setToolButtonStyle(Qt::ToolButtonIconOnly);
 	win_close->setAutoRaise(true);
 	win_close->setFixedSize(16,16);
-	win_close->setIcon(QApplication::style()->standardPixmap(QStyle::SP_TitleBarCloseButton));
+	QPixmap pix(QApplication::style()->standardPixmap(QStyle::SP_TitleBarCloseButton));
+	if( pix.isNull() )
+	    win_close->setText("X");
+	else
+	    win_close->setIcon(pix);
 	header_layout->addWidget(win_close);
 	connect(win_close, SIGNAL(clicked()), this, SLOT(onWinCloseClicked()));
     }

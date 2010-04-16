@@ -52,7 +52,7 @@ public:
 	virtual void popUp() {};
 	virtual void popDown() {};
 
-	static QSizePolicy adjustSizePolicy(const AlteratorWidgetType, const QSizePolicy, const Qt::Orientation orient, const Qt::Orientation parent_orient);
+	static QSizePolicy adjustSizePolicy(const AlteratorWidgetType, const QSizePolicy, const Qt::Orientation orient);
 	void setChildrenAlignment(Qt::Alignment);
 	Qt::Alignment childrenAlignment();
 	void setWndObject(QObject*);

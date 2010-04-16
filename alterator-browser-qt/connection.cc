@@ -275,6 +275,8 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 			    act.attr.insert(name, makeRequestParamData(AltReqParamDataInt, e.value(i)));
 			else if( "tab-index" == name )
 			    act.attr.insert(name, makeRequestParamData(AltReqParamDataInt, e.value(i)));
+			else if( "columns" == name )
+			    act.attr.insert(name, makeRequestParamData(AltReqParamDataInt, e.value(i)));
 			else if( "checked" == name )
 			    act.attr.insert(name, makeRequestParamData(AltReqParamDataBool, e.value(i)));
 			else if( "orientation" == name )
