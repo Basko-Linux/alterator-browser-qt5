@@ -57,6 +57,12 @@ void ACheckTree::addRow(QStringList data)
     if (c > 4) 
 	item_expanded = data.at(4);
 
+    // Fill second and other column fields
+    for(int j=1;j < columnCount() && c > j+4;j++) 
+    {
+	item->setText(j, data.at(j+4));
+    }
+    
     // Set item id
     if( ! item_name.isEmpty() )
 	item->setData(0, 1000, QVariant(item_name));
@@ -90,6 +96,9 @@ void ACheckTree::addRow(QStringList data)
 	    pos++;
 	}
     }
+    
+    if (columnCount() > 1)
+	resizeColumnToContents(0);
 
     // Set expanded state
     if (item_expanded == "false")
@@ -209,9 +218,10 @@ QTreeWidgetItem *ACheckTree::lookupItem(const QString& name)
 alCheckTree::alCheckTree(const AlteratorWidgetType awtype, const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
 	alWidgetPre<ACheckTree>(attr,awtype,id,parent)
 {
-    if( attr.contains("columns") )
-	wnd_->setColumns(attr.value("columns").s);
-    if( wnd_->columnCount() > 1 )
+    int col_count = 1;
+    if( attr.contains("columns") ) col_count = attr.value("columns").i;
+    wnd_->setColumnCount(col_count);
+    if( col_count > 1 ) 
 	wnd_->setAlternatingRowColors(true);
 }
 
