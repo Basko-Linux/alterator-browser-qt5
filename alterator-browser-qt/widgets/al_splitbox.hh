@@ -28,7 +28,7 @@ private:
 class alSplitBox: public alWidgetPre<ASplitBox>
 {
 public:
-    alSplitBox(const AlteratorRequestActionAttrs &attr, const QString &id,const QString &parent, const QString &columns);
+    alSplitBox(const AlteratorRequestActionAttrs &attr, const QString &id,const QString &parent);
 
     void setAttr(const QString& name,const QString& value);
     void postAddChild(QWidget *chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs &attr);

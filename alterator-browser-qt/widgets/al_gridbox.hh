@@ -32,7 +32,7 @@ private:
 class alGridBox: public alWidgetPre<AGridBox>
 {
 public:
-    alGridBox(const AlteratorRequestActionAttrs &attr, const QString &id,const QString &parent, const QString &columns);
+    alGridBox(const AlteratorRequestActionAttrs &attr, const QString &id,const QString &parent);
     void setAttr(const QString &name,const QString &value);
     QLayout* getViewLayout();
     void postAddChild(QWidget *chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs &attr);

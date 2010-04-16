@@ -130,11 +130,11 @@ void AGridBox::setExpanded(bool expand)
 }
 
 // alGridBox
-alGridBox::alGridBox(const AlteratorRequestActionAttrs &attr, const QString &id,const QString &parent, const QString &columns):
+alGridBox::alGridBox(const AlteratorRequestActionAttrs &attr, const QString &id,const QString &parent):
 	alWidgetPre<AGridBox>(attr,WGridBox,id,parent)
 {
-    if( !columns.isEmpty() )
-	wnd_->setColumns(columns);
+    if( attr.contains("columns") )
+	wnd_->setColumns(attr.value("columns").s);
 }
 
 void alGridBox::setAttr(const QString &name,const QString &value)

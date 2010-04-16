@@ -248,9 +248,12 @@ void AListBox::onSelectionChanged()
 
 // alListBox
 
-alListBox::alListBox(const AlteratorWidgetType awtype, const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent, int cols):
+alListBox::alListBox(const AlteratorWidgetType awtype, const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
 	alWidgetPre<AListBox>(attr,awtype,id,parent)
 {
+    int cols = 1;
+    if( attr.contains("columns") )
+	cols = attr.value("columns").i;
     if( cols < 1 ) cols = 1;
     wnd_->setColumnCount(cols);
     if( cols > 1 )

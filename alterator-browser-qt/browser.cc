@@ -577,14 +577,12 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	    parent_id = attr.value("parent").s;
 	else
 	    qWarning("Error! no attribue parent id");
-	if( attr.contains("columns") )
-	    columns = attr.value("columns").s;
 
     /*
-	qDebug("%s: id<%s> type<%s> parent_id<%s> sub-type<%s> width<%d> height<%d> columns<%s>", __FUNCTION__,
+	qDebug("%s: id<%s> type<%s> parent_id<%s> sub-type<%s> width<%d> height<%d>, __FUNCTION__,
 	    qPrintable(id), qPrintable(enums->widgetToStr(attr.value("type").t)), qPrintable(parent_id),
 	    qPrintable(attr.value("sub-type").s),
-	    attr.value("width").i, attr.value("height").i, qPrintable(columns) );
+	    attr.value("width").i, attr.value("height").i );
 	*/
 
     alWidget *new_widget = 0;
@@ -611,9 +609,9 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WLabel: {       new_widget = new alLabel(attr,id,parent_id); break; }
 	case WEdit: {        new_widget = new alEdit(attr,id,parent_id); break; }
 	case WTextBox: {     new_widget = new alTextBox(attr,id,parent_id); break; }
-	case WGridBox: {     new_widget = new alGridBox(attr,id,parent_id, columns); break; }
+	case WGridBox: {     new_widget = new alGridBox(attr,id,parent_id); break; }
 	case WCheckBox: {    new_widget = new alCheckBox(attr,id,parent_id); break; }
-	case WTree: {        new_widget = new alTree(attr,id,parent_id, columns); break; }
+	case WTree: {        new_widget = new alTree(attr,id,parent_id); break; }
 	case WComboBox: {    new_widget = new alComboBox(attr,id,parent_id); break; }
 	case WTabBox: {      new_widget = new alTabBox(attr,id,parent_id); break; }
 	case WProgressBar: { new_widget = new alProgressBar(attr,id,parent_id); break; }
@@ -626,9 +624,9 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WListBox:
 	case WRadioListBox:
 	case WMultiListBox:
-	case WCheckListBox: {new_widget = new alListBox(widget_type,attr,id,parent_id,columns.toInt()); break; }
+	case WCheckListBox: {new_widget = new alListBox(widget_type,attr,id,parent_id); break; }
 	case WSlideShow: {   new_widget = new alSlideShow(attr,id,parent_id); break; }
-	case WSplitBox: {    new_widget = new alSplitBox(attr,id,parent_id,columns); break; }
+	case WSplitBox: {    new_widget = new alSplitBox(attr,id,parent_id); break; }
 	case WCenterFace: {  new_widget = new alCenterFace(attr,id,parent_id); break; }
 	case WWizardFace: {  new_widget = new alWizardFace(attr,id,parent_id); break; }
 	case WColorSelect: {  new_widget = new alColorSelect(attr,id,parent_id); break; }
@@ -637,7 +635,7 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WUnknown:
 	{
 	    qDebug("Unknown widget <%s> requested. Make gridbox instead.", qPrintable(enums->widgetToStr(attr.value("type").t)));
-	    new_widget = new alGridBox(attr,id,parent_id, "100");
+	    new_widget = new alGridBox(attr,id,parent_id);
 	}
 	/* default:
 	    break; */
