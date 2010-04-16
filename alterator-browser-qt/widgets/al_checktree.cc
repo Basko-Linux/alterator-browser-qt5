@@ -209,6 +209,10 @@ QTreeWidgetItem *ACheckTree::lookupItem(const QString& name)
 alCheckTree::alCheckTree(const AlteratorWidgetType awtype, const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
 	alWidgetPre<ACheckTree>(attr,awtype,id,parent)
 {
+    if( attr.contains("columns") )
+	wnd_->setColumns(attr.value("columns").s);
+    if( wnd_->columnCount() > 1 )
+	wnd_->setAlternatingRowColors(true);
 }
 
 void alCheckTree::setAttr(const QString& name,const QString& value)
