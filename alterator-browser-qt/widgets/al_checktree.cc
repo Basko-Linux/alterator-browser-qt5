@@ -4,6 +4,8 @@
 #include "al_checktree.hh"
 #include "browser.hh"
 
+#define ACHECKTREE_ID_ROLE 1000
+
 ACheckTree::ACheckTree(QWidget *parent, const Qt::Orientation):
     AWidget<QTreeWidget>(parent)
 {
@@ -62,7 +64,7 @@ void ACheckTree::addRow(const QStringList &data)
 
     // Set item id
     if( ! item_id.isEmpty() )
-	item->setData(0, 1000, QVariant(item_id));
+	item->setData(0, ACHECKTREE_ID_ROLE, QVariant(item_id));
 
     // Tie to parent
     QTreeWidgetItem *p = lookupItem(item_parent_id);
@@ -136,7 +138,7 @@ QStringList ACheckTree::getSelected()
     QTreeWidgetItemIterator it(this);
     while (*it) 
     {
-	iName = (*it)->data(0, 1000).toString();
+	iName = (*it)->data(0, ACHECKTREE_ID_ROLE).toString();
 	if ((*it)->checkState(0) == Qt::Checked && ! iName.isEmpty())
 	{
 	    selected.append(iName);
@@ -155,7 +157,7 @@ void ACheckTree::onStateChanged(QTreeWidgetItem *item, int column)
     
     //qDebug("Item is changed");
     if( item && column == 0 ) {
-	name  = item->data(0, 1000).toString();
+	name  = item->data(0, ACHECKTREE_ID_ROLE).toString();
 	state = item->checkState(0) == Qt::Checked;
 	//qDebug(qPrintable(QString("%1: %2").arg(name).arg((state ? "checked" : "unchecked"))));
 	if( eventRegistered(BrowserEventChanged) )
@@ -199,7 +201,7 @@ QTreeWidgetItem *ACheckTree::lookupItem(const QString& item_id)
     QTreeWidgetItemIterator it(this);
     while (*it) 
     {
-	iName = (*it)->data(0, 1000).toString();
+	iName = (*it)->data(0, ACHECKTREE_ID_ROLE).toString();
 	if (item_id == iName)
 	{
 	    return (*it);
