@@ -28,8 +28,8 @@ public:
 	ACheckTree(QWidget *parent, const Qt::Orientation = Qt::Horizontal);
 	~ACheckTree();
 
-	void addRow(QStringList data); // checked,label,name,parent,expanded,...
-	void setRows(QStringList data);
+	void addRow(const QStringList &data); // checked,label,name,parent,expanded,...
+	void setRows(const QStringList &data);
 	QStringList getSelected();
 	QTreeWidgetItem *lookupItem(const QString& id);
 

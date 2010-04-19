@@ -24,7 +24,7 @@ ACheckTree::~ACheckTree()
 
 // Add single row. Tuple should contains: checked_state, label, item_id, parent_name, expanded
 // If item_id or parent_name is empty string, tree item is top-level item.
-void ACheckTree::addRow(QStringList data)
+void ACheckTree::addRow(const QStringList &data)
 {
     int c = data.size();
 
@@ -105,7 +105,7 @@ void ACheckTree::addRow(QStringList data)
 }
 
 // Fill all items
-void ACheckTree::setRows(QStringList data)
+void ACheckTree::setRows(const QStringList &data)
 {
     clear();
     const int columns = columnCount();
