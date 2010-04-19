@@ -123,16 +123,16 @@ void ACheckTree::setRows(const QStringList &data)
 QStringList ACheckTree::getSelected() 
 {
     QStringList selected;
-    QString iName;
+    QString item_id;
 
     // Iterate across all items to tree
     QTreeWidgetItemIterator it(this);
     while (*it) 
     {
-	iName = (*it)->data(0, ACHECKTREE_ID_ROLE).toString();
-	if ((*it)->checkState(0) == Qt::Checked && ! iName.isEmpty())
+	item_id = (*it)->data(0, ACHECKTREE_ID_ROLE).toString();
+	if ((*it)->checkState(0) == Qt::Checked && ! item_id.isEmpty())
 	{
-	    selected.append(iName);
+	    selected.append(item_id);
 	}
         ++it;
     }
@@ -183,7 +183,7 @@ void ACheckTree::showEvent(QShowEvent*)
 // Lookup item by its name
 QTreeWidgetItem *ACheckTree::lookupItem(const QString& item_id)
 {
-    QString iName;
+    QString id;
     
     if (item_id.isEmpty())
 	return NULL;
@@ -192,8 +192,8 @@ QTreeWidgetItem *ACheckTree::lookupItem(const QString& item_id)
     QTreeWidgetItemIterator it(this);
     while (*it) 
     {
-	iName = (*it)->data(0, ACHECKTREE_ID_ROLE).toString();
-	if (item_id == iName)
+	id = (*it)->data(0, ACHECKTREE_ID_ROLE).toString();
+	if (item_id == id)
 	{
 	    return (*it);
 	}
@@ -233,9 +233,9 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	else if ("state-rows" == name)
 	{
 	    QStringList data = value.split(";");
-	    foreach(QString iName, data)
+	    foreach(QString id, data)
 	    {
-		QTreeWidgetItem* item = wnd_->lookupItem(iName);
+		QTreeWidgetItem* item = wnd_->lookupItem(id);
 		if( item )
 		    item->setCheckState(0, Qt::Checked);
 	    }
