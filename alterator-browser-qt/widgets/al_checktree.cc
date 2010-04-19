@@ -2,6 +2,7 @@
 #include <QHeaderView>
 
 #include "al_checktree.hh"
+#include "browser.hh"
 
 ACheckTree::ACheckTree(QWidget *parent, const Qt::Orientation):
     AWidget<QTreeWidget>(parent)
