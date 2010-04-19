@@ -94,10 +94,7 @@ void ACheckTree::addRow(const QStringList &data)
 	resizeColumnToContents(0);
 
     // Set expanded state
-    if (item_expanded == "false")
-	item->setExpanded(false);
-    else
-	item->setExpanded(true);
+    item->setExpanded(item_expanded == "true");
 }
 
 // Fill all items
