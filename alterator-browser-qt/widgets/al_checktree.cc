@@ -26,7 +26,7 @@ ACheckTree::~ACheckTree()
 void ACheckTree::addRow(QStringList data)
 {
     int c = data.size();
-    
+
     if (c < 2 ) 
 	return;
 
@@ -35,20 +35,16 @@ void ACheckTree::addRow(QStringList data)
     QString item_id;
     QString item_parent_id;
     QString item_expanded;
-    
+
     item_checked = data.at(0);
     item_label = data.at(1);
 
     QTreeWidgetItem *item = new QTreeWidgetItem();
 
     // Set state and label
-    if (item_checked == "true")
-	item->setCheckState(0, Qt::Checked);
-    else
-	item->setCheckState(0, Qt::Unchecked);
-
+    item->setCheckState(0, (item_checked == "true")? Qt::Checked: Qt::Unchecked);
     item->setText(0, item_label);
-   
+
     // Set item_id and item_parent_id
     if (c > 2) 
 	item_id = data.at(2);
@@ -62,7 +58,7 @@ void ACheckTree::addRow(QStringList data)
     {
 	item->setText(j, data.at(j+4));
     }
-    
+
     // Set item id
     if( ! item_id.isEmpty() )
 	item->setData(0, 1000, QVariant(item_id));
@@ -96,7 +92,7 @@ void ACheckTree::addRow(QStringList data)
 	    pos++;
 	}
     }
-    
+
     if (columnCount() > 1)
 	resizeColumnToContents(0);
 
@@ -105,8 +101,6 @@ void ACheckTree::addRow(QStringList data)
 	item->setExpanded(false);
     else
 	item->setExpanded(true);
-
-    
 }
 
 // Fill all items
