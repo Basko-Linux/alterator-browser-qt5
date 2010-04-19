@@ -3,6 +3,7 @@
 
 #include <QTreeWidget>
 #include <QKeyEvent>
+#include <QMultiHash>
 
 #include "al_widget.hh"
 
@@ -14,11 +15,6 @@
     [ ] Group_2
      |-[x] Item_2_1
 */
-
-typedef struct OrphanedTreeItem {
-    QString parent;
-    QTreeWidgetItem *item;
-}OrphanedTreeItem;
 
 class ACheckTree: public AWidget<QTreeWidget>
 {
@@ -41,7 +37,7 @@ protected:
 	void showEvent(QShowEvent *e);
 
 private:
-	QList<OrphanedTreeItem> orphaned;
+	QMultiHash<QString,QTreeWidgetItem*> orphaned;
 	
 };
 

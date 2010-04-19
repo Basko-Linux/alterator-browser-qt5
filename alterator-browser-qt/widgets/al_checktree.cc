@@ -74,25 +74,19 @@ void ACheckTree::addRow(const QStringList &data)
 	if (item_parent_id.isEmpty())
 	    addTopLevelItem(item);
 	else {
-	    OrphanedTreeItem orphan;
-	    orphan.parent = item_parent_id;
-	    orphan.item = item;
-	    orphaned.append(orphan);
+	    orphaned.insert(item_parent_id, item);
 	    //qDebug(qPrintable(QString("Parent '%1' not found.").arg(item_parent_id)));
 	}
     }
 
     // Check for other orphan
     if ( ! item_id.isEmpty() && orphaned.count() > 0) {
-	QListIterator<OrphanedTreeItem> i(orphaned);
-	int pos=0;
-	while (i.hasNext()) {
-	    OrphanedTreeItem orphan = i.next();
-	    if (orphan.parent == item_id) {
-		item->addChild(orphan.item);
-		orphaned.removeAt(pos);
-	    }
-	    pos++;
+	QList<QTreeWidgetItem*> items(orphaned.values(item_id));
+	if( items.size() > 0 )
+	{
+	    foreach(QTreeWidgetItem *i, items)
+		item->addChild(i);
+	    orphaned.remove(item_id);
 	}
     }
 
