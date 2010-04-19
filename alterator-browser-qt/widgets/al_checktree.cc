@@ -157,7 +157,8 @@ void ACheckTree::onStateChanged(QTreeWidgetItem *item, int column)
 	name  = item->data(0, 1000).toString();
 	state = item->checkState(0) == Qt::Checked;
 	//qDebug(qPrintable(QString("%1: %2").arg(name).arg((state ? "checked" : "unchecked"))));
-	emit changed();
+	if( eventRegistered(BrowserEventChanged) )
+	    browser->emitEvent(getId(), BrowserEventChanged, AlteratorRequestDefault);
     }
 }
 
@@ -254,7 +255,7 @@ void alCheckTree::registerEvent(const QString& name)
 	if ("selected" == name)
 		connect(wnd_,SIGNAL(selected()),SLOT(onSelect()));
 	else if ("changed" == name)
-		connect(wnd_,SIGNAL(changed()),SLOT(onChange()));
+	    wnd_->setEventRegistered(id_, BrowserEventChanged);
 	else if ("clicked" == name)
 	{
 		connect(wnd_,SIGNAL(itemPressed(QTreeWidgetItem*,int)), SLOT(onClick(QTreeWidgetItem*,int)));

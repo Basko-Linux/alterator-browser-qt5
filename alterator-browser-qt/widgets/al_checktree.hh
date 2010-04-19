@@ -33,10 +33,6 @@ public:
 	QStringList getSelected();
 	QTreeWidgetItem *lookupItem(const QString& id);
 
-Q_SIGNALS:
-	void itemChanged();
-	void changed();
-
 public Q_SLOTS:
 	void onStateChanged(QTreeWidgetItem *item, int column);
 
