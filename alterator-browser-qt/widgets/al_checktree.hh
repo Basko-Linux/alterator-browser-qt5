@@ -31,7 +31,7 @@ public:
 	void addRow(QStringList data); // checked,label,name,parent,expanded,...
 	void setRows(QStringList data);
 	QStringList getSelected();
-	QTreeWidgetItem *lookupItem(const QString& name);
+	QTreeWidgetItem *lookupItem(const QString& id);
 
 Q_SIGNALS:
 	void itemChanged();

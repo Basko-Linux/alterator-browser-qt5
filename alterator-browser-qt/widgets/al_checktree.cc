@@ -21,8 +21,8 @@ ACheckTree::~ACheckTree()
 {
 }
 
-// Add single row. Tuple should contains: checked_state, label, item_name, parent_name, expanded
-// If item_name or parent_name is empty string, tree item is top-level item.
+// Add single row. Tuple should contains: checked_state, label, item_id, parent_name, expanded
+// If item_id or parent_name is empty string, tree item is top-level item.
 void ACheckTree::addRow(QStringList data)
 {
     int c = data.size();
@@ -32,8 +32,8 @@ void ACheckTree::addRow(QStringList data)
 
     QString item_checked;
     QString item_label;
-    QString item_name;
-    QString item_parent;
+    QString item_id;
+    QString item_parent_id;
     QString item_expanded;
     
     item_checked = data.at(0);
@@ -49,11 +49,11 @@ void ACheckTree::addRow(QStringList data)
 
     item->setText(0, item_label);
    
-    // Set item_name and item_parent
+    // Set item_id and item_parent_id
     if (c > 2) 
-	item_name = data.at(2);
+	item_id = data.at(2);
     if (c > 3) 
-	item_parent = data.at(3);
+	item_parent_id = data.at(3);
     if (c > 4) 
 	item_expanded = data.at(4);
 
@@ -64,32 +64,32 @@ void ACheckTree::addRow(QStringList data)
     }
     
     // Set item id
-    if( ! item_name.isEmpty() )
-	item->setData(0, 1000, QVariant(item_name));
+    if( ! item_id.isEmpty() )
+	item->setData(0, 1000, QVariant(item_id));
 
     // Tie to parent
-    QTreeWidgetItem *p = lookupItem(item_parent);
+    QTreeWidgetItem *p = lookupItem(item_parent_id);
     if ( p ) {
 	p->addChild(item);
     } else {
-	if (item_parent.isEmpty())
+	if (item_parent_id.isEmpty())
 	    addTopLevelItem(item);
 	else {
 	    OrphanedTreeItem orphan;
-	    orphan.parent = item_parent;
+	    orphan.parent = item_parent_id;
 	    orphan.item = item;
 	    orphaned.append(orphan);
-	    //qDebug(qPrintable(QString("Parent '%1' not found.").arg(item_parent)));
+	    //qDebug(qPrintable(QString("Parent '%1' not found.").arg(item_parent_id)));
 	}
     }
 
     // Check for other orphan
-    if ( ! item_name.isEmpty() && orphaned.count() > 0) {
+    if ( ! item_id.isEmpty() && orphaned.count() > 0) {
 	QListIterator<OrphanedTreeItem> i(orphaned);
 	int pos=0;
 	while (i.hasNext()) {
 	    OrphanedTreeItem orphan = i.next();
-	    if (orphan.parent == item_name) {
+	    if (orphan.parent == item_id) {
 		item->addChild(orphan.item);
 		orphaned.removeAt(pos);
 	    }
@@ -192,11 +192,11 @@ void ACheckTree::showEvent(QShowEvent*)
 }
 
 // Lookup item by its name
-QTreeWidgetItem *ACheckTree::lookupItem(const QString& name)
+QTreeWidgetItem *ACheckTree::lookupItem(const QString& item_id)
 {
     QString iName;
     
-    if (name.isEmpty())
+    if (item_id.isEmpty())
 	return NULL;
     
     // Iterate across all items to tree
@@ -204,7 +204,7 @@ QTreeWidgetItem *ACheckTree::lookupItem(const QString& name)
     while (*it) 
     {
 	iName = (*it)->data(0, 1000).toString();
-	if (name == iName)
+	if (item_id == iName)
 	{
 	    return (*it);
 	}
