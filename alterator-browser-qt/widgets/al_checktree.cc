@@ -196,7 +196,7 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	{
 	    wnd_->clear();
 	}
-	else if ("state-rows" == name)
+	else if ("current-rows" == name)
 	{
 	    QStringList data = value.split(";");
 	    foreach(QString id, data)
@@ -231,7 +231,7 @@ QString alCheckTree::postData() const
 {
     QString ret;
     
-    ret.append(" (state-rows . (");
+    ret.append(" (current-rows . (");
     foreach(QString item, wnd_->getSelected())
     {
 	ret.append(QString(" %1").arg(item));
