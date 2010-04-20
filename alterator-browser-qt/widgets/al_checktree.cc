@@ -22,7 +22,11 @@ ACheckTree::ACheckTree(QWidget *parent, const Qt::Orientation):
     setSelectionBehavior(QAbstractItemView::SelectRows);
    
     // Connect to itemChanged signal
-    connect(this, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(onStateChanged(QTreeWidgetItem *, int))) ;
+    connect(this, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(onStateChanged(QTreeWidgetItem *, int)));
+    // Connect to selected signal
+    connect(this, SIGNAL(itemSelectionChanged()), this, SLOT(onSelect()));
+    // Connect to expand signal
+    connect(this, SIGNAL(itemExpanded(QTreeWidgetItem *)), this, SLOT(onExpand(QTreeWidgetItem *)));
     
 }
 
@@ -43,6 +47,10 @@ void ACheckTree::addRow(const QStringList &data)
     QString item_id(it.next());
     if( !item_id.isEmpty() )
 	item->setData(0, ACHECKTREE_ID_ROLE, QVariant(item_id));
+
+    // Set default state
+    item->setCheckState(0, Qt::Unchecked);
+    item->setExpanded(false);
 
     QString item_parent_id(it.next());
 
@@ -121,6 +129,7 @@ QString ACheckTree::current()
 	    return (*it)->data(0, ACHECKTREE_ID_ROLE).toString();
 	++it;
     }
+    return QString();
 }
 
 
@@ -131,13 +140,28 @@ void ACheckTree::onStateChanged(QTreeWidgetItem *item, int column)
     bool state;
     
     //qDebug("Item is changed");
-    if( item && column == 0 ) {
+    if (item && column == 0) 
+    {
 	name  = item->data(0, ACHECKTREE_ID_ROLE).toString();
 	state = item->checkState(0) == Qt::Checked;
 	//qDebug(qPrintable(QString("%1: %2").arg(name).arg((state ? "checked" : "unchecked"))));
-	if( eventRegistered(BrowserEventChanged) )
+	if (eventRegistered(BrowserEventChanged) )
 	    browser->emitEvent(getId(), BrowserEventChanged, AlteratorRequestDefault);
     }
+}
+
+// Slot for item select
+void ACheckTree::onSelect()
+{
+    if (eventRegistered(BrowserEventChanged))
+	browser->emitEvent(getId(), BrowserEventSelected, AlteratorRequestDefault);
+}
+
+// Slot for item expand
+void ACheckTree::onExpand(QTreeWidgetItem *item)
+{
+    if (item && columnCount() > 1)
+	resizeColumnToContents(0);
 }
 
 // Toggle checking via Space key pressed on current item
@@ -256,12 +280,13 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	    QString pixname;
 	    QStringList data = value.split(";");
 	    
-	    QIcon pixmap = getPixmap(pixname.isEmpty()? "theme:null": data.at(0));
+	    QIcon pixmap = getPixmap(data.at(0).isEmpty()? "theme:null": data.at(0));
 	    data.removeAt(0);
 	    
 	    foreach(QString id, data)
 	    {
 		QTreeWidgetItem* item = wnd_->lookupItem(id);
+		
 		if( item )
 		    item->setIcon(0, pixmap);
 	    }
@@ -273,9 +298,9 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 void alCheckTree::registerEvent(const QString& name)
 {
 	if ("selected" == name)
-		connect(wnd_,SIGNAL(selected()),SLOT(onSelect()));
+		wnd_->setEventRegistered(id_, BrowserEventSelected);
 	else if ("changed" == name)
-	    wnd_->setEventRegistered(id_, BrowserEventChanged);
+		wnd_->setEventRegistered(id_, BrowserEventChanged);
 	else if ("clicked" == name)
 	{
 		connect(wnd_,SIGNAL(itemPressed(QTreeWidgetItem*,int)), SLOT(onClick(QTreeWidgetItem*,int)));
