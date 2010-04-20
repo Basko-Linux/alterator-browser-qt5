@@ -2,9 +2,13 @@
 #include <QHeaderView>
 
 #include "al_checktree.hh"
+#include "a_pixmaps.hh"
 #include "browser.hh"
 
 #define ACHECKTREE_ID_ROLE 1000
+
+// Tree widget with checkboxes
+// http://www.altlinux.org/Alterator/CheckTree
 
 ACheckTree::ACheckTree(QWidget *parent, const Qt::Orientation):
     AWidget<QTreeWidget>(parent)
@@ -14,7 +18,8 @@ ACheckTree::ACheckTree(QWidget *parent, const Qt::Orientation):
     setItemsExpandable(true);
     setAllColumnsShowFocus(true);
     setSortingEnabled(false);
-    
+    setSelectionBehavior(QAbstractItemView::SelectRows);
+   
     // Connect to itemChanged signal
     connect(this, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(onStateChanged(QTreeWidgetItem *, int))) ;
     
@@ -24,42 +29,31 @@ ACheckTree::~ACheckTree()
 {
 }
 
-// Add single row. Tuple should contains: checked_state, label, item_id, parent_name, expanded
-// If item_id or parent_name is empty string, tree item is top-level item.
+// Add single row. Tuple should contains: item_id, item_parent_id, label(s) for first and other columns
+// If parent_name is empty string, tree item is top-level item.
 void ACheckTree::addRow(const QStringList &data)
 {
     int c = data.size();
 
-    if (c < 2 ) 
+    if (c < 3 ) 
 	return;
 
-    QString item_checked;
-    QString item_label;
     QString item_id;
     QString item_parent_id;
-    QString item_expanded;
-
-    item_checked = data.at(0);
-    item_label = data.at(1);
 
     QTreeWidgetItem *item = new QTreeWidgetItem();
 
-    // Set state and label
-    item->setCheckState(0, (item_checked == "true")? Qt::Checked: Qt::Unchecked);
-    item->setText(0, item_label);
+    // Set default state
+    item->setCheckState(0, Qt::Unchecked);
 
     // Set item_id and item_parent_id
-    if (c > 2) 
-	item_id = data.at(2);
-    if (c > 3) 
-	item_parent_id = data.at(3);
-    if (c > 4) 
-	item_expanded = data.at(4);
+    item_id = data.at(0);
+    item_parent_id = data.at(1);
 
     // Fill second and other column fields
-    for(int j=1;j < columnCount() && c > j+4;j++) 
+    for(int j=0;j < columnCount() && c > j+3;j++) 
     {
-	item->setText(j, data.at(j+4));
+	item->setText(j, data.at(j+2));
     }
 
     // Set item id
@@ -90,11 +84,10 @@ void ACheckTree::addRow(const QStringList &data)
 	}
     }
 
+    // TODO Does not work with child items
     if (columnCount() > 1)
 	resizeColumnToContents(0);
-
-    // Set expanded state
-    item->setExpanded(item_expanded == "true");
+    item->setExpanded(false);
 }
 
 // Fill all items
@@ -139,6 +132,19 @@ QStringList ACheckTree::getSelected()
 
     return selected;
 }
+
+QString ACheckTree::current()
+{
+    // Return current selected item
+    QTreeWidgetItemIterator it(this);
+    while (*it) 
+    {
+	if ((*it)->isSelected())
+	    return (*it)->data(0, ACHECKTREE_ID_ROLE).toString();
+	++it;
+    }
+}
+
 
 // Slot for item state changed
 void ACheckTree::onStateChanged(QTreeWidgetItem *item, int column)
@@ -230,7 +236,27 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	{
 	    wnd_->clear();
 	}
-	else if ("state-rows" == name)
+	else if ("expand-rows" == name)
+	{
+	    QStringList data = value.split(";");
+	    foreach(QString id, data)
+	    {
+		QTreeWidgetItem* item = wnd_->lookupItem(id);
+		if( item )
+		    item->setExpanded(true);
+	    }
+	}
+	else if ("collapse-rows" == name)
+	{
+	    QStringList data = value.split(";");
+	    foreach(QString id, data)
+	    {
+		QTreeWidgetItem* item = wnd_->lookupItem(id);
+		if( item )
+		    item->setExpanded(false);
+	    }
+	}
+	else if ("current-rows" == name)
 	{
 	    QStringList data = value.split(";");
 	    foreach(QString id, data)
@@ -238,6 +264,28 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 		QTreeWidgetItem* item = wnd_->lookupItem(id);
 		if( item )
 		    item->setCheckState(0, Qt::Checked);
+	    }
+	}
+	else if ("current" == name)
+	{
+	    // Set item selected
+	    QTreeWidgetItem* item = wnd_->lookupItem(value);
+	    if( item )
+		item->setSelected(true);
+	}
+	else if ("icon-rows" == name)
+	{
+	    QString pixname;
+	    QStringList data = value.split(";");
+	    
+	    QIcon pixmap = getPixmap(pixname.isEmpty()? "theme:null": data.at(0));
+	    data.removeAt(0);
+	    
+	    foreach(QString id, data)
+	    {
+		QTreeWidgetItem* item = wnd_->lookupItem(id);
+		if( item )
+		    item->setIcon(0, pixmap);
 	    }
 	}
 	else
@@ -264,13 +312,21 @@ void alCheckTree::registerEvent(const QString& name)
 QString alCheckTree::postData() const
 {
     QString ret;
+    QString selected_item_id;
     
-    ret.append(" (state-rows . (");
+    // Current element id
+    ret.append(QString(" (current . %1)").arg(wnd_->current()));
+        
+    // Current checked elements
+    ret.append(" (current-rows . (");
     foreach(QString item, wnd_->getSelected())
     {
 	ret.append(QString(" %1").arg(item));
     }
     ret.append("))");
+    
+    
+    
     return ret;
 }
 

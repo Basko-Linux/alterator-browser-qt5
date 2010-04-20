@@ -24,9 +24,10 @@ public:
 	ACheckTree(QWidget *parent, const Qt::Orientation = Qt::Horizontal);
 	~ACheckTree();
 
-	void addRow(const QStringList &data); // checked,label,name,parent,expanded,...
+	void addRow(const QStringList &data); // id,parent_id,label1,...
 	void setRows(const QStringList &data);
 	QStringList getSelected();
+	QString current();
 	QTreeWidgetItem *lookupItem(const QString& id);
 
 public Q_SLOTS:
