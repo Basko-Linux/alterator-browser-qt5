@@ -295,17 +295,28 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	else if ("icon-rows" == name)
 	{
 	    QString pixname;
+	    int column;
 	    QStringList data = value.split(";");
 	    
+	    if (data.count() < 2)
+		return;
+	    
+	    // Icon name
 	    QIcon pixmap = getPixmap(data.at(0).isEmpty()? "theme:null": data.at(0));
 	    data.removeAt(0);
 	    
+	    // Column number
+	    column = (data.at(0).isEmpty()? 0: data.at(0).toInt()-1);
+	    column = (column < 0? 0: column);
+	    data.removeAt(0);
+	    
+	    // 
 	    foreach(QString id, data)
 	    {
 		QTreeWidgetItem* item = wnd_->lookupItem(id);
 		
 		if( item )
-		    item->setIcon(0, pixmap);
+		    item->setIcon(column, pixmap);
 	    }
 	}
 	else
