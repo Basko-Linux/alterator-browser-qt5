@@ -90,7 +90,10 @@ void ACheckTree::addRow(const QStringList &data)
     }
 
     if (columnCount() > 1)
-	resizeColumnToContents(0);
+    {
+	for (int cc=0; cc<columnCount(); cc++)
+	    resizeColumnToContents(cc);
+    }
 }
 
 // Fill all items
@@ -178,7 +181,10 @@ void ACheckTree::onSelect()
 void ACheckTree::onExpand(QTreeWidgetItem *item)
 {
     if (item && columnCount() > 1)
-	resizeColumnToContents(0);
+    {
+	for (int cc=0; cc<columnCount(); cc++)
+	    resizeColumnToContents(cc);
+    }
 }
 
 // Toggle checking via Space key pressed on current item
