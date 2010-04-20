@@ -22,6 +22,8 @@ ACheckTree::ACheckTree(QWidget *parent, const Qt::Orientation):
    
     // Connect to itemChanged signal
     connect(this, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(onStateChanged(QTreeWidgetItem *, int))) ;
+    // Connect to selected signal
+    connect(this, SIGNAL(itemSelectionChanged()), this, SLOT(onSelect())) ;
     
 }
 
@@ -143,6 +145,7 @@ QString ACheckTree::current()
 	    return (*it)->data(0, ACHECKTREE_ID_ROLE).toString();
 	++it;
     }
+    return QString();
 }
 
 
@@ -161,6 +164,14 @@ void ACheckTree::onStateChanged(QTreeWidgetItem *item, int column)
 	    browser->emitEvent(getId(), BrowserEventChanged, AlteratorRequestDefault);
     }
 }
+
+// Slot for item select
+void ACheckTree::onSelect()
+{
+    if( eventRegistered(BrowserEventChanged) )
+	browser->emitEvent(getId(), BrowserEventSelected, AlteratorRequestDefault);
+}
+
 
 // Toggle checking via Space key pressed on current item
 void ACheckTree::keyPressEvent(QKeyEvent * e) 
@@ -278,12 +289,13 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	    QString pixname;
 	    QStringList data = value.split(";");
 	    
-	    QIcon pixmap = getPixmap(pixname.isEmpty()? "theme:null": data.at(0));
+	    QIcon pixmap = getPixmap(data.at(0).isEmpty()? "theme:null": data.at(0));
 	    data.removeAt(0);
 	    
 	    foreach(QString id, data)
 	    {
 		QTreeWidgetItem* item = wnd_->lookupItem(id);
+		
 		if( item )
 		    item->setIcon(0, pixmap);
 	    }
@@ -295,9 +307,9 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 void alCheckTree::registerEvent(const QString& name)
 {
 	if ("selected" == name)
-		connect(wnd_,SIGNAL(selected()),SLOT(onSelect()));
+		wnd_->setEventRegistered(id_, BrowserEventSelected);
 	else if ("changed" == name)
-	    wnd_->setEventRegistered(id_, BrowserEventChanged);
+		wnd_->setEventRegistered(id_, BrowserEventChanged);
 	else if ("clicked" == name)
 	{
 		connect(wnd_,SIGNAL(itemPressed(QTreeWidgetItem*,int)), SLOT(onClick(QTreeWidgetItem*,int)));

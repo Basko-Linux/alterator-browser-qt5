@@ -32,6 +32,7 @@ public:
 
 public Q_SLOTS:
 	void onStateChanged(QTreeWidgetItem *item, int column);
+	void onSelect();
 
 protected:
 	void keyPressEvent(QKeyEvent *e) ;
