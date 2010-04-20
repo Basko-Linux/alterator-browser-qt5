@@ -26,7 +26,7 @@ public:
 
 	void addRow(const QStringList &data); // id,parent_id,label1,...
 	void setRows(const QStringList &data);
-	QStringList getSelected();
+	QStringList getChecked();
 	QString current();
 	QTreeWidgetItem *lookupItem(const QString& id);
 

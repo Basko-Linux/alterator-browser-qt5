@@ -105,7 +105,7 @@ void ACheckTree::setRows(const QStringList &data)
 	resizeColumnToContents(0);
 }
 
-QStringList ACheckTree::getSelected() 
+QStringList ACheckTree::getChecked() 
 {
     QStringList selected;
     QString item_id;
@@ -338,7 +338,7 @@ QString alCheckTree::postData() const
         
     // Current checked elements
     ret.append(" (current-rows . (");
-    foreach(QString item, wnd_->getSelected())
+    foreach(QString item, wnd_->getChecked())
     {
 	ret.append(QString(" %1").arg(item));
     }
