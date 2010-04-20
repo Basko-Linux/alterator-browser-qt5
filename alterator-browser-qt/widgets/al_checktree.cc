@@ -5,6 +5,7 @@
 #include "browser.hh"
 
 #define ACHECKTREE_ID_ROLE 1000
+#define ACHECKTREE_ROW_OPTS 2
 
 ACheckTree::ACheckTree(QWidget *parent, const Qt::Orientation):
     AWidget<QTreeWidget>(parent)
@@ -28,7 +29,7 @@ ACheckTree::~ACheckTree()
 // If item_id or parent_name is empty string, tree item is top-level item.
 void ACheckTree::addRow(const QStringList &data)
 {
-    if(data.size() < 3) return;
+    if(data.size() < ACHECKTREE_ROW_OPTS + 1) return;
 
     QStringListIterator it(data);
     QTreeWidgetItem *item = new QTreeWidgetItem();
@@ -75,26 +76,13 @@ void ACheckTree::addRow(const QStringList &data)
 // Fill all items
 void ACheckTree::setRows(const QStringList &data)
 {
-    clear();
-    const int columns = columnCount();
-    QStringListIterator it(data);
-    while( it.hasNext() )
+    const int row_count = ACHECKTREE_ROW_OPTS + columnCount();
+    for(int i=0; i < data.size(); i+=row_count)
     {
-	QStringList row_data;
-	while( it.hasNext() )
-	{
-	    row_data.append(it.next());
-	    if( it.hasNext() )
-		row_data.append(it.next());
-	    if( row_data.size() >= columns+1 )
-	    {
-		addRow(row_data);
-		break;
-	    }
-	}
+	addRow(data.mid(i,row_count));
     }
     orphaned.clear();
-    if (columns > 1)
+    if (columnCount() > 1)
 	resizeColumnToContents(0);
 }
 
