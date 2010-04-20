@@ -21,9 +21,11 @@ ACheckTree::ACheckTree(QWidget *parent, const Qt::Orientation):
     setSelectionBehavior(QAbstractItemView::SelectRows);
    
     // Connect to itemChanged signal
-    connect(this, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(onStateChanged(QTreeWidgetItem *, int))) ;
+    connect(this, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(onStateChanged(QTreeWidgetItem *, int)));
     // Connect to selected signal
-    connect(this, SIGNAL(itemSelectionChanged()), this, SLOT(onSelect())) ;
+    connect(this, SIGNAL(itemSelectionChanged()), this, SLOT(onSelect()));
+    // Connect to expand signal
+    connect(this, SIGNAL(itemExpanded(QTreeWidgetItem *)), this, SLOT(onExpand(QTreeWidgetItem *)));
     
 }
 
@@ -47,6 +49,7 @@ void ACheckTree::addRow(const QStringList &data)
 
     // Set default state
     item->setCheckState(0, Qt::Unchecked);
+    item->setExpanded(false);
 
     // Set item_id and item_parent_id
     item_id = data.at(0);
@@ -86,10 +89,8 @@ void ACheckTree::addRow(const QStringList &data)
 	}
     }
 
-    // TODO Does not work with child items
     if (columnCount() > 1)
 	resizeColumnToContents(0);
-    item->setExpanded(false);
 }
 
 // Fill all items
@@ -156,11 +157,12 @@ void ACheckTree::onStateChanged(QTreeWidgetItem *item, int column)
     bool state;
     
     //qDebug("Item is changed");
-    if( item && column == 0 ) {
+    if (item && column == 0) 
+    {
 	name  = item->data(0, ACHECKTREE_ID_ROLE).toString();
 	state = item->checkState(0) == Qt::Checked;
 	//qDebug(qPrintable(QString("%1: %2").arg(name).arg((state ? "checked" : "unchecked"))));
-	if( eventRegistered(BrowserEventChanged) )
+	if (eventRegistered(BrowserEventChanged) )
 	    browser->emitEvent(getId(), BrowserEventChanged, AlteratorRequestDefault);
     }
 }
@@ -168,10 +170,16 @@ void ACheckTree::onStateChanged(QTreeWidgetItem *item, int column)
 // Slot for item select
 void ACheckTree::onSelect()
 {
-    if( eventRegistered(BrowserEventChanged) )
+    if (eventRegistered(BrowserEventChanged))
 	browser->emitEvent(getId(), BrowserEventSelected, AlteratorRequestDefault);
 }
 
+// Slot for item expand
+void ACheckTree::onExpand(QTreeWidgetItem *item)
+{
+    if (item && columnCount() > 1)
+	resizeColumnToContents(0);
+}
 
 // Toggle checking via Space key pressed on current item
 void ACheckTree::keyPressEvent(QKeyEvent * e) 
