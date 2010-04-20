@@ -129,11 +129,9 @@ void ACheckTree::keyPressEvent(QKeyEvent * e)
     {
 	QTreeWidgetItem *ci = currentItem();
 	if ( ci ) {
-	    if (ci->checkState(0) == Qt::Unchecked)
-		ci->setCheckState(0, Qt::Checked);
-	    else
-		ci->setCheckState(0, Qt::Unchecked);
-	    ci->setSelected(true);
+	    check = ci->checkState(0) == Qt::Unchecked;
+	    ci->setCheckState(0, check? Qt::Checked : Qt::Unchecked);
+	    ci->setSelected(check);
 	}
     }
     else
