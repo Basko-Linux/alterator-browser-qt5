@@ -128,13 +128,9 @@ QStringList ACheckTree::getSelected()
 QString ACheckTree::current()
 {
     // Return current selected item
-    QTreeWidgetItemIterator it(this);
-    while (*it) 
-    {
-	if ((*it)->isSelected())
-	    return (*it)->data(0, ACHECKTREE_ID_ROLE).toString();
-	++it;
-    }
+    QList<QTreeWidgetItem*> items(selectedItems());
+    if( items.size() > 0 )
+	return items.first()->data(0, ACHECKTREE_ID_ROLE).toString();
     return QString();
 }
 
