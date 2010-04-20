@@ -28,43 +28,28 @@ ACheckTree::~ACheckTree()
 // If item_id or parent_name is empty string, tree item is top-level item.
 void ACheckTree::addRow(const QStringList &data)
 {
-    int c = data.size();
+    if(data.size() < 5) return;
 
-    if (c < 2 ) 
-	return;
-
-    QString item_checked;
-    QString item_label;
-    QString item_id;
-    QString item_parent_id;
-    QString item_expanded;
-
-    item_checked = data.at(0);
-    item_label = data.at(1);
-
+    QStringListIterator it(data);
     QTreeWidgetItem *item = new QTreeWidgetItem();
 
-    // Set state and label
-    item->setCheckState(0, (item_checked == "true")? Qt::Checked: Qt::Unchecked);
-    item->setText(0, item_label);
-
-    // Set item_id and item_parent_id
-    if (c > 2) 
-	item_id = data.at(2);
-    if (c > 3) 
-	item_parent_id = data.at(3);
-    if (c > 4) 
-	item_expanded = data.at(4);
-
-    // Fill second and other column fields
-    for(int j=1;j < columnCount() && c > j+4;j++) 
-    {
-	item->setText(j, data.at(j+4));
-    }
+    // Set state
+    item->setCheckState(0, (it.next() == "true")? Qt::Checked: Qt::Unchecked);
 
     // Set item id
-    if( ! item_id.isEmpty() )
+    QString item_id(it.next());
+    if( !item_id.isEmpty() )
 	item->setData(0, ACHECKTREE_ID_ROLE, QVariant(item_id));
+
+    QString item_parent_id(it.next());
+    QString item_expanded(it.next());
+
+    int i = 0;
+    while(it.hasNext())
+    {
+	item->setText(i, it.next());
+	i++;
+    }
 
     // Tie to parent
     QTreeWidgetItem *p = lookupItem(item_parent_id);
