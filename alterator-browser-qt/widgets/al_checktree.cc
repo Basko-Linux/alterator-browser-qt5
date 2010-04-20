@@ -75,9 +75,6 @@ void ACheckTree::addRow(const QStringList &data)
 	}
     }
 
-    if (columnCount() > 1)
-	resizeColumnToContents(0);
-
     // Set expanded state
     item->setExpanded(item_expanded == "true");
 }
@@ -104,6 +101,8 @@ void ACheckTree::setRows(const QStringList &data)
 	}
     }
     orphaned.clear();
+    if (columns > 1)
+	resizeColumnToContents(0);
 }
 
 QStringList ACheckTree::getSelected() 
