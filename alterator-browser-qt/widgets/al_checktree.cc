@@ -140,16 +140,66 @@ void ACheckTree::onStateChanged(QTreeWidgetItem *item, int column)
 {
     QString name;
     bool state;
+    int i;
     
     //qDebug("Item is changed");
     if (item && column == 0) 
     {
 	name  = item->data(0, ACHECKTREE_ID_ROLE).toString();
 	state = item->checkState(0) == Qt::Checked;
-	//qDebug(qPrintable(QString("%1: %2").arg(name).arg((state ? "checked" : "unchecked"))));
+	if (item->checkState(0) == Qt::PartiallyChecked)
+	    item->setCheckState(0,Qt::Checked);
+	//qDebug(qPrintable(QString("%1: %2").arg(name).arg((state ? "checked" : "unchecked/partially"))));
+	
+	// If parent item is checked or unchecked apply changes to all childs
+	for(i=0; i<item->childCount();i++)
+	{
+	    item->child(i)->setCheckState(0,item->checkState(0));
+	}
+	
+	// Set all parents state
+	// TODO detectParentState(item->parent());
+	
 	if (eventRegistered(BrowserEventChanged) )
 	    browser->emitEvent(getId(), BrowserEventChanged, AlteratorRequestDefault);
     }
+}
+
+void ACheckTree::detectParentState(QTreeWidgetItem *item)
+{
+    Qt::CheckState state = Qt::PartiallyChecked;
+    int i;
+    int cc=0,uc=0;
+    
+    if (! item)
+	return;
+    
+    // Count all child states
+    for(i=0; i<item->childCount();i++)
+    {
+	switch (item->child(i)->checkState(0)) 
+	{
+	    case Qt::Unchecked:
+		uc++;
+		break;
+	    case Qt::Checked:
+		cc++;
+		break;
+	    default:
+		break;
+	}
+    }
+    
+    // Detect compound state
+    if (item->childCount() == cc) // All child is checked
+	state = Qt::Checked;
+    if (item->childCount() == uc) // All child is unchecked
+	state = Qt::Unchecked;
+    
+    
+    // Set detected state
+    item->setCheckState(0, state);
+    
 }
 
 // Slot for item select

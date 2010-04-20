@@ -40,6 +40,9 @@ protected:
 	void showEvent(QShowEvent *e);
 
 private:
+	void detectParentState(QTreeWidgetItem *item);
+	
+private:
 	QMultiHash<QString,QTreeWidgetItem*> orphaned;
 	
 };
