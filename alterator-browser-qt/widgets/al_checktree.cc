@@ -118,6 +118,7 @@ void ACheckTree::setRows(const QStringList &data)
 	    }
 	}
     }
+    orphaned.clear();
 }
 
 QStringList ACheckTree::getSelected() 
