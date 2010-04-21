@@ -44,6 +44,8 @@ private:
 	
 private:
 	QMultiHash<QString,QTreeWidgetItem*> orphaned;
+	bool processed_parents;
+	bool processed_children;
 	
 };
 

@@ -28,6 +28,10 @@ ACheckTree::ACheckTree(QWidget *parent, const Qt::Orientation):
     // Connect to expand signal
     connect(this, SIGNAL(itemExpanded(QTreeWidgetItem *)), this, SLOT(onExpand(QTreeWidgetItem *)));
     
+    // Set initial states
+    processed_parents = false;
+    processed_children = false;
+    
 }
 
 ACheckTree::~ACheckTree()
@@ -139,27 +143,36 @@ QString ACheckTree::current()
 void ACheckTree::onStateChanged(QTreeWidgetItem *item, int column)
 {
     QString name;
-    bool state;
     int i;
     
     //qDebug("Item is changed");
     if (item && column == 0) 
     {
 	name  = item->data(0, ACHECKTREE_ID_ROLE).toString();
-	state = item->checkState(0) == Qt::Checked;
-	if (item->checkState(0) == Qt::PartiallyChecked)
-	    item->setCheckState(0,Qt::Checked);
-	//qDebug(qPrintable(QString("%1: %2").arg(name).arg((state ? "checked" : "unchecked/partially"))));
-	
-	// If parent item is checked or unchecked apply changes to all children
-	for(i=0; i<item->childCount();i++)
+
+	// Set to all children widgets state of the parent
+	if (! processed_parents)
 	{
-	    item->child(i)->setCheckState(0,item->checkState(0));
+	    if (item->checkState(0) == Qt::PartiallyChecked)
+		return;
+	
+	    // If parent item is checked or unchecked apply changes to all children
+	    for(i=0; i<item->childCount();i++)
+	    {
+		processed_children = true;
+		item->child(i)->setCheckState(0,item->checkState(0));
+		processed_children = false;
+	    }
 	}
-	
-	// Set all parents state
-	// TODO detectParentState(item->parent());
-	
+
+	if (! processed_children)
+	{
+	    // Recursively set states for all parent items
+	    processed_parents = true;
+	    detectParentState(item->parent());
+	    processed_parents = false;
+	}
+	    
 	if (eventRegistered(BrowserEventChanged) )
 	    browser->emitEvent(getId(), BrowserEventChanged, AlteratorRequestDefault);
     }
@@ -319,7 +332,8 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	    while (*it) 
 	    {
 		id = (*it)->data(0, ACHECKTREE_ID_ROLE).toString();
-		(*it)->setCheckState(0, (!id.isEmpty() && data.contains(id))? Qt::Checked: Qt::Unchecked);
+		if (!id.isEmpty() && data.contains(id))
+		    (*it)->setCheckState(0, Qt::Checked);
 		++it;
 	    }
 	}
@@ -327,8 +341,17 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	{
 	    // Set item selected
 	    QTreeWidgetItem* item = wnd_->lookupItem(value);
-	    if( item )
+	    if ( item )
+	    {
+		// Expand all parent
+		QTreeWidgetItem* parent_item = item->parent();
+		while (parent_item) 
+		{
+		    parent_item->setExpanded(true);
+		    parent_item = parent_item->parent();
+		}
 		item->setSelected(true);
+	    }
 	}
 	else if ("icon-rows" == name)
 	{
