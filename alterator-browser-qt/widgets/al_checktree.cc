@@ -407,13 +407,13 @@ QString alCheckTree::postData() const
     QString selected_item_id;
     
     // Current element id
-    ret.append(QString(" (current . %1)").arg(wnd_->current()));
+    ret.append(QString(" (current . %1)").arg((wnd_->current().isEmpty()? "\"\"": wnd_->current())));
         
     // Current checked elements
     ret.append(" (current-rows . (");
     foreach(QString item, wnd_->getChecked())
     {
-	ret.append(QString(" %1").arg(item));
+	ret.append(QString(" \"%1\"").arg(item));
     }
     ret.append("))");
     
