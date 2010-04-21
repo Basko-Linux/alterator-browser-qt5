@@ -151,7 +151,7 @@ void ACheckTree::onStateChanged(QTreeWidgetItem *item, int column)
 	    item->setCheckState(0,Qt::Checked);
 	//qDebug(qPrintable(QString("%1: %2").arg(name).arg((state ? "checked" : "unchecked/partially"))));
 	
-	// If parent item is checked or unchecked apply changes to all childs
+	// If parent item is checked or unchecked apply changes to all children
 	for(i=0; i<item->childCount();i++)
 	{
 	    item->child(i)->setCheckState(0,item->checkState(0));
