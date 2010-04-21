@@ -241,7 +241,7 @@ void ACheckTree::keyPressEvent(QKeyEvent * e)
 	if ( ci ) {
 	    bool check = ci->checkState(0) == Qt::Unchecked;
 	    ci->setCheckState(0, check? Qt::Checked : Qt::Unchecked);
-	    ci->setSelected(check);
+	    ci->setSelected(true);
 	}
     }
     else
