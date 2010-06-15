@@ -99,6 +99,7 @@ void ACheckTree::addRow(const QStringList &data)
 // Fill all items
 void ACheckTree::setRows(const QStringList &data)
 {
+    orphaned.clear();
     const int row_count = ACHECKTREE_ROW_OPTS + columnCount();
     for(int i=0; i < data.size(); i+=row_count)
     {
