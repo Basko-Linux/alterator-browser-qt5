@@ -106,8 +106,6 @@ void ACheckTree::setRows(const QStringList &data)
 	addRow(data.mid(i,row_count));
     }
     orphaned.clear();
-    if (columnCount() > 1)
-	resizeColumnToContents(0);
 }
 
 QStringList ACheckTree::getChecked() 
