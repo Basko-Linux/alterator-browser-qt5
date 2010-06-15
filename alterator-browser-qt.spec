@@ -7,8 +7,8 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.12.3
-Release: alt0.M51.1
+Version: 2.13.0
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Tue Jun 15 2010 Sergey V Turchin <zerg at altlinux dot org> 2.13.0-alt1
+- add new widget checktree
+
 * Tue Nov 24 2009 Sergey V Turchin <zerg at altlinux dot org> 2.12.3-alt0.M51.1
 - built for M51
 
