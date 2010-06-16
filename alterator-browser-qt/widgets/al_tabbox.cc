@@ -37,7 +37,7 @@ QString alTabBox::postData() const
     return QString(" (current . %1 )").arg(wnd_->currentIndex());
 }
 
-void alTabBox::postAddChild(QWidget *chld, AlteratorWidgetType, const AlteratorRequestActionAttrs& attr)
+void alTabBox::postAddChild(QWidget *chld, AlteratorWidgetType, const AlteratorRequestActionAttrs&)
 {
     wnd_->addTab(chld, "");
 }
