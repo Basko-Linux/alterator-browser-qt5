@@ -16,7 +16,11 @@ void alTabBox::setAttr(const QString& name,const QString& value)
 	{
 	    QStringList values = value.split(";", QString::KeepEmptyParts);
 	    if( values.size() >= 2 )
-		wnd_->setTabText(values[0].toInt(), values[1]);
+	    {
+		int n = values[0].toInt();
+		if( n == -1 ) n = wnd_->count() - 1;
+		wnd_->setTabText(n, values[1]);
+	    }
 	}
 	else
 	    alWidget::setAttr(name,value);
