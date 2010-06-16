@@ -111,6 +111,7 @@ ACenterSection::ACenterSection(QWidget *parent, const QString &title_text):
     pixmap->setAlignment(Qt::AlignTop);
 
     title = new QLabel(title_text, this);
+    title->setWordWrap(true);
     QSizePolicy sp( QSizePolicy::Minimum, QSizePolicy::Maximum );
     sp.setHeightForWidth( title->sizePolicy().hasHeightForWidth() );
     title->setSizePolicy(sp);
@@ -125,6 +126,8 @@ ACenterSection::ACenterSection(QWidget *parent, const QString &title_text):
     title->setFont(title_font);
 
     desc = new QLabel(this);
+    desc->setEnabled(false);
+    desc->setWordWrap(true);
     sp = QSizePolicy( QSizePolicy::Minimum, QSizePolicy::Maximum );
     sp.setHeightForWidth( desc->sizePolicy().hasHeightForWidth() );
     desc->setSizePolicy(sp);
