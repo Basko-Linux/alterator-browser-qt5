@@ -362,21 +362,19 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	    
 	    if (data.count() < 2)
 		return;
-	    
+
+	    QStringListIterator it(data);
 	    // Icon name
-	    QIcon pixmap = getPixmap(data.at(0).isEmpty()? "theme:null": data.at(0));
-	    data.removeAt(0);
+	    QIcon pixmap = getPixmap(it.next().isEmpty()? "theme:null": it.peekPrevious());
 	    
 	    // Column number
-	    column = (data.at(0).isEmpty()? 0: data.at(0).toInt()-1);
-	    column = (column < 0? 0: column);
-	    data.removeAt(0);
-	    
-	    // 
-	    foreach(QString id, data)
+	    column = it.next().toInt();
+	    if( column > 0 ) column--;
+	    if( column < 0 ) column = 0;
+
+	    while( it.hasNext() )
 	    {
-		QTreeWidgetItem* item = wnd_->lookupItem(id);
-		
+		QTreeWidgetItem* item = wnd_->lookupItem(it.next());
 		if( item )
 		    item->setIcon(column, pixmap);
 	    }
