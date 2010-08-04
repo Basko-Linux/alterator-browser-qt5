@@ -282,6 +282,8 @@ alCheckTree::alCheckTree(const AlteratorWidgetType awtype, const AlteratorReques
 {
     int col_count = 1;
     if( attr.contains("columns") ) col_count = attr.value("columns").i;
+    if( col_count < 1 )
+	col_count = 1;
     wnd_->setColumnCount(col_count);
     if( col_count > 1 ) 
 	wnd_->setAlternatingRowColors(true);
