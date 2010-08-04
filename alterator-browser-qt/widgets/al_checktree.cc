@@ -115,14 +115,15 @@ QStringList ACheckTree::getChecked()
 
     // Iterate across all items to tree
     QTreeWidgetItemIterator it(this);
-    while (*it) 
+    while( it.hasNext() )
     {
-	item_id = (*it)->data(0, ACHECKTREE_ID_ROLE).toString();
-	if ((*it)->checkState(0) == Qt::Checked && ! item_id.isEmpty())
+	QTreeWidgetItem *i = it.next();
+	if( i->checkState(0) == Qt::Checked )
 	{
-	    selected.append(item_id);
+	    item_id = i->data(0, ACHECKTREE_ID_ROLE).toString();
+	    if( ! item_id.isEmpty() )
+		selected.append(item_id);
 	}
-        ++it;
     }
 
     return selected;
