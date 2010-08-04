@@ -259,7 +259,7 @@ QTreeWidgetItem *ACheckTree::lookupItem(const QString& item_id)
     QString id;
     
     if (item_id.isEmpty())
-	return NULL;
+	return 0;
     
     // Iterate across all items to tree
     QTreeWidgetItemIterator it(this);
@@ -272,7 +272,7 @@ QTreeWidgetItem *ACheckTree::lookupItem(const QString& item_id)
 	}
          ++it;
     }
-    return NULL;
+    return 0;
 }
 
 // alCheckTree
