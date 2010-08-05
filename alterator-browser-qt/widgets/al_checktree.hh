@@ -31,7 +31,6 @@ public:
 	QTreeWidgetItem *lookupItem(const QString& id);
 
 public Q_SLOTS:
-	void onStateChanged(QTreeWidgetItem *item, int column);
 	void onSelect();
 	void onExpand(QTreeWidgetItem *item);
 
@@ -39,9 +38,6 @@ protected:
 	void keyPressEvent(QKeyEvent *e) ;
 	void showEvent(QShowEvent *e);
 
-private:
-	void detectParentState(QTreeWidgetItem *item);
-	
 private:
 	QMultiHash<QString,QTreeWidgetItem*> orphaned;
 	bool processed_parents;

@@ -20,9 +20,7 @@ ACheckTree::ACheckTree(QWidget *parent, const Qt::Orientation):
     setAllColumnsShowFocus(true);
     setSortingEnabled(false);
     setSelectionBehavior(QAbstractItemView::SelectRows);
-   
-    // Connect to itemChanged signal
-    connect(this, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(onStateChanged(QTreeWidgetItem *, int)));
+
     // Connect to selected signal
     connect(this, SIGNAL(itemSelectionChanged()), this, SLOT(onSelect()));
     // Connect to expand signal
@@ -53,6 +51,7 @@ void ACheckTree::addRow(const QStringList &data)
 	item->setData(0, ACHECKTREE_ID_ROLE, QVariant(item_id));
 
     // Set default state
+    item->setFlags(item->flags() | Qt::ItemIsTristate);
     item->setCheckState(0, Qt::Unchecked);
     item->setExpanded(false);
 
@@ -135,84 +134,6 @@ QString ACheckTree::current()
     if( items.size() > 0 )
 	return items.first()->data(0, ACHECKTREE_ID_ROLE).toString();
     return QString();
-}
-
-
-// Slot for item state changed
-void ACheckTree::onStateChanged(QTreeWidgetItem *item, int column)
-{
-    QString name;
-    int i;
-    
-    //qDebug("Item is changed");
-    if (item && column == 0) 
-    {
-	name  = item->data(0, ACHECKTREE_ID_ROLE).toString();
-
-	// Set to all children widgets state of the parent
-	if (! processed_parents)
-	{
-	    if (item->checkState(0) == Qt::PartiallyChecked)
-		return;
-	
-	    // If parent item is checked or unchecked apply changes to all children
-	    for(i=0; i<item->childCount();i++)
-	    {
-		processed_children = true;
-		if( item->checkState(0) != item->child(i)->checkState(0) )
-		    item->child(i)->setCheckState(0,item->checkState(0));
-		processed_children = false;
-	    }
-	}
-
-	if (! processed_children)
-	{
-	    // Recursively set states for all parent items
-	    processed_parents = true;
-	    detectParentState(item->parent());
-	    processed_parents = false;
-	}
-	    
-	if (eventRegistered(BrowserEventChanged) )
-	    browser->emitEvent(getId(), BrowserEventChanged, AlteratorRequestDefault);
-    }
-}
-
-void ACheckTree::detectParentState(QTreeWidgetItem *item)
-{
-    Qt::CheckState state = Qt::PartiallyChecked;
-    int i;
-    int cc=0,uc=0;
-    
-    if (! item)
-	return;
-    
-    // Count all child states
-    for(i=0; i<item->childCount();i++)
-    {
-	switch (item->child(i)->checkState(0)) 
-	{
-	    case Qt::Unchecked:
-		uc++;
-		break;
-	    case Qt::Checked:
-		cc++;
-		break;
-	    default:
-		break;
-	}
-    }
-    
-    // Detect compound state
-    if (item->childCount() == cc) // All child is checked
-	state = Qt::Checked;
-    if (item->childCount() == uc) // All child is unchecked
-	state = Qt::Unchecked;
-    
-    
-    // Set detected state
-    if( state != item->checkState(0) )
-	item->setCheckState(0, state);
 }
 
 // Slot for item select
