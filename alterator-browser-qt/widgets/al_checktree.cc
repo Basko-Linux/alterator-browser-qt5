@@ -159,7 +159,8 @@ void ACheckTree::onStateChanged(QTreeWidgetItem *item, int column)
 	    for(i=0; i<item->childCount();i++)
 	    {
 		processed_children = true;
-		item->child(i)->setCheckState(0,item->checkState(0));
+		if( item->checkState(0) != item->child(i)->checkState(0) )
+		    item->child(i)->setCheckState(0,item->checkState(0));
 		processed_children = false;
 	    }
 	}
@@ -210,8 +211,8 @@ void ACheckTree::detectParentState(QTreeWidgetItem *item)
     
     
     // Set detected state
-    item->setCheckState(0, state);
-    
+    if( state != item->checkState(0) )
+	item->setCheckState(0, state);
 }
 
 // Slot for item select
