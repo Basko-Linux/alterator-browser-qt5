@@ -250,14 +250,20 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	else if ("current-rows" == name)
 	{
 	    QSet<QString> data(QSet<QString>::fromList(value.split(";")));
-	    QString id;
-	    QTreeWidgetItemIterator it(wnd_);
-	    while (*it) 
+	    if( data.size() > 0 )
 	    {
-		id = (*it)->data(0, ACHECKTREE_ID_ROLE).toString();
-		if (!id.isEmpty() && data.contains(id))
-		    (*it)->setCheckState(0, Qt::Checked);
-		++it;
+		QString id;
+		QTreeWidgetItemIterator it(wnd_);
+		while (*it) 
+		{
+		    id = (*it)->data(0, ACHECKTREE_ID_ROLE).toString();
+		    if (!id.isEmpty() && data.contains(id))
+		    {
+			if( (*it)->checkState(0) != Qt::Checked )
+			    (*it)->setCheckState(0, Qt::Checked);
+		    }
+		    ++it;
+		}
 	    }
 	}
 	else if ("current" == name)
