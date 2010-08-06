@@ -579,7 +579,7 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	    qWarning("Error! no attribue parent id");
 
     /*
-	qDebug("%s: id<%s> type<%s> parent_id<%s> sub-type<%s> width<%d> height<%d>, __FUNCTION__,
+	qDebug("%s: id<%s> type<%s> parent_id<%s> sub-type<%s> width<%d> height<%d>", __FUNCTION__,
 	    qPrintable(id), qPrintable(enums->widgetToStr(attr.value("type").t)), qPrintable(parent_id),
 	    qPrintable(attr.value("sub-type").s),
 	    attr.value("width").i, attr.value("height").i );
