@@ -292,8 +292,9 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 		return;
 
 	    QStringListIterator it(data);
+	    QString strfield(it.next());
 	    // Icon name
-	    QIcon pixmap = getPixmap(it.next().isEmpty()? "theme:null": it.peekPrevious());
+	    QIcon pixmap = getPixmap(strfield.isEmpty()? "theme:null": strfield);
 	    
 	    // Column number
 	    column = it.next().toInt();
