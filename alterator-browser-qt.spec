@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.14.0
+Version: 2.14.1
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Fri Aug 06 2010 Sergey V Turchin <zerg at altlinux dot org> 2.14.1-alt1
+- fix loop in checktree
+
 * Thu Aug 05 2010 Sergey V Turchin <zerg at altlinux dot org> 2.14.0-alt1
 - allow set tabbox tab label text to last tab with index "-1"
 - checktree fixes
