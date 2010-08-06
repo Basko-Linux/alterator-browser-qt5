@@ -1,5 +1,4 @@
 
-#include <QTimer>
 #include <QDir>
 
 #include "al_slideshow.hh"
