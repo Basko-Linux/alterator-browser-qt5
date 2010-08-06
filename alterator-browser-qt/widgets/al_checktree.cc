@@ -122,8 +122,8 @@ QStringList ACheckTree::getChecked()
 	    if( ! item_id.isEmpty() )
 		selected.append(item_id);
 	}
+	it++;
     }
-
     return selected;
 }
 
