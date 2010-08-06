@@ -109,7 +109,7 @@ void ACheckTree::setRows(const QStringList &data)
 
 QStringList ACheckTree::getChecked() 
 {
-    QStringList selected;
+    QStringList checked;
     QString item_id;
 
     // Iterate across all items to tree
@@ -120,11 +120,11 @@ QStringList ACheckTree::getChecked()
 	{
 	    item_id = (*it)->data(0, ACHECKTREE_ID_ROLE).toString();
 	    if( ! item_id.isEmpty() )
-		selected.append(item_id);
+		checked.append(item_id);
 	}
 	it++;
     }
-    return selected;
+    return checked;
 }
 
 QString ACheckTree::current()
