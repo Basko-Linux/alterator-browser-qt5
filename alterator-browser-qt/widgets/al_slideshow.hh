@@ -28,7 +28,6 @@ private:
     QString src_dir_;
     QStringList images_;
     QStringListIterator *current_img_;
-    QTimer *tm_;
     int interval_;
     bool stop_;
     QImage current_image_;

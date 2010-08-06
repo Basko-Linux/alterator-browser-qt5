@@ -1,5 +1,6 @@
 
 #include <QTimer>
+#include <QTime>
 #include <QDir>
 
 #include "al_slideshow.hh"
@@ -10,11 +11,9 @@ SlideLoader::SlideLoader(QWidget *parent):
     interval_ = 8000;
     parent_ = parent;
     current_img_ = 0;
-    tm_ = new QTimer(this);
     stop_ = false;
     //current_image_ = 0;
 
-    connect(tm_, SIGNAL(timeout()), this, SLOT(quit()));
 }
 
 SlideLoader::~SlideLoader()
@@ -25,15 +24,13 @@ SlideLoader::~SlideLoader()
 void SlideLoader::stop()
 {
     stop_ = true;
-    quit();
-    wait(2000);
+    terminate();
 }
 
 void SlideLoader::setSource(const QString &new_src_dir)
 {
     src_dir_ = new_src_dir;
     images_.clear();
-    tm_->stop();
     QDir imgdir(new_src_dir);
     if( imgdir.exists() )
     {
@@ -46,13 +43,11 @@ void SlideLoader::setSource(const QString &new_src_dir)
 	current_img_->toFront();
     }
     stop_ = true;
-    quit();
     while( !wait() ) {}
     if( images_.size() > 0 )
     {
 	stop_ = false;
 	start(QThread::LowPriority);
-	tm_->start(interval_);
     }
 }
 
@@ -60,13 +55,7 @@ void SlideLoader::setInterval(int new_interval)
 {
     if( new_interval == 0 )
     {
-	tm_->stop();
-    }
-    else
-    {
-	if(new_interval >= 1000)
-	    interval_ = new_interval;
-	tm_->start(interval_);
+	stop_ = true;
     }
 }
 
@@ -79,7 +68,6 @@ void SlideLoader::run()
 {
     while( !stop_ )
     {
-	tm_->stop();
 	if( current_img_ )
 	{
 	    if( !current_img_->hasNext() )
@@ -105,11 +93,9 @@ void SlideLoader::run()
 	}
 	else
 	{
-	    tm_->start(interval_);
-	    exec();
+	    msleep(interval_);
 	}
     }
-    tm_->stop();
 }
 
 
