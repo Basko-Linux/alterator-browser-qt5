@@ -4,6 +4,7 @@
 #include <QLabel>
 #include <QPixmap>
 #include <QMovie>
+#include <QMutex>
 
 #include "al_widget.hh"
 
@@ -31,6 +32,7 @@ private:
     int interval_;
     bool stop_;
     QImage current_image_;
+    QMutex current_image_lock_;
 };
 
 class ASlideShow: public AWidget<QLabel>

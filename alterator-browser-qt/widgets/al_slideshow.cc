@@ -77,7 +77,9 @@ void SlideLoader::run()
 		{
 		    if( image.width() > parent_->width() || image.height() > parent_->height() )
 			image = image.scaled(parent_->width(), parent_->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+		    current_image_lock_.lock();
 		    current_image_ = image;
+		    current_image_lock_.unlock();
 		    emit gotImage();
 		}
 		else
