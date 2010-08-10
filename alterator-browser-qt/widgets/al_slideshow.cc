@@ -59,7 +59,10 @@ void SlideLoader::setInterval(int new_interval)
 
 QImage SlideLoader::image()
 {
-    return current_image_;
+    current_image_lock_.lock();
+    QImage ret(current_image_);
+    current_image_lock_.unlock();
+    return ret;
 }
 
 void SlideLoader::run()
