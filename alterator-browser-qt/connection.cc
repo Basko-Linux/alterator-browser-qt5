@@ -63,7 +63,9 @@ void Connection::getDocument(const QString &content, AlteratorRequestFlags reque
 	ask.request = makeInitRequest();
     else
 	ask.request = makeRequest(content);
-    requests.append(ask);
+    requests_lock.lock();
+    requests.enqueue(ask);
+    requests_lock.unlock();
     if(isRunning())
 	quit();
     else
@@ -126,7 +128,9 @@ void Connection::run()
 	while(!requests.isEmpty())
 	{
 	    if( destruction ) break;
-	    AlteratorAskInfo ask = requests.takeFirst();
+	    requests_lock.lock();
+	    AlteratorAskInfo ask = requests.dequeue();
+	    requests_lock.unlock();
 	    std::cout<< ask.request.toUtf8().data() << std::endl << std::flush;
 	    alRequest dom = readRequest();
 	    if( ask.flags & AlteratorRequestInit )

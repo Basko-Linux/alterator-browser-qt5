@@ -7,6 +7,8 @@
 #include <QMap>
 #include <QHash>
 #include <QMessageBox>
+#include <QQueue>
+#include <QMutex>
 
 #include "sax.hh"
 #include "messagebox.hh"
@@ -79,7 +81,7 @@ struct AlteratorAskInfo
     QString request;
 };
 
-typedef QList<AlteratorAskInfo> AlteratorAskList;
+typedef QQueue<AlteratorAskInfo> AlteratorAskList;
 
 class Connection: public QThread
 {
@@ -107,6 +109,7 @@ private Q_SLOTS:
 
 private:
     AlteratorAskList requests;
+    QMutex requests_lock;
     QString sessionId;
     QString userId;
     int islong_timer_id;
