@@ -54,18 +54,18 @@ QString Connection::makeInitRequest()
     return out;
 }
 
-void Connection::getDocument(const QString &content, AlteratorRequestFlags request_flags)
+void Connection::getDocument(const QString &content, AlteratorRequestFlags ask_flags)
 {
     if( destruction ) return;
     AlteratorAskInfo ask;
-    ask.flags = request_flags;
-    if( request_flags & AlteratorRequestInit )
+    ask.flags = ask_flags;
+    if( ask_flags & AlteratorRequestInit )
 	ask.request = makeInitRequest();
     else
 	ask.request = makeRequest(content);
-    requests_lock.lock();
-    requests.enqueue(ask);
-    requests_lock.unlock();
+    asks_lock.lock();
+    asks.enqueue(ask);
+    asks_lock.unlock();
     if(isRunning())
 	quit();
     else
@@ -125,12 +125,12 @@ void Connection::run()
     {
 	startDelayedFinish();
 	is_processing = true;
-	while(!requests.isEmpty())
+	while(!asks.isEmpty())
 	{
 	    if( destruction ) break;
-	    requests_lock.lock();
-	    AlteratorAskInfo ask = requests.dequeue();
-	    requests_lock.unlock();
+	    asks_lock.lock();
+	    AlteratorAskInfo ask = asks.dequeue();
+	    asks_lock.unlock();
 	    std::cout<< ask.request.toUtf8().data() << std::endl << std::flush;
 	    alRequest dom = readRequest();
 	    if( ask.flags & AlteratorRequestInit )

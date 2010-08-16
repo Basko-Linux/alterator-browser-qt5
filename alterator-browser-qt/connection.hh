@@ -109,9 +109,9 @@ private Q_SLOTS:
     void prepareQuit();
 
 private:
-    AlteratorAskList requests;
+    AlteratorAskList asks;
     QQueue<AlteratorRequest> alterator_requests;
-    QMutex requests_lock;
+    QMutex asks_lock;
     QMutex alterator_requests_lock;
     QString sessionId;
     QString userId;
