@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.14.2
+Version: 2.14.3
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Mon Aug 16 2010 Sergey V Turchin <zerg at altlinux dot org> 2.14.3-alt1
+- add temporary workaround for broken QThread::exec() in Connection
+
 * Fri Aug 06 2010 Sergey V Turchin <zerg at altlinux dot org> 2.14.2-alt1
 - add workaround against brokern QThread::exec() in slideshow
 
