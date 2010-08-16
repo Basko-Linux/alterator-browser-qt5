@@ -55,7 +55,6 @@ Browser::Browser():
     Browser_t(0)
 {
     qRegisterMetaType<Qt::Orientation>("Qt::Orientation");
-    qRegisterMetaType<AlteratorRequest>("AlteratorRequest");
     loadStyleSheet();
 
     internal_splash = false;
@@ -181,8 +180,8 @@ void Browser::start()
     qDebug("socket path %s ...",qPrintable(socketPath));
     mailbox = new MailBox(socketPath, this);
 
-    connect(connection, SIGNAL(alteratorRequest(const AlteratorRequest&)),
-	    this, SLOT(onAlteratorRequest(const AlteratorRequest&)));
+    connect(connection, SIGNAL(alteratorRequests()),
+	    this, SLOT(onAlteratorRequests()));
 
     connect(connection, SIGNAL(startLongRequest()),
 	    this, SLOT(onStartBusySplash()));
@@ -408,6 +407,13 @@ void Browser::emitEvent(const QString &id, const BrowserEventType type, const Al
 void Browser::emitEvent(const QString &id,const QString &type, const AlteratorRequestFlags request_flags)
 {
     emitEvent(id, enums->strToBrowserEvent(type), request_flags);
+}
+
+void Browser::onAlteratorRequests()
+{
+    QQueue<AlteratorRequest> alterator_requests(connection->getRequests());
+    while( !alterator_requests.isEmpty() )
+	onAlteratorRequest(alterator_requests.dequeue());
 }
 
 void Browser::onAlteratorRequest(const AlteratorRequest& request)

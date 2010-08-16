@@ -102,6 +102,7 @@ private Q_SLOTS:
     void onInternalSplashMessage(const QString& msg);
 
     void doRetry();
+    void onAlteratorRequests();
     void onAlteratorRequest(const AlteratorRequest&);
 };
 

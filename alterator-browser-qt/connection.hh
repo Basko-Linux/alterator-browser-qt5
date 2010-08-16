@@ -93,9 +93,10 @@ public:
     void init();
     void getDocument(const QString& content = "(alterator-request action \"get\")",
 	AlteratorRequestFlags request_flags = AlteratorRequestDefault);
+    QQueue<AlteratorRequest> getRequests();
 
 Q_SIGNALS:
-    void alteratorRequest(const AlteratorRequest&);
+    void alteratorRequests();
     void startLongRequest();
     void stopLongRequest();
 
@@ -109,7 +110,9 @@ private Q_SLOTS:
 
 private:
     AlteratorAskList requests;
+    QQueue<AlteratorRequest> alterator_requests;
     QMutex requests_lock;
+    QMutex alterator_requests_lock;
     QString sessionId;
     QString userId;
     int islong_timer_id;

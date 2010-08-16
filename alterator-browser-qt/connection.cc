@@ -161,7 +161,10 @@ void Connection::parseAnswer(const alRequest &dom, AlteratorRequestFlags request
     {
 	request.actions.append( getDocParser(it.next()) );
     }
-    emit alteratorRequest(request);
+    alterator_requests_lock.lock();
+    alterator_requests.enqueue(request);
+    alterator_requests_lock.unlock();
+    emit alteratorRequests();
 }
 
 void Connection::startDelayedFinish()
@@ -377,4 +380,13 @@ void Connection::prepareQuit()
     exit(1);
     if( islong_timer_id > 0 )
 	killTimer(islong_timer_id);
+}
+
+QQueue<AlteratorRequest> Connection::getRequests()
+{
+    alterator_requests_lock.lock();
+    QQueue<AlteratorRequest> ret(alterator_requests);
+    alterator_requests.clear();
+    alterator_requests_lock.unlock();
+    return ret;
 }
