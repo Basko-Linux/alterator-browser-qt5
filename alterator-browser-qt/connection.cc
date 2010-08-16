@@ -19,6 +19,10 @@ Connection::Connection(QObject *parent):
     destruction = false;
     is_processing = false;
     islong_timer_id = 0;
+#ifndef NO_QTHREAD_EXEC_WORKAROUND
+    thread_exec = false;
+    thread_exec_result = 0;
+#endif
 
     //connect(this, SIGNAL(started()), this, SLOT(startDelayedFinish()));
     //connect(this, SIGNAL(finished()), this, SLOT(endDelayedFinish()));
@@ -67,7 +71,11 @@ void Connection::getDocument(const QString &content, AlteratorRequestFlags ask_f
     asks.enqueue(ask);
     asks_lock.unlock();
     if(isRunning())
+#ifndef NO_QTHREAD_EXEC_WORKAROUND
+	myQuit();
+#else
 	quit();
+#endif
     else
 	start();
 }
@@ -144,7 +152,11 @@ void Connection::run()
 	is_processing = false;
 	if( !destruction )
 	    endDelayedFinish();
+#ifndef NO_QTHREAD_EXEC_WORKAROUND
+	if( myExec() != 0 )
+#else
 	if( exec() != 0 )
+#endif
 	{
 	    destruction = true;
 	    break;
@@ -377,7 +389,11 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 void Connection::prepareQuit()
 {
     destruction = true;
+#ifndef NO_QTHREAD_EXEC_WORKAROUND
+    myExit(1);
+#else
     exit(1);
+#endif
     if( islong_timer_id > 0 )
 	killTimer(islong_timer_id);
 }
@@ -390,3 +406,28 @@ QQueue<AlteratorRequest> Connection::getRequests()
     alterator_requests_lock.unlock();
     return ret;
 }
+
+#ifndef NO_QTHREAD_EXEC_WORKAROUND
+void Connection::myQuit()
+{
+    thread_exec_result = 0;
+    thread_exec = false;
+}
+
+void Connection::myExit(int ret)
+{
+    thread_exec_result = ret;
+    thread_exec = false;
+}
+
+int Connection::myExec()
+{
+    thread_exec = true;
+    while( thread_exec )
+    {
+	msleep(256);
+    }
+    return thread_exec_result;
+}
+
+#endif

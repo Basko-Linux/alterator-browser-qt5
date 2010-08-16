@@ -94,6 +94,7 @@ public:
     void getDocument(const QString& content = "(alterator-request action \"get\")",
 	AlteratorRequestFlags request_flags = AlteratorRequestDefault);
     QQueue<AlteratorRequest> getRequests();
+    void run();
 
 Q_SIGNALS:
     void alteratorRequests();
@@ -128,7 +129,14 @@ private:
     void parseAnswer(const alRequest &dom,
 	AlteratorRequestFlags request_flags = AlteratorRequestDefault);
     QString createLangList();
-    void run();
+
+#ifndef NO_QTHREAD_EXEC_WORKAROUND
+    bool thread_exec;
+    int  thread_exec_result;
+    int myExec();
+    void myQuit();
+    void myExit(int);
+#endif
 };
 
 #endif
