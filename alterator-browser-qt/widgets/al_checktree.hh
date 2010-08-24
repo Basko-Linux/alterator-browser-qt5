@@ -31,18 +31,21 @@ public:
 	QTreeWidgetItem *lookupItem(const QString& id);
 
 public Q_SLOTS:
-	void onSelect();
+	void onChange(QTreeWidgetItem*, int);
 	void onExpand(QTreeWidgetItem *item);
 
 protected:
 	void keyPressEvent(QKeyEvent *e) ;
 	void showEvent(QShowEvent *e);
 
+private Q_SLOTS:
+	void onChangeDeferred();
+
 private:
 	QMultiHash<QString,QTreeWidgetItem*> orphaned;
 	bool processed_parents;
 	bool processed_children;
-	
+	bool deferred_change;
 };
 
 class alCheckTree: public alWidgetPre<ACheckTree>
