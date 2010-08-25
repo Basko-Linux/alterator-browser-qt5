@@ -14,7 +14,7 @@
 ACheckTree::ACheckTree(QWidget *parent, const Qt::Orientation):
     AWidget<QTreeWidget>(parent)
 {
-    deferred_change = false;
+    defer_changed = false;
 
     header()->hide();
     setUniformRowHeights(true);
@@ -142,9 +142,9 @@ void ACheckTree::onChange(QTreeWidgetItem*, int)
 {
     if (eventRegistered(BrowserEventChanged))
     {
-	if( !deferred_change )
+	if( !defer_changed )
 	{
-	    deferred_change = true;
+	    defer_changed = true;
 	    QTimer::singleShot(100, this, SLOT(onChangeDeferred()));
 	}
     }
@@ -152,7 +152,7 @@ void ACheckTree::onChange(QTreeWidgetItem*, int)
 
 void ACheckTree::onChangeDeferred()
 {
-    deferred_change = false;
+    defer_changed = false;
     browser->emitEvent(getId(), BrowserEventChanged, AlteratorRequestDefault);
 }
 

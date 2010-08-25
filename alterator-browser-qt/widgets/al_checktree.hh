@@ -45,7 +45,7 @@ private:
 	QMultiHash<QString,QTreeWidgetItem*> orphaned;
 	bool processed_parents;
 	bool processed_children;
-	bool deferred_change;
+	bool defer_changed;
 };
 
 class alCheckTree: public alWidgetPre<ACheckTree>
