@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.14.4
+Version: 2.14.5
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,10 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Wed Aug 25 2010 Sergey V Turchin <zerg at altlinux dot org> 2.14.5-alt1
+- fix uncheck corresponding items when set current-rows to checktree
+- optimize checktree
+
 * Tue Aug 24 2010 Sergey V Turchin <zerg at altlinux dot org> 2.14.4-alt1
 - fix checktree event when changed
 
