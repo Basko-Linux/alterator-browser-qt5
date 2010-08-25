@@ -228,13 +228,17 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 {
 	if ("append-row" == name)
 	{
+	    wnd_->blockSignals(true);
 	    QStringList data(value.split(";", QString::KeepEmptyParts));
 	    wnd_->addRow(data);
+	    wnd_->blockSignals(false);
 	}
 	else if ("rows" == name)
 	{
+	    wnd_->blockSignals(true);
 	    QStringList data(value.split(";", QString::KeepEmptyParts));
 	    wnd_->setRows(data);
+	    wnd_->blockSignals(false);
 	}
 	else if ("rows-clear" == name)
 	{
@@ -262,6 +266,7 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	}
 	else if ("current-rows" == name)
 	{
+	    wnd_->blockSignals(true);
 	    QSet<QString> data(QSet<QString>::fromList(value.split(";")));
 	    if( data.size() > 0 )
 	    {
@@ -283,6 +288,7 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 		    ++it;
 		}
 	    }
+	    wnd_->blockSignals(false);
 	}
 	else if ("current" == name)
 	{
