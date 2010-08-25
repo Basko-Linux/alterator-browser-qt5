@@ -275,6 +275,11 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 			if( (*it)->checkState(0) != Qt::Checked )
 			    (*it)->setCheckState(0, Qt::Checked);
 		    }
+		    else
+		    {
+			if( (*it)->checkState(0) != Qt::Unchecked )
+			    (*it)->setCheckState(0, Qt::Unchecked);
+		    }
 		    ++it;
 		}
 	    }
