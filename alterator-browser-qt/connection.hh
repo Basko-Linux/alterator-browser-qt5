@@ -130,7 +130,7 @@ private:
 	AlteratorRequestFlags request_flags = AlteratorRequestDefault);
     QString createLangList();
 
-#ifndef NO_QTHREAD_EXEC_WORKAROUND
+#ifdef QTHREAD_EXEC_WORKAROUND
     bool thread_exec;
     int  thread_exec_result;
     int myExec();
