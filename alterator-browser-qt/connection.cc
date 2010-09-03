@@ -131,8 +131,8 @@ void Connection::run()
 {
     while( !destruction )
     {
-	is_processing = true;
 	startDelayedFinish();
+	is_processing = true;
 	while(!asks.isEmpty())
 	{
 	    if( destruction ) break;
@@ -149,9 +149,9 @@ void Connection::run()
 	    }
 	    parseAnswer(dom, ask.flags);
 	}
+	is_processing = false;
 	if( !destruction )
 	    endDelayedFinish();
-	is_processing = false;
 #ifdef QTHREAD_EXEC_WORKAROUND
 	if( myExec() != 0 )
 #else
