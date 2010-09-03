@@ -70,12 +70,15 @@ void Connection::getDocument(const QString &content, AlteratorRequestFlags ask_f
     asks_lock.lock();
     asks.enqueue(ask);
     asks_lock.unlock();
-    if(isRunning() && !is_processing)
+    if(isRunning())
+    {
+	if(!is_processing)
 #ifdef QTHREAD_EXEC_WORKAROUND
-	myQuit();
+	    myQuit();
 #else
-	quit();
+	    quit();
 #endif
+    }
     else
 	start();
 }
