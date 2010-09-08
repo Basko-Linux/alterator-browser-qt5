@@ -6,11 +6,14 @@
 ASlider::ASlider(QWidget *parent, const Qt::Orientation):
     AWidget<QSlider>(parent)
 {
-    timeout = 300;
-    timer = -1;
+    tmr = new QTimer(this);
+    tmr->setSingleShot(true);
+    tmr->setInterval(300);
     old_value = 0;
     connect(this, SIGNAL(valueChanged(int)),
 	    this, SLOT(onValueChange(int)));
+    connect(tmr, SIGNAL(timeout()),
+	    this, SLOT(checkValueReallyChanged()));
 }
 
 ASlider::~ASlider() {}
@@ -25,17 +28,9 @@ void ASlider::focusOutEvent(QFocusEvent*)
     checkValueReallyChanged();
 }
 
-void ASlider::timerEvent(QTimerEvent* e)
-{
-    if( e->timerId() == timer )
-	checkValueReallyChanged();
-}
-
 void ASlider::onValueChange(int new_value)
 {
-    if( timer >= 0 )
-	killTimer( timer );
-    timer = startTimer( timeout );
+    tmr->start();
 }
 
 void ASlider::checkValueReallyChanged()
@@ -43,8 +38,6 @@ void ASlider::checkValueReallyChanged()
     int cur_value = value();
     if( old_value != cur_value )
     {
-	if( timer >= 0 )
-	    killTimer( timer );
 	old_value = cur_value;
 	emit valueReallyChanged();
     }

@@ -17,17 +17,15 @@ Q_SIGNALS:
     void valueReallyChanged();
 
 private:
-    int timeout;
-    int timer;
+    QTimer *tmr;
     int old_value;
 
     void focusInEvent(QFocusEvent*);
     void focusOutEvent(QFocusEvent*);
-    void timerEvent(QTimerEvent*);
-    void checkValueReallyChanged();
 
 private Q_SLOTS:
     void onValueChange(int);
+    void checkValueReallyChanged();
 };
 
 class alSlider: public alWidgetPre<ASlider>
