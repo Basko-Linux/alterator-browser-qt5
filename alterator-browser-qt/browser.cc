@@ -64,7 +64,6 @@ Browser::Browser():
     connection = 0;
     qtranslator = 0;
     app_translator = 0;
-    busy_timer_id = 0;
     started = false;
     in_quit = false;
     detect_wm = false;
@@ -76,6 +75,11 @@ Browser::Browser():
 	<< ":/design/"
 	<< "/usr/share/alterator/design/images/"
 	<< "/usr/share/alterator/images/";
+
+    busy_timer = new QTimer(this);
+    busy_timer->setSingleShot(true);
+    busy_timer->setInterval(500);
+    connect(busy_timer, SIGNAL(timeout()), this, SLOT(onStopBusySplash()));
 
     QString language(getenv("LC_ALL"));
     if( language.isEmpty() )
@@ -825,24 +829,14 @@ void Browser::onStartBusySplash()
 
 void Browser::onCheckBusySplash()
 {
-    if( busy_timer_id > 0 )
-	killTimer(busy_timer_id);
-    busy_timer_id = startTimer(500);
+    busy_timer->start();
 }
 
 void Browser::onStopBusySplash()
 {
-    killTimer(busy_timer_id);
-    busy_timer_id = 0;
     foreach (QWidget *widget, QApplication::topLevelWidgets()) {
 	widget->unsetCursor();
     }
-}
-
-void Browser::timerEvent(QTimerEvent *e)
-{
-    if( e->timerId() == busy_timer_id )
-	onStopBusySplash();
 }
 
 void Browser::onRetryRequest()

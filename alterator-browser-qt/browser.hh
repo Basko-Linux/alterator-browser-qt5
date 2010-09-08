@@ -51,7 +51,6 @@ public Q_SLOTS:
     void showHelp();
 
 protected:
-    virtual void timerEvent(QTimerEvent*);
     virtual void keyPressEvent(QKeyEvent*);
     virtual void closeEvent(QCloseEvent*);
 
@@ -69,7 +68,7 @@ private:
     bool alterator_splash;
     int emit_locker;
     SplashScreen *splash;//single splash screen
-    int busy_timer_id;
+    QTimer *busy_timer;
     QLabel *startup_splash;
     bool help_available;
     QWidget *central_widget;
