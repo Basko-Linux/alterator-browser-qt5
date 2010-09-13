@@ -6,12 +6,14 @@
 SlideLoader::SlideLoader(QWidget *parent):
     QThread(parent)
 {
-    interval_ = 8000;
     parent_ = parent;
     current_img_ = 0;
     stop_ = false;
-    //current_image_ = 0;
 
+    tmr = new QTimer(this);
+    tmr->setSingleShot(true);
+    tmr->setInterval(8000);
+    connect(tmr, SIGNAL(timeout()), this, SLOT(quit()));
 }
 
 SlideLoader::~SlideLoader()
@@ -55,6 +57,10 @@ void SlideLoader::setInterval(int new_interval)
     {
 	stop_ = true;
     }
+    else if( new_interval > 0 )
+    {
+	tmr->setInterval(new_interval);
+    }
 }
 
 QImage SlideLoader::image()
@@ -96,7 +102,8 @@ void SlideLoader::run()
 	}
 	else
 	{
-	    msleep(interval_);
+	    tmr->start();
+	    exec();
 	}
     }
 }

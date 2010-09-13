@@ -29,10 +29,10 @@ private:
     QString src_dir_;
     QStringList images_;
     QStringListIterator *current_img_;
-    int interval_;
     bool stop_;
     QImage current_image_;
     QMutex current_image_lock_;
+    QTimer *tmr;
 };
 
 class ASlideShow: public AWidget<QLabel>
