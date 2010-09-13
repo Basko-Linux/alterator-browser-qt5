@@ -18,11 +18,15 @@ Connection::Connection(QObject *parent):
 {
     destruction = false;
     is_processing = false;
-    islong_timer_id = 0;
 #ifdef QTHREAD_EXEC_WORKAROUND
     thread_exec = false;
     thread_exec_result = 0;
 #endif
+
+    islong_timer = new QTimer(this);
+    islong_timer->setSingleShot(true);
+    islong_timer->setInterval(500);
+    connect(islong_timer, SIGNAL(timeout()), this, SLOT(checkDelayedFinish()));
 
     //connect(this, SIGNAL(started()), this, SLOT(startDelayedFinish()));
     //connect(this, SIGNAL(finished()), this, SLOT(endDelayedFinish()));
@@ -184,20 +188,13 @@ void Connection::parseAnswer(const alRequest &dom, AlteratorRequestFlags request
 
 void Connection::startDelayedFinish()
 {
-    if( islong_timer_id > 0 )
-	killTimer(islong_timer_id);
-    islong_timer_id = startTimer(500);
+    islong_timer->start();
 }
 
-void Connection::timerEvent(QTimerEvent *e)
+void Connection::checkDelayedFinish()
 {
-    if( e->timerId() == islong_timer_id )
-    {
-	killTimer(islong_timer_id);
-	islong_timer_id = 0;
-	if( is_processing )
-	    emit startLongRequest();
-    }
+    if( is_processing )
+        emit startLongRequest();
 }
 
 void Connection::endDelayedFinish()
@@ -397,8 +394,7 @@ void Connection::prepareQuit()
 #else
     exit(1);
 #endif
-    if( islong_timer_id > 0 )
-	killTimer(islong_timer_id);
+    islong_timer->stop();
 }
 
 QQueue<AlteratorRequest> Connection::getRequests()
