@@ -8,33 +8,6 @@
 
 #include "al_widget.hh"
 
-class SlideLoader: public QThread
-{
-Q_OBJECT
-public:
-    SlideLoader(QWidget*);
-    ~SlideLoader();
-
-    void run();
-    void setSource(const QString&); // start
-    void stop();
-    void setInterval(int);
-    QImage image();
-
-Q_SIGNALS:
-    void gotImage();
-
-private:
-    QWidget *parent_;
-    QString src_dir_;
-    QStringList images_;
-    QStringListIterator *current_img_;
-    bool stop_;
-    QImage current_image_;
-    QMutex current_image_lock_;
-    QTimer *tmr;
-};
-
 class ASlideShow: public AWidget<QLabel>
 {
 Q_OBJECT
@@ -48,10 +21,14 @@ public:
     void setInterval(int);
 
 public Q_SLOTS:
-    void setPixmap();
+    void applyPixmap();
 
 private:
-    SlideLoader *loader;
+    QTimer *next_slide_tmr;
+    QString src_dir_;
+    QStringList images_;
+    QStringListIterator *current_img_;
+    QImage current_image_;
 };
 
 class alSlideShow: public alWidgetPre<ASlideShow>
