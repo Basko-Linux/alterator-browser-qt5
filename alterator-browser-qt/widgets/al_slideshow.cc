@@ -24,7 +24,8 @@ SlideLoader::~SlideLoader()
 void SlideLoader::stop()
 {
     stop_ = true;
-    terminate();
+    quit();
+    wait();
 }
 
 void SlideLoader::setSource(const QString &new_src_dir)
