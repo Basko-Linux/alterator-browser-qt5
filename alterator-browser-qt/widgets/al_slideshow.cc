@@ -13,7 +13,7 @@ ASlideShow::ASlideShow(QWidget *parent, const Qt::Orientation):
 
     next_slide_tmr = new QTimer(this);
     next_slide_tmr->setSingleShot(true);
-    next_slide_tmr->setInterval(1000);
+    next_slide_tmr->setInterval(8000);
 
     connect(next_slide_tmr, SIGNAL(timeout()), this, SLOT(applyPixmap()));
 }
@@ -45,7 +45,6 @@ void ASlideShow::applyPixmap()
 
 	    if( movie() )
 		delete movie();
-//		movie()->deleteLater();
 
 		    if( imgfile.endsWith(".jpg") || imgfile.endsWith(".png") )
 		    {
