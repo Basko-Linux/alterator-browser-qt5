@@ -108,7 +108,7 @@ Browser::Browser():
     QString startup_splash_file = ":/design/whirl.mng";
     if( !QFile::exists(startup_splash_file) )
 	startup_splash_file = ":/images/whirl.mng";
-    QMovie *anim = new QMovie(startup_splash_file);
+    QMovie *anim = new QMovie(startup_splash_file, QByteArray(), startup_splash);
     if( anim->isValid() )
     {
 	startup_splash->setMovie(anim);
