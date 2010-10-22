@@ -85,7 +85,7 @@ void initPixmaps()
 
 	pix_map["theme:yes"] = new AStdPixmapGenerator(QStyle::SP_DialogYesButton);
 	pix_map["theme:no"] = new AStdPixmapGenerator(QStyle::SP_DialogNoButton);
-	pix_map["theme:ok"] = new AStdPixmapGenerator(QStyle::SP_DialogCancelButton);
+	pix_map["theme:ok"] = new AStdPixmapGenerator(QStyle::SP_DialogOkButton);
 	pix_map["theme:apply"] = new AStdPixmapGenerator(QStyle::SP_DialogApplyButton);
 	pix_map["theme:cancel"] = new AStdPixmapGenerator(QStyle::SP_DialogCancelButton);
 

@@ -82,6 +82,7 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+#- fix theme:ok pixmap
 * Fri Sep 17 2010 Sergey V Turchin <zerg at altlinux dot org> 2.15.0-alt1
 - support animated gifs and mngs in slideshow
 
