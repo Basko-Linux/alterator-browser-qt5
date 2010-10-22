@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.15.0
+Version: 2.15.1
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,7 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
-#- fix theme:ok pixmap
+* Fri Oct 22 2010 Sergey V Turchin <zerg at altlinux dot org> 2.15.1-alt1
+- fix theme:ok pixmap
+
 * Fri Sep 17 2010 Sergey V Turchin <zerg at altlinux dot org> 2.15.0-alt1
 - support animated gifs and mngs in slideshow
 
