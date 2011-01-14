@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.15.1
+Version: 2.15.2
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Fri Jan 14 2011 Sergey V Turchin <zerg at altlinux dot org> 2.15.2-alt1
+- update Ukrainian translation; thanks rom_as@alt
+
 * Fri Oct 22 2010 Sergey V Turchin <zerg at altlinux dot org> 2.15.1-alt1
 - fix theme:ok pixmap
 
