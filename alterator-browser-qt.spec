@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.15.2
+Version: 2.15.3
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Mon Feb 28 2011 Sergey V Turchin <zerg at altlinux dot org> 2.15.3-alt1
+- reduce spacing to remove installer vertical scrollbar when install packages
+
 * Fri Jan 14 2011 Sergey V Turchin <zerg at altlinux dot org> 2.15.2-alt1
 - update Ukrainian translation; thanks rom_as@alt
 

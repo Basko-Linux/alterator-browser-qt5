@@ -326,8 +326,8 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     QVBoxLayout *left_layout = new QVBoxLayout();
     left_layout->setMargin(0);
     QVBoxLayout *right_layout = new QVBoxLayout();
-    right_layout->setMargin(15);
-    right_layout->setSpacing(15);
+    right_layout->setMargin(10);
+    right_layout->setSpacing(10);
 
     main_layout->addLayout(left_layout);
     main_layout->addLayout(right_layout);
