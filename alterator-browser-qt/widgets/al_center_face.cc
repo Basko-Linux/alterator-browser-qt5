@@ -229,6 +229,14 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     expert_btn->setIcon(getPixmap("theme:computer"));
     connect(expert_btn, SIGNAL(toggled(bool)), this, SLOT(onExpertModeToggled(bool)));
 
+    QToolButton *exit_btn = new QToolButton(this);
+    exit_btn->setAutoRaise(true);
+    exit_btn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    exit_btn->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Fixed);
+    exit_btn->setText(tr("Quit"));
+    exit_btn->setIcon(QApplication::style()->standardPixmap(QStyle::SP_DialogCancelButton));
+    connect(exit_btn, SIGNAL(clicked()), browser, SLOT(quitAppAsk()));
+
     sections_widget = new QWidget(this);
     module_widget = new QWidget(this);
     buttonbox = new QDialogButtonBox(module_widget);
@@ -287,6 +295,7 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     top_buttons_layout->addWidget(owerview_btn);
     top_buttons_layout->addWidget(help_btn);
     top_buttons_layout->addWidget(expert_btn);
+    top_buttons_layout->addWidget(exit_btn);
     top_buttons_layout->addStretch(1);
 
     stacked_layout = new QStackedLayout();
