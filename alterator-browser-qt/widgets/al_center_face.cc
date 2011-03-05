@@ -234,7 +234,7 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     exit_btn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     exit_btn->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Fixed);
     exit_btn->setText(tr("Quit"));
-    exit_btn->setIcon(QApplication::style()->standardPixmap(QStyle::SP_DialogCancelButton));
+    exit_btn->setIcon(QApplication::style()->standardPixmap(QStyle::SP_DialogCloseButton));
     connect(exit_btn, SIGNAL(clicked()), browser, SLOT(quitAppAsk()));
 
     sections_widget = new QWidget(this);
