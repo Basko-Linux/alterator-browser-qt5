@@ -20,7 +20,7 @@
     <message>
         <location filename="../widgets/al_center_face.cc" line="236"/>
         <source>Quit</source>
-        <translation type="unfinished">Вихід</translation>
+        <translation>Вихід</translation>
     </message>
     <message>
         <source>Contents</source>
