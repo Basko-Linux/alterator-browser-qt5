@@ -293,10 +293,10 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
 
     QHBoxLayout *top_buttons_layout = new QHBoxLayout();
     top_buttons_layout->addWidget(owerview_btn);
-    top_buttons_layout->addWidget(help_btn);
     top_buttons_layout->addWidget(expert_btn);
     top_buttons_layout->addWidget(exit_btn);
     top_buttons_layout->addStretch(1);
+    top_buttons_layout->addWidget(help_btn);
 
     stacked_layout = new QStackedLayout();
     stacked_layout->setMargin(0);
