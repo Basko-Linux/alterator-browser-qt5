@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.0" language="ru_RU">
-<defaultcodec></defaultcodec>
 <context>
     <name>ACenterFace</name>
     <message>
@@ -9,28 +8,33 @@
         <translation type="obsolete">Обзор</translation>
     </message>
     <message>
-        <location filename="widgets/al_center_face.cc" line="228"/>
+        <location filename="../widgets/al_center_face.cc" line="219"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="widgets/al_center_face.cc" line="237"/>
+        <location filename="../widgets/al_center_face.cc" line="228"/>
         <source>Expert mode</source>
         <translation>Режим эксперта</translation>
+    </message>
+    <message>
+        <location filename="../widgets/al_center_face.cc" line="236"/>
+        <source>Quit</source>
+        <translation type="unfinished">Выход</translation>
     </message>
     <message>
         <source>Contents</source>
         <translation type="obsolete">Содержание</translation>
     </message>
     <message>
-        <location filename="widgets/al_center_face.cc" line="329"/>
-        <location filename="widgets/al_center_face.cc" line="591"/>
+        <location filename="../widgets/al_center_face.cc" line="329"/>
+        <location filename="../widgets/al_center_face.cc" line="595"/>
         <source>Main</source>
         <translation>Главная</translation>
     </message>
     <message>
-        <location filename="widgets/al_center_face.cc" line="220"/>
-        <location filename="widgets/al_center_face.cc" line="335"/>
+        <location filename="../widgets/al_center_face.cc" line="211"/>
+        <location filename="../widgets/al_center_face.cc" line="336"/>
         <source>Module</source>
         <translation>Модуль</translation>
     </message>
@@ -38,13 +42,13 @@
 <context>
     <name>AWizardFace</name>
     <message>
-        <location filename="widgets/al_wizard_face.cc" line="298"/>
-        <location filename="widgets/al_wizard_face.cc" line="923"/>
+        <location filename="../widgets/al_wizard_face.cc" line="300"/>
+        <location filename="../widgets/al_wizard_face.cc" line="925"/>
         <source>Show steps list</source>
         <translation>Показать список шагов</translation>
     </message>
     <message>
-        <location filename="widgets/al_wizard_face.cc" line="921"/>
+        <location filename="../widgets/al_wizard_face.cc" line="923"/>
         <source>Hide steps list</source>
         <translation>Скрыть список шагов</translation>
     </message>
@@ -52,23 +56,23 @@
 <context>
     <name>Browser</name>
     <message>
-        <location filename="../browser.cc" line="234"/>
-        <location filename="../browser.cc" line="241"/>
+        <location filename="../browser.cc" line="240"/>
+        <location filename="../browser.cc" line="247"/>
         <source>Quit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="234"/>
+        <location filename="../browser.cc" line="240"/>
         <source>Exit Alterator?</source>
         <translation>Завершить Alterator?</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="256"/>
+        <location filename="../browser.cc" line="262"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="256"/>
+        <location filename="../browser.cc" line="262"/>
         <source>Alterator Browser</source>
         <translation>Alterator Browser</translation>
     </message>
