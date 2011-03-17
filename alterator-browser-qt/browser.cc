@@ -244,7 +244,7 @@ void Browser::quitAppAsk()
 
 void Browser::quitAppError(const QString &msg)
 {
-    MessageBox *msgbox = new MessageBox("critical", tr("Quit"), msg, QDialogButtonBox::Ok|QDialogButtonBox::Cancel, this);
+    MessageBox *msgbox = new MessageBox("critical", tr("Quit"), msg, QDialogButtonBox::Ok, this);
     msgbox->exec();
     popupRemove(msgbox);
     quitAppManaged(1);
