@@ -148,6 +148,22 @@ Browser::~Browser()
 {
 }
 
+QString Browser::createTmpDir()
+{
+    QString tmpdir_path(qgetenv("TMPDIR"));
+    if( tmpdir_path.isEmpty() )
+	tmpdir_path = "/tmp";
+    QDir tmpdir(tmpdir_path);
+    tmpdir_path.append("/alterator");
+    if( (tmpdir.exists("alterator") && QFileInfo(tmpdir_path).isDir()) || tmpdir.mkdir("alterator") )
+    {
+	return tmpdir_path;
+    }
+    else
+	qDebug("Failed to create temporary directory: %s", qPrintable(tmpdir_path));
+    return QString();
+}
+
 void Browser::start()
 {
     if( started ) return;
@@ -162,26 +178,17 @@ void Browser::start()
 
     QString socketPath;
     QStringList args = QCoreApplication::arguments();
-    QString tmpdir(getenv("TMPDIR"));
+    QString tmpdir( createTmpDir() );
+
+    if( tmpdir.isEmpty() )
+	quitAppError("Failed to create local socket directory");
 
     if( args.size() > 1 )
     	socketPath = args.at(1);
-    else if( !tmpdir.isEmpty() )
-    	socketPath = tmpdir;
     else
-    	socketPath = "/tmp";
+    	socketPath = tmpdir + "/browser-sock";
 
-    QDir socketDir(socketPath);
-    if(!socketDir.exists("alterator"))
-    {
-	if(!socketDir.mkdir("alterator"))
-	{
-	    quitAppError("Failed to create local socket directory");
-	}
-    }
-
-    socketPath += "/alterator/browser-sock";
-    qDebug("socket path %s ...",qPrintable(socketPath));
+    qDebug("Socket path: %s",qPrintable(socketPath));
     mailbox = new MailBox(socketPath, this);
 
     connect(connection, SIGNAL(alteratorRequests()),

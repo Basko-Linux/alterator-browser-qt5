@@ -11,10 +11,14 @@ int main(int argc,char **argv)
 {
     bool is_running = false;
     int ret = 0;
-    QString tmpdir(getenv("TMPDIR"));
+
+    QString tmpdir( Browser::createTmpDir() );
     if( tmpdir.isEmpty() )
-	tmpdir = "/tmp";
-    QString pidfile_path = QString("%1/alterator-browser-qt-%2.pid").arg(tmpdir).arg(getuid());
+    {
+	qFatal("Quit alterator-browser");
+    }
+
+    QString pidfile_path = QString("%1/alterator-browser-x11-%2.pid").arg(tmpdir).arg(getuid());
     { // check browser is running
 	QFile pidfile(pidfile_path);
 	if( pidfile.open(QIODevice::ReadOnly) )

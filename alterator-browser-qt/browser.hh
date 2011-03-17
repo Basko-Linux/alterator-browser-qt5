@@ -37,6 +37,7 @@ public:
     void quitApp(int answ = QDialogButtonBox::NoButton);
     void quitAppError(const QString&);
     static void unixSignalHandler(int);
+    static QString createTmpDir();
 
 Q_SIGNALS:
     void languageChanged();
