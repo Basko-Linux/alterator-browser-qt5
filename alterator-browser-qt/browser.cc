@@ -178,15 +178,19 @@ void Browser::start()
 
     QString socketPath;
     QStringList args = QCoreApplication::arguments();
-    QString tmpdir( createTmpDir() );
-
-    if( tmpdir.isEmpty() )
-	quitAppError("Failed to create local socket directory");
 
     if( args.size() > 1 )
+    {
     	socketPath = args.at(1);
+    }
     else
-    	socketPath = tmpdir + "/browser-sock";
+    {
+	QString tmpdir( createTmpDir() );
+	if( tmpdir.isEmpty() )
+	    quitAppError("Failed to create local socket directory");
+	socketPath = tmpdir;
+    }
+    socketPath.append("/browser-sock");
 
     qDebug("Socket path: %s",qPrintable(socketPath));
     mailbox = new MailBox(socketPath, this);
