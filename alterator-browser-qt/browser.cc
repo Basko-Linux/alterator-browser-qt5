@@ -148,17 +148,15 @@ Browser::~Browser()
 {
 }
 
-QString Browser::createTmpDir()
+QString Browser::createTmpDir(const QString& tmp)
 {
-    QString tmpdir_path(qgetenv("TMPDIR"));
+    QString tmpdir_path(tmp.isEmpty()? qgetenv("TMPDIR"): tmp);
     if( tmpdir_path.isEmpty() )
 	tmpdir_path = "/tmp";
     QDir tmpdir(tmpdir_path);
     tmpdir_path.append("/alterator");
     if( (tmpdir.exists("alterator") && QFileInfo(tmpdir_path).isDir()) || tmpdir.mkdir("alterator") )
-    {
 	return tmpdir_path;
-    }
     else
 	qDebug("Failed to create temporary directory: %s", qPrintable(tmpdir_path));
     return QString();
@@ -180,16 +178,11 @@ void Browser::start()
     QStringList args = QCoreApplication::arguments();
 
     if( args.size() > 1 )
-    {
-    	socketPath = args.at(1);
-    }
+	socketPath = createTmpDir(args.at(1));
     else
-    {
-	QString tmpdir( createTmpDir() );
-	if( tmpdir.isEmpty() )
-	    quitAppError("Failed to create local socket directory");
-	socketPath = tmpdir;
-    }
+	socketPath = createTmpDir(socketPath);
+    if( socketPath.isEmpty() )
+	quitAppError("Failed to create local socket directory");
     socketPath.append("/browser-sock");
 
     qDebug("Socket path: %s",qPrintable(socketPath));
