@@ -36,6 +36,7 @@ public:
     void quitAppManaged(int);
     void quitApp(int answ = QDialogButtonBox::NoButton);
     void quitAppError(const QString&);
+    QString shortLang();
     static void unixSignalHandler(int);
     static QString createTmpDir(const QString& = QString());
 
@@ -56,6 +57,7 @@ protected:
     virtual void closeEvent(QCloseEvent*);
 
 private:
+    QString m_shortlang;
     Connection *connection;
     QTranslator *qtranslator;
     QTranslator *app_translator;

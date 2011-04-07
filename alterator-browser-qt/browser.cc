@@ -1019,3 +1019,13 @@ void Browser::unixSignalHandler(int sig)
 	    break;
     }
 }
+
+QString Browser::shortLang()
+{
+    if( m_shortlang.isEmpty() )
+    {
+	m_shortlang = QLocale::system().name().remove(QRegExp("_.*"));
+    }
+
+    return m_shortlang;
+}
