@@ -2,14 +2,18 @@
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QPair>
+#include <QDir>
+#include <QProcess>
 
 #include "global.hh"
 #include "al_center_face.hh"
 #include "a_pixmaps.hh"
+#include "desktopfile.hh"
 
-ACenterModuleButton::ACenterModuleButton(QWidget *parent):
+ACSListItem::ACSListItem(ModuleType type, QWidget *parent):
     QToolButton(parent)
 {
+    m_type= type;
     setAutoRaise(true);
     setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     QPalette btn_palette = palette();
@@ -18,15 +22,31 @@ ACenterModuleButton::ACenterModuleButton(QWidget *parent):
     connect(this, SIGNAL(clicked()), this, SLOT(onClicked()));
 }
 
-ACenterModuleButton::~ACenterModuleButton()
+ACSListItem::~ACSListItem()
 {}
 
-void ACenterModuleButton::onClicked()
+void ACSListItem::onClicked()
 {
     QPalette btn_palette = palette();
     btn_palette.setBrush(QPalette::ButtonText, btn_palette.linkVisited());
     setPalette(btn_palette);
 }
+
+ACSListItem::ModuleType ACSListItem::moduleType()
+{
+    return m_type;
+}
+
+QString ACSListItem::command()
+{
+    return m_command;
+}
+
+void ACSListItem::setCommand(const QString &cmd)
+{
+    m_command = cmd;
+}
+
 
 /* CenterSectionModulesList */
 ACenterSectionModulesList::ACenterSectionModulesList(QWidget *parent):
@@ -49,12 +69,12 @@ ACenterSectionModulesList::~ACenterSectionModulesList()
 
 void ACenterSectionModulesList::onItemClicked(QWidget *w)
 {
-    ACenterSectionModulesListItem *i = qobject_cast<ACenterSectionModulesListItem*>(w);
+    ACSListItem *i = qobject_cast<ACSListItem*>(w);
     if(i)
 	emit itemClicked(i);
 }
 
-void ACenterSectionModulesList::addItem(ACenterSectionModulesListItem *i)
+void ACenterSectionModulesList::addItem(ACSListItem *i)
 {
     i->setParent(this);
     lay->addWidget(i);
@@ -64,7 +84,7 @@ void ACenterSectionModulesList::addItem(ACenterSectionModulesListItem *i)
     signal_mapper->setMapping(i, i);
 }
 
-void ACenterSectionModulesList::removeItem(ACenterSectionModulesListItem *i)
+void ACenterSectionModulesList::removeItem(ACSListItem *i)
 {
     int idx = items.indexOf(i);
     if( idx >= 0 )
@@ -74,13 +94,13 @@ void ACenterSectionModulesList::removeItem(ACenterSectionModulesListItem *i)
     }
 }
 
-void ACenterSectionModulesList::setItemText(ACenterSectionModulesListItem *i, const QString& txt)
+void ACenterSectionModulesList::setItemText(ACSListItem *i, const QString& txt)
 {
     if( items.contains(i) )
 	i->setText(txt);
 }
 
-void ACenterSectionModulesList::setItemIcon(ACenterSectionModulesListItem *i, const QIcon& ico)
+void ACenterSectionModulesList::setItemIcon(ACSListItem *i, const QIcon& ico)
 {
     if( items.contains(i) )
 	i->setIcon(ico);
@@ -91,12 +111,12 @@ int ACenterSectionModulesList::count()
     return items.count();
 }
 
-bool ACenterSectionModulesList::isOwnerOfItem(ACenterSectionModulesListItem *i)
+bool ACenterSectionModulesList::isOwnerOfItem(ACSListItem *i)
 {
     return i->parentWidget() == this;
 }
 
-QList<ACenterSectionModulesListItem*> ACenterSectionModulesList::getItems()
+QList<ACSListItem*> ACenterSectionModulesList::getItems()
 {
     return items;
 }
@@ -440,27 +460,50 @@ void ACenterFace::setActionPixmap(const QString &key, const QString &value)
 
 void ACenterFace::clearModules()
 {
-    QList<ACenterSectionModulesListItem*> dead_modules = modules.values();
+    QList<ACSListItem*> dead_modules = modules.values();
     modules.clear();
-    QListIterator<ACenterSectionModulesListItem*> it(dead_modules);
+    QListIterator<ACSListItem*> it(dead_modules);
     while(it.hasNext())
     {
-	ACenterSectionModulesListItem *dead = it.next();
+	ACSListItem *dead = it.next();
         delete dead;
         dead = 0;
     }
 }
 
-void ACenterFace::addModule(const QString& section_key, const QString& key, const QString& name)
+void ACenterFace::addModule(const QString& section_key, const QString& key, const QString& name, const QString& comment, const QString& command)
 {
     if( !key.isEmpty() && sections.contains(section_key) )
     {
 	ACenterSection *section = sections.value(section_key);
+	ACSListItem::ModuleType module_type = command.isEmpty()? ACSListItem::Alterator: ACSListItem::External;
+	ACSListItem *i = new ACSListItem(module_type);
+	i->setCommand(command);
+	if( !comment.isEmpty() )
+	    i->setToolTip(comment);
 	ACenterSectionModulesList *mlist = section->getModulesList();
-	ACenterSectionModulesListItem *i = new ACenterSectionModulesListItem();
 	mlist->addItem(i);
 	modules.insert(key,i);
 	setModuleText(key,name);
+    }
+}
+
+void ACenterFace::addExtModules()
+{
+    QStringList dirpaths( QStringList() << "/usr/share/applications" );
+
+    Q_FOREACH(QString dirpath, dirpaths)
+    {
+	QDir dir(dirpath, "*.desktop", QDir::Unsorted, QDir::Files|QDir::NoDotAndDotDot);
+	Q_FOREACH(QString filename, dir.entryList())
+	{
+	    DesktopFile desktopfile(0, dirpath + QDir::separator() + filename);
+	    QString app_category(desktopfile.altCategory());
+	    if( !app_category.isEmpty() )
+	    {
+		addModule(app_category, filename, desktopfile.name(), desktopfile.comment(), desktopfile.exec());
+	    }
+	}
     }
 }
 
@@ -484,7 +527,7 @@ void ACenterFace::removeModule(const QString &key)
 {
     if( modules.contains(key) )
     {
-	ACenterSectionModulesListItem* i = modules.value(key);
+	ACSListItem* i = modules.value(key);
 	QHashIterator<QString,ACenterSection*> it(sections);
 	while(it.hasNext())
 	{
@@ -523,7 +566,7 @@ void ACenterFace::addSection(const QString& key, const QString& name, const QStr
 	setSectionDesc(key, desc);
     if(!pixmap.isEmpty())
 	setSectionPixmap(key, pixmap);
-    connect(section->getModulesList(), SIGNAL(itemClicked(ACenterSectionModulesListItem*)), this, SLOT(onSelectModule(ACenterSectionModulesListItem*)));
+    connect(section->getModulesList(), SIGNAL(itemClicked(ACSListItem*)), this, SLOT(onSelectModule(ACSListItem*)));
 }
 
 void ACenterFace::setSectionText(const QString &key, const QString &value)
@@ -551,7 +594,7 @@ void ACenterFace::removeSection(const QString& key)
 	ACenterSection *section = sections.take(key);
 	ACenterSectionModulesList *mlistw = section->getModulesList();
 	QList<QString> mod_keys;
-	QHashIterator<QString,ACenterSectionModulesListItem*> it(modules);
+	QHashIterator<QString,ACSListItem*> it(modules);
 	while(it.hasNext())
 	{
 	    if( mlistw->isOwnerOfItem(it.next().value()) )
@@ -586,16 +629,36 @@ void ACenterFace::onSelectAction(const QString& key)
 	browser->emitEvent(getId(), BrowserEventClicked, AlteratorRequestDefault);
 }
 
-void ACenterFace::onSelectModule(ACenterSectionModulesListItem *i)
+void ACenterFace::onSelectModule(ACSListItem *i)
 {
-    current_module_key = modules.key(i);
-    view_widget->hide();
-    if( eventRegistered(BrowserEventSelected) )
-	browser->emitEvent(getId(), BrowserEventSelected, AlteratorRequestCenterFaceModuleSelected);
-    owerview_btn->setText(tr("Main"));
-    owerview_btn->setIcon(getPixmap("theme:up"));
-    stacked_layout->setCurrentWidget(module_widget);
-    owerview_btn->setEnabled(true);
+    switch(i->moduleType())
+    {
+	case ACSListItem::External:
+	{
+	    QStringList arguments(i->command().split(" ", QString::SkipEmptyParts));
+	    if( arguments.size() > 0 )
+	    {
+		QString program = arguments.takeAt(0);
+		browser->onStartBusySplash();
+		QProcess::execute(program, arguments);
+		browser->onStopBusySplash();
+		browser->raiseBrowserWindow();
+	    }
+	    break;
+	}
+	case ACSListItem::Alterator:
+	default:
+	{
+	    current_module_key = modules.key(i);
+	    view_widget->hide();
+	    if( eventRegistered(BrowserEventSelected) )
+		browser->emitEvent(getId(), BrowserEventSelected, AlteratorRequestCenterFaceModuleSelected);
+	    owerview_btn->setText(tr("Main"));
+	    owerview_btn->setIcon(getPixmap("theme:up"));
+	    stacked_layout->setCurrentWidget(module_widget);
+	    owerview_btn->setEnabled(true);
+	}
+    }
 }
 
 QString ACenterFace::currentActionKey()
@@ -629,7 +692,7 @@ void ACenterFace::sortTabOrder()
     foreach(ACenterSection *section, sections_list)
     {
 	ACenterSectionModulesList *modlist = section->getModulesList();
-	foreach(ACenterSectionModulesListItem *module_item, modlist->getItems())
+	foreach(ACSListItem *module_item, modlist->getItems())
 	{
 	    QWidget *second = module_item;
 	    if( second->focusProxy() )
@@ -763,6 +826,7 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
 		break;
 	    wnd_->addModule(section_key, key, name);
 	}
+	wnd_->addExtModules();
 	wnd_->sortTabOrder();
     }
     else if( "module-add" == name )

@@ -12,17 +12,25 @@
 #include "widgets.hh"
 #include "awidget.hh"
 
-class ACenterModuleButton: public QToolButton
+class ACSListItem: public QToolButton
 {
 Q_OBJECT
 public:
-    ACenterModuleButton(QWidget *parent = 0);
-    ~ACenterModuleButton();
+    enum ModuleType {Alterator, External};
+    ACSListItem(ModuleType = Alterator, QWidget *parent = 0);
+    ~ACSListItem();
+
+    ModuleType moduleType();
+    void setCommand(const QString&);
+    QString command();
+
 private Q_SLOTS:
     void onClicked();
-};
 
-typedef ACenterModuleButton ACenterSectionModulesListItem;
+private:
+    ModuleType m_type;
+    QString m_command;
+};
 
 class ACenterSectionModulesList: public QWidget
 {
@@ -31,24 +39,24 @@ public:
     ACenterSectionModulesList(QWidget *parent);
     ~ACenterSectionModulesList();
 
-    void addItem(ACenterSectionModulesListItem*);
-    void setItemText(ACenterSectionModulesListItem*, const QString&);
-    void setItemIcon(ACenterSectionModulesListItem*, const QIcon&);
-    void removeItem(ACenterSectionModulesListItem*);
+    void addItem(ACSListItem*);
+    void setItemText(ACSListItem*, const QString&);
+    void setItemIcon(ACSListItem*, const QIcon&);
+    void removeItem(ACSListItem*);
 
     int count();
-    bool isOwnerOfItem(ACenterSectionModulesListItem*);
-    QList<ACenterSectionModulesListItem*> getItems();
+    bool isOwnerOfItem(ACSListItem*);
+    QList<ACSListItem*> getItems();
 
 Q_SIGNALS:
-    void itemClicked(ACenterSectionModulesListItem*);
+    void itemClicked(ACSListItem*);
 
 private Q_SLOTS:
     void onItemClicked(QWidget*);
 
 private:
     FlowLayout *lay;
-    QList<ACenterSectionModulesListItem*> items;
+    QList<ACSListItem*> items;
     QSignalMapper *signal_mapper;
 };
 
@@ -91,7 +99,8 @@ public:
     void setActionPixmap(const QString &key, const QString &value);
 
     void clearModules();
-    void addModule(const QString& section_key, const QString& key, const QString& name);
+    void addExtModules();
+    void addModule(const QString& section_key, const QString& key, const QString& name, const QString& comment = QString(), const QString& command = QString());
     void removeModule(const QString &key);
     void setModuleText(const QString &key, const QString &value);
     void setModulePixmap(const QString &key, const QString &value);
@@ -114,7 +123,7 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void onSelectAction(const QString&);
-    void onSelectModule(ACenterSectionModulesListItem*);
+    void onSelectModule(ACSListItem*);
     void onOwerviewClicked();
     void onExpertModeToggled(bool);
 
@@ -138,7 +147,7 @@ private:
 
     QHash<QString, ACenterSection*> sections;
     QList<ACenterSection*> sections_list;
-    QHash<QString, ACenterSectionModulesListItem*> modules;
+    QHash<QString, ACSListItem*> modules;
     QHash<QString, QAbstractButton*> buttons;
 
     void addAction(const QString &key, UserActionType);

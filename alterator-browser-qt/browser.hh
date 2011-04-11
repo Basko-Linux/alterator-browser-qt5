@@ -36,6 +36,7 @@ public:
     void quitAppManaged(int);
     void quitApp(int answ = QDialogButtonBox::NoButton);
     void quitAppError(const QString&);
+    void raiseBrowserWindow();
     QString shortLang();
     static void unixSignalHandler(int);
     static QString createTmpDir(const QString& = QString());
@@ -51,6 +52,9 @@ public Q_SLOTS:
     void popupRemove(QWidget*);
     void onUnixSignal(int);
     void showHelp();
+    void onStartBusySplash();
+    void onCheckBusySplash();
+    void onStopBusySplash();
 
 protected:
     virtual void keyPressEvent(QKeyEvent*);
@@ -84,7 +88,6 @@ private:
     static void collectTabIndex(QList<QString>&, QMap<QString, QMap<int,QWidget*> >&, alWidget* wdg, int);
     void reloadTranslator(QTranslator* translator, const QString &domain);
 
-    void raiseBrowserWindow();
     void onRetryRequest();
     alWidget* onNewRequest(const AlteratorRequestActionAttrs &attr);
     void onCloseRequest(const QString& id);
@@ -98,9 +101,6 @@ private:
     void onFileSelectRequest(const QString& title, const QString& dir, const QString& type, const QString& mask);
 
 private Q_SLOTS:
-    void onStartBusySplash();
-    void onCheckBusySplash();
-    void onStopBusySplash();
     void onInternalSplashMessage(const QString& msg);
 
     void doRetry();
