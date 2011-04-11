@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.15.7
+Version: 2.16.0
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Mon Apr 11 2011 Sergey V Turchin <zerg at altlinux dot org> 2.16.0-alt1
+- add external applications support for ACC
+
 * Mon Mar 21 2011 Sergey V Turchin <zerg at altlinux dot org> 2.15.7-alt1
 - fix path to mailbox socket for installer (ALT#25261)
 
