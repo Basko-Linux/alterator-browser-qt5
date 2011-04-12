@@ -25,7 +25,7 @@
     <message>
         <location filename="../widgets/al_center_face.cc" line="643"/>
         <source>External application running...</source>
-        <translation type="unfinished"></translation>
+        <translation>Виконується зовнішня програма...</translation>
     </message>
     <message>
         <source>Contents</source>
