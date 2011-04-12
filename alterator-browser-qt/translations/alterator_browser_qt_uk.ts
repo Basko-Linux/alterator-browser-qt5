@@ -8,33 +8,38 @@
         <translation type="obsolete">Огляд</translation>
     </message>
     <message>
-        <location filename="../widgets/al_center_face.cc" line="219"/>
+        <location filename="../widgets/al_center_face.cc" line="240"/>
         <source>Help</source>
         <translation>Довідка</translation>
     </message>
     <message>
-        <location filename="../widgets/al_center_face.cc" line="228"/>
+        <location filename="../widgets/al_center_face.cc" line="249"/>
         <source>Expert mode</source>
         <translation>Режим експерту</translation>
     </message>
     <message>
-        <location filename="../widgets/al_center_face.cc" line="236"/>
+        <location filename="../widgets/al_center_face.cc" line="257"/>
         <source>Quit</source>
         <translation>Вихід</translation>
+    </message>
+    <message>
+        <location filename="../widgets/al_center_face.cc" line="643"/>
+        <source>External application running...</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Contents</source>
         <translation type="obsolete">Зміст</translation>
     </message>
     <message>
-        <location filename="../widgets/al_center_face.cc" line="329"/>
-        <location filename="../widgets/al_center_face.cc" line="595"/>
+        <location filename="../widgets/al_center_face.cc" line="350"/>
+        <location filename="../widgets/al_center_face.cc" line="658"/>
         <source>Main</source>
         <translation>Головна</translation>
     </message>
     <message>
-        <location filename="../widgets/al_center_face.cc" line="211"/>
-        <location filename="../widgets/al_center_face.cc" line="336"/>
+        <location filename="../widgets/al_center_face.cc" line="232"/>
+        <location filename="../widgets/al_center_face.cc" line="357"/>
         <source>Module</source>
         <translation>Модуль</translation>
     </message>
@@ -56,23 +61,23 @@
 <context>
     <name>Browser</name>
     <message>
-        <location filename="../browser.cc" line="240"/>
-        <location filename="../browser.cc" line="247"/>
+        <location filename="../browser.cc" line="244"/>
+        <location filename="../browser.cc" line="251"/>
         <source>Quit</source>
         <translation>Вихід</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="240"/>
+        <location filename="../browser.cc" line="244"/>
         <source>Exit Alterator?</source>
         <translation>Завершити Alterator?</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="262"/>
+        <location filename="../browser.cc" line="266"/>
         <source>About</source>
         <translation>Про програму</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="262"/>
+        <location filename="../browser.cc" line="266"/>
         <source>Alterator Browser</source>
         <translation>Alterator Browser</translation>
     </message>
