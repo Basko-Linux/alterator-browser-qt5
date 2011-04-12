@@ -6,6 +6,7 @@
 #include <QStackedLayout>
 #include <QDialogButtonBox>
 #include <QToolButton>
+#include <QProcess>
 
 #include "flowlayout.h"
 #include "enums.hh"
@@ -126,6 +127,7 @@ private Q_SLOTS:
     void onSelectModule(ACSListItem*);
     void onOwerviewClicked();
     void onExpertModeToggled(bool);
+    void onExternalAppFinish(int, QProcess::ExitStatus);
 
 private:
     QSignalMapper *action_signal_mapper;
@@ -144,6 +146,7 @@ private:
     QToolButton *owerview_btn;
     QString help_source;
     QString help_source_module;
+    QProcess *external_app;
 
     QHash<QString, ACenterSection*> sections;
     QList<ACenterSection*> sections_list;

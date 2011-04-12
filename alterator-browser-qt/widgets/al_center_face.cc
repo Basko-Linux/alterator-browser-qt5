@@ -3,7 +3,6 @@
 #include <QScrollBar>
 #include <QPair>
 #include <QDir>
-#include <QProcess>
 
 #include "global.hh"
 #include "al_center_face.hh"
@@ -216,6 +215,8 @@ ACenterSectionModulesList* ACenterSection::getModulesList()
 ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     AWidget<QFrame>(parent)
 {
+    external_app = 0;
+
     setObjectName("centerface");
     setLineWidth(0);
     setFrameStyle(QFrame::Plain | QFrame::NoFrame);
@@ -639,10 +640,11 @@ void ACenterFace::onSelectModule(ACSListItem *i)
 	    if( arguments.size() > 0 )
 	    {
 		QString program = arguments.takeAt(0);
-		browser->onStartBusySplash();
-		QProcess::execute(program, arguments);
-		browser->onStopBusySplash();
-		browser->raiseBrowserWindow();
+		browser->onSplashMessageRequest(tr("External application running..."));
+		//browser->onStartBusySplash();
+		external_app = new QProcess(this);
+		connect(external_app, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onExternalAppFinish(int,QProcess::ExitStatus)));
+		external_app->start(program, arguments, QIODevice::ReadOnly);
 	    }
 	    break;
 	}
@@ -659,6 +661,14 @@ void ACenterFace::onSelectModule(ACSListItem *i)
 	    owerview_btn->setEnabled(true);
 	}
     }
+}
+
+void ACenterFace::onExternalAppFinish(int, QProcess::ExitStatus )
+{
+    delete external_app;
+    external_app = 0;
+    browser->onSplashMessageRequest("");
+    browser->raiseBrowserWindow();
 }
 
 QString ACenterFace::currentActionKey()

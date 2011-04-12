@@ -55,6 +55,7 @@ public Q_SLOTS:
     void onStartBusySplash();
     void onCheckBusySplash();
     void onStopBusySplash();
+    void onSplashMessageRequest(const QString& msg);
 
 protected:
     virtual void keyPressEvent(QKeyEvent*);
@@ -96,7 +97,6 @@ private:
     void onStartRequest(const QString& id);
     void onStopRequest(const QString& id);
     void onEventRequest(const QString& id,const QString& value);
-    void onSplashMessageRequest(const QString& msg);
     void onMessageBoxRequest(const QString& type, const QString& title,  const QString& message, QDialogButtonBox::StandardButtons buttons);
     void onFileSelectRequest(const QString& title, const QString& dir, const QString& type, const QString& mask);
 
