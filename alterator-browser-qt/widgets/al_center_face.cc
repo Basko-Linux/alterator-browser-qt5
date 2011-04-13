@@ -640,8 +640,8 @@ void ACenterFace::onSelectModule(ACSListItem *i)
 	    if( arguments.size() > 0 )
 	    {
 		QString program = arguments.takeAt(0);
-		browser->onSplashMessageRequest(tr("External application running..."));
-		//browser->onStartBusySplash();
+		browser->onSplashMessageRequest(tr("External module \"%1\" running...").arg(i->text()));
+		browser->onStartBusySplash();
 		external_app = new QProcess(this);
 		connect(external_app, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onExternalAppFinish(int,QProcess::ExitStatus)));
 		external_app->start(program, arguments, QIODevice::ReadOnly);
@@ -667,6 +667,7 @@ void ACenterFace::onExternalAppFinish(int, QProcess::ExitStatus )
 {
     delete external_app;
     external_app = 0;
+    browser->onStopBusySplash();
     browser->onSplashMessageRequest("");
     browser->raiseBrowserWindow();
 }
