@@ -24,8 +24,12 @@
     </message>
     <message>
         <location filename="../widgets/al_center_face.cc" line="643"/>
+        <source>External module &quot;%1&quot; running...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>External application running...</source>
-        <translation>Виконується зовнішня програма...</translation>
+        <translation type="obsolete">Виконується зовнішня програма...</translation>
     </message>
     <message>
         <source>Contents</source>

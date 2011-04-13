@@ -26,7 +26,7 @@
     </message>
     <message>
         <location filename="../widgets/al_center_face.cc" line="643"/>
-        <source>External application running...</source>
+        <source>External module &quot;%1&quot; running...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
