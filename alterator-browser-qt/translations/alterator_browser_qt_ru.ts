@@ -25,7 +25,7 @@
     <message>
         <location filename="../widgets/al_center_face.cc" line="643"/>
         <source>External module &quot;%1&quot; running...</source>
-        <translation type="unfinished"></translation>
+        <translation>Выполняется внешний модуль &quot;%1&quot;...</translation>
     </message>
     <message>
         <source>External application running...</source>
