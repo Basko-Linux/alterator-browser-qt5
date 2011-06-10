@@ -1,15 +1,15 @@
 Содержимое:
 -----------
-Все компоненты: QSS, style, font, Palette - опциональные.
+Все компоненты: QSS, style, font, Palette -- опциональные.
 
 QSS:
 ----
 В .qss можно использовать почти любые виджеты, имеюшиеся в исходниках browser,
-являющиеся наследниками виджетов из списка:
-`assistant-qt4 -showUrl qthelp://com.trolltech.qt.452/qdoc/stylesheet-reference.html#list-of-stylable-widgets`.
+являющиеся наследниками виджетов из списка (пакет qt4-doc):
+`assistant-qt4 -showUrl qthelp://com.trolltech.qt/qdoc/stylesheet-reference.html#list-of-stylable-widgets`.
 Т.е. наследники QWidget нельзя, но можно сделать индивидульно по запросу при необходимости.
 Использовать можно по имени класса виджета или по Qt-шному имени объекта.
-Qt-шные имена найти можно поиском функции setObjectName("имя_объекта").
+Qt-шные имена найти можно поиском функции setObjectName().
 
 Цветовая схема:
 ---------------
@@ -17,10 +17,11 @@ Qt-шные имена найти можно поиском функции setOb
 Результат будет в ~/.config/Trolltech.conf , секция [qt] параметры Palette*
 и в файлах ~/.kde4/share/apps/color-schemes/*
 Примеры цветовых схем можно взять в пакете kde4artwork-color-schemes и на http://kde-look.org/
-Храните цветовые схемы в формате KDE в качестве исходника.
+
+Заметка: Храните цветовые схемы в формате KDE в качестве исходника.
 
 Упаковка:
 ---------
 Дизайн располагается в файле /usr/share/alterator-browser-qt/design/name_of_design.rcc
 При помощи alternatives сздается ссылка на него в /etc/alterator/design-browser-qt
-Примеры в пакетах design-alterator-browser-qt-*
+Примеры в пакетах branding-*-alterator или design-alterator-browser-qt-*
