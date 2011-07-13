@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.16.2
+Version: 2.17.0
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Wed Jul 13 2011 Sergey V Turchin <zerg at altlinux dot org> 2.17.0-alt1
+- add "once" and "next" attributes for slideshow (ALT#25896)
+
 * Wed Apr 13 2011 Sergey V Turchin <zerg at altlinux dot org> 2.16.2-alt1
 - show name of running external module
 
