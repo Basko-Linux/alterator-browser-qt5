@@ -46,6 +46,11 @@ void ASlideShow::stop()
     next_slide_tmr->stop();
 }
 
+void ASlideShow::next()
+{
+    applyPixmap();
+}
+
 void ASlideShow::setOnce(bool want_once)
 {
     m_once = want_once;
@@ -143,6 +148,8 @@ void alSlideShow::setAttr(const QString& name,const QString& value)
 	wnd_->start();
     else if( "stop" == name )
 	wnd_->stop();
+    else if( "next" == name )
+	wnd_->next();
     else if( "step" == name )
     {
 	bool iok;

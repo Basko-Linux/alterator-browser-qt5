@@ -19,6 +19,7 @@ public:
     void setSource(const QString&); // start
     void start();
     void stop();
+    void next();
     void setInterval(int);
     void setOnce(bool);
 
