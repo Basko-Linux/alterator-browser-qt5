@@ -8,7 +8,7 @@
 
 Name: alterator-browser-qt
 Version: 2.17.0
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Wed Jul 13 2011 Sergey V Turchin <zerg at altlinux dot org> 2.17.0-alt2
+- remove debug messages
+
 * Wed Jul 13 2011 Sergey V Turchin <zerg at altlinux dot org> 2.17.0-alt1
 - add "once" and "next" attributes for slideshow (ALT#25896)
 

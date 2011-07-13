@@ -35,7 +35,6 @@ void ASlideShow::setInterval(int new_interval)
 
 void ASlideShow::start()
 {
-    qDebug("ASlideShow::start");
     m_continue = true;
     next_slide_tmr->start();
 }
@@ -106,7 +105,6 @@ void ASlideShow::applyPixmap()
 
 void ASlideShow::setSource(const QString &new_src_dir)
 {
-    qDebug("ASlideShow::setSource");
     src_dir_ = new_src_dir;
     images_.clear();
     QDir imgdir(new_src_dir);
