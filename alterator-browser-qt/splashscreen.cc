@@ -8,6 +8,10 @@ SplashScreen::SplashScreen(QWidget *parent):
 {
     setObjectName("splash_screen");
 
+    setFrameStyle(QFrame::NoFrame);
+    setAttribute(Qt::WA_NoSystemBackground);
+    setAttribute(Qt::WA_TranslucentBackground);
+
     QHBoxLayout *lay = new QHBoxLayout(view());
     lay->setMargin(0);
     QLayout *l = layout();
