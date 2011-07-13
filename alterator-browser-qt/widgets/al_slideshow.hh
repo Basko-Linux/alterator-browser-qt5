@@ -17,8 +17,10 @@ public:
     ~ASlideShow();
 
     void setSource(const QString&); // start
+    void start();
     void stop();
     void setInterval(int);
+    void setOnce(bool);
 
 public Q_SLOTS:
     void applyPixmap();
@@ -29,6 +31,8 @@ private:
     QStringList images_;
     QStringListIterator *current_img_;
     QImage current_image_;
+    bool m_continue;
+    bool m_once;
 };
 
 class alSlideShow: public alWidgetPre<ASlideShow>

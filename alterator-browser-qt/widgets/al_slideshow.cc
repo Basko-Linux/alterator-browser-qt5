@@ -3,17 +3,22 @@
 
 #include "al_slideshow.hh"
 
+#define SLIDESHOW_INTERVAL_DEF 8000
+#define SLIDESHOW_INTERVAL_MIN 1000
+
 // ASlideShow
 ASlideShow::ASlideShow(QWidget *parent, const Qt::Orientation):
     AWidget<QLabel>(parent)
 {
     current_img_ = 0;
+    m_continue = false;
+    m_once = false;
 
     setAlignment( Qt::AlignCenter );
 
     next_slide_tmr = new QTimer(this);
     next_slide_tmr->setSingleShot(true);
-    next_slide_tmr->setInterval(8000);
+    next_slide_tmr->setInterval(SLIDESHOW_INTERVAL_DEF);
 
     connect(next_slide_tmr, SIGNAL(timeout()), this, SLOT(applyPixmap()));
 }
@@ -24,15 +29,26 @@ ASlideShow::~ASlideShow()
 
 void ASlideShow::setInterval(int new_interval)
 {
-    if( new_interval > 0 )
-	next_slide_tmr->setInterval(new_interval);
-    else
-	next_slide_tmr->stop();
+    if( new_interval > SLIDESHOW_INTERVAL_MIN * 1000 )
+	next_slide_tmr->setInterval(new_interval * 1000);
+}
+
+void ASlideShow::start()
+{
+    qDebug("ASlideShow::start");
+    m_continue = true;
+    next_slide_tmr->start();
 }
 
 void ASlideShow::stop()
 {
+    m_continue = false;
     next_slide_tmr->stop();
+}
+
+void ASlideShow::setOnce(bool want_once)
+{
+    m_once = want_once;
 }
 
 void ASlideShow::applyPixmap()
@@ -40,7 +56,14 @@ void ASlideShow::applyPixmap()
 	if( current_img_ )
 	{
 	    if( !current_img_->hasNext() )
+	    {
+		if( m_once )
+		{
+		    stop();
+		    return;
+		}
 		current_img_->toFront();
+	    }
 	    QString imgfile = src_dir_ + QDir::separator() + current_img_->next();
 
 	    if( movie() )
@@ -71,12 +94,14 @@ void ASlideShow::applyPixmap()
 		    }
 		    else
 			qDebug("Unknown file: %s", qPrintable(imgfile));
-		    next_slide_tmr->start();
+		
+		    if( m_continue ) start();
 	}
 }
 
 void ASlideShow::setSource(const QString &new_src_dir)
 {
+    qDebug("ASlideShow::setSource");
     src_dir_ = new_src_dir;
     images_.clear();
     QDir imgdir(new_src_dir);
@@ -90,13 +115,11 @@ void ASlideShow::setSource(const QString &new_src_dir)
 	current_img_ = new QStringListIterator(images_);
 	current_img_->toFront();
     }
+
     if( images_.size() > 0 )
-    {
-	//next_slide_tmr->start();
 	QTimer::singleShot(0, this, SLOT(applyPixmap()));
-    }
     else
-	next_slide_tmr->stop();
+	stop();
 }
 
 // alSlideShow
@@ -114,10 +137,12 @@ void alSlideShow::setAttr(const QString& name,const QString& value)
 {
     if( "url" == name || "text" == name )
         wnd_->setSource(value);
+    if( "once" == name )
+        wnd_->setOnce( "false" != value );
     else if( "start" == name )
-	wnd_->setInterval(-1);
+	wnd_->start();
     else if( "stop" == name )
-	wnd_->setInterval(0);
+	wnd_->stop();
     else if( "step" == name )
     {
 	bool iok;
