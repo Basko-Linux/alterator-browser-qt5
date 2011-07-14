@@ -29,7 +29,7 @@ ASlideShow::~ASlideShow()
 
 void ASlideShow::setInterval(int new_interval)
 {
-    if( new_interval > SLIDESHOW_INTERVAL_MIN * 1000 )
+    if( new_interval * 1000 > SLIDESHOW_INTERVAL_MIN )
 	next_slide_tmr->setInterval(new_interval * 1000);
 }
 

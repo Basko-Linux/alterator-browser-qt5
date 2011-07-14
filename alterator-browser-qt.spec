@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.17.1
+Version: 2.17.2
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Thu Jul 14 2011 Sergey V Turchin <zerg at altlinux dot org> 2.17.2-alt1
+- fix slideshow "step" attribute
+
 * Wed Jul 13 2011 Sergey V Turchin <zerg at altlinux dot org> 2.17.1-alt1
 - clean splashscreen borders
 
