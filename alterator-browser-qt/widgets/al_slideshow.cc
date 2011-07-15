@@ -50,6 +50,20 @@ void ASlideShow::next()
     applyPixmap();
 }
 
+void ASlideShow::prev()
+{
+	if( current_img_ )
+	{
+	    if( current_img_->hasPrevious() )
+		current_img_->previous();
+	    if( current_img_->hasPrevious() )
+		current_img_->previous();
+	    else
+		current_img_->toFront();
+	    applyPixmap();
+	}
+}
+
 void ASlideShow::setOnce(bool want_once)
 {
     m_once = want_once;
@@ -148,6 +162,8 @@ void alSlideShow::setAttr(const QString& name,const QString& value)
 	wnd_->stop();
     else if( "next" == name )
 	wnd_->next();
+    else if( "prev" == name )
+	wnd_->prev();
     else if( "step" == name )
     {
 	bool iok;

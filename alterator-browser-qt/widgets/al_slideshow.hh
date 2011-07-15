@@ -20,6 +20,7 @@ public:
     void start();
     void stop();
     void next();
+    void prev();
     void setInterval(int);
     void setOnce(bool);
 
