@@ -127,10 +127,13 @@ void ASlideShow::setSource(const QString &new_src_dir)
 	QStringList name_filters;
 	name_filters << "*.jpg" << "*.png" << "*.gif" << "*.mng";
 	images_ = imgdir.entryList(name_filters, QDir::Files|QDir::NoDotAndDotDot|QDir::Readable, QDir::Name);
+	if( current_img_ )
+	{
+	    delete current_img_;
+	    current_img_ = 0;
+	}
 	if( images_.size() > 0 )
 	{
-	    if( current_img_ )
-		delete current_img_;
 	    current_img_ = new QStringListIterator(images_);
 	    current_img_->toFront();
 	}

@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.18.1
+Version: 2.18.2
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Fri Jul 15 2011 Sergey V Turchin <zerg at altlinux dot org> 2.18.2-alt1
+- fix iterator when changing dirs in slideshow
+
 * Fri Jul 15 2011 Sergey V Turchin <zerg at altlinux dot org> 2.18.1-alt1
 - fix crash on switch to next image in slideshow when stc dir empty
 
