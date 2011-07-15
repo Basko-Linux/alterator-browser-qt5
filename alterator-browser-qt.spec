@@ -7,7 +7,7 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.17.2
+Version: 2.18.0
 Release: alt1
 
 Source:%name-%version.tar
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Fri Jul 15 2011 Sergey V Turchin <zerg at altlinux dot org> 2.18.0-alt1
+- add "prev" attribute for slideshow
+
 * Thu Jul 14 2011 Sergey V Turchin <zerg at altlinux dot org> 2.17.2-alt1
 - fix slideshow "step" attribute
 
