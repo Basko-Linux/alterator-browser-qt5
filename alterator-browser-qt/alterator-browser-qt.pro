@@ -14,6 +14,7 @@ TEMPLATE = app
 QT += xml network
 QMAKE_CXXFLAGS += -pedantic $(RPM_OPT_FLAGS)
 #CXXFLAGS_DEBUG += -g -O0 -march=i586
+LIBS += -lX11
 PRECOMPILED_DIR = .pch/
 OBJECTS_DIR = .obj
 MOC_DIR = .moc
