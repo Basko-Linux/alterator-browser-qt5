@@ -8,7 +8,7 @@
 
 Name: alterator-browser-qt
 Version: 2.18.2
-Release: alt1
+Release: alt2
 
 Source:%name-%version.tar
 
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Thu Jun 14 2012 Sergey V Turchin <zerg at altlinux dot org> 2.18.2-alt2
+- fix to build with gcc-4.6
+
 * Fri Jul 15 2011 Sergey V Turchin <zerg at altlinux dot org> 2.18.2-alt1
 - fix iterator when changing dirs in slideshow
 
