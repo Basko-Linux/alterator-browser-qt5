@@ -66,7 +66,7 @@ Browser::Browser():
     app_translator = 0;
     started = false;
     in_quit = false;
-    detect_wm = false;
+    detect_wm_done = false;
     help_available = true;
     central_widget = 0;
     central_layout = 0;
@@ -270,7 +270,7 @@ void Browser::about()
 
 bool Browser::haveWindowManager()
 {
-    if( detect_wm )
+    if( detect_wm_done )
 	return have_wm;
 
 	have_wm = false;
@@ -292,7 +292,7 @@ bool Browser::haveWindowManager()
 	else
 	    qDebug("No Window Manager detected");
 #endif
-    detect_wm = true;
+    detect_wm_done = true;
     return have_wm;
 }
 

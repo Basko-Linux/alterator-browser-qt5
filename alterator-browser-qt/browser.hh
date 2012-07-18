@@ -70,7 +70,7 @@ private:
     bool started;
     bool in_quit;
     bool have_wm;
-    bool detect_wm;
+    bool detect_wm_done;
     HelpBrowser *help_browser;
     bool internal_splash;
     bool alterator_splash;
