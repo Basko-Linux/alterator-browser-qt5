@@ -97,25 +97,6 @@ Browser::Browser():
     central_layout->setStackingMode(QStackedLayout::StackAll);
     setCentralWidget(central_widget);
 
-    // startup animation
-    startup_splash = new QLabel(this);
-    startup_splash->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
-    startup_splash->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-    startup_splash->setAlignment( Qt::AlignCenter );
-    startup_splash->setCursor(Qt::BlankCursor);
-    central_layout->addWidget(startup_splash);
-
-    QString startup_splash_file = ":/design/whirl.mng";
-    if( !QFile::exists(startup_splash_file) )
-	startup_splash_file = ":/images/whirl.mng";
-    QMovie *anim = new QMovie(startup_splash_file, QByteArray(), startup_splash);
-    if( anim->isValid() )
-    {
-	startup_splash->setMovie(anim);
-	anim->start();
-    }
-
-    help_browser = new HelpBrowser(this);
     have_wm = haveWindowManager();
     if( have_wm )
     {
@@ -137,6 +118,26 @@ Browser::Browser():
     }
     else
 	setFullScreen(true);
+
+    // startup animation
+    startup_splash = new QLabel(this);
+    startup_splash->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
+    startup_splash->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    startup_splash->setAlignment( Qt::AlignCenter );
+    startup_splash->setCursor(Qt::BlankCursor);
+    central_layout->addWidget(startup_splash);
+
+    QString startup_splash_file = ":/design/whirl.mng";
+    if( !QFile::exists(startup_splash_file) )
+	startup_splash_file = ":/images/whirl.mng";
+    QMovie *anim = new QMovie(startup_splash_file, QByteArray(), startup_splash);
+    if( anim->isValid() )
+    {
+	startup_splash->setMovie(anim);
+	anim->start();
+    }
+
+    help_browser = new HelpBrowser(this);
 
     connect(QApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(stop()));
     QTimer::singleShot(0, this, SLOT(start()));
