@@ -71,6 +71,7 @@ Browser::Browser():
     help_available = true;
     central_widget = 0;
     central_layout = 0;
+    m_color_window_default = palette().window().color();
     widgetlist = new WidgetList(this);
     pixmap_paths
 	<< ":/design/"
@@ -117,7 +118,14 @@ Browser::Browser():
 	resize(wnd_width,wnd_height);
     }
     else
+    {
 	setFullScreen(true);
+#if 0
+	QPalette pal = palette();
+	pal.setColor(QPalette::Window, QColor(0,0,0));
+	setPalette(pal);
+#endif
+    }
 
     // startup animation
     startup_splash = new QLabel(this);
@@ -1029,4 +1037,9 @@ QString Browser::shortLang()
     }
 
     return m_shortlang;
+}
+
+QColor Browser::defaultWindowColor()
+{
+    return m_color_window_default;
 }

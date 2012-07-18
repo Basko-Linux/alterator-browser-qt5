@@ -40,6 +40,7 @@ public:
     QString shortLang();
     static void unixSignalHandler(int);
     static QString createTmpDir(const QString& = QString());
+    QColor defaultWindowColor();
 
 Q_SIGNALS:
     void languageChanged();
@@ -62,6 +63,7 @@ protected:
     virtual void closeEvent(QCloseEvent*);
 
 private:
+    QColor m_color_window_default;
     QString m_shortlang;
     Connection *connection;
     QTranslator *qtranslator;
