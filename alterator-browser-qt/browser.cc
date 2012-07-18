@@ -67,6 +67,7 @@ Browser::Browser():
     started = false;
     in_quit = false;
     detect_wm_done = false;
+    have_wm = false;
     help_available = true;
     central_widget = 0;
     central_layout = 0;
@@ -97,8 +98,7 @@ Browser::Browser():
     central_layout->setStackingMode(QStackedLayout::StackAll);
     setCentralWidget(central_widget);
 
-    have_wm = haveWindowManager();
-    if( have_wm )
+    if( haveWindowManager() )
     {
 	QRect desktop_geom  = QApplication::desktop()->geometry();
 	int wnd_recom_width = (int)(desktop_geom.width()/1.5);
