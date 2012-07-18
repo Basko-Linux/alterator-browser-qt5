@@ -8,7 +8,7 @@
 
 Name: alterator-browser-qt
 Version: 2.18.3
-Release: alt1
+Release: alt0.M60P.1
 
 Source:%name-%version.tar
 
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Wed Jul 18 2012 Sergey V Turchin <zerg at altlinux dot org> 2.18.3-alt0.M60P.1
+- built for M60P
+
 * Wed Jul 18 2012 Sergey V Turchin <zerg at altlinux dot org> 2.18.3-alt1
 - open urls from textbox and help browser by external browser
 - set initial black background if no window manager
