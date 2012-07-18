@@ -120,11 +120,9 @@ Browser::Browser():
     else
     {
 	setFullScreen(true);
-#if 0
 	QPalette pal = palette();
 	pal.setColor(QPalette::Window, QColor(0,0,0));
 	setPalette(pal);
-#endif
     }
 
     // startup animation
@@ -449,6 +447,12 @@ void Browser::onAlteratorRequest(const AlteratorRequest& request)
 	{
 	    delete startup_splash;
 	    startup_splash = 0;
+	}
+	if( !haveWindowManager() )
+	{
+	    QPalette pal = palette();
+	    pal.setColor(QPalette::Window, m_color_window_default);
+	    setPalette(pal);
 	}
     }
 
@@ -1037,9 +1041,4 @@ QString Browser::shortLang()
     }
 
     return m_shortlang;
-}
-
-QColor Browser::defaultWindowColor()
-{
-    return m_color_window_default;
 }
