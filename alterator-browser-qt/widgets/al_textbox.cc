@@ -1,3 +1,7 @@
+#include <pwd.h>
+#include <QFileInfo>
+#include <QProcess>
+#include <QDesktopServices>
 
 #include "utils.hh"
 #include "al_textbox.hh"
@@ -16,6 +20,8 @@ ATextBox::ATextBox(QWidget *parent, const Qt::Orientation):
     edit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     edit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    edit->setOpenExternalLinks(false);
+    edit->setOpenLinks(false);
     connect( edit, SIGNAL( anchorClicked(const QUrl&) ), this, SLOT( execLink( const QUrl& ) ) );
     connect(edit, SIGNAL(textChanged()), this, SIGNAL(textEdited()));
 
@@ -30,9 +36,40 @@ ATextBox::ATextBox(QWidget *parent, const Qt::Orientation):
 
 ATextBox::~ATextBox() {}
 
-void ATextBox::execLink(const QUrl&)
+void ATextBox::execLink(const QUrl &url)
 {
-    edit->reload();
+    if( url.scheme() == "http" || url.scheme() == "https" || url.scheme() == "ftp" || url.scheme() == "mailto" )
+    {
+	int loginuid = 0;
+	if( getuid() == 0 )
+	{
+	    int pid = getpid();
+	    QString proc_path = QString("/proc/%1/loginuid").arg(pid);
+	    if( QFileInfo(proc_path).exists() )
+	    {
+		QFile proc_file(proc_path);
+		QString proc_content;
+		if( proc_file.open(QIODevice::ReadOnly) )
+		    proc_content = proc_file.readLine().trimmed();
+		if( !proc_content.isEmpty() )
+		{
+		    bool ok;
+		    loginuid = proc_content.toInt(&ok, 10);
+		    if( !ok )
+			loginuid = 0;
+		}
+	    }
+	}
+	if( loginuid > 0 )
+	{
+	    struct passwd *pwd = getpwuid(loginuid);
+	    QProcess::startDetached("su", QStringList() << "-l" << "-c" << QString("xdg-open \'").append(url.toString()).append("\'") << pwd->pw_name );
+	} else {
+	    QDesktopServices::openUrl(url);
+	}
+    }
+    else
+	edit->setSource(url);
 }
 
 void ATextBox::setText(const QString& txt)

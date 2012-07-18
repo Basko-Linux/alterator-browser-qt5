@@ -1,7 +1,11 @@
 
+#include <pwd.h>
+
 #include <QScrollBar>
 #include <QProcess>
 #include <QApplication>
+#include <QFileInfo>
+#include <QDesktopServices>
 
 #include "browser.hh"
 #include "browser.hh"
@@ -21,6 +25,8 @@ HelpWidget::HelpWidget(QWidget *parent):
     gridLayout->setSpacing(5);
     gridLayout->setMargin(5);
     textBrowser = new QTextBrowser(this);
+    textBrowser->setOpenExternalLinks(false);
+    textBrowser->setOpenLinks(false);
 
     buttonBox = new QDialogButtonBox(this);
     buttonBox->setOrientation(Qt::Horizontal);
@@ -43,7 +49,7 @@ HelpWidget::HelpWidget(QWidget *parent):
 
     connect(buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(onButtonPressed(QAbstractButton*)));
     connect(textBrowser, SIGNAL(anchorClicked(const QUrl&)),
-	    textBrowser, SLOT(setSource(const QUrl&)));
+	    this, SLOT(execLink(const QUrl&)));
 }
 
 HelpWidget::~HelpWidget() {}
@@ -74,7 +80,7 @@ void HelpWidget::setHelpSource(const QString& url)
     }
 }
 
-void HelpWidget::showEvent(QShowEvent *e)
+void HelpWidget::showEvent(QShowEvent*)
 {
     if( vscroll_position > 1 )
 	textBrowser->verticalScrollBar()->setValue(vscroll_position);
@@ -92,37 +98,38 @@ void HelpWidget::setVerticalScrollPosition(int pos)
 
 void HelpWidget::execLink(const QUrl &url)
 {
-    QString prog_command;
-    if( url.scheme() == "http" || url.scheme() == "https" || url.scheme() == "ftp" )
+    if( url.scheme() == "http" || url.scheme() == "https" || url.scheme() == "ftp" || url.scheme() == "mailto" )
     {
-	prog_command = getenv("HELP_BROWSER");
-	if( prog_command.isEmpty() )
+	int loginuid = 0;
+	if( getuid() == 0 )
 	{
-	    qWarning("%s", qPrintable(tr("HELP_BROWSER environment variable is empty")));
-	    prog_command = getenv("BROWSER");
-	    if( prog_command.isEmpty() )
-		qWarning("%s", qPrintable(tr("BROWSER environment variable is empty")));
+	    int pid = getpid();
+	    QString proc_path = QString("/proc/%1/loginuid").arg(pid);
+	    if( QFileInfo(proc_path).exists() )
+	    {
+		QFile proc_file(proc_path);
+		QString proc_content;
+		if( proc_file.open(QIODevice::ReadOnly) )
+		    proc_content = proc_file.readLine().trimmed();
+		if( !proc_content.isEmpty() )
+		{
+		    bool ok;
+		    loginuid = proc_content.toInt(&ok, 10);
+		    if( !ok )
+			loginuid = 0;
+		}
+	    }
+	}
+	if( loginuid > 0 )
+	{
+	    struct passwd *pwd = getpwuid(loginuid);
+	    QProcess::startDetached("su", QStringList() << "-l" << "-c" << QString("xdg-open \'").append(url.toString()).append("\'") << pwd->pw_name );
+	} else {
+	    QDesktopServices::openUrl(url);
 	}
     }
-    else if( url.scheme() == "mailto" )
-    {
-	prog_command = getenv("MAILER");
-	if( prog_command.isEmpty() )
-	    qWarning("%s", qPrintable(tr("MAILER environment variable is empty")));
-    }
-    textBrowser->reload();
-    
-    if( prog_command.isEmpty() )
-    {
-	prog_command = "url_handler.sh";
-	//qDebug("Set prog_command to %s", qPrintable(prog_command));
-    }
-    
-    QProcess *prog_proc = new QProcess(this);
-    QStringList prog_args = prog_command.split(" ", QString::SkipEmptyParts);
-    prog_args << url.toString() ;
-    QString prog_name = prog_args.takeFirst();
-    prog_proc->start(prog_name, prog_args);
+    else
+	textBrowser->setSource(url);
 }
 
 void HelpWidget::onButtonPressed(QAbstractButton *btn)
