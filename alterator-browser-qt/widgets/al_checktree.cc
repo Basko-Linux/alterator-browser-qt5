@@ -83,7 +83,7 @@ void ACheckTree::addRow(const QStringList &data)
 	QList<QTreeWidgetItem*> items(orphaned.values(item_id));
 	if( items.size() > 0 )
 	{
-	    foreach(QTreeWidgetItem *i, items)
+	    Q_FOREACH(QTreeWidgetItem *i, items)
 		item->addChild(i);
 	    orphaned.remove(item_id);
 	}
@@ -247,7 +247,7 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	else if ("expand-rows" == name)
 	{
 	    QStringList data = value.split(";");
-	    foreach(QString id, data)
+	    Q_FOREACH(QString id, data)
 	    {
 		QTreeWidgetItem* item = wnd_->lookupItem(id);
 		if( item )
@@ -257,7 +257,7 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	else if ("collapse-rows" == name)
 	{
 	    QStringList data = value.split(";");
-	    foreach(QString id, data)
+	    Q_FOREACH(QString id, data)
 	    {
 		QTreeWidgetItem* item = wnd_->lookupItem(id);
 		if( item )
@@ -363,7 +363,7 @@ QString alCheckTree::postData() const
         
     // Current checked elements
     ret.append(" (current-rows . (");
-    foreach(QString item, wnd_->getChecked())
+    Q_FOREACH(QString item, wnd_->getChecked())
     {
 	ret.append(QString(" \"%1\"").arg(item));
     }

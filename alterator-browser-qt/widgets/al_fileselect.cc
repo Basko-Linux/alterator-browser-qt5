@@ -72,7 +72,7 @@ void AFileSelect::showDialog()
     QFileDialog::ViewMode view_mode = QFileDialog::Detail;
     QFileDialog::FileMode file_mode = QFileDialog::AnyFile;
     QFileDialog::AcceptMode accept_mode = QFileDialog::AcceptOpen;
-    foreach(QString option, dlg_opts.split(";",QString::SkipEmptyParts))
+    Q_FOREACH(QString option, dlg_opts.split(";",QString::SkipEmptyParts))
     {
 	if( option == "show_dirs_only" )
 	    { options = options | QFileDialog::ShowDirsOnly; }

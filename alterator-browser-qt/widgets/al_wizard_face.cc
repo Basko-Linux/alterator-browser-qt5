@@ -200,7 +200,7 @@ void AWizardFaceStepList::removeAt(int n)
 
 void AWizardFaceStepList::clear()
 {
-    foreach( AWizardFaceListItemPriv litem, lst)
+    Q_FOREACH( AWizardFaceListItemPriv litem, lst)
     {
 	if( litem.second )
 	{

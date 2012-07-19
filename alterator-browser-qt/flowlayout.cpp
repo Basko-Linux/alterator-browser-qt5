@@ -149,7 +149,7 @@ QSize FlowLayout::minimumSize() const
 {
     QSize size;
     QLayoutItem *item;
-    foreach (item, itemList)
+    Q_FOREACH(item, itemList)
         size = size.expandedTo(item->minimumSize());
 
     size += QSize(2*margin(), 2*margin());
@@ -170,7 +170,7 @@ int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
 
 //! [10]
     QLayoutItem *item;
-    foreach (item, itemList) {
+    Q_FOREACH(item, itemList) {
         QWidget *wid = item->widget();
         int spaceX = horizontalSpacing();
         if (spaceX == -1)

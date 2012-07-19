@@ -134,7 +134,7 @@ void Popup::keyPressEvent(QKeyEvent* e)
 	{
 	    bool btn_clicked = false;
 	    QList<QAbstractButton*> abuttons = findChildren<QAbstractButton*>();
-	    foreach(QAbstractButton* btn, abuttons)
+	    Q_FOREACH(QAbstractButton* btn, abuttons)
 	    {
 		if( btn->hasFocus() )
 		{
@@ -145,7 +145,7 @@ void Popup::keyPressEvent(QKeyEvent* e)
 	    if( !btn_clicked )
 	    {
 		QList<QPushButton*> pbuttons = findChildren<QPushButton*>();
-		foreach(QPushButton *pbtn, pbuttons)
+		Q_FOREACH(QPushButton *pbtn, pbuttons)
 		{
 		    if( pbtn->isDefault() )
 			pbtn->click();

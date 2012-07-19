@@ -21,7 +21,7 @@ QString reparentTag(const QString &parent)
 Qt::Alignment convertAlign(const QString& value)
 {
     Qt::Alignment a = 0;
-    foreach(QString salign, value.split(";", QString::SkipEmptyParts))
+    Q_FOREACH(QString salign, value.split(";", QString::SkipEmptyParts))
     {
 	if 	("left" == salign)	a |= Qt::AlignLeft;
 	else if ("right" == salign)	a |= Qt::AlignRight;

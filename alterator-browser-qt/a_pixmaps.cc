@@ -51,7 +51,7 @@ QPixmap APEButtonPixmapGenerator::operator()()
 QPixmap AFilePixmapGenerator::operator()()
 {
     QPixmap px;
-    foreach(QString images_path, pixmap_paths)
+    Q_FOREACH(QString images_path, pixmap_paths)
     {
 	QString pixpath;
 	if(px.isNull())

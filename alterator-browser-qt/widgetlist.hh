@@ -33,7 +33,7 @@ public:
 template <typename T>
     QList<QWidget*> viewVidgetsByQWidgetType(AlteratorWidgetType t = WUnknown) {
 	QList<QWidget*> ret;
-	foreach(alWidget *aw, elements) {
+	Q_FOREACH(alWidget *aw, elements) {
 	    if( t == WUnknown || t == aw->type() )
 	    {
 		QWidget *w = aw->getWidget();
@@ -51,7 +51,7 @@ template <typename T>
 template <typename T>
     QList<T> aWidgetsByType(AlteratorWidgetType t = WUnknown) {
 	QList<T> ret;
-	foreach(alWidget *aw, elements) {
+	Q_FOREACH(alWidget *aw, elements) {
 	    if( t == WUnknown || t == aw->type() )
 	    {
 		T w = qobject_cast<T>(aw->getWidget());

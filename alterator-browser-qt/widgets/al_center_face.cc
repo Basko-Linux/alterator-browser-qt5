@@ -550,7 +550,7 @@ void ACenterFace::clearSections()
     sections.clear();
     sections_list.clear();
 
-    foreach(ACenterSection *dead, dead_sections)
+    Q_FOREACH(ACenterSection *dead, dead_sections)
     {
 	delete dead;
 	dead = 0;
@@ -700,10 +700,10 @@ void ACenterFace::onExpertModeToggled(bool on)
 void ACenterFace::sortTabOrder()
 {
     QWidget *first = 0;
-    foreach(ACenterSection *section, sections_list)
+    Q_FOREACH(ACenterSection *section, sections_list)
     {
 	ACenterSectionModulesList *modlist = section->getModulesList();
-	foreach(ACSListItem *module_item, modlist->getItems())
+	Q_FOREACH(ACSListItem *module_item, modlist->getItems())
 	{
 	    QWidget *second = module_item;
 	    if( second->focusProxy() )

@@ -582,7 +582,7 @@ void Browser::onAlteratorRequest(const AlteratorRequest& request)
     if( request.flags & AlteratorRequestCenterFaceModuleSelected )
     {
 	QList<QWidget*> cf_views = widgetlist->viewVidgetsByQWidgetType<ACenterFace*>(WCenterFace);
-	foreach(QWidget *w, cf_views )
+	Q_FOREACH(QWidget *w, cf_views )
 	    w->show();
     }
 
@@ -750,7 +750,7 @@ void Browser::onFileSelectRequest(const QString& title, const QString& dir, cons
     QFileDialog::ViewMode view_mode = QFileDialog::Detail;
     QFileDialog::FileMode file_mode = QFileDialog::AnyFile;
     QFileDialog::AcceptMode accept_mode = QFileDialog::AcceptOpen;
-    foreach(QString option, type.split(";",QString::SkipEmptyParts))
+    Q_FOREACH(QString option, type.split(";",QString::SkipEmptyParts))
     {
 	if( option == "show_dirs_only" )
 	    { options = options | QFileDialog::ShowDirsOnly; }
@@ -839,7 +839,7 @@ void Browser::getDocument(const QString& request)
 
 void Browser::onStartBusySplash()
 {
-    foreach (QWidget *widget, QApplication::topLevelWidgets()) {
+    Q_FOREACH(QWidget *widget, QApplication::topLevelWidgets()) {
 	widget->setCursor(Qt::WaitCursor);
     }
 }
@@ -851,7 +851,7 @@ void Browser::onCheckBusySplash()
 
 void Browser::onStopBusySplash()
 {
-    foreach (QWidget *widget, QApplication::topLevelWidgets()) {
+    Q_FOREACH(QWidget *widget, QApplication::topLevelWidgets()) {
 	widget->unsetCursor();
     }
 }

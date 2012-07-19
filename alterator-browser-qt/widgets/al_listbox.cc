@@ -219,12 +219,12 @@ void AListBox::onSelectionChanged()
 	    case RadioListBox:
 	    {
 		QList<QTreeWidgetItem*> selected_items = selectedItems();
-		foreach(QTreeWidgetItem *i, selected_items)
+		Q_FOREACH(QTreeWidgetItem *i, selected_items)
 		{
 		    if( !selected_items_old.contains(i) )
 			i->setIcon(0, getPixmap((list_type == CheckListBox)?"theme:check-on":"theme:radio-on"));
 		}
-		foreach(QTreeWidgetItem *oi, selected_items_old)
+		Q_FOREACH(QTreeWidgetItem *oi, selected_items_old)
 		{
 		    if( !selected_items.contains(oi) )
 			oi->setIcon(0, getPixmap((list_type == CheckListBox)?"theme:check-off":"theme:radio-off"));
@@ -310,7 +310,7 @@ void alListBox::setAttr(const QString& name,const QString& value)
 		    data.clear();
 		    data << sfirst;
 		}
-		foreach(QString sidx, data)
+		Q_FOREACH(QString sidx, data)
 		{
 		    bool ok;
 		    int idx = sidx.toInt(&ok);
@@ -332,7 +332,7 @@ void alListBox::setAttr(const QString& name,const QString& value)
 	    if( n == data.size() )
 	    {
 		int i = 0;
-		foreach(QString sidx, data)
+		Q_FOREACH(QString sidx, data)
 		{
 		    QTreeWidgetItem* item = wnd_->topLevelItem(i);
 		    if( item )
@@ -405,7 +405,7 @@ QString alListBox::postData() const
 	{
 	    QString cur_rows;
 	    QList<QTreeWidgetItem*> selected_items = wnd_->selectedItems();
-	    foreach(QTreeWidgetItem* item, selected_items)
+	    Q_FOREACH(QTreeWidgetItem* item, selected_items)
 	    {
 		cur_rows.append(QString(" %1").arg(wnd_->indexOfTopLevelItem(item)));
 	    }

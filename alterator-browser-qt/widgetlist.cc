@@ -191,7 +191,7 @@ void WidgetList::deleteChildrenById(const QString& id)
 {
     if(!id.isEmpty())
     {
-	foreach(alWidget *child, alChildrenById(id))
+	Q_FOREACH(alWidget *child, alChildrenById(id))
 	{
 	    child->show(false);
 	    destroyLater(child->getId());
