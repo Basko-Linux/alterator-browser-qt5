@@ -19,7 +19,7 @@ Packager: Sergey V Turchin <zerg at altlinux dot org>
 
 Requires: alterator-common >= 2.9-alt0.14
 Requires: alterator-icons
-PreReq(post,preun): alternatives >= 0.2
+PreReq(post,preun): alternatives >= 0.2 /usr/bin/xdg-open
 
 Provides: alterator-browser
 Provides: alterator-browser-x11
