@@ -1,5 +1,3 @@
-#include <unistd.h>
-#include <pwd.h>
 
 #include <QFileInfo>
 #include <QProcess>
@@ -42,33 +40,7 @@ void ATextBox::execLink(const QUrl &url)
 {
     if( url.scheme() == "http" || url.scheme() == "https" || url.scheme() == "ftp" || url.scheme() == "mailto" )
     {
-	int loginuid = 0;
-	if( getuid() == 0 )
-	{
-	    int pid = getpid();
-	    QString proc_path = QString("/proc/%1/loginuid").arg(pid);
-	    if( QFileInfo(proc_path).exists() )
-	    {
-		QFile proc_file(proc_path);
-		QString proc_content;
-		if( proc_file.open(QIODevice::ReadOnly) )
-		    proc_content = proc_file.readLine().trimmed();
-		if( !proc_content.isEmpty() )
-		{
-		    bool ok;
-		    loginuid = proc_content.toInt(&ok, 10);
-		    if( !ok )
-			loginuid = 0;
-		}
-	    }
-	}
-	if( loginuid > 0 )
-	{
-	    struct passwd *pwd = getpwuid(loginuid);
-	    QProcess::startDetached("su", QStringList() << "-l" << "-c" << QString("xdg-open \'").append(url.toString()).append("\'") << pwd->pw_name );
-	} else {
-	    QDesktopServices::openUrl(url);
-	}
+	Utils::openUrl(url);
     }
     else
 	edit->setSource(url);

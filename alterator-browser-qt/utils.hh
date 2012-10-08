@@ -16,6 +16,7 @@ namespace Utils
     void fixWmlessPopupCursor(QWidget*);
     Qt::Orientation fixOrientation(Qt::Orientation value, Qt::Orientation def_value = Qt::Vertical);
     Qt::Orientation convertOrientation(const QString&);
+    void openUrl(const QUrl &url);
 }
 
 #endif
