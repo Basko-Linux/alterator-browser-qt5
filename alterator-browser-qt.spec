@@ -7,8 +7,8 @@
 %define alterator_cfg %_sysconfdir/alterator
 
 Name: alterator-browser-qt
-Version: 2.18.3
-Release: alt0.M60P.1
+Version: 2.18.4
+Release: alt1
 
 Source:%name-%version.tar
 
@@ -82,6 +82,9 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 
 %changelog
+* Mon Oct 08 2012 Sergey V Turchin <zerg at altlinux dot org> 2.18.4-alt1
+- fix to build with gcc 4.7
+
 * Wed Jul 18 2012 Sergey V Turchin <zerg at altlinux dot org> 2.18.3-alt0.M60P.1
 - built for M60P
 
