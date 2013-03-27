@@ -133,7 +133,15 @@ QString ACheckTree::current()
     // Return current selected item
     QList<QTreeWidgetItem*> items(selectedItems());
     if( items.size() > 0 )
+    {
 	return items.first()->data(0, ACHECKTREE_ID_ROLE).toString();
+    }
+    else
+    {
+	QTreeWidgetItem *item(currentItem());
+	if( item )
+	    return item->data(0, ACHECKTREE_ID_ROLE).toString();
+    }
     return QString();
 }
 
