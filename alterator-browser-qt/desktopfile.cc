@@ -43,6 +43,6 @@ QVariant DesktopFile::translatedValue(const QString &key, const QVariant &defaul
 {
     QVariant val(value(QString(key+"["+m_lng+"]"), defaultValue));
     if( val == QVariant() )
-	val == value(key, defaultValue);
+	val = value(key, defaultValue);
     return val;
 }
