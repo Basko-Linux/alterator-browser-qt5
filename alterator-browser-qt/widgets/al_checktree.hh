@@ -32,6 +32,7 @@ public:
 
 public Q_SLOTS:
 	void onChange(QTreeWidgetItem*, int);
+	void onSelect(QTreeWidgetItem*, QTreeWidgetItem*);
 	void onExpand(QTreeWidgetItem *item);
 
 protected:
@@ -40,10 +41,12 @@ protected:
 
 private Q_SLOTS:
 	void onChangeDeferred();
+	void onSelectDeferred();
 
 private:
 	QMultiHash<QString,QTreeWidgetItem*> orphaned;
 	QTimer *m_changed_timer;
+	QTimer *m_selected_timer;
 	bool processed_parents;
 	bool processed_children;
 };
