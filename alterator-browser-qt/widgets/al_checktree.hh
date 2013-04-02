@@ -43,9 +43,9 @@ private Q_SLOTS:
 
 private:
 	QMultiHash<QString,QTreeWidgetItem*> orphaned;
+	QTimer *m_changed_timer;
 	bool processed_parents;
 	bool processed_children;
-	bool defer_changed;
 };
 
 class alCheckTree: public alWidgetPre<ACheckTree>
