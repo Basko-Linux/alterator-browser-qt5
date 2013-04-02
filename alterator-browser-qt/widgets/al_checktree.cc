@@ -15,7 +15,9 @@ ACheckTree::ACheckTree(QWidget *parent, const Qt::Orientation):
     AWidget<QTreeWidget>(parent)
 {
     m_changed_timer = new QTimer(this);
+    m_changed_timer->setSingleShot(true);
     m_selected_timer = new QTimer(this);
+    m_selected_timer->setSingleShot(true);
 
     header()->hide();
     setUniformRowHeights(true);
