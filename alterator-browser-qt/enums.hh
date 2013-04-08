@@ -1,7 +1,7 @@
 #ifndef QT_BROWSER_ENUMS_HH
 #define QT_BROWSER_ENUMS_HH
 
-#include <QString>
+#include <QByteArray>
 #include <QMap>
 
 enum AlteratorRequestActionType
@@ -77,18 +77,18 @@ public:
     Enums();
     ~Enums();
 
-    AlteratorRequestActionType strToRequestAction(const QString&);
-    AlteratorWidgetType strToWidget(const QString&);
-    QString widgetToStr(const AlteratorWidgetType);
-    UserActionType strToUserAction(const QString&);
-    BrowserEventType strToBrowserEvent(const QString&);
-    QString browserEventToStr(const BrowserEventType);
+    AlteratorRequestActionType strToRequestAction(const QByteArray&);
+    AlteratorWidgetType strToWidget(const QByteArray&);
+    QByteArray widgetToStr(const AlteratorWidgetType);
+    UserActionType strToUserAction(const QByteArray&);
+    BrowserEventType strToBrowserEvent(const QByteArray&);
+    QByteArray browserEventToStr(const BrowserEventType);
 
 private:
-    QMap<QString,AlteratorRequestActionType> str2action;
-    QMap<QString,AlteratorWidgetType> str2widget;
-    QMap<QString,UserActionType> str2u_action;
-    QMap<QString,BrowserEventType> str2event;
+    QMap<QByteArray,AlteratorRequestActionType> str2action;
+    QMap<QByteArray,AlteratorWidgetType> str2widget;
+    QMap<QByteArray,UserActionType> str2u_action;
+    QMap<QByteArray,BrowserEventType> str2event;
 };
 
 extern Enums *enums;

@@ -417,7 +417,7 @@ void ACenterFace::addAction(const QString& key, const QString& name, const QStri
 {
     if( !key.isEmpty() )
     {
-	UserActionType type = enums->strToUserAction(key);
+	UserActionType type = enums->strToUserAction(key.toLatin1());
 	addAction(key, type);
 	if( !name.isEmpty() )
 	    setActionText(key, name);
@@ -622,7 +622,7 @@ QLayout* ACenterFace::getViewLayout()
 
 void ACenterFace::onSelectAction(const QString& key)
 {
-    UserActionType type = enums->strToUserAction(key);
+    UserActionType type = enums->strToUserAction(key.toLatin1());
     if( type == UserActionHelp )
 	browser->showHelp();
     current_action_key = key;

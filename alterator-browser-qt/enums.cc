@@ -73,36 +73,36 @@ Enums::~Enums()
 {
 }
 
-AlteratorRequestActionType Enums::strToRequestAction(const QString &str)
+AlteratorRequestActionType Enums::strToRequestAction(const QByteArray &str)
 {
     return str2action[str];
 }
 
-AlteratorWidgetType Enums::strToWidget(const QString &str)
+AlteratorWidgetType Enums::strToWidget(const QByteArray &str)
 {
     return str2widget[str];
 }
 
-QString Enums::widgetToStr(const AlteratorWidgetType t)
+QByteArray Enums::widgetToStr(const AlteratorWidgetType t)
 {
-    QString ret = str2widget.key(t);
+    QByteArray ret = str2widget.key(t);
     if( ret.isEmpty() ) ret = "__undefined__";
     return ret;
 }
 
-UserActionType Enums::strToUserAction(const QString &str)
+UserActionType Enums::strToUserAction(const QByteArray &str)
 {
     return str2u_action[str];
 }
 
-BrowserEventType Enums::strToBrowserEvent(const QString &str)
+BrowserEventType Enums::strToBrowserEvent(const QByteArray &str)
 {
     return str2event[str];
 }
 
-QString Enums::browserEventToStr(const BrowserEventType t)
+QByteArray Enums::browserEventToStr(const BrowserEventType t)
 {
-    QString ret = str2event.key(t);
+    QByteArray ret = str2event.key(t);
     if( ret.isEmpty() ) ret = "__undefined__";
     return ret;
 }

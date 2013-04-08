@@ -546,7 +546,7 @@ void AWizardFace::addAction(const QString& key, const QString& name, const QStri
 {
     if( !key.isEmpty() )
     {
-	UserActionType type = enums->strToUserAction(key);
+	UserActionType type = enums->strToUserAction(key.toLatin1());
 	addAction(key, type);
 	if( !name.isEmpty() )
 	    setActionText(key, name);
@@ -816,7 +816,7 @@ void AWizardFace::onSelectAction(const QString& key)
 {
     //qDebug("current action is <%s>", key.toLatin1().data());
     AlteratorRequestFlags flags = AlteratorRequestDefault;
-    UserActionType type = enums->strToUserAction(key);
+    UserActionType type = enums->strToUserAction(key.toLatin1());
     if( type == UserActionHelp )
 	browser->showHelp();
 
@@ -856,7 +856,7 @@ bool AWizardFace::onEnter()
     while( it.hasNext() && !break_while )
     {
 	it.next();
-	switch( enums->strToUserAction(it.key()) )
+	switch( enums->strToUserAction(it.key().toLatin1()) )
 	{
 	    case UserActionFinish:
 	    case UserActionForward:
