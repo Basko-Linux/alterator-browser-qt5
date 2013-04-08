@@ -30,7 +30,7 @@ public:
     void setHelpAvailable(bool);
     void changeLanguage(const QString&);
     void getDocument(const QString& request);
-    void emitEvent(const QString &id,const QString &type, const AlteratorRequestFlags);
+    void emitEvent(const QString &id,const QByteArray &type, const AlteratorRequestFlags);
     void emitEvent(const QString &id, const BrowserEventType type, const AlteratorRequestFlags);
     void popupAdd(QWidget *pop, bool simple=false);
     void quitAppManaged(int);

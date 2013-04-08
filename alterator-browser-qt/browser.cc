@@ -419,9 +419,9 @@ void Browser::emitEvent(const QString &id, const BrowserEventType type, const Al
 	}
 }
 
-void Browser::emitEvent(const QString &id,const QString &type, const AlteratorRequestFlags request_flags)
+void Browser::emitEvent(const QString &id,const QByteArray &type, const AlteratorRequestFlags request_flags)
 {
-    emitEvent(id, enums->strToBrowserEvent(type.toLatin1()), request_flags);
+    emitEvent(id, enums->strToBrowserEvent(type), request_flags);
 }
 
 void Browser::onAlteratorRequests()
