@@ -29,7 +29,7 @@ ACheckTree::ACheckTree(QWidget *parent, const Qt::Orientation):
     // Connect to changed signal
     connect(this, SIGNAL(itemChanged(QTreeWidgetItem*, int)), this, SLOT(onChange(QTreeWidgetItem*, int)));
     // Connect to selected signal
-    connect(this, SIGNAL(selectionChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(onSelect(QTreeWidgetItem*, QTreeWidgetItem*)));
+    connect(this, SIGNAL(itemSelectionChanged()), this, SLOT(onSelect()));
     // Connect to expand signal
     connect(this, SIGNAL(itemExpanded(QTreeWidgetItem *)), this, SLOT(onExpand(QTreeWidgetItem *)));
 
@@ -168,7 +168,7 @@ void ACheckTree::onChangeDeferred()
 }
 
 // Slot for item select
-void ACheckTree::onSelect(QTreeWidgetItem*, QTreeWidgetItem*)
+void ACheckTree::onSelect()
 {
     if (eventRegistered(BrowserEventSelected))
     {

@@ -32,7 +32,7 @@ public:
 
 public Q_SLOTS:
 	void onChange(QTreeWidgetItem*, int);
-	void onSelect(QTreeWidgetItem*, QTreeWidgetItem*);
+	void onSelect();
 	void onExpand(QTreeWidgetItem *item);
 
 protected:
