@@ -50,6 +50,7 @@ Enums::Enums()
     str2widget["centerface"] = WCenterFace;
     str2widget["colorselect"] = WColorSelect;
     str2widget["fileselect"] = WFileSelect;
+    str2widget["displaysize"] = WDisplaySize;
 
     str2u_action["abort"]    = UserActionAbort;
     str2u_action["finish"]   = UserActionFinish;

@@ -312,6 +312,7 @@ QSizePolicy alWidget::adjustSizePolicy(const AlteratorWidgetType type, const QSi
 	    //szpol.setHorizontalPolicy(QSizePolicy::Expanding);
 	    break;
 	}
+	case WDisplaySize:
 	case WLabel:
 	{
 	    szpol.setVerticalPolicy(QSizePolicy::Fixed);

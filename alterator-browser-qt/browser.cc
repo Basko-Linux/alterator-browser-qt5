@@ -659,6 +659,7 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WWizardFace: {  new_widget = new alWizardFace(attr,id,parent_id); break; }
 	case WColorSelect: { new_widget = new alColorSelect(attr,id,parent_id); break; }
 	case WFileSelect: {  new_widget = new alFileSelect(attr,id,parent_id); break; }
+	case WDisplaySize: { new_widget = new alDisplaySize(attr,id,parent_id); break; }
 	case WProxy:
 	case WUnknown:
 	{
