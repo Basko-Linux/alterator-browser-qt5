@@ -15,7 +15,7 @@ alDisplaySize::alDisplaySize(const AlteratorRequestActionAttrs &attr, const QStr
     int scr = x11info.screen();
     int width = XDisplayWidthMM(dpy,scr);
     int height = XDisplayHeightMM(dpy,scr);
-    info_text = QString("%1x%2").arg(width).arg(height);
+    info_text = QString("%1%2%3").arg(width).arg(QString::fromUtf8("×")).arg(height);
 #endif
     wnd_->setText(info_text);
 }
