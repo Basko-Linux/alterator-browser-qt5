@@ -75,6 +75,7 @@ public:
     void removeAction(const QString &key);
     void clearActions();
     void setActionText(const QString &key, const QString &value);
+    void setActionToolTip(const QString &key, const QString &value = QString());
     void setActionPixmap(const QString &key, const QString &value);
     void setActionActivity(const QString &key, bool);
 

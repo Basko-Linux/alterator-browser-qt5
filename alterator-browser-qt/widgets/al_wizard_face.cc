@@ -552,6 +552,17 @@ void AWizardFace::addAction(const QString& key, const QString& name, const QStri
 	    setActionText(key, name);
 	if( !pixmap.isEmpty() )
 	    setActionPixmap(key, pixmap);
+	switch( type )
+	{
+	    case UserActionFinish:
+	    case UserActionForward:
+	    {
+		setActionToolTip(key);
+		break;
+	    }
+	    default:
+		break;
+	}
     }
 }
 
@@ -701,6 +712,44 @@ void AWizardFace::clearSteps()
 QWidget* AWizardFace::getViewWidget()
 {
     return view_widget;
+}
+
+void AWizardFace::setActionToolTip(const QString &key, const QString &value)
+{
+    QAbstractButton *b = 0;
+    QAction *a = 0;
+    QString txt(value);
+
+    if( buttons.contains(key) )
+    {
+	b = buttons[key];
+	txt = b->text();
+    }
+    else if( menus.contains(key) )
+    {
+	a = menus[key];
+	txt = a->text();
+    }
+
+    if(value.isEmpty())
+    {
+	switch( action_types[key] )
+	{
+	    case UserActionFinish:
+	    case UserActionForward:
+	    {
+		txt = tr("%1: press F12 or Enter").arg(txt);
+		break;
+	    }
+	    default:
+		break;
+	}
+    }
+
+    if( b )
+	b->setToolTip(txt);
+    else if( a )
+	a->setToolTip(txt);
 }
 
 void AWizardFace::setActionText(const QString &key, const QString &value)
