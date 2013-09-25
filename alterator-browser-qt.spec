@@ -83,7 +83,7 @@ ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
 %changelog
 * Wed Sep 25 2013 Sergey V Turchin <zerg at altlinux dot org> 2.19.2-alt1
-- set tooltip for wizardface action "Next"
+- set tooltip for wizardface action "Next" (ALT#26187)
 
 * Fri Jun 14 2013 Sergey V Turchin <zerg at altlinux dot org> 2.19.1-alt1
 - fix displaysize delimiter
