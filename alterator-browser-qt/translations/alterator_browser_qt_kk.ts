@@ -40,12 +40,17 @@
     <name>AWizardFace</name>
     <message>
         <location filename="../widgets/al_wizard_face.cc" line="300"/>
-        <location filename="../widgets/al_wizard_face.cc" line="925"/>
+        <location filename="../widgets/al_wizard_face.cc" line="974"/>
         <source>Show steps list</source>
         <translation>Қадамдар тізімін көрсету</translation>
     </message>
     <message>
-        <location filename="../widgets/al_wizard_face.cc" line="923"/>
+        <location filename="../widgets/al_wizard_face.cc" line="741"/>
+        <source>%1: press F12 or Enter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/al_wizard_face.cc" line="972"/>
         <source>Hide steps list</source>
         <translation>Қадамдар тізімін жасыру</translation>
     </message>
@@ -53,23 +58,23 @@
 <context>
     <name>Browser</name>
     <message>
-        <location filename="../browser.cc" line="244"/>
         <location filename="../browser.cc" line="251"/>
+        <location filename="../browser.cc" line="258"/>
         <source>Quit</source>
         <translation>Шығу</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="244"/>
+        <location filename="../browser.cc" line="251"/>
         <source>Exit Alterator?</source>
         <translation>Alterator-дан шығу керек пе?</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="266"/>
+        <location filename="../browser.cc" line="273"/>
         <source>About</source>
         <translation>Осы туралы</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="266"/>
+        <location filename="../browser.cc" line="273"/>
         <source>Alterator Browser</source>
         <translation>Alterator Browser</translation>
     </message>
@@ -77,50 +82,55 @@
 <context>
     <name>HelpWidget</name>
     <message>
-        <location filename="../help_browser.cc" line="35"/>
+        <location filename="../help_browser.cc" line="40"/>
         <source>Session</source>
         <translation>Сессия</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="17"/>
-        <location filename="../help_browser.cc" line="36"/>
+        <location filename="../help_browser.cc" line="20"/>
+        <location filename="../help_browser.cc" line="41"/>
         <source>Help</source>
         <translation>Көмек</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="39"/>
+        <location filename="../help_browser.cc" line="44"/>
         <source>Quit</source>
         <translation>Шығу</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="40"/>
+        <location filename="../help_browser.cc" line="45"/>
         <source>About</source>
         <translation>Осы туралы</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="41"/>
+        <location filename="../help_browser.cc" line="46"/>
         <source>About Qt</source>
         <translation>Qt туралы</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="73"/>
+        <location filename="../help_browser.cc" line="78"/>
         <source>No help available.</source>
         <translation>Көмек қолжетерсіз.</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="101"/>
         <source>HELP_BROWSER environment variable is empty</source>
-        <translation>HELP_BROWSER қоршам айнымалысы бос</translation>
+        <translation type="obsolete">HELP_BROWSER қоршам айнымалысы бос</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="104"/>
         <source>BROWSER environment variable is empty</source>
-        <translation>BROWSER қоршам айнымалысы бос</translation>
+        <translation type="obsolete">BROWSER қоршам айнымалысы бос</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="111"/>
         <source>MAILER environment variable is empty</source>
-        <translation>MAILER қоршам айнымалысы бос</translation>
+        <translation type="obsolete">MAILER қоршам айнымалысы бос</translation>
+    </message>
+</context>
+<context>
+    <name>alDisplaySize</name>
+    <message>
+        <location filename="../widgets/al_displaysize.cc" line="11"/>
+        <source>unknown</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

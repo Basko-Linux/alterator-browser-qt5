@@ -52,12 +52,17 @@
     <name>AWizardFace</name>
     <message>
         <location filename="../widgets/al_wizard_face.cc" line="300"/>
-        <location filename="../widgets/al_wizard_face.cc" line="925"/>
+        <location filename="../widgets/al_wizard_face.cc" line="974"/>
         <source>Show steps list</source>
         <translation>Показать список шагов</translation>
     </message>
     <message>
-        <location filename="../widgets/al_wizard_face.cc" line="923"/>
+        <location filename="../widgets/al_wizard_face.cc" line="741"/>
+        <source>%1: press F12 or Enter</source>
+        <translation>%1: нажать F12 или Enter</translation>
+    </message>
+    <message>
+        <location filename="../widgets/al_wizard_face.cc" line="972"/>
         <source>Hide steps list</source>
         <translation>Скрыть список шагов</translation>
     </message>
@@ -65,23 +70,23 @@
 <context>
     <name>Browser</name>
     <message>
-        <location filename="../browser.cc" line="244"/>
         <location filename="../browser.cc" line="251"/>
+        <location filename="../browser.cc" line="258"/>
         <source>Quit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="244"/>
+        <location filename="../browser.cc" line="251"/>
         <source>Exit Alterator?</source>
         <translation>Завершить Alterator?</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="266"/>
+        <location filename="../browser.cc" line="273"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="266"/>
+        <location filename="../browser.cc" line="273"/>
         <source>Alterator Browser</source>
         <translation>Alterator Browser</translation>
     </message>
@@ -96,50 +101,47 @@
 <context>
     <name>HelpWidget</name>
     <message>
-        <location filename="../help_browser.cc" line="35"/>
+        <location filename="../help_browser.cc" line="40"/>
         <source>Session</source>
         <translation>Сессия</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="17"/>
-        <location filename="../help_browser.cc" line="36"/>
+        <location filename="../help_browser.cc" line="20"/>
+        <location filename="../help_browser.cc" line="41"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="39"/>
+        <location filename="../help_browser.cc" line="44"/>
         <source>Quit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="40"/>
+        <location filename="../help_browser.cc" line="45"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="41"/>
+        <location filename="../help_browser.cc" line="46"/>
         <source>About Qt</source>
         <translation>О Qt</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="73"/>
+        <location filename="../help_browser.cc" line="78"/>
         <source>No help available.</source>
         <translation>Справка недоступна.</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="101"/>
         <source>HELP_BROWSER environment variable is empty</source>
-        <translation>Переменная HELP_BROWSER пуста</translation>
+        <translation type="obsolete">Переменная HELP_BROWSER пуста</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="104"/>
         <source>BROWSER environment variable is empty</source>
-        <translation>Переменная BROWSER пуста</translation>
+        <translation type="obsolete">Переменная BROWSER пуста</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="111"/>
         <source>MAILER environment variable is empty</source>
-        <translation>Переменная MAILER пуста</translation>
+        <translation type="obsolete">Переменная MAILER пуста</translation>
     </message>
 </context>
 <context>
@@ -170,6 +172,14 @@
     <message>
         <source>Error</source>
         <translation type="obsolete">Ошибка</translation>
+    </message>
+</context>
+<context>
+    <name>alDisplaySize</name>
+    <message>
+        <location filename="../widgets/al_displaysize.cc" line="11"/>
+        <source>unknown</source>
+        <translation>неизвестно</translation>
     </message>
 </context>
 </TS>
