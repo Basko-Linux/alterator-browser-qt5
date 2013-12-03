@@ -113,6 +113,10 @@ void ACheckTree::setRows(const QStringList &data)
     {
 	addRow(data.mid(i,row_count));
     }
+    Q_FOREACH(QTreeWidgetItem *itm, orphaned.values())
+    {
+	addTopLevelItem(itm);
+    }
     orphaned.clear();
 }
 
