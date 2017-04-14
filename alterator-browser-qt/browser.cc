@@ -40,6 +40,7 @@ MailBox *mailbox = 0;
 WidgetList *widgetlist = 0;
 Browser *__browser_instance = 0;
 
+#ifdef HAVE_X11
 bool x_redirect_error;
 bool x_error_occurred;
 XErrorEvent x_last_error_event;
@@ -50,6 +51,7 @@ int x_catchRedirectError(Display *, XErrorEvent *event)
     x_error_occurred = true;
     return 0;
 }
+#endif
 
 Browser::Browser():
     Browser_t(0)
