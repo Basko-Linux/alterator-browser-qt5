@@ -290,7 +290,7 @@ bool Browser::haveWindowManager()
 	x_redirect_error = false;
 	XSetErrorHandler(x_catchRedirectError);
 	XSelectInput(xdisplay, xroot, SubstructureRedirectMask );
-	QGuiApplication::sync();
+	XSync(xdisplay, false);
 	if( x_redirect_error )
 	{
 	    have_wm = true;
