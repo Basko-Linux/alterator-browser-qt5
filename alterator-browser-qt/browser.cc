@@ -147,7 +147,7 @@ Browser::Browser():
 
     help_browser = new HelpBrowser(this);
 
-    connect(QGuiApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(stop()));
+    connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(stop()));
     QTimer::singleShot(0, this, SLOT(start()));
 
     __browser_instance = this;
