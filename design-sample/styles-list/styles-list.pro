@@ -1,4 +1,4 @@
 TEMPLATE = app
-QT = core gui
+QT = core gui widgets
 
 SOURCES = main.cpp

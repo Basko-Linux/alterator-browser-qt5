@@ -261,7 +261,9 @@ void ATimeEdit::start()
     {
 	clock->start();
 	if( tmr_id <= 0 )
+	{
 	    tmr_id = startTimer(1000);
+	}
     }
 }
 

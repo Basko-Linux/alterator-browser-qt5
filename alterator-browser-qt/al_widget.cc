@@ -47,9 +47,9 @@ void alWidget::onReturn(QListWidgetItem*) { browser->emitEvent(id_,"return-press
 void alWidget::onReturn(QTreeWidgetItem*, int) { browser->emitEvent(id_,"return-pressed", AlteratorRequestDefault); }
 
 void alWidget::onSelect() { browser->emitEvent(id_,"selected", AlteratorRequestDefault); }
-void alWidget::onSelect(int n) { browser->emitEvent(id_,"selected", AlteratorRequestDefault); }
+void alWidget::onSelect(int) { browser->emitEvent(id_,"selected", AlteratorRequestDefault); }
 void alWidget::onSelect(QTreeWidgetItem*,QTreeWidgetItem*) { browser->emitEvent(id_,"selected", AlteratorRequestDefault); }
-void alWidget::onSelect(const QString& s) { browser->emitEvent(id_,"selected", AlteratorRequestDefault); }
+void alWidget::onSelect(const QString&) { browser->emitEvent(id_,"selected", AlteratorRequestDefault); }
 
 void alWidget::onDoubleClick() { browser->emitEvent(id_,"double-clicked", AlteratorRequestDefault); }
 void alWidget::onDoubleClick(QTreeWidgetItem*,int) { browser->emitEvent(id_,"double-clicked", AlteratorRequestDefault); }
@@ -395,7 +395,9 @@ void alWidget::postAddChild(QWidget* chld, AlteratorWidgetType type, const Alter
 		{
 		    Qt::Orientation orientation = Qt::Horizontal;
 		    if( bl->direction() == QBoxLayout::TopToBottom || bl->direction() == QBoxLayout::BottomToTop )
+		    {
 			orientation = Qt::Vertical;
+		    }
 		    chld->setSizePolicy(adjustSizePolicy( type, chld->sizePolicy(), attr.value("orientation").o));
 		    if( childrenAlignment() != Qt::AlignJustify )
 			bl->addWidget(chld, 0, childrenAlignment());

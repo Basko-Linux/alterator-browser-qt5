@@ -37,7 +37,7 @@ QPixmap APEButtonPixmapGenerator::operator()()
     QStyleOptionButton b;
     QRect r = QApplication::style()->subElementRect(sub_,&b);
     QPixmap pixmap(r.width(),r.height());
-    //QColor bgcolor =  QApplication::palette().color(QPalette::Active, QPalette::Background);
+    //QColor bgcolor =  QGuiApplication::palette().color(QPalette::Active, QPalette::Background);
     QColor bgcolor(0,0,0,0);
     pixmap.fill(bgcolor);
     QPainter paint(&pixmap);

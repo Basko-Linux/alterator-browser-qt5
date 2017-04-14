@@ -106,7 +106,7 @@ bool ADialog::eventFilter(QObject *o, QEvent *e)
 	    if(scroll->hasFocus())
 	    {
 		QKeyEvent *k = new QKeyEvent(QEvent::KeyPress, Qt::Key_Tab, Qt::NoModifier);
-		QApplication::postEvent(scroll, k);
+		QCoreApplication::postEvent(scroll, k);
 	    }
 	}
     }

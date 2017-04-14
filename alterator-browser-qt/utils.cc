@@ -3,7 +3,6 @@
 
 #include <QApplication>
 #include <QPainter>
-#include <QColorGroup>
 #include <QDesktopWidget>
 #include <QFileInfo>
 #include <QProcess>
@@ -66,7 +65,6 @@ void widgetCornersRound(QWidget *widget)
 
     QBrush bg_brush = palette.brush( QPalette::Window );
     QColor dark_color = palette.dark().color();
-    QColor bg_color = palette.color( QPalette::Window );
     // top
     QRect frame(0, 0, widget->width(), framesize_);
     painter.fillRect(frame, bg_brush);
@@ -95,13 +93,6 @@ void widgetCornersRound(QWidget *widget)
     // local temp right and bottom
     int r(widget->width());
     int b(widget->height());
-
-#if 0
-    // draw the inner frame with rounded corners
-    //painter.setPen( dark_color );
-    painter.setPen(bg_color);
-    painter.drawRoundRect(frame, 1, 1);
-#endif
 
     // choose a color from scheme
     painter.setPen( dark_color );

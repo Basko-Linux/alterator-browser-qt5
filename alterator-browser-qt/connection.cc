@@ -28,7 +28,7 @@ Connection::Connection(QObject *parent):
     islong_timer->setInterval(500);
     connect(islong_timer, SIGNAL(timeout()), this, SLOT(checkDelayedFinish()));
 
-    //connect(this, SIGNAL(started()), this, SLOT(startDelayedFinish()));
+    connect(this, SIGNAL(started()), this, SLOT(startDelayedFinish()));
     //connect(this, SIGNAL(finished()), this, SLOT(endDelayedFinish()));
     connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(prepareQuit()));
 }
@@ -65,15 +65,18 @@ QString Connection::makeInitRequest()
 void Connection::getDocument(const QString &content, AlteratorRequestFlags ask_flags)
 {
     if( destruction ) return;
+
     AlteratorAskInfo ask;
     ask.flags = ask_flags;
     if( ask_flags & AlteratorRequestInit )
 	ask.request = makeInitRequest();
     else
 	ask.request = makeRequest(content);
+
     asks_lock.lock();
     asks.enqueue(ask);
     asks_lock.unlock();
+
     if(isRunning())
     {
 	if(!is_processing)
@@ -138,7 +141,6 @@ void Connection::run()
 {
     while( !destruction )
     {
-	startDelayedFinish();
 	is_processing = true;
 	while(!asks.isEmpty())
 	{
@@ -188,12 +190,13 @@ void Connection::parseAnswer(const alRequest &dom, AlteratorRequestFlags request
 
 void Connection::startDelayedFinish()
 {
-    islong_timer->start();
+    if( !destruction )
+	islong_timer->start();
 }
 
 void Connection::checkDelayedFinish()
 {
-    if( is_processing )
+    if( is_processing && !destruction )
         emit startLongRequest();
 }
 

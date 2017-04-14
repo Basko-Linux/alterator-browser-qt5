@@ -6,7 +6,7 @@
 #include <QTimer>
 #include <QCursor>
 #include <QSettings>
-#include <QApplication>
+#include <QGuiApplication>
 #include <QDesktopWidget>
 #include <QDir>
 #include <QTranslator>
@@ -29,7 +29,7 @@
 #include "enums.hh"
 #include "fileselect.hh"
 
-#ifdef Q_WS_X11
+#ifdef HAVE_X11
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <X11/Xutil.h>
@@ -145,7 +145,7 @@ Browser::Browser():
 
     help_browser = new HelpBrowser(this);
 
-    connect(QApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(stop()));
+    connect(QGuiApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(stop()));
     QTimer::singleShot(0, this, SLOT(start()));
 
     __browser_instance = this;
@@ -277,20 +277,18 @@ void Browser::about()
 
 bool Browser::haveWindowManager()
 {
-    if( detect_wm_done )
-	return have_wm;
+    if( detect_wm_done ) return have_wm;
 
-	have_wm = false;
-#ifdef Q_WS_X11
-	const QX11Info xinfo = x11Info();
-	Display *xdisplay = xinfo.display();
-	int screen_id = xinfo.appScreen();
+    have_wm = false;
+#ifdef HAVE_X11
+	Display *xdisplay = QX11Info::display();
+	int screen_id = QX11Info::appScreen();
 
 	Window xroot = RootWindow(xdisplay, screen_id);
 	x_redirect_error = false;
 	XSetErrorHandler(x_catchRedirectError);
 	XSelectInput(xdisplay, xroot, SubstructureRedirectMask );
-	QApplication::syncX();
+	QGuiApplication::sync();
 	if( x_redirect_error )
 	{
 	    have_wm = true;
@@ -362,7 +360,6 @@ void Browser::changeLanguage(const QString& language)
 
     ::setenv("LC_ALL", locale.toLatin1(), true);
     ::setlocale(LC_ALL, locale.toLatin1());
-    new QSystemLocale();
     QLocale::setDefault( QLocale(locale) );
 
     reloadTranslator(qtranslator, "qt");
@@ -909,16 +906,16 @@ void Browser::loadStyleSheet()
 	    pal.setColor(QPalette::Disabled, (QPalette::ColorRole) i, QColor(strlist[i]));
 	}
 	if( groupCount == QPalette::NColorGroups )
-	    QApplication::setPalette(pal);
+	    QGuiApplication::setPalette(pal);
 
 	// set font
-        QFont font(QApplication::font());
+        QFont font(QGuiApplication::font());
         QString str = settings.value(QLatin1String("font")).toString();
         if (!str.isEmpty())
 	{
             font.fromString(str);
-            if (font != QApplication::font())
-                QApplication::setFont(font);
+            if (font != QGuiApplication::font())
+                QGuiApplication::setFont(font);
         }
     }
 
