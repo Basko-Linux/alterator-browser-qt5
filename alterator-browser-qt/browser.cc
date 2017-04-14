@@ -908,7 +908,7 @@ void Browser::loadStyleSheet()
 	    pal.setColor(QPalette::Disabled, (QPalette::ColorRole) i, QColor(strlist[i]));
 	}
 	if( groupCount == QPalette::NColorGroups )
-	    QGuiApplication::setPalette(pal);
+	    QApplication::setPalette(pal);
 
 	// set font
         QFont font(QGuiApplication::font());
