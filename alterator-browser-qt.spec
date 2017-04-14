@@ -34,7 +34,7 @@ Obsoletes: alterator-look-qt
 
 BuildRequires(pre): rpm-build-ubt
 BuildRequires: libalternatives-devel
-BuildRequires: qt5-base-devel qt5-tools
+BuildRequires: qt5-base-devel qt5-x11extras-devel qt5-tools
 
 %description
 X11 Qt interface driver for alterator
