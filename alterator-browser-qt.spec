@@ -62,9 +62,9 @@ install -m 0644 translations/*.qm %buildroot/%_datadir/qt4/translations/
 
 mkdir -p %buildroot/%_altdir
 cat >%buildroot/%_altdir/alterator-browser-qt4 <<__EOF__
-%_bindir/alterator-browser-x11	%_bindir/%name 99
-%_bindir/alterator-browser-qt	%_bindir/%name 99
-%_bindir/qtbrowser	%_bindir/%name 99
+%_bindir/alterator-browser-x11	%_bindir/alterator-browser-qt4 99
+%_bindir/alterator-browser-qt	%_bindir/alterator-browser-qt4 99
+%_bindir/qtbrowser	%_bindir/alterator-browser-qt4 99
 __EOF__
 
 #mkdir -p %buildroot/%alterator_cfg
