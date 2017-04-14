@@ -1,2 +1,2 @@
 spec: alterator-browser-qt.spec
-tar: alterator-browser-qt
+tar: alterator-browser-qt name=alterator-browser-qt5-@version@

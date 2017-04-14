@@ -6,9 +6,12 @@
 %define alternatives_ver %{get_version alternatives}
 %define alterator_cfg %_sysconfdir/alterator
 
-Name: alterator-browser-qt
-Version: 2.19.4
-Release: alt2%ubt
+%define bin_name alterator-browser-qt5
+%define raw_name alterator-browser-qt
+
+Name: %bin_name
+Version: 2.90.0
+Release: alt1%ubt
 
 Source:%name-%version.tar
 
@@ -17,17 +20,9 @@ License: GPL
 Group: System/Configuration/Other
 Packager: Sergey V Turchin <zerg at altlinux dot org>
 
-BuildRequires(pre): rpm-build-ubt
-BuildRequires: libalternatives-devel
-BuildRequires: fontconfig freetype2 gcc-c++ libqt4-devel libstdc++-devel
-
-%description
-X11 Qt interface driver for alterator
-
-%package -n alterator-browser-qt4
-Group: System/Configuration/Other
-Summary: X11 Qt interface driver for alterator
-PreReq(post,preun): alternatives >= 0.2 /usr/bin/xdg-open
+PreReq(post,preun): alternatives >= 0.2
+Requires: /usr/bin/xdg-open
+Requires: alterator-browser-gui-common
 Requires: alterator-common >= 2.9-alt0.14
 Requires: alterator-icons
 Provides: alterator-browser
@@ -35,59 +30,56 @@ Provides: alterator-browser-x11
 Provides: alterator-browser-qt-light = 2.8-alt1
 Obsoletes: alterator-browser-qt-light < 2.8-alt1
 Provides: alterator-browser-qt = %version-%release
-Obsoletes: alterator-browser-qt < %version-%release
 Obsoletes: alterator-look-qt
-%description -n alterator-browser-qt4
-X11 Qt interface driver for alterator
 
+BuildRequires(pre): rpm-build-ubt
+BuildRequires: libalternatives-devel
+BuildRequires: qt5-base-devel qt5-tools
+
+%description
+X11 Qt interface driver for alterator
 
 %prep
 %setup -q
-%_qt4dir/bin/qmake -spec default
-#sed -i "s|^\s*CFLAGS\s*=.*$|CFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Makefile
-#sed -i "s|^\s*CXXFLAGS\s*=.*$|CXXFLAGS = %optflags -D_REENTRANT \$(DEFINES)|" Makefile
-
+%qmake_qt5
 
 %build
 %make_build
-lrelease-qt4 %name.pro
+lrelease-qt5 %raw_name.pro
 
 %install
-%make INSTALL_ROOT=%buildroot install
-mv  %buildroot/%_bindir/alterator-browser-qt %buildroot/%_bindir/alterator-browser-qt4
+%installqt5
+mv  %buildroot/%_bindir/%raw_name %buildroot/%_bindir/%bin_name
 
 # translations
-mkdir -p %buildroot/%_datadir/qt4/translations/
-install -m 0644 translations/*.qm %buildroot/%_datadir/qt4/translations/
+mkdir -p %buildroot/%_qt5_translationdir
+install -m 0644 translations/*.qm %buildroot/%_qt5_translationdir/
 
 mkdir -p %buildroot/%_altdir
-cat >%buildroot/%_altdir/alterator-browser-qt4 <<__EOF__
-%_bindir/alterator-browser-x11	%_bindir/alterator-browser-qt4 99
-%_bindir/alterator-browser-qt	%_bindir/alterator-browser-qt4 99
-%_bindir/qtbrowser	%_bindir/alterator-browser-qt4 99
+cat >%buildroot/%_altdir/%name <<__EOF__
+%_bindir/alterator-browser-x11	%_bindir/%bin_name 10
+%_bindir/%raw_name	%_bindir/%bin_name 10
+%_bindir/qtbrowser	%_bindir/%bin_name 10
 __EOF__
 
 #mkdir -p %buildroot/%alterator_cfg
 #ln -s /dev/null %buildroot/%alterator_cfg/design-browser-qt
-mkdir -p %buildroot/%_datadir/%name/design
+#mkdir -p %buildroot/%_datadir/%name/design
 #ln -s %alterator_cfg/design-browser-qt %buildroot/%_datadir/%name/design/current
 
-%if 0
-%post
-%post_register_alternatives %name
-%preun
-%preun_unregister_alternatives %name
-%endif
+%find_lang --with-qt --all-name %name
 
-%files -n alterator-browser-qt4
-%config %_altdir/alterator-browser-qt4
+%files -n %bin_name -f %name.lang
+%config %_altdir/%bin_name
 #%ghost %config %alterator_cfg/design-browser-qt
-%_bindir/alterator-browser-qt4
-%_datadir/%name/
-%_datadir/qt4/translations/*.qm
+%_bindir/%bin_name
+#%_datadir/%name/
 
 
 %changelog
+* Fri Apr 14 2017 Sergey V Turchin <zerg at altlinux dot org> 2.90.0-alt1%ubt
+- port to Qt5
+
 * Thu Apr 13 2017 Sergey V Turchin <zerg at altlinux dot org> 2.19.4-alt2%ubt
 - rename package
 
