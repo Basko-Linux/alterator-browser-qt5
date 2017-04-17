@@ -364,7 +364,7 @@ void Browser::changeLanguage(const QString& language)
     ::setlocale(LC_ALL, locale.toLatin1());
     QLocale::setDefault( QLocale(locale) );
 
-    reloadTranslator(qtranslator, "qt");
+    reloadTranslator(qtranslator, "qtbase");
     reloadTranslator(app_translator, "alterator_browser_qt");
 
     emit languageChanged();
