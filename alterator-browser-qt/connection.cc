@@ -28,7 +28,7 @@ Connection::Connection(QObject *parent):
     islong_timer->setInterval(500);
     connect(islong_timer, SIGNAL(timeout()), this, SLOT(checkDelayedFinish()));
 
-    connect(this, SIGNAL(started()), this, SLOT(startDelayedFinish()));
+    //connect(this, SIGNAL(started()), this, SLOT(startDelayedFinish()));
     //connect(this, SIGNAL(finished()), this, SLOT(endDelayedFinish()));
     connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(prepareQuit()));
 }
@@ -141,6 +141,7 @@ void Connection::run()
 {
     while( !destruction )
     {
+	startDelayedFinish();
 	is_processing = true;
 	while(!asks.isEmpty())
 	{
@@ -190,8 +191,9 @@ void Connection::parseAnswer(const alRequest &dom, AlteratorRequestFlags request
 
 void Connection::startDelayedFinish()
 {
-    if( !destruction )
-	islong_timer->start();
+    if( !destruction ) {
+	QTimer::singleShot(0, islong_timer, SLOT(start()));
+    }
 }
 
 void Connection::checkDelayedFinish()
