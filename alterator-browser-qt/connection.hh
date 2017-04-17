@@ -102,9 +102,7 @@ Q_SIGNALS:
     void stopLongRequest();
 
 private Q_SLOTS:
-    void startDelayedFinish();
     void checkDelayedFinish();
-    void endDelayedFinish();
     void prepareQuit();
 
 private:
@@ -114,7 +112,6 @@ private:
     QMutex alterator_requests_lock;
     QString sessionId;
     QString userId;
-    QTimer *islong_timer;
     bool destruction;
     bool is_processing;
 

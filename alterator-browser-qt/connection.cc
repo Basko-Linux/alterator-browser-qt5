@@ -23,13 +23,6 @@ Connection::Connection(QObject *parent):
     thread_exec_result = 0;
 #endif
 
-    islong_timer = new QTimer(this);
-    islong_timer->setSingleShot(true);
-    islong_timer->setInterval(500);
-    connect(islong_timer, SIGNAL(timeout()), this, SLOT(checkDelayedFinish()));
-
-    //connect(this, SIGNAL(started()), this, SLOT(startDelayedFinish()));
-    //connect(this, SIGNAL(finished()), this, SLOT(endDelayedFinish()));
     connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(prepareQuit()));
 }
 
@@ -141,11 +134,11 @@ void Connection::run()
 {
     while( !destruction )
     {
-	startDelayedFinish();
 	is_processing = true;
 	while(!asks.isEmpty())
 	{
 	    if( destruction ) break;
+	    QTimer::singleShot(500, this, &Connection::checkDelayedFinish);
 	    asks_lock.lock();
 	    AlteratorAskInfo ask = asks.dequeue();
 	    asks_lock.unlock();
@@ -160,8 +153,9 @@ void Connection::run()
 	    parseAnswer(dom, ask.flags);
 	}
 	is_processing = false;
-	if( !destruction )
-	    endDelayedFinish();
+	if( !destruction ) {
+	    emit stopLongRequest();
+	}
 #ifdef QTHREAD_EXEC_WORKAROUND
 	if( myExec() != 0 )
 #else
@@ -189,22 +183,10 @@ void Connection::parseAnswer(const alRequest &dom, AlteratorRequestFlags request
     emit alteratorRequests();
 }
 
-void Connection::startDelayedFinish()
-{
-    if( !destruction ) {
-	QTimer::singleShot(0, islong_timer, SLOT(start()));
-    }
-}
-
 void Connection::checkDelayedFinish()
 {
     if( is_processing && !destruction )
         emit startLongRequest();
-}
-
-void Connection::endDelayedFinish()
-{
-    emit stopLongRequest();
 }
 
 bool Connection::setRequestActionParamData(QXmlAttributes &xmlattrs, const QString &xmlattrname, AlteratorRequestAction &action, const QString &attrname, AlteratorRequestParamDataType dtype)
@@ -399,7 +381,6 @@ void Connection::prepareQuit()
 #else
     exit(1);
 #endif
-    islong_timer->stop();
 }
 
 QQueue<AlteratorRequest> Connection::getRequests()
