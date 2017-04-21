@@ -61,7 +61,7 @@ int main(int argc,char **argv)
 	QFile pidfile(pidfile_path);
 	if( pidfile.open(QIODevice::WriteOnly|QIODevice::Truncate) )
 	{
-	    int num_hw_keyboards = 0;
+	    int num_hw_keyboards = -1;
 	    {
 	        struct udev *udev;
 	        struct udev_enumerate *enumerate;
@@ -70,6 +70,7 @@ int main(int argc,char **argv)
 
 		udev = udev_new();
 		if( udev ) {
+		    num_hw_keyboards = 0;
 		    enumerate = udev_enumerate_new(udev);
 		    udev_enumerate_add_match_property(enumerate, "ID_INPUT_KEYBOARD", "1");
 		    udev_enumerate_scan_devices(enumerate);
@@ -90,7 +91,7 @@ int main(int argc,char **argv)
 		    qWarning("Can't create udev handle.");
 		}
 	    }
-	    if( num_hw_keyboards <= 0 ) {
+	    if( num_hw_keyboards == 0 ) {
 		// try to use virtual keyboard
 		qputenv("QT_IM_MODULE", "qtvirtualkeyboard");
 	    }
