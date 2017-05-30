@@ -101,6 +101,7 @@ int main(int argc,char **argv)
 	    pidfile.close();
 
 	    Q_INIT_RESOURCE(images);
+	    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 	    QApplication app(argc, argv);
 
 	    Enums enums_;
