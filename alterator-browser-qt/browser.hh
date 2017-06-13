@@ -15,9 +15,9 @@
 #include "splashscreen.hh"
 
 
-typedef QMainWindow Browser_t;
+typedef QMainWindow BrowserBase_t;
 
-class Browser: public Browser_t
+class Browser: public BrowserBase_t
 {
     Q_OBJECT
 public:
@@ -34,7 +34,7 @@ public:
     void emitEvent(const QString &id, const BrowserEventType type, const AlteratorRequestFlags);
     void popupAdd(QWidget *pop, bool simple=false);
     void quitAppManaged(int);
-    void quitApp(int answ = QDialogButtonBox::NoButton);
+    bool quitApp(int answ = QDialogButtonBox::NoButton);
     void quitAppError(const QString&);
     void raiseBrowserWindow();
     QString shortLang();
@@ -48,6 +48,7 @@ public Q_SLOTS:
     void start();
     void stop();
     void quitAppAsk();
+    bool resultQuitAppAsk();
     void about();
     void popupRemove(QWidget*);
     void onUnixSignal(int);

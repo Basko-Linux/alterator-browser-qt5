@@ -54,7 +54,7 @@ int x_catchRedirectError(Display *, XErrorEvent *event)
 #endif
 
 Browser::Browser():
-    Browser_t(0)
+    BrowserBase_t(0)
 {
     qRegisterMetaType<Qt::Orientation>("Qt::Orientation");
     loadStyleSheet();
@@ -225,27 +225,35 @@ void Browser::stop()
     }
 }
 
-void Browser::quitApp(int answ)
+bool Browser::quitApp(int answ)
 {
+    bool want_quit = false;
     switch( answ )
     {
 	case QDialogButtonBox::Ok:
 	case QDialogButtonBox::Yes:
 	case QDialogButtonBox::YesToAll:
 	{
+	    want_quit = true;
 	    quitAppManaged(0);
 	    break;
 	}
 	default:
+	{
+	    want_quit = false;
 	    break;
+	}
     }
+    return want_quit;
 }
 
 void Browser::quitAppManaged(int res)
 {
-    widgetlist->destroyAll();
-    in_quit = true;
-    QCoreApplication::exit(res);
+    if( !in_quit ) {
+	widgetlist->destroyAll();
+	in_quit = true;
+	QCoreApplication::exit(res);
+    }
 }
 
 void Browser::quitAppAsk()
@@ -253,6 +261,15 @@ void Browser::quitAppAsk()
     MessageBox *msgbox = new MessageBox("warning", tr("Quit"), tr("Exit Alterator?"), QDialogButtonBox::Ok|QDialogButtonBox::Cancel, this);
     quitApp(msgbox->exec());
     popupRemove(msgbox);
+}
+
+bool Browser::resultQuitAppAsk()
+{
+    bool want_quit = false;
+    MessageBox *msgbox = new MessageBox("warning", tr("Quit"), tr("Exit Alterator?"), QDialogButtonBox::Ok|QDialogButtonBox::Cancel, this);
+    want_quit = quitApp(msgbox->exec());
+    popupRemove(msgbox);
+    return want_quit;
 }
 
 void Browser::quitAppError(const QString &msg)
@@ -265,9 +282,11 @@ void Browser::quitAppError(const QString &msg)
 
 void Browser::closeEvent(QCloseEvent *e)
 {
-    if( !in_quit )
-	quitAppManaged(0);
-    e->ignore();
+    if( browser->resultQuitAppAsk() ) {
+	e->accept();
+    } else {
+	e->ignore();
+    }
 }
 
 void Browser::about()
@@ -346,7 +365,7 @@ void Browser::keyPressEvent(QKeyEvent* e)
 	    break;
 	}
 	default:
-	    Browser_t::keyPressEvent(e);
+	    BrowserBase_t::keyPressEvent(e);
     }
 }
 

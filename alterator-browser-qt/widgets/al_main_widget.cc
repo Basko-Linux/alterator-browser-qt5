@@ -12,7 +12,6 @@ AMainWidget::AMainWidget(QWidget *parent, const Qt::Orientation):
     bl->setMargin(0);
 
     browser->popupAdd(this, true);
-
 }
 
 AMainWidget::~AMainWidget()
