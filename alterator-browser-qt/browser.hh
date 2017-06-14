@@ -15,9 +15,9 @@
 #include "splashscreen.hh"
 
 
-typedef QMainWindow BrowserBase_t;
+typedef QMainWindow BrowserBase;
 
-class Browser: public BrowserBase_t
+class Browser: public BrowserBase
 {
     Q_OBJECT
 public:

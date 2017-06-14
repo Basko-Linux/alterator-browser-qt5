@@ -227,7 +227,7 @@ void AWizardFaceStepList::replace(int n, QPair<QString, QString> item)
 
 // AWizardFace
 AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
-    AWidget<QFrame>(parent)
+    AWidget<AWizardFaceBase>(parent)
 {
     setObjectName("wizardface");
     setLineWidth(0);
@@ -395,7 +395,7 @@ bool AWizardFace::eventFilter(QObject *o, QEvent *e)
 	}
     }
 
-    return QWidget::eventFilter(o, e);
+    return AWizardFaceBase::eventFilter(o, e);
 }
 
 int AWizardFace::findButtonPosition(UserActionType type)

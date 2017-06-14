@@ -89,10 +89,10 @@ void AListBox::keyPressEvent(QKeyEvent * e)
 	QTreeWidget::keyPressEvent(e);
 }
 
-void AListBox::showEvent(QShowEvent*)
+void AListBox::showEvent(QShowEvent *e)
 {
-    //QTreeWidget::showEvent(e);
     scrollTo(currentIndex());
+    e->accept();
 }
 
 void AListBox::adjustAllColumnsWidth()

@@ -3,7 +3,7 @@
 #include "al_dialog.hh"
 
 ADialog::ADialog(QWidget *parent, const Qt::Orientation orient):
-    AWidget<Popup>(parent)
+    AWidget<ADialogBase>(parent)
 {
     current_action = "__undefined__";
 
@@ -111,18 +111,18 @@ bool ADialog::eventFilter(QObject *o, QEvent *e)
 	}
     }
 
-    return QWidget::eventFilter(o, e);
+    return ADialogBase::eventFilter(o, e);
 }
 
 #if 0
 void ADialog::showEvent(QShowEvent *e)
 {
     //qDebug("ADialog::showEvent");
-    //QDialog::showEvent(e);
     if( !browser->haveWindowManager() )
     {
 	Utils::fixWmlessPopup(this);
     }
+    e->accept();
 }
 
 void ADialog::paintEvent(QPaintEvent* e)
@@ -151,7 +151,7 @@ void ADialog::keyPressEvent ( QKeyEvent * e )
 	    break;
 	}
 	default:
-	    Popup::keyPressEvent(e);
+	    ADialogBase::keyPressEvent(e);
     }
 }
 #endif

@@ -86,10 +86,11 @@ void ATextBox::markRequired(bool req)
     }
 }
 
-void ATextBox::showEvent(QShowEvent*)
+void ATextBox::showEvent(QShowEvent *e)
 {
     edit->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     edit->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    e->accept();
 }
 
 void ATextBox::setUrl(const QString& url)

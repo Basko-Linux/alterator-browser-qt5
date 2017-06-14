@@ -79,10 +79,11 @@ void HelpWidget::setHelpSource(const QString& url)
     }
 }
 
-void HelpWidget::showEvent(QShowEvent*)
+void HelpWidget::showEvent(QShowEvent *e)
 {
     if( vscroll_position > 1 )
 	textBrowser->verticalScrollBar()->setValue(vscroll_position);
+    e->accept();
 }
 
 int HelpWidget::verticalScrollPosition()

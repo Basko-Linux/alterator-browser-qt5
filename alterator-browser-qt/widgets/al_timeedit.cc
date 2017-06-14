@@ -8,7 +8,7 @@
 // TimeEditFocusEventHandler
 
 TimeEditFocusEventHandler::TimeEditFocusEventHandler(QObject *parent):
-    QObject(parent)
+    TimeEditFocusEventHandlerBase(parent)
 {
 }
 
@@ -32,7 +32,7 @@ bool TimeEditFocusEventHandler::eventFilter(QObject *obj, QEvent *e)
 	default:
 	    break;
     }
-    return QObject::eventFilter(obj, e);
+    return TimeEditFocusEventHandlerBase::eventFilter(obj, e);
 }
 
 // AnalogClock

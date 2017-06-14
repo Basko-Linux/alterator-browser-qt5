@@ -54,7 +54,7 @@ int x_catchRedirectError(Display *, XErrorEvent *event)
 #endif
 
 Browser::Browser():
-    BrowserBase_t(0)
+    BrowserBase(0)
 {
     qRegisterMetaType<Qt::Orientation>("Qt::Orientation");
     loadStyleSheet();
@@ -365,7 +365,7 @@ void Browser::keyPressEvent(QKeyEvent* e)
 	    break;
 	}
 	default:
-	    BrowserBase_t::keyPressEvent(e);
+	    BrowserBase::keyPressEvent(e);
     }
 }
 

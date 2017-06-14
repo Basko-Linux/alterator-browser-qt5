@@ -7,7 +7,9 @@
 
 #include "al_widget.hh"
 
-class TimeEditFocusEventHandler: public QObject
+typedef QObject TimeEditFocusEventHandlerBase;
+
+class TimeEditFocusEventHandler: public TimeEditFocusEventHandlerBase
 {
 Q_OBJECT
 public:

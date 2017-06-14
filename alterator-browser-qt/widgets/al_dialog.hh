@@ -7,7 +7,9 @@
 
 #include "widgets.hh"
 
-class ADialog: public AWidget<Popup>
+typedef Popup ADialogBase;
+
+class ADialog: public AWidget<ADialogBase>
 {
 Q_OBJECT
 #include "awidget_properties.hh"

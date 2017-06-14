@@ -12,6 +12,7 @@
 #include "widgets.hh"
 #include "logo_icon.hh"
 
+typedef QFrame AWizardFaceBase;
 
 class AWizardFaceStepListItem: public QWidget
 {
@@ -63,7 +64,7 @@ private:
     QPixmap pix_undone;
 };
 
-class AWizardFace: public AWidget<QFrame>
+class AWizardFace: public AWidget<AWizardFaceBase>
 {
 Q_OBJECT
 #include "awidget_properties.hh"

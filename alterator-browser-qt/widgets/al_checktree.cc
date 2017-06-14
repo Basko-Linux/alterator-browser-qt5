@@ -211,10 +211,10 @@ void ACheckTree::keyPressEvent(QKeyEvent * e)
 	QTreeWidget::keyPressEvent(e);
 }
 
-void ACheckTree::showEvent(QShowEvent*)
+void ACheckTree::showEvent(QShowEvent *e)
 {
-    //QTreeWidget::showEvent(e);
     scrollTo(currentIndex());
+    e->accept();
 }
 
 // Lookup item by its name

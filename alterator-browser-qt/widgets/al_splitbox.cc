@@ -63,6 +63,7 @@ void ASplitBox::showEvent(QShowEvent *e)
 
     // set widget sizes
     setSizes(tmp_cols);
+    e->accept();
 }
 
 void ASplitBox::setColumns(const QString &columns)
