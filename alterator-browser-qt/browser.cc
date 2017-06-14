@@ -638,6 +638,7 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	{
 	    if(parent_id.isEmpty()) {
 	        new_widget = new alMainWidget(attr, id, "");
+		popupAdd(new_widget->getWidget(), true);
 	    } else {
 	        new_widget = new alDialog(attr,id,parent_id);
 	    }
