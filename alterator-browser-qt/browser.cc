@@ -636,10 +636,11 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WDialog:
 	case WMainWidget:
 	{
-	    if(parent_id.isEmpty())
+	    if(parent_id.isEmpty()) {
 	        new_widget = new alMainWidget(attr, id, "");
-	    else
+	    } else {
 	        new_widget = new alDialog(attr,id,parent_id);
+	    }
 	    break;
 	}
 	case WBox:
