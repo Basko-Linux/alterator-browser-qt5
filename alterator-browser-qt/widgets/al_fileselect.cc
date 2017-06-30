@@ -29,7 +29,7 @@ void AFileSelect::onUserEdited(const QString &sel)
     if( !sel.isEmpty() && sel != old_txt )
     {
 	old_txt = sel;
-	emit changed();
+	Q_EMIT changed();
     }
 }
 
@@ -57,7 +57,7 @@ void AFileSelect::setSelected(const QString &sel, bool user)
 {
     lineedit->setText(sel);
     if( user )
-	emit selected();
+	Q_EMIT selected();
 }
 
 QString AFileSelect::selectedFiles()

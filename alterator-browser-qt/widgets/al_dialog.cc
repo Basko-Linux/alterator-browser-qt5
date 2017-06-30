@@ -196,7 +196,7 @@ void ADialog::onButtonClicked(QAbstractButton* btn)
 	    if( btn == it.next().value() )
 	    {
 		current_action = it.key();
-		emit actionSelected();
+		Q_EMIT actionSelected();
 	    }
 	}
     }
@@ -259,7 +259,7 @@ void alDialog::setAttr(const QString& name,const QString& value)
 	wnd_->clearActions();
 	QStringList data = value.split(";", QString::KeepEmptyParts);
 	QStringListIterator it(data);
-	forever
+	Q_FOREVER
 	{
 	    QString key, name, pixmap;
 	    if(it.hasNext())

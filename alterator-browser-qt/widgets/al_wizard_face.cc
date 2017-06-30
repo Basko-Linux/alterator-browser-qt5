@@ -881,17 +881,17 @@ void AWizardFace::onSelectAction(const QString& key)
 	case UserActionBackward:
 	{
 	    flags = flags | AlteratorRequestBlocking;
-	    emit blockingActionSelected(flags);
+	    Q_EMIT blockingActionSelected(flags);
 	    break;
 	}
 	default:
-	    emit actionSelected();
+	    Q_EMIT actionSelected();
     }
 }
 
 void AWizardFace::onSelectStep(QListWidgetItem*)
 {
-    emit stepSelected();
+    Q_EMIT stepSelected();
 }
 
 bool AWizardFace::onEnter()
@@ -1043,7 +1043,7 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
 	wnd_->clearActions();
 	QStringList data = value.split(";", QString::KeepEmptyParts);
 	QStringListIterator it(data);
-	forever
+	Q_FOREVER
 	{
 	    QString key, name, pixmap;
 	    if(it.hasNext())

@@ -154,7 +154,7 @@ void Connection::run()
 	}
 	is_processing = false;
 	if( !destruction ) {
-	    emit stopLongRequest();
+	    Q_EMIT stopLongRequest();
 	}
 #ifdef QTHREAD_EXEC_WORKAROUND
 	if( myExec() != 0 )
@@ -180,13 +180,13 @@ void Connection::parseAnswer(const alRequest &dom, AlteratorRequestFlags request
     alterator_requests_lock.lock();
     alterator_requests.enqueue(request);
     alterator_requests_lock.unlock();
-    emit alteratorRequests();
+    Q_EMIT alteratorRequests();
 }
 
 void Connection::checkDelayedFinish()
 {
     if( is_processing && !destruction )
-        emit startLongRequest();
+        Q_EMIT startLongRequest();
 }
 
 bool Connection::setRequestActionParamData(QXmlAttributes &xmlattrs, const QString &xmlattrname, AlteratorRequestAction &action, const QString &attrname, AlteratorRequestParamDataType dtype)

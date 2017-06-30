@@ -96,7 +96,7 @@ void ASpinBox::onSpinBoxValueChange(int newval)
 
 void ASpinBox::onUserSliderRelease()
 {
-    emit editingFinished();
+    Q_EMIT editingFinished();
 }
 
 void ASpinBox::onUserSpinBoxRelease()
@@ -110,7 +110,7 @@ void ASpinBox::onUserSpinBoxRelease()
 	spinbox->setValue(spin_finished);
         spinbox_own_changes = false;
     }
-    emit editingFinished();
+    Q_EMIT editingFinished();
 }
 
 void ASpinBox::setSliderVisibility(bool visible)

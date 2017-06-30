@@ -108,7 +108,7 @@ void HelpWidget::execLink(const QUrl &url)
 
 void HelpWidget::onButtonPressed(QAbstractButton *btn)
 {
-    emit finished( buttonBox->standardButton(btn) );
+    Q_EMIT finished( buttonBox->standardButton(btn) );
 }
 
 // HelpBrowser

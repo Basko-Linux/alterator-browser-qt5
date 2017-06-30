@@ -174,7 +174,7 @@ void Popup::done(int res)
     result_code = res;
     if(event_loop)
 	event_loop->exit();
-    emit finished(res);
+    Q_EMIT finished(res);
 }
 
 int Popup::exec()

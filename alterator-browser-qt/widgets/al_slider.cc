@@ -39,7 +39,7 @@ void ASlider::checkValueReallyChanged()
     if( old_value != cur_value )
     {
 	old_value = cur_value;
-	emit valueReallyChanged();
+	Q_EMIT valueReallyChanged();
     }
 }
 

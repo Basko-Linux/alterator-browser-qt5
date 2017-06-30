@@ -21,12 +21,12 @@ bool TimeEditFocusEventHandler::eventFilter(QObject *obj, QEvent *e)
     {
 	case QEvent::FocusIn:
 	{
-	    emit focusIn();
+	    Q_EMIT focusIn();
 	    break;
 	}
 	case QEvent::FocusOut:
 	{
-	    emit focusOut();
+	    Q_EMIT focusOut();
 	    break;
 	}
 	default:

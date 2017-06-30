@@ -386,7 +386,7 @@ void Browser::changeLanguage(const QString& language)
     reloadTranslator(qtranslator, "qtbase");
     reloadTranslator(app_translator, "alterator_browser_qt");
 
-    emit languageChanged();
+    Q_EMIT languageChanged();
 }
 
 void Browser::reloadTranslator(QTranslator* translator, const QString &domain)

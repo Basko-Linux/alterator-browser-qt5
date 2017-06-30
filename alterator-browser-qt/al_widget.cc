@@ -28,8 +28,8 @@ alWidget::~alWidget()
     }
 }
 
-void alWidget::onUpdate() { emit updated(); }
-void alWidget::onUpdate(int) { emit updated(); }
+void alWidget::onUpdate() { Q_EMIT updated(); }
+void alWidget::onUpdate(int) { Q_EMIT updated(); }
 
 void alWidget::onClick()     { browser->emitEvent(id_, "clicked", AlteratorRequestDefault); }
 void alWidget::onSpecialClick(const AlteratorRequestFlags flags)     { browser->emitEvent(id_,"clicked", flags); }

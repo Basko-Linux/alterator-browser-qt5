@@ -23,7 +23,7 @@ ALinkButton::~ALinkButton()
 
 void ALinkButton::onLinkActivated(const QString&)
 {
-    emit clicked();
+    Q_EMIT clicked();
 }
 
 void ALinkButton::setText(const QString &txt)

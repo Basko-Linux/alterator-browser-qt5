@@ -64,7 +64,7 @@ void AColorSelect::onUserEdited(const QString &sel)
     if( sel != old_txt )
     {
 	old_txt = sel;
-	emit changed();
+	Q_EMIT changed();
     }
 }
 
@@ -76,8 +76,8 @@ void AColorSelect::setSelected(const QString &sel, bool user)
     setBtnColor(sel);
     if( user && old_text != new_text )
     {
-	emit selected();
-	emit changed();
+	Q_EMIT selected();
+	Q_EMIT changed();
     }
 }
 

@@ -24,7 +24,7 @@ void AComboBox::keyPressEvent(QKeyEvent *e)
 	case Qt::Key_Enter:
 	case Qt::Key_Return:
 	{
-	    emit editingFinished();
+	    Q_EMIT editingFinished();
 	    break;
 	}
 	default:
@@ -39,7 +39,7 @@ void AComboBox::focusOutEvent(QFocusEvent* e)
         && !(QApplication::activePopupWidget() && QApplication::activePopupWidget()->parentWidget() == this))
     {
 	if( text_changed_ )
-	    emit editingFinished();
+	    Q_EMIT editingFinished();
     }
 }
 
@@ -57,7 +57,7 @@ void AComboBox::onTextChange(const QString&)
 void AComboBox::onActivate(const QString&)
 {
     text_changed_ = false;
-    emit editingFinished();
+    Q_EMIT editingFinished();
 }
 
 // alComboBox

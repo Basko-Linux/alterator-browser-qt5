@@ -19,6 +19,6 @@ void LogoIcon::mousePressEvent(QMouseEvent *e)
     if( clickable )
     {
 	e->accept();
-	emit clicked();
+	Q_EMIT clicked();
     }
 }

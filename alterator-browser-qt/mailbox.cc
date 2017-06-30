@@ -34,7 +34,7 @@ MbLocalServer::~MbLocalServer()
 
 void MbLocalServer::incomingConnection(quintptr fd)
 {
-    emit newConnection(fd);
+    Q_EMIT newConnection(fd);
 }
 
 

@@ -83,7 +83,7 @@ void AListBox::keyPressEvent(QKeyEvent * e)
 	QTreeWidgetItem *ci = currentItem();
 	if( ci )
 	    ci->setSelected(!ci->isSelected());
-        emit spaceBtnPressed();
+        Q_EMIT spaceBtnPressed();
     }
     else
 	QTreeWidget::keyPressEvent(e);
@@ -241,7 +241,7 @@ void AListBox::onSelectionChanged()
 
     if( !nonuser_selection_change )
     {
-	emit selected();
+	Q_EMIT selected();
     }
 }
 

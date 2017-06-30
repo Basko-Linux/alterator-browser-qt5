@@ -70,7 +70,7 @@ void ACenterSectionModulesList::onItemClicked(QWidget *w)
 {
     ACSListItem *i = qobject_cast<ACSListItem*>(w);
     if(i)
-	emit itemClicked(i);
+	Q_EMIT itemClicked(i);
 }
 
 void ACenterSectionModulesList::addItem(ACSListItem *i)
@@ -759,7 +759,7 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
 	wnd_->clearActions();
 	QStringList data = value.split(";", QString::KeepEmptyParts);
 	QStringListIterator it(data);
-	forever
+	Q_FOREVER
 	{
 	    QString key, name, pixmap;
 	    if(it.hasNext())
@@ -820,7 +820,7 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
 	wnd_->clearModules();
 	QStringList data = value.split(";", QString::KeepEmptyParts);
 	QStringListIterator it(data);
-	forever
+	Q_FOREVER
 	{
 	    QString section_key, key, name;
 	    if(it.hasNext())
@@ -873,7 +873,7 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
 	wnd_->clearSections();
 	QStringList data = value.split(";", QString::KeepEmptyParts);
 	QStringListIterator it(data);
-	forever
+	Q_FOREVER
 	{
 	    QString key, name, desc, pixmap;
 	    if(it.hasNext())
