@@ -186,7 +186,7 @@ int Popup::exec()
     }
 
     result_code = 0;
-    browser->popupAdd(this);
+    g_browser->popupAdd(this);
 
     QEventLoop evloop;
     event_loop = &evloop;

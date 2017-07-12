@@ -91,6 +91,6 @@ private:
     QMap<QByteArray,BrowserEventType> str2event;
 };
 
-extern Enums *enums;
+extern Enums *g_enums;
 
 #endif

@@ -7,7 +7,7 @@ DesktopFile::DesktopFile(QObject *parent, const QString &path):
     QSettings(path, QSettings::IniFormat, parent)
 {
     setIniCodec("UTF-8");
-    m_lng = browser->shortLang();
+    m_lng = g_browser->shortLang();
     beginGroup("Desktop Entry");
     m_name = translatedValue("Name").toString();
     m_comment = translatedValue("Comment").toString();

@@ -275,7 +275,7 @@ void Browser::quitAppError(const QString &msg)
 
 void Browser::closeEvent(QCloseEvent *e)
 {
-    if( browser->quitAppAsk() ) {
+    if( g_browser->quitAppAsk() ) {
 	e->accept();
     } else {
 	e->ignore();
@@ -411,7 +411,7 @@ void Browser::emitEvent(const QString &id, const BrowserEventType type, const Al
 	}
 
 	QString request = "(alterator-request action \"event\"";
-	request += "name \""+enums->browserEventToStr(type)+"\"";//append type
+	request += "name \""+g_enums->browserEventToStr(type)+"\"";//append type
 	request += "widget-id \""+id+"\"";//append id
 	
 	//now collect a post data
@@ -432,7 +432,7 @@ void Browser::emitEvent(const QString &id, const BrowserEventType type, const Al
 
 void Browser::emitEvent(const QString &id,const QByteArray &type, const AlteratorRequestFlags request_flags)
 {
-    emitEvent(id, enums->strToBrowserEvent(type), request_flags);
+    emitEvent(id, g_enums->strToBrowserEvent(type), request_flags);
 }
 
 void Browser::onAlteratorRequests()
@@ -618,7 +618,7 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 
     /*
 	qDebug("%s: id<%s> type<%s> parent_id<%s> sub-type<%s> width<%d> height<%d>", __FUNCTION__,
-	    qPrintable(id), qPrintable(enums->widgetToStr(attr.value("type").t)), qPrintable(parent_id),
+	    qPrintable(id), qPrintable(g_enums->widgetToStr(attr.value("type").t)), qPrintable(parent_id),
 	    qPrintable(attr.value("sub-type").s),
 	    attr.value("width").i, attr.value("height").i );
 	*/
@@ -676,7 +676,7 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WProxy:
 	case WUnknown:
 	{
-	    qDebug("Unknown widget <%s> requested. Make gridbox instead.", qPrintable(enums->widgetToStr(attr.value("type").t)));
+	    qDebug("Unknown widget <%s> requested. Make gridbox instead.", qPrintable(g_enums->widgetToStr(attr.value("type").t)));
 	    new_widget = new alGridBox(attr,id,parent_id);
 	}
 	/* default:

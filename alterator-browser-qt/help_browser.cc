@@ -41,8 +41,8 @@ HelpWidget::HelpWidget(QWidget *parent):
     QMenu *menu_help = new QMenu(tr("Help"), menu_bar);
     menu_bar->addMenu(menu_session);
     menu_bar->addMenu(menu_help);
-    menu_session->addAction(QApplication::style()->standardPixmap(QStyle::SP_DialogCancelButton), tr("Quit"), browser, SLOT(quitAppAsk()));
-    menu_help->addAction(getPixmap("logo_16"), tr("About"), browser, SLOT(about()));
+    menu_session->addAction(QApplication::style()->standardPixmap(QStyle::SP_DialogCancelButton), tr("Quit"), g_browser, SLOT(quitAppAsk()));
+    menu_help->addAction(getPixmap("logo_16"), tr("About"), g_browser, SLOT(about()));
     menu_help->addAction(QApplication::style()->standardPixmap(QStyle::SP_TitleBarMenuButton), tr("About Qt"), QApplication::instance(), SLOT(aboutQt()));
     gridLayout->setMenuBar(menu_bar);
 
@@ -136,16 +136,16 @@ int HelpBrowser::exec()
 {
     if( !help_widget )
     {
-	HelpWidget helpw(browser);
+	HelpWidget helpw(g_browser);
 	help_widget = &helpw;
-	int w = browser->width()*0.8;
-	int h = browser->height()*0.8;
+	int w = g_browser->width()*0.8;
+	int h = g_browser->height()*0.8;
 	if( w > 400 && h > 300 )
-	    helpw.setMinimumSize(browser->width()*0.8, browser->height()*0.8);
+	    helpw.setMinimumSize(g_browser->width()*0.8, g_browser->height()*0.8);
 	helpw.setHelpSource(help_url);
 	helpw.setVerticalScrollPosition(vscroll_position);
 	helpw.exec();
-	browser->popupRemove(&helpw);
+	g_browser->popupRemove(&helpw);
 	help_widget = 0;
     }
     return 0;

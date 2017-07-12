@@ -168,7 +168,7 @@ void ACheckTree::onChange(QTreeWidgetItem*, int)
 
 void ACheckTree::onChangeDeferred()
 {
-    browser->emitEvent(getId(), BrowserEventChanged, AlteratorRequestDefault);
+    g_browser->emitEvent(getId(), BrowserEventChanged, AlteratorRequestDefault);
 }
 
 // Slot for item select
@@ -182,7 +182,7 @@ void ACheckTree::onSelect()
 
 void ACheckTree::onSelectDeferred()
 {
-    browser->emitEvent(getId(), BrowserEventSelected, AlteratorRequestDefault);
+    g_browser->emitEvent(getId(), BrowserEventSelected, AlteratorRequestDefault);
 }
 
 // Slot for item expand

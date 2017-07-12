@@ -7,8 +7,8 @@
 #include "browser.hh"
 #include "enums.hh"
 
-Browser *browser = 0;
-Enums *enums = 0;
+Browser *g_browser = 0;
+Enums *g_enums = 0;
 
 int main(int argc,char **argv)
 {
@@ -105,14 +105,14 @@ int main(int argc,char **argv)
 	    QApplication app(argc, argv);
 
 	    Enums enums_;
-	    enums = &enums_;
+	    g_enums = &enums_;
 
 	    Browser mw;
 	    mw.show();
-	    browser = &mw;
+	    g_browser = &mw;
 #if 0
 	    app.watchUnixSignal(SIGUSR1, true);
-	    QObject::connect(QCoreApplication::instance(), SIGNAL(unixSignal(int)), browser, SLOT(onUnixSignal(int)));
+	    QObject::connect(QCoreApplication::instance(), SIGNAL(unixSignal(int)), g_browser, SLOT(onUnixSignal(int)));
 #else
             struct sigaction sa;
             sigemptyset(&(sa.sa_mask));
@@ -122,8 +122,8 @@ int main(int argc,char **argv)
 #endif
 
 	    ret = app.exec();
-	    browser = 0;
-	    enums = 0;
+	    g_browser = 0;
+	    g_enums = 0;
 	}
 	else
 	{

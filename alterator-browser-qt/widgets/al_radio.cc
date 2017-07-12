@@ -13,9 +13,9 @@ ARadio::~ARadio()
 void ARadio::onToggle(bool)
 {
     if( eventRegistered(BrowserEventToggled) )
-	browser->emitEvent(getId(), BrowserEventToggled, AlteratorRequestDefault);
+	g_browser->emitEvent(getId(), BrowserEventToggled, AlteratorRequestDefault);
     if( eventRegistered(BrowserEventChanged) )
-	browser->emitEvent(getId(), BrowserEventChanged, AlteratorRequestDefault);
+	g_browser->emitEvent(getId(), BrowserEventChanged, AlteratorRequestDefault);
 }
 
 void alRadio::setAttr(const QString& name,const QString& value)

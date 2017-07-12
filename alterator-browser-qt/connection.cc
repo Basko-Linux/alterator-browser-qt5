@@ -214,7 +214,7 @@ AlteratorRequestParamData Connection::makeRequestParamData(AlteratorRequestParam
     {
 	case AltReqParamDataType:
 	{
-	    data.t = enums->strToWidget(str.toLatin1());
+	    data.t = g_enums->strToWidget(str.toLatin1());
 	    break;
 	}
 	case AltReqParamDataString:
@@ -257,7 +257,7 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 {
 	QXmlAttributes e = cmd->attrs_;
 	AlteratorRequestAction act;
-	act.action = enums->strToRequestAction(e.value("action").toLatin1());
+	act.action = g_enums->strToRequestAction(e.value("action").toLatin1());
 
 	switch( act.action )
 	{

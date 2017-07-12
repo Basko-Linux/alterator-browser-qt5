@@ -47,7 +47,7 @@ MailBox::MailBox(const QString& path, QObject *parent):
     setMaxPendingConnections(8);
     if( !listen(path) )
     {
-	browser->quitAppError(errorString());
+	g_browser->quitAppError(errorString());
     }
 
     QObject::connect(this, SIGNAL(newConnection(int)), this, SLOT(onNewConnection(int)));
@@ -91,7 +91,7 @@ void MailBox::readMessage(int fd)
 		    //qDebug("MailBox::readMessage mailbox message:%s",qPrintable(message));
 		    if( is.hasNext() || fs.atEnd() )
 		    {
-			browser->getDocument(QString("(mailbox-request %1 )").arg(message));
+			g_browser->getDocument(QString("(mailbox-request %1 )").arg(message));
 			msgremain.clear();
 		    }
 		    else

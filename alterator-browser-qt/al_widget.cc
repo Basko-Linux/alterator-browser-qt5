@@ -31,36 +31,36 @@ alWidget::~alWidget()
 void alWidget::onUpdate() { Q_EMIT updated(); }
 void alWidget::onUpdate(int) { Q_EMIT updated(); }
 
-void alWidget::onClick()     { browser->emitEvent(id_, "clicked", AlteratorRequestDefault); }
-void alWidget::onSpecialClick(const AlteratorRequestFlags flags)     { browser->emitEvent(id_,"clicked", flags); }
-void alWidget::onClick(bool) { browser->emitEvent(id_,"clicked", AlteratorRequestDefault); }
-void alWidget::onClick(QListWidgetItem*)     { browser->emitEvent(id_,"clicked", AlteratorRequestDefault); }
-void alWidget::onClick(QTreeWidgetItem*,int) { browser->emitEvent(id_,"clicked", AlteratorRequestDefault); }
+void alWidget::onClick()     { g_browser->emitEvent(id_, "clicked", AlteratorRequestDefault); }
+void alWidget::onSpecialClick(const AlteratorRequestFlags flags)     { g_browser->emitEvent(id_,"clicked", flags); }
+void alWidget::onClick(bool) { g_browser->emitEvent(id_,"clicked", AlteratorRequestDefault); }
+void alWidget::onClick(QListWidgetItem*)     { g_browser->emitEvent(id_,"clicked", AlteratorRequestDefault); }
+void alWidget::onClick(QTreeWidgetItem*,int) { g_browser->emitEvent(id_,"clicked", AlteratorRequestDefault); }
 
-void alWidget::onChange()    { browser->emitEvent(id_,"changed", AlteratorRequestDefault); }
-void alWidget::onChange(int) { browser->emitEvent(id_,"changed", AlteratorRequestDefault); }
-void alWidget::onChange(const QString&) { browser->emitEvent(id_,"changed", AlteratorRequestDefault); }
-void alWidget::onChange(QWidget*)       { browser->emitEvent(id_,"changed", AlteratorRequestDefault); }
+void alWidget::onChange()    { g_browser->emitEvent(id_,"changed", AlteratorRequestDefault); }
+void alWidget::onChange(int) { g_browser->emitEvent(id_,"changed", AlteratorRequestDefault); }
+void alWidget::onChange(const QString&) { g_browser->emitEvent(id_,"changed", AlteratorRequestDefault); }
+void alWidget::onChange(QWidget*)       { g_browser->emitEvent(id_,"changed", AlteratorRequestDefault); }
 
-void alWidget::onReturn() { browser->emitEvent(id_,"return-pressed", AlteratorRequestDefault); }
-void alWidget::onReturn(QListWidgetItem*) { browser->emitEvent(id_,"return-pressed", AlteratorRequestDefault); }
-void alWidget::onReturn(QTreeWidgetItem*, int) { browser->emitEvent(id_,"return-pressed", AlteratorRequestDefault); }
+void alWidget::onReturn() { g_browser->emitEvent(id_,"return-pressed", AlteratorRequestDefault); }
+void alWidget::onReturn(QListWidgetItem*) { g_browser->emitEvent(id_,"return-pressed", AlteratorRequestDefault); }
+void alWidget::onReturn(QTreeWidgetItem*, int) { g_browser->emitEvent(id_,"return-pressed", AlteratorRequestDefault); }
 
-void alWidget::onSelect() { browser->emitEvent(id_,"selected", AlteratorRequestDefault); }
-void alWidget::onSelect(int) { browser->emitEvent(id_,"selected", AlteratorRequestDefault); }
-void alWidget::onSelect(QTreeWidgetItem*,QTreeWidgetItem*) { browser->emitEvent(id_,"selected", AlteratorRequestDefault); }
-void alWidget::onSelect(const QString&) { browser->emitEvent(id_,"selected", AlteratorRequestDefault); }
+void alWidget::onSelect() { g_browser->emitEvent(id_,"selected", AlteratorRequestDefault); }
+void alWidget::onSelect(int) { g_browser->emitEvent(id_,"selected", AlteratorRequestDefault); }
+void alWidget::onSelect(QTreeWidgetItem*,QTreeWidgetItem*) { g_browser->emitEvent(id_,"selected", AlteratorRequestDefault); }
+void alWidget::onSelect(const QString&) { g_browser->emitEvent(id_,"selected", AlteratorRequestDefault); }
 
-void alWidget::onDoubleClick() { browser->emitEvent(id_,"double-clicked", AlteratorRequestDefault); }
-void alWidget::onDoubleClick(QTreeWidgetItem*,int) { browser->emitEvent(id_,"double-clicked", AlteratorRequestDefault); }
-void alWidget::onDoubleClick(QListWidgetItem*) { browser->emitEvent(id_,"double-clicked", AlteratorRequestDefault); }
+void alWidget::onDoubleClick() { g_browser->emitEvent(id_,"double-clicked", AlteratorRequestDefault); }
+void alWidget::onDoubleClick(QTreeWidgetItem*,int) { g_browser->emitEvent(id_,"double-clicked", AlteratorRequestDefault); }
+void alWidget::onDoubleClick(QListWidgetItem*) { g_browser->emitEvent(id_,"double-clicked", AlteratorRequestDefault); }
 
-void alWidget::onToggle(bool) { browser->emitEvent(id_,"toggled", AlteratorRequestDefault); }
-void alWidget::onToggle(int) { browser->emitEvent(id_,"toggled", AlteratorRequestDefault); }
+void alWidget::onToggle(bool) { g_browser->emitEvent(id_,"toggled", AlteratorRequestDefault); }
+void alWidget::onToggle(int) { g_browser->emitEvent(id_,"toggled", AlteratorRequestDefault); }
 
 void alWidget::onEvent(const BrowserEventType e, const AlteratorRequestFlags f)
 {
-    browser->emitEvent(id_, e, f);
+    g_browser->emitEvent(id_, e, f);
 }
 
 void alWidget::onEvent(const BrowserEventType e)
@@ -226,7 +226,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	}
 	else if ("help" == name)
 	{
-	    browser->setHelpSource(value);
+	    g_browser->setHelpSource(value);
 	}
 	else if ("focus" == name)
 	{
@@ -257,7 +257,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	    }
 	}
 	else
-	    qDebug("Ignore unknown attribute for widget <%s> <%s>=<%s>", qPrintable(enums->widgetToStr(type())), qPrintable(name), qPrintable(value));
+	    qDebug("Ignore unknown attribute for widget <%s> <%s>=<%s>", qPrintable(g_enums->widgetToStr(type())), qPrintable(name), qPrintable(value));
 }
 
 QSizePolicy alWidget::adjustSizePolicy(const AlteratorWidgetType type, const QSizePolicy policy, const Qt::Orientation orient)

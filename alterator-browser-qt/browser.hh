@@ -109,6 +109,6 @@ private Q_SLOTS:
     void onAlteratorRequest(const AlteratorRequest&);
 };
 
-extern Browser *browser;
+extern Browser *g_browser;
 
 #endif

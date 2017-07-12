@@ -34,7 +34,7 @@ alBox::alBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QS
 	case WVGroupBox:
 	case WHGroupBox:
 	{
-	    wnd_->setMyTitle(enums->widgetToStr(type()));
+	    wnd_->setMyTitle(g_enums->widgetToStr(type()));
 	}
 	default: break;
     }

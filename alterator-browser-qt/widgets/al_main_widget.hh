@@ -21,7 +21,7 @@ public:
 	alMainWidget(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent);
 	void setAttr(const QString& name,const QString& value);
 	void popUp() {}
-	void popDown()  { browser->quitAppManaged(0); }
+	void popDown()  { g_browser->quitAppManaged(0); }
 };
 
 #endif

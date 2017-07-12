@@ -239,7 +239,7 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     help_btn->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Fixed);
     help_btn->setText(tr("Help"));
     help_btn->setIcon(getPixmap("theme:help"));
-    connect(help_btn, SIGNAL(clicked()), browser, SLOT(showHelp()));
+    connect(help_btn, SIGNAL(clicked()), g_browser, SLOT(showHelp()));
 
     QToolButton *expert_btn = new QToolButton(this);
     expert_btn->setCheckable(true);
@@ -256,7 +256,7 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     exit_btn->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Fixed);
     exit_btn->setText(tr("Quit"));
     exit_btn->setIcon(QApplication::style()->standardPixmap(QStyle::SP_DialogCloseButton));
-    connect(exit_btn, SIGNAL(clicked()), browser, SLOT(quitAppAsk()));
+    connect(exit_btn, SIGNAL(clicked()), g_browser, SLOT(quitAppAsk()));
 
     sections_widget = new QWidget(this);
     module_widget = new QWidget(this);
@@ -350,14 +350,14 @@ void ACenterFace::onOwerviewClicked()
 	owerview_btn->setText(tr("Main"));
 	owerview_btn->setIcon(getPixmap("theme:up"));
 	stacked_layout->setCurrentWidget(module_widget);
-	browser->setHelpSource(help_source_module);
+	g_browser->setHelpSource(help_source_module);
     }
     else
     {
 	owerview_btn->setText(tr("Module"));
 	owerview_btn->setIcon(getPixmap("theme:down"));
 	stacked_layout->setCurrentWidget(sections_widget);
-	browser->setHelpSource(help_source);
+	g_browser->setHelpSource(help_source);
     }
 }
 
@@ -417,7 +417,7 @@ void ACenterFace::addAction(const QString& key, const QString& name, const QStri
 {
     if( !key.isEmpty() )
     {
-	UserActionType type = enums->strToUserAction(key.toLatin1());
+	UserActionType type = g_enums->strToUserAction(key.toLatin1());
 	addAction(key, type);
 	if( !name.isEmpty() )
 	    setActionText(key, name);
@@ -622,12 +622,12 @@ QLayout* ACenterFace::getViewLayout()
 
 void ACenterFace::onSelectAction(const QString& key)
 {
-    UserActionType type = enums->strToUserAction(key.toLatin1());
+    UserActionType type = g_enums->strToUserAction(key.toLatin1());
     if( type == UserActionHelp )
-	browser->showHelp();
+	g_browser->showHelp();
     current_action_key = key;
     if( eventRegistered(BrowserEventClicked) )
-	browser->emitEvent(getId(), BrowserEventClicked, AlteratorRequestDefault);
+	g_browser->emitEvent(getId(), BrowserEventClicked, AlteratorRequestDefault);
 }
 
 void ACenterFace::onSelectModule(ACSListItem *i)
@@ -640,8 +640,8 @@ void ACenterFace::onSelectModule(ACSListItem *i)
 	    if( arguments.size() > 0 )
 	    {
 		QString program = arguments.takeAt(0);
-		browser->onSplashMessageRequest(tr("External module \"%1\" running...").arg(i->text()));
-		browser->onStartBusySplash();
+		g_browser->onSplashMessageRequest(tr("External module \"%1\" running...").arg(i->text()));
+		g_browser->onStartBusySplash();
 		external_app = new QProcess(this);
 		connect(external_app, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onExternalAppFinish(int,QProcess::ExitStatus)));
 		external_app->start(program, arguments, QIODevice::ReadOnly);
@@ -654,7 +654,7 @@ void ACenterFace::onSelectModule(ACSListItem *i)
 	    current_module_key = modules.key(i);
 	    view_widget->hide();
 	    if( eventRegistered(BrowserEventSelected) )
-		browser->emitEvent(getId(), BrowserEventSelected, AlteratorRequestCenterFaceModuleSelected);
+		g_browser->emitEvent(getId(), BrowserEventSelected, AlteratorRequestCenterFaceModuleSelected);
 	    owerview_btn->setText(tr("Main"));
 	    owerview_btn->setIcon(getPixmap("theme:up"));
 	    stacked_layout->setCurrentWidget(module_widget);
@@ -667,9 +667,9 @@ void ACenterFace::onExternalAppFinish(int, QProcess::ExitStatus )
 {
     delete external_app;
     external_app = 0;
-    browser->onStopBusySplash();
-    browser->onSplashMessageRequest("");
-    browser->raiseBrowserWindow();
+    g_browser->onStopBusySplash();
+    g_browser->onSplashMessageRequest("");
+    g_browser->raiseBrowserWindow();
 }
 
 QString ACenterFace::currentActionKey()
@@ -694,7 +694,7 @@ void ACenterFace::onExpertModeToggled(bool on)
 {
     current_action_key = on? "expert_mode": "base_mode";
     if( eventRegistered(BrowserEventClicked) )
-	browser->emitEvent(getId(), BrowserEventClicked, AlteratorRequestDefault);
+	g_browser->emitEvent(getId(), BrowserEventClicked, AlteratorRequestDefault);
 }
 
 void ACenterFace::sortTabOrder()
