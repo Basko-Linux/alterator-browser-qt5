@@ -47,8 +47,7 @@ Q_SIGNALS:
 public Q_SLOTS:
     void start();
     void stop();
-    void quitAppAsk();
-    bool resultQuitAppAsk();
+    bool quitAppAsk();
     void about();
     void popupRemove(QWidget*);
     void onUnixSignal(int);

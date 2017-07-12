@@ -256,14 +256,7 @@ void Browser::quitAppManaged(int res)
     }
 }
 
-void Browser::quitAppAsk()
-{
-    MessageBox *msgbox = new MessageBox("warning", tr("Quit"), tr("Exit Alterator?"), QDialogButtonBox::Ok|QDialogButtonBox::Cancel, this);
-    quitApp(msgbox->exec());
-    popupRemove(msgbox);
-}
-
-bool Browser::resultQuitAppAsk()
+bool Browser::quitAppAsk()
 {
     bool want_quit = false;
     MessageBox *msgbox = new MessageBox("warning", tr("Quit"), tr("Exit Alterator?"), QDialogButtonBox::Ok|QDialogButtonBox::Cancel, this);
@@ -282,7 +275,7 @@ void Browser::quitAppError(const QString &msg)
 
 void Browser::closeEvent(QCloseEvent *e)
 {
-    if( browser->resultQuitAppAsk() ) {
+    if( browser->quitAppAsk() ) {
 	e->accept();
     } else {
 	e->ignore();
