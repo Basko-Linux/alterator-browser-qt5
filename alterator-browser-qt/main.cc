@@ -102,6 +102,7 @@ int main(int argc,char **argv)
 
 	    Q_INIT_RESOURCE(images);
 	    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+	    QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 	    QApplication app(argc, argv);
 
 	    Enums enums_;
