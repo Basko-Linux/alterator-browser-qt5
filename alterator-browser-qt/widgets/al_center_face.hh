@@ -8,7 +8,7 @@
 #include <QToolButton>
 #include <QProcess>
 
-#include "flowlayout.h"
+#include "3dparty/flowlayout.h"
 #include "enums.hh"
 #include "widgets.hh"
 #include "awidget.hh"
