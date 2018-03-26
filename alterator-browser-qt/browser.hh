@@ -13,6 +13,7 @@
 #include "connection.hh"
 #include "al_widget.hh"
 #include "splashscreen.hh"
+#include "3dparty/waitingspinnerwidget.h"
 
 
 typedef QMainWindow BrowserBase;
@@ -78,7 +79,7 @@ private:
     int emit_locker;
     SplashScreen *splash;//single splash screen
     QTimer *busy_timer;
-    QLabel *startup_splash;
+    WaitingSpinnerWidget *startup_splash;
     bool help_available;
     QWidget *central_widget;
     QStackedLayout *central_layout;

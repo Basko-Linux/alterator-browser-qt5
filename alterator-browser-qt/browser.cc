@@ -128,22 +128,21 @@ Browser::Browser():
     }
 
     // startup animation
-    startup_splash = new QLabel(this);
-    startup_splash->setFrameStyle(QFrame::StyledPanel| QFrame::Sunken);
-    startup_splash->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-    startup_splash->setAlignment( Qt::AlignCenter );
-    startup_splash->setCursor(Qt::BlankCursor);
-    central_layout->addWidget(startup_splash);
-
-    QString startup_splash_file = ":/design/whirl.mng";
-    if( !QFile::exists(startup_splash_file) )
-	startup_splash_file = ":/images/whirl.mng";
-    QMovie *anim = new QMovie(startup_splash_file, QByteArray(), startup_splash);
-    if( anim->isValid() )
+    startup_splash = new WaitingSpinnerWidget(this, true, false);
     {
-	startup_splash->setMovie(anim);
-	anim->start();
+	int unit = qMax(font().pixelSize(), font().pointSize()) * 3;
+	startup_splash->setRoundness(unit*2);
+	startup_splash->setMinimumTrailOpacity(1.0);
+	startup_splash->setTrailFadePercentage(100.0);
+	startup_splash->setNumberOfLines(18);
+	startup_splash->setLineLength(unit);
+	startup_splash->setLineWidth(unit/2);
+	startup_splash->setInnerRadius(unit);
+	startup_splash->setRevolutionsPerSecond(1);
+	startup_splash->setColor(palette().highlight().color());
     }
+    central_layout->addWidget(startup_splash);
+    startup_splash->start();
 
     help_browser = new HelpBrowser(this);
 

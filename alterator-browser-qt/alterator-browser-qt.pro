@@ -24,14 +24,14 @@ RCC_DIR = .rcc
 UI_DIR = .uic
 
 SOURCES =  main.cc
-SOURCES += 3dparty/flowlayout.cpp popup.cc fileselect.cc logo_icon.cc
+SOURCES += 3dparty/flowlayout.cpp 3dparty/waitingspinnerwidget.cpp popup.cc fileselect.cc logo_icon.cc
 SOURCES += mailbox.cc connection.cc sax.cc messagebox.cc
 SOURCES += browser.cc a_pixmaps.cc utils.cc help_browser.cc
 SOURCES += enums.cc splashscreen.cc widgetlist.cc desktopfile.cc
 SOURCES += al_widget.cc awidget.cc widgets/al_*.cc
 
 HEADERS =  global.hh awidget_properties.hh
-HEADERS += 3dparty/flowlayout.h popup.hh fileselect.hh logo_icon.hh
+HEADERS += 3dparty/flowlayout.h 3dparty/waitingspinnerwidget.h popup.hh fileselect.hh logo_icon.hh
 HEADERS += mailbox.hh connection.hh widgets.hh sax.hh messagebox.hh
 HEADERS += browser.hh a_pixmaps.hh utils.hh help_browser.hh
 HEADERS += enums.hh splashscreen.hh widgetlist.hh desktopfile.hh
