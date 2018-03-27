@@ -132,9 +132,9 @@ Browser::Browser():
     {
 	int unit = qMax(font().pixelSize(), font().pointSize()) * 3;
 	startup_splash->setRoundness(unit*2);
-	startup_splash->setMinimumTrailOpacity(1.0);
-	startup_splash->setTrailFadePercentage(100.0);
-	startup_splash->setNumberOfLines(18);
+	startup_splash->setMinimumTrailOpacity(0.0);
+	startup_splash->setTrailFadePercentage(85.0);
+	startup_splash->setNumberOfLines(16);
 	startup_splash->setLineLength(unit);
 	startup_splash->setLineWidth(unit/2);
 	startup_splash->setInnerRadius(unit);
