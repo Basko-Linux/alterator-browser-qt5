@@ -257,7 +257,7 @@ QColor WaitingSpinnerWidget::currentLineColor(int countDistance, int totalNrOfLi
     }
     const qreal minAlphaF = minOpacity / 100.0;
     int distanceThreshold =
-            ((totalNrOfLines - 1) * trailFadePerc / 100.0) + 1;
+            qMax(0.0, ((totalNrOfLines - 1) * trailFadePerc / 100.0) + 1);
     if (countDistance > distanceThreshold) {
         color.setAlphaF(minAlphaF);
     } else {
