@@ -68,6 +68,6 @@ private:
     QMap<QString,QButtonGroup*> buttongroups;
 };
 
-extern WidgetList *widgetlist;
+extern WidgetList *g_widgetlist;
 
 #endif

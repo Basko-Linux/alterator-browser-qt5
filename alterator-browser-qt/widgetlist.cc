@@ -103,7 +103,7 @@ void WidgetList::destroyLater(const QString& id)
 QWidget* WidgetList::qWidgetById(const QString& id)
 {
     QWidget *w = 0;
-    alWidget *aw = widgetlist->alWidgetById(id);
+    alWidget *aw = g_widgetlist->alWidgetById(id);
     if( aw )
 	w = aw->getWidget();
     return w;

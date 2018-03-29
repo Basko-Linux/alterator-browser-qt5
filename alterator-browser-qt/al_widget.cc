@@ -6,7 +6,7 @@
 #include "widgetlist.hh"
 
 alWidget::alWidget(AlteratorWidgetType type, const QString& id,const QString& parent):
-    QObject(widgetlist->qWidgetById(parent)),
+    QObject(g_widgetlist->qWidgetById(parent)),
     type_(type),
     id_(id),
     parent_(parent),
@@ -14,15 +14,15 @@ alWidget::alWidget(AlteratorWidgetType type, const QString& id,const QString& pa
 {
     o_wnd_ = 0;
     wnd_destroyed = true;
-    widgetlist->add(id, this);
+    g_widgetlist->add(id, this);
 }
 
 alWidget::~alWidget()
 {
-    widgetlist->removeFromListById(getId());
+    g_widgetlist->removeFromListById(getId());
     if( o_wnd_ && !wnd_destroyed)
     {
-	widgetlist->groupRemove(this);
+	g_widgetlist->groupRemove(this);
 	o_wnd_->deleteLater();
 	o_wnd_ = 0;
     }
@@ -91,7 +91,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	    {
 		group_ = value;
 		w->setProperty("altgroup", value);
-		widgetlist->groupAdd(this);
+		g_widgetlist->groupAdd(this);
 	    }
 	}
 	else if ("tooltip" == name)
@@ -212,11 +212,11 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	}
 	else if("clear-layout" == name)
 	{
-	    widgetlist->deleteChildrenById(getId());
+	    g_widgetlist->deleteChildrenById(getId());
 	}
 	else if ("align" == name)
 	{
-	    alWidget *aw = widgetlist->alWidgetById(getParentId());
+	    alWidget *aw = g_widgetlist->alWidgetById(getParentId());
 	    if( aw )
 	    {
 		QLayout *l = aw->getViewLayout();
@@ -244,7 +244,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	else if ("tab-order" == name)
 	{
 	    QWidget *first = 0;
-	    alWidget *aw = widgetlist->alWidgetById(value);
+	    alWidget *aw = g_widgetlist->alWidgetById(value);
 	    if( aw )
 		first = aw->getWidget();
 	    if( w && first )
@@ -425,7 +425,7 @@ void alWidget::onWndDestroyed(QObject *dead)
 {
     if( dead == o_wnd_ ) {
 	wnd_destroyed = true;
-	widgetlist->groupRemove(this);
+	g_widgetlist->groupRemove(this);
 	deleteLater();
     }
 }
@@ -433,5 +433,5 @@ void alWidget::onWndDestroyed(QObject *dead)
 // non-object
 alWidget* alWidgetCreateWidgetGetParent(const QString& parent)
 {
-    return widgetlist->alWidgetById(parent);
+    return g_widgetlist->alWidgetById(parent);
 }

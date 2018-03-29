@@ -37,7 +37,7 @@
 #endif
 
 MailBox *mailbox = 0;
-WidgetList *widgetlist = 0;
+WidgetList *g_widgetlist = 0;
 Browser *__browser_instance = 0;
 
 #ifdef HAVE_X11
@@ -74,7 +74,7 @@ Browser::Browser():
     central_widget = 0;
     central_layout = 0;
     m_color_window_default = palette().window().color();
-    widgetlist = new WidgetList(this);
+    g_widgetlist = new WidgetList(this);
     pixmap_paths
 	<< ":/design/"
 	<< "/usr/share/alterator/design/images/"
@@ -249,7 +249,7 @@ bool Browser::quitApp(int answ)
 void Browser::quitAppManaged(int res)
 {
     if( !in_quit ) {
-	widgetlist->destroyAll();
+	g_widgetlist->destroyAll();
 	in_quit = true;
 	QCoreApplication::exit(res);
     }
@@ -328,7 +328,7 @@ void Browser::setFullScreen(bool full)
 void Browser::setHelpSource(const QString& str)
 {
     help_browser->setHelpSource(str);
-    QList<ACenterFace*> cfaces = widgetlist->aWidgetsByType<ACenterFace*>(WCenterFace);
+    QList<ACenterFace*> cfaces = g_widgetlist->aWidgetsByType<ACenterFace*>(WCenterFace);
     QListIterator<ACenterFace*> it(cfaces);
     while(it.hasNext())
 	it.next()->setHelpSource(str);
@@ -415,14 +415,14 @@ void Browser::emitEvent(const QString &id, const BrowserEventType type, const Al
 	
 	//now collect a post data
 	request += "\n state (";
-	request += widgetlist->makeRequestData();	
+	request += g_widgetlist->makeRequestData();	
 	request += "))"; //close message
 
 	connection->getDocument(request, request_flags);
 
 	if( request_flags & AlteratorRequestTimeReset )
 	{
-	    QList<ATimeEdit*> tm_edits = widgetlist->aWidgetsByType<ATimeEdit*>(WTimeEdit);
+	    QList<ATimeEdit*> tm_edits = g_widgetlist->aWidgetsByType<ATimeEdit*>(WTimeEdit);
 	    QListIterator<ATimeEdit*> it(tm_edits);
 	    while(it.hasNext())
 		it.next()->reset();
@@ -505,7 +505,7 @@ void Browser::onAlteratorRequest(const AlteratorRequest& request)
 			request.attr.value("attr-value").s);
 		else
 		    collectTabIndex(tab_order_parents, tab_order_list,
-			widgetlist->alWidgetById(request.attr.value("widget-id").s),
+			g_widgetlist->alWidgetById(request.attr.value("widget-id").s),
 			request.attr.value("attr-value").s.toInt());
 		break;
 	    }
@@ -591,7 +591,7 @@ void Browser::onAlteratorRequest(const AlteratorRequest& request)
 
     if( request.flags & AlteratorRequestCenterFaceModuleSelected )
     {
-	QList<QWidget*> cf_views = widgetlist->viewVidgetsByQWidgetType<ACenterFace*>(WCenterFace);
+	QList<QWidget*> cf_views = g_widgetlist->viewVidgetsByQWidgetType<ACenterFace*>(WCenterFace);
 	Q_FOREACH(QWidget *w, cf_views )
 	    w->show();
     }
@@ -687,16 +687,16 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 
 void Browser::onCloseRequest(const QString& id)
 {
-    widgetlist->destroyLater(id);
+    g_widgetlist->destroyLater(id);
 }
 
 void Browser::onCleanRequest(const QString& id)
 {
-	alWidget *el = widgetlist->alWidgetById(id);
+	alWidget *el = g_widgetlist->alWidgetById(id);
 
 	if( !el ) return;
 
-	widgetlist->deleteChildrenById(id);
+	g_widgetlist->deleteChildrenById(id);
 
 	QLayout* layout = el->getViewLayout();
 	if( layout )
@@ -716,7 +716,7 @@ void Browser::onSetRequest(const QString& id,const QString& attr,const QString& 
     /*
     qDebug("%s: id<%s> attr<%s> value<%s>", __FUNCTION__, qPrintable(id), qPrintable(attr), qPrintable(value));
     */
-    alWidget *aw = widgetlist->alWidgetById(id);
+    alWidget *aw = g_widgetlist->alWidgetById(id);
     if( aw )
     {
         ++emit_locker;
@@ -727,21 +727,21 @@ void Browser::onSetRequest(const QString& id,const QString& attr,const QString& 
 
 void Browser::onStartRequest(const QString& id)
 {
-	alWidget *aw = widgetlist->alWidgetById(id);
+	alWidget *aw = g_widgetlist->alWidgetById(id);
 	if( aw )
 	    aw->popUp();
 }
 
 void Browser::onStopRequest(const QString& id)
 {
-	alWidget *aw = widgetlist->alWidgetById(id);
+	alWidget *aw = g_widgetlist->alWidgetById(id);
 	if( aw )
 	    aw->popDown();
 }
 
 void Browser::onEventRequest(const QString& id,const QString& value)
 {
-    alWidget *aw = widgetlist->alWidgetById(id);
+    alWidget *aw = g_widgetlist->alWidgetById(id);
     if( aw )
     {
 	aw->registerEvent(value);
