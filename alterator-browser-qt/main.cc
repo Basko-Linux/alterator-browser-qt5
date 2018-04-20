@@ -109,8 +109,8 @@ int main(int argc,char **argv)
 	    g_enums = &enums_;
 
 	    Browser mw;
-	    mw.show();
 	    g_browser = &mw;
+	    mw.show();
 #if 0
 	    app.watchUnixSignal(SIGUSR1, true);
 	    QObject::connect(QCoreApplication::instance(), SIGNAL(unixSignal(int)), g_browser, SLOT(onUnixSignal(int)));

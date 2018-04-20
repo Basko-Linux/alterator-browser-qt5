@@ -38,7 +38,6 @@
 
 MailBox *mailbox = 0;
 WidgetList *g_widgetlist = 0;
-Browser *__browser_instance = 0;
 
 #ifdef HAVE_X11
 bool x_redirect_error;
@@ -149,7 +148,6 @@ Browser::Browser():
     connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(stop()));
     QTimer::singleShot(0, this, SLOT(start()));
 
-    __browser_instance = this;
 }
 
 Browser::~Browser()
@@ -1037,8 +1035,8 @@ void Browser::unixSignalHandler(int sig)
     {
 	case SIGUSR1:
 	    {
-		if( __browser_instance )
-		    __browser_instance->raiseBrowserWindow();
+		if( g_browser )
+		    g_browser->raiseBrowserWindow();
 		break;
 	    }
 	default:
