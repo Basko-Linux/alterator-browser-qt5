@@ -104,6 +104,7 @@ int main(int argc,char **argv)
 	    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 	    QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 	    QApplication app(argc, argv);
+	    app.setWindowIcon(QIcon::fromTheme(QStringLiteral("custom-vendor-logo"), QIcon::fromTheme(QStringLiteral("basealt"))));
 
 	    Enums enums_;
 	    g_enums = &enums_;
