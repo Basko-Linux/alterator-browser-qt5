@@ -1,2 +1,2 @@
 all:
-	rcc-qt4 -binary theme.qrc -o desktop50.rcc
+	rcc-qt5 -binary theme.qrc -o desktop50.rcc
