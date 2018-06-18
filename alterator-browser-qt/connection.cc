@@ -23,6 +23,13 @@ Connection::Connection(QObject *parent):
     thread_exec_result = 0;
 #endif
 
+    islong_timer = new QTimer(this);
+    islong_timer->setSingleShot(true);
+    islong_timer->setInterval(500);
+    islong_timer->moveToThread(this);
+    connect(islong_timer, SIGNAL(timeout()), this, SLOT(checkDelayedFinish()));
+    connect(this, SIGNAL(startProcessing()), islong_timer, SLOT(start()));
+
     connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(prepareQuit()));
 }
 
@@ -135,10 +142,10 @@ void Connection::run()
     while( !destruction )
     {
 	is_processing = true;
+	Q_EMIT startProcessing();
 	while(!asks.isEmpty())
 	{
 	    if( destruction ) break;
-	    QTimer::singleShot(500, this, &Connection::checkDelayedFinish);
 	    asks_lock.lock();
 	    AlteratorAskInfo ask = asks.dequeue();
 	    asks_lock.unlock();

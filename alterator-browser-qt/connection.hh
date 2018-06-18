@@ -100,6 +100,7 @@ Q_SIGNALS:
     void alteratorRequests();
     void startLongRequest();
     void stopLongRequest();
+    void startProcessing();
 
 private Q_SLOTS:
     void checkDelayedFinish();
@@ -110,6 +111,7 @@ private:
     QQueue<AlteratorRequest> alterator_requests;
     QMutex asks_lock;
     QMutex alterator_requests_lock;
+    QTimer *islong_timer;
     QString sessionId;
     QString userId;
     bool destruction;
