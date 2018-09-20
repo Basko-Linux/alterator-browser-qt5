@@ -139,6 +139,7 @@ Browser::Browser():
 	startup_splash->setInnerRadius(unit);
 	startup_splash->setRevolutionsPerSecond(1);
 	startup_splash->setColor(palette().highlight().color());
+	startup_splash->setCursor(Qt::BlankCursor);
     }
     central_layout->addWidget(startup_splash);
     startup_splash->start();
