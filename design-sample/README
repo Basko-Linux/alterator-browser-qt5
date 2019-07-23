@@ -8,7 +8,7 @@ QSS:
 Расположен в файле design.qss .
 Можно использовать почти любые виджеты, имеюшиеся в исходных текстах browser,
 являющиеся наследниками виджетов из списка (пакеты qt5-doc, ^qt5-.*-doc):
-`assistant-qt5 -showUrl qthelp://org.qt-project.qtwidgets/qtwidgets/stylesheet-reference.html#list-of-stylable-widgets`.
+https://doc.qt.io/qt-5/stylesheet-reference.html#list-of-stylable-widgets .
 Т.е. наследники QWidget нельзя, но можно сделать индивидульно по запросу при необходимости.
 Использовать можно по имени класса виджета или по Qt-шному имени объекта.
 Qt-шные имена найти можно поиском функции setObjectName() по исходным текстам.
@@ -20,7 +20,7 @@ Qt-шные имена найти можно поиском функции setOb
 Цветовую схему можно сделать при помоши `kde5 kcmshell5 colors` из пакета plasma5-desktop.
 Результат будет в ~/.config/Trolltech.conf , секция [qt] параметры ^Palette.*
 и в файлах ~/.local/share/color-schemes/* .
-Примеры цветовых схем можно взять в пакете plasma5-desktop и на http://kde-look.org/ .
+Примеры цветовых схем можно взять в пакете plasma5-desktop и на https://store.kde.org/browse/cat/112/ .
 
 Заметка: Храните цветовые схемы в формате KDE в качестве исходника.
 
