@@ -92,7 +92,24 @@ int main(int argc,char **argv)
 		    qWarning("Can't create udev handle.");
 		}
 	    }
-	    if( num_hw_keyboards == 0 ) {
+	    bool allow_virtual_keyboard = true;
+	    {
+		if( qEnvironmentVariableIsSet("NO_ALTERATOR_VIRTUAL_KEYBOARD") ) {
+		    allow_virtual_keyboard = false;
+		} else {
+		    QFile cmdLineFile(QLatin1String("/proc/cmdline"));
+		    if( cmdLineFile.open(QIODevice::ReadOnly) ) {
+			QString all_file(cmdLineFile.readAll());
+			QStringList tokens(all_file.trimmed().split(QRegularExpression(QStringLiteral("\\s+")), QString::SkipEmptyParts));
+			foreach( const QString &t, tokens ) {
+			    if( t == QStringLiteral("no_alt_virt_keyboard") ) {
+				allow_virtual_keyboard = false;
+			    }
+			}
+		    }
+		}
+	    }
+	    if( num_hw_keyboards == 0 && allow_virtual_keyboard ) {
 		// try to use virtual keyboard
 		qputenv("QT_IM_MODULE", "qtvirtualkeyboard");
 	    }
