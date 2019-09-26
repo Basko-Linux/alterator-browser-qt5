@@ -61,8 +61,26 @@ int main(int argc,char **argv)
 	QFile pidfile(pidfile_path);
 	if( pidfile.open(QIODevice::WriteOnly|QIODevice::Truncate) )
 	{
-	    int num_hw_keyboards = -1;
+	    bool allow_virtual_keyboard = true;
 	    {
+		if( qEnvironmentVariableIsSet("NO_ALTERATOR_VIRTUAL_KEYBOARD") ) {
+		    allow_virtual_keyboard = false;
+		} else {
+		    QFile cmdLineFile(QLatin1String("/proc/cmdline"));
+		    if( cmdLineFile.open(QIODevice::ReadOnly) ) {
+			QString all_file(cmdLineFile.readAll());
+			QStringList tokens(all_file.trimmed().split(QRegularExpression(QStringLiteral("\\s+")), QString::SkipEmptyParts));
+			foreach( const QString &t, tokens ) {
+			    if( t == QStringLiteral("no_alt_virt_keyboard") ) {
+				allow_virtual_keyboard = false;
+				break;
+			    }
+			}
+		    }
+		}
+	    }
+	    int num_hw_keyboards = -1;
+	    if( allow_virtual_keyboard ) { // check hardware keyboard present
 	        struct udev *udev;
 	        struct udev_enumerate *enumerate;
 	        struct udev_list_entry *devices, *dev_list_entry;
@@ -90,23 +108,6 @@ int main(int argc,char **argv)
 		    udev_unref(udev);
 		} else {
 		    qWarning("Can't create udev handle.");
-		}
-	    }
-	    bool allow_virtual_keyboard = true;
-	    {
-		if( qEnvironmentVariableIsSet("NO_ALTERATOR_VIRTUAL_KEYBOARD") ) {
-		    allow_virtual_keyboard = false;
-		} else {
-		    QFile cmdLineFile(QLatin1String("/proc/cmdline"));
-		    if( cmdLineFile.open(QIODevice::ReadOnly) ) {
-			QString all_file(cmdLineFile.readAll());
-			QStringList tokens(all_file.trimmed().split(QRegularExpression(QStringLiteral("\\s+")), QString::SkipEmptyParts));
-			foreach( const QString &t, tokens ) {
-			    if( t == QStringLiteral("no_alt_virt_keyboard") ) {
-				allow_virtual_keyboard = false;
-			    }
-			}
-		    }
 		}
 	    }
 	    if( num_hw_keyboards == 0 && allow_virtual_keyboard ) {
