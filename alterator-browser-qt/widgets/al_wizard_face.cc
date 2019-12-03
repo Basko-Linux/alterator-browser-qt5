@@ -719,19 +719,7 @@ void AWizardFace::setActionToolTip(const QString &key, const QString &txt_in)
 {
     QAbstractButton *b = 0;
     QAction *a = 0;
-    QString txt(txt_in);
-    QByteArray txt_tmpl;
-
-    if( buttons.contains(key) )
-    {
-	b = buttons[key];
-	txt = b->text();
-    }
-    else if( menus.contains(key) )
-    {
-	a = menus[key];
-	txt = a->text();
-    }
+    QByteArray tmpl_tooltip;
 
     if(txt_in.isEmpty())
     {
@@ -740,7 +728,7 @@ void AWizardFace::setActionToolTip(const QString &key, const QString &txt_in)
 	    case UserActionFinish:
 	    case UserActionForward:
 	    {
-		txt_tmpl = QT_TRANSLATE_NOOP("AWizardFace", "%1: press F12 or Enter");
+		tmpl_tooltip = QT_TRANSLATE_NOOP("AWizardFace", "%1: press F12 or Enter");
 		break;
 	    }
 	    default:
@@ -748,20 +736,34 @@ void AWizardFace::setActionToolTip(const QString &key, const QString &txt_in)
 	}
     }
 
-    if( a || b ) {
-	if( !txt_tmpl.isEmpty() ) {
-	    txt = tr(txt_tmpl).arg(txt);
+    if( buttons.contains(key) )
+    {
+	b = buttons[key];
+    }
+    else if( menus.contains(key) )
+    {
+	a = menus[key];
+    }
+
+    if( b ) {
+	if( !tmpl_tooltip.isEmpty() ) {
+	    QString widget_text = b->text();
+	    b->setToolTip(tr(tmpl_tooltip).arg(widget_text));
+	    connect(g_browser, &Browser::languageChanged, b, [b, tmpl_tooltip, widget_text](){
+		b->setToolTip(QCoreApplication::translate("AWizardFace", tmpl_tooltip).arg(widget_text));
+	    });
+	} else {
+	    b->setToolTip(txt_in);
 	}
-	if( b ) {
-	    b->setToolTip(txt);
-	    connect(g_browser, &Browser::languageChanged, b, [b, txt_tmpl, txt_in](){
-		b->setToolTip(QCoreApplication::translate("AWizardFace", txt_tmpl).arg(txt_in));
+    } else if( a ) {
+	if( !tmpl_tooltip.isEmpty() ) {
+	    QString widget_text = a->text();
+	    a->setToolTip(tr(tmpl_tooltip).arg(widget_text));
+	    connect(g_browser, &Browser::languageChanged, a, [a, tmpl_tooltip, widget_text](){
+		a->setToolTip(QCoreApplication::translate("AWizardFace", tmpl_tooltip).arg(widget_text));
 	    });
-	} else if( a ) {
-	    a->setToolTip(txt);
-	    connect(g_browser, &Browser::languageChanged, a, [a, txt_tmpl, txt_in](){
-		a->setToolTip(QCoreApplication::translate("AWizardFace", txt_tmpl).arg(txt_in));
-	    });
+	} else {
+	    a->setToolTip(txt_in);
 	}
     }
 }
