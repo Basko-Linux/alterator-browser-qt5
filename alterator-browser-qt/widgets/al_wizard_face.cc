@@ -740,7 +740,7 @@ void AWizardFace::setActionToolTip(const QString &key, const QString &txt_in)
 	    case UserActionFinish:
 	    case UserActionForward:
 	    {
-		txt_tmpl = "%1: press F12 or Enter";
+		txt_tmpl = QT_TRANSLATE_NOOP("AWizardFace", "%1: press F12 or Enter");
 		break;
 	    }
 	    default:
@@ -755,12 +755,12 @@ void AWizardFace::setActionToolTip(const QString &key, const QString &txt_in)
 	if( b ) {
 	    b->setToolTip(txt);
 	    connect(g_browser, &Browser::languageChanged, b, [b, txt_tmpl, txt_in](){
-		b->setToolTip(tr(txt_tmpl).arg(txt_in));
+		b->setToolTip(QCoreApplication::translate("AWizardFace", txt_tmpl).arg(txt_in));
 	    });
 	} else if( a ) {
 	    a->setToolTip(txt);
 	    connect(g_browser, &Browser::languageChanged, a, [a, txt_tmpl, txt_in](){
-		a->setToolTip(tr(txt_tmpl).arg(txt_in));
+		a->setToolTip(QCoreApplication::translate("AWizardFace", txt_tmpl).arg(txt_in));
 	    });
 	}
     }
