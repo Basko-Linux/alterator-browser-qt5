@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ru_RU">
+<TS version="2.1" language="ru_RU">
 <context>
     <name>ACenterFace</name>
     <message>
@@ -52,17 +52,17 @@
     <name>AWizardFace</name>
     <message>
         <location filename="../widgets/al_wizard_face.cc" line="300"/>
-        <location filename="../widgets/al_wizard_face.cc" line="974"/>
+        <location filename="../widgets/al_wizard_face.cc" line="988"/>
         <source>Show steps list</source>
         <translation>Показать список шагов</translation>
     </message>
     <message>
-        <location filename="../widgets/al_wizard_face.cc" line="741"/>
+        <location filename="../widgets/al_wizard_face.cc" line="743"/>
         <source>%1: press F12 or Enter</source>
         <translation>%1: нажать F12 или Enter</translation>
     </message>
     <message>
-        <location filename="../widgets/al_wizard_face.cc" line="972"/>
+        <location filename="../widgets/al_wizard_face.cc" line="986"/>
         <source>Hide steps list</source>
         <translation>Скрыть список шагов</translation>
     </message>
@@ -70,23 +70,23 @@
 <context>
     <name>Browser</name>
     <message>
-        <location filename="../browser.cc" line="251"/>
-        <location filename="../browser.cc" line="258"/>
+        <location filename="../browser.cc" line="260"/>
+        <location filename="../browser.cc" line="268"/>
         <source>Quit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="251"/>
+        <location filename="../browser.cc" line="260"/>
         <source>Exit Alterator?</source>
         <translation>Завершить Alterator?</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="273"/>
+        <location filename="../browser.cc" line="285"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="273"/>
+        <location filename="../browser.cc" line="285"/>
         <source>Alterator Browser</source>
         <translation>Alterator Browser</translation>
     </message>

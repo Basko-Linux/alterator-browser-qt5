@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="kk_KZ" sourcelanguage="en_US">
+<TS version="2.1" language="kk_KZ" sourcelanguage="en_US">
 <context>
     <name>ACenterFace</name>
     <message>
@@ -40,17 +40,17 @@
     <name>AWizardFace</name>
     <message>
         <location filename="../widgets/al_wizard_face.cc" line="300"/>
-        <location filename="../widgets/al_wizard_face.cc" line="974"/>
+        <location filename="../widgets/al_wizard_face.cc" line="988"/>
         <source>Show steps list</source>
         <translation>Қадамдар тізімін көрсету</translation>
     </message>
     <message>
-        <location filename="../widgets/al_wizard_face.cc" line="741"/>
+        <location filename="../widgets/al_wizard_face.cc" line="743"/>
         <source>%1: press F12 or Enter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/al_wizard_face.cc" line="972"/>
+        <location filename="../widgets/al_wizard_face.cc" line="986"/>
         <source>Hide steps list</source>
         <translation>Қадамдар тізімін жасыру</translation>
     </message>
@@ -58,23 +58,23 @@
 <context>
     <name>Browser</name>
     <message>
-        <location filename="../browser.cc" line="251"/>
-        <location filename="../browser.cc" line="258"/>
+        <location filename="../browser.cc" line="260"/>
+        <location filename="../browser.cc" line="268"/>
         <source>Quit</source>
         <translation>Шығу</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="251"/>
+        <location filename="../browser.cc" line="260"/>
         <source>Exit Alterator?</source>
         <translation>Alterator-дан шығу керек пе?</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="273"/>
+        <location filename="../browser.cc" line="285"/>
         <source>About</source>
         <translation>Осы туралы</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="273"/>
+        <location filename="../browser.cc" line="285"/>
         <source>Alterator Browser</source>
         <translation>Alterator Browser</translation>
     </message>
