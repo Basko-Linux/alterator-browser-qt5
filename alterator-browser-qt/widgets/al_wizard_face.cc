@@ -609,11 +609,12 @@ void AWizardFace::addAction(const QString &key, UserActionType type)
 		    }
 		}
 
-		if( menu_btn->isVisible() )
+		if( menu_btn->isVisible() ) {
 		    addActionMenu(key, type);
-		else
+		} else {
 		    addActionButton(key, type);
-		    break;
+		}
+		break;
 	    }
     }
 }
@@ -714,11 +715,12 @@ QWidget* AWizardFace::getViewWidget()
     return view_widget;
 }
 
-void AWizardFace::setActionToolTip(const QString &key, const QString &value)
+void AWizardFace::setActionToolTip(const QString &key, const QString &txt_in)
 {
     QAbstractButton *b = 0;
     QAction *a = 0;
-    QString txt(value);
+    QString txt(txt_in);
+    QByteArray txt_tmpl;
 
     if( buttons.contains(key) )
     {
@@ -731,14 +733,14 @@ void AWizardFace::setActionToolTip(const QString &key, const QString &value)
 	txt = a->text();
     }
 
-    if(value.isEmpty())
+    if(txt_in.isEmpty())
     {
 	switch( action_types[key] )
 	{
 	    case UserActionFinish:
 	    case UserActionForward:
 	    {
-		txt = tr("%1: press F12 or Enter").arg(txt);
+		txt_tmpl = "%1: press F12 or Enter";
 		break;
 	    }
 	    default:
@@ -746,10 +748,22 @@ void AWizardFace::setActionToolTip(const QString &key, const QString &value)
 	}
     }
 
-    if( b )
-	b->setToolTip(txt);
-    else if( a )
-	a->setToolTip(txt);
+    if( a || b ) {
+	if( !txt_tmpl.isEmpty() ) {
+	    txt = tr(txt_tmpl).arg(txt);
+	}
+	if( b ) {
+	    b->setToolTip(txt);
+	    connect(g_browser, &Browser::languageChanged, b, [b, txt_tmpl, txt_in](){
+		b->setToolTip(tr(txt_tmpl).arg(txt_in));
+	    });
+	} else if( a ) {
+	    a->setToolTip(txt);
+	    connect(g_browser, &Browser::languageChanged, a, [a, txt_tmpl, txt_in](){
+		a->setToolTip(tr(txt_tmpl).arg(txt_in));
+	    });
+	}
+    }
 }
 
 void AWizardFace::setActionText(const QString &key, const QString &value)
@@ -991,10 +1005,11 @@ alWizardFace::alWizardFace(const AlteratorRequestActionAttrs &attr, const QStrin
 {
     QBoxLayout *bl;
     Qt::Orientation o = Utils::fixOrientation(attr.value("orientation").o, Qt::Vertical);
-    if( o == Qt::Horizontal )
+    if( o == Qt::Horizontal ) {
 	bl = new QHBoxLayout(wnd_->getViewWidget());
-    else
+    } else {
 	bl = new QVBoxLayout(wnd_->getViewWidget());
+    }
 }
 
 alWizardFace::~alWizardFace(){}
