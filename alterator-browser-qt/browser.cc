@@ -148,7 +148,6 @@ Browser::Browser():
 
     connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(stop()));
     QTimer::singleShot(0, this, SLOT(start()));
-
 }
 
 Browser::~Browser()
