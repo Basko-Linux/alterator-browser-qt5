@@ -23,10 +23,9 @@ Connection::Connection(QObject *parent):
     thread_exec_result = 0;
 #endif
 
-    islong_timer = new QTimer();
+    islong_timer = new QTimer(this);
     islong_timer->setSingleShot(true);
     islong_timer->setInterval(500);
-    islong_timer->moveToThread(this);
     connect(islong_timer, SIGNAL(timeout()), this, SLOT(checkDelayedFinish()));
     connect(this, SIGNAL(startProcessing()), islong_timer, SLOT(start()));
 
@@ -35,7 +34,6 @@ Connection::Connection(QObject *parent):
 
 Connection::~Connection()
 {
-    islong_timer->deleteLater();
 }
 
 void Connection::init()
