@@ -281,7 +281,7 @@ void Browser::closeEvent(QCloseEvent *e)
 
 void Browser::about()
 {
-    MessageBox *msgbox = new MessageBox("information", tr("About"), tr("Alterator Browser"), QDialogButtonBox::Ok, this);
+    MessageBox *msgbox = new MessageBox("information", tr("About"), tr("Alterator Browser %1").arg(QLatin1String(PROGRAM_VERSION)), QDialogButtonBox::Ok, this);
     msgbox->exec();
     popupRemove(msgbox);
 }
