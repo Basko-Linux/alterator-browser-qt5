@@ -291,6 +291,11 @@ bool Browser::haveWindowManager()
     if( detect_wm_done ) return have_wm;
 
     have_wm = false;
+    QString platform_name(qApp->platformName());
+    qDebug("QPA platform: %s.", qPrintable(platform_name));
+    if( platform_name == QStringLiteral("xcb")
+	|| platform_name.contains(QStringLiteral("-xcomposite-")) ) {
+	qDebug("X11 QPA platform");
 #ifdef HAVE_X11
 	Display *xdisplay = QX11Info::display();
 	int screen_id = QX11Info::appScreen();
@@ -303,11 +308,17 @@ bool Browser::haveWindowManager()
 	if( x_redirect_error )
 	{
 	    have_wm = true;
-	    //qDebug("Window Manager detected");
+	    //qDebug("X11 Window Manager detected");
 	}
 	else
-	    qDebug("No Window Manager detected");
+	    qDebug("No X11 Window Manager detected");
 #endif
+    } else if( platform_name == QStringLiteral("wayland")
+		|| (platform_name.startsWith(QStringLiteral("wayland"))
+		    && !platform_name.contains(QStringLiteral("-xcomposite-"))) ) {
+	qDebug("Wayland QPA platform");
+    } else {
+    }
     detect_wm_done = true;
     return have_wm;
 }

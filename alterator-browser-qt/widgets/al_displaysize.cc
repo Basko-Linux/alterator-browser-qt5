@@ -1,5 +1,6 @@
 #include "al_displaysize.hh"
 
+#include <QGuiApplication>
 #ifdef HAVE_X11
 #include <X11/Xlib.h>
 #include <QX11Info>
@@ -9,10 +10,13 @@ alDisplaySize::alDisplaySize(const AlteratorRequestActionAttrs &attr, const QStr
 	alWidgetPre<ADisplaySize>(attr,WDisplaySize,id,parent)
 {
     QString info_text(tr("unknown"));
+    QString platform_name(qApp->platformName());
 #ifdef HAVE_X11
-    Display *dpy = QX11Info::display();
-    int scr = QX11Info::appScreen();
-    info_text = QString("%1%2%3").arg(XDisplayWidthMM(dpy,scr)).arg(QString::fromUtf8("×")).arg(XDisplayHeightMM(dpy,scr));
+    if( platform_name == QStringLiteral("xcb") ) {
+	Display *dpy = QX11Info::display();
+	int scr = QX11Info::appScreen();
+	info_text = QString("%1%2%3").arg(XDisplayWidthMM(dpy,scr)).arg(QString::fromUtf8("×")).arg(XDisplayHeightMM(dpy,scr));
+    }
 #endif
     wnd_->setText(info_text);
 }
