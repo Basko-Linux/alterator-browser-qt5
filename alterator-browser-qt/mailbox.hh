@@ -3,7 +3,6 @@
 
 #include <QLocalServer>
 #include <QSocketNotifier>
-#include <QSignalMapper>
 #include <QLocalSocket>
 
 #include "connection.hh"
