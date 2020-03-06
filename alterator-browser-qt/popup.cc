@@ -15,7 +15,7 @@ Popup::Popup(QWidget *parent, bool title, bool winexpand, bool winclose, bool wi
     has_winclose = winclose;
     has_winexpand = winexpand;
     has_winshrink = winshrink;
-    QSizePolicy szpol = sizePolicy();
+    szpol = sizePolicy();
     result_code = 0;
     event_loop = 0;
 
