@@ -66,8 +66,8 @@ private:
     QColor m_color_window_default;
     QString m_shortlang;
     Connection *connection;
-    QTranslator *qtranslator;
-    QTranslator *app_translator;
+    QTranslator *m_qt_translator;
+    QTranslator *m_app_translator;
     QRect geometry_;
     bool started;
     bool in_quit;

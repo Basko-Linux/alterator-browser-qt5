@@ -63,8 +63,8 @@ Browser::Browser():
     splash = 0;
     emit_locker = 0; //wrong emit protector
     connection = 0;
-    qtranslator = 0;
-    app_translator = 0;
+    m_qt_translator = 0;
+    m_app_translator = 0;
     started = false;
     in_quit = false;
     detect_wm_done = false;
@@ -384,8 +384,8 @@ void Browser::changeLanguage(const QString& language)
     ::setlocale(LC_ALL, locale.toLatin1());
     QLocale::setDefault( QLocale(locale) );
 
-    reloadTranslator(qtranslator, "qtbase");
-    reloadTranslator(app_translator, "alterator_browser_qt");
+    reloadTranslator(m_qt_translator, "qtbase");
+    reloadTranslator(m_app_translator, "alterator_browser_qt");
 
     Q_EMIT languageChanged();
 }
