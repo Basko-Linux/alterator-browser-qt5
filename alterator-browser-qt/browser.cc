@@ -384,28 +384,29 @@ void Browser::changeLanguage(const QString& language)
     ::setlocale(LC_ALL, locale.toLatin1());
     QLocale::setDefault( QLocale(locale) );
 
-    reloadTranslator(m_qt_translator, "qtbase");
-    reloadTranslator(m_app_translator, "alterator_browser_qt");
+    reloadTranslator(&m_qt_translator, "qtbase", language);
+    reloadTranslator(&m_app_translator, "alterator_browser_qt", language);
 
     Q_EMIT languageChanged();
 }
 
-void Browser::reloadTranslator(QTranslator* translator, const QString &domain)
+void Browser::reloadTranslator(QTranslator** translator, const QString &domain,  const QString &language)
 {
-    if( translator )
+    if( *translator )
     {
-	QCoreApplication::removeTranslator(translator);
-	delete translator;
+	QCoreApplication::removeTranslator(*translator);
+	delete *translator;
     }
-    translator = new QTranslator(this);
-    if( translator->load(QLibraryInfo::location(QLibraryInfo::TranslationsPath) + "/" + domain + "_"+QLocale::system().name()) )
+    *translator = new QTranslator(this);
+    (*translator)->setObjectName(domain);
+    if( (*translator)->load(QLibraryInfo::location(QLibraryInfo::TranslationsPath) + "/" + domain + "_"+ language) )
     {
-	QCoreApplication::installTranslator(translator);
+	QCoreApplication::installTranslator(*translator);
     }
     else
     {
-	delete translator;
-	translator = 0;
+	delete *translator;
+	*translator = 0;
     }
 }
 
