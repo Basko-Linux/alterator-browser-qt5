@@ -20,7 +20,7 @@ License: GPL
 Group: System/Configuration/Other
 Packager: Sergey V Turchin <zerg at altlinux dot org>
 
-PreReq(post,preun): alternatives >= 0.2
+Requires(post,preun): alternatives >= 0.2
 Requires: qt5-translations
 Requires: qt5-virtualkeyboard
 Requires: /usr/bin/xdg-open
