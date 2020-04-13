@@ -123,6 +123,19 @@ void initPixmaps()
 	                                           QStyle::SE_RadioButtonIndicator,
 						   QStyle::State_Off|QStyle::State_Enabled);
 
+    	pix_map["theme:arrow-up"] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorArrowUp,
+	                                           QStyle::SE_RadioButtonIndicator,
+						   QStyle::State_Off|QStyle::State_Enabled);
+    	pix_map["theme:arrow-down"] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorArrowDown,
+	                                           QStyle::SE_RadioButtonIndicator,
+						   QStyle::State_Off|QStyle::State_Enabled);
+    	pix_map["theme:arrow-right"] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorArrowRight,
+	                                           QStyle::SE_RadioButtonIndicator,
+						   QStyle::State_Off|QStyle::State_Enabled);
+    	pix_map["theme:arrow-left"] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorArrowLeft,
+	                                           QStyle::SE_RadioButtonIndicator,
+						   QStyle::State_Off|QStyle::State_Enabled);
+
     	pix_map["theme:null"] = new ANullPixmapGenerator();
 	pix_map["theme:help"] = new AStdPixmapGenerator(QStyle::SP_DialogHelpButton);
 
