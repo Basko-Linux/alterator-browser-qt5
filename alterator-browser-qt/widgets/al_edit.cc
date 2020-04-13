@@ -1,12 +1,15 @@
 #include <QPainter>
 #include <QCompleter>
 #include <QStringListModel>
+#include <QAction>
 
 #include "utils.hh"
 #include "al_edit.hh"
+#include "a_pixmaps.hh"
 
 AEdit::AEdit(QWidget *parent, const Qt::Orientation):
-    AWidget<QWidget>(parent)
+    AWidget<QWidget>(parent),
+    m_pw_show(0)
 {
     mark = new QLabel("*" ,this);
     mark->hide();
@@ -38,6 +41,32 @@ void AEdit::setText(const QString& txt)
 
 void AEdit::setEchoMode(QLineEdit::EchoMode emode)
 {
+    switch( emode ) {
+	case QLineEdit::Password:
+	case QLineEdit::PasswordEchoOnEdit:
+	    if( !m_pw_show ){
+		QAction *m_pw_show = edit->addAction(getPixmap("theme:arrow-left"), QLineEdit::TrailingPosition);
+		connect(m_pw_show, &QAction::triggered, this, [m_pw_show,this](bool){
+		    edit->setEchoMode(edit->echoMode() == QLineEdit::Password ? QLineEdit::Normal: QLineEdit::Password);
+		    if( edit->echoMode() == QLineEdit::Password ) {
+			m_pw_show->setIcon(getPixmap("theme:arrow-left"));
+		    } else {
+			m_pw_show->setIcon(getPixmap("theme:arrow-right"));
+		    }
+		});
+	    }
+	    break;
+	case QLineEdit::NoEcho:
+	    if( m_pw_show ){
+		m_pw_show->disconnect();
+		m_pw_show->deleteLater();
+		m_pw_show = 0;
+	    }
+	    break;
+	case QLineEdit::Normal:
+	default:
+	    break;
+    }
     edit->setEchoMode(emode);
 }
 

@@ -29,6 +29,7 @@ private:
     QLabel *mark;
     QLineEdit *edit;
     QHBoxLayout *layout_;
+    QAction *m_pw_show;
 };
 
 class alEdit: public alWidgetPre<AEdit>
