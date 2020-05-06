@@ -747,20 +747,18 @@ void AWizardFace::setActionToolTip(const QString &key, const QString &txt_in)
 
     if( b ) {
 	if( !tmpl_tooltip.isEmpty() ) {
-	    QString widget_text = b->text();
-	    b->setToolTip(tr(tmpl_tooltip).arg(widget_text));
-	    connect(g_browser, &Browser::languageChanged, b, [b, tmpl_tooltip, widget_text](){
-		b->setToolTip(QCoreApplication::translate("AWizardFace", tmpl_tooltip).arg(widget_text));
+	    b->setToolTip(tr(tmpl_tooltip).arg(b->text()));
+	    connect(g_browser, &Browser::languageChanged, b, [b, tmpl_tooltip](){
+		b->setToolTip(QCoreApplication::translate("AWizardFace", tmpl_tooltip).arg(b->text()));
 	    });
 	} else {
 	    b->setToolTip(txt_in);
 	}
     } else if( a ) {
 	if( !tmpl_tooltip.isEmpty() ) {
-	    QString widget_text = a->text();
-	    a->setToolTip(tr(tmpl_tooltip).arg(widget_text));
-	    connect(g_browser, &Browser::languageChanged, a, [a, tmpl_tooltip, widget_text](){
-		a->setToolTip(QCoreApplication::translate("AWizardFace", tmpl_tooltip).arg(widget_text));
+	    a->setToolTip(tr(tmpl_tooltip).arg(a->text()));
+	    connect(g_browser, &Browser::languageChanged, a, [a, tmpl_tooltip](){
+		a->setToolTip(QCoreApplication::translate("AWizardFace", tmpl_tooltip).arg(a->text()));
 	    });
 	} else {
 	    a->setToolTip(txt_in);
