@@ -45,7 +45,7 @@
         <translation>Қадамдар тізімін көрсету</translation>
     </message>
     <message>
-        <location filename="../widgets/al_wizard_face.cc" line="743"/>
+        <location filename="../widgets/al_wizard_face.cc" line="731"/>
         <source>%1: press F12 or Enter</source>
         <translation type="unfinished"></translation>
     </message>
@@ -58,25 +58,29 @@
 <context>
     <name>Browser</name>
     <message>
-        <location filename="../browser.cc" line="260"/>
-        <location filename="../browser.cc" line="268"/>
+        <location filename="../browser.cc" line="259"/>
+        <location filename="../browser.cc" line="267"/>
         <source>Quit</source>
         <translation>Шығу</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="260"/>
+        <location filename="../browser.cc" line="259"/>
         <source>Exit Alterator?</source>
         <translation>Alterator-дан шығу керек пе?</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="285"/>
+        <location filename="../browser.cc" line="284"/>
         <source>About</source>
         <translation>Осы туралы</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="285"/>
+        <location filename="../browser.cc" line="284"/>
+        <source>Alterator Browser %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Alterator Browser</source>
-        <translation>Alterator Browser</translation>
+        <translation type="vanished">Alterator Browser</translation>
     </message>
 </context>
 <context>
@@ -93,22 +97,28 @@
         <translation>Көмек</translation>
     </message>
     <message>
+        <location filename="../help_browser.cc" line="43"/>
         <location filename="../help_browser.cc" line="44"/>
+        <source>Font%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../help_browser.cc" line="46"/>
         <source>Quit</source>
         <translation>Шығу</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="45"/>
+        <location filename="../help_browser.cc" line="47"/>
         <source>About</source>
         <translation>Осы туралы</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="46"/>
+        <location filename="../help_browser.cc" line="48"/>
         <source>About Qt</source>
         <translation>Qt туралы</translation>
     </message>
     <message>
-        <location filename="../help_browser.cc" line="78"/>
+        <location filename="../help_browser.cc" line="81"/>
         <source>No help available.</source>
         <translation>Көмек қолжетерсіз.</translation>
     </message>
@@ -128,7 +138,7 @@
 <context>
     <name>alDisplaySize</name>
     <message>
-        <location filename="../widgets/al_displaysize.cc" line="11"/>
+        <location filename="../widgets/al_displaysize.cc" line="12"/>
         <source>unknown</source>
         <translation type="unfinished"></translation>
     </message>
