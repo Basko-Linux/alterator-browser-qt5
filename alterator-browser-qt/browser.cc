@@ -102,9 +102,9 @@ Browser::Browser():
 
     if( haveWindowManager() )
     {
-	QRect desktop_geom  = QApplication::desktop()->geometry();
-	int wnd_recom_width = (int)(desktop_geom.width()/1.5);
-	int wnd_recom_height = (int)(desktop_geom.height()/1.5);
+	QRect screen_geom  = QApplication::desktop()->screenGeometry();
+	int wnd_recom_width = (int)(screen_geom.width()/1.5);
+	int wnd_recom_height = (int)(screen_geom.height()/1.5);
 
 	QSettings settings(QSettings::IniFormat, QSettings::UserScope, "alterator", "browser", this);
 	settings.setFallbacksEnabled(false);
@@ -328,7 +328,7 @@ void Browser::setFullScreen(bool full)
     if( full )
     {
 	geometry_ = geometry();
-	setGeometry(QApplication::desktop()->geometry());
+	setGeometry(QApplication::desktop()->screenGeometry());
     }
     else
 	resize(geometry_.width(), geometry_.height());
