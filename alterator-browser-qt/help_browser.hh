@@ -26,8 +26,11 @@ protected:
 private Q_SLOTS:
     void execLink(const QUrl&);
     void onButtonPressed(QAbstractButton*);
+    void fontPlus();
+    void fontMinus();
 
 private:
+    void fontResize(int);
     QGridLayout *gridLayout;
     QTextBrowser *textBrowser;
     QDialogButtonBox *buttonBox;

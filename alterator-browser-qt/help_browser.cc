@@ -40,6 +40,8 @@ HelpWidget::HelpWidget(QWidget *parent):
     QMenu *menu_session = new QMenu(tr("Session"), menu_bar);
     QMenu *menu_help = new QMenu(tr("Help"), menu_bar);
     menu_bar->addMenu(menu_session);
+    menu_bar->addAction(tr("Font%1").arg("+"), this, &HelpWidget::fontPlus);
+    menu_bar->addAction(tr("Font%1").arg("-"), this, &HelpWidget::fontMinus);
     menu_bar->addMenu(menu_help);
     menu_session->addAction(QApplication::style()->standardPixmap(QStyle::SP_DialogCancelButton), tr("Quit"), g_browser, SLOT(quitAppAsk()));
     menu_help->addAction(getPixmap("logo_16"), tr("About"), g_browser, SLOT(about()));
@@ -49,6 +51,7 @@ HelpWidget::HelpWidget(QWidget *parent):
     connect(buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(onButtonPressed(QAbstractButton*)));
     connect(textBrowser, SIGNAL(anchorClicked(const QUrl&)),
 	    this, SLOT(execLink(const QUrl&)));
+    connect(buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(onButtonPressed(QAbstractButton*)));
 }
 
 HelpWidget::~HelpWidget() {}
@@ -109,6 +112,24 @@ void HelpWidget::execLink(const QUrl &url)
 void HelpWidget::onButtonPressed(QAbstractButton *btn)
 {
     Q_EMIT finished( buttonBox->standardButton(btn) );
+}
+
+void HelpWidget::fontPlus()
+{
+    fontResize(1);
+}
+
+void HelpWidget::fontMinus()
+{
+    fontResize(-1);
+}
+
+void HelpWidget::fontResize(int addon)
+{
+    QFont fnt = QApplication::font();
+    fnt.setPointSize(fnt.pointSize()+addon);
+    QApplication::setFont(fnt);
+    qApp->setStyleSheet("");
 }
 
 // HelpBrowser
