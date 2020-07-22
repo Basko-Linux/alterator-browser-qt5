@@ -127,7 +127,23 @@ void HelpWidget::fontMinus()
 void HelpWidget::fontResize(int addon)
 {
     QFont fnt = QApplication::font();
-    fnt.setPointSize(fnt.pointSize()+addon);
+    int sz = fnt.pointSize();
+    if( sz > 0 ) {
+	fnt.setPointSize(sz+addon);
+    } else {
+	sz = fnt.pixelSize();
+	if( sz > 0 ) {
+	    fnt.setPixelSize(sz+addon);
+	} else {
+	    sz = fnt.pointSizeF();
+	    if( sz > 0 ) {
+		fnt.setPointSizeF(sz+addon);
+	    } else {
+		// fallback
+		fnt.setPointSize(10);
+	    }
+	}
+    }
     QApplication::setFont(fnt);
     qApp->setStyleSheet("");
 }
