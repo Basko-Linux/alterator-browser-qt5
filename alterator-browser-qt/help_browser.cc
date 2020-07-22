@@ -40,8 +40,8 @@ HelpWidget::HelpWidget(QWidget *parent):
     QMenu *menu_session = new QMenu(tr("Session"), menu_bar);
     QMenu *menu_help = new QMenu(tr("Help"), menu_bar);
     menu_bar->addMenu(menu_session);
-    menu_bar->addAction(tr("Font%1").arg("+"), this, SLOT(fontPlus()));
-    menu_bar->addAction(tr("Font%1").arg("-"), this, SLOT(fontMinus()));
+    menu_bar->addAction(tr("Font%1").arg(QStringLiteral("+")), this, SLOT(fontPlus()));
+    menu_bar->addAction(tr("Font%1").arg(QStringLiteral("-")), this, SLOT(fontMinus()));
     menu_bar->addMenu(menu_help);
     menu_session->addAction(QApplication::style()->standardPixmap(QStyle::SP_DialogCancelButton), tr("Quit"), g_browser, SLOT(quitAppAsk()));
     menu_help->addAction(getPixmap("logo_16"), tr("About"), g_browser, SLOT(about()));
