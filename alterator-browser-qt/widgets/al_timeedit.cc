@@ -2,6 +2,7 @@
 #include <QPainter>
 #include <QTimerEvent>
 #include <QEvent>
+#include <QPainterPath>
 
 #include "al_timeedit.hh"
 
