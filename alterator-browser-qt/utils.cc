@@ -219,10 +219,9 @@ Qt::Orientation convertOrientation(const QString& str_value)
 void openUrl(const QUrl &url)
 {
 	int loginuid = 0;
-	if( getuid() == 0 )
+	if( geteuid() == 0 )
 	{
-	    int pid = getpid();
-	    QString proc_path = QString("/proc/%1/loginuid").arg(pid);
+	    QString proc_path(QStringLiteral("/proc/self/loginuid"));
 	    if( QFileInfo(proc_path).exists() )
 	    {
 		QFile proc_file(proc_path);
