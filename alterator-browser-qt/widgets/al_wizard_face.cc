@@ -750,7 +750,7 @@ void AWizardFace::setActionToolTip(const QString &key, const QString &txt_in)
 	    b->setToolTip(tr(tmpl_tooltip).arg(b->text()));
 	    connect(g_browser, &Browser::languageChanged, b, [b, tmpl_tooltip](){
 		b->setToolTip(QCoreApplication::translate("AWizardFace", tmpl_tooltip).arg(b->text()));
-	    });
+	    }, Qt::QueuedConnection);
 	} else {
 	    b->setToolTip(txt_in);
 	}
@@ -759,7 +759,7 @@ void AWizardFace::setActionToolTip(const QString &key, const QString &txt_in)
 	    a->setToolTip(tr(tmpl_tooltip).arg(a->text()));
 	    connect(g_browser, &Browser::languageChanged, a, [a, tmpl_tooltip](){
 		a->setToolTip(QCoreApplication::translate("AWizardFace", tmpl_tooltip).arg(a->text()));
-	    });
+	    }, Qt::QueuedConnection);
 	} else {
 	    a->setToolTip(txt_in);
 	}
