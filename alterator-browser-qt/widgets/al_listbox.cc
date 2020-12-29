@@ -438,6 +438,11 @@ QString alListBox::postData() const
 	    QList<QTreeWidgetItem*> items = wnd_->selectedItems();
 	    if( items.size() > 0 )
 		cur = wnd_->indexOfTopLevelItem(items.first());
+	    if( cur < 0 ) {
+		QTreeWidgetItem *cur_i = wnd_->currentItem();
+		if(cur_i)
+		    cur = wnd_->indexOfTopLevelItem(cur_i);
+	    }
 	    ret.append(QString(" (current . %1 )").arg(cur));
 	}
     }
