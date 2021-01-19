@@ -934,14 +934,19 @@ void Browser::loadStyleSheet()
 	    QApplication::setPalette(pal);
 
 	// set font
-        QFont font(QGuiApplication::font());
+        QFont font_init(QGuiApplication::font());
+        qWarning("font_init<%d>", font_init.pointSize());
+        QFont font_new(font_init);
+        font_new.setPointSize(font_init.pointSize()+2);
         QString str = settings.value(QLatin1String("font")).toString();
         if (!str.isEmpty())
 	{
-            font.fromString(str);
-            if (font != QGuiApplication::font())
-                QGuiApplication::setFont(font);
+            font_new.fromString(str);
         }
+        if(font_new != font_init) {
+            QGuiApplication::setFont(font_new);
+	    qApp->setStyleSheet("");
+	}
     }
 
     // set style
