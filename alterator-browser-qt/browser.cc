@@ -935,7 +935,6 @@ void Browser::loadStyleSheet()
 
 	// set font
         QFont font_init(QGuiApplication::font());
-        qWarning("font_init<%d>", font_init.pointSize());
         QFont font_new(font_init);
         font_new.setPointSize(font_init.pointSize()+2);
         QString str = settings.value(QLatin1String("font")).toString();

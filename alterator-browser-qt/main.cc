@@ -106,6 +106,7 @@ int main(int argc,char **argv)
 		    }
 		    udev_enumerate_unref(enumerate);
 		    udev_unref(udev);
+		    qWarning("%d keyboards found", num_hw_keyboards);
 		} else {
 		    qWarning("Can't create udev handle.");
 		}
