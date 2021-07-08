@@ -748,9 +748,9 @@ void AWizardFace::setActionToolTip(const QString &key, const QString &txt_in)
     if( b ) {
 	if( !tmpl_tooltip.isEmpty() ) {
 	    b->setToolTip(tr(tmpl_tooltip).arg(b->text()));
-	    qWarning("AWizardFace add button");
+	    //qWarning("AWizardFace add button");
 	    connect(g_browser, &Browser::languageChanged, b, [b, tmpl_tooltip](){
-		qWarning("AWizardFace TR");
+		//qWarning("AWizardFace TR");
 		b->setToolTip(QCoreApplication::translate("AWizardFace", tmpl_tooltip).arg(b->text()));
 	    }, Qt::QueuedConnection);
 	} else {
