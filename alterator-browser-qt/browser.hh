@@ -57,6 +57,7 @@ public Q_SLOTS:
     void onCheckBusySplash();
     void onStopBusySplash();
     void onSplashMessageRequest(const QString& msg);
+    void takeScreenShot();
 
 protected:
     virtual void keyPressEvent(QKeyEvent*);
