@@ -25,6 +25,8 @@ Q_SIGNALS:
 
 public Q_SLOTS:
     virtual void done(int);
+    virtual void accept();
+    virtual void reject();
     virtual int exec();
 
 protected:

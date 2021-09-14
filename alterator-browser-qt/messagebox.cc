@@ -101,3 +101,10 @@ void MessageBox::onButtonPressed(QAbstractButton *btn)
 {
     done(buttonbox->standardButton(btn));
 }
+
+void MessageBox::execForTimeout(int msec)
+{
+    QTimer::singleShot(msec, this, &Popup::accept);
+    exec();
+    g_browser->popupRemove(this);
+}

@@ -1081,14 +1081,15 @@ void Browser::takeScreenShot() {
 	QPixmap pix = wnd->grab();
 	if( !pix.isNull() ) {
 	    QString scrpath(QLatin1String("/tmp/alterator-screenshot-%1.png").arg(QDateTime::currentDateTime().toString(QStringLiteral("yyyy.MM.dd-HH.mm.ss"))));
+	    MessageBox *msgbox;
 	    if( pix.save(scrpath, nullptr) ) {
 		qWarning("Save screenshot to %s.", qPrintable(scrpath));
-		MessageBox *msgbox = new MessageBox("information", tr("Screenshot"), tr("%1").arg(scrpath), QDialogButtonBox::Ok, this);
-		msgbox->exec();
-		popupRemove(msgbox);
+		msgbox = new MessageBox("information", tr("Screenshot"), tr("%1").arg(scrpath), 0, this);
 	    } else {
 		qWarning("Unable to save screenshot to %s.", qPrintable(scrpath));
+		msgbox = new MessageBox("critical", tr("Screenshot"), tr("%1").arg(scrpath), 0, this);
 	    }
+	    msgbox->execForTimeout(2500);
 	} else {
 	    qWarning("%s", qPrintable("Screenshot is null pixmap."));
 	}

@@ -33,6 +33,7 @@ public:
 
 public Q_SLOTS:
     void onButtonPressed(QAbstractButton*);
+    void execForTimeout(int);
 
 private:
     QDialogButtonBox *buttonbox;

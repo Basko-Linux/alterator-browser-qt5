@@ -177,6 +177,16 @@ void Popup::done(int res)
     Q_EMIT finished(res);
 }
 
+void Popup::accept()
+{
+    done(1);
+}
+
+void Popup::reject()
+{
+    done(0);
+}
+
 int Popup::exec()
 {
     if(event_loop)
