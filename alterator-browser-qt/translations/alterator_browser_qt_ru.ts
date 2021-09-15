@@ -93,12 +93,12 @@
     <message>
         <location filename="../browser.cc" line="1090"/>
         <source>Screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Скриншот</translation>
     </message>
     <message>
         <location filename="../browser.cc" line="1090"/>
         <source>Path: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Путь: %1</translation>
     </message>
     <message>
         <source>Alterator Browser</source>
