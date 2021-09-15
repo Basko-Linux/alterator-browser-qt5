@@ -1087,7 +1087,7 @@ void Browser::takeScreenShot() {
 		qWarning("Save screenshot to %s.", qPrintable(scrpath));
 		msg_type= QLatin1String("information");
 	    }
-	    MessageBox *msgbox = new MessageBox(msg_type, tr("Screenshot"), tr("%1").arg(scrpath), 0, this);
+	    MessageBox *msgbox = new MessageBox(msg_type, tr("Screenshot"), tr("Path: %1").arg(scrpath), 0, this);
 	    msgbox->execForTimeout(2500);
 	} else {
 	    qWarning("%s", qPrintable("Screenshot is null pixmap."));
