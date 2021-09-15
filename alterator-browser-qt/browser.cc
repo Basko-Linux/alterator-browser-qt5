@@ -1081,7 +1081,7 @@ void Browser::takeScreenShot() {
 	QPixmap pix = wnd->grab();
 	if( !pix.isNull() ) {
 	    QString tmp_path(qEnvironmentVariable("TMPDIR", QStringLiteral("/tmp")));
-	    QString scrpath(QLatin1String("%1/alterator-screenshot-%2-%3.png").arg(tmp_path).arg(QDateTime::currentDateTime().toString(QStringLiteral("yyyy.MM.dd-HH.mm.ss"))).arg(Utils::getRandomString(4)));
+	    QString scrpath(QLatin1String("%1/alterator-screenshot-%2-%3.png").arg(tmp_path).arg(QDateTime::currentDateTime().toString(QStringLiteral("yyyy.MM.dd-HH.mm"))).arg(Utils::getRandomString(4)));
 	    QLatin1String msg_type("critical");
 	    if( pix.save(scrpath, nullptr) ) {
 		qWarning("Save screenshot to %s.", qPrintable(scrpath));
