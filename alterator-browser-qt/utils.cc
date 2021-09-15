@@ -7,6 +7,9 @@
 #include <QFileInfo>
 #include <QProcess>
 #include <QDesktopServices>
+#if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
+#include <QRandomGenerator>
+#endif
 
 #include "messagebox.hh"
 #include "browser.hh"
@@ -246,4 +249,20 @@ void openUrl(const QUrl &url)
 	}
 }
 
+QString getRandomString(int sz)
+{
+    const QByteArray dict("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
+
+    QString result;
+    int index = 0;
+    for( int i = 0; i < sz; i++ ) {
+#if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
+	index = QRandomGenerator::global()->generate() % dict.size();
+#else
+	index = qrand() % dict.size();
+#endif
+	result.append(dict.at(index));
+    }
+    return result;
+}
 }

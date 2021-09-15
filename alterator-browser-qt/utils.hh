@@ -17,6 +17,7 @@ namespace Utils
     Qt::Orientation fixOrientation(Qt::Orientation value, Qt::Orientation def_value = Qt::Vertical);
     Qt::Orientation convertOrientation(const QString&);
     void openUrl(const QUrl &url);
+    QString getRandomString(int);
 }
 
 #endif
