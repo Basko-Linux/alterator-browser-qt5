@@ -52,7 +52,7 @@
     <name>AWizardFace</name>
     <message>
         <location filename="../widgets/al_wizard_face.cc" line="300"/>
-        <location filename="../widgets/al_wizard_face.cc" line="988"/>
+        <location filename="../widgets/al_wizard_face.cc" line="990"/>
         <source>Show steps list</source>
         <translation>Показать список шагов</translation>
     </message>
@@ -62,7 +62,7 @@
         <translation>%1: нажать F12 или Enter</translation>
     </message>
     <message>
-        <location filename="../widgets/al_wizard_face.cc" line="986"/>
+        <location filename="../widgets/al_wizard_face.cc" line="988"/>
         <source>Hide steps list</source>
         <translation>Скрыть список шагов</translation>
     </message>
@@ -89,6 +89,16 @@
         <location filename="../browser.cc" line="284"/>
         <source>Alterator Browser %1</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="../browser.cc" line="1090"/>
+        <source>Screenshot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../browser.cc" line="1090"/>
+        <source>Path: %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Alterator Browser</source>
