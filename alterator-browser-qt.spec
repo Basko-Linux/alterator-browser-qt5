@@ -15,7 +15,7 @@ Release: alt1
 
 Source:%name-%version.tar
 
-Summary: X11 Qt interface driver for alterator
+Summary: Qt GUI interface driver for Alterator
 License: GPL
 Group: System/Configuration/Other
 Packager: Sergey V Turchin <zerg at altlinux dot org>
@@ -42,7 +42,7 @@ BuildRequires: libudev-devel
 BuildRequires: qt5-base-devel qt5-x11extras-devel qt5-tools
 
 %description
-X11 Qt interface driver for alterator
+Qt GUI interface driver for Alterator.
 
 %prep
 %setup -q
