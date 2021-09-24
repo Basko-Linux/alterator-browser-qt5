@@ -1078,17 +1078,35 @@ QString Browser::shortLang()
 void Browser::takeScreenShot() {
     QWidget *wnd(window());
     if( wnd ) {
+	bool is_first_screenshot = m_first_screenshot;
 	QPixmap pix = wnd->grab();
 	if( !pix.isNull() ) {
 	    QString tmp_path(qEnvironmentVariable("TMPDIR", QStringLiteral("/tmp")));
 	    QString scrpath(QLatin1String("%1/alterator-screenshot-%2-%3.png").arg(tmp_path).arg(QDateTime::currentDateTime().toString(QStringLiteral("yyyy.MM.dd-HH.mm"))).arg(Utils::getRandomString(4)));
-	    QLatin1String msg_type("critical");
-	    if( pix.save(scrpath, nullptr) ) {
-		qWarning("Save screenshot to %s.", qPrintable(scrpath));
-		msg_type= QLatin1String("information");
+	    QLatin1String msg_type;
+	    QString msg_text;
+	    QDialogButtonBox::StandardButtons msg_buttons = QDialogButtonBox::NoButton;
+	    if( is_first_screenshot ) {
+		msg_text = tr("Images will be found at <br/><strong>/root/.install-log/</strong><br/>after install.<br/>Now saved to <br/>%1").arg(scrpath);
+		msg_buttons = QDialogButtonBox::Ok;
+	    } else {
+		msg_text = tr("Path: %1").arg(scrpath);
+		msg_buttons = QDialogButtonBox::NoButton;
 	    }
-	    MessageBox *msgbox = new MessageBox(msg_type, tr("Screenshot"), tr("Path: %1").arg(scrpath), 0, this);
-	    msgbox->execForTimeout(2500);
+	    if( pix.save(scrpath, nullptr) ) {
+		msg_type= QLatin1String("information");
+		m_first_screenshot = false;
+		qWarning("Save screenshot to %s.", qPrintable(scrpath));
+	    } else {
+		msg_type= QLatin1String("critical");
+	    }
+	    MessageBox *msgbox = new MessageBox(msg_type, tr("Screenshot"), msg_text, msg_buttons, this);
+	    if( is_first_screenshot ) {
+		msgbox->exec();
+		popupRemove(msgbox);
+	    } else {
+		msgbox->execForTimeout(3000);
+	    }
 	} else {
 	    qWarning("%s", qPrintable("Screenshot is null pixmap."));
 	}

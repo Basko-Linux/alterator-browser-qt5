@@ -70,6 +70,7 @@ private:
     QTranslator *m_qt_translator;
     QTranslator *m_app_translator;
     QRect geometry_;
+    bool m_first_screenshot = true;
     bool started;
     bool in_quit;
     bool have_wm;
