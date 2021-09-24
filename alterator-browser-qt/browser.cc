@@ -1105,7 +1105,7 @@ void Browser::takeScreenShot() {
 		msgbox->exec();
 		popupRemove(msgbox);
 	    } else {
-		msgbox->execForTimeout(3000);
+		msgbox->execForTimeout(2500);
 	    }
 	} else {
 	    qWarning("%s", qPrintable("Screenshot is null pixmap."));
