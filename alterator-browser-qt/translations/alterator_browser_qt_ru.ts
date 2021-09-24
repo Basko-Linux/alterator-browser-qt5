@@ -92,11 +92,16 @@
     </message>
     <message>
         <location filename="../browser.cc" line="1090"/>
+        <source>Images will be found at &lt;br/&gt;&lt;strong&gt;/root/.install-log/&lt;/strong&gt;&lt;br/&gt;after install.&lt;br/&gt;Now saved to &lt;br/&gt;%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../browser.cc" line="1103"/>
         <source>Screenshot</source>
         <translation>Скриншот</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="1090"/>
+        <location filename="../browser.cc" line="1093"/>
         <source>Path: %1</source>
         <translation>Путь: %1</translation>
     </message>
