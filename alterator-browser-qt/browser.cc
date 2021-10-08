@@ -909,6 +909,14 @@ void Browser::loadStyleSheet()
 	if( QStyleFactory::keys().contains(styleName) )
 	    qApp->setStyle(styleName);
 
+	// set icons theme
+	QString iconsTheme = settings.value("icons").toString();
+	if( !iconsTheme.isEmpty() )
+	    QIcon::setThemeName(iconsTheme);
+	QString fallIconsTheme = settings.value("icons_fallback").toString();
+	if( !fallIconsTheme.isEmpty() )
+	    QIcon::setFallbackThemeName(fallIconsTheme);
+
 	// set palette
 	QStringList strlist;
 	int i;
