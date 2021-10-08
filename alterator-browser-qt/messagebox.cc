@@ -73,7 +73,7 @@ MessageBox::MessageBox(
     else if ("warning" == type) pix_id = QStyle::SP_MessageBoxWarning;
     iconlabel = new QLabel(this);
     iconlabel->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
-    iconlabel->setPixmap(QApplication::style()->standardPixmap(pix_id));
+    iconlabel->setPixmap(QApplication::style()->standardIcon(pix_id).pixmap(32,32));
     textlabel = new QLabel(this);
     textlabel->setWordWrap(true);
     textlabel->setText(text);

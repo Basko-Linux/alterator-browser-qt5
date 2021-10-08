@@ -53,7 +53,7 @@ Popup::Popup(QWidget *parent, bool title, bool winexpand, bool winclose, bool wi
 	win_shrink->setToolButtonStyle(Qt::ToolButtonIconOnly);
 	win_shrink->setAutoRaise(true);
 	win_shrink->setFixedSize(16,16);
-	win_shrink->setIcon(QApplication::style()->standardPixmap(QStyle::SP_TitleBarMinButton));
+	win_shrink->setIcon(QApplication::style()->standardIcon(QStyle::SP_TitleBarMinButton));
 	header_layout->addWidget(win_shrink);
 	connect(win_shrink, SIGNAL(clicked()), this, SLOT(onWinShrinkClicked()));
     }
@@ -64,7 +64,7 @@ Popup::Popup(QWidget *parent, bool title, bool winexpand, bool winclose, bool wi
 	win_expand->setToolButtonStyle(Qt::ToolButtonIconOnly);
 	win_expand->setAutoRaise(true);
 	win_expand->setFixedSize(16,16);
-	win_expand->setIcon(QApplication::style()->standardPixmap(QStyle::SP_TitleBarMaxButton));
+	win_expand->setIcon(QApplication::style()->standardIcon(QStyle::SP_TitleBarMaxButton));
 	header_layout->addWidget(win_expand);
 	connect(win_expand, SIGNAL(clicked()), this, SLOT(onWinExpandClicked()));
     }
@@ -76,11 +76,11 @@ Popup::Popup(QWidget *parent, bool title, bool winexpand, bool winclose, bool wi
 	win_close->setToolButtonStyle(Qt::ToolButtonIconOnly);
 	win_close->setAutoRaise(true);
 	win_close->setFixedSize(16,16);
-	QPixmap pix(QApplication::style()->standardPixmap(QStyle::SP_TitleBarCloseButton));
-	if( pix.isNull() )
+	QIcon ico(QApplication::style()->standardIcon(QStyle::SP_TitleBarCloseButton));
+	if( ico.isNull() )
 	    win_close->setText("X");
 	else
-	    win_close->setIcon(pix);
+	    win_close->setIcon(ico);
 	header_layout->addWidget(win_close);
 	connect(win_close, SIGNAL(clicked()), this, SLOT(onWinCloseClicked()));
     }
