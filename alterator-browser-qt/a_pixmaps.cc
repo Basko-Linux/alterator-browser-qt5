@@ -138,6 +138,7 @@ void initPixmaps()
 
     	pix_map["theme:null"] = new ANullPixmapGenerator();
 	pix_map["theme:help"] = new AStdPixmapGenerator(QStyle::SP_DialogHelpButton);
+	pix_map["theme:close"] = new AStdPixmapGenerator(QStyle::SP_DialogCloseButton);
 
     pix_map_initialised = true;
 }
