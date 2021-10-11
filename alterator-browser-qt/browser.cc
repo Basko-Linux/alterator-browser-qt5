@@ -901,42 +901,78 @@ void Browser::loadStyleSheet()
 
     if( QFile::exists(":/design/design.ini") )
     {
+
 	QSettings settings(":/design/design.ini", QSettings::IniFormat, this);
 	settings.setFallbacksEnabled(false);
+	QStringList keys(settings.allKeys());
+	QString key;
 
 	// set Qt style
-	QString styleName = settings.value("style").toString();
-	if( QStyleFactory::keys().contains(styleName) )
-	    qApp->setStyle(styleName);
+	key = QStringLiteral("style");
+	if( !keys.contains(key) ) {
+	    key = QStringLiteral("Style");
+	}
+	if( keys.contains(key) ) {
+	    QString styleName = settings.value(key).toString();
+	    if( QStyleFactory::keys().contains(styleName, Qt::CaseInsensitive) )
+		qApp->setStyle(styleName);
+	}
 
 	// set icons theme
-	QString iconsTheme = settings.value("icons").toString();
-	if( !iconsTheme.isEmpty() )
-	    QIcon::setThemeName(iconsTheme);
-	QString fallIconsTheme = settings.value("icons_fallback").toString();
-	if( !fallIconsTheme.isEmpty() )
-	    QIcon::setFallbackThemeName(fallIconsTheme);
+	key = QStringLiteral("icons");
+	if( !keys.contains(key) ) {
+	    key = QStringLiteral("Icons");
+	}
+	if( keys.contains(key) ) {
+	    QString iconsTheme = settings.value(key).toString();
+	    if( !iconsTheme.isEmpty() )
+		QIcon::setThemeName(iconsTheme);
+	}
+	key = QStringLiteral("icons_fallback");
+	if( !keys.contains(key) ) {
+	    key = QStringLiteral("Icons_fallback");
+	}
+	if( !keys.contains(key) ) {
+	    key = QStringLiteral("Icons_Fallback");
+	}
+	if( keys.contains(key) ) {
+	    QString fallIconsTheme = settings.value(key).toString();
+	    if( !fallIconsTheme.isEmpty() )
+		QIcon::setFallbackThemeName(fallIconsTheme);
+	}
 
 	// set palette
 	QStringList strlist;
 	int i;
 	QPalette pal(Qt::black);
 	int groupCount = 0;
-	strlist = settings.value(QLatin1String("Palette/active")).toStringList();
+	key = QStringLiteral("Palette/active");
+	if( !keys.contains(key) ) {
+	    key = QStringLiteral("palette/active");
+	}
+	strlist = settings.value(key).toStringList();
 	if (strlist.count() == QPalette::NColorRoles)
 	{
 	    ++groupCount;
 	    for (i = 0; i < QPalette::NColorRoles; i++)
 		pal.setColor(QPalette::Active, (QPalette::ColorRole) i, QColor(strlist[i]));
 	}
-	strlist = settings.value(QLatin1String("Palette/inactive")).toStringList();
+	key = QStringLiteral("Palette/inactive");
+	if( !keys.contains(key) ) {
+	    key = QStringLiteral("palette/inactive");
+	}
+	strlist = settings.value(key).toStringList();
 	if (strlist.count() == QPalette::NColorRoles)
 	{
 	    ++groupCount;
 	    for (i = 0; i < QPalette::NColorRoles; i++)
 		pal.setColor(QPalette::Inactive, (QPalette::ColorRole) i, QColor(strlist[i]));
 	}
-	strlist = settings.value(QLatin1String("Palette/disabled")).toStringList();
+	key = QStringLiteral("Palette/disabled");
+	if( !keys.contains(key) ) {
+	    key = QStringLiteral("palette/disabled");
+	}
+	strlist = settings.value(key).toStringList();
 	if(strlist.count() == QPalette::NColorRoles)
 	{
 	    ++groupCount;
@@ -950,14 +986,19 @@ void Browser::loadStyleSheet()
         QFont font_init(QGuiApplication::font());
         QFont font_new(font_init);
         font_new.setPointSize(font_init.pointSize()+2);
-        QString str = settings.value(QLatin1String("font")).toString();
-        if (!str.isEmpty())
-	{
-            font_new.fromString(str);
-        }
-        if(font_new != font_init) {
-            QGuiApplication::setFont(font_new);
-	    qApp->setStyleSheet("");
+	key = QStringLiteral("font");
+	if( !keys.contains(key) ) {
+	    key = QStringLiteral("Font");
+	}
+	if( keys.contains(key) ) {
+	    QString str = settings.value(key).toString();
+	    if (!str.isEmpty()) {
+		font_new.fromString(str);
+	    }
+	    if(font_new != font_init) {
+		QGuiApplication::setFont(font_new);
+		qApp->setStyleSheet("");
+	    }
 	}
     }
 
