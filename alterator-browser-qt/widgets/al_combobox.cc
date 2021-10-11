@@ -2,6 +2,7 @@
 
 #include "al_combobox.hh"
 #include "a_pixmaps.hh"
+#include "printfilter.hh"
 
 AComboBox::AComboBox(QWidget *parent, const Qt::Orientation):
     AWidget<QComboBox>(parent)
@@ -13,6 +14,8 @@ AComboBox::AComboBox(QWidget *parent, const Qt::Orientation):
 	this, SLOT(onTextChange(const QString&)));
     connect(this, SIGNAL(activated(const QString&)),
 	this, SLOT(onActivate(const QString&)));
+
+    view()->installEventFilter(new PrintFilter(this));
 }
 
 AComboBox::~AComboBox() {}

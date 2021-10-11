@@ -1124,8 +1124,10 @@ QString Browser::shortLang()
     return m_shortlang;
 }
 
-void Browser::takeScreenShot() {
-    QWidget *wnd(window());
+void Browser::takeScreenShot(QWidget *wnd) {
+    if( !wnd ) {
+	wnd = window();
+    }
     if( wnd ) {
 	bool is_first_screenshot = m_first_screenshot;
 	QPixmap pix = wnd->grab();
