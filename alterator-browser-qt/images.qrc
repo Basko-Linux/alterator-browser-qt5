@@ -1,5 +1,7 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
    <file>images/altlinux_16.png</file>
+   <file>images/password-show-on.svg</file>
+   <file>images/password-show-off.svg</file>
 </qresource>
 </RCC>
