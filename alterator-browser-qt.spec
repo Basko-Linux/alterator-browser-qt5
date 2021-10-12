@@ -23,6 +23,7 @@ Packager: Sergey V Turchin <zerg at altlinux dot org>
 Requires(post,preun): alternatives >= 0.2
 Requires: qt5-translations
 Requires: qt5-virtualkeyboard
+Requires: qt5-svg
 Requires: /usr/bin/xdg-open
 Requires: alterator-browser-gui-common
 Requires: alterator-common >= 2.9-alt0.14
