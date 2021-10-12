@@ -76,6 +76,7 @@ Browser::Browser():
     g_widgetlist = new WidgetList(this);
     pixmap_paths
 	<< ":/design/"
+	<< ":/images/"
 	<< "/usr/share/alterator/design/images/"
 	<< "/usr/share/alterator/images/";
 
