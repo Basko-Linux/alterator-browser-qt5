@@ -45,13 +45,13 @@ void AEdit::setEchoMode(QLineEdit::EchoMode emode)
 	case QLineEdit::Password:
 	case QLineEdit::PasswordEchoOnEdit:
 	    if( !m_pw_show ){
-		QAction *m_pw_show = edit->addAction(getPixmap("theme:arrow-left"), QLineEdit::TrailingPosition);
+		QAction *m_pw_show = edit->addAction(getPixmap("theme:password-show-off"), QLineEdit::TrailingPosition);
 		connect(m_pw_show, &QAction::triggered, this, [m_pw_show,this](bool){
 		    edit->setEchoMode(edit->echoMode() == QLineEdit::Password ? QLineEdit::Normal: QLineEdit::Password);
 		    if( edit->echoMode() == QLineEdit::Password ) {
-			m_pw_show->setIcon(getPixmap("theme:arrow-left"));
+			m_pw_show->setIcon(getPixmap("theme:password-show-off"));
 		    } else {
-			m_pw_show->setIcon(getPixmap("theme:arrow-right"));
+			m_pw_show->setIcon(getPixmap("theme:password-show-on"));
 		    }
 		});
 	    }
