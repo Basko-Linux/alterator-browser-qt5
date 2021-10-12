@@ -15,7 +15,7 @@ bool pix_map_initialised = false;
 
 QPixmap AStdPixmapGenerator::operator()()
 {
-	return QApplication::style()->standardIcon(id_).pixmap(32,32);
+	return QApplication::style()->standardIcon(id_).pixmap(16,16);
 }
 
 QPixmap ANullPixmapGenerator::operator()()
