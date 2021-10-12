@@ -15,7 +15,7 @@ bool pix_map_initialised = false;
 
 QPixmap AStdPixmapGenerator::operator()()
 {
-	return QApplication::style()->standardIcon(id_).pixmap(16,16);
+	return QApplication::style()->standardIcon(id_).pixmap(22,22);
 }
 
 QPixmap ANullPixmapGenerator::operator()()
@@ -54,25 +54,25 @@ QPixmap AFilePixmapGenerator::operator()()
     Q_FOREACH(QString images_path, pixmap_paths)
     {
 	QString pixpath;
-	if(px.isNull())
-	{
-	    pixpath = images_path + name_ + ".png";
-	    if( QFile::exists(pixpath) )
-		px = QPixmap(pixpath);
-	}
-	else
+	if(px.isNull()) {
+	    Q_FOREACH(QString ext, QStringList() << ".png" << ".svg" << ".jpg" << "" ) {
+		pixpath = images_path + name_ + ext;
+		if( QFile::exists(pixpath) ) {
+		    px = QPixmap(pixpath);
+		}
+		if(!px.isNull()) {
+		    break;
+		}
+	    }
+	} else {
 	    break;
-	if(px.isNull())
-	{
-	    pixpath = images_path + name_;
-	    if( QFile::exists(pixpath) )
-		px = QPixmap(images_path + name_);
-	    if(!px.isNull())
-		qDebug("Using pixmap name \"%s\" with file extension.", qPrintable(name_));
 	}
-	else
-	    break;
     }
+#if 0
+    if(px.isNull()) {
+	px = QIcon::fromTheme(name_).pixmap(22,22);
+    }
+#endif
     return px;
 }
 	
