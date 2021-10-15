@@ -1125,14 +1125,23 @@ QString Browser::shortLang()
     return m_shortlang;
 }
 
-void Browser::takeScreenShot(QWidget *wnd) {
-    if( !wnd ) {
-	wnd = window();
-    }
+void Browser::takeScreenShot(QWidget *wnd2) {
+    QWidget *wnd(window());
     if( wnd ) {
 	bool is_first_screenshot = m_first_screenshot;
 	QPixmap pix = wnd->grab();
+	QPixmap pix2;
+	QPoint pos1(wnd->mapToGlobal(QPoint(0,0)));
+	QPoint pos2;
+	if( wnd2 ) {
+	    pix2 = wnd2->grab();
+	    pos2 = wnd2->mapToGlobal(QPoint(0,0));
+	}
 	if( !pix.isNull() ) {
+	    if( !pix2.isNull() ) {
+		QPainter paint(&pix);
+		paint.drawPixmap(pos2.x()-pos1.x(), pos2.y()-pos1.y(), pix2);
+	    }
 	    QString tmp_path(qEnvironmentVariable("TMPDIR", QStringLiteral("/tmp")));
 	    QString scrpath(QLatin1String("%1/alterator-screenshot-%2-%3.png").arg(tmp_path).arg(QDateTime::currentDateTime().toString(QStringLiteral("yyyy.MM.dd-HH.mm"))).arg(Utils::getRandomString(4)));
 	    QLatin1String msg_type;
