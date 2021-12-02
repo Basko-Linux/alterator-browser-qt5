@@ -93,7 +93,7 @@
     <message>
         <location filename="../browser.cc" line="1151"/>
         <source>Images will be found at&lt;br/&gt;&lt;strong&gt;/root/.install-log/&lt;/strong&gt;&lt;br/&gt;after install. Now saved to&lt;br/&gt;&lt;strong&gt;%1&lt;/strong&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Изображения будут найдены в каталоге &lt;br/&gt;&lt;strong&gt;/root/.install-log/&lt;/strong&gt;&lt;br/&gt;после установки.&lt;br/&gt;Сейсас сохраняются в &lt;br/&gt;&lt;strong&gt;%1&lt;/strong&gt;</translation>
     </message>
     <message>
         <source>Images will be found at&lt;br/&gt;&lt;strong&gt;/root/.install-log/&lt;/strong&gt;&lt;br/&gt;after install. Now saved to&lt;br/&gt;%1</source>
