@@ -1148,7 +1148,7 @@ void Browser::takeScreenShot(QWidget *wnd2) {
 	    QString msg_text;
 	    QDialogButtonBox::StandardButtons msg_buttons = QDialogButtonBox::NoButton;
 	    if( is_first_screenshot ) {
-		msg_text = tr("Images will be found at<br/><strong>/root/.install-log/</strong><br/>after install. Now saved to<br/>%1").arg(tmp_path);
+		msg_text = tr("Images will be found at<br/><strong>/root/.install-log/</strong><br/>after install. Now saved to<br/><strong>%1</strong>").arg(tmp_path);
 		msg_buttons = QDialogButtonBox::Ok;
 	    } else {
 		msg_text = tr("Path: %1").arg(scrpath);
