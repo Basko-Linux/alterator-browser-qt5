@@ -70,42 +70,46 @@
 <context>
     <name>Browser</name>
     <message>
-        <location filename="../browser.cc" line="259"/>
-        <location filename="../browser.cc" line="267"/>
+        <location filename="../browser.cc" line="260"/>
+        <location filename="../browser.cc" line="268"/>
         <source>Quit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="259"/>
+        <location filename="../browser.cc" line="260"/>
         <source>Exit Alterator?</source>
         <translation>Завершить Alterator?</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="284"/>
+        <location filename="../browser.cc" line="285"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="284"/>
+        <location filename="../browser.cc" line="285"/>
         <source>Alterator Browser %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="1090"/>
+        <location filename="../browser.cc" line="1151"/>
+        <source>Images will be found at&lt;br/&gt;&lt;strong&gt;/root/.install-log/&lt;/strong&gt;&lt;br/&gt;after install. Now saved to&lt;br/&gt;&lt;strong&gt;%1&lt;/strong&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Images will be found at&lt;br/&gt;&lt;strong&gt;/root/.install-log/&lt;/strong&gt;&lt;br/&gt;after install. Now saved to&lt;br/&gt;%1</source>
-        <translation>Изображения будут располагаться в&lt;br/&gt;&lt;strong&gt;/root/.install-log/&lt;/strong&gt;&lt;br/&gt;после установки. Сейчас сохраняются в&lt;br/&gt;%1</translation>
+        <translation type="vanished">Изображения будут располагаться в&lt;br/&gt;&lt;strong&gt;/root/.install-log/&lt;/strong&gt;&lt;br/&gt;после установки. Сейчас сохраняются в&lt;br/&gt;%1</translation>
     </message>
     <message>
         <source>Images will be found at &lt;br/&gt;&lt;strong&gt;/root/.install-log/&lt;/strong&gt;&lt;br/&gt;after install.&lt;br/&gt;Now saved to &lt;br/&gt;%1</source>
         <translation type="vanished">Изображения будут найдены в каталоге &lt;br/&gt;&lt;strong&gt;/root/.install-log/&lt;/strong&gt;&lt;br/&gt;после установки.&lt;br/&gt;Сейсас сохраняются в &lt;br/&gt;%1</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="1103"/>
+        <location filename="../browser.cc" line="1164"/>
         <source>Screenshot</source>
         <translation>Скриншот</translation>
     </message>
     <message>
-        <location filename="../browser.cc" line="1093"/>
+        <location filename="../browser.cc" line="1154"/>
         <source>Path: %1</source>
         <translation>Путь: %1</translation>
     </message>
