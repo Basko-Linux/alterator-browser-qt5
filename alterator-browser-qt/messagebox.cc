@@ -76,8 +76,8 @@ MessageBox::MessageBox(
     iconlabel->setPixmap(QApplication::style()->standardIcon(pix_id).pixmap(32,32));
     textlabel = new QLabel(this);
     textlabel->setWordWrap(true);
+    textlabel->setAlignment(Qt::AlignLeft);
     textlabel->setText(text);
-    textlabel->setAlignment(Qt::AlignCenter);
     buttonbox = new QDialogButtonBox(this);
     buttonbox->setStandardButtons(buttons);
 
