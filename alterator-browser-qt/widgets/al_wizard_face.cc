@@ -196,6 +196,8 @@ void AWizardFaceStepList::removeAt(int n)
 	delete litem.second;
 	litem.second = 0;
     }
+    if( lst.isEmpty() )
+	current = -1;
 }
 
 void AWizardFaceStepList::clear()
@@ -209,6 +211,7 @@ void AWizardFaceStepList::clear()
 	}
     }
     lst.clear();
+    current = -1;
 }
 
 void AWizardFaceStepList::replace(int n, QPair<QString, QString> item)
