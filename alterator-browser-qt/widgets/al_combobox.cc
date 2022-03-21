@@ -8,7 +8,7 @@ AComboBox::AComboBox(QWidget *parent, const Qt::Orientation):
     AWidget<QComboBox>(parent)
 {
     text_changed_ = false;
-    //setSizeAdjustPolicy(QComboBox::AdjustToContents);
+    view()->setSizePolicy(view()->sizePolicy().horizontalPolicy(), QSizePolicy::MinimumExpanding);
 
     connect(this, SIGNAL(editTextChanged(const QString&)),
 	this, SLOT(onTextChange(const QString&)));
