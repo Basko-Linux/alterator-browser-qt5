@@ -93,7 +93,7 @@
     <message>
         <location filename="../browser.cc" line="1151"/>
         <source>Images will be found at&lt;br/&gt;&lt;strong&gt;/root/.install-log/&lt;/strong&gt;&lt;br/&gt;after install. Now saved to&lt;br/&gt;&lt;strong&gt;%1&lt;/strong&gt;</source>
-        <translation>Изображения будут найдены в каталоге &lt;br/&gt;&lt;strong&gt;/root/.install-log/&lt;/strong&gt;&lt;br/&gt;после установки.&lt;br/&gt;Сейсас сохраняются в &lt;br/&gt;&lt;strong&gt;%1&lt;/strong&gt;</translation>
+        <translation>Изображения будут найдены в каталоге &lt;br/&gt;&lt;strong&gt;/root/.install-log/&lt;/strong&gt;&lt;br/&gt;после установки.&lt;br/&gt;Сейчас сохраняются в &lt;br/&gt;&lt;strong&gt;%1&lt;/strong&gt;</translation>
     </message>
     <message>
         <source>Images will be found at&lt;br/&gt;&lt;strong&gt;/root/.install-log/&lt;/strong&gt;&lt;br/&gt;after install. Now saved to&lt;br/&gt;%1</source>
@@ -101,7 +101,7 @@
     </message>
     <message>
         <source>Images will be found at &lt;br/&gt;&lt;strong&gt;/root/.install-log/&lt;/strong&gt;&lt;br/&gt;after install.&lt;br/&gt;Now saved to &lt;br/&gt;%1</source>
-        <translation type="vanished">Изображения будут найдены в каталоге &lt;br/&gt;&lt;strong&gt;/root/.install-log/&lt;/strong&gt;&lt;br/&gt;после установки.&lt;br/&gt;Сейсас сохраняются в &lt;br/&gt;%1</translation>
+        <translation type="vanished">Изображения будут найдены в каталоге &lt;br/&gt;&lt;strong&gt;/root/.install-log/&lt;/strong&gt;&lt;br/&gt;после установки.&lt;br/&gt;Сейчас сохраняются в &lt;br/&gt;%1</translation>
     </message>
     <message>
         <location filename="../browser.cc" line="1164"/>
