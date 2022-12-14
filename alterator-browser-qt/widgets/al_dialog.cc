@@ -257,7 +257,7 @@ void alDialog::setAttr(const QString& name,const QString& value)
     if( "actions" == name )
     {
 	wnd_->clearActions();
-	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
+	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
 	QStringListIterator it(data);
 	Q_FOREVER
 	{
@@ -279,7 +279,7 @@ void alDialog::setAttr(const QString& name,const QString& value)
     }
     else if( "action-add" == name )
     {
-	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
+	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
 	QStringListIterator it(data);
 	if( data.size() > 0 )
 	{

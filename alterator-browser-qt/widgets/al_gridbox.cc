@@ -35,7 +35,7 @@ void AGridBox::setColumns(const QString &columns)
 	qDebug("gridbox: Ignore double layout setup");
 	return;
     }
-    QStringList cols = columns.split(QLatin1String(";"), QT_SKIPEMPTYPARTS);
+    QStringList cols = columns.split(QLatin1String(";"), Qt::SkipEmptyParts);
     columns_ = cols.size();
     for(int i=0; i < columns_; i++)
     {

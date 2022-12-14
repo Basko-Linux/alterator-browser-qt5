@@ -781,7 +781,7 @@ void Browser::onFileSelectRequest(const QString& title, const QString& dir, cons
     QFileDialog::ViewMode view_mode = QFileDialog::Detail;
     QFileDialog::FileMode file_mode = QFileDialog::AnyFile;
     QFileDialog::AcceptMode accept_mode = QFileDialog::AcceptOpen;
-    Q_FOREACH(QString option, type.split(QLatin1String(";"),QT_SKIPEMPTYPARTS))
+    Q_FOREACH(QString option, type.split(QLatin1String(";"), Qt::SkipEmptyParts))
     {
 	if( option == "show_dirs_only" )
 	    { options = options | QFileDialog::ShowDirsOnly; }

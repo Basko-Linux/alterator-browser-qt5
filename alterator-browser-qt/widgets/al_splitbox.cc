@@ -75,7 +75,7 @@ void ASplitBox::setColumns(const QString &columns)
     }
     columns_.clear();
     columns_sum = 0;
-    QStringList cols = columns.split(QLatin1String(";"), QT_SKIPEMPTYPARTS);
+    QStringList cols = columns.split(QLatin1String(";"), Qt::SkipEmptyParts);
     QStringListIterator it(cols);
     while( it.hasNext() )
     {

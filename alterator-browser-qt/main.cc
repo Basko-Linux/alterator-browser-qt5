@@ -69,7 +69,7 @@ int main(int argc,char **argv)
 		    QFile cmdLineFile(QLatin1String("/proc/cmdline"));
 		    if( cmdLineFile.open(QIODevice::ReadOnly) ) {
 			QString all_file(cmdLineFile.readAll());
-			QStringList tokens(all_file.trimmed().split(QRegularExpression(QStringLiteral("\\s+")), QT_SKIPEMPTYPARTS));
+			QStringList tokens(all_file.trimmed().split(QRegularExpression(QStringLiteral("\\s+")), Qt::SkipEmptyParts));
 			foreach( const QString &t, tokens ) {
 			    if( t == QStringLiteral("no_alt_virt_keyboard") ) {
 				allow_virtual_keyboard = false;
