@@ -296,7 +296,8 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	else if ("current-rows" == name)
 	{
 	    wnd_->blockSignals(true);
-	    QSet<QString> data(QSet<QString>::fromList(value.split(QLatin1String(";"))));
+	    QStringList list(value.split(QLatin1String(";")));
+	    QSet<QString> data(list.begin(), list.end());
 	    if( data.size() > 0 )
 	    {
 		QString id;
