@@ -12,7 +12,7 @@ ATextBox::ATextBox(QWidget *parent, const Qt::Orientation):
     mark = new QLabel("*" ,this);
     mark->hide();
     QPalette palet = mark->palette();
-    palet.setBrush(QPalette::Foreground, QColor("red"));
+    palet.setBrush(QPalette::WindowText, QColor("red"));
     mark->setPalette(palet);
 
     edit = new QTextBrowser(this);
