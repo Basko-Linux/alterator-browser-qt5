@@ -1107,7 +1107,7 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
     }
     else if( "action-activity" == name )
     {
-	QStringList data = value.split(";");
+	QStringList data = value.split(QLatin1String(";"));
 	if( data.size() >= 2 )
 	{
 	    wnd_->setActionActivity(data[0], "true" == data[1]);

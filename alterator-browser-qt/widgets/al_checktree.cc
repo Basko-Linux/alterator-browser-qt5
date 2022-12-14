@@ -275,7 +275,7 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	}
 	else if ("expand-rows" == name)
 	{
-	    QStringList data = value.split(";");
+	    QStringList data = value.split(QLatin1String(";"));
 	    Q_FOREACH(QString id, data)
 	    {
 		QTreeWidgetItem* item = wnd_->lookupItem(id);
@@ -285,7 +285,7 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	}
 	else if ("collapse-rows" == name)
 	{
-	    QStringList data = value.split(";");
+	    QStringList data = value.split(QLatin1String(";"));
 	    Q_FOREACH(QString id, data)
 	    {
 		QTreeWidgetItem* item = wnd_->lookupItem(id);
@@ -296,7 +296,7 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	else if ("current-rows" == name)
 	{
 	    wnd_->blockSignals(true);
-	    QSet<QString> data(QSet<QString>::fromList(value.split(";")));
+	    QSet<QString> data(QSet<QString>::fromList(value.split(QLatin1String(";"))));
 	    if( data.size() > 0 )
 	    {
 		QString id;
@@ -339,7 +339,7 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	{
 	    QString pixname;
 	    int column;
-	    QStringList data = value.split(";");
+	    QStringList data = value.split(QLatin1String(";"));
 	    
 	    if (data.count() < 2)
 		return;

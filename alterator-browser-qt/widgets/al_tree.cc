@@ -45,7 +45,7 @@ void alTree::setAttr(const QString& name,const QString& value)
 		if (!coords_.isEmpty())
 		{
 		    setItems();
-		    coordmap_ = coords_.split(";");//move to internal storage
+		    coordmap_ = coords_.split(QLatin1String(";"));//move to internal storage
 		    items_ = coords_ = "";
 		}
 	}
@@ -55,7 +55,7 @@ void alTree::setAttr(const QString& name,const QString& value)
 		if (!items_.isEmpty())
 		{
 		    setItems();
-		    coordmap_ = coords_.split(";");//move to internal storage
+		    coordmap_ = coords_.split(QLatin1String(";"));//move to internal storage
 		    items_ = coords_ = "";
 		}
 		expandOrCollapseAllTree();
@@ -64,7 +64,7 @@ void alTree::setAttr(const QString& name,const QString& value)
 	else if ("current" == name)
 	{
 		QTreeWidgetItem *item = 0;
-		QStringList coords = value.split(";");
+		QStringList coords = value.split(QLatin1String(";"));
 		bool ok = false;
 		int pos = coords[0].toInt(&ok);
 		if( pos >= 0 && ok) 
@@ -93,7 +93,7 @@ void alTree::setAttr(const QString& name,const QString& value)
 		wnd_->header()->hide(); 
 	    else
 		wnd_->header()->show(); 
-	    wnd_->setHeaderLabels(value.split(";"));
+	    wnd_->setHeaderLabels(value.split(QLatin1String(";")));
 	}
 	else if ("expanded" == name) 
 	{
@@ -136,8 +136,8 @@ QTreeWidgetItem *alTree::findPosition(QTreeWidgetItem *parent,QStringList coords
 
 void alTree::setItems()
 {
-	QStringList itemlist = items_.split(";");
-	QStringList coordlist = coords_.split(";");
+	QStringList itemlist = items_.split(QLatin1String(";"));
+	QStringList coordlist = coords_.split(QLatin1String(";"));
 	const int len = itemlist.size();
 	const int columns = wnd_->columnCount();
 	for (int i=0;i+1<len;)

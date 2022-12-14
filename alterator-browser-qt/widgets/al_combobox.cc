@@ -75,7 +75,7 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 {
 	if ("append-row" == name)
 	{
-		QStringList data = value.split(";");
+		QStringList data = value.split(QLatin1String(";"));
 		if (data[1].isEmpty())
 			wnd_->addItem(data[0]);
 		else
@@ -85,7 +85,7 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 	else if ("rows" == name)
 	{
 	    wnd_->clear();
-	    QStringList lst = value.split(";");
+	    QStringList lst = value.split(QLatin1String(";"));
 	    QStringListIterator i(lst);
 	    while( i.hasNext() )
 	    {
@@ -128,7 +128,7 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 	}
 	else if ("row-item-text" == name)
 	{
-		QStringList data = value.split(";");
+		QStringList data = value.split(QLatin1String(";"));
 		if( data.size() >= 2 )
 		{
 		    bool ok = false;
@@ -139,7 +139,7 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 	}
 	else if ("row-item-pixmap" == name)
 	{
-		QStringList data = value.split(";");
+		QStringList data = value.split(QLatin1String(";"));
 		if( data.size() >= 2 )
 		{
 		    bool ok = false;

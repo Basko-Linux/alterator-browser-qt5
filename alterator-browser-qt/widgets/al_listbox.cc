@@ -300,7 +300,7 @@ void alListBox::setAttr(const QString& name,const QString& value)
 	{
 	    wnd_->setNonUserSelectionChange(true);
 	    wnd_->clearSelection();
-	    QStringList data = value.split(";");
+	    QStringList data = value.split(QLatin1String(";"));
 	    int n = data.size();
 	    if( n > 0 )
 	    {
@@ -327,7 +327,7 @@ void alListBox::setAttr(const QString& name,const QString& value)
 	else if ("state-rows" == name)
 	{
 	    wnd_->setNonUserSelectionChange(true);
-	    QStringList data = value.split(";");
+	    QStringList data = value.split(QLatin1String(";"));
 	    int n = wnd_->topLevelItemCount();
 	    if( n == data.size() )
 	    {
@@ -354,13 +354,13 @@ void alListBox::setAttr(const QString& name,const QString& value)
 	}
 	else if ("row-item-text" == name)
 	{
-		QStringList data = value.split(";");
+		QStringList data = value.split(QLatin1String(";"));
 		int column = data.size()<3? 0: data[2].toInt();
 		wnd_->topLevelItem(data[1].toInt())->setText(column,data[0]);
 	}
 	else if ("row-item-pixmap" == name)
 	{
-		QStringList data = value.split(";");
+		QStringList data = value.split(QLatin1String(";"));
 		int column = data.size()<3? 0: data[2].toInt();
 		wnd_->topLevelItem(data[1].toInt())->setIcon(column,QIcon(getPixmap(data[0])));
 	}
