@@ -29,7 +29,7 @@ QString reparentTag(const QString &parent)
 Qt::Alignment convertAlign(const QString& value)
 {
     Qt::Alignment a((Qt::AlignmentFlag)0);
-    Q_FOREACH(QString salign, value.split(";", QString::SkipEmptyParts))
+    Q_FOREACH(QString salign, value.split(QLatin1String(";"), QT_SKIPEMPTYPARTS))
     {
 	if 	("left" == salign)	a |= Qt::AlignLeft;
 	else if ("right" == salign)	a |= Qt::AlignRight;

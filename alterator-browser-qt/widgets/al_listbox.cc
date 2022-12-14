@@ -277,12 +277,12 @@ void alListBox::setAttr(const QString& name,const QString& value)
 {
 	if ("append-row" == name)
 	{
-	    QStringList data(value.split(";", QString::KeepEmptyParts));
+	    QStringList data(value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS));
 	    wnd_->addRow(data);
 	}
 	else if ("rows" == name)
 	{
-	    QStringList data(value.split(";", QString::KeepEmptyParts));
+	    QStringList data(value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS));
 	    wnd_->setRows(data);
 	}
 	else if ("current" == name)
@@ -366,12 +366,12 @@ void alListBox::setAttr(const QString& name,const QString& value)
 	}
 	else if ("header" == name)
 	{
-		QStringList data_test = value.split(";", QString::SkipEmptyParts);
+		QStringList data_test = value.split(QLatin1String(";"), QT_SKIPEMPTYPARTS);
 		if( data_test.size() > 0 )
 		    wnd_->header()->show();
 		else
 		    wnd_->header()->hide();
-		QStringList data = value.split(";", QString::KeepEmptyParts);
+		QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 		wnd_->setHeader(data);
 	}
 	else

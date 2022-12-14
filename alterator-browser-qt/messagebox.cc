@@ -48,7 +48,7 @@ namespace MsgBox {
 	QDialogButtonBox::StandardButtons convertButtonList(const QString& buttons)
 	{
 		QDialogButtonBox::StandardButtons result = 0;
-		QStringList data = buttons.split(";");
+		QStringList data = buttons.split(QLatin1String(";"));
 		const int len = data.size();
 		for(int i = 0;i<len;++i)
 			result |= convertButton(data[i]);

@@ -125,7 +125,7 @@ QString Connection::createLangList()
     QString lang(guess_locale_value());
     if( lang.isEmpty() )
 	lang = "POSIX";
-    QStringList lst = lang.split( ":", QString::SkipEmptyParts);
+    QStringList lst = lang.split( ":", QT_SKIPEMPTYPARTS);
     QStringList lst2;
     QStringListIterator it(lst);
     while(it.hasNext())

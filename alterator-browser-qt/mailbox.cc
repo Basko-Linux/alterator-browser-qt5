@@ -81,7 +81,7 @@ void MailBox::readMessage(int fd)
 	do {
 	    QString msgdata(msgremain);
 	    msgdata.append(fs.readLine(1024));
-	    QStringList msglist(msgdata.split(QChar('\0'),QString::KeepEmptyParts));
+	    QStringList msglist(msgdata.split(QChar('\0'),QT_KEEPEMPTYPARTS));
 	    QStringListIterator is(msglist);
 	    while( is.hasNext() )
 	    {

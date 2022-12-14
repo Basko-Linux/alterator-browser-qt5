@@ -258,14 +258,14 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	if ("append-row" == name)
 	{
 	    wnd_->blockSignals(true);
-	    QStringList data(value.split(";", QString::KeepEmptyParts));
+	    QStringList data(value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS));
 	    wnd_->addRow(data);
 	    wnd_->blockSignals(false);
 	}
 	else if ("rows" == name)
 	{
 	    wnd_->blockSignals(true);
-	    QStringList data(value.split(";", QString::KeepEmptyParts));
+	    QStringList data(value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS));
 	    wnd_->setRows(data);
 	    wnd_->blockSignals(false);
 	}

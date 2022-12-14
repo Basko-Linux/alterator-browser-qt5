@@ -636,7 +636,7 @@ void ACenterFace::onSelectModule(ACSListItem *i)
     {
 	case ACSListItem::External:
 	{
-	    QStringList arguments(i->command().split(" ", QString::SkipEmptyParts));
+	    QStringList arguments(i->command().split(" ", QT_SKIPEMPTYPARTS));
 	    if( arguments.size() > 0 )
 	    {
 		QString program = arguments.takeAt(0);
@@ -757,7 +757,7 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
     if( "actions" == name )
     {
 	wnd_->clearActions();
-	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	QStringListIterator it(data);
 	Q_FOREVER
 	{
@@ -779,7 +779,7 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
     }
     else if( "action-add" == name )
     {
-	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	QStringListIterator it(data);
 	if( data.size() > 0 )
 	{
@@ -803,14 +803,14 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
     }
     else if( "action-text" == name )
     {
-	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	const int len = data.size();
 	if( len >= 2 )
 	    wnd_->setActionText(data[0], data[1]);
     }
     else if( "action-pixmap" == name )
     {
-	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	const int len = data.size();
 	if( len >= 2 )
 	    wnd_->setActionPixmap(data[0], data[1]);
@@ -818,7 +818,7 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
     else if( "modules" == name )
     {
 	wnd_->clearModules();
-	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	QStringListIterator it(data);
 	Q_FOREVER
 	{
@@ -842,7 +842,7 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
     }
     else if( "module-add" == name )
     {
-	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	if( data.size() >= 3 )
 	    wnd_->addModule(data[0], data[1], data[2]);
     }
@@ -856,14 +856,14 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
     }
     else if( "module-text" == name )
     {
-	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	const int len = data.size();
 	if( len >= 2 )
 	    wnd_->setModuleText(data[0], data[1]);
     }
     else if( "module-pixmap" == name )
     {
-	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	const int len = data.size();
 	if( len >= 2 )
 	    wnd_->setModulePixmap(data[0], data[1]);
@@ -871,7 +871,7 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
     else if( "sections" == name )
     {
 	wnd_->clearSections();
-	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	QStringListIterator it(data);
 	Q_FOREVER
 	{
@@ -901,7 +901,7 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
     }
     else if( "section-add" == name )
     {
-	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	if( data.size() >= 4 )
 	    wnd_->addSection(data[0], data[1], data[2], data[3]);
     }
@@ -911,14 +911,14 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
     }
     else if( "section-text" == name )
     {
-	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	const int len = data.size();
 	if( len >= 2 )
 	    wnd_->setSectionText(data[0], data[1]);
     }
     else if( "section-pixmap" == name )
     {
-	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	const int len = data.size();
 	if( len >= 2 )
 	    wnd_->setSectionPixmap(data[0], data[1]);

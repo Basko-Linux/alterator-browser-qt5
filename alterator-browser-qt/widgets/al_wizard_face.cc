@@ -1061,7 +1061,7 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
     else if( "actions" == name )
     {
 	wnd_->clearActions();
-	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	QStringListIterator it(data);
 	Q_FOREVER
 	{
@@ -1083,7 +1083,7 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
     }
     else if( "action-add" == name )
     {
-	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	QStringListIterator it(data);
 	if( data.size() > 0 )
 	{
@@ -1115,14 +1115,14 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
     }
     else if( "action-text" == name )
     {
-	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	const int len = data.size();
 	if( len >= 2 )
 	    wnd_->setActionText(data[0], data[1]);
     }
     else if( "action-pixmap" == name )
     {
-	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	const int len = data.size();
 	if( len >= 2 )
 	    wnd_->setActionPixmap(data[0], data[1]);
@@ -1130,14 +1130,14 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
     else if( "steps" == name )
     {
 	wnd_->clearSteps();
-	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	const int len = data.size();
 	for(int i=0;i+1 < len;i+=2)
 	    wnd_->addStep(data[i], data[i+1]);
     }
     else if( "step-add" == name )
     {
-	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	const int len = data.size();
 	if( len >= 2 )
 	    wnd_->addStep(data[0], data[1]);
@@ -1154,7 +1154,7 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
     }
     else if( "step-text" == name )
     {
-	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	const int len = data.size();
 	if( len >= 2 )
 	{
@@ -1163,7 +1163,7 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
     }
     else if( "step-pixmap" == name )
     {
-	QStringList data = value.split(";", QString::KeepEmptyParts);
+	QStringList data = value.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	const int len = data.size();
 	if( len >= 2 )
 	{

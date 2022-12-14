@@ -98,9 +98,9 @@ void AEdit::markRequired(bool req)
 void AEdit::setAutocompleteRows(const QString& strrows)
 {
     QCompleter *completer = 0;
-    if( strrows.split(";", QString::SkipEmptyParts).size() > 0 )
+    if( strrows.split(QLatin1String(";"), QT_SKIPEMPTYPARTS).size() > 0 )
     {
-	QStringList rows = strrows.split(";", QString::KeepEmptyParts);
+	QStringList rows = strrows.split(QLatin1String(";"), QT_KEEPEMPTYPARTS);
 	completer = new QCompleter(edit);
 	QStringListModel *model = new QStringListModel(rows, completer);
 	completer->setModel(model);

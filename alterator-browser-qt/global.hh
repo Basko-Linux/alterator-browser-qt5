@@ -2,6 +2,8 @@
 #define QTBROWSER_GLOBALS_HH
 
 #define ORIENTATION_INITIAL (Qt::Orientation)0
+#define QT_KEEPEMPTYPARTS Qt::KeepEmptyParts
+#define QT_SKIPEMPTYPARTS Qt::SkipEmptyParts
 
 #define EVENT_HELP 1001
 #define EVENT_REQUEST_LONG_BEGIN 1010
