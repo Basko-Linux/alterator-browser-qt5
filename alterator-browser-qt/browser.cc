@@ -17,6 +17,7 @@
 #include <QResource>
 #include <QMovie>
 #include <QFileDialog>
+#include <QScreen>
 
 #include "global.hh"
 #include "widgets.hh"
@@ -103,7 +104,8 @@ Browser::Browser():
 
     if( haveWindowManager() )
     {
-	QRect screen_geom  = QApplication::desktop()->screenGeometry();
+	QScreen* primary_screen = QGuiApplication::primaryScreen();
+	QRect screen_geom  = primary_screen? primary_screen->geometry(): QRect(0,0,1280,720);
 	int wnd_recom_width = (int)(screen_geom.width()/1.5);
 	int wnd_recom_height = (int)(screen_geom.height()/1.5);
 
@@ -329,7 +331,7 @@ void Browser::setFullScreen(bool full)
     if( full )
     {
 	geometry_ = geometry();
-	setGeometry(QApplication::desktop()->screenGeometry());
+	setGeometry(QGuiApplication::primaryScreen()->geometry());
     }
     else
 	resize(geometry_.width(), geometry_.height());
