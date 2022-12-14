@@ -216,7 +216,7 @@ Qt::Orientation convertOrientation(const QString& str_value)
     else if(str_value == "horizontal")
 	return Qt::Horizontal;
     else
-	return ORIENTATION_INITIAL;
+	return (Qt::Orientation)0;
 }
 
 void openUrl(const QUrl &url)
