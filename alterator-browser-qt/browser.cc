@@ -777,7 +777,7 @@ void Browser::onMessageBoxRequest(const QString& type, const QString& title,  co
 void Browser::onFileSelectRequest(const QString& title, const QString& dir, const QString& type, const QString& mask)
 {
     FileSelect *file_select = new FileSelect(this, title, dir, mask);
-    QFileDialog::Options options = 0;
+    QFileDialog::Options options = {};
     QFileDialog::ViewMode view_mode = QFileDialog::Detail;
     QFileDialog::FileMode file_mode = QFileDialog::AnyFile;
     QFileDialog::AcceptMode accept_mode = QFileDialog::AcceptOpen;
