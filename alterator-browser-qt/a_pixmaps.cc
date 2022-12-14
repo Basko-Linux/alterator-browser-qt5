@@ -152,7 +152,7 @@ QPixmap getPixmap(QString id)
 	id = "theme:null";
     
     QPixmap pixmap;
-    if( !QPixmapCache::find(id, pixmap) )
+    if( !QPixmapCache::find(id, &pixmap) )
     {
 	APixmapGenerator *pixgen = 0;
 	if( id.startsWith("theme:") )
