@@ -68,7 +68,7 @@ QString AFileSelect::selectedFiles()
 void AFileSelect::showDialog()
 {
     QFileDialog dialog(this);
-    QFileDialog::Options options = 0;
+    QFileDialog::Options options = {};
     QFileDialog::ViewMode view_mode = QFileDialog::Detail;
     QFileDialog::FileMode file_mode = QFileDialog::AnyFile;
     QFileDialog::AcceptMode accept_mode = QFileDialog::AcceptOpen;
