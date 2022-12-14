@@ -36,7 +36,7 @@ HelpWidget::HelpWidget(QWidget *parent):
     gridLayout->addWidget(buttonBox, 1, 0, 1, 1);
 
     menu_bar = new QMenuBar(this);
-    menu_bar->hide();
+    //menu_bar->hide();
     QMenu *menu_session = new QMenu(tr("Session"), menu_bar);
     QMenu *menu_help = new QMenu(tr("Help"), menu_bar);
     menu_bar->addMenu(menu_session);
