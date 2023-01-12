@@ -6,7 +6,7 @@
 SplashScreen::SplashScreen(QWidget *parent):
     Popup(parent)
 {
-    setObjectName("splash_screen");
+    setObjectName(QStringLiteral("splash_screen"));
 
     setFrameStyle(QFrame::NoFrame);
     setAttribute(Qt::WA_NoSystemBackground);

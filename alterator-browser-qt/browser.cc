@@ -407,7 +407,7 @@ void Browser::reloadTranslator(QTranslator** translator, const QString &domain, 
     }
     *translator = new QTranslator(this);
     (*translator)->setObjectName(domain);
-    if( (*translator)->load(QLibraryInfo::location(QLibraryInfo::TranslationsPath) + "/" + domain + "_"+ language) )
+    if( (*translator)->load(QLibraryInfo::location(QLibraryInfo::TranslationsPath) + QStringLiteral("/") + domain + QStringLiteral("_") + language) )
     {
 	QCoreApplication::installTranslator(*translator);
     }
@@ -428,8 +428,12 @@ void Browser::emitEvent(const QString &id, const BrowserEventType type, const Al
 	}
 
 	QString request = QStringLiteral("(alterator-request action \"event\"");
-	request += QStringLiteral("name \"")+g_enums->browserEventToStr(type)+QStringLiteral("\"");//append type
-	request += QStringLiteral("widget-id \"")+id+QStringLiteral("\"");//append id
+	request.append(QStringLiteral("name \""));
+	request.append(QLatin1String(g_enums->browserEventToStr(type))); //append type
+	request.append(QStringLiteral("\""));
+	request.append(QStringLiteral("widget-id \""));
+	request.append(id); //append id
+	request.append(QStringLiteral("\""));
 	
 	//now collect a post data
 	request += QStringLiteral("\n state (");

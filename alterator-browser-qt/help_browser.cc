@@ -18,7 +18,7 @@ HelpWidget::HelpWidget(QWidget *parent):
 {
     vscroll_position = 0;
     setPopupTitle(tr("Help"));
-    setObjectName("HelpWidget");
+    setObjectName(QStringLiteral("HelpWidget"));
 
     gridLayout = new QGridLayout(view());
     gridLayout->setSpacing(5);
@@ -44,7 +44,7 @@ HelpWidget::HelpWidget(QWidget *parent):
     menu_bar->addAction(tr("Font%1").arg(QStringLiteral("-")), this, SLOT(fontMinus()));
     menu_bar->addMenu(menu_help);
     menu_session->addAction(QApplication::style()->standardIcon(QStyle::SP_DialogCancelButton), tr("Quit"), g_browser, SLOT(quitAppAsk()));
-    menu_help->addAction(getPixmap("logo_16"), tr("About"), g_browser, SLOT(about()));
+    menu_help->addAction(getPixmap(QLatin1String("logo_16")), tr("About"), g_browser, SLOT(about()));
     menu_help->addAction(QApplication::style()->standardIcon(QStyle::SP_TitleBarMenuButton), tr("About Qt"), QApplication::instance(), SLOT(aboutQt()));
     gridLayout->setMenuBar(menu_bar);
 
@@ -78,7 +78,7 @@ void HelpWidget::setHelpSource(const QString& url)
     }
     else
     {
-	textBrowser->setHtml( QString("<br/><br/><br/><br/><center><b>%1</b></center>").arg(tr("No help available.")) );
+	textBrowser->setHtml( QString(QStringLiteral("<br/><br/><br/><br/><center><b>%1</b></center>")).arg(tr("No help available.")) );
     }
 }
 
@@ -101,7 +101,10 @@ void HelpWidget::setVerticalScrollPosition(int pos)
 
 void HelpWidget::execLink(const QUrl &url)
 {
-    if( url.scheme() == "http" || url.scheme() == "https" || url.scheme() == "ftp" || url.scheme() == "mailto" )
+    if( url.scheme() == QStringLiteral("http")
+	|| url.scheme() == QStringLiteral("https")
+	|| url.scheme() == QStringLiteral("ftp")
+	|| url.scheme() == QStringLiteral("mailto") )
     {
 	Utils::openUrl(url);
     }
@@ -145,7 +148,7 @@ void HelpWidget::fontResize(int addon)
 	}
     }
     QApplication::setFont(fnt);
-    qApp->setStyleSheet("");
+    qApp->setStyleSheet(QString());
 }
 
 // HelpBrowser

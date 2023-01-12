@@ -1009,7 +1009,7 @@ alWizardFace::alWizardFace(const AlteratorRequestActionAttrs &attr, const QStrin
     alWidgetPre<AWizardFace>(attr,WWizardFace,id,parent)
 {
     QBoxLayout *bl;
-    Qt::Orientation o = Utils::fixOrientation(attr.value("orientation").o, Qt::Vertical);
+    Qt::Orientation o = Utils::fixOrientation(attr.value(QStringLiteral("orientation")).o, Qt::Vertical);
     if( o == Qt::Horizontal ) {
 	bl = new QHBoxLayout(wnd_->getViewWidget());
     } else {

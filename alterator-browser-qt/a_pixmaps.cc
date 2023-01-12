@@ -29,7 +29,7 @@ QPixmap ANullPixmapGenerator::operator()()
 
 QPixmap AUnknownPixmapGenerator::operator()()
 {
-    return QPixmap(":/images/altlinux_16.png");
+    return QPixmap(QStringLiteral(":/images/altlinux_16.png"));
 }
 
 QPixmap APEButtonPixmapGenerator::operator()()
@@ -55,7 +55,7 @@ QPixmap AFilePixmapGenerator::operator()()
     {
 	QString pixpath;
 	if(px.isNull()) {
-	    Q_FOREACH(QString ext, QStringList() << ".png" << ".svg" << ".jpg" << "" ) {
+	    Q_FOREACH(QString ext, QStringList() << QStringLiteral(".png") << QStringLiteral(".svg") << QStringLiteral(".jpg") << QString() ) {
 		pixpath = images_path + name_ + ext;
 		if( QFile::exists(pixpath) ) {
 		    px = QPixmap(pixpath);
@@ -78,67 +78,67 @@ QPixmap AFilePixmapGenerator::operator()()
 	
 void initPixmaps()
 {
-	pix_map["theme:information"] = new AStdPixmapGenerator(QStyle::SP_MessageBoxInformation);
-	pix_map["theme:warning"] = new AStdPixmapGenerator(QStyle::SP_MessageBoxWarning);
-	pix_map["theme:critical"] = new AStdPixmapGenerator(QStyle::SP_MessageBoxCritical);
-	pix_map["theme:question"] = new AStdPixmapGenerator(QStyle::SP_MessageBoxQuestion);
+	pix_map[QStringLiteral("theme:information")] = new AStdPixmapGenerator(QStyle::SP_MessageBoxInformation);
+	pix_map[QStringLiteral("theme:warning")] = new AStdPixmapGenerator(QStyle::SP_MessageBoxWarning);
+	pix_map[QStringLiteral("theme:critical")] = new AStdPixmapGenerator(QStyle::SP_MessageBoxCritical);
+	pix_map[QStringLiteral("theme:question")] = new AStdPixmapGenerator(QStyle::SP_MessageBoxQuestion);
 
-	pix_map["theme:yes"] = new AStdPixmapGenerator(QStyle::SP_DialogYesButton);
-	pix_map["theme:no"] = new AStdPixmapGenerator(QStyle::SP_DialogNoButton);
-	pix_map["theme:ok"] = new AStdPixmapGenerator(QStyle::SP_DialogOkButton);
-	pix_map["theme:apply"] = new AStdPixmapGenerator(QStyle::SP_DialogApplyButton);
-	pix_map["theme:cancel"] = new AStdPixmapGenerator(QStyle::SP_DialogCancelButton);
+	pix_map[QStringLiteral("theme:yes")] = new AStdPixmapGenerator(QStyle::SP_DialogYesButton);
+	pix_map[QStringLiteral("theme:no")] = new AStdPixmapGenerator(QStyle::SP_DialogNoButton);
+	pix_map[QStringLiteral("theme:ok")] = new AStdPixmapGenerator(QStyle::SP_DialogOkButton);
+	pix_map[QStringLiteral("theme:apply")] = new AStdPixmapGenerator(QStyle::SP_DialogApplyButton);
+	pix_map[QStringLiteral("theme:cancel")] = new AStdPixmapGenerator(QStyle::SP_DialogCancelButton);
 
-	pix_map["theme:desktop"] = new AStdPixmapGenerator(QStyle::SP_DesktopIcon);
-	pix_map["theme:trash"] = new AStdPixmapGenerator(QStyle::SP_TrashIcon);
-	pix_map["theme:computer"] = new AStdPixmapGenerator(QStyle::SP_ComputerIcon);
+	pix_map[QStringLiteral("theme:desktop")] = new AStdPixmapGenerator(QStyle::SP_DesktopIcon);
+	pix_map[QStringLiteral("theme:trash")] = new AStdPixmapGenerator(QStyle::SP_TrashIcon);
+	pix_map[QStringLiteral("theme:computer")] = new AStdPixmapGenerator(QStyle::SP_ComputerIcon);
 
-	pix_map["theme:forward"] = new AStdPixmapGenerator(QStyle::SP_ArrowForward);
-	pix_map["theme:backward"] = new AStdPixmapGenerator(QStyle::SP_ArrowBack);
-	pix_map["theme:up"] = new AStdPixmapGenerator(QStyle::SP_ArrowUp);
-	pix_map["theme:down"] = new AStdPixmapGenerator(QStyle:: SP_ArrowDown);
-	pix_map["theme:left"] = new AStdPixmapGenerator(QStyle::SP_ArrowLeft);
-	pix_map["theme:right"] = new AStdPixmapGenerator(QStyle::SP_ArrowRight);
+	pix_map[QStringLiteral("theme:forward")] = new AStdPixmapGenerator(QStyle::SP_ArrowForward);
+	pix_map[QStringLiteral("theme:backward")] = new AStdPixmapGenerator(QStyle::SP_ArrowBack);
+	pix_map[QStringLiteral("theme:up")] = new AStdPixmapGenerator(QStyle::SP_ArrowUp);
+	pix_map[QStringLiteral("theme:down")] = new AStdPixmapGenerator(QStyle:: SP_ArrowDown);
+	pix_map[QStringLiteral("theme:left")] = new AStdPixmapGenerator(QStyle::SP_ArrowLeft);
+	pix_map[QStringLiteral("theme:right")] = new AStdPixmapGenerator(QStyle::SP_ArrowRight);
 
-	pix_map["theme:disk-fd"] = new AStdPixmapGenerator(QStyle::SP_DriveFDIcon);
-	pix_map["theme:disk-hd"] = new AStdPixmapGenerator(QStyle::SP_DriveHDIcon);
-	pix_map["theme:disk-cd"] = new AStdPixmapGenerator(QStyle::SP_DriveCDIcon);
-	pix_map["theme:disk-dvd"] = new AStdPixmapGenerator(QStyle::SP_DriveDVDIcon);
-	pix_map["theme:disk-net"] = new AStdPixmapGenerator(QStyle::SP_DriveNetIcon);
-	pix_map["theme:directory"] = new AStdPixmapGenerator(QStyle::SP_DirOpenIcon);
-	pix_map["theme:file"] = new AStdPixmapGenerator(QStyle::SP_FileIcon);
+	pix_map[QStringLiteral("theme:disk-fd")] = new AStdPixmapGenerator(QStyle::SP_DriveFDIcon);
+	pix_map[QStringLiteral("theme:disk-hd")] = new AStdPixmapGenerator(QStyle::SP_DriveHDIcon);
+	pix_map[QStringLiteral("theme:disk-cd")] = new AStdPixmapGenerator(QStyle::SP_DriveCDIcon);
+	pix_map[QStringLiteral("theme:disk-dvd")] = new AStdPixmapGenerator(QStyle::SP_DriveDVDIcon);
+	pix_map[QStringLiteral("theme:disk-net")] = new AStdPixmapGenerator(QStyle::SP_DriveNetIcon);
+	pix_map[QStringLiteral("theme:directory")] = new AStdPixmapGenerator(QStyle::SP_DirOpenIcon);
+	pix_map[QStringLiteral("theme:file")] = new AStdPixmapGenerator(QStyle::SP_FileIcon);
 
-	pix_map["theme:unknown"] = new AUnknownPixmapGenerator();
+	pix_map[QStringLiteral("theme:unknown")] = new AUnknownPixmapGenerator();
 
-    	pix_map["theme:check-on"] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorCheckBox,
+    	pix_map[QStringLiteral("theme:check-on")] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorCheckBox,
 	                                          QStyle::SE_CheckBoxIndicator,
 						  QStyle::State_On|QStyle::State_Enabled);
-    	pix_map["theme:check-off"] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorCheckBox,
+    	pix_map[QStringLiteral("theme:check-off")] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorCheckBox,
 	                                           QStyle::SE_CheckBoxIndicator,
 						   QStyle::State_Off|QStyle::State_Enabled);
-    	pix_map["theme:radio-on"] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorRadioButton,
+    	pix_map[QStringLiteral("theme:radio-on")] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorRadioButton,
 	                                          QStyle::SE_RadioButtonIndicator,
 						  QStyle::State_On|QStyle::State_Enabled);
-    	pix_map["theme:radio-off"] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorRadioButton,
+    	pix_map[QStringLiteral("theme:radio-off")] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorRadioButton,
 	                                           QStyle::SE_RadioButtonIndicator,
 						   QStyle::State_Off|QStyle::State_Enabled);
 
-    	pix_map["theme:arrow-up"] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorArrowUp,
+    	pix_map[QStringLiteral("theme:arrow-up")] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorArrowUp,
 	                                           QStyle::SE_RadioButtonIndicator,
 						   QStyle::State_Off|QStyle::State_Enabled);
-    	pix_map["theme:arrow-down"] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorArrowDown,
+    	pix_map[QStringLiteral("theme:arrow-down")] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorArrowDown,
 	                                           QStyle::SE_RadioButtonIndicator,
 						   QStyle::State_Off|QStyle::State_Enabled);
-    	pix_map["theme:arrow-right"] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorArrowRight,
+    	pix_map[QStringLiteral("theme:arrow-right")] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorArrowRight,
 	                                           QStyle::SE_RadioButtonIndicator,
 						   QStyle::State_Off|QStyle::State_Enabled);
-    	pix_map["theme:arrow-left"] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorArrowLeft,
+    	pix_map[QStringLiteral("theme:arrow-left")] = new APEButtonPixmapGenerator(QStyle::PE_IndicatorArrowLeft,
 	                                           QStyle::SE_RadioButtonIndicator,
 						   QStyle::State_Off|QStyle::State_Enabled);
 
-    	pix_map["theme:null"] = new ANullPixmapGenerator();
-	pix_map["theme:help"] = new AStdPixmapGenerator(QStyle::SP_DialogHelpButton);
-	pix_map["theme:close"] = new AStdPixmapGenerator(QStyle::SP_DialogCloseButton);
+    	pix_map[QStringLiteral("theme:null")] = new ANullPixmapGenerator();
+	pix_map[QStringLiteral("theme:help")] = new AStdPixmapGenerator(QStyle::SP_DialogHelpButton);
+	pix_map[QStringLiteral("theme:close")] = new AStdPixmapGenerator(QStyle::SP_DialogCloseButton);
 
     pix_map_initialised = true;
 }
@@ -149,13 +149,13 @@ QPixmap getPixmap(QString id)
 	initPixmaps();
 
     if( id.isEmpty() )
-	id = "theme:null";
+	id = QStringLiteral("theme:null");
     
     QPixmap pixmap;
     if( !QPixmapCache::find(id, &pixmap) )
     {
 	APixmapGenerator *pixgen = 0;
-	if( id.startsWith("theme:") )
+	if( id.startsWith(QStringLiteral("theme:")) )
 	{
 	    QString fid = id.mid(6);
 	    pixmap = AFilePixmapGenerator(fid)();
@@ -171,7 +171,7 @@ QPixmap getPixmap(QString id)
 	    pixmap = AFilePixmapGenerator(id)();
 
 	if( pixmap.isNull() )
-	    pixmap = (*pix_map["theme:unknown"])();
+	    pixmap = (*pix_map[QStringLiteral("theme:unknown")])();
 	else if( (pixgen && pixgen->type() == APixmapGenerator::Generated )
 		|| (pixmap.width() < 48 && pixmap.height() < 48) )
     	    QPixmapCache::insert(id, pixmap);

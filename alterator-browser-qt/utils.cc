@@ -23,7 +23,7 @@ namespace Utils
 QString reparentTag(const QString &parent)
 {
     QString ret(parent);
-    return ret.replace(QString(":reparent:"),QString(""));
+    return ret.replace(QStringLiteral(":reparent:"),QString());
 }
 
 Qt::Alignment convertAlign(const QString& value)
@@ -31,13 +31,13 @@ Qt::Alignment convertAlign(const QString& value)
     Qt::Alignment a((Qt::AlignmentFlag)0);
     Q_FOREACH(QString salign, value.split(QLatin1String(";"), Qt::SkipEmptyParts))
     {
-	if 	("left" == salign)	a |= Qt::AlignLeft;
-	else if ("right" == salign)	a |= Qt::AlignRight;
-	else if ("middle" == salign)	a |= Qt::AlignVCenter;
-	else if ("hmiddle" == salign)	a |= Qt::AlignHCenter;
-	else if ("center" == salign)	a |= Qt::AlignCenter;
-	else if ("top" == salign)	a |= Qt::AlignTop;
-	else if ("bottom" == salign)	a |= Qt::AlignBottom;
+	if 	(QStringLiteral("left") == salign)	a |= Qt::AlignLeft;
+	else if (QStringLiteral("right") == salign)	a |= Qt::AlignRight;
+	else if (QStringLiteral("middle") == salign)	a |= Qt::AlignVCenter;
+	else if (QStringLiteral("hmiddle") == salign)	a |= Qt::AlignHCenter;
+	else if (QStringLiteral("center") == salign)	a |= Qt::AlignCenter;
+	else if (QStringLiteral("top") == salign)	a |= Qt::AlignTop;
+	else if (QStringLiteral("bottom") == salign)	a |= Qt::AlignBottom;
 	else
 	    qDebug("Unknown align value <%s>", qPrintable(value));
     }
@@ -48,15 +48,15 @@ Qt::Alignment convertAlign(const QString& value)
 
 QLineEdit::EchoMode convertEchoMode(const QString& value)
 {
-	if ("no" == value) return QLineEdit::NoEcho;
-	else if ("stars" == value) return QLineEdit::Password;
+	if (QStringLiteral("no") == value) return QLineEdit::NoEcho;
+	else if (QStringLiteral("stars") == value) return QLineEdit::Password;
 	return QLineEdit::Normal; //default yes
 }
 
 QString simpleQuote(const QString &s)
 {
     QString ret(s);
-    return ret.replace("\\","\\\\").replace("\"","\\\"");
+    return ret.replace(QStringLiteral("\\"),QStringLiteral("\\\\")).replace(QStringLiteral("\""),QStringLiteral("\\\""));
 }
 
 void widgetCornersRound(QWidget *widget)
@@ -211,9 +211,9 @@ Qt::Orientation fixOrientation(Qt::Orientation o, Qt::Orientation def)
 
 Qt::Orientation convertOrientation(const QString& str_value)
 {
-    if(str_value == "vertical")
+    if(str_value == QStringLiteral("vertical"))
 	return Qt::Vertical;
-    else if(str_value == "horizontal")
+    else if(str_value == QStringLiteral("horizontal"))
 	return Qt::Horizontal;
     else
 	return (Qt::Orientation)0;
@@ -230,7 +230,7 @@ void openUrl(const QUrl &url)
 		QFile proc_file(proc_path);
 		QString proc_content;
 		if( proc_file.open(QIODevice::ReadOnly) )
-		    proc_content = proc_file.readLine().trimmed();
+		    proc_content = QLatin1String(proc_file.readLine().trimmed());
 		if( !proc_content.isEmpty() )
 		{
 		    bool ok;
@@ -243,7 +243,7 @@ void openUrl(const QUrl &url)
 	if( loginuid > 0 )
 	{
 	    struct passwd *pwd = getpwuid(loginuid);
-	    QProcess::startDetached("su", QStringList() << "-l" << "-c" << QString("xdg-open \'").append(url.toString()).append("\'") << pwd->pw_name );
+	    QProcess::startDetached(QStringLiteral("su"), QStringList() << QStringLiteral("-l") << QStringLiteral("-c") << QString(QStringLiteral("xdg-open \'")).append(url.toString()).append(QStringLiteral("\'")) << QLatin1String(pwd->pw_name) );
 	} else {
 	    QDesktopServices::openUrl(url);
 	}
@@ -261,7 +261,7 @@ QString getRandomString(int sz)
 #else
 	index = qrand() % dict.size();
 #endif
-	result.append(dict.at(index));
+	result.append(QLatin1Char(dict.at(index)));
     }
     return result;
 }
