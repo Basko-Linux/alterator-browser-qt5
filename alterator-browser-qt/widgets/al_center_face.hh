@@ -64,7 +64,7 @@ private:
 class ACenterSection: public QWidget
 {
 public:
-    ACenterSection(QWidget *parent, const QString &title_text = "");
+    ACenterSection(QWidget *parent, const QString &title_text = QString());
     ~ACenterSection();
 
     void setPixmap(const QPixmap&);

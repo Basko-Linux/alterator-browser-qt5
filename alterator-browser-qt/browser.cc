@@ -76,26 +76,26 @@ Browser::Browser():
     m_color_window_default = palette().window().color();
     g_widgetlist = new WidgetList(this);
     pixmap_paths
-	<< ":/design/"
-	<< ":/images/"
-	<< "/usr/share/alterator/design/images/"
-	<< "/usr/share/alterator/images/";
+	<< QStringLiteral(":/design/")
+	<< QStringLiteral(":/images/")
+	<< QStringLiteral("/usr/share/alterator/design/images/")
+	<< QStringLiteral("/usr/share/alterator/images/");
 
     busy_timer = new QTimer(this);
     busy_timer->setSingleShot(true);
     busy_timer->setInterval(500);
     connect(busy_timer, SIGNAL(timeout()), this, SLOT(onStopBusySplash()));
 
-    QString language(getenv("LC_ALL"));
+    QString language(QLatin1String(qgetenv("LC_ALL")));
     if( language.isEmpty() )
-	language = getenv("LC_MESSAGES");
+	language = QLatin1String(qgetenv("LC_MESSAGES"));
     if( language.isEmpty() )
-	language = getenv("LANG");
+	language = QLatin1String(qgetenv("LANG"));
     if( language.isEmpty() )
-	language = "C";
+	language = QStringLiteral("C");
     changeLanguage(language);
 
-    window()->setWindowTitle("alterator");
+    window()->setWindowTitle(QStringLiteral("alterator"));
 
     central_widget = new QWidget(this);
     central_layout = new QStackedLayout(central_widget);
@@ -109,13 +109,13 @@ Browser::Browser():
 	int wnd_recom_width = (int)(screen_geom.width()/1.5);
 	int wnd_recom_height = (int)(screen_geom.height()/1.5);
 
-	QSettings settings(QSettings::IniFormat, QSettings::UserScope, "alterator", "browser", this);
+	QSettings settings(QSettings::IniFormat, QSettings::UserScope, QStringLiteral("alterator"), QStringLiteral("browser"), this);
 	settings.setFallbacksEnabled(false);
-	settings.beginGroup("qt");
-	int wnd_x = settings.value("main_window_x", 0).toInt();
-	int wnd_y = settings.value("main_window_y", 0).toInt();
-	int wnd_width = settings.value("main_window_width", wnd_recom_width).toInt();
-	int wnd_height = settings.value("main_window_height", wnd_recom_height).toInt();
+	settings.beginGroup(QStringLiteral("qt"));
+	int wnd_x = settings.value(QStringLiteral("main_window_x"), 0).toInt();
+	int wnd_y = settings.value(QStringLiteral("main_window_y"), 0).toInt();
+	int wnd_width = settings.value(QStringLiteral("main_window_width"), wnd_recom_width).toInt();
+	int wnd_height = settings.value(QStringLiteral("main_window_height"), wnd_recom_height).toInt();
 	settings.endGroup();
 
 	geometry_ = QRect(wnd_x, wnd_y, wnd_width, wnd_height);
@@ -159,12 +159,12 @@ Browser::~Browser()
 
 QString Browser::createTmpDir(const QString& tmp)
 {
-    QString tmpdir_path(tmp.isEmpty()? qgetenv("TMPDIR"): tmp);
+    QString tmpdir_path(tmp.isEmpty()? QLatin1String(qgetenv("TMPDIR")): tmp);
     if( tmpdir_path.isEmpty() )
-	tmpdir_path = "/tmp";
+	tmpdir_path = QStringLiteral("/tmp");
     QDir tmpdir(tmpdir_path);
-    tmpdir_path.append("/alterator");
-    if( (tmpdir.exists("alterator") && QFileInfo(tmpdir_path).isDir()) || tmpdir.mkdir("alterator") )
+    tmpdir_path.append(QStringLiteral("/alterator"));
+    if( (tmpdir.exists(QStringLiteral("alterator")) && QFileInfo(tmpdir_path).isDir()) || tmpdir.mkdir(QStringLiteral("alterator")) )
 	return tmpdir_path;
     else
 	qDebug("Failed to create temporary directory: %s", qPrintable(tmpdir_path));
@@ -191,8 +191,8 @@ void Browser::start()
     else
 	socketPath = createTmpDir(socketPath);
     if( socketPath.isEmpty() )
-	quitAppError("Failed to create local socket directory");
-    socketPath.append("/browser-sock");
+	quitAppError(QStringLiteral("Failed to create local socket directory"));
+    socketPath.append(QStringLiteral("/browser-sock"));
 
     qDebug("Socket path: %s",qPrintable(socketPath));
     mailbox = new MailBox(socketPath, this);
@@ -214,13 +214,13 @@ void Browser::stop()
     {
 	QRect geom = geometry();
 
-	QSettings settings(QSettings::IniFormat, QSettings::UserScope, "alterator", "browser", this);
+	QSettings settings(QSettings::IniFormat, QSettings::UserScope, QStringLiteral("alterator"), QStringLiteral("browser"), this);
 	settings.setFallbacksEnabled(false);
-	settings.beginGroup("qt");
-	settings.setValue("main_window_x", geom.x());
-	settings.setValue("main_window_y", geom.y());
-	settings.setValue("main_window_width", geom.width());
-	settings.setValue("main_window_height", geom.height());
+	settings.beginGroup(QStringLiteral("qt"));
+	settings.setValue(QStringLiteral("main_window_x"), geom.x());
+	settings.setValue(QStringLiteral("main_window_y"), geom.y());
+	settings.setValue(QStringLiteral("main_window_width"), geom.width());
+	settings.setValue(QStringLiteral("main_window_height"), geom.height());
 	settings.endGroup();
     }
 }
@@ -259,7 +259,7 @@ void Browser::quitAppManaged(int res)
 bool Browser::quitAppAsk()
 {
     bool want_quit = false;
-    MessageBox *msgbox = new MessageBox("warning", tr("Quit"), tr("Exit Alterator?"), QDialogButtonBox::Ok|QDialogButtonBox::Cancel, this);
+    MessageBox *msgbox = new MessageBox(QStringLiteral("warning"), tr("Quit"), tr("Exit Alterator?"), QDialogButtonBox::Ok|QDialogButtonBox::Cancel, this);
     want_quit = quitApp(msgbox->exec());
     popupRemove(msgbox);
     return want_quit;
@@ -267,7 +267,7 @@ bool Browser::quitAppAsk()
 
 void Browser::quitAppError(const QString &msg)
 {
-    MessageBox *msgbox = new MessageBox("critical", tr("Quit"), msg, QDialogButtonBox::Ok, this);
+    MessageBox *msgbox = new MessageBox(QStringLiteral("critical"), tr("Quit"), msg, QDialogButtonBox::Ok, this);
     msgbox->exec();
     popupRemove(msgbox);
     quitAppManaged(1);
@@ -284,7 +284,7 @@ void Browser::closeEvent(QCloseEvent *e)
 
 void Browser::about()
 {
-    MessageBox *msgbox = new MessageBox("information", tr("About"), tr("Alterator Browser %1").arg(QLatin1String(PROGRAM_VERSION)), QDialogButtonBox::Ok, this);
+    MessageBox *msgbox = new MessageBox(QStringLiteral("information"), tr("About"), tr("Alterator Browser %1").arg(QLatin1String(PROGRAM_VERSION)), QDialogButtonBox::Ok, this);
     msgbox->exec();
     popupRemove(msgbox);
 }
@@ -381,19 +381,19 @@ void Browser::keyPressEvent(QKeyEvent* e)
 void Browser::changeLanguage(const QString& language)
 {
     QString locale = language;
-    if( locale.contains("_")
-	&& !(locale.contains(".") || locale.contains("@")))
+    if( locale.contains(QLatin1Char('_'))
+	&& !(locale.contains(QLatin1Char('.')) || locale.contains(QLatin1Char('@'))) )
     {
 	// && (locale != "C" && locale != "POSIX")
-	locale += ".UTF-8";
+	locale += QLatin1String(".UTF-8");
     }
 
     ::setenv("LC_ALL", locale.toLatin1(), true);
     ::setlocale(LC_ALL, locale.toLatin1());
     QLocale::setDefault( QLocale(locale) );
 
-    reloadTranslator(&m_qt_translator, "qtbase", language);
-    reloadTranslator(&m_app_translator, "alterator_browser_qt", language);
+    reloadTranslator(&m_qt_translator, QLatin1String("qtbase"), language);
+    reloadTranslator(&m_app_translator, QLatin1String("alterator_browser_qt"), language);
 
     Q_EMIT languageChanged();
 }
@@ -427,14 +427,14 @@ void Browser::emitEvent(const QString &id, const BrowserEventType type, const Al
 	    ++emit_locker;
 	}
 
-	QString request = "(alterator-request action \"event\"";
-	request += "name \""+g_enums->browserEventToStr(type)+"\"";//append type
-	request += "widget-id \""+id+"\"";//append id
+	QString request = QStringLiteral("(alterator-request action \"event\"");
+	request += QStringLiteral("name \"")+g_enums->browserEventToStr(type)+QStringLiteral("\"");//append type
+	request += QStringLiteral("widget-id \"")+id+QStringLiteral("\"");//append id
 	
 	//now collect a post data
-	request += "\n state (";
-	request += g_widgetlist->makeRequestData();	
-	request += "))"; //close message
+	request += QStringLiteral("\n state (");
+	request += g_widgetlist->makeRequestData();
+	request += QStringLiteral("))"); //close message
 
 	connection->getDocument(request, request_flags);
 
@@ -492,21 +492,21 @@ void Browser::onAlteratorRequest(const AlteratorRequest& request)
 	    case AlteratorRequestNew:
 	    {
 		alWidget *new_wdg = onNewRequest(request.attr);
-		if( request.attr.contains("tab-index") )
+		if( request.attr.contains(QStringLiteral("tab-index")) )
 		{
-		    int tab_index = request.attr.take("tab-index").i;
+		    int tab_index = request.attr.take(QStringLiteral("tab-index")).i;
 		    collectTabIndex(tab_order_parents, tab_order_list, new_wdg,
 			tab_index);
 		}
-		request.attr.remove("widget-id");
-		request.attr.remove("type");
-		request.attr.remove("parent");
-		request.attr.remove("orientation");
-		request.attr.remove("columns");
-		request.attr.remove("colspan");
-		request.attr.remove("rowspan");
-		request.attr.remove("sub-type");
-		request.attr.remove("checked");
+		request.attr.remove(QStringLiteral("widget-id"));
+		request.attr.remove(QStringLiteral("type"));
+		request.attr.remove(QStringLiteral("parent"));
+		request.attr.remove(QStringLiteral("orientation"));
+		request.attr.remove(QStringLiteral("columns"));
+		request.attr.remove(QStringLiteral("colspan"));
+		request.attr.remove(QStringLiteral("rowspan"));
+		request.attr.remove(QStringLiteral("sub-type"));
+		request.attr.remove(QStringLiteral("checked"));
 		AlteratorRequestActionAttrs::iterator it;
 		for(it = request.attr.begin(); it != request.attr.end(); it++ )
 		{
@@ -516,62 +516,62 @@ void Browser::onAlteratorRequest(const AlteratorRequest& request)
 	    }
 	    case AlteratorRequestSet:
 	    {
-		QString attr_name = request.attr.value("attr-name").s;
-		if( attr_name != "tab-index" )
-		    onSetRequest(request.attr.value("widget-id").s,
+		QString attr_name = request.attr.value(QStringLiteral("attr-name")).s;
+		if( attr_name != QStringLiteral("tab-index") )
+		    onSetRequest(request.attr.value(QStringLiteral("widget-id")).s,
 			attr_name,
-			request.attr.value("attr-value").s);
+			request.attr.value(QStringLiteral("attr-value")).s);
 		else
 		    collectTabIndex(tab_order_parents, tab_order_list,
-			g_widgetlist->alWidgetById(request.attr.value("widget-id").s),
-			request.attr.value("attr-value").s.toInt());
+			g_widgetlist->alWidgetById(request.attr.value(QStringLiteral("widget-id")).s),
+			request.attr.value(QStringLiteral("attr-value")).s.toInt());
 		break;
 	    }
 	    case AlteratorRequestClose:
 	    {
-		onCloseRequest(request.attr.value("widget-id").s);
+		onCloseRequest(request.attr.value(QStringLiteral("widget-id")).s);
 		break;
 	    }
 	    case AlteratorRequestClean:
 	    {
-		onCleanRequest(request.attr.value("widget-id").s);
+		onCleanRequest(request.attr.value(QStringLiteral("widget-id")).s);
 		break;
 	    }
 	    case AlteratorRequestEvent:
 	    {
-		onEventRequest(request.attr.value("widget-id").s, request.attr.value("event-value").s);
+		onEventRequest(request.attr.value(QStringLiteral("widget-id")).s, request.attr.value(QStringLiteral("event-value")).s);
 		break;
 	    }
 	    case AlteratorRequestSplash:
 	    {
-		onSplashMessageRequest(request.attr.value("splash-message").s);
+		onSplashMessageRequest(request.attr.value(QStringLiteral("splash-message")).s);
 		break;
 	    }
 	    case AlteratorRequestStart:
 	    {
-		onStartRequest(request.attr.value("widget-id").s);
+		onStartRequest(request.attr.value(QStringLiteral("widget-id")).s);
 		break;
 	    }
 	    case AlteratorRequestStop:
 	    {
-		onStopRequest(request.attr.value("widget-id").s);
+		onStopRequest(request.attr.value(QStringLiteral("widget-id")).s);
 		break;
 	    }
 	    case AlteratorRequestMessage:
 	    {
-		onMessageBoxRequest(request.attr.value("message-type").s, request.attr.value("message-title").s,
-			request.attr.value("message").s, request.attr.value("buttons").buttons);
+		onMessageBoxRequest(request.attr.value(QStringLiteral("message-type")).s, request.attr.value(QStringLiteral("message-title")).s,
+			request.attr.value(QStringLiteral("message")).s, request.attr.value(QStringLiteral("buttons")).buttons);
 		break;
 	    }
 	    case AlteratorRequestFile:
 	    {
-		onFileSelectRequest(request.attr.value("file-title").s, request.attr.value("file-dir").s,
-		    request.attr.value("file-type").s, request.attr.value("file-mask").s);
+		onFileSelectRequest(request.attr.value(QStringLiteral("file-title")).s, request.attr.value(QStringLiteral("file-dir")).s,
+		    request.attr.value(QStringLiteral("file-type")).s, request.attr.value(QStringLiteral("file-mask")).s);
 		break;
 	    }
 	    case AlteratorRequestLanguage:
 	    {
-		changeLanguage(request.attr.value("language").s);
+		changeLanguage(request.attr.value(QStringLiteral("language")).s);
 		break;
 	    }
 	    case AlteratorRequestRetry:
@@ -622,14 +622,14 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	QString id;
 	QString parent_id;
 	QString columns;
-	if(  attr.contains("widget-id") )
-	    id = attr.value("widget-id").s;
-	if(  attr.contains("type") )
-	    widget_type = attr.value("type").t;
+	if(  attr.contains(QStringLiteral("widget-id")) )
+	    id = attr.value(QStringLiteral("widget-id")).s;
+	if(  attr.contains(QStringLiteral("type")) )
+	    widget_type = attr.value(QStringLiteral("type")).t;
 	else
 	    qWarning("Error! no attribue id");
-	if( attr.contains("parent") )
-	    parent_id = attr.value("parent").s;
+	if( attr.contains(QStringLiteral("parent")) )
+	    parent_id = attr.value(QStringLiteral("parent")).s;
 	else
 	    qWarning("Error! no attribue parent id");
 
@@ -647,7 +647,7 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WMainWidget:
 	{
 	    if(parent_id.isEmpty()) {
-	        new_widget = new alMainWidget(attr, id, "");
+	        new_widget = new alMainWidget(attr, id, QString());
 		popupAdd(new_widget->getWidget(), true);
 	    } else {
 	        new_widget = new alDialog(attr,id,parent_id);
@@ -693,7 +693,7 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	case WProxy:
 	case WUnknown:
 	{
-	    qDebug("Unknown widget <%s> requested. Make gridbox instead.", qPrintable(g_enums->widgetToStr(attr.value("type").t)));
+	    qDebug("Unknown widget <%s> requested. Make gridbox instead.", g_enums->widgetToStr(attr.value(QStringLiteral("type")).t).data());
 	    new_widget = new alGridBox(attr,id,parent_id);
 	}
 	/* default:
@@ -783,36 +783,36 @@ void Browser::onFileSelectRequest(const QString& title, const QString& dir, cons
     QFileDialog::AcceptMode accept_mode = QFileDialog::AcceptOpen;
     Q_FOREACH(QString option, type.split(QLatin1String(";"), Qt::SkipEmptyParts))
     {
-	if( option == "show_dirs_only" )
+	if( option == QStringLiteral("show_dirs_only") )
 	    { options = options | QFileDialog::ShowDirsOnly; }
-	else if( option == "dont_resolve_symlinks" )
+	else if( option == QStringLiteral("dont_resolve_symlinks") )
 	    { options = options | QFileDialog::DontResolveSymlinks; }
-	else if( option == "dont_confirm_overwrite" )
+	else if( option == QStringLiteral("dont_confirm_overwrite") )
 	    { options = options | QFileDialog::DontConfirmOverwrite; }
-	else if( option == "read_only" )
+	else if( option == QStringLiteral("read_only") )
 	    { options = options | QFileDialog::ReadOnly; }
-	else if( option == "hide_name_filter_details" )
+	else if( option == QStringLiteral("hide_name_filter_details") )
 	    { options = options | QFileDialog::HideNameFilterDetails; }
-	else if( option == "detail" )
+	else if( option == QStringLiteral("detail") )
 	    { view_mode = QFileDialog::Detail; }
-	else if( option == "list" )
+	else if( option == QStringLiteral("list") )
 	    { view_mode = QFileDialog::List; }
-	else if( option == "any_file" )
+	else if( option == QStringLiteral("any_file") )
 	    { file_mode = QFileDialog::AnyFile; }
-	else if( option == "existing_file" )
+	else if( option == QStringLiteral("existing_file") )
 	    { file_mode = QFileDialog::ExistingFile; }
-	else if( option == "directory" )
+	else if( option == QStringLiteral("directory") )
 	    { file_mode = QFileDialog::Directory; }
-	else if( option == "existing_files" )
+	else if( option == QStringLiteral("existing_files") )
 	    { file_mode = QFileDialog::ExistingFiles; }
-	else if( option == "accept_open" )
+	else if( option == QStringLiteral("accept_open") )
 	    { accept_mode = QFileDialog::AcceptOpen; }
-	else if( option == "accept_save" )
+	else if( option == QStringLiteral("accept_save") )
 	    { accept_mode = QFileDialog::AcceptSave; }
     }
     file_select->setOptions(title, options, view_mode, file_mode, accept_mode);
     file_select->exec();
-    connection->getDocument(file_select->selectedFiles().join(";"));
+    connection->getDocument(file_select->selectedFiles().join(QLatin1Char(';')));
     popupRemove(file_select);
 }
 
@@ -894,18 +894,18 @@ void Browser::onRetryRequest()
 
 void Browser::doRetry()
 {
-    connection->getDocument("(alterator-request action \"re-get\")");
+    connection->getDocument(QStringLiteral("(alterator-request action \"re-get\")"));
 }
 
 void Browser::loadStyleSheet()
 {
-    QResource::unregisterResource("/etc/alterator/design-browser-qt");
-    QResource::registerResource("/etc/alterator/design-browser-qt");
+    QResource::unregisterResource(QStringLiteral("/etc/alterator/design-browser-qt"));
+    QResource::registerResource(QStringLiteral("/etc/alterator/design-browser-qt"));
 
-    if( QFile::exists(":/design/design.ini") )
+    if( QFile::exists(QStringLiteral(":/design/design.ini")) )
     {
 
-	QSettings settings(":/design/design.ini", QSettings::IniFormat, this);
+	QSettings settings(QStringLiteral(":/design/design.ini"), QSettings::IniFormat, this);
 	settings.setFallbacksEnabled(false);
 	QStringList keys(settings.allKeys());
 	QString key;
@@ -1000,18 +1000,18 @@ void Browser::loadStyleSheet()
 	    }
 	    if(font_new != font_init) {
 		QGuiApplication::setFont(font_new);
-		qApp->setStyleSheet("");
+		qApp->setStyleSheet(QString());
 	    }
 	}
     }
 
     // set style
-    QFile file(":/design/design.qss");
+    QFile file(QStringLiteral(":/design/design.qss"));
     if( file.exists() )
     {
 	if( file.open(QFile::ReadOnly) )
 	{
-	    QString styleContent = file.readAll();
+	    QString styleContent = QLatin1String(file.readAll());
 	    if( styleContent.size() < 10 )
 	    {
 		qDebug("Too small file: \"%s\"", qPrintable(file.fileName()));
@@ -1121,7 +1121,7 @@ QString Browser::shortLang()
 {
     if( m_shortlang.isEmpty() )
     {
-	m_shortlang = QLocale::system().name().remove(QRegExp("_.*"));
+	m_shortlang = QLocale::system().name().remove(QRegExp(QStringLiteral("_.*")));
     }
 
     return m_shortlang;
@@ -1171,7 +1171,7 @@ void Browser::takeScreenShot(QWidget *wnd2) {
 		msgbox->execForTimeout(2500);
 	    }
 	} else {
-	    qWarning("%s", qPrintable("Screenshot is null pixmap."));
+	    qWarning("Screenshot is null pixmap.");
 	}
     }
 }

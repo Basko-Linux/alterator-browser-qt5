@@ -23,7 +23,7 @@ public:
 	void setAttr(const QString& name,const QString& value);
 	void registerEvent(const QString&);
 	QString postData() const ;
-	QString getValue() { return  (wnd_->isChecked()?"true":"false"); }
+	QString getValue() { return  (wnd_->isChecked()? QStringLiteral("true"): QStringLiteral("false")); }
 };
 
 #endif
