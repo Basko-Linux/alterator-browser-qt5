@@ -21,7 +21,7 @@ int main(int argc,char **argv)
 	qFatal("Quit alterator-browser");
     }
 
-    QString pidfile_path = QString("%1/alterator-browser-x11-%2.pid").arg(tmpdir).arg(getuid());
+    QString pidfile_path = QString(QStringLiteral("%1/alterator-browser-x11-%2.pid")).arg(tmpdir).arg(getuid());
     { // check browser is running
 	QFile pidfile(pidfile_path);
 	if( pidfile.open(QIODevice::ReadOnly) )
@@ -33,7 +33,7 @@ int main(int argc,char **argv)
 		int pid = QString::fromLatin1(pid_buf).trimmed().toInt();
 		if(pid > 0)
 		{
-		    QString cmdline_path = QString("/proc/%1/cmdline").arg(pid);
+		    QString cmdline_path = QString(QStringLiteral("/proc/%1/cmdline")).arg(pid);
 		    QFile cmdline_file(cmdline_path);
 		    if(cmdline_file.open(QIODevice::ReadOnly))
 		    {
@@ -41,7 +41,7 @@ int main(int argc,char **argv)
 	    		qint64 line_len = cmdline_file.readLine(cmd_buf, sizeof(cmd_buf));
 	    		if( line_len > 0 )
 	    		{
-	    		    if( QString::fromLatin1(cmd_buf).trimmed().contains("alterator-browser-") )
+	    		    if( QString::fromLatin1(cmd_buf).trimmed().contains(QStringLiteral("alterator-browser-")) )
 	    		    {
 				//qWarning("alterator-browser is already running at pid %d", pid);
 	    			kill(pid, SIGUSR1);
@@ -66,9 +66,9 @@ int main(int argc,char **argv)
 		if( qEnvironmentVariableIsSet("NO_ALTERATOR_VIRTUAL_KEYBOARD") ) {
 		    allow_virtual_keyboard = false;
 		} else {
-		    QFile cmdLineFile(QLatin1String("/proc/cmdline"));
+		    QFile cmdLineFile(QStringLiteral("/proc/cmdline"));
 		    if( cmdLineFile.open(QIODevice::ReadOnly) ) {
-			QString all_file(cmdLineFile.readAll());
+			QString all_file(QLatin1String(cmdLineFile.readAll()));
 			QStringList tokens(all_file.trimmed().split(QRegularExpression(QStringLiteral("\\s+")), Qt::SkipEmptyParts));
 			foreach( const QString &t, tokens ) {
 			    if( t == QStringLiteral("no_alt_virt_keyboard") ) {
@@ -116,7 +116,7 @@ int main(int argc,char **argv)
 		qputenv("QT_IM_MODULE", "qtvirtualkeyboard");
 	    }
 
-	    QString write_line = QString("%1").arg(getpid());
+	    QString write_line = QString(QStringLiteral("%1")).arg(getpid());
 	    pidfile.write(write_line.toLocal8Bit());
 	    pidfile.close();
 

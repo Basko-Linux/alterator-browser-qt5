@@ -27,7 +27,7 @@ public:
 	}
 
 	void setData(const QString& dat) { buf = dat; }
-        void setData(const QByteArray& dat) { buf = dat; }
+        void setData(const QByteArray& dat) { buf = QLatin1String(dat); }
         QString data() const { return buf; }
         void reset() { buf_pos = 0; }
         void fetchData()
@@ -38,7 +38,7 @@ public:
 	    at_end = in.atEnd();
 	    if( !at_end )
 	    {
-		buf.append("\n");
+		buf.append(QLatin1String("\n"));
 		buf_len++;
 	    }
 	}
@@ -72,12 +72,12 @@ public:
 bool alHandler::startElement(const QString& /*namespaceURI*/, const QString& /*localName*/,
                              const QString& qName, const QXmlAttributes& attributes)
 {
-	if (qName == "auth-answer")
+	if (qName == QStringLiteral("auth-answer"))
 	{
 		request_->attrs_ = attributes;
 		return true;
 	}
-	else if (qName == "command")
+	else if (qName == QStringLiteral("command"))
 	{
 		command_ = new alCommand;
 		command_->attrs_ = attributes;
@@ -89,9 +89,9 @@ bool alHandler::startElement(const QString& /*namespaceURI*/, const QString& /*l
 bool alHandler::endElement(const QString& /*namespaceURI*/, const QString& /*localName*/,
                            const QString& qName)
 {
-	if (qName == "auth-answer")
+	if (qName == QStringLiteral("auth-answer"))
 		return false;
-	else if (qName == "command")
+	else if (qName == QStringLiteral("command"))
 	{
 		request_->commands_.append(command_);
 		command_ = 0;

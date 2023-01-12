@@ -33,7 +33,7 @@ Popup::Popup(QWidget *parent, bool title, bool winexpand, bool winclose, bool wi
     title_separator->setFrameStyle(QFrame::HLine|QFrame::Sunken);
 
     view_widget = new QWidget(this);
-    view_widget->setObjectName("popup_view");
+    view_widget->setObjectName(QStringLiteral("popup_view"));
 
     title_txt->setVisible(has_title);
     title_separator->setVisible(has_title || has_winexpand || has_winclose);
@@ -78,7 +78,7 @@ Popup::Popup(QWidget *parent, bool title, bool winexpand, bool winclose, bool wi
 	win_close->setFixedSize(16,16);
 	QIcon ico(QApplication::style()->standardIcon(QStyle::SP_TitleBarCloseButton));
 	if( ico.isNull() )
-	    win_close->setText("X");
+	    win_close->setText(QStringLiteral("X"));
 	else
 	    win_close->setIcon(ico);
 	header_layout->addWidget(win_close);

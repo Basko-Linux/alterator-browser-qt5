@@ -34,7 +34,7 @@ public:
 
 	virtual void setAttr(const QString& name,const QString& value);
 	virtual void registerEvent(const QString&) {}
-	virtual QString postData() const { return ""; }
+	virtual QString postData() const { return QStringLiteral(""); }
 
 	virtual void postAddChild(QWidget* chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs &attr);
 	virtual QWidget *getWidget(void) = 0;
@@ -42,7 +42,7 @@ public:
 	virtual QWidget *getViewWidget(void) = 0;
 	virtual QString getParentId(void) { return parent_; };
 	virtual QString getId(void) { return id_; };
-	virtual QString getValue() { return ""; };
+	virtual QString getValue() { return QStringLiteral(""); };
 	QString getGroup() { return group_; };
 
 	AlteratorWidgetType type() { return type_; };

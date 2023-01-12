@@ -33,7 +33,7 @@ public:
     AlteratorRequestParamData():
 	type(AltReqParamDataUnknown),
 	t(WUnknown),
-	s(""),
+	s(QString()),
 	b(false),
 	i(0),
 	o(Qt::Vertical),
@@ -91,7 +91,7 @@ public:
     ~Connection();
 
     void init();
-    void getDocument(const QString& content = "(alterator-request action \"get\")",
+    void getDocument(const QString& content = QStringLiteral("(alterator-request action \"get\")"),
 	AlteratorRequestFlags request_flags = AlteratorRequestDefault);
     QQueue<AlteratorRequest> getRequests();
     void run();

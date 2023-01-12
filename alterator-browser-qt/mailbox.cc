@@ -81,7 +81,7 @@ void MailBox::readMessage(int fd)
 	do {
 	    QString msgdata(msgremain);
 	    msgdata.append(fs.readLine(1024));
-	    QStringList msglist(msgdata.split(QChar('\0'),Qt::KeepEmptyParts));
+	    QStringList msglist(msgdata.split(QLatin1Char('\0'),Qt::KeepEmptyParts));
 	    QStringListIterator is(msglist);
 	    while( is.hasNext() )
 	    {
@@ -91,7 +91,7 @@ void MailBox::readMessage(int fd)
 		    //qDebug("MailBox::readMessage mailbox message:%s",qPrintable(message));
 		    if( is.hasNext() || fs.atEnd() )
 		    {
-			g_browser->getDocument(QString("(mailbox-request %1 )").arg(message));
+			g_browser->getDocument(QString(QStringLiteral("(mailbox-request %1 )")).arg(message));
 			msgremain.clear();
 		    }
 		    else
