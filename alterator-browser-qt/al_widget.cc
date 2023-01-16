@@ -73,19 +73,19 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	QWidget *w = getWidget();
 	QLayout *l = getViewLayout();
 
-	if ("visibility" == name)
+	if (QStringLiteral("visibility") == name)
 	{
 	    if(w)
-		w->setVisible("true" == value);
+		w->setVisible(QStringLiteral("true") == value);
 	}
-	else if ("activity" == name)
+	else if (QStringLiteral("activity") == name)
 	{
 	    if(w)
-		w->setEnabled("true" == value);
+		w->setEnabled(QStringLiteral("true") == value);
 	}
-	else if ("widget-name" == name)
+	else if (QStringLiteral("widget-name") == name)
 		setObjectName(value);
-	else if ("name" == name)
+	else if (QStringLiteral("name") == name)
 	{
 	    if(w)
 	    {
@@ -94,18 +94,18 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		g_widgetlist->groupAdd(this);
 	    }
 	}
-	else if ("tooltip" == name)
+	else if (QStringLiteral("tooltip") == name)
 	{
 	    QStringList args = value.split(QLatin1String(";"));
 	    QString tip = args[0];
-	    QString sep = ".<br>";
+	    QString sep = QStringLiteral(".<br>");
 	    int sep_len = sep.size();
-	    if( !tip.isEmpty() && !tip.contains("<br") )
+	    if( !tip.isEmpty() && !tip.contains(QStringLiteral("<br")) )
 	    {
 		int pos = 0;
 		do
 		{
-		    pos = tip.indexOf(QRegExp("\\.\\s"), pos+1);
+		    pos = tip.indexOf(QRegExp(QStringLiteral("\\.\\s")), pos+1);
 		    if( pos >= 0 )
 		    {
 			tip.replace(pos, 2, sep);
@@ -119,7 +119,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	    if(w)
 		w->setToolTip(tip);
 	}
-	else if ("window-title" == name || "title" == name)
+	else if (QStringLiteral("window-title") == name || QStringLiteral("title") == name)
 	{
 	    if(w)
 	    {
@@ -130,7 +130,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		    w->window()->setWindowTitle(value);
 	    }
 	}
-	else if ("max-width" == name)
+	else if (QStringLiteral("max-width") == name)
 	{
 	    if(w)
 	    {
@@ -140,7 +140,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		    w->setMaximumWidth(val);
 	    }
 	}
-	else if ("max-height" == name)
+	else if (QStringLiteral("max-height") == name)
 	{
 	    if(w)
 	    {
@@ -150,7 +150,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		    w->setMaximumHeight(val);
 	    }
 	}
-	else if ("min-width" == name)
+	else if (QStringLiteral("min-width") == name)
 	{
 	    if(w)
 	    {
@@ -160,7 +160,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		    w->setMinimumWidth(val);
 	    }
 	}
-	else if ("min-height" == name)
+	else if (QStringLiteral("min-height") == name)
 	{
 	    if(w)
 	    {
@@ -170,7 +170,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		    w->setMinimumHeight(val);
 	    }
 	}
-	else if ("width" == name)
+	else if (QStringLiteral("width") == name)
 	{
 	    if(w)
 	    {
@@ -180,7 +180,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		    w->setFixedWidth(val);
 	    }
 	}
-	else if ("height" == name)
+	else if (QStringLiteral("height") == name)
 	{
 	    if(w)
 	    {
@@ -190,7 +190,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		    w->setFixedHeight(val);
 	    }
 	}
-	else if ("margin" == name)
+	else if (QStringLiteral("margin") == name)
 	{
 	    if( l )
 	    {
@@ -200,7 +200,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		    l->setMargin(val);
 	    }
 	}
-	else if ("spacing" == name)
+	else if (QStringLiteral("spacing") == name)
 	{
 	    if( l )
 	    {
@@ -210,11 +210,11 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		    l->setSpacing(val);
 	    }
 	}
-	else if("clear-layout" == name)
+	else if(QStringLiteral("clear-layout") == name)
 	{
 	    g_widgetlist->deleteChildrenById(getId());
 	}
-	else if ("align" == name)
+	else if (QStringLiteral("align") == name)
 	{
 	    alWidget *aw = g_widgetlist->alWidgetById(getParentId());
 	    if( aw )
@@ -224,24 +224,24 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		    l->setAlignment(w, Utils::convertAlign(value));
 	    }
 	}
-	else if ("help" == name)
+	else if (QStringLiteral("help") == name)
 	{
 	    g_browser->setHelpSource(value);
 	}
-	else if ("focus" == name)
+	else if (QStringLiteral("focus") == name)
 	{
 	    if(w)
 	    {
 		QWidget *wf = w;
 		if( wf->focusProxy() )
 		    wf = wf->focusProxy();
-		if( "true" == value )
+		if( QStringLiteral("true") == value )
 		    wf->setFocus();
 		else
 		    wf->clearFocus();
 	    }
 	}
-	else if ("tab-order" == name)
+	else if (QStringLiteral("tab-order") == name)
 	{
 	    QWidget *first = 0;
 	    alWidget *aw = g_widgetlist->alWidgetById(value);
@@ -257,7 +257,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	    }
 	}
 	else
-	    qDebug("Ignore unknown attribute for widget <%s> <%s>=<%s>", qPrintable(g_enums->widgetToStr(type())), qPrintable(name), qPrintable(value));
+	    qDebug("Ignore unknown attribute for widget <%s> <%s>=<%s>", g_enums->widgetToStr(type()).data(), qPrintable(name), qPrintable(value));
 }
 
 QSizePolicy alWidget::adjustSizePolicy(const AlteratorWidgetType type, const QSizePolicy policy, const Qt::Orientation orient)

@@ -76,7 +76,7 @@ QString WidgetList::makeRequestData()
 	it.next();
 	QString data = it.value()->postData();
 	if (!data.isEmpty())
-		request += " \n("+it.key() + " "+data+ ")";
+		request += QStringLiteral(" \n(") + it.key() + QLatin1Char(' ') + data + QLatin1Char(')');
     }
     return request;
 }
