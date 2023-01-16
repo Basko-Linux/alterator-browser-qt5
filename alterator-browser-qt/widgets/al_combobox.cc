@@ -73,19 +73,19 @@ alComboBox::alComboBox(const AlteratorRequestActionAttrs &attr, const QString& i
 
 void alComboBox::setAttr(const QString& name,const QString& value)
 {
-	if ("append-row" == name)
+	if (QStringLiteral("append-row") == name)
 	{
-		QStringList data = value.split(QLatin1String(";"));
+		QStringList data = value.split(QLatin1Char(';'));
 		if (data[1].isEmpty())
 			wnd_->addItem(data[0]);
 		else
 			wnd_->addItem(getPixmap(data[1]),data[0]);
 		counter_ = wnd_->count();
 	}
-	else if ("rows" == name)
+	else if (QStringLiteral("rows") == name)
 	{
 	    wnd_->clear();
-	    QStringList lst = value.split(QLatin1String(";"));
+	    QStringList lst = value.split(QLatin1Char(';'));
 	    QStringListIterator i(lst);
 	    while( i.hasNext() )
 	    {
@@ -99,7 +99,7 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 		    wnd_->addItem(getPixmap(icon), text);
 	    }
 	}
-	else if ("current" == name)
+	else if (QStringLiteral("current") == name)
 	{
 		bool ok = false;
 		int idx = value.toInt(&ok);
@@ -107,18 +107,18 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 		    idx = -1;
 		wnd_->setCurrentIndex(idx);
 	}
-	else if ("current-text" == name)
+	else if (QStringLiteral("current-text") == name)
 	{
 		wnd_->setEditText(value);
 	}
-	else if ("alterability" == name)
-		wnd_->setEditable(value == "true");
-	else if ("rows-clear" == name)
+	else if (QStringLiteral("alterability") == name)
+		wnd_->setEditable(value == QStringLiteral("true"));
+	else if (QStringLiteral("rows-clear") == name)
 	{
 		wnd_->clear();
 		counter_ = 0;
 	}
-	else if ("remove-row" == name)
+	else if (QStringLiteral("remove-row") == name)
 	{
 		bool ok = false;
 		int ivalue = value.toInt(&ok);
@@ -126,9 +126,9 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 		    wnd_->removeItem(ivalue);
 		counter_ = wnd_->count();
 	}
-	else if ("row-item-text" == name)
+	else if (QStringLiteral("row-item-text") == name)
 	{
-		QStringList data = value.split(QLatin1String(";"));
+		QStringList data = value.split(QLatin1Char(';'));
 		if( data.size() >= 2 )
 		{
 		    bool ok = false;
@@ -137,9 +137,9 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 			wnd_->setItemText(ivalue,data[0]);
 		}
 	}
-	else if ("row-item-pixmap" == name)
+	else if (QStringLiteral("row-item-pixmap") == name)
 	{
-		QStringList data = value.split(QLatin1String(";"));
+		QStringList data = value.split(QLatin1Char(';'));
 		if( data.size() >= 2 )
 		{
 		    bool ok = false;
@@ -154,11 +154,11 @@ void alComboBox::setAttr(const QString& name,const QString& value)
 
 void alComboBox::registerEvent(const QString& name)
 {
-    if ("selected" == name)
+    if (QStringLiteral("selected") == name)
     {
         connect(wnd_,SIGNAL( editingFinished() ),SLOT(onSelect()));
     }
-    else if ("changed" == name)
+    else if (QStringLiteral("changed") == name)
     {
         connect(wnd_,SIGNAL( editingFinished() ),SLOT(onChange()));
     }
@@ -166,14 +166,14 @@ void alComboBox::registerEvent(const QString& name)
 
 QString alComboBox::postData() const
 {
-	QString post = QString(" (current . %1 )").arg(wnd_->currentIndex());
+	QString post = QString(QStringLiteral(" (current . %1 )")).arg(wnd_->currentIndex());
 	if (wnd_->isEditable() && (counter_ != wnd_->count()))
 	{//reset items on alterator
-	    post += "( rows . (";
+	    post += QStringLiteral("( rows . (");
 	    for (int i=0;i<wnd_->count();++i)
-		post += " #(( \""+ Utils::simpleQuote(wnd_->itemText(i))+ "\" . \"\"))";
-	    post += "))";
+		post += QStringLiteral(" #(( \"") + Utils::simpleQuote(wnd_->itemText(i)) + QStringLiteral("\" . \"\"))");
+	    post += QStringLiteral("))");
 	}
-	post += QString(" (current-text . \"%1\" )").arg(Utils::simpleQuote(wnd_->currentText()));
+	post += QString(QStringLiteral(" (current-text . \"%1\" )")).arg(Utils::simpleQuote(wnd_->currentText()));
 	return post;
 }

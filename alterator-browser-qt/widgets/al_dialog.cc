@@ -5,7 +5,7 @@
 ADialog::ADialog(QWidget *parent, const Qt::Orientation orient):
     AWidget<ADialogBase>(parent)
 {
-    current_action = "__undefined__";
+    current_action = QStringLiteral("__undefined__");
 
     key2btn["ok"]=QDialogButtonBox::Ok;
     key2btn["open"]=QDialogButtonBox::Open;

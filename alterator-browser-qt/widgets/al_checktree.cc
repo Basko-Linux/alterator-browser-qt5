@@ -245,7 +245,7 @@ alCheckTree::alCheckTree(const AlteratorWidgetType awtype, const AlteratorReques
 	alWidgetPre<ACheckTree>(attr,awtype,id,parent)
 {
     int col_count = 1;
-    if( attr.contains("columns") ) col_count = attr.value("columns").i;
+    if( attr.contains(QStringLiteral("columns")) ) col_count = attr.value(QStringLiteral("columns")).i;
     if( col_count < 1 )
 	col_count = 1;
     wnd_->setColumnCount(col_count);
@@ -255,27 +255,27 @@ alCheckTree::alCheckTree(const AlteratorWidgetType awtype, const AlteratorReques
 
 void alCheckTree::setAttr(const QString& name,const QString& value)
 {
-	if ("append-row" == name)
+	if (QStringLiteral("append-row") == name)
 	{
 	    wnd_->blockSignals(true);
-	    QStringList data(value.split(QLatin1String(";"), Qt::KeepEmptyParts));
+	    QStringList data(value.split(QLatin1Char(';'), Qt::KeepEmptyParts));
 	    wnd_->addRow(data);
 	    wnd_->blockSignals(false);
 	}
-	else if ("rows" == name)
+	else if (QStringLiteral("rows") == name)
 	{
 	    wnd_->blockSignals(true);
-	    QStringList data(value.split(QLatin1String(";"), Qt::KeepEmptyParts));
+	    QStringList data(value.split(QLatin1Char(';'), Qt::KeepEmptyParts));
 	    wnd_->setRows(data);
 	    wnd_->blockSignals(false);
 	}
-	else if ("rows-clear" == name)
+	else if (QStringLiteral("rows-clear") == name)
 	{
 	    wnd_->clear();
 	}
-	else if ("expand-rows" == name)
+	else if (QStringLiteral("expand-rows") == name)
 	{
-	    QStringList data = value.split(QLatin1String(";"));
+	    QStringList data = value.split(QLatin1Char(';'));
 	    Q_FOREACH(QString id, data)
 	    {
 		QTreeWidgetItem* item = wnd_->lookupItem(id);
@@ -283,9 +283,9 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 		    item->setExpanded(true);
 	    }
 	}
-	else if ("collapse-rows" == name)
+	else if (QStringLiteral("collapse-rows") == name)
 	{
-	    QStringList data = value.split(QLatin1String(";"));
+	    QStringList data = value.split(QLatin1Char(';'));
 	    Q_FOREACH(QString id, data)
 	    {
 		QTreeWidgetItem* item = wnd_->lookupItem(id);
@@ -293,10 +293,10 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 		    item->setExpanded(false);
 	    }
 	}
-	else if ("current-rows" == name)
+	else if (QStringLiteral("current-rows") == name)
 	{
 	    wnd_->blockSignals(true);
-	    QStringList list(value.split(QLatin1String(";")));
+	    QStringList list(value.split(QLatin1Char(';')));
 	    QSet<QString> data(list.begin(), list.end());
 	    if( data.size() > 0 )
 	    {
@@ -320,7 +320,7 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	    }
 	    wnd_->blockSignals(false);
 	}
-	else if ("current" == name)
+	else if (QStringLiteral("current") == name)
 	{
 	    // Set item selected
 	    QTreeWidgetItem* item = wnd_->lookupItem(value);
@@ -336,11 +336,11 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 		item->setSelected(true);
 	    }
 	}
-	else if ("icon-rows" == name)
+	else if (QStringLiteral("icon-rows") == name)
 	{
 	    QString pixname;
 	    int column;
-	    QStringList data = value.split(QLatin1String(";"));
+	    QStringList data = value.split(QLatin1Char(';'));
 	    
 	    if (data.count() < 2)
 		return;
@@ -348,7 +348,7 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 	    QStringListIterator it(data);
 	    QString strfield(it.next());
 	    // Icon name
-	    QIcon pixmap = getPixmap(strfield.isEmpty()? "theme:null": strfield);
+	    QIcon pixmap = getPixmap(strfield.isEmpty()? QStringLiteral("theme:null"): strfield);
 	    
 	    // Column number
 	    column = it.next().toInt();
@@ -368,18 +368,18 @@ void alCheckTree::setAttr(const QString& name,const QString& value)
 
 void alCheckTree::registerEvent(const QString& name)
 {
-	if ("selected" == name)
+	if (QStringLiteral("selected") == name)
 		wnd_->setEventRegistered(id_, BrowserEventSelected);
-	else if ("changed" == name)
+	else if (QStringLiteral("changed") == name)
 		wnd_->setEventRegistered(id_, BrowserEventChanged);
-	else if ("clicked" == name)
+	else if (QStringLiteral("clicked") == name)
 	{
 		connect(wnd_,SIGNAL(itemPressed(QTreeWidgetItem*,int)), SLOT(onClick(QTreeWidgetItem*,int)));
 		connect(wnd_,SIGNAL(spaceBtnPressed()), SLOT(onClick()));
 	}
-	else if ("return-pressed" == name)
+	else if (QStringLiteral("return-pressed") == name)
 		connect( wnd_, SIGNAL(itemActivated(QTreeWidgetItem*,int)), SLOT(onReturn(QTreeWidgetItem*,int)));
-	else if ("double-clicked" == name)
+	else if (QStringLiteral("double-clicked") == name)
 		connect(wnd_,SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), SLOT(onDoubleClick(QTreeWidgetItem*,int)));
 }
 
@@ -389,15 +389,15 @@ QString alCheckTree::postData() const
     QString selected_item_id;
     
     // Current element id
-    ret.append(QString(" (current . %1)").arg((wnd_->current().isEmpty()? "\"\"": wnd_->current())));
+    ret.append(QString(QStringLiteral(" (current . %1)")).arg((wnd_->current().isEmpty()? QStringLiteral("\"\""): wnd_->current())));
         
     // Current checked elements
-    ret.append(" (current-rows . (");
+    ret.append(QStringLiteral(" (current-rows . ("));
     Q_FOREACH(QString item, wnd_->getChecked())
     {
-	ret.append(QString(" \"%1\"").arg(item));
+	ret.append(QString(QStringLiteral(" \"%1\"")).arg(item));
     }
-    ret.append("))");
+    ret.append(QStringLiteral("))"));
     
     
     

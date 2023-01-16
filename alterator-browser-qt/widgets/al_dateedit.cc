@@ -59,19 +59,19 @@ alDateEdit::alDateEdit(const AlteratorRequestActionAttrs &attr, const QString& i
 
 void alDateEdit::setAttr(const QString& name,const QString& value)
 {
-    if ("text" == name)
+    if (QStringLiteral("text") == name)
         wnd_->setDate(value);
-    else if ("value" == name)
+    else if (QStringLiteral("value") == name)
         wnd_->setDate(value);
-    else if ("expanded" == name)
-        wnd_->setExpanded(value == "true");
+    else if (QStringLiteral("expanded") == name)
+        wnd_->setExpanded(value == QStringLiteral("true"));
     else
         alWidget::setAttr(name,value);
 }
 
 void alDateEdit::registerEvent(const QString& name)
 {
-    if( "changed" == name )
+    if( QStringLiteral("changed") == name )
         connect(wnd_,SIGNAL( changed() ),SLOT(onChange()));
 }
 
@@ -79,7 +79,7 @@ void alDateEdit::registerEvent(const QString& name)
 QString alDateEdit::postData() const
 {
     QString ret;
-    ret.append(QString(" (text . \"%1\" )").arg(wnd_->date()));
-    ret.append(QString(" (value . \"%1\" )").arg(wnd_->date()));
+    ret.append(QString(QStringLiteral(" (text . \"%1\" )")).arg(wnd_->date()));
+    ret.append(QString(QStringLiteral(" (value . \"%1\" )")).arg(wnd_->date()));
     return ret;
 }

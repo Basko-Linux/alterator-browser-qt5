@@ -11,12 +11,12 @@ AColorSelect::AColorSelect(QWidget *parent, const Qt::Orientation):
     lay = new QHBoxLayout(this);
     lineedit = new QLineEdit(this);
     lineedit->setMaxLength(7);
-    lineedit->setInputMask(">\\#HHHHHH");
+    lineedit->setInputMask(QStringLiteral(">\\#HHHHHH"));
     QSizePolicy pol = lineedit->sizePolicy();
     pol.setHorizontalPolicy(QSizePolicy::Maximum);
     lineedit->setSizePolicy(pol);
     btn = new QPushButton(this);
-    btn->setIcon(getPixmap("theme:up"));
+    btn->setIcon(getPixmap(QStringLiteral("theme:up")));
     pol = btn->sizePolicy();
     pol.setHorizontalPolicy(QSizePolicy::Maximum);
     btn->setSizePolicy(pol);
@@ -94,11 +94,11 @@ alColorSelect::alColorSelect(const AlteratorRequestActionAttrs &attr, const QStr
 
 void alColorSelect::setAttr(const QString& name,const QString& value)
 {
-    if ("value" == name)
+    if (QStringLiteral("value") == name)
     {
 	wnd_->setSelected(value, false);
     }
-    else if ("title" == name)
+    else if (QStringLiteral("title") == name)
     {
 	wnd_->setTitle(value);
     }
@@ -108,15 +108,15 @@ void alColorSelect::setAttr(const QString& name,const QString& value)
 
 void alColorSelect::registerEvent(const QString& name)
 {
-    if ("selected" == name)
+    if ( QStringLiteral("selected") == name )
         connect(wnd_, SIGNAL(selected()), this, SLOT(onSelect()));
-    else if( "changed" == name )
+    else if( QStringLiteral("changed") == name )
 	connect(wnd_, SIGNAL(changed()), this, SLOT(onChange()));
-    else if( "return-pressed" == name )
+    else if( QStringLiteral("return-pressed") == name )
 	connect(wnd_, SIGNAL(editingFinished()), this, SLOT(onReturn()));
 }
 
 QString alColorSelect::postData() const
 {
-    return QString(" (value . \"%1\" )").arg(Utils::simpleQuote(wnd_->selectedColor()));
+    return QString(QStringLiteral(" (value . \"%1\" )")).arg(Utils::simpleQuote(wnd_->selectedColor()));
 }
