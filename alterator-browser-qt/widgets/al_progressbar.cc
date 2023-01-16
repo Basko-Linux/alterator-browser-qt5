@@ -15,17 +15,17 @@ void alProgressBar::setAttr(const QString& name,const QString& value)
     if( QStringLiteral("value") == name )
     {
 	if(iok)
-	    wnd_->setValue(value.toInt());
+	    wnd_->setValue(ivalue);
     }
     else if( QStringLiteral("maximum") == name )
     {
 	if(iok)
-	    wnd_->setMaximum(value.toInt());
+	    wnd_->setMaximum(ivalue);
     }
     else if( QStringLiteral("minimum") == name )
     {
 	if(iok)
-	    wnd_->setMinimum(value.toInt());
+	    wnd_->setMinimum(ivalue);
     }
     else if( QStringLiteral("text") == name )
     {

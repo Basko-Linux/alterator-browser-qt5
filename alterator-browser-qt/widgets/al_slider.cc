@@ -28,7 +28,7 @@ void ASlider::focusOutEvent(QFocusEvent*)
     checkValueReallyChanged();
 }
 
-void ASlider::onValueChange(int new_value)
+void ASlider::onValueChange(int)
 {
     tmr->start();
 }
@@ -63,7 +63,7 @@ void alSlider::setAttr(const QString& name,const QString& value)
 		wnd_->setOrientation(Qt::Horizontal);
 	}
 	else if( QStringLiteral("minimum") == name )
-	    wnd_->setMinimum( value.toInt() );
+	    wnd_->setMinimum( ivalue );
 	else if( QStringLiteral("maximum") == name )
 	{
 	    if(iok)
@@ -75,7 +75,6 @@ void alSlider::setAttr(const QString& name,const QString& value)
 	}
 	else if( QStringLiteral("step") == name )
 	{
-	    int step = value.toInt();
 	    if(iok)
 	    {
 		wnd_->setSingleStep( ivalue );
