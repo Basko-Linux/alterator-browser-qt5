@@ -3,9 +3,9 @@
 
 void alButton::setAttr(const QString& name,const QString& value)
 {
-	if ("text" == name)
+	if (QStringLiteral("text") == name)
 		wnd_->setText(value);
-	else if ("pixmap" == name)
+	else if (QStringLiteral("pixmap") == name)
 		wnd_->setIcon(QIcon(getPixmap(value)));
 	else
 		alWidget::setAttr(name,value);
@@ -13,7 +13,7 @@ void alButton::setAttr(const QString& name,const QString& value)
 
 void alButton::registerEvent(const QString& name)
 {
-	if ("clicked" == name)
+	if (QStringLiteral("clicked") == name)
 		connect(wnd_,SIGNAL( clicked(bool) ),SLOT(onClick(bool)));
 }
 

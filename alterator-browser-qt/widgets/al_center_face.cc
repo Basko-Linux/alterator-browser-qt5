@@ -124,7 +124,7 @@ QList<ACSListItem*> ACenterSectionModulesList::getItems()
 ACenterSection::ACenterSection(QWidget *parent, const QString &title_text):
     QWidget(parent)
 {
-    setObjectName("module_section");
+    setObjectName(QStringLiteral("module_section"));
 
     pixmap = new QLabel(this);
     pixmap->setAlignment(Qt::AlignTop);
@@ -217,12 +217,12 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
 {
     external_app = 0;
 
-    setObjectName("centerface");
+    setObjectName(QStringLiteral("centerface"));
     setLineWidth(0);
     setFrameStyle(QFrame::Plain | QFrame::NoFrame);
 
-    current_action_key = "base_mode";
-    current_module_key = "__undefined__";
+    current_action_key = QStringLiteral("base_mode");
+    current_module_key = QStringLiteral("__undefined__");
 
     owerview_btn = new QToolButton(this);
     owerview_btn->setEnabled(false);
@@ -230,7 +230,7 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     owerview_btn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     owerview_btn->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Fixed);
     owerview_btn->setText(tr("Module"));
-    owerview_btn->setIcon(getPixmap("theme:down"));
+    owerview_btn->setIcon(getPixmap(QStringLiteral("theme:down")));
     connect(owerview_btn, SIGNAL(clicked()), this, SLOT(onOwerviewClicked()));
 
     QToolButton *help_btn = new QToolButton(this);
@@ -238,7 +238,7 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     help_btn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     help_btn->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Fixed);
     help_btn->setText(tr("Help"));
-    help_btn->setIcon(getPixmap("theme:help"));
+    help_btn->setIcon(getPixmap(QStringLiteral("theme:help")));
     connect(help_btn, SIGNAL(clicked()), g_browser, SLOT(showHelp()));
 
     QToolButton *expert_btn = new QToolButton(this);
@@ -247,7 +247,7 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     expert_btn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     expert_btn->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Fixed);
     expert_btn->setText(tr("Expert mode"));
-    expert_btn->setIcon(getPixmap("theme:computer"));
+    expert_btn->setIcon(getPixmap(QStringLiteral("theme:computer")));
     connect(expert_btn, SIGNAL(toggled(bool)), this, SLOT(onExpertModeToggled(bool)));
 
     QToolButton *exit_btn = new QToolButton(this);
@@ -255,7 +255,7 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     exit_btn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     exit_btn->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Fixed);
     exit_btn->setText(tr("Quit"));
-    exit_btn->setIcon(getPixmap("theme:close"));
+    exit_btn->setIcon(getPixmap(QStringLiteral("theme:close")));
     connect(exit_btn, SIGNAL(clicked()), g_browser, SLOT(quitAppAsk()));
 
     sections_widget = new QWidget(this);
@@ -270,7 +270,7 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     scroll->setPalette(scroll_palette);
 
     view_widget = new QWidget();
-    view_widget->setObjectName("view");
+    view_widget->setObjectName(QStringLiteral("view"));
     QPalette vw_palette = view_widget->palette();
     vw_palette.setBrush(QPalette::Window, QBrush(QColor(0,0,0,0)));
     view_widget->setPalette(vw_palette);
@@ -285,7 +285,7 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     sections_scroll->setPalette(ss_palette);
 
     sections_view_widget = new QWidget();
-    sections_view_widget->setObjectName("modules_view");
+    sections_view_widget->setObjectName(QStringLiteral("modules_view"));
     QPalette svw_palette = sections_view_widget->palette();
     svw_palette.setBrush(QPalette::Window, QBrush(QColor(0,0,0,0)));
     sections_view_widget->setPalette(svw_palette);
@@ -348,14 +348,14 @@ void ACenterFace::onOwerviewClicked()
     if( stacked_layout->currentWidget() == sections_widget )
     {
 	owerview_btn->setText(tr("Main"));
-	owerview_btn->setIcon(getPixmap("theme:up"));
+	owerview_btn->setIcon(getPixmap(QStringLiteral("theme:up")));
 	stacked_layout->setCurrentWidget(module_widget);
 	g_browser->setHelpSource(help_source_module);
     }
     else
     {
 	owerview_btn->setText(tr("Module"));
-	owerview_btn->setIcon(getPixmap("theme:down"));
+	owerview_btn->setIcon(getPixmap(QStringLiteral("theme:down")));
 	stacked_layout->setCurrentWidget(sections_widget);
 	g_browser->setHelpSource(help_source);
     }
@@ -374,37 +374,37 @@ QPixmap ACenterFace::defaultActionIcon(UserActionType type)
     {
 	case UserActionFinish:
 	    {
-		name = "theme:down";
+		name = QStringLiteral("theme:down");
 		break;
 	    }
 	case UserActionAbort:
 	    {
-		name = "theme:cancel";
+		name = QStringLiteral("theme:cancel");
 		break;
 	    }
 	case UserActionHelp:
 	    {
-		name = "theme:help";
+		name = QStringLiteral("theme:help");
 		break;
 	    }
 	case UserActionApply:
 	    {
-		name = "theme:apply";
+		name = QStringLiteral("theme:apply");
 		break;
 	    }
 	case UserActionCancel:
 	    {
-		name = "theme:cancel";
+		name = QStringLiteral("theme:cancel");
 		break;
 	    }
 	case UserActionForward:
 	    {
-		name = "theme:forward";
+		name = QStringLiteral("theme:forward");
 		break;
 	    }
 	case UserActionBackward:
 	    {
-		name = "theme:backward";
+		name = QStringLiteral("theme:backward");
 		break;
 	    }
 	default:
@@ -431,7 +431,7 @@ void ACenterFace::addAction(const QString &key, UserActionType type)
     if( buttons.contains(key) )
 	return;
 
-    QPushButton *b = buttonbox->addButton("", QDialogButtonBox::ActionRole);
+    QPushButton *b = buttonbox->addButton(QStringLiteral(), QDialogButtonBox::ActionRole);
     b->setIcon(QIcon(defaultActionIcon(type)));
     buttons[key] = b;
     connect(b, SIGNAL(clicked()), action_signal_mapper, SLOT(map()));
@@ -491,11 +491,11 @@ void ACenterFace::addModule(const QString& section_key, const QString& key, cons
 
 void ACenterFace::addExtModules()
 {
-    QStringList dirpaths( QStringList() << "/usr/share/applications" );
+    QStringList dirpaths( QStringList() << QStringLiteral("/usr/share/applications") );
 
     Q_FOREACH(QString dirpath, dirpaths)
     {
-	QDir dir(dirpath, "*.desktop", QDir::Unsorted, QDir::Files|QDir::NoDotAndDotDot);
+	QDir dir(dirpath, QStringLiteral("*.desktop"), QDir::Unsorted, QDir::Files|QDir::NoDotAndDotDot);
 	Q_FOREACH(QString filename, dir.entryList())
 	{
 	    DesktopFile desktopfile(0, dirpath + QDir::separator() + filename);
@@ -636,7 +636,7 @@ void ACenterFace::onSelectModule(ACSListItem *i)
     {
 	case ACSListItem::External:
 	{
-	    QStringList arguments(i->command().split(" ", Qt::SkipEmptyParts));
+	    QStringList arguments(i->command().split(QLatin1Char(' '), Qt::SkipEmptyParts));
 	    if( arguments.size() > 0 )
 	    {
 		QString program = arguments.takeAt(0);
@@ -656,7 +656,7 @@ void ACenterFace::onSelectModule(ACSListItem *i)
 	    if( eventRegistered(BrowserEventSelected) )
 		g_browser->emitEvent(getId(), BrowserEventSelected, AlteratorRequestCenterFaceModuleSelected);
 	    owerview_btn->setText(tr("Main"));
-	    owerview_btn->setIcon(getPixmap("theme:up"));
+	    owerview_btn->setIcon(getPixmap(QStringLiteral("theme:up")));
 	    stacked_layout->setCurrentWidget(module_widget);
 	    owerview_btn->setEnabled(true);
 	}
@@ -668,7 +668,7 @@ void ACenterFace::onExternalAppFinish(int, QProcess::ExitStatus )
     delete external_app;
     external_app = 0;
     g_browser->onStopBusySplash();
-    g_browser->onSplashMessageRequest("");
+    g_browser->onSplashMessageRequest(QString());
     g_browser->raiseBrowserWindow();
 }
 
@@ -692,7 +692,7 @@ void ACenterFace::setHelpSource(const QString &url)
 
 void ACenterFace::onExpertModeToggled(bool on)
 {
-    current_action_key = on? "expert_mode": "base_mode";
+    current_action_key = on? QStringLiteral("expert_mode"): QStringLiteral("base_mode");
     if( eventRegistered(BrowserEventClicked) )
 	g_browser->emitEvent(getId(), BrowserEventClicked, AlteratorRequestDefault);
 }
@@ -735,9 +735,9 @@ QLayout* alCenterFace::getViewLayout()
 
 void alCenterFace::registerEvent(const QString& name)
 {
-    if ("clicked" == name)
+    if (QStringLiteral("clicked") == name)
 	wnd_->setEventRegistered(id_, BrowserEventClicked);
-    if ("selected" == name)
+    if (QStringLiteral("selected") == name)
 	wnd_->setEventRegistered(id_, BrowserEventSelected);
 }
 
@@ -746,18 +746,18 @@ QString alCenterFace::postData() const
     QString ret;
     QString current_action = wnd_->currentActionKey();
     if(!current_action.isEmpty())
-	ret += QString(" (current-action . %1)").arg(current_action);
+	ret += QString(QStringLiteral(" (current-action . %1)")).arg(current_action);
     QString current_module = wnd_->currentModuleKey();
-    ret += QString(" (current-module . %1)").arg(current_module);
+    ret += QString(QStringLiteral(" (current-module . %1)")).arg(current_module);
     return ret;
 }
 
 void alCenterFace::setAttr(const QString& name,const QString& value)
 {
-    if( "actions" == name )
+    if( QStringLiteral("actions") == name )
     {
 	wnd_->clearActions();
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	QStringListIterator it(data);
 	Q_FOREVER
 	{
@@ -777,9 +777,9 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
 	    wnd_->addAction(key, name, pixmap);
 	}
     }
-    else if( "action-add" == name )
+    else if( QStringLiteral("action-add") == name )
     {
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	QStringListIterator it(data);
 	if( data.size() > 0 )
 	{
@@ -793,32 +793,32 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
 	    wnd_->addAction(key, name, pixmap);
 	}
     }
-    else if( "action-remove" == name )
+    else if( QStringLiteral("action-remove") == name )
     {
 	wnd_->removeAction(value);
     }
-    else if( "actions-clear" == name )
+    else if( QStringLiteral("actions-clear") == name )
     {
 	wnd_->clearActions();
     }
-    else if( "action-text" == name )
+    else if( QStringLiteral("action-text") == name )
     {
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	const int len = data.size();
 	if( len >= 2 )
 	    wnd_->setActionText(data[0], data[1]);
     }
-    else if( "action-pixmap" == name )
+    else if( QStringLiteral("action-pixmap") == name )
     {
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	const int len = data.size();
 	if( len >= 2 )
 	    wnd_->setActionPixmap(data[0], data[1]);
     }
-    else if( "modules" == name )
+    else if( QStringLiteral("modules") == name )
     {
 	wnd_->clearModules();
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	QStringListIterator it(data);
 	Q_FOREVER
 	{
@@ -840,38 +840,38 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
 	wnd_->addExtModules();
 	wnd_->sortTabOrder();
     }
-    else if( "module-add" == name )
+    else if( QStringLiteral("module-add") == name )
     {
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	if( data.size() >= 3 )
 	    wnd_->addModule(data[0], data[1], data[2]);
     }
-    else if( "module-remove" == name )
+    else if( QStringLiteral("module-remove") == name )
     {
 	wnd_->removeModule(value);
     }
-    else if( "modules-clear" == name )
+    else if( QStringLiteral("modules-clear") == name )
     {
 	wnd_->clearModules();
     }
-    else if( "module-text" == name )
+    else if( QStringLiteral("module-text") == name )
     {
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	const int len = data.size();
 	if( len >= 2 )
 	    wnd_->setModuleText(data[0], data[1]);
     }
-    else if( "module-pixmap" == name )
+    else if( QStringLiteral("module-pixmap") == name )
     {
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	const int len = data.size();
 	if( len >= 2 )
 	    wnd_->setModulePixmap(data[0], data[1]);
     }
-    else if( "sections" == name )
+    else if( QStringLiteral("sections") == name )
     {
 	wnd_->clearSections();
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	QStringListIterator it(data);
 	Q_FOREVER
 	{
@@ -895,30 +895,30 @@ void alCenterFace::setAttr(const QString& name,const QString& value)
 	    wnd_->addSection(key, name, desc, pixmap);
 	}
     }
-    else if( "sections-clear" == name )
+    else if( QStringLiteral("sections-clear") == name )
     {
 	wnd_->clearSections();
     }
-    else if( "section-add" == name )
+    else if( QStringLiteral("section-add") == name )
     {
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	if( data.size() >= 4 )
 	    wnd_->addSection(data[0], data[1], data[2], data[3]);
     }
-    else if( "section-remove" == name )
+    else if( QStringLiteral("section-remove") == name )
     {
 	wnd_->removeSection(value);
     }
-    else if( "section-text" == name )
+    else if( QStringLiteral("section-text") == name )
     {
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	const int len = data.size();
 	if( len >= 2 )
 	    wnd_->setSectionText(data[0], data[1]);
     }
-    else if( "section-pixmap" == name )
+    else if( QStringLiteral("section-pixmap") == name )
     {
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	const int len = data.size();
 	if( len >= 2 )
 	    wnd_->setSectionPixmap(data[0], data[1]);
