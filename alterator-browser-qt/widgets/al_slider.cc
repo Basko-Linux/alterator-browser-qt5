@@ -55,16 +55,16 @@ void alSlider::setAttr(const QString& name,const QString& value)
 	bool iok;
 	int ivalue = value.toInt(&iok);
 
-	if( "orientation" == name )
+	if( QStringLiteral("orientation") == name )
 	{
-	    if( "vertical" == value )
+	    if( QStringLiteral("vertical") == value )
 		wnd_->setOrientation(Qt::Vertical);
 	    else
 		wnd_->setOrientation(Qt::Horizontal);
 	}
-	else if( "minimum" == name )
+	else if( QStringLiteral("minimum") == name )
 	    wnd_->setMinimum( value.toInt() );
-	else if( "maximum" == name )
+	else if( QStringLiteral("maximum") == name )
 	{
 	    if(iok)
 	    {
@@ -73,7 +73,7 @@ void alSlider::setAttr(const QString& name,const QString& value)
 		wnd_->setPageStep( (ivalue/16) + 1 );
 	    }
 	}
-	else if( "step" == name )
+	else if( QStringLiteral("step") == name )
 	{
 	    int step = value.toInt();
 	    if(iok)
@@ -82,7 +82,7 @@ void alSlider::setAttr(const QString& name,const QString& value)
 		wnd_->setPageStep( ivalue*16 );
 	    }
 	}
-	else if( "value" == name )
+	else if( QStringLiteral("value") == name )
 	{
 	    if(iok)
 		wnd_->setValue(ivalue);
@@ -93,11 +93,11 @@ void alSlider::setAttr(const QString& name,const QString& value)
 
 void alSlider::registerEvent(const QString& name)
 {
-	if ("changed" == name)
+	if (QStringLiteral("changed") == name)
 		connect(wnd_, SIGNAL(valueReallyChanged()), SLOT(onChange()));
 }
 
 QString alSlider::postData() const
 {
-	return QString(" (value . %1 )").arg(wnd_->value());
+	return QString(QStringLiteral(" (value . %1 )")).arg(wnd_->value());
 }

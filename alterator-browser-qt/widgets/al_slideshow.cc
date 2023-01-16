@@ -87,7 +87,7 @@ void ASlideShow::applyPixmap()
 	    if( movie() )
 		delete movie();
 
-		    if( imgfile.endsWith(".jpg") || imgfile.endsWith(".png") )
+		    if( imgfile.endsWith(QStringLiteral(".jpg")) || imgfile.endsWith(QStringLiteral(".png")) )
 		    {
 			QPixmap pix(imgfile);
 			if( !pix.isNull() )
@@ -99,7 +99,7 @@ void ASlideShow::applyPixmap()
 			else
 			    qDebug("Unable to load picture: %s", qPrintable(imgfile));
 		    }
-		    else if( imgfile.endsWith(".gif") || imgfile.endsWith(".mng") )
+		    else if( imgfile.endsWith(QStringLiteral(".gif")) || imgfile.endsWith(QStringLiteral(".mng")) )
 		    {
 			QMovie *anim = new QMovie(imgfile, QByteArray(), this);
 			if( anim->isValid() )
@@ -125,7 +125,7 @@ void ASlideShow::setSource(const QString &new_src_dir)
     if( imgdir.exists() )
     {
 	QStringList name_filters;
-	name_filters << "*.jpg" << "*.png" << "*.gif" << "*.mng";
+	name_filters << QStringLiteral("*.jpg") << QStringLiteral("*.png") << QStringLiteral("*.gif") << QStringLiteral("*.mng");
 	images_ = imgdir.entryList(name_filters, QDir::Files|QDir::NoDotAndDotDot|QDir::Readable, QDir::Name);
 	if( current_img_ )
 	{
@@ -158,19 +158,19 @@ alSlideShow::~alSlideShow()
 
 void alSlideShow::setAttr(const QString& name,const QString& value)
 {
-    if( "url" == name || "text" == name )
+    if( QStringLiteral("url") == name || QStringLiteral("text") == name )
         wnd_->setSource(value);
-    if( "once" == name )
-        wnd_->setOnce( "false" != value );
-    else if( "start" == name )
+    if( QStringLiteral("once") == name )
+        wnd_->setOnce( QStringLiteral("false") != value );
+    else if( QStringLiteral("start") == name )
 	wnd_->start();
-    else if( "stop" == name )
+    else if( QStringLiteral("stop") == name )
 	wnd_->stop();
-    else if( "next" == name )
+    else if( QStringLiteral("next") == name )
 	wnd_->next();
-    else if( "prev" == name )
+    else if( QStringLiteral("prev") == name )
 	wnd_->prev();
-    else if( "step" == name )
+    else if( QStringLiteral("step") == name )
     {
 	bool iok;
 	int step = value.toInt(&iok);

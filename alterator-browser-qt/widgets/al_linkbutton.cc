@@ -28,7 +28,7 @@ void ALinkButton::onLinkActivated(const QString&)
 
 void ALinkButton::setText(const QString &txt)
 {
-    txt_lbl->setText("<a href=\"/\">" + txt + "</a>");
+    txt_lbl->setText(QStringLiteral("<a href=\"/\">") + txt + QStringLiteral("</a>"));
 }
 
 void ALinkButton::setPixmap(const QPixmap &pix)
@@ -39,9 +39,9 @@ void ALinkButton::setPixmap(const QPixmap &pix)
 /* alLinkButton */
 void alLinkButton::setAttr(const QString& name,const QString& value)
 {
-	if ("text" == name)
+	if (QStringLiteral("text") == name)
 		wnd_->setText(value);
-	else if ("pixmap" == name)
+	else if (QStringLiteral("pixmap") == name)
 		wnd_->setPixmap(getPixmap(value));
 	else
 		alWidget::setAttr(name,value);
@@ -49,6 +49,6 @@ void alLinkButton::setAttr(const QString& name,const QString& value)
 
 void alLinkButton::registerEvent(const QString& name)
 {
-	if ("clicked" == name)
+	if (QStringLiteral("clicked") == name)
 		connect(wnd_,SIGNAL( clicked() ),SLOT(onClick()));
 }

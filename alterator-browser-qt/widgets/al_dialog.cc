@@ -7,25 +7,25 @@ ADialog::ADialog(QWidget *parent, const Qt::Orientation orient):
 {
     current_action = QStringLiteral("__undefined__");
 
-    key2btn["ok"]=QDialogButtonBox::Ok;
-    key2btn["open"]=QDialogButtonBox::Open;
-    key2btn["save"]=QDialogButtonBox::Save;
-    key2btn["cancel"]=QDialogButtonBox::Cancel;
-    key2btn["close"]=QDialogButtonBox::Close;
-    key2btn["discard"]=QDialogButtonBox::Discard;
-    key2btn["apply"]=QDialogButtonBox::Apply;
-    key2btn["reset"]=QDialogButtonBox::Reset;
-    key2btn["restoredefaults"]=QDialogButtonBox::RestoreDefaults;
-    key2btn["help"]=QDialogButtonBox::Help;
-    key2btn["saveall"]=QDialogButtonBox::SaveAll;
-    key2btn["yes"]=QDialogButtonBox::Yes;
-    key2btn["yestoall"]=QDialogButtonBox::YesToAll;
-    key2btn["no"]=QDialogButtonBox::No;
-    key2btn["notoall"]=QDialogButtonBox::NoToAll;
-    key2btn["abort"]=QDialogButtonBox::Abort;
-    key2btn["retry"]=QDialogButtonBox::Retry;
-    key2btn["ignore"]=QDialogButtonBox::Ignore;
-    key2btn["nobutton"]=QDialogButtonBox::NoButton;
+    key2btn[QStringLiteral("ok")]=QDialogButtonBox::Ok;
+    key2btn[QStringLiteral("open")]=QDialogButtonBox::Open;
+    key2btn[QStringLiteral("save")]=QDialogButtonBox::Save;
+    key2btn[QStringLiteral("cancel")]=QDialogButtonBox::Cancel;
+    key2btn[QStringLiteral("close")]=QDialogButtonBox::Close;
+    key2btn[QStringLiteral("discard")]=QDialogButtonBox::Discard;
+    key2btn[QStringLiteral("apply")]=QDialogButtonBox::Apply;
+    key2btn[QStringLiteral("reset")]=QDialogButtonBox::Reset;
+    key2btn[QStringLiteral("restoredefaults")]=QDialogButtonBox::RestoreDefaults;
+    key2btn[QStringLiteral("help")]=QDialogButtonBox::Help;
+    key2btn[QStringLiteral("saveall")]=QDialogButtonBox::SaveAll;
+    key2btn[QStringLiteral("yes")]=QDialogButtonBox::Yes;
+    key2btn[QStringLiteral("yestoall")]=QDialogButtonBox::YesToAll;
+    key2btn[QStringLiteral("no")]=QDialogButtonBox::No;
+    key2btn[QStringLiteral("notoall")]=QDialogButtonBox::NoToAll;
+    key2btn[QStringLiteral("abort")]=QDialogButtonBox::Abort;
+    key2btn[QStringLiteral("retry")]=QDialogButtonBox::Retry;
+    key2btn[QStringLiteral("ignore")]=QDialogButtonBox::Ignore;
+    key2btn[QStringLiteral("nobutton")]=QDialogButtonBox::NoButton;
     //qDebug("new ADialog");
 //    setWindowModality(Qt::ApplicationModal);
     QGridLayout *main_layout = new QGridLayout(view());
@@ -246,7 +246,7 @@ QLayout* alDialog::getViewLayout()
 
 void alDialog::registerEvent(const QString& name)
 {
-    if ("clicked" == name)
+    if (QStringLiteral("clicked") == name)
     {
 	connect(wnd_,SIGNAL(actionSelected()), SLOT(onClick()));
     }
@@ -254,10 +254,10 @@ void alDialog::registerEvent(const QString& name)
 
 void alDialog::setAttr(const QString& name,const QString& value)
 {
-    if( "actions" == name )
+    if( QStringLiteral("actions") == name )
     {
 	wnd_->clearActions();
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	QStringListIterator it(data);
 	Q_FOREVER
 	{
@@ -277,9 +277,9 @@ void alDialog::setAttr(const QString& name,const QString& value)
 	    wnd_->addAction(key, name, pixmap);
 	}
     }
-    else if( "action-add" == name )
+    else if( QStringLiteral("action-add") == name )
     {
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	QStringListIterator it(data);
 	if( data.size() > 0 )
 	{
@@ -293,26 +293,26 @@ void alDialog::setAttr(const QString& name,const QString& value)
 	    wnd_->addAction(key, name, pixmap);
 	}
     }
-    else if( "action-remove" == name )
+    else if( QStringLiteral("action-remove") == name )
     {
 	wnd_->removeAction(value);
     }
-    else if( "actions-clear" == name )
+    else if( QStringLiteral("actions-clear") == name )
     {
 	wnd_->clearActions();
     }
-    else if( "action-default" == name )
+    else if( QStringLiteral("action-default") == name )
     {
 	wnd_->setDefaultAction(value);
     }
-    else if ("width" == name)
+    else if (QStringLiteral("width") == name)
     {
 	bool ok;
 	int wdth = value.toInt(&ok);
 	if( ok && wdth > 0 )
 	    wnd_->setFixedWidth(wdth);
     }
-    else if ("height" == name)
+    else if (QStringLiteral("height") == name)
     {
 	bool ok;
 	int h = value.toInt(&ok);
@@ -328,6 +328,6 @@ QString alDialog::postData() const
     QString ret;
     QString current_action = wnd_->currentAction();
     if(!current_action.isEmpty())
-	ret += QString(" (current-action . %1)").arg(current_action);
+	ret += QString(QStringLiteral(" (current-action . %1)")).arg(current_action);
     return ret;
 }

@@ -25,7 +25,7 @@ void AGroupBox::setMyTitle(const QString& txt)
 
 // alGroupBox
 alGroupBox::alGroupBox(const AlteratorRequestActionAttrs &attr, const QString& id,const QString& parent):
-		alWidgetPre<AGroupBox>(attr,attr.value("type").t,id,parent)
+		alWidgetPre<AGroupBox>(attr,attr.value(QStringLiteral("type")).t,id,parent)
 {
     switch( type() )
     {
@@ -33,8 +33,8 @@ alGroupBox::alGroupBox(const AlteratorRequestActionAttrs &attr, const QString& i
 	case WHGroupBox:
 	case WGroupBox:
 	{
-	    if( attr.contains("checked") )
-		wnd_->setCheckable(attr.value("checked").b);
+	    if( attr.contains(QStringLiteral("checked")) )
+		wnd_->setCheckable(attr.value(QStringLiteral("checked")).b);
 	    break;
 	}
 	default:
@@ -44,17 +44,17 @@ alGroupBox::alGroupBox(const AlteratorRequestActionAttrs &attr, const QString& i
 
 void alGroupBox::setAttr(const QString& name,const QString& value)
 {
-    if ("title" == name)
+    if (QStringLiteral("title") == name)
 	wnd_->setMyTitle(value);
-    else if ("state" == name)
-	wnd_->setChecked("true" ==  value);
+    else if (QStringLiteral("state") == name)
+	wnd_->setChecked(QStringLiteral("true") ==  value);
     else
 	alWidget::setAttr(name,value);
 }
 
 void alGroupBox::registerEvent(const QString& name)
 {
-    if ("toggled" == name)
+    if (QStringLiteral("toggled") == name)
 	connect(wnd_,SIGNAL( toggled(bool) ),SLOT(onToggle(bool)));
 }
 
@@ -62,7 +62,7 @@ void alGroupBox::registerEvent(const QString& name)
 QString alGroupBox::postData() const
 {
     if (wnd_->isCheckable())
-	return QString(" (state . %1 )").arg(wnd_->isChecked()?"#t":"#f");
+	return QString(QStringLiteral(" (state . %1 )")).arg(wnd_->isChecked()? QStringLiteral("#t"): QStringLiteral("#f"));
     else
-	return "";
+	return QString();
 }

@@ -231,7 +231,7 @@ ATimeEdit::ATimeEdit(QWidget *parent, const Qt::Orientation):
 
     time_edit = new QTimeEdit(this);
     //time_edit->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
-    time_edit->setDisplayFormat("hh:mm:ss");
+    time_edit->setDisplayFormat(QStringLiteral("hh:mm:ss"));
     time_edit->setTime(QTime::currentTime());
 
     lay->addStretch(1);
@@ -358,25 +358,25 @@ alTimeEdit::alTimeEdit(const AlteratorRequestActionAttrs &attr, const QString& i
 
 void alTimeEdit::setAttr(const QString& name,const QString& value)
 {
-    if ("text" == name)
+    if (QStringLiteral("text") == name)
         wnd_->setTime(value);
-    else if ("value" == name)
+    else if (QStringLiteral("value") == name)
         wnd_->setTime(value);
-    else if ("start" == name)
+    else if (QStringLiteral("start") == name)
         wnd_->startForce();
-    else if ("stop" == name)
+    else if (QStringLiteral("stop") == name)
         wnd_->stopForce();
-    else if ("reset" == name)
+    else if (QStringLiteral("reset") == name)
         wnd_->reset();
-    else if ("expanded" == name)
-        wnd_->setExpanded("true" == value);
+    else if (QStringLiteral("expanded") == name)
+        wnd_->setExpanded(QStringLiteral("true") == value);
     else
         alWidget::setAttr(name,value);
 }
 
 void alTimeEdit::registerEvent(const QString& name)
 {
-    if( "changed" == name )
+    if( QStringLiteral("changed") == name )
         connect(wnd_,SIGNAL( changed() ),SLOT(onChange()));
 }
 
@@ -384,7 +384,7 @@ void alTimeEdit::registerEvent(const QString& name)
 QString alTimeEdit::postData() const
 {
     QString ret;
-    ret.append(QString(" (text . \"%1\" )").arg(wnd_->time()));
-    ret.append(QString(" (value . \"%1\" )").arg(wnd_->time()));
+    ret.append(QStringLiteral(" (text . \"%1\" )").arg(wnd_->time()));
+    ret.append(QStringLiteral(" (value . \"%1\" )").arg(wnd_->time()));
     return ret;
 }

@@ -3,11 +3,11 @@
 
 void alLabel::setAttr(const QString& name,const QString& value)
 {
-	if ("value" == name || "text" == name)
+	if (QStringLiteral("value") == name || QStringLiteral("text") == name)
 		wnd_->setText(value);
-	else if ("text-wrap" == name)
-		wnd_->setWordWrap(value == "true");
-	else if ("pixmap" == name)
+	else if (QStringLiteral("text-wrap") == name)
+		wnd_->setWordWrap(value == QStringLiteral("true"));
+	else if (QStringLiteral("pixmap") == name)
 		wnd_->setPixmap( getPixmap(value) );
 	else
 		alWidget::setAttr(name,value);

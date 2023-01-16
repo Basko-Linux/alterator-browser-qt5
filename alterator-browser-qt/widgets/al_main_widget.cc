@@ -4,7 +4,7 @@
 AMainWidget::AMainWidget(QWidget *parent, const Qt::Orientation):
     AWidget<QFrame>(parent)
 {
-    setObjectName("main_widget");
+    setObjectName(QStringLiteral("main_widget"));
     setLineWidth(0);
     setFrameStyle(QFrame::Plain | QFrame::NoFrame);
     QVBoxLayout *bl = new QVBoxLayout(this);
@@ -23,17 +23,17 @@ alMainWidget::alMainWidget(const AlteratorRequestActionAttrs &attr, const QStrin
 
 void alMainWidget::setAttr(const QString& name,const QString& value)
 {
-	if ("width" == name)
+	if (QStringLiteral("width") == name)
 	{
 		//wnd_->resize(value.toInt(),wnd_->height());
 	}
-	else if ("height" == name)
+	else if (QStringLiteral("height") == name)
 	{
 		//wnd_->resize(wnd_->width(),value.toInt());
 	}
-        else if ("has-help" == name)
+        else if (QStringLiteral("has-help") == name)
         {
-            g_browser->setHelpAvailable(value != "false");
+            g_browser->setHelpAvailable(value != QStringLiteral("false"));
         }
 	else
 		alWidget::setAttr(name,value);

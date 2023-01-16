@@ -141,32 +141,32 @@ void AListBox::addRow(QStringList& data, RowType row_type)
 	    {
 		case MultiListBox:
 		{
-		    if(pixname == "true")
+		    if(pixname == QStringLiteral("true"))
 			item->setSelected(true);
 		    break;
 		}
 		case CheckListBox:
 		{
-		    if(pixname == "true")
+		    if(pixname == QStringLiteral("true"))
 		    {
-		        pixname = "theme:check-on";
+		        pixname = QStringLiteral("theme:check-on");
 			item->setSelected(true);
 		    }
 		    else
 		    {
 			item->setSelected(false);
-			pixname = "theme:check-off";
+			pixname = QStringLiteral("theme:check-off");
 		    }
 		    break;
 		}
 		case RadioListBox:
 		{
-		    if(pixname == "true")
+		    if(pixname == QStringLiteral("true"))
 		    {
-			pixname = "theme:radio-on";
+			pixname = QStringLiteral("theme:radio-on");
 		    }
 		    else
-			pixname = "theme:radio-off";
+			pixname = QStringLiteral("theme:radio-off");
 		    break;
 		}
 		case ListBox:
@@ -175,7 +175,7 @@ void AListBox::addRow(QStringList& data, RowType row_type)
 		}
 	    }
 	}
-	item->setIcon(col, getPixmap(pixname.isEmpty()? "theme:null": pixname));
+	item->setIcon(col, getPixmap(pixname.isEmpty()? QStringLiteral("theme:null"): pixname));
 	col++;
     }
     if( row_type == Header )
@@ -222,12 +222,12 @@ void AListBox::onSelectionChanged()
 		Q_FOREACH(QTreeWidgetItem *i, selected_items)
 		{
 		    if( !selected_items_old.contains(i) )
-			i->setIcon(0, getPixmap((list_type == CheckListBox)?"theme:check-on":"theme:radio-on"));
+			i->setIcon(0, getPixmap((list_type == CheckListBox)? QStringLiteral("theme:check-on"): QStringLiteral("theme:radio-on")));
 		}
 		Q_FOREACH(QTreeWidgetItem *oi, selected_items_old)
 		{
 		    if( !selected_items.contains(oi) )
-			oi->setIcon(0, getPixmap((list_type == CheckListBox)?"theme:check-off":"theme:radio-off"));
+			oi->setIcon(0, getPixmap((list_type == CheckListBox)? QStringLiteral("theme:check-off"): QStringLiteral("theme:radio-off")));
 		}
 		selected_items_old = selected_items;
 		break;
@@ -252,8 +252,8 @@ alListBox::alListBox(const AlteratorWidgetType awtype, const AlteratorRequestAct
 	alWidgetPre<AListBox>(attr,awtype,id,parent)
 {
     int cols = 1;
-    if( attr.contains("columns") )
-	cols = attr.value("columns").i;
+    if( attr.contains(QStringLiteral("columns")) )
+	cols = attr.value(QStringLiteral("columns")).i;
     if( cols < 1 ) cols = 1;
     wnd_->setColumnCount(cols);
     if( cols > 1 )
@@ -275,17 +275,17 @@ alListBox::alListBox(const AlteratorWidgetType awtype, const AlteratorRequestAct
 
 void alListBox::setAttr(const QString& name,const QString& value)
 {
-	if ("append-row" == name)
+	if (QStringLiteral("append-row") == name)
 	{
-	    QStringList data(value.split(QLatin1String(";"), Qt::KeepEmptyParts));
+	    QStringList data(value.split(QLatin1Char(';'), Qt::KeepEmptyParts));
 	    wnd_->addRow(data);
 	}
-	else if ("rows" == name)
+	else if (QStringLiteral("rows") == name)
 	{
-	    QStringList data(value.split(QLatin1String(";"), Qt::KeepEmptyParts));
+	    QStringList data(value.split(QLatin1Char(';'), Qt::KeepEmptyParts));
 	    wnd_->setRows(data);
 	}
-	else if ("current" == name)
+	else if (QStringLiteral("current") == name)
 	{
 	    wnd_->setNonUserSelectionChange(true);
 		QTreeWidgetItem *i = wnd_->topLevelItem(value.toInt());
@@ -296,11 +296,11 @@ void alListBox::setAttr(const QString& name,const QString& value)
 		wnd_->scrollToItem(i);
 	    wnd_->setNonUserSelectionChange(false);
 	}
-	else if ("current-rows" == name)
+	else if (QStringLiteral("current-rows") == name)
 	{
 	    wnd_->setNonUserSelectionChange(true);
 	    wnd_->clearSelection();
-	    QStringList data = value.split(QLatin1String(";"));
+	    QStringList data = value.split(QLatin1Char(';'));
 	    int n = data.size();
 	    if( n > 0 )
 	    {
@@ -324,10 +324,10 @@ void alListBox::setAttr(const QString& name,const QString& value)
 	    }
 	    wnd_->setNonUserSelectionChange(false);
 	}
-	else if ("state-rows" == name)
+	else if (QStringLiteral("state-rows") == name)
 	{
 	    wnd_->setNonUserSelectionChange(true);
-	    QStringList data = value.split(QLatin1String(";"));
+	    QStringList data = value.split(QLatin1Char(';'));
 	    int n = wnd_->topLevelItemCount();
 	    if( n == data.size() )
 	    {
@@ -336,42 +336,42 @@ void alListBox::setAttr(const QString& name,const QString& value)
 		{
 		    QTreeWidgetItem* item = wnd_->topLevelItem(i);
 		    if( item )
-			item->setSelected((sidx=="true")? true: false);
+			item->setSelected((sidx==QStringLiteral("true"))? true: false);
 		    if(i >= n) break;
 		    i++;
 		}
 	    }
 	    wnd_->setNonUserSelectionChange(false);
 	}
-	else if ("rows-clear" == name)
+	else if (QStringLiteral("rows-clear") == name)
 	{
 		wnd_->clear();
 	}
-	else if ("remove-row" == name)
+	else if (QStringLiteral("remove-row") == name)
 	{
 	    QTreeWidgetItem *i = wnd_->takeTopLevelItem(value.toInt());
 	    if(i) delete i;
 	}
-	else if ("row-item-text" == name)
+	else if (QStringLiteral("row-item-text") == name)
 	{
-		QStringList data = value.split(QLatin1String(";"));
+		QStringList data = value.split(QLatin1Char(';'));
 		int column = data.size()<3? 0: data[2].toInt();
 		wnd_->topLevelItem(data[1].toInt())->setText(column,data[0]);
 	}
-	else if ("row-item-pixmap" == name)
+	else if (QStringLiteral("row-item-pixmap") == name)
 	{
-		QStringList data = value.split(QLatin1String(";"));
+		QStringList data = value.split(QLatin1Char(';'));
 		int column = data.size()<3? 0: data[2].toInt();
 		wnd_->topLevelItem(data[1].toInt())->setIcon(column,QIcon(getPixmap(data[0])));
 	}
-	else if ("header" == name)
+	else if (QStringLiteral("header") == name)
 	{
-		QStringList data_test = value.split(QLatin1String(";"), Qt::SkipEmptyParts);
+		QStringList data_test = value.split(QLatin1Char(';'), Qt::SkipEmptyParts);
 		if( data_test.size() > 0 )
 		    wnd_->header()->show();
 		else
 		    wnd_->header()->hide();
-		QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+		QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 		wnd_->setHeader(data);
 	}
 	else
@@ -380,18 +380,18 @@ void alListBox::setAttr(const QString& name,const QString& value)
 
 void alListBox::registerEvent(const QString& name)
 {
-	if ("selected" == name)
+	if (QStringLiteral("selected") == name)
 		connect(wnd_,SIGNAL(selected()),SLOT(onSelect()));
-	else if ("changed" == name)
+	else if (QStringLiteral("changed") == name)
 		connect(wnd_,SIGNAL(selected()),SLOT(onChange()));
-	else if ("clicked" == name)
+	else if (QStringLiteral("clicked") == name)
 	{
 		connect(wnd_,SIGNAL(itemPressed(QTreeWidgetItem*,int)), SLOT(onClick(QTreeWidgetItem*,int)));
 		connect(wnd_,SIGNAL(spaceBtnPressed()), SLOT(onClick()));
 	}
-	else if ("return-pressed" == name)
+	else if (QStringLiteral("return-pressed") == name)
 		connect( wnd_, SIGNAL(itemActivated(QTreeWidgetItem*,int)), SLOT(onReturn(QTreeWidgetItem*,int)));
-	else if ("double-clicked" == name)
+	else if (QStringLiteral("double-clicked") == name)
 		connect(wnd_,SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), SLOT(onDoubleClick(QTreeWidgetItem*,int)));
 }
 
@@ -407,7 +407,7 @@ QString alListBox::postData() const
 	    QList<QTreeWidgetItem*> selected_items = wnd_->selectedItems();
 	    Q_FOREACH(QTreeWidgetItem* item, selected_items)
 	    {
-		cur_rows.append(QString(" %1").arg(wnd_->indexOfTopLevelItem(item)));
+		cur_rows.append(QString(QStringLiteral(" %1")).arg(wnd_->indexOfTopLevelItem(item)));
 	    }
 	    QString st_rows;
 	    int n = wnd_->topLevelItemCount();
@@ -418,16 +418,16 @@ QString alListBox::postData() const
 		    QTreeWidgetItem* item = wnd_->topLevelItem(i);
 		    if( item )
 		    {
-			st_rows.append(selected_items.contains(item)? " #t": " #f");
+			st_rows.append(selected_items.contains(item)? QStringLiteral(" #t"): QStringLiteral(" #f"));
 		    }
 		}
 	    }
-	    ret.append(" (state-rows . (");
+	    ret.append(QStringLiteral(" (state-rows . ("));
 	    ret.append(st_rows);
-	    ret.append("))");
-	    ret.append(" (current-rows . (");
+	    ret.append(QStringLiteral("))"));
+	    ret.append(QStringLiteral(" (current-rows . ("));
 	    ret.append(cur_rows);
-	    ret.append("))");
+	    ret.append(QStringLiteral("))"));
 	    break;
 	}
 	case AListBox::RadioListBox:
@@ -443,7 +443,7 @@ QString alListBox::postData() const
 		if(cur_i)
 		    cur = wnd_->indexOfTopLevelItem(cur_i);
 	    }
-	    ret.append(QString(" (current . %1 )").arg(cur));
+	    ret.append(QString(QStringLiteral(" (current . %1 )")).arg(cur));
 	}
     }
     return ret;

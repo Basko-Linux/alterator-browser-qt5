@@ -94,17 +94,17 @@ AWizardFaceStepList::AWizardFaceStepList(QWidget *parent):
     logo_icon->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     toplay->addWidget(logo_icon, Qt::AlignHCenter);
 
-    QPixmap pix_unknown = getPixmap("theme:unknown");
-    pix_done = getPixmap("wzface-step-done");
+    QPixmap pix_unknown = getPixmap(QStringLiteral("theme:unknown"));
+    pix_done = getPixmap(QStringLiteral("wzface-step-done"));
     if( pix_done.toImage() == pix_unknown.toImage() )
-	pix_done = getPixmap("theme:check-on");
-    pix_current = getPixmap("wzface-step-current");
+	pix_done = getPixmap(QStringLiteral("theme:check-on"));
+    pix_current = getPixmap(QStringLiteral("wzface-step-current"));
     if( pix_current.toImage() == pix_unknown.toImage() )
-	pix_current = getPixmap("theme:check-off");
-    pix_undone = getPixmap("theme:null");
-    QPixmap logo_icon_pix = getPixmap("logo_width");
+	pix_current = getPixmap(QStringLiteral("theme:check-off"));
+    pix_undone = getPixmap(QStringLiteral("theme:null"));
+    QPixmap logo_icon_pix = getPixmap(QStringLiteral("logo_width"));
     if( logo_icon_pix.toImage() == pix_unknown.toImage() )
-	logo_icon_pix = getPixmap("logo_48");
+	logo_icon_pix = getPixmap(QStringLiteral("logo_48"));
     if( logo_icon_pix.toImage() != pix_unknown.toImage() )
 	logo_icon->setPixmap(logo_icon_pix);
 }
@@ -232,12 +232,12 @@ void AWizardFaceStepList::replace(int n, QPair<QString, QString> item)
 AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     AWidget<AWizardFaceBase>(parent)
 {
-    setObjectName("wizardface");
+    setObjectName(QStringLiteral("wizardface"));
     setLineWidth(0);
     setFrameStyle(QFrame::Plain | QFrame::NoFrame);
 
     current_step = -1;
-    current_action = "__undefined__";
+    current_action = QStringLiteral("__undefined__");
     has_logo_icon_pix = false;
 
     steplist = new AWizardFaceStepList(this);
@@ -253,7 +253,7 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     //title_icon->setAlignment(Qt::AlignCenter);
 
     title_text = new QLabel(title_widget);
-    title_text->setObjectName("wizardface_title_text");
+    title_text->setObjectName(QStringLiteral("wizardface_title_text"));
     title_text->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     title_text->setAlignment(Qt::AlignLeft);
     QFont title_text_font = title_text->font();
@@ -279,7 +279,7 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     scroll->setPalette(scr_palette);
 
     view_widget = new QWidget(scroll->viewport());
-    view_widget->setObjectName("view");
+    view_widget->setObjectName(QStringLiteral("view"));
     QPalette vw_palette = view_widget->palette();
     vw_palette.setBrush(QPalette::Window, QBrush(QColor(0,0,0,0)));
     view_widget->setPalette(vw_palette);
@@ -297,14 +297,14 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     //menu_btn = new QPushButton(tr("Menu"), bottom_widget);
     menu_btn = new QPushButton(bottom_widget);
     menu_btn->setVisible(false);
-    menu_btn->setIcon(QIcon(getPixmap("theme:up")));
+    menu_btn->setIcon(QIcon(getPixmap(QStringLiteral("theme:up"))));
     menu = new QMenu();
     menu_btn->setMenu(menu);
     menu_act_steplist = menu->addAction(tr("Show steps list"));
     connect(menu_act_steplist, SIGNAL(triggered(bool)), this, SLOT(onStepListSwitchVisibility(bool)));
 
-    QPixmap pix_unknown = getPixmap("theme:unknown");
-    QPixmap logo_icon_pix = getPixmap("logo_48");
+    QPixmap pix_unknown = getPixmap(QStringLiteral("theme:unknown"));
+    QPixmap logo_icon_pix = getPixmap(QStringLiteral("logo_48"));
     if( logo_icon_pix.toImage() != pix_unknown.toImage() )
     {
 	logo_icon->setPixmap(logo_icon_pix);
@@ -506,37 +506,37 @@ QPixmap AWizardFace::defaultActionIcon(UserActionType type)
     {
 	case UserActionFinish:
 	    {
-		name = "theme:down";
+		name = QStringLiteral("theme:down");
 		break;
 	    }
 	case UserActionAbort:
 	    {
-		name = "theme:cancel";
+		name = QStringLiteral("theme:cancel");
 		break;
 	    }
 	case UserActionHelp:
 	    {
-		name = "theme:help";
+		name = QStringLiteral("theme:help");
 		break;
 	    }
 	case UserActionApply:
 	    {
-		name = "theme:apply";
+		name = QStringLiteral("theme:apply");
 		break;
 	    }
 	case UserActionCancel:
 	    {
-		name = "theme:cancel";
+		name = QStringLiteral("theme:cancel");
 		break;
 	    }
 	case UserActionForward:
 	    {
-		name = "theme:forward";
+		name = QStringLiteral("theme:forward");
 		break;
 	    }
 	case UserActionBackward:
 	    {
-		name = "theme:backward";
+		name = QStringLiteral("theme:backward");
 		break;
 	    }
 	default:
@@ -650,7 +650,7 @@ void AWizardFace::addActionButton(const QString &key, UserActionType type)
 void AWizardFace::addActionMenu(const QString &key, UserActionType type)
 {
     menu_btn->show();
-    QAction *a = menu->addAction("");
+    QAction *a = menu->addAction(QString());
     a->setIcon(QIcon(defaultActionIcon(type)));
     menus[key] = a;
     action_types[key] = type;
@@ -849,7 +849,7 @@ void AWizardFace::setCurrentStep( int n )
     {
 	QPair<QString, QString> item = steplist->value(n);
         title_icon->setPixmap(getPixmap(item.first));
-	title_text->setText(QString("%1/%2: %3").arg(n+1).arg(steps_n).arg(item.second));
+	title_text->setText(QStringLiteral("%1/%2: %3").arg(n+1).arg(steps_n).arg(item.second));
 	steplist->setCurrent(n);
 	current_step = n;
     }
@@ -1031,12 +1031,12 @@ QLayout* alWizardFace::getViewLayout()
 
 void alWizardFace::registerEvent(const QString& name)
 {
-    if ("clicked" == name)
+    if (QStringLiteral("clicked") == name)
     {
 	connect(wnd_,SIGNAL(actionSelected()), SLOT(onClick()));
 	connect(wnd_,SIGNAL(blockingActionSelected(const AlteratorRequestFlags)), SLOT(onSpecialClick(const AlteratorRequestFlags)));
     }
-    if ("selected" == name)
+    if (QStringLiteral("selected") == name)
 	connect(wnd_,SIGNAL(stepSelected()), SLOT(onSelect()));
 }
 
@@ -1045,23 +1045,23 @@ QString alWizardFace::postData() const
     QString ret;
     QString current_action = wnd_->currentAction();
     if(!current_action.isEmpty())
-	ret += QString(" (current-action . %1)").arg(current_action);
+	ret += QStringLiteral(" (current-action . %1)").arg(current_action);
     int current_step = wnd_->currentStep();
-    ret += QString(" (current-step . %1)").arg(current_step);
+    ret += QStringLiteral(" (current-step . %1)").arg(current_step);
     return ret;
 }
 
 void alWizardFace::setAttr(const QString& name,const QString& value)
 {
-    if( "title" == name )
+    if( QStringLiteral("title") == name )
     {
 	wnd_->setTitle(value);
 	alWidget::setAttr(name,value);
     }
-    else if( "actions" == name )
+    else if( QStringLiteral("actions") == name )
     {
 	wnd_->clearActions();
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	QStringListIterator it(data);
 	Q_FOREVER
 	{
@@ -1081,9 +1081,9 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
 	    wnd_->addAction(key, name, pixmap);
 	}
     }
-    else if( "action-add" == name )
+    else if( QStringLiteral("action-add") == name )
     {
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	QStringListIterator it(data);
 	if( data.size() > 0 )
 	{
@@ -1097,80 +1097,80 @@ void alWizardFace::setAttr(const QString& name,const QString& value)
 	    wnd_->addAction(key, name, pixmap);
 	}
     }
-    else if( "action-remove" == name )
+    else if( QStringLiteral("action-remove") == name )
     {
 	wnd_->removeAction(value);
     }
-    else if( "actions-clear" == name )
+    else if( QStringLiteral("actions-clear") == name )
     {
 	wnd_->clearActions();
     }
-    else if( "action-activity" == name )
+    else if( QStringLiteral("action-activity") == name )
     {
-	QStringList data = value.split(QLatin1String(";"));
+	QStringList data = value.split(QLatin1Char(';'));
 	if( data.size() >= 2 )
 	{
-	    wnd_->setActionActivity(data[0], "true" == data[1]);
+	    wnd_->setActionActivity(data[0], QStringLiteral("true") == data[1]);
 	}
     }
-    else if( "action-text" == name )
+    else if( QStringLiteral("action-text") == name )
     {
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	const int len = data.size();
 	if( len >= 2 )
 	    wnd_->setActionText(data[0], data[1]);
     }
-    else if( "action-pixmap" == name )
+    else if( QStringLiteral("action-pixmap") == name )
     {
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	const int len = data.size();
 	if( len >= 2 )
 	    wnd_->setActionPixmap(data[0], data[1]);
     }
-    else if( "steps" == name )
+    else if( QStringLiteral("steps") == name )
     {
 	wnd_->clearSteps();
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	const int len = data.size();
 	for(int i=0;i+1 < len;i+=2)
 	    wnd_->addStep(data[i], data[i+1]);
     }
-    else if( "step-add" == name )
+    else if( QStringLiteral("step-add") == name )
     {
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	const int len = data.size();
 	if( len >= 2 )
 	    wnd_->addStep(data[0], data[1]);
 	else if( len >= 1 )
-	    wnd_->addStep(data[0], "");
+	    wnd_->addStep(data[0], QString());
     }
-    else if( "step-remove" == name )
+    else if( QStringLiteral("step-remove") == name )
     {
 	wnd_->removeStep(value.toInt());
     }
-    else if( "steps-clear" == name )
+    else if( QStringLiteral("steps-clear") == name )
     {
 	wnd_->clearSteps();
     }
-    else if( "step-text" == name )
+    else if( QStringLiteral("step-text") == name )
     {
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	const int len = data.size();
 	if( len >= 2 )
 	{
 	    wnd_->setStepText(data[0].toInt(), data[1]);
 	}
     }
-    else if( "step-pixmap" == name )
+    else if( QStringLiteral("step-pixmap") == name )
     {
-	QStringList data = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList data = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	const int len = data.size();
 	if( len >= 2 )
 	{
 	    wnd_->setStepPixmap(data[0].toInt(), data[1]);
 	}
     }
-    else if ("current-step" == name)
+    else if (QStringLiteral("current-step") == name)
     {
 	int n = value.toInt();
 	if( n >= 0)

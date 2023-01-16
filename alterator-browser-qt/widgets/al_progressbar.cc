@@ -12,25 +12,25 @@ void alProgressBar::setAttr(const QString& name,const QString& value)
     bool iok;
     int ivalue = value.toInt(&iok);
 
-    if( "value" == name )
+    if( QStringLiteral("value") == name )
     {
 	if(iok)
 	    wnd_->setValue(value.toInt());
     }
-    else if( "maximum" == name )
+    else if( QStringLiteral("maximum") == name )
     {
 	if(iok)
 	    wnd_->setMaximum(value.toInt());
     }
-    else if( "minimum" == name )
+    else if( QStringLiteral("minimum") == name )
     {
 	if(iok)
 	    wnd_->setMinimum(value.toInt());
     }
-    else if( "text" == name )
+    else if( QStringLiteral("text") == name )
     {
 	if( value.isEmpty() )
-	    wnd_->setFormat("%p%");
+	    wnd_->setFormat(QStringLiteral("%p%"));
 	else
 	    wnd_->setFormat(value);
     }

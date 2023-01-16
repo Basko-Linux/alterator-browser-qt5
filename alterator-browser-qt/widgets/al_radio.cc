@@ -20,19 +20,19 @@ void ARadio::onToggle(bool)
 
 void alRadio::setAttr(const QString& name,const QString& value)
 {
-	if ("text" == name)
+	if (QStringLiteral("text") == name)
 		wnd_->setText(value);
-	else if ("state" == name)
-		wnd_->setChecked("true" ==  value);
+	else if (QStringLiteral("state") == name)
+		wnd_->setChecked(QStringLiteral("true") ==  value);
 	else
 		alWidget::setAttr(name,value);
 }
 
 void alRadio::registerEvent(const QString& name)
 {
-    if ("toggled" == name)
+    if (QStringLiteral("toggled") == name)
 	wnd_->setEventRegistered(id_, BrowserEventToggled);
-    else if ("changed" == name)
+    else if (QStringLiteral("changed") == name)
 	wnd_->setEventRegistered(id_, BrowserEventChanged);
 
     if( wnd_->eventRegistered(BrowserEventToggled) || wnd_->eventRegistered(BrowserEventChanged) )
@@ -41,6 +41,6 @@ void alRadio::registerEvent(const QString& name)
 
 QString alRadio::postData() const
 {
-	return QString(" (state . ") + (wnd_->isChecked()?"#t":"#f")+" )";
+	return QString(QStringLiteral(" (state . ")) + (wnd_->isChecked()? QStringLiteral("#t"): QStringLiteral("#f")) + QStringLiteral(" )");
 }
 

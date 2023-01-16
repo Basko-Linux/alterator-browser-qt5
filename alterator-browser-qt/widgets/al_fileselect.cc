@@ -9,7 +9,7 @@ AFileSelect::AFileSelect(QWidget *parent, const Qt::Orientation):
     lay = new QHBoxLayout(this);
     lineedit = new QLineEdit(this);
     btn = new QPushButton(this);
-    btn->setIcon(getPixmap("theme:directory"));
+    btn->setIcon(getPixmap(QStringLiteral("theme:directory")));
     QSizePolicy pol = btn->sizePolicy();
     pol.setHorizontalPolicy(QSizePolicy::Maximum);
     btn->setSizePolicy(pol);
@@ -72,33 +72,33 @@ void AFileSelect::showDialog()
     QFileDialog::ViewMode view_mode = QFileDialog::Detail;
     QFileDialog::FileMode file_mode = QFileDialog::AnyFile;
     QFileDialog::AcceptMode accept_mode = QFileDialog::AcceptOpen;
-    Q_FOREACH(QString option, dlg_opts.split(QLatin1String(";"), Qt::SkipEmptyParts))
+    Q_FOREACH(QString option, dlg_opts.split(QLatin1Char(';'), Qt::SkipEmptyParts))
     {
-	if( option == "show_dirs_only" )
+	if( option == QStringLiteral("show_dirs_only") )
 	    { options = options | QFileDialog::ShowDirsOnly; }
-	else if( option == "dont_resolve_symlinks" )
+	else if( option == QStringLiteral("dont_resolve_symlinks") )
 	    { options = options | QFileDialog::DontResolveSymlinks; }
-	else if( option == "dont_confirm_overwrite" )
+	else if( option == QStringLiteral("dont_confirm_overwrite") )
 	    { options = options | QFileDialog::DontConfirmOverwrite; }
-	else if( option == "read_only" )
+	else if( option == QStringLiteral("read_only") )
 	    { options = options | QFileDialog::ReadOnly; }
-	else if( option == "hide_name_filter_details" )
+	else if( option == QStringLiteral("hide_name_filter_details") )
 	    { options = options | QFileDialog::HideNameFilterDetails; }
-	else if( option == "detail" )
+	else if( option == QStringLiteral("detail") )
 	    { view_mode = QFileDialog::Detail; }
-	else if( option == "list" )
+	else if( option == QStringLiteral("list") )
 	    { view_mode = QFileDialog::List; }
-	else if( option == "any_file" )
+	else if( option == QStringLiteral("any_file") )
 	    { file_mode = QFileDialog::AnyFile; }
-	else if( option == "existing_file" )
+	else if( option == QStringLiteral("existing_file") )
 	    { file_mode = QFileDialog::ExistingFile; }
-	else if( option == "directory" )
+	else if( option == QStringLiteral("directory") )
 	    { file_mode = QFileDialog::Directory; }
-	else if( option == "existing_files" )
+	else if( option == QStringLiteral("existing_files") )
 	    { file_mode = QFileDialog::ExistingFiles; }
-	else if( option == "accept_open" )
+	else if( option == QStringLiteral("accept_open") )
 	    { accept_mode = QFileDialog::AcceptOpen; }
-	else if( option == "accept_save" )
+	else if( option == QStringLiteral("accept_save") )
 	    { accept_mode = QFileDialog::AcceptSave; }
     }
     dialog.setWindowTitle(dlg_title);
@@ -110,7 +110,7 @@ void AFileSelect::showDialog()
     dialog.setAcceptMode(accept_mode);
     if( dialog.exec() == QDialog::Accepted )
     {
-	setSelected(dialog.selectedFiles().join(";"));
+	setSelected(dialog.selectedFiles().join(QLatin1Char(';')));
     }
 }
 
@@ -122,23 +122,23 @@ alFileSelect::alFileSelect(const AlteratorRequestActionAttrs &attr, const QStrin
 
 void alFileSelect::setAttr(const QString& name,const QString& value)
 {
-    if ("url" == name)
+    if (QStringLiteral("url") == name)
     {
 	wnd_->setDir(value);
     }
-    else if ("title" == name)
+    else if (QStringLiteral("title") == name)
     {
 	wnd_->setTitle(value);
     }
-    else if ("filter" == name)
+    else if (QStringLiteral("filter") == name)
     {
 	wnd_->setFilter(value);
     }
-    else if ("hints" == name)
+    else if (QStringLiteral("hints") == name)
     {
 	wnd_->setOptions(value);
     }
-    else if ("value" == name)
+    else if (QStringLiteral("value") == name)
     {
 	wnd_->setSelected(value, false);
     }
@@ -148,15 +148,15 @@ void alFileSelect::setAttr(const QString& name,const QString& value)
 
 void alFileSelect::registerEvent(const QString& name)
 {
-    if ("selected" == name)
+    if ( QStringLiteral("selected") == name )
 	connect(wnd_,SIGNAL( selected() ),SLOT(onSelect()));
-    else if( "changed" == name )
+    else if( QStringLiteral("changed") == name )
 	connect(wnd_, SIGNAL(changed()), this, SLOT(onChange()));
-    else if( "return-pressed" == name )
+    else if( QStringLiteral("return-pressed") == name )
 	connect(wnd_, SIGNAL(editingFinished()), this, SLOT(onReturn()));
 }
 
 QString alFileSelect::postData() const
 {
-    return QString(" (value . \"%1\" )").arg(Utils::simpleQuote(wnd_->selectedFiles()));
+    return QString(QStringLiteral(" (value . \"%1\" )")).arg(Utils::simpleQuote(wnd_->selectedFiles()));
 }

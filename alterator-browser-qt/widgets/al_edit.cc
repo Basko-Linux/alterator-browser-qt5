@@ -11,7 +11,7 @@ AEdit::AEdit(QWidget *parent, const Qt::Orientation):
     AWidget<QWidget>(parent),
     m_pw_show(0)
 {
-    mark = new QLabel("*" ,this);
+    mark = new QLabel(QStringLiteral("*") ,this);
     mark->hide();
     QPalette palet = mark->palette();
     palet.setBrush(QPalette::WindowText, QColor("red"));
@@ -45,13 +45,13 @@ void AEdit::setEchoMode(QLineEdit::EchoMode emode)
 	case QLineEdit::Password:
 	case QLineEdit::PasswordEchoOnEdit:
 	    if( !m_pw_show ){
-		QAction *m_pw_show = edit->addAction(getPixmap("theme:password-show-on"), QLineEdit::TrailingPosition);
+		QAction *m_pw_show = edit->addAction(getPixmap(QStringLiteral("theme:password-show-on")), QLineEdit::TrailingPosition);
 		connect(m_pw_show, &QAction::triggered, this, [m_pw_show,this](bool){
 		    edit->setEchoMode(edit->echoMode() == QLineEdit::Password ? QLineEdit::Normal: QLineEdit::Password);
 		    if( edit->echoMode() == QLineEdit::Password ) {
-			m_pw_show->setIcon(getPixmap("theme:password-show-on"));
+			m_pw_show->setIcon(getPixmap(QStringLiteral("theme:password-show-on")));
 		    } else {
-			m_pw_show->setIcon(getPixmap("theme:password-show-off"));
+			m_pw_show->setIcon(getPixmap(QStringLiteral("theme:password-show-off")));
 		    }
 		});
 	    }
@@ -98,9 +98,9 @@ void AEdit::markRequired(bool req)
 void AEdit::setAutocompleteRows(const QString& strrows)
 {
     QCompleter *completer = 0;
-    if( strrows.split(QLatin1String(";"), Qt::SkipEmptyParts).size() > 0 )
+    if( strrows.split(QLatin1Char(';'), Qt::SkipEmptyParts).size() > 0 )
     {
-	QStringList rows = strrows.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	QStringList rows = strrows.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	completer = new QCompleter(edit);
 	QStringListModel *model = new QStringListModel(rows, completer);
 	completer->setModel(model);
@@ -119,13 +119,13 @@ alEdit::alEdit(const AlteratorRequestActionAttrs &attr, const QString& id,const 
 
 void alEdit::setAttr(const QString& name,const QString& value)
 {
-	if ("text" == name || "value" == name)
+	if (QStringLiteral("text") == name || QStringLiteral("value") == name)
 		wnd_->setText(value);
-	else if ("echo" == name) 
+	else if (QStringLiteral("echo") == name) 
 		wnd_->setEchoMode(Utils::convertEchoMode(value));
-	else if ("alterability" == name)
-		wnd_->setReadOnly("false" == value);
-	else if ("autocompletion-rows" == name)
+	else if (QStringLiteral("alterability") == name)
+		wnd_->setReadOnly(QStringLiteral("false") == value);
+	else if (QStringLiteral("autocompletion-rows") == name)
 		wnd_->setAutocompleteRows(value);
 	else
 		alWidget::setAttr(name,value);
@@ -133,9 +133,9 @@ void alEdit::setAttr(const QString& name,const QString& value)
 
 void alEdit::registerEvent(const QString& name)
 {
-	if( "changed" == name )
+	if( QStringLiteral("changed") == name )
 		connect(wnd_,SIGNAL( textEdited(const QString&) ),SLOT(onChange(const QString&)));
-	else if( "return-pressed" == name )
+	else if( QStringLiteral("return-pressed") == name )
 	    connect(wnd_,SIGNAL(editingFinished()),SLOT(onReturn()));
 }
 
@@ -143,8 +143,8 @@ void alEdit::registerEvent(const QString& name)
 QString alEdit::postData() const
 {
     QString ret;
-    ret += QString(" (text . \"%1\" )").arg(Utils::simpleQuote(wnd_->text()));
-    ret += QString(" (value . \"%1\" )").arg(Utils::simpleQuote(wnd_->text()));
+    ret += QString(QStringLiteral(" (text . \"%1\" )")).arg(Utils::simpleQuote(wnd_->text()));
+    ret += QString(QStringLiteral(" (value . \"%1\" )")).arg(Utils::simpleQuote(wnd_->text()));
     return ret;
 }
 

@@ -15,7 +15,7 @@ alDisplaySize::alDisplaySize(const AlteratorRequestActionAttrs &attr, const QStr
     if( platform_name == QStringLiteral("xcb") ) {
 	Display *dpy = QX11Info::display();
 	int scr = QX11Info::appScreen();
-	info_text = QString("%1%2%3").arg(XDisplayWidthMM(dpy,scr)).arg(QString::fromUtf8("×")).arg(XDisplayHeightMM(dpy,scr));
+	info_text = QString(QStringLiteral("%1%2%3")).arg(XDisplayWidthMM(dpy,scr)).arg(QString::fromUtf8("×")).arg(XDisplayHeightMM(dpy,scr));
     }
 #endif
     wnd_->setText(info_text);

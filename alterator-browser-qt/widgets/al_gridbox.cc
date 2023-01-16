@@ -35,7 +35,7 @@ void AGridBox::setColumns(const QString &columns)
 	qDebug("gridbox: Ignore double layout setup");
 	return;
     }
-    QStringList cols = columns.split(QLatin1String(";"), Qt::SkipEmptyParts);
+    QStringList cols = columns.split(QLatin1Char(';'), Qt::SkipEmptyParts);
     columns_ = cols.size();
     for(int i=0; i < columns_; i++)
     {
@@ -60,7 +60,7 @@ void AGridBox::postAddChild(QWidget* chld, int rowspan, int colspan)
 	if( columns_ <= 0 )
 	{
 	    //qDebug("gridbox: set default 1 column");
-	    setColumns("100");
+	    setColumns(QStringLiteral("100"));
 	}
 
 	// check if occuped
@@ -133,16 +133,16 @@ void AGridBox::setExpanded(bool expand)
 alGridBox::alGridBox(const AlteratorRequestActionAttrs &attr, const QString &id,const QString &parent):
 	alWidgetPre<AGridBox>(attr,WGridBox,id,parent)
 {
-    if( attr.contains("columns") )
-	wnd_->setColumns(attr.value("columns").s);
+    if( attr.contains(QStringLiteral("columns")) )
+	wnd_->setColumns(attr.value(QStringLiteral("columns")).s);
 }
 
 void alGridBox::setAttr(const QString &name,const QString &value)
 {
-    if ("columns" == name)
+    if (QStringLiteral("columns") == name)
 	wnd_->setColumns(value);
-    else if ("expanded" == name)
-	wnd_->setExpanded(value == "#t");
+    else if (QStringLiteral("expanded") == name)
+	wnd_->setExpanded(value == QStringLiteral("#t"));
     else
 	alWidget::setAttr(name,value);
 }
@@ -154,5 +154,5 @@ QLayout* alGridBox::getViewLayout()
 
 void alGridBox::postAddChild(QWidget *chld, AlteratorWidgetType, const AlteratorRequestActionAttrs& attr)
 {
-    wnd_->postAddChild(chld, attr.value("rowspan").i, attr.value("colspan").i);
+    wnd_->postAddChild(chld, attr.value(QStringLiteral("rowspan")).i, attr.value(QStringLiteral("colspan")).i);
 }

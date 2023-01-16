@@ -23,7 +23,7 @@ alTree::alTree(const AlteratorRequestActionAttrs &attr, const QString& id,const 
     wnd_->setItemsExpandable(true);
     wnd_->setSelectionBehavior(QAbstractItemView::SelectRows);
     int col_count = 1;
-    if( attr.contains("columns") ) col_count = attr.value("columns").i;
+    if( attr.contains(QStringLiteral("columns")) ) col_count = attr.value(QStringLiteral("columns")).i;
     if( col_count <1 ) col_count = 1;
     if( col_count > 1 )
 	wnd_->setAlternatingRowColors(true);
@@ -38,33 +38,33 @@ alTree::alTree(const AlteratorRequestActionAttrs &attr, const QString& id,const 
 
 void alTree::setAttr(const QString& name,const QString& value)
 {
-	if ("tree-items" == name)
+	if (QStringLiteral("tree-items") == name)
 	{
                 wnd_->clear();//clear all previous content
 		items_ = value;
 		if (!coords_.isEmpty())
 		{
 		    setItems();
-		    coordmap_ = coords_.split(QLatin1String(";"));//move to internal storage
-		    items_ = coords_ = "";
+		    coordmap_ = coords_.split(QLatin1Char(';'));//move to internal storage
+		    items_ = coords_ = QString();
 		}
 	}
-	else if ("coordinates" == name)
+	else if (QStringLiteral("coordinates") == name)
 	{
 		coords_ = value;
 		if (!items_.isEmpty())
 		{
 		    setItems();
-		    coordmap_ = coords_.split(QLatin1String(";"));//move to internal storage
-		    items_ = coords_ = "";
+		    coordmap_ = coords_.split(QLatin1Char(';'));//move to internal storage
+		    items_ = coords_ = QString();
 		}
 		expandOrCollapseAllTree();
 		adjustAllColumnsWidth();
 	}
-	else if ("current" == name)
+	else if (QStringLiteral("current") == name)
 	{
 		QTreeWidgetItem *item = 0;
-		QStringList coords = value.split(QLatin1String(";"));
+		QStringList coords = value.split(QLatin1Char(';'));
 		bool ok = false;
 		int pos = coords[0].toInt(&ok);
 		if( pos >= 0 && ok) 
@@ -87,17 +87,17 @@ void alTree::setAttr(const QString& name,const QString& value)
 		    wnd_->setCurrentItem(0);
 		}
 	}
-	else if ("header" == name) 
+	else if (QStringLiteral("header") == name) 
 	{
 	    if( value.isEmpty() )
 		wnd_->header()->hide(); 
 	    else
 		wnd_->header()->show(); 
-	    wnd_->setHeaderLabels(value.split(QLatin1String(";")));
+	    wnd_->setHeaderLabels(value.split(QLatin1Char(';')));
 	}
-	else if ("expanded" == name) 
+	else if (QStringLiteral("expanded") == name) 
 	{
-	    expanded_ = value == "true";
+	    expanded_ = value == QStringLiteral("true");
 	    expandOrCollapseAllTree();
 	} 
 	else
@@ -106,7 +106,7 @@ void alTree::setAttr(const QString& name,const QString& value)
 
 void alTree::registerEvent(const QString& name)
 {
-	if ("selected" == name)
+	if (QStringLiteral("selected") == name)
 		connect(wnd_,SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
 			     SLOT(onSelect(QTreeWidgetItem*,QTreeWidgetItem*)));
 }
@@ -118,10 +118,10 @@ QString alTree::postData() const
     {
 	const int columns = wnd_->columnCount();
 	QString data = coordmap_[i->type()/(2*columns)];
-        data.replace(","," ");
-	return QString("(current .(%1))").arg(data);
+        data.replace(QLatin1Char(','), QLatin1Char(' '));
+	return QStringLiteral("(current .(%1))").arg(data);
     }
-    return "";
+    return QString();
 }
 
 QTreeWidgetItem *alTree::findPosition(QTreeWidgetItem *parent,QStringList coords,int deep)
@@ -136,13 +136,13 @@ QTreeWidgetItem *alTree::findPosition(QTreeWidgetItem *parent,QStringList coords
 
 void alTree::setItems()
 {
-	QStringList itemlist = items_.split(QLatin1String(";"));
-	QStringList coordlist = coords_.split(QLatin1String(";"));
+	QStringList itemlist = items_.split(QLatin1Char(';'));
+	QStringList coordlist = coords_.split(QLatin1Char(';'));
 	const int len = itemlist.size();
 	const int columns = wnd_->columnCount();
 	for (int i=0;i+1<len;)
 	{
-		QStringList coords = coordlist[i/(2*columns)].split(",");
+		QStringList coords = coordlist[i/(2*columns)].split(QLatin1Char(','));
 		const int len = coords.size();
 		
 		QTreeWidgetItem *item;

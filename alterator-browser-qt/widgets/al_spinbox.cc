@@ -154,29 +154,29 @@ void alSpinBox::setAttr(const QString& name,const QString &value)
 	bool ok;
 	int ivalue = value.toInt(&ok);
 
-	if( "minimum" == name )
+	if( QStringLiteral("minimum") == name )
 	{
 	    if(ok)
 		wnd_->setMinimum(ivalue);
 	}
-	else if( "maximum" == name )
+	else if( QStringLiteral("maximum") == name )
 	{
 	    if(ok)
 		wnd_->setMaximum( ivalue );
 	}
-	else if( "step" == name )
+	else if( QStringLiteral("step") == name )
 	{
 	    if(ok)
 		wnd_->setStep( ivalue );
 	}
-	else if( "value" == name )
+	else if( QStringLiteral("value") == name )
 	{
 	    if(ok)
 		wnd_->setValue(ivalue);
 	}
-	else if( "expanded" == name )
+	else if( QStringLiteral("expanded") == name )
 	{
-	    wnd_->setSliderVisibility(value != "false");
+	    wnd_->setSliderVisibility(value != QStringLiteral("false"));
 	}
 	else
 	    alWidget::setAttr(name,value);
@@ -184,11 +184,11 @@ void alSpinBox::setAttr(const QString& name,const QString &value)
 
 void alSpinBox::registerEvent(const QString& name)
 {
-	if ("changed" == name)
+	if (QStringLiteral("changed") == name)
 		connect(wnd_, SIGNAL(editingFinished()), SLOT(onChange()));
 }
 
 QString alSpinBox::postData() const
 {
-    return QString(" (value . %1 )").arg(wnd_->value());
+    return QString(QStringLiteral(" (value . %1 )")).arg(wnd_->value());
 }

@@ -9,7 +9,7 @@
 ATextBox::ATextBox(QWidget *parent, const Qt::Orientation):
     AWidget<QWidget>(parent)
 {
-    mark = new QLabel("*" ,this);
+    mark = new QLabel(QStringLiteral("*") ,this);
     mark->hide();
     QPalette palet = mark->palette();
     palet.setBrush(QPalette::WindowText, QColor("red"));
@@ -38,7 +38,7 @@ ATextBox::~ATextBox() {}
 
 void ATextBox::execLink(const QUrl &url)
 {
-    if( url.scheme() == "http" || url.scheme() == "https" || url.scheme() == "ftp" || url.scheme() == "mailto" )
+    if( url.scheme() == QStringLiteral("http") || url.scheme() == QStringLiteral("https") || url.scheme() == QStringLiteral("ftp") || url.scheme() == QStringLiteral("mailto") )
     {
 	Utils::openUrl(url);
     }
@@ -111,25 +111,25 @@ alTextBox::alTextBox(const AlteratorRequestActionAttrs &attr, const QString& id,
 
 void alTextBox::setAttr(const QString& name,const QString& value)
 {
-	if ("url" == name)
+	if (QStringLiteral("url") == name)
 		wnd_->setUrl(value);
-	else if ("text" == name)
+	else if (QStringLiteral("text") == name)
 		wnd_->setText(value);
-	else if ("value" == name)
+	else if (QStringLiteral("value") == name)
 		wnd_->setText(value);
-	else if ("text-append" == name)
+	else if (QStringLiteral("text-append") == name)
 		wnd_->append(value);
-	else if ("append-text" == name)
+	else if (QStringLiteral("append-text") == name)
 		wnd_->append(value);
-	else if ("alterability" == name)
-		wnd_->setReadOnly("false" == value);
+	else if (QStringLiteral("alterability") == name)
+		wnd_->setReadOnly(QStringLiteral("false") == value);
 	else
 		alWidget::setAttr(name,value);
 }
 
 void alTextBox::registerEvent(const QString& name)
 {
-	if ("changed" == name)
+	if (QStringLiteral("changed") == name)
 		connect(wnd_,SIGNAL( textChanged(const QString&) ),SLOT(onChange(const QString&)));
 }
 
@@ -138,10 +138,10 @@ QString alTextBox::postData() const
     QString ret;
     if( ! wnd_->isReadOnly() )
     {
-	ret.append(QString(" (text . \"%1\" )").arg(Utils::simpleQuote(wnd_->text())));
-	ret.append(QString(" (value . \"%1\" )").arg(Utils::simpleQuote(wnd_->text())));
+	ret.append(QStringLiteral(" (text . \"%1\" )").arg(Utils::simpleQuote(wnd_->text())));
+	ret.append(QStringLiteral(" (value . \"%1\" )").arg(Utils::simpleQuote(wnd_->text())));
     }
-    ret.append(QString(" (url . \"%1\" )").arg(wnd_->url()));
+    ret.append(QStringLiteral(" (url . \"%1\" )").arg(wnd_->url()));
     return ret;
 }
 
