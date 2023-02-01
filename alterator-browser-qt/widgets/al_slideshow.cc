@@ -87,7 +87,7 @@ void ASlideShow::applyPixmap()
 	    if( movie() )
 		delete movie();
 
-		    if( imgfile.endsWith(QStringLiteral(".jpg")) || imgfile.endsWith(QStringLiteral(".png")) )
+		    if( imgfile.endsWith(QStringLiteral(".svg")) || imgfile.endsWith(QStringLiteral(".jpg")) || imgfile.endsWith(QStringLiteral(".png")) )
 		    {
 			QPixmap pix(imgfile);
 			if( !pix.isNull() )
@@ -125,7 +125,7 @@ void ASlideShow::setSource(const QString &new_src_dir)
     if( imgdir.exists() )
     {
 	QStringList name_filters;
-	name_filters << QStringLiteral("*.jpg") << QStringLiteral("*.png") << QStringLiteral("*.gif") << QStringLiteral("*.mng");
+	name_filters << QStringLiteral("*.svg") << QStringLiteral("*.jpg") << QStringLiteral("*.png") << QStringLiteral("*.gif") << QStringLiteral("*.mng");
 	images_ = imgdir.entryList(name_filters, QDir::Files|QDir::NoDotAndDotDot|QDir::Readable, QDir::Name);
 	if( current_img_ )
 	{
