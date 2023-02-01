@@ -44,7 +44,7 @@ HelpWidget::HelpWidget(QWidget *parent):
     menu_bar->addAction(tr("Font%1").arg(QStringLiteral("-")), this, SLOT(fontMinus()));
     menu_bar->addMenu(menu_help);
     menu_session->addAction(QApplication::style()->standardIcon(QStyle::SP_DialogCancelButton), tr("Quit"), g_browser, SLOT(quitAppAsk()));
-    menu_help->addAction(getPixmap(QLatin1String("logo_16")), tr("About"), g_browser, SLOT(about()));
+    menu_help->addAction(getPixmap(QStringLiteral("logo_16")), tr("About"), g_browser, SLOT(about()));
     menu_help->addAction(QApplication::style()->standardIcon(QStyle::SP_TitleBarMenuButton), tr("About Qt"), QApplication::instance(), SLOT(aboutQt()));
     gridLayout->setMenuBar(menu_bar);
 

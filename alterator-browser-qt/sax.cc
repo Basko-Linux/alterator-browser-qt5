@@ -38,7 +38,7 @@ public:
 	    at_end = in.atEnd();
 	    if( !at_end )
 	    {
-		buf.append(QLatin1String("\n"));
+		buf.append(QLatin1Char('\n'));
 		buf_len++;
 	    }
 	}

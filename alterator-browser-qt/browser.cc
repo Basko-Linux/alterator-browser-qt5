@@ -284,7 +284,7 @@ void Browser::closeEvent(QCloseEvent *e)
 
 void Browser::about()
 {
-    MessageBox *msgbox = new MessageBox(QStringLiteral("information"), tr("About"), tr("Alterator Browser %1").arg(QLatin1String(PROGRAM_VERSION)), QDialogButtonBox::Ok, this);
+    MessageBox *msgbox = new MessageBox(QStringLiteral("information"), tr("About"), tr("Alterator Browser %1").arg(QStringLiteral(PROGRAM_VERSION)), QDialogButtonBox::Ok, this);
     msgbox->exec();
     popupRemove(msgbox);
 }
@@ -385,15 +385,15 @@ void Browser::changeLanguage(const QString& language)
 	&& !(locale.contains(QLatin1Char('.')) || locale.contains(QLatin1Char('@'))) )
     {
 	// && (locale != "C" && locale != "POSIX")
-	locale += QLatin1String(".UTF-8");
+	locale += QStringLiteral(".UTF-8");
     }
 
     ::setenv("LC_ALL", locale.toLatin1(), true);
     ::setlocale(LC_ALL, locale.toLatin1());
     QLocale::setDefault( QLocale(locale) );
 
-    reloadTranslator(&m_qt_translator, QLatin1String("qtbase"), language);
-    reloadTranslator(&m_app_translator, QLatin1String("alterator_browser_qt"), language);
+    reloadTranslator(&m_qt_translator, QStringLiteral("qtbase"), language);
+    reloadTranslator(&m_app_translator, QStringLiteral("alterator_browser_qt"), language);
 
     Q_EMIT languageChanged();
 }
@@ -785,7 +785,7 @@ void Browser::onFileSelectRequest(const QString& title, const QString& dir, cons
     QFileDialog::ViewMode view_mode = QFileDialog::Detail;
     QFileDialog::FileMode file_mode = QFileDialog::AnyFile;
     QFileDialog::AcceptMode accept_mode = QFileDialog::AcceptOpen;
-    Q_FOREACH(QString option, type.split(QLatin1String(";"), Qt::SkipEmptyParts))
+    Q_FOREACH(QString option, type.split(QLatin1Char(';'), Qt::SkipEmptyParts))
     {
 	if( option == QStringLiteral("show_dirs_only") )
 	    { options = options | QFileDialog::ShowDirsOnly; }
@@ -1150,7 +1150,7 @@ void Browser::takeScreenShot(QWidget *wnd2) {
 	    }
 	    QString tmp_path(qEnvironmentVariable("TMPDIR", QStringLiteral("/tmp")));
 	    QString scrpath(QLatin1String("%1/alterator-screenshot-%2-%3.png").arg(tmp_path).arg(QDateTime::currentDateTime().toString(QStringLiteral("yyyy.MM.dd-HH.mm"))).arg(Utils::getRandomString(4)));
-	    QLatin1String msg_type;
+	    QString msg_type;
 	    QString msg_text;
 	    QDialogButtonBox::StandardButtons msg_buttons = QDialogButtonBox::NoButton;
 	    if( is_first_screenshot ) {
@@ -1161,11 +1161,11 @@ void Browser::takeScreenShot(QWidget *wnd2) {
 		msg_buttons = QDialogButtonBox::NoButton;
 	    }
 	    if( pix.save(scrpath, nullptr) ) {
-		msg_type= QLatin1String("information");
+		msg_type = QLatin1String("information");
 		m_first_screenshot = false;
 		qWarning("Save screenshot to %s.", qPrintable(scrpath));
 	    } else {
-		msg_type= QLatin1String("critical");
+		msg_type = QLatin1String("critical");
 	    }
 	    MessageBox *msgbox = new MessageBox(msg_type, tr("Screenshot"), msg_text, msg_buttons, this);
 	    if( is_first_screenshot ) {

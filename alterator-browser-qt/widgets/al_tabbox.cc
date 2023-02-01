@@ -14,7 +14,7 @@ void alTabBox::setAttr(const QString& name,const QString& value)
 	}
 	else if (QStringLiteral("text") == name)
 	{
-	    QStringList values = value.split(QLatin1String(";"), Qt::KeepEmptyParts);
+	    QStringList values = value.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 	    if( values.size() >= 2 )
 	    {
 		int n = values[0].toInt();

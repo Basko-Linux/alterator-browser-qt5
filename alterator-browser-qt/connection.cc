@@ -119,14 +119,14 @@ QString Connection::createLangList()
 {
     QString lang = QLatin1String(guess_locale_value());
     if( lang.isEmpty() )
-	lang = QLatin1String("POSIX");
+	lang = QStringLiteral("POSIX");
     QStringList lst = lang.split(QLatin1Char(':'), Qt::SkipEmptyParts);
     QStringList lst2;
     QStringListIterator it(lst);
     while(it.hasNext())
     {
 	QString item = it.next();
-	lst2.append(item.replace(QRegularExpression(QLatin1String("\\..*")),QString()));
+	lst2.append(item.replace(QRegularExpression(QStringLiteral("\\..*")),QString()));
     }
     return lst2.join(QLatin1Char(';'));
 }
@@ -147,8 +147,8 @@ void Connection::run()
 	    alRequest dom = readRequest();
 	    if( ask.flags & AlteratorRequestInit )
 	    {
-		sessionId = dom.attrs_.value(QLatin1String("session-id"));
-		userId = dom.attrs_.value(QLatin1String("user"));
+		sessionId = dom.attrs_.value(QStringLiteral("session-id"));
+		userId = dom.attrs_.value(QStringLiteral("user"));
 		//qDebug("session-id=%s", qPrintable(sessionId);
 	    }
 	    parseAnswer(dom, ask.flags);
@@ -226,7 +226,7 @@ AlteratorRequestParamData Connection::makeRequestParamData(AlteratorRequestParam
 	}
 	case AltReqParamDataBool:
 	{
-	    data.b = str == QLatin1String("true"); break;
+	    data.b = str == QStringLiteral("true"); break;
 	}
 	case AltReqParamDataInt:
 	{
@@ -258,7 +258,7 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 {
 	QXmlAttributes e = cmd->attrs_;
 	AlteratorRequestAction act;
-	act.action = g_enums->strToRequestAction(e.value(QLatin1String("action")).toLatin1());
+	act.action = g_enums->strToRequestAction(e.value(QStringLiteral("action")).toLatin1());
 
 	switch( act.action )
 	{
@@ -267,94 +267,94 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 		int ecount = e.count();
 		for(int i=0; i < ecount; i++)
 		{
-		    if( e.type(i) == QLatin1String("CDATA") )
+		    if( e.type(i) == QStringLiteral("CDATA") )
 		    {
 			QString name= e.qName(i);
-			     if( QLatin1String("type") == name )
+			     if( QStringLiteral("type") == name )
 			    act.attr.insert(name, makeRequestParamData(AltReqParamDataType, e.value(i)));
-			else if( QLatin1String("width") == name )
+			else if( QStringLiteral("width") == name )
 			    act.attr.insert(name, makeRequestParamData(AltReqParamDataInt, e.value(i)));
-			else if( QLatin1String("height") == name )
+			else if( QStringLiteral("height") == name )
 			    act.attr.insert(name, makeRequestParamData(AltReqParamDataInt, e.value(i)));
-			else if( QLatin1String("rowspan") == name )
+			else if( QStringLiteral("rowspan") == name )
 			    act.attr.insert(name, makeRequestParamData(AltReqParamDataInt, e.value(i)));
-			else if( QLatin1String("colspan") == name )
+			else if( QStringLiteral("colspan") == name )
 			    act.attr.insert(name, makeRequestParamData(AltReqParamDataInt, e.value(i)));
-			else if( QLatin1String("tab-index") == name )
+			else if( QStringLiteral("tab-index") == name )
 			    act.attr.insert(name, makeRequestParamData(AltReqParamDataInt, e.value(i)));
-			else if( QLatin1String("columns") == name )
+			else if( QStringLiteral("columns") == name )
 			    act.attr.insert(name, makeRequestParamData(AltReqParamDataInt, e.value(i)));
-			else if( QLatin1String("checked") == name )
+			else if( QStringLiteral("checked") == name )
 			    act.attr.insert(name, makeRequestParamData(AltReqParamDataBool, e.value(i)));
-			else if( QLatin1String("orientation") == name )
+			else if( QStringLiteral("orientation") == name )
 			    act.attr.insert(name, makeRequestParamData(AltReqParamDataOrientation, e.value(i)));
 			else
 			    act.attr.insert(name, makeRequestParamData(AltReqParamDataString, e.value(i)));
 		    }
 		}
-		act.attr.remove(QLatin1String("action"));
-		act.attr.remove(QLatin1String("xml:space"));
-		if( !act.attr.contains(QLatin1String("orientation")) )
-		    act.attr.insert(QLatin1String("orientation"), makeRequestParamData(AltReqParamDataOrientation, QLatin1String("__undefined__")));
+		act.attr.remove(QStringLiteral("action"));
+		act.attr.remove(QStringLiteral("xml:space"));
+		if( !act.attr.contains(QStringLiteral("orientation")) )
+		    act.attr.insert(QStringLiteral("orientation"), makeRequestParamData(AltReqParamDataOrientation, QStringLiteral("__undefined__")));
 		break;
 	    }
 	    case AlteratorRequestClose:
 	    {
-		setRequestActionParamData(e, QLatin1String("widget-id"), act, QLatin1String("widget-id"), AltReqParamDataString);
+		setRequestActionParamData(e, QStringLiteral("widget-id"), act, QStringLiteral("widget-id"), AltReqParamDataString);
 		break;
 	    }
 	    case AlteratorRequestClean:
 	    {
-		setRequestActionParamData(e, QLatin1String("widget-id"), act, QLatin1String("widget-id"), AltReqParamDataString);
+		setRequestActionParamData(e, QStringLiteral("widget-id"), act, QStringLiteral("widget-id"), AltReqParamDataString);
 		break;
 	    }
 	    case AlteratorRequestSet:
 	    {
-		if( setRequestActionParamData(e, QLatin1String("widget-id"), act, QLatin1String("widget-id"), AltReqParamDataString)
-		    && setRequestActionParamData(e, QLatin1String("name"), act, QLatin1String("attr-name"), AltReqParamDataString) )
-			setRequestActionParamString(cmd->value_, act, QLatin1String("attr-value"));
+		if( setRequestActionParamData(e, QStringLiteral("widget-id"), act, QStringLiteral("widget-id"), AltReqParamDataString)
+		    && setRequestActionParamData(e, QStringLiteral("name"), act, QStringLiteral("attr-name"), AltReqParamDataString) )
+			setRequestActionParamString(cmd->value_, act, QStringLiteral("attr-value"));
 		break;
 	    }
 	    case AlteratorRequestEvent:
 	    {
-		if( setRequestActionParamData(e, QLatin1String("widget-id"), act, QLatin1String("widget-id"), AltReqParamDataString) )
-		    setRequestActionParamString(cmd->value_, act, QLatin1String("event-value"));
+		if( setRequestActionParamData(e, QStringLiteral("widget-id"), act, QStringLiteral("widget-id"), AltReqParamDataString) )
+		    setRequestActionParamString(cmd->value_, act, QStringLiteral("event-value"));
 		break;
 	    }
 	    case AlteratorRequestSplash:
 	    {
-		setRequestActionParamString(cmd->value_, act, QLatin1String("splash-message"));
+		setRequestActionParamString(cmd->value_, act, QStringLiteral("splash-message"));
 		break;
 	    }
 	    case AlteratorRequestStart:
 	    {
-		setRequestActionParamData(e, QLatin1String("widget-id"), act, QLatin1String("widget-id"), AltReqParamDataString);
+		setRequestActionParamData(e, QStringLiteral("widget-id"), act, QStringLiteral("widget-id"), AltReqParamDataString);
 		break;
 	    }
 	    case AlteratorRequestStop:
 	    {
-		setRequestActionParamData(e, QLatin1String("widget-id"), act, QLatin1String("widget-id"), AltReqParamDataString);
+		setRequestActionParamData(e, QStringLiteral("widget-id"), act, QStringLiteral("widget-id"), AltReqParamDataString);
 		break;
 	    }
 	    case AlteratorRequestMessage:
 	    {
-		if( setRequestActionParamData(e, QLatin1String("message"), act, QLatin1String("message"), AltReqParamDataString)
-		    && setRequestActionParamData(e, QLatin1String("buttons"), act, QLatin1String("buttons"), AltReqParamDataButtons)
-		    && setRequestActionParamData(e, QLatin1String("type"), act, QLatin1String("message-type"), AltReqParamDataString) )
-			setRequestActionParamData(e, QLatin1String("title"), act, QLatin1String("message-title"), AltReqParamDataString);
+		if( setRequestActionParamData(e, QStringLiteral("message"), act, QStringLiteral("message"), AltReqParamDataString)
+		    && setRequestActionParamData(e, QStringLiteral("buttons"), act, QStringLiteral("buttons"), AltReqParamDataButtons)
+		    && setRequestActionParamData(e, QStringLiteral("type"), act, QStringLiteral("message-type"), AltReqParamDataString) )
+			setRequestActionParamData(e, QStringLiteral("title"), act, QStringLiteral("message-title"), AltReqParamDataString);
 		break;
 	    }
 	    case AlteratorRequestFile:
 	    {
-		setRequestActionParamData(e, QLatin1String("title"), act, QLatin1String("file-title"), AltReqParamDataString);
-		setRequestActionParamData(e, QLatin1String("dir"), act, QLatin1String("file-dir"), AltReqParamDataString);
-		setRequestActionParamData(e, QLatin1String("mask"), act, QLatin1String("file-mask"), AltReqParamDataString);
-		setRequestActionParamData(e, QLatin1String("type"), act, QLatin1String("file-type"), AltReqParamDataString);
+		setRequestActionParamData(e, QStringLiteral("title"), act, QStringLiteral("file-title"), AltReqParamDataString);
+		setRequestActionParamData(e, QStringLiteral("dir"), act, QStringLiteral("file-dir"), AltReqParamDataString);
+		setRequestActionParamData(e, QStringLiteral("mask"), act, QStringLiteral("file-mask"), AltReqParamDataString);
+		setRequestActionParamData(e, QStringLiteral("type"), act, QStringLiteral("file-type"), AltReqParamDataString);
 		break;
 	    }
 	    case AlteratorRequestLanguage:
 	    {
-		setRequestActionParamString(cmd->value_, act, QLatin1String("language"));
+		setRequestActionParamString(cmd->value_, act, QStringLiteral("language"));
 		break;
 	    }
 	    case AlteratorRequestRetry:
@@ -363,7 +363,7 @@ AlteratorRequestAction Connection::getDocParser(alCommand *cmd)
 	    }
 	    case AlteratorRequestUnknown:
 	    {
-		qDebug("Unknown alterator request action \"%s\".", qPrintable(e.value(QLatin1String("action"))));
+		qDebug("Unknown alterator request action \"%s\".", qPrintable(e.value(QStringLiteral("action"))));
 		break;
 	    }
 /*

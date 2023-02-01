@@ -96,7 +96,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 	}
 	else if (QStringLiteral("tooltip") == name)
 	{
-	    QStringList args = value.split(QLatin1String(";"));
+	    QStringList args = value.split(QLatin1Char(';'));
 	    QString tip = args[0];
 	    QString sep = QStringLiteral(".<br>");
 	    int sep_len = sep.size();
