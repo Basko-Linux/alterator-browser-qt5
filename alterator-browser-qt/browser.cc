@@ -1125,7 +1125,7 @@ QString Browser::shortLang()
 {
     if( m_shortlang.isEmpty() )
     {
-	m_shortlang = QLocale::system().name().remove(QRegExp(QStringLiteral("_.*")));
+	m_shortlang = QLocale::system().name().remove(QRegularExpression(QStringLiteral("_.*")));
     }
 
     return m_shortlang;

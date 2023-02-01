@@ -105,7 +105,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		int pos = 0;
 		do
 		{
-		    pos = tip.indexOf(QRegExp(QStringLiteral("\\.\\s")), pos+1);
+		    pos = tip.indexOf(QRegularExpression(QStringLiteral("\\.\\s")), pos+1);
 		    if( pos >= 0 )
 		    {
 			tip.replace(pos, 2, sep);

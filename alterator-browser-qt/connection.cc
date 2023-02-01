@@ -126,7 +126,7 @@ QString Connection::createLangList()
     while(it.hasNext())
     {
 	QString item = it.next();
-	lst2.append(item.replace(QRegExp(QLatin1String("\\..*")),QString()));
+	lst2.append(item.replace(QRegularExpression(QLatin1String("\\..*")),QString()));
     }
     return lst2.join(QLatin1Char(';'));
 }
