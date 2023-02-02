@@ -393,11 +393,13 @@ void alWidget::postAddChild(QWidget* chld, AlteratorWidgetType type, const Alter
 		QBoxLayout *bl = qobject_cast<QBoxLayout*>(l);
 		if( bl )
 		{
+#if 0 // was not nedded
 		    Qt::Orientation orientation = Qt::Horizontal;
 		    if( bl->direction() == QBoxLayout::TopToBottom || bl->direction() == QBoxLayout::BottomToTop )
 		    {
 			orientation = Qt::Vertical;
 		    }
+#endif
 		    chld->setSizePolicy(adjustSizePolicy( type, chld->sizePolicy(), attr.value(QStringLiteral("orientation")).o));
 		    if( childrenAlignment() != Qt::AlignJustify )
 			bl->addWidget(chld, 0, childrenAlignment());
