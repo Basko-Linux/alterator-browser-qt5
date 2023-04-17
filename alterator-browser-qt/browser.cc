@@ -990,9 +990,8 @@ void Browser::loadStyleSheet()
 	    QApplication::setPalette(pal);
 
 	// set font
-        QFont font_init(QGuiApplication::font());
-        QFont font_new(font_init);
-        font_new.setPointSize(font_init.pointSize()+2);
+        QFont font_def(QGuiApplication::font());
+        font_def.setPointSize(font_def.pointSize()+2); // increase default value
 	key = QStringLiteral("font");
 	if( !keys.contains(key) ) {
 	    key = QStringLiteral("Font");
@@ -1000,16 +999,14 @@ void Browser::loadStyleSheet()
 	if( keys.contains(key) ) {
 	    QString str = settings.value(key).toString();
 	    if (!str.isEmpty()) {
-		font_new.fromString(str);
+		font_def.fromString(str);
 	    }
 	}
-	if(font_new != font_init) {
-	    QGuiApplication::setFont(font_new);
-	    qApp->setStyleSheet(qApp->styleSheet());
-	}
+	QGuiApplication::setFont(font_def);
     }
 
     // set style
+    QString new_style;
     QFile file(QStringLiteral(":/design/design.qss"));
     if( file.exists() )
     {
@@ -1021,7 +1018,7 @@ void Browser::loadStyleSheet()
 		qDebug("Too small file: \"%s\"", qPrintable(file.fileName()));
 		return;
 	    }
-	    qApp->setStyleSheet(styleContent);
+	    new_style = styleContent;
 	}
 	else
 	{
@@ -1029,6 +1026,7 @@ void Browser::loadStyleSheet()
 	    return;
 	}
     }
+    qApp->setStyleSheet(new_style);
 }
 
 void Browser::collectTabIndex(QList<QString>& parents, QMap<QString, QMap<int,QWidget*> >& order, alWidget *wdg, int tab_index)
