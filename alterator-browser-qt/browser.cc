@@ -57,7 +57,7 @@ Browser::Browser():
     BrowserBase(0)
 {
     qRegisterMetaType<Qt::Orientation>("Qt::Orientation");
-    loadStyleSheet();
+    loadBranding();
 
     internal_splash = false;
     alterator_splash = false;
@@ -901,10 +901,13 @@ void Browser::doRetry()
     connection->getDocument(QStringLiteral("(alterator-request action \"re-get\")"));
 }
 
-void Browser::loadStyleSheet()
+void Browser::loadBranding()
 {
     QResource::unregisterResource(QStringLiteral("/etc/alterator/design-browser-qt"));
     QResource::registerResource(QStringLiteral("/etc/alterator/design-browser-qt"));
+
+    QFont font_def(QGuiApplication::font());
+    font_def.setPointSize(font_def.pointSize()+2); // increase default value
 
     if( QFile::exists(QStringLiteral(":/design/design.ini")) )
     {
@@ -989,9 +992,7 @@ void Browser::loadStyleSheet()
 	if( groupCount == QPalette::NColorGroups )
 	    QApplication::setPalette(pal);
 
-	// set font
-        QFont font_def(QGuiApplication::font());
-        font_def.setPointSize(font_def.pointSize()+2); // increase default value
+	// get font
 	key = QStringLiteral("font");
 	if( !keys.contains(key) ) {
 	    key = QStringLiteral("Font");
@@ -1002,8 +1003,8 @@ void Browser::loadStyleSheet()
 		font_def.fromString(str);
 	    }
 	}
-	QGuiApplication::setFont(font_def);
     }
+    QGuiApplication::setFont(font_def);
 
     // set style
     QString new_style;

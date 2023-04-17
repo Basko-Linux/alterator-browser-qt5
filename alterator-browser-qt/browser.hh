@@ -89,7 +89,7 @@ private:
 
     void splashStart();
     void splashStop();
-    void loadStyleSheet();
+    void loadBranding();
     static void collectTabIndex(QList<QString>&, QMap<QString, QMap<int,QWidget*> >&, alWidget* wdg, int);
     void reloadTranslator(QTranslator** translator, const QString &domain, const QString &language);
 
