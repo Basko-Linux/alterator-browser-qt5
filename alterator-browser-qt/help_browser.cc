@@ -148,7 +148,7 @@ void HelpWidget::fontResize(int addon)
 	}
     }
     QApplication::setFont(fnt);
-    qApp->setStyleSheet(QString());
+    qApp->setStyleSheet(qApp->styleSheet());
 }
 
 // HelpBrowser

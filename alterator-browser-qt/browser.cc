@@ -1005,7 +1005,7 @@ void Browser::loadStyleSheet()
 	}
 	if(font_new != font_init) {
 	    QGuiApplication::setFont(font_new);
-	    qApp->setStyleSheet(QString());
+	    qApp->setStyleSheet(qApp->styleSheet());
 	}
     }
 
