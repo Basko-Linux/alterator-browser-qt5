@@ -1002,10 +1002,10 @@ void Browser::loadStyleSheet()
 	    if (!str.isEmpty()) {
 		font_new.fromString(str);
 	    }
-	    if(font_new != font_init) {
-		QGuiApplication::setFont(font_new);
-		qApp->setStyleSheet(QString());
-	    }
+	}
+	if(font_new != font_init) {
+	    QGuiApplication::setFont(font_new);
+	    qApp->setStyleSheet(QString());
 	}
     }
 
