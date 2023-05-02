@@ -907,7 +907,12 @@ void Browser::loadBranding()
     QResource::registerResource(QStringLiteral("/etc/alterator/design-browser-qt"));
 
     QFont font_def(QGuiApplication::font());
-    font_def.setPointSize(font_def.pointSize()+2); // increase default value
+    {
+	QScreen *primary_screen = QGuiApplication::primaryScreen();
+	if( primary_screen && primary_screen->geometry().height() > 800 ) {
+	    font_def.setPointSize(font_def.pointSize()+2); // increase default value
+	}
+    }
 
     if( QFile::exists(QStringLiteral(":/design/design.ini")) )
     {
