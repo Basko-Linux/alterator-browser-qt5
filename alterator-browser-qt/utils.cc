@@ -243,7 +243,11 @@ void openUrl(const QUrl &url)
 	if( loginuid > 0 )
 	{
 	    struct passwd *pwd = getpwuid(loginuid);
-	    QProcess::startDetached(QStringLiteral("su"), QStringList() << QStringLiteral("-l") << QStringLiteral("-c") << QString(QStringLiteral("xdg-open \'")).append(url.toString()).append(QStringLiteral("\'")) << QLatin1String(pwd->pw_name) );
+	    QProcess url_exec;
+	    url_exec.setProgram(QStringLiteral("su"));
+	    url_exec.setArguments(QStringList() << QStringLiteral("-l") << QStringLiteral("-c") << QString(QStringLiteral("xdg-open \'")).append(url.toString()).append(QStringLiteral("\'")) << QLatin1String(pwd->pw_name));
+	    url_exec.setStandardOutputFile(QProcess::nullDevice(), QIODevice::NotOpen);
+	    url_exec.startDetached();
 	} else {
 	    QDesktopServices::openUrl(url);
 	}
