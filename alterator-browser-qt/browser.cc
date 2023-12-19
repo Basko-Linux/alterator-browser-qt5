@@ -652,7 +652,20 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 	{
 	    if(parent_id.isEmpty()) {
 	        new_widget = new alMainWidget(attr, id, QString());
-		popupAdd(new_widget->getWidget(), true);
+	        PopupAddType pop_type = PopupMainNormalScreen;
+		if( !haveWindowManager() ) {
+		    QScreen* primary_screen = QGuiApplication::primaryScreen();
+		    if( primary_screen ) {
+			QRect screen_geom  = primary_screen->geometry();
+			int width = screen_geom.width();
+			int height = screen_geom.height();
+			if( width > 100 && height > 100 && width/height > 2 ) {
+			    new_widget->getWidget()->setMaximumWidth(height*2);
+			    pop_type = PopupMainWideScreen;
+			}
+		    }
+		}
+		popupAdd(new_widget->getWidget(), pop_type);
 	    } else {
 	        new_widget = new alDialog(attr,id,parent_id);
 	    }
@@ -1049,7 +1062,7 @@ void Browser::collectTabIndex(QList<QString>& parents, QMap<QString, QMap<int,QW
     }
 }
 
-void Browser::popupAdd(QWidget *pop, bool simple)
+void Browser::popupAdd(QWidget *pop, PopupAddType popup_type)
 {
     if( !pop ) return;
 
@@ -1057,9 +1070,9 @@ void Browser::popupAdd(QWidget *pop, bool simple)
     if( cw )
 	cw->setEnabled(false);
 
-    QWidget *widget_to_add = pop;
+    QWidget *widget_to_add;
 
-    if( !simple )
+    if( popup_type == PopupDialog )
     {
 	widget_to_add = new QWidget(central_widget);
 	QHBoxLayout *hl = new QHBoxLayout(widget_to_add);
@@ -1070,6 +1083,14 @@ void Browser::popupAdd(QWidget *pop, bool simple)
 	vl->addStretch(1);
 	vl->addWidget(pop);
 	vl->addStretch(1);
+    } else if( popup_type == PopupMainWideScreen ) {
+	widget_to_add = new QWidget(central_widget);
+	QHBoxLayout *hl = new QHBoxLayout(widget_to_add);
+	hl->addStretch(1);
+	hl->addWidget(pop, 2);
+	hl->addStretch(1);
+    } else {
+	widget_to_add = pop;
     }
 
     central_layout->addWidget(widget_to_add);
@@ -1077,7 +1098,7 @@ void Browser::popupAdd(QWidget *pop, bool simple)
     widget_to_add->setEnabled(true);
     popups[pop] = widget_to_add;
 
-    if( !simple )
+    if( popup_type == PopupDialog )
 	pop->setFocus();
 }
 

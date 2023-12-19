@@ -25,6 +25,13 @@ public:
     Browser();
     ~Browser();
 
+    enum PopupAddType
+    {
+	PopupDialog = 0,
+	PopupMainNormalScreen = 1,
+	PopupMainWideScreen = 2
+    };
+
     bool haveWindowManager();
     void setFullScreen(bool);
     void setHelpSource(const QString&);
@@ -33,7 +40,7 @@ public:
     void getDocument(const QString& request);
     void emitEvent(const QString &id,const QByteArray &type, const AlteratorRequestFlags);
     void emitEvent(const QString &id, const BrowserEventType type, const AlteratorRequestFlags);
-    void popupAdd(QWidget *pop, bool simple=false);
+    void popupAdd(QWidget *pop, PopupAddType popup_type = PopupDialog);
     void quitAppManaged(int);
     bool quitApp(int answ = QDialogButtonBox::NoButton);
     void quitAppError(const QString&);
