@@ -246,7 +246,7 @@ void openUrl(const QUrl &url)
 	    QProcess url_exec;
 	    url_exec.setProgram(QStringLiteral("su"));
 	    url_exec.setArguments(QStringList() << QStringLiteral("-l") << QStringLiteral("-c") << QString(QStringLiteral("xdg-open \'")).append(url.toString()).append(QStringLiteral("\'")) << QLatin1String(pwd->pw_name));
-	    url_exec.setStandardOutputFile(QProcess::nullDevice(), QIODevice::NotOpen);
+	    url_exec.setStandardOutputFile(QProcess::nullDevice(), QIODevice::Append);
 	    url_exec.startDetached();
 	} else {
 	    QDesktopServices::openUrl(url);
