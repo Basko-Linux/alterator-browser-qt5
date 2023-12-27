@@ -659,7 +659,7 @@ alWidget* Browser::onNewRequest(const AlteratorRequestActionAttrs &attr)
 			QRect screen_geom  = primary_screen->geometry();
 			int width = screen_geom.width();
 			int height = screen_geom.height();
-			if( width > 100 && height > 100 && width/height > 2 ) {
+			if( width > 100 && height > 100 && width/height >= 2 ) {
 			    new_widget->getWidget()->setMaximumWidth(height*2);
 			    pop_type = PopupMainWideScreen;
 			}
