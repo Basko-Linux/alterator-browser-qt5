@@ -1086,6 +1086,7 @@ void Browser::popupAdd(QWidget *pop, PopupAddType popup_type)
     } else if( popup_type == PopupMainWideScreen ) {
 	widget_to_add = new QWidget(central_widget);
 	QHBoxLayout *hl = new QHBoxLayout(widget_to_add);
+	hl->setContentsMargins(0,0,0,0);
 	hl->addStretch(1);
 	hl->addWidget(pop, 2);
 	hl->addStretch(1);
