@@ -9,7 +9,7 @@ AMainWidget::AMainWidget(QWidget *parent, const Qt::Orientation):
     setFrameStyle(QFrame::Plain | QFrame::NoFrame);
     QVBoxLayout *bl = new QVBoxLayout(this);
     bl->setSpacing(5);
-    bl->setMargin(0);
+    bl->setContentsMargins(0,0,0,0);
 }
 
 AMainWidget::~AMainWidget()

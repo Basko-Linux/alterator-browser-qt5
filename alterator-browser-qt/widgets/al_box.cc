@@ -11,7 +11,7 @@ ABox::ABox(QWidget *parent, const Qt::Orientation o):
     else
 	l = new QVBoxLayout(this);
     l->setSpacing(5);
-    l->setMargin(0);
+    l->setContentsMargins(0,0,0,0);
 }
 
 ABox::~ABox()

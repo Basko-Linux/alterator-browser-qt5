@@ -10,10 +10,10 @@ AGridBox::AGridBox(QWidget *parent, const Qt::Orientation):
 
     layout_main = new QVBoxLayout(this);
     layout_main->setSpacing(0);
-    layout_main->setMargin(0);
+    layout_main->setContentsMargins(0,0,0,0);
 
     layout_ = new QGridLayout();
-    layout_->setMargin(0);
+    layout_->setContentsMargins(0,0,0,0);
     layout_->setSpacing(5);
 
     layout_main->addStretch(1);

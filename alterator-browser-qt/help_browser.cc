@@ -22,7 +22,7 @@ HelpWidget::HelpWidget(QWidget *parent):
 
     gridLayout = new QGridLayout(view());
     gridLayout->setSpacing(5);
-    gridLayout->setMargin(5);
+    gridLayout->setContentsMargins(5,5,5,5);
     textBrowser = new QTextBrowser(this);
     textBrowser->setOpenExternalLinks(false);
     textBrowser->setOpenLinks(false);

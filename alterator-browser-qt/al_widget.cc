@@ -197,7 +197,7 @@ void alWidget::setAttr(const QString& name,const QString& value)
 		bool ok;
 		int val = value.toInt(&ok);
 		if( ok )
-		    l->setMargin(val);
+		    l->setContentsMargins(val,val,val,val);
 	    }
 	}
 	else if (QStringLiteral("spacing") == name)

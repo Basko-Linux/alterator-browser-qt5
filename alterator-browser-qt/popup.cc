@@ -39,7 +39,7 @@ Popup::Popup(QWidget *parent, bool title, bool winexpand, bool winclose, bool wi
     title_separator->setVisible(has_title || has_winexpand || has_winclose);
 
     vlayout = new QVBoxLayout(this);
-    //vlayout->setMargin(0);
+    //vlayout->setContentsMargins(0,0,0,0);
     QHBoxLayout *header_layout = new QHBoxLayout();
     vlayout->addLayout(header_layout);
     header_layout->addWidget(title_txt);

@@ -20,7 +20,7 @@ AWizardFaceStepListItem::AWizardFaceStepListItem(QWidget *parent, const QPixmap 
     lbl_txt->setAlignment(Qt::AlignLeft);
 
     QHBoxLayout *main_lay = new QHBoxLayout(this);
-    main_lay->setMargin(0);
+    main_lay->setContentsMargins(0,0,0,0);
     main_lay->addWidget(lbl_img);
     main_lay->addWidget(lbl_txt);
 }
@@ -317,19 +317,19 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     }
 
     title_layout = new QHBoxLayout( title_widget );
-    title_layout->setMargin(0);
+    title_layout->setContentsMargins(0,0,0,0);
     title_layout->setSpacing(5);
 
     QHBoxLayout *bottom_layout = new QHBoxLayout(bottom_widget);
-    bottom_layout->setMargin(0);
+    bottom_layout->setContentsMargins(0,0,0,0);
     bottom_layout->setSpacing(5);
 
     QHBoxLayout *main_layout = new QHBoxLayout(this);
-    main_layout->setMargin(0);
+    main_layout->setContentsMargins(0,0,0,0);
     QVBoxLayout *left_layout = new QVBoxLayout();
-    left_layout->setMargin(0);
+    left_layout->setContentsMargins(0,0,0,0);
     QVBoxLayout *right_layout = new QVBoxLayout();
-    right_layout->setMargin(10);
+    right_layout->setContentsMargins(10,10,10,10);
     right_layout->setSpacing(10);
 
     main_layout->addLayout(left_layout);
@@ -340,11 +340,11 @@ AWizardFace::AWizardFace(QWidget *parent, const Qt::Orientation):
     right_layout->addWidget(bottom_widget);
 
     menu_layout = new QHBoxLayout();
-    menu_layout->setMargin(0);
+    menu_layout->setContentsMargins(0,0,0,0);
     menu_layout->setSpacing(5);
 
     buttons_layout = new QHBoxLayout();
-    buttons_layout->setMargin(0);
+    buttons_layout->setContentsMargins(0,0,0,0);
     buttons_layout->setSpacing(5);
 
     title_layout->insertStretch(0, 1);

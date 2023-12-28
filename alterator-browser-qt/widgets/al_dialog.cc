@@ -30,9 +30,9 @@ ADialog::ADialog(QWidget *parent, const Qt::Orientation orient):
 //    setWindowModality(Qt::ApplicationModal);
     QGridLayout *main_layout = new QGridLayout(view());
     if( g_browser->haveWindowManager() )
-	main_layout->setMargin(1);
+	main_layout->setContentsMargins(1,1,1,1);
     else
-	main_layout->setMargin(10);
+	main_layout->setContentsMargins(10,10,10,10);
 
     scroll = new QScrollArea(this);
     scroll->setFocusPolicy(Qt::NoFocus);
@@ -60,7 +60,7 @@ ADialog::ADialog(QWidget *parent, const Qt::Orientation orient):
 	view_layout = new QVBoxLayout(view_widget);
 
     view_layout->setSpacing(5);
-    view_layout->setMargin(5);
+    view_layout->setContentsMargins(5,5,5,5);
 
     btnbox = new QDialogButtonBox(this);
 

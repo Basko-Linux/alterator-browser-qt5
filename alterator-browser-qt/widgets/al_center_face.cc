@@ -164,20 +164,20 @@ ACenterSection::ACenterSection(QWidget *parent, const QString &title_text):
     modlist->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
     QVBoxLayout *txt_layout = new QVBoxLayout();
-    txt_layout->setMargin(0);
+    txt_layout->setContentsMargins(0,0,0,0);
     txt_layout->setSpacing(0);
     txt_layout->addWidget(title);
     txt_layout->addWidget(desc);
     txt_layout->addWidget(modlist);
 
     QHBoxLayout *h_layout = new QHBoxLayout();
-    h_layout->setMargin(0);
+    h_layout->setContentsMargins(0,0,0,0);
     h_layout->setSpacing(10);
     h_layout->addWidget(pixmap,0,Qt::AlignTop);
     h_layout->addLayout(txt_layout);
 
     QVBoxLayout *main_layout = new QVBoxLayout(this);
-    main_layout->setMargin(0);
+    main_layout->setContentsMargins(0,0,0,0);
     main_layout->setSpacing(0);
     main_layout->addLayout(h_layout);
     main_layout->addWidget(separator);
@@ -304,10 +304,10 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
 
     QVBoxLayout *sections_layout = new QVBoxLayout(sections_widget);
     sections_layout->addWidget(sections_scroll);
-    sections_layout->setMargin(0);
+    sections_layout->setContentsMargins(0,0,0,0);
     sections_layout->setSpacing(0);
     module_layout = new QVBoxLayout(module_widget);
-    module_layout->setMargin(0);
+    module_layout->setContentsMargins(0,0,0,0);
     module_layout->setSpacing(0);
     module_layout->addWidget(scroll);
     module_layout->addWidget(buttonbox);
@@ -320,14 +320,14 @@ ACenterFace::ACenterFace(QWidget *parent, const Qt::Orientation o):
     top_buttons_layout->addWidget(help_btn);
 
     stacked_layout = new QStackedLayout();
-    stacked_layout->setMargin(0);
+    stacked_layout->setContentsMargins(0,0,0,0);
     stacked_layout->setSpacing(0);
     stacked_layout->addWidget(sections_widget);
     stacked_layout->addWidget(module_widget);
     stacked_layout->setCurrentWidget(sections_widget);
 
     QVBoxLayout *main_layout = new QVBoxLayout;
-    main_layout->setMargin(0);
+    main_layout->setContentsMargins(0,0,0,0);
     main_layout->setSpacing(0);
     main_layout->addLayout(top_buttons_layout);
     main_layout->addLayout(stacked_layout);

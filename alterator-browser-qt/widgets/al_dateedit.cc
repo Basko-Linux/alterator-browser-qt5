@@ -5,7 +5,7 @@ ADateEdit::ADateEdit(QWidget *parent, const Qt::Orientation):
     AWidget<QWidget>(parent)
 {
     lay = new QVBoxLayout(this);
-    lay->setMargin(0);
+    lay->setContentsMargins(0,0,0,0);
     lay->setSpacing(0);
 
     calendar = new QCalendarWidget(this);

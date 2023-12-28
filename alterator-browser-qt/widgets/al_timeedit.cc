@@ -222,7 +222,7 @@ ATimeEdit::ATimeEdit(QWidget *parent, const Qt::Orientation):
     setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
     lay = new QVBoxLayout(this);
-    lay->setMargin(0);
+    lay->setContentsMargins(0,0,0,0);
     lay->setSpacing(0);
 
     clock = new AnalogClock(this);

@@ -35,7 +35,7 @@ ASpinBox::ASpinBox(QWidget *parent, const Qt::Orientation o):
 	blayout->addWidget(spinbox);
 	blayout->addWidget(slider);
     }
-    blayout->setMargin(0);
+    blayout->setContentsMargins(0,0,0,0);
     blayout->setSpacing(0);
 
     setMinimum(0);

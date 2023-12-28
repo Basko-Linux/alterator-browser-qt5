@@ -12,7 +12,7 @@ AGroupBox::AGroupBox(QWidget *parent, const Qt::Orientation o):
     else
 	l = new QVBoxLayout(this);
     l->setSpacing(5);
-    l->setMargin(5);
+    l->setContentsMargins(5,5,5,5);
 }
 
 AGroupBox::~AGroupBox()

@@ -13,10 +13,10 @@ SplashScreen::SplashScreen(QWidget *parent):
     setAttribute(Qt::WA_TranslucentBackground);
 
     QHBoxLayout *lay = new QHBoxLayout(view());
-    lay->setMargin(0);
+    lay->setContentsMargins(0,0,0,0);
     QLayout *l = layout();
     if(l)
-	l->setMargin(0);
+	l->setContentsMargins(0,0,0,0);
 
     label = new QLineEdit(this);
     label->setAlignment(Qt::AlignCenter);

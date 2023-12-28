@@ -26,7 +26,7 @@ ATextBox::ATextBox(QWidget *parent, const Qt::Orientation):
     connect(edit, SIGNAL(textChanged()), this, SIGNAL(textEdited()));
 
     layout_ = new QHBoxLayout(this);
-    layout_->setMargin(0);
+    layout_->setContentsMargins(0,0,0,0);
     layout_->setSpacing(0);
     layout_->addWidget(mark);
     layout_->addWidget(edit);
