@@ -823,7 +823,7 @@ void AWizardFace::setStepPixmap(int n, const QString &value)
     }
 }
 
-void AWizardFace::setStepActivity(int n, bool a)
+void AWizardFace::setStepActivity(int /*n*/, bool /*a*/)
 {
     /*
     QListWidgetItem *item = stepbox->item(n);

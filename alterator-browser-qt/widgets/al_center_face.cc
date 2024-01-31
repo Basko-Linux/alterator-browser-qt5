@@ -516,7 +516,7 @@ void ACenterFace::setModuleText(const QString &key, const QString &value)
     }
 }
 
-void ACenterFace::setModulePixmap(const QString &key, const QString &value)
+void ACenterFace::setModulePixmap(const QString &/*key*/, const QString &/*value*/)
 {
 #if 0
     if( modules.contains(key) )

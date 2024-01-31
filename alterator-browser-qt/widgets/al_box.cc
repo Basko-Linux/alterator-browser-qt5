@@ -17,7 +17,7 @@ ABox::ABox(QWidget *parent, const Qt::Orientation o):
 ABox::~ABox()
 {}
 
-void ABox::setMyTitle(const QString& txt)
+void ABox::setMyTitle(const QString& /*txt*/)
 {
     //setTitle(txt);
 }

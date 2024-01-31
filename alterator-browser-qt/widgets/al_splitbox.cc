@@ -97,7 +97,7 @@ alSplitBox::alSplitBox(const AlteratorRequestActionAttrs &attr, const QString &i
 	wnd_->setColumns(attr.value(QStringLiteral("columns")).s);
 }
 
-void alSplitBox::postAddChild(QWidget *chld, AlteratorWidgetType type, const AlteratorRequestActionAttrs&)
+void alSplitBox::postAddChild(QWidget *chld, AlteratorWidgetType /*type*/, const AlteratorRequestActionAttrs&)
 {
     wnd_->postAddChild(chld);
 }

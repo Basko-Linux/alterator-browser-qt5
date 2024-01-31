@@ -156,7 +156,7 @@ void ADialog::keyPressEvent ( QKeyEvent * e )
 }
 #endif
 
-void ADialog::addAction(const QString& key, const QString& name, const QString& pixmap)
+void ADialog::addAction(const QString& key, const QString& name, const QString& /*pixmap*/)
 {
     if( !key.isEmpty() && !buttons.contains(key) )
     {
